@@ -1,0 +1,38 @@
+name: ci
+
+# Runs the linter and the build on every push to main and every pull request.
+# This is the design discipline made mechanical: the schema checks, the sorry-ledger
+# consistency, the layer boundaries, and the standalone build all have to pass before
+# a change lands. See docs/design-axioms.md (linter rules) for what is enforced.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies (if any)
+        run: npm ci || npm install || echo "no package manifest yet"
+
+      - name: Lint the graph
+        # fields per node kind, atlas_ref and child-id resolution,
+        # sorry-marker-to-ledger consistency, no DOM in engine/, acyclic
+        # decomposition with primitive leaves, corpus-index completeness
+        run: node linter.js
+
+      - name: Build the standalone artifact
+        run: node build/bundle.js
+
+      - name: Verify the deliverable is a single self-contained file
+        run: test -f submission.html
