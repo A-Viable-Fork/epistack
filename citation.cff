@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+title: "A Typed Substrate for Navigating Knowledge"
+message: "If you use this work, please cite it as below."
+type: software
+abstract: >-
+  A typed claim-graph epistemic engine in which every claim carries its type,
+  verification state, and provenance, so that uncoordinated investigations can
+  accrete onto one navigable map. Includes a composition mechanism that merges
+  two investigations with disjoint sources mechanically over a shared schema.
+authors:
+  - given-names: "<given name>"
+    family-names: "<family name>"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # add if you have one
+version: "0.1.0"
+date-released: "2026-07-01"   # set to your release date
+license: "AGPL-3.0-or-later"  # or "AGPL-3.0-only"
+url: "<repository URL>"
+keywords:
+  - epistemics
+  - knowledge graph
+  - provenance
+  - typed graph
+  - verification
+  - decision support
