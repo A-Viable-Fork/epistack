@@ -36,6 +36,12 @@ view depends on engine depends on data. A DOM call in `engine/` or a data litera
 `view/` is a Tier 0 violation. A new case is a data file under `data/cases/`; adding one
 never edits the engine or the view.
 
+**Reference, never inline.** Every shared thing (a primitive, a transformation, a card
+layout, a visual, a teaching block) lives once at a stable id and is referenced by it;
+nothing shared is duplicated. Lookups go through one resolver, `resolve(id)`. A thing earns
+a stable id only when it is shared or likely forked; one-off content stays inline. See
+`docs/components-and-forking.md`.
+
 ## Disciplines
 
 - One schema. No module redefines a node shape or hand-rolls a parallel structure.
