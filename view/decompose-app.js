@@ -1,18 +1,18 @@
 // Role: the v1 decompose surface. Boots the spine rail + focused card + collapsed children
 //   over the population pipeline, and drives drill-down navigation. Decompose only (compare
 //   is v2, perturb is v3). See docs/architecture-spec.md sections 6 and 8.
-// Contract: reads the inlined data (PRIMITIVES, CASE, ATLAS) and the engine (focusView,
+// Contract: reads the inlined data (PRIMITIVES, CASE, ATLAS), builds the registry and the
+//   resolver (engine/registry, engine/resolve), and renders through the engine (focusView,
 //   motions) and view (renderCard, renderChildCard, renderRail). Mounts into #app.
-// Invariant: view owns ephemeral UI state (the path the user clicked), not data. The graph
-//   is immutable; navigation only changes which node is focused (T0-3). No localStorage.
+// Invariant: view owns ephemeral UI state (the path the user clicked), not data. Every
+//   lookup goes through resolve(id); the graph is immutable, navigation only changes which
+//   node is focused (T0-3). No localStorage.
 "use strict";
 
 (function () {
-  // assemble the node map: shared primitives + this case's nodes (the engine stays pure;
-  // assembly is a view-side load step over immutable data).
-  const nodeMap = Object.create(null);
-  for (const id of Object.keys(PRIMITIVES)) nodeMap[id] = PRIMITIVES[id];
-  for (const id of Object.keys(CASE.nodes)) nodeMap[id] = CASE.nodes[id];
+  // build the one registry and resolver; every lookup routes through resolve (Phase A).
+  const registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases: [CASE] });
+  const resolve = makeResolver(registry);
 
   const ROOT_ID = "pipe.root";
   const caseLabel = "Population mismatch";
@@ -23,7 +23,7 @@
   const mount = document.getElementById("app");
 
   function focusChild(id) {
-    if (!nodeMap[id]) return;
+    if (!resolve(id)) return;
     state.path.push(id);
     render();
   }
@@ -38,14 +38,14 @@
 
   function render() {
     mount.innerHTML = "";
-    const pathNodes = state.path.map((id) => nodeMap[id]).filter(Boolean);
+    const pathNodes = state.path.map((id) => resolve(id)).filter(Boolean);
     const focusedId = state.path[state.path.length - 1];
-    const focused = nodeMap[focusedId];
+    const focused = resolve(focusedId);
 
     mount.appendChild(renderRail(pathNodes, jumpTo, caseLabel));
 
-    const fv = focusView(nodeMap, focusedId);
-    mount.appendChild(renderCard(focused, { motions: motions(focused, ATLAS), atlas: ATLAS }));
+    const fv = focusView(resolve, focusedId);
+    mount.appendChild(renderCard(focused, { motions: motions(focused, resolve), resolve: resolve }));
 
     // collapsed children, exactly one level down
     if (fv.children.length) {

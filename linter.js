@@ -16,21 +16,30 @@ const problems = [];
 const fail = (rule, msg) => problems.push({ rule, msg });
 let checked = 0;
 
-// ---- load the data world: primitives + atlas + cases ----
+// ---- load the data world: primitives + atlas + cases, into the one registry ----
 const { PRIMITIVES } = require("./data/primitives/primitives.js");
 const { ATLAS } = require("./data/atlas/atlas.js");
+const { buildRegistry } = require("./engine/registry.js");
+const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
-// merged node map (every graph node, including shared primitives)
+let registry;
+try {
+  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases });
+} catch (e) {
+  fail("T0-1", "registry build failed: " + e.message);
+  registry = Object.create(null);
+}
+const resolve = makeResolver(registry);
+
+// schema-node subset (primitives + case nodes) for the field and decomposition checks;
+// atlas entries and instances are addressable components but not schema graph nodes.
 const nodeMap = Object.create(null);
 for (const id of Object.keys(PRIMITIVES)) nodeMap[id] = PRIMITIVES[id];
 const instances = [];
 for (const c of cases) {
-  for (const id of Object.keys(c.nodes || {})) {
-    if (nodeMap[id]) fail("T0-1", `duplicate node id across data: ${id}`);
-    nodeMap[id] = c.nodes[id];
-  }
+  for (const id of Object.keys(c.nodes || {})) nodeMap[id] = c.nodes[id];
   for (const inst of c.instances || []) instances.push(inst);
 }
 
@@ -41,28 +50,37 @@ for (const id of Object.keys(nodeMap)) {
   for (const e of errs) fail("rule1/T0-1", e);
 }
 
-// ---- Rule 2: atlas_ref / child / input / output references resolve ----
-function refExists(id) {
-  return Boolean(nodeMap[id]);
+// ---- Rule 2 + A4: every reference resolves (through the resolver), and reference-not-inline.
+// A reference field holds an id (a string); an embedded object is inlined duplication.
+const REF_ARRAY_FIELDS = ["children", "inputs", "outputs"];
+const REF_SCALAR_FIELDS = ["atlas_ref", "produced_by", "instantiates", "broken_node", "forks", "copy_of"];
+for (const id of Object.keys(registry)) {
+  const c = registry[id];
+  // reference-not-inline: shared references must be id strings, never embedded components
+  for (const f of REF_ARRAY_FIELDS) {
+    if (c[f] != null && Array.isArray(c[f]))
+      c[f].forEach((x) => { if (typeof x !== "string") fail("A2/reference-not-inline", `${id}: '${f}' holds an inlined component, not an id`); });
+  }
+  for (const f of REF_SCALAR_FIELDS) {
+    if (c[f] != null && typeof c[f] !== "string") fail("A2/reference-not-inline", `${id}: '${f}' holds an inlined component, not an id`);
+  }
+  if (SCHEMA.hasMarker(c)) continue; // ledgered stub: its refs are part of the gap
+  for (const ref of referencesOf(c)) {
+    if (resolve(ref) === undefined) fail("rule2/T0-4", `${id}: reference '${ref}' does not resolve`);
+  }
 }
-for (const id of Object.keys(nodeMap)) {
-  const n = nodeMap[id];
-  if (SCHEMA.hasMarker(n)) continue; // ledgered stub: its refs are part of the gap
-  for (const c of n.children || []) if (!refExists(c)) fail("rule2/T0-4", `${id}: child '${c}' does not resolve`);
-  for (const i of n.inputs || []) if (!refExists(i)) fail("rule2", `${id}: input '${i}' does not resolve`);
-  for (const o of n.outputs || []) if (!refExists(o)) fail("rule2", `${id}: output '${o}' does not resolve`);
-  if (n.atlas_ref && !ATLAS[n.atlas_ref]) fail("rule2", `${id}: atlas_ref '${n.atlas_ref}' does not resolve`);
-}
-for (const inst of instances) {
-  if (inst.atlas_ref && !ATLAS[inst.atlas_ref]) fail("rule2", `instance ${inst.id}: atlas_ref '${inst.atlas_ref}' does not resolve`);
-  if (inst.instantiates && !refExists(inst.instantiates)) fail("rule2", `instance ${inst.id}: instantiates '${inst.instantiates}' does not resolve`);
-  if (inst.broken_node && !refExists(inst.broken_node)) fail("rule2", `instance ${inst.id}: broken_node '${inst.broken_node}' does not resolve`);
-}
-// atlas clones point at a real node or a real instance
-const instanceIds = new Set(instances.map((i) => i.id));
-const refOrInstance = (id) => refExists(id) || instanceIds.has(id);
-for (const e of Object.values(ATLAS)) {
-  for (const cl of e.clones || []) if (!refOrInstance(cl.node_id)) fail("rule2", `atlas ${e.id}: clone node_id '${cl.node_id}' does not resolve`);
+
+// ---- A3: the dependents query is consistent with declared back-references ----
+// A primitive's `parents` are its back-references; they must equal what actually references
+// it. This catches a stale back-reference and exercises the blast-radius query.
+for (const id of Object.keys(PRIMITIVES)) {
+  const declared = PRIMITIVES[id].parents;
+  if (!declared) continue;
+  const actual = dependents(registry, id);
+  const dSet = new Set(declared);
+  const aSet = new Set(actual);
+  for (const p of declared) if (!aSet.has(p)) fail("A3/dependents", `${id}: declared parent '${p}' does not reference it`);
+  for (const p of actual) if (!dSet.has(p)) fail("A3/dependents", `${id}: '${p}' references it but is not in its parents back-reference`);
 }
 
 // ---- Rule 3: marker <-> ledger one-to-one ----

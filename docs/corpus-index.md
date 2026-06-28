@@ -28,6 +28,8 @@ through the includes it carries, so it is not required to have its own row.
 
 | file | role |
 |---|---|
+| `engine/registry.js` | assemble the one id-keyed registry from primitives/atlas/cases (T0-1) |
+| `engine/resolve.js` | the one resolver: resolve(id) with fork merge, referencesOf, dependents |
 | `engine/graph.js` | pure graph utilities: index, traversal, acyclicity |
 | `engine/terminals.js` | the terminal-type registry and promotion conditions (T1-6) |
 | `engine/export.js` | machine-readable node + citation-edge export (migrated, pure) |
