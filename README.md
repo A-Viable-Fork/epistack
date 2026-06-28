@@ -1,2 +1,88 @@
-# epistack
-A typed claim-graph epistemic engine: every claim carries its type, verification state, and provenance, so uncoordinated investigations accrete onto one navigable map. FLF EpiStack. Add topics: epistemics, knowledge-graph, provenance, typed-graph, verification, decision-support, agpl. Default branch main.
+# A Typed Substrate for Navigating Knowledge
+
+*A typed claim-graph epistemic engine. Every claim carries its type, its verification state, and its provenance, so that uncoordinated investigations can accrete onto one navigable map instead of each starting from nothing.*
+
+Working repository name: `typed-substrate`. Rename freely.
+
+## What this is
+
+Most tools that survey a question return prose. This returns a typed graph. A claim is a node with a kind, a verification state, and a path back to what supports it. Derivations are stored as their own structure, decomposed until each leaf is a named primitive that is cited rather than re-derived. Where two investigations reach the same transformation, the map records the shared pattern and the point where the two diverge, and that divergence is the valuable information.
+
+The central claim is composition: because every node speaks one typed schema, two investigations with disjoint sources can be merged mechanically, with no model in the loop, onto one map. The submission demonstrates this on three cases chosen to fail differently from each other, a confident answer over complex evidence, a curated debate that the engine prices and refuses rather than resolves, and a mundane statistic that is contested for a precise structural reason.
+
+## Status
+
+Active development, prepared for the FLF EpiStack competition. The engine, the case data, and the build are under construction; open obligations are tracked honestly in `docs/sorry-ledger.md`, including deferred verifications that are marked in the data rather than quietly resolved.
+
+## Quick start
+
+The deliverable is a single self-contained file that opens in any modern browser.
+
+```
+# open the built artifact directly
+open submission.html
+
+# or rebuild it from modular source
+node build/bundle.js      # inlines data + engine + view into submission.html
+node linter.js            # checks fields, references, the sorry ledger, layer boundaries
+```
+
+No server, no network call, no install beyond a browser. The in-browser compose-gate runner loads its own runtime.
+
+## Architecture
+
+The code makes the same commitments the system makes about knowledge: typed, decomposed to a shared basis, gaps named, forkable. The design axioms are in `docs/design-axioms.md` and are binding.
+
+Three layers, never crossed. `data/` is pure values, including the one schema that every node imports. `engine/` is pure logic with no DOM, so it runs headless for the compose gate and the linter. `view/` reads the engine and renders, and owns no data. A new case is added by writing a data file, never by editing the engine.
+
+```
+data/      schema.js (single source of truth), atlas/, cases/, primitives/
+engine/    graph, decompose, perturb, compare, terminals, compose-gate/
+view/      card, rail, views, styles
+build/     bundle.js -> submission.html
+docs/      design-axioms, architecture-spec, schema-revisions, corpus-index, sorry-ledger
+```
+
+## Methodology
+
+The work runs on a few commitments that show up in both the research and the code. The distinction between generating a claim and verifying it is treated as primary, and every node states which it has had. Negative results are first-class: a dead approach is removed but its death is recorded with the condition that would revive it. Open obligations are written down rather than hidden. The unit of progress is the named gap, not the confident resolution.
+
+## AI and human collaboration
+
+This project was developed in sustained collaboration with AI systems, primarily Claude, with a second system used for adversarial review. The division is deliberate and is itself part of the method. The human directs the research: the framing, the design decisions, the judgments about what survives scrutiny, and the verification. The AI systems assist generation, drafting, decomposition, and implementation. The engine's own insistence that a claim's verification state and provenance travel with it is the same discipline applied to its construction.
+
+## License
+
+Licensed under the GNU Affero General Public License, version 3 (see `LICENSE`).
+
+AGPL is a deliberate choice, not a default. It is the license whose copyleft reaches network use: anyone who runs a modified version as a service must offer the source of that modified version to its users. For a map intended to be a shared public good that others may host and extend, that is the legal form of the same commitment the system makes against capture. A more capable operator can fork it; it cannot fork it and close it.
+
+Add this notice to the top of each source file, choosing the year and author:
+
+```
+A Typed Substrate for Navigating Knowledge
+Copyright (C) 2026  <your name or handle>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+```
+
+For AGPL-3.0-only rather than or-later, replace the third paragraph with: "under the terms of the GNU Affero General Public License, version 3, as published by the Free Software Foundation." (No "or any later version.")
+
+## Citing
+
+See `CITATION.cff`, or cite as: `<author>, "A Typed Substrate for Navigating Knowledge," 2026, <repository URL>.`
+
+## Forking and contributing
+
+The map is built to be forked. A new case is a data file under `data/cases/` conforming to the schema in `data/schema.js`; the linter enforces the schema and the layer boundaries. The design axioms explain what to keep invariant. Because of the license, public forks and hosted modifications carry the same source-availability obligation, which is the point: the map stays open as it grows.
