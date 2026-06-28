@@ -11,13 +11,21 @@
 
 (function () {
   // build the one registry and resolver; every lookup routes through resolve (Phase A).
-  const registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases: [CASE] });
+  // presentation components (the searchlight visual) are registered alongside the data.
+  const registry = buildRegistry({
+    primitives: PRIMITIVES,
+    atlas: ATLAS,
+    cases: [CASE],
+    components: Object.assign({}, VISUALS, CARD_LAYOUTS),
+  });
   const resolve = makeResolver(registry);
 
-  const ROOT_ID = "pipe.root";
-  const caseLabel = "Population mismatch";
+  // learning-first entry: open at the concrete contested question (B5), not the abstract root.
+  const ROOT_ID = CASE.entry || "pipe.root";
+  const REVEAL_ID = "pipe.root"; // the shared machine, surfaced from a stage as the reveal
+  const caseLabel = "Two arguments";
 
-  // explicit UI state: the path of clicks from the root to the focused node
+  // explicit UI state: the path of clicks from the entry to the focused node
   const state = { path: [ROOT_ID] };
 
   const mount = document.getElementById("app");
@@ -29,6 +37,11 @@
   }
   function jumpTo(index) {
     state.path = state.path.slice(0, index + 1);
+    render();
+  }
+  function goTo(id) {
+    if (!resolve(id)) return;
+    state.path = [id]; // a fresh frame: the reveal opens the shared machine as its own root
     render();
   }
   function reset() {
@@ -44,8 +57,14 @@
 
     mount.appendChild(renderRail(pathNodes, jumpTo, caseLabel));
 
+    // the reveal affordance: when focused on a stage of the shared machine, offer the jump up
+    // to pipe.root (where both cases are seen to break at different stages).
+    const root = resolve(REVEAL_ID);
+    const isStage = root && Array.isArray(root.children) && root.children.includes(focusedId) && focusedId !== REVEAL_ID;
+    const reveal = isStage ? { label: "the shared machine", onReveal: () => goTo(REVEAL_ID) } : null;
+
     const fv = focusView(resolve, focusedId);
-    mount.appendChild(renderCard(focused, { motions: motions(focused, resolve), resolve: resolve }));
+    mount.appendChild(renderCard(focused, { motions: motions(focused, resolve), resolve: resolve, reveal: reveal }));
 
     // collapsed children, exactly one level down
     if (fv.children.length) {

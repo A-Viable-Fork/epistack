@@ -19,14 +19,17 @@ let checked = 0;
 // ---- load the data world: primitives + atlas + cases, into the one registry ----
 const { PRIMITIVES } = require("./data/primitives/primitives.js");
 const { ATLAS } = require("./data/atlas/atlas.js");
+const { VISUALS } = require("./data/components/visuals.js");
+const { CARD_LAYOUTS } = require("./data/components/cards.js");
 const { buildRegistry } = require("./engine/registry.js");
 const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
+const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS);
 let registry;
 try {
-  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases });
+  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS });
 } catch (e) {
   fail("T0-1", "registry build failed: " + e.message);
   registry = Object.create(null);
@@ -48,6 +51,28 @@ for (const id of Object.keys(nodeMap)) {
   checked++;
   const errs = SCHEMA.validateNode(nodeMap[id]);
   for (const e of errs) fail("rule1/T0-1", e);
+}
+
+// ---- B1: teaching layer required on teaching-facing nodes of a teaching case ----
+// An equation-bearing step (transformation/assumption) owes the full explain block; a
+// framing question owes the lighter hook/intuition/stakes. The terse fields stay as the
+// inspect layer either way. The LHC case has no teaching flag, so it is exempt (scope: B).
+const QUESTION_EXPLAIN = ["hook", "intuition", "stakes"];
+for (const c of cases) {
+  if (!c.teaching) continue;
+  for (const id of Object.keys(c.nodes || {})) {
+    const n = c.nodes[id];
+    if (SCHEMA.hasMarker(n)) continue;
+    const isStep = n.kind === "transformation" || n.kind === "assumption";
+    const isQuestion = n.kind === "question";
+    if (!isStep && !isQuestion) continue;
+    if (!n.explain) { fail("B1/teaching", `${id}: teaching node has no explain block`); continue; }
+    const required = isQuestion ? QUESTION_EXPLAIN : SCHEMA.EXPLAIN_FIELDS;
+    for (const f of required) {
+      if (n.explain[f] == null || n.explain[f] === "" || (Array.isArray(n.explain[f]) && !n.explain[f].length))
+        fail("B1/teaching", `${id}: explain missing required '${f}' for a ${n.kind}`);
+    }
+  }
 }
 
 // ---- Rule 2 + A4: every reference resolves (through the resolver), and reference-not-inline.

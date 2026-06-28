@@ -39,6 +39,7 @@ function referencesOf(c) {
   if (c.perturb && Array.isArray(c.perturb.cascade)) c.perturb.cascade.forEach((s) => pushOne(s.target));
   if (Array.isArray(c.clones)) c.clones.forEach((cl) => pushOne(cl.node_id));
   if (c.visual && c.visual.component) pushOne(c.visual.component);
+  pushOne(c.card);
   pushOne(c.forks);
   pushOne(c.copy_of);
   return ids;

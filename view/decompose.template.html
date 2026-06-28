@@ -3,31 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Decompose: the population pipeline</title>
+<title>Take it apart: why some arguments never end</title>
+<!-- KaTeX is vendored and inlined (CSS with fonts as data: URIs, JS verbatim) so the
+     artifact opens from file:// with no network. See build/vendor-katex.mjs, design-axioms T0-6. -->
+<style>@@INCLUDE:vendor/katex/katex.inline.css@@</style>
 <style>@@INCLUDE:view/styles/decompose.css@@</style>
 </head>
 <body>
 <div class="page">
   <div class="topbar">
-    <h1>Decompose</h1>
-    <button class="home-btn" id="home">reset</button>
+    <h1>Take it apart</h1>
+    <button class="home-btn" id="home">start over</button>
   </div>
   <p class="lede">
-    One claim, opened. A <b>population statistic supports a conclusion</b> decomposes into a
-    two-stage pipeline, and each stage decomposes again until it reaches a named basis that
-    is cited rather than rebuilt. Click a step to drill down; click the rail to climb back.
-    This is the v1 surface: decompose only. Compare across cases (v2) and perturbation (v3)
-    are shown as affordances but not yet wired.
+    Some arguments never end. Pick one, and take its reasoning apart, one step at a time,
+    until you reach something you already trust. Two famous arguments turn out to run the
+    same little machine and break in two different places. No statistics background needed.
   </p>
   <div id="app"></div>
 </div>
 
+<script>@@INCLUDE:vendor/katex/katex.min.js@@</script>
+
 <script>@@INCLUDE:data/primitives/primitives.js@@</script>
 <script>@@INCLUDE:data/atlas/atlas.js@@</script>
+<script>@@INCLUDE:data/components/visuals.js@@</script>
+<script>@@INCLUDE:data/components/cards.js@@</script>
 <script>@@INCLUDE:data/cases/population-pipeline.js@@</script>
+
 <script>@@INCLUDE:engine/registry.js@@</script>
 <script>@@INCLUDE:engine/resolve.js@@</script>
 <script>@@INCLUDE:engine/decompose.js@@</script>
+
+<script>@@INCLUDE:view/visuals.js@@</script>
 <script>@@INCLUDE:view/card.js@@</script>
 <script>@@INCLUDE:view/rail.js@@</script>
 <script>@@INCLUDE:view/decompose-app.js@@</script>

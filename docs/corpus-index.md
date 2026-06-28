@@ -14,6 +14,8 @@ through the includes it carries, so it is not required to have its own row.
 | `data/graph.json` | the migrated typed claim graph (v0.1 citation schema) the artifact renders |
 | `data/primitives/primitives.js` | the floor: shared basis primitives with citations |
 | `data/atlas/atlas.js` | atlas entries (abstract patterns) with clones and departures |
+| `data/components/visuals.js` | registered visual-component descriptors (the searchlight) |
+| `data/components/cards.js` | registered card-layout descriptors (teaching / terse) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
 | `data/compose-gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
@@ -44,9 +46,10 @@ through the includes it carries, so it is not required to have its own row.
 |---|---|
 | `view/app.js` | the migrated single-page artifact: rendering, register UI, routing |
 | `view/compose-gate.js` | the in-browser compose-gate runner (Pyodide, click-gated) |
-| `view/card.js` | the v1 node card: break block, basis citation, motion affordances |
-| `view/rail.js` | the v1 spine rail: the clicked path, root to focused |
-| `view/decompose-app.js` | the v1 decompose surface boot: state, render loop, drill nav |
+| `view/card.js` | the learning-first node card (teaching layer + inspect disclosure) |
+| `view/rail.js` | the spine rail: the clicked path, entry to focused |
+| `view/visuals.js` | view-side renderers for visual components (the searchlight) |
+| `view/decompose-app.js` | the decompose surface boot: registry, resolver, drill + reveal nav |
 | `view/styles/main.css` | the artifact's main stylesheet |
 | `view/styles/compose-gate.css` | the compose-gate panel styles |
 | `view/styles/decompose.css` | the v1 decompose surface styles |
@@ -57,6 +60,7 @@ through the includes it carries, so it is not required to have its own row.
 
 | file | role |
 |---|---|
-| `build/bundle.js` | the deliverable build: inlines modules into submission.html (T0-6) |
+| `build/bundle.js` | the deliverable build: inlines modules into submission.html + v1.html |
 | `build/extract.mjs` | the one-time migration tool: slices knowledge-game.html into modules |
+| `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |
