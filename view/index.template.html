@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Knowledge Game</title>
+<meta name="kg-schema" content="typed-citation-schema-v0.1">
+<link rel="alternate" type="application/json" href="graph.json" title="Knowledge graph (machine surface)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>@@INCLUDE:view/styles/main.css@@</style>
+</head>
+<body class="mode-reader">
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><b>The Knowledge Game</b> &nbsp;/&nbsp; one instance</div>
+    <div class="mode" role="group" aria-label="Detail level">
+      <button id="m-reader" aria-pressed="true">Reader</button>
+      <button id="m-inspector" aria-pressed="false">Inspector</button>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO / FRONT MATTER (default screen) -->
+<section id="intro" class="intro-view">
+  <div class="wrap">
+    <div class="intro">
+      <div class="intro-eyebrow">A submission on AI-assisted epistemics</div>
+      <h1>What Closes, and What Does Not</h1>
+      <p class="intro-thesis">AI is forcing. It multiplies the claims that flood our shared channels without supplying the judgment that turns a claim into knowledge, so the durable response is not infrastructure built around the machine but infrastructure that does not care which machine produced a claim. This submission is one such structure: a typed graph in which every claim carries what a flat citation hides, the kind of thing it is, whether it has been checked, and by whom.</p>
+      <p>The same engine reaches three different kinds of resolution from one question, and the kind is the point:</p>
+      <ul class="types">
+        <li><b>A measurement</b>, where the world has already answered.<span>LHC safety: every surviving branch closes against an astronomical observation.</span></li>
+        <li><b>An irreducible prior</b>, where no shared evidence dissolves the dispute, so the method prices each side and refuses a verdict.<span>COVID origins: six analyses spanning twenty orders of magnitude, collapsing onto a few shared inputs.</span></li>
+        <li><b>A question set</b>, where the useful output is a completeness test, the missing branches named.<span>Eggs: a question that looks like one and is at least four.</span></li>
+      </ul>
+      <p>The structure is built by one loop with two stations. A generation station, where an agent multiplies candidates and a person sets the prior by declaring axioms and typing each claim. And the gate, where nothing promotes on its own authority and agreement counts only once the agreeing parties are shown to be independent. The agent is load-bearing at generation and bound at the gate, which is why the method survives the flood it was built for: an agent is only the fastest stranger.</p>
+      <div class="baseline" role="note">
+        <div class="baseline-tag">Baseline, and what composition adds</div>
+        <p>Point a careful agentic investigation at the COVID sub-question and it returns an excellent analysis: it types each claim, names the load-bearing crux, and catches that the competing analyses are not independent. That is the bar, and a structure that only re-derived it would add nothing. What a single run cannot do is compose. Each run invents its own schema and discards it, so two runs accrete into nothing.</p>
+        <p>The value is the substrate that makes independent runs compose onto one map. Two emitters were given disjoint corpora and one shared contract, and never saw each other. A mechanical gate, no model in the loop, composed their frozen output: it found both rested their strongest claim on one sealed dataset and counted that agreement once, while marking as independent the places they corroborated from disjoint evidence; it accepted both contributors' correction of the incumbent map's central crux, from irreducible prior to withheld record; and it flagged, on its own, that one emitter claimed verification the other declined and that the two improvised different types for the same situation. The dispute resolved to two sealed doors, one per vantage, that neither emitter saw alone.</p>
+        <div class="baseline-note">Runs as code: compose_gate.py over the two contributions and the incumbent map. The gate acting on non-independence across contributors is the one thing no single investigation produces.</div>
+      </div>
+      <p class="intro-next">What follows is a question. You can explore it, following any word to where it actually terminates, or you can leave immediately for the paper, which makes the whole case straight through. Behind the paper sits the spec: the operable method itself, and the protocol for how the structure scales to many contributors through one shared map. The choice is the point: the reader controls the path. This document was produced through the same loop it describes, and the paper closes by saying how.</p>
+      <button class="enter" id="enter">Enter the question <span aria-hidden="true">&#8595;</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ENTRANCE -->
+<main id="entrance" class="entrance" style="display:none">
+  <div class="wrap">
+    <a class="to-intro" id="toIntro" role="button" tabindex="0">intro</a>
+    <h1 class="question" id="question" aria-label="Should I eat eggs?"></h1>
+    <p class="hmm" id="hmm" hidden>Hmm.</p>
+    <div class="parse" id="parse" hidden></div>
+    <a class="paper-link bare" id="paperlink" href="#paper" hidden>
+      <span class="paper-q" id="paperq" aria-label="Or should I read the paper?"></span>
+    </a>
+  </div>
+</main>
+
+<!-- NODE VIEW -->
+<section id="nodeview" class="node-view">
+  <div class="wrap" id="nodebody"></div>
+</section>
+
+<!-- PAPER VIEW (full paper, in-file). paper-ref anchors route to graph nodes; add data-node to wire more. -->
+<section id="paperview" class="paper-view">
+  <div class="wrap">
+    <div class="crumb"><a id="paper-bk">Should I eat eggs?</a><span class="sep">/</span><span>the paper</span></div>
+    <article class="paper">
+      <h1>What Closes, and What Does Not</h1>
+      <p class="lede">A typed substrate for navigating knowledge at scale, derived from one working instance and demonstrated on three cases. The substrate is deliberately agent-agnostic: it is built for an age in which much of the knowledge flooding the channels is machine-generated, and the argument for why it does not center the machine is part of the case. This is the endorsed path through a larger navigable space; a reader who would rather explore than read can enter the same material as a question and wander it instead.</p>
+
+      <h2>The form, and where it stops working</h2>
+      <p>Helmut F&ouml;ll, a materials scientist at Kiel, maintains a hypertext called <em>Iron, Steel and Swords</em>. It teaches the metallurgy of bladed weapons, and it is built so that a curious teenager and a working metallurgist read it from the same backbone. The backbone is a plain narrative spine. Hanging off it are forks: a word, a diagram, a claim, each opening into a deeper module, and those modules fork again. A reader who wants the story stays on the spine. A reader who wants the dislocation theory behind a hardening step takes the fork, and the one behind that. Each reader descends exactly as far as their interest and their background carry them, and stops.</p>
+      <p>The reason this works is worth stating precisely, because it is the thing this paper builds on and also the thing that fails. The form hands control of the trajectory to the reader, and that is the right place for it, because the reader is the only party who knows what they already understand. One linear path fits one reader; the forked backbone fits every reader, because it lets each assemble the path that is informative given where they start. F&ouml;ll's site is an existence proof, at real scale on a hard subject, that this structure solves the problem of serving novices and experts from one document.</p>
+      <p>An encyclopedia solves the same span by splitting it. Wikipedia's links run sideways, from a term to the separate article about it, at a single register, and it reaches the novice through a separate simplified edition and the expert through a trail of citations out to other documents. F&ouml;ll's forks run downward instead, into the deeper theory behind the sentence you are reading, holding inside one document the range an encyclopedia spreads across many pages and reading levels.</p>
+      <p>That much is a fact about sites you can visit. The next step is not.</p>
+      <p>Here is the seam, and it is better to mark it now than to be caught at it later. F&ouml;ll's form solves the novice-expert problem under a condition that holds for his subject and fails for most others: every leaf of his hypertext is the same kind of thing. It is settled metallurgy. The teenager and the metallurgist differ in how deep they go, never in what kind of claim they find at the bottom, because the bottom is always a fact the field agrees on. Descending is safe anywhere, because everything down there is settled. General knowledge breaks that property. Point the same form at a contested empirical question, a live scientific controversy, or a working researcher's own conjectures, and the leaves stop being uniform. Some close against measurement. Some are genuine standoffs that no evidence settles. Some are guesses. A form that was safe to descend because everything below was settled is no longer safe, because now a guess and a fact sit side by side at the same depth, wearing the same typeface.</p>
+      <p>So the claim that F&ouml;ll's form is the right substrate for knowledge in general is a proposal, not a result, and a sharp reader should object to it on exactly the grounds above: his leaves are all true, and in general they are not, so his proof does not transfer. The objection is correct. The rest of this paper is the answer to it. The form is right, but only after it is given the three things F&ouml;ll's subject let him do without. His knowledge is uniform in kind, fixed in time, and authored by one person. General knowledge is mixed in kind, changing, and built by many. Each gap forces exactly one addition to the form. Call them type, time, and parties.</p>
+      <p>A word on why this is now urgent rather than merely tidy, because the timing is what turns a standing flaw into a reason to act now. The substrate we actually use for knowledge, the citation and the paper and the post, is flat. A citation, a Wikipedia link, a retweet: each joins two things and says, in effect, see this, and stops. It does not say what kind of claim waits at the other end, whether the result is settled or disputed or guessed, whether anyone has checked it, or whether it has since been retracted and is still being cited anyway. That flatness was tolerable while the volume of claims was throttled by the human labor of producing them. It is no longer throttled. Capable generative models now produce fluent, citation-bearing, authoritative-looking claims at a rate no human channel was designed to absorb, and they pour into the same flat graph that cannot tell a verified result from an unchecked one from a withdrawn one still being cited. The flatness was always a latent debt; the machine-generated flood is the event that calls it. The remedy proposed here is to record, on every claim and every link, the things the flat form leaves out, so that the structure itself carries what is settled, what is disputed, what is checked, and by whom. The first of those is the kind of the claim.</p>
+      <p>One commitment follows from naming the flood, and it runs against the obvious instinct, so it is stated here and argued in full where the process is described. The right response to machine-generated knowledge is not infrastructure built around the machine. It is infrastructure that does not care what produced a claim, because the producer is exactly the thing that changes fastest. The substrate is agent-agnostic by design, and that agnosticism is not an evasion of the machine question but the durable answer to it.</p>
+
+      <h2>Type</h2>
+      <p>F&ouml;ll's leaves are one kind. General leaves come in several, and each kind is a different relationship to evidence. A claim can close against a measurement, meaning the world has already evaluated it and the answer is there to be read. A claim can be an irreducible prior, meaning two careful people will weight it differently and no amount of shared evidence will move them to agree, because the disagreement is upstream of the evidence. A claim can be a question set, where the useful output is a test of whether all the decision-changing branches have even been drawn. And a claim can be a conjecture, an author's own proposal that has not been checked by anyone.</p>
+      <p>Under uniform leaves none of this matters. Under mixed leaves it decides everything, because confident prose and a citation list carry a conjecture exactly as persuasively as a measurement, and an unlabeled form cannot tell the reader which is which. Worse, a form that assumes every question closes will manufacture an answer to one that cannot have a single answer, dressing a genuine standoff as a settled result.</p>
+      <p>The addition the form needs is small to state and consequential to keep: record the kind of every claim, call it the claim's terminal, and put that terminal on the fork itself, so a reader always knows what sort of thing they are walking toward before they walk. A fork that leads to a measurement is marked as such. A fork that leads to a standoff is marked as a standoff. A fork that leads to a guess is marked as a guess. And one discipline follows from the typing, the part that takes nerve: on a question whose terminal is an irreducible prior, the system locates the disagreement and prices it, stating what each side must assume and what that assumption costs, and then it stops. Issuing a verdict there would be a category error wearing the clothes of an answer.</p>
+      <p>Two of the worked cases exercise this directly, and the argument here stands without visiting them, though they are linked for a reader who wants to see the mechanism run.</p>
+      <p>Take the ordinary question of whether to eat eggs. It looks like one question and is at least four, and the typing is what separates them. The word &ldquo;eggs&rdquo; alone forks twice. One branch is the egg itself: its composition, its contaminants, the actual measured effect of dietary cholesterol on health outcomes, which is the branch where the famous reversal lives, and which closes against nutritional data. That branch has a measurement terminal. The other branch is where the egg came from: a hen in a pasture rotation and a hen in a cage are different objects, and whether the hen's interests count for you does not close against measurement at all. Whether they count is a commitment about who counts, adopted or refused, not a credence set by evidence. That branch needs a constitutive terminal, the one kind the four empirical types cannot express, and it was missing entirely from the casual question. Two more branches are missing too: your individual response, which can point opposite to the population average and is found out a different way, and the counterfactual, since the real decision is almost never eggs against nothing but eggs against whatever you would eat instead. The method's output here is the finding that the question set is incomplete, with the missing branches named. That is the question-set terminal doing its job, and the refusal to issue an &ldquo;ought&rdquo; is the result. The full parse is <a class="paper-ref" data-node="n-should">navigable as a worked module</a>.</p>
+      <p>The origin of COVID-19 exercises the harder terminal. Six published analyses of the question span roughly twenty orders of magnitude in the odds they assign. That spread looks like deep uncertainty and is something more specific: the six analyses collapse onto a small number of shared inputs that they weight differently, with one prior carrying the load, about how badly the earliest case data was distorted by where people happened to look first. The method locates the disagreement on a few priced cruxes rather than computing a posterior, and refuses a verdict, which on this terminal is itself the result. The crux that carries most of the spread is the clustering of the earliest known cases around a particular market. It is not a wash, and saying so precisely is most of the contribution: one side pays the price of trusting early case data that exists, the other pays the steeper and more auditable price of assuming that data was distorted in a specific direction by a specific large amount, constrained by the timeline of when targeted screening actually began. Pricing the crux as evenly balanced would be the central error, a fake even-handedness laid over a real asymmetry. The priced cruxes are <a class="paper-ref" data-node="n-covid">navigable as a worked module</a>, with the asymmetry shown rather than asserted.</p>
+      <p>This is also where a first version of the practical value becomes visible, and where it is worth being careful about what the structure does and does not add, because the honest version of the claim is narrower than it first looks. Point a capable off-the-shelf research tool at the COVID question and it returns a fluent, balanced summary that flattens the dispute into readable prose and, in doing so, hides what a decision-maker needs: the single crux that carries the spread, the asymmetry in what each side must assume, and the fact that several of the analyses are not independent because they share a method and a narrow data source. A typed account surfaces those three. But so, when asked directly, does a capable agentic investigation, a point this paper concedes in full later and does not rest on. What the structure adds is not that it alone can see these things; it is that it records them as inspectable typed facts, the crux marked, the asymmetry priced, the shared input named, so that any party can check them and build on them rather than each reader re-finding them and discarding the result. Locating where a disagreement lives and pricing each side is most of the work on a contested question, and a summary cannot do it because a summary is built to smooth; the structure's distinct contribution is to keep that work in a form that persists and composes, which is the claim the rest of the paper actually defends. Hold the point about non-independence, the analyses agreeing because they share inputs rather than because they independently converged, because it returns as the load-bearing problem when many parties, and many agents, build on one structure.</p>
+
+      <h2>Time</h2>
+      <p>F&ouml;ll's metallurgy is fixed. The hardening behavior of a steel will not be refuted next year. Nothing in his backbone has a status that changes, so his form never represents change. General knowledge is the opposite. Claims are confirmed, contested, strengthened, and overturned, and a substrate that cannot represent a claim's status over time cannot be trusted to carry general knowledge, because the one thing it most needs to tell you is whether a claim still stands.</p>
+      <p>A static hypertext fails here in a particular way. It can hold a claim, but it cannot hold the claim's standing, and when a claim is refuted its only move is deletion, which throws away the record that the claim was once believed and why it fell. The history of a retracted result, and of who relied on it, is often the most useful thing in the file.</p>
+      <p>The addition is to give every claim a verification state, and to make that state a vector rather than a stamp, because verification means different things in different domains and collapsing them lies. Three tracks suffice for the cases here. A formal track records whether a proof of the claim has been mechanically checked. An engineering track records whether the claim has been made to run or replicate. A domain-standard track records whether the relevant experts confirm or dispute it. A claim's honest status is the reading across all three, and a claim can be strong on one track and silent on another, which is itself information.</p>
+      <p>Two properties of this state are load-bearing. The first is that promotion, moving a claim from asserted to confirmed, happens only by independent convergence, and the author is never the gate. That is the property a raw citation count lacks: it counts a claim its author merely believes the same as one the field has checked, and this state tells them apart. The second is that refutation is first-class and symmetric with promotion: a killed claim keeps its place with its terminal recorded, so the structure carries its own graveyard, and promotion and kill are the same operation pointed in opposite directions.</p>
+      <p>The LHC safety case shows the state doing work. The argument that the collider would not produce a dangerous black hole reconstructs as a tree of ways the danger could arise, each branch closing against an astronomical observation, chiefly the continued existence of white dwarfs and neutron stars, which would not survive if the dangerous process were possible. One branch of the argument leans on the very physics in question, the rapid evaporation of small black holes, and the honest move is to set it aside and show that the conclusion holds without it, which a control in the worked module does. The verification vector is shown rather than hidden: the empirical anchor is strong on the engineering and domain tracks and silent on the formal one, stated as a vector instead of as a single word &ldquo;settled.&rdquo; And the typed record surfaces something a citation graph buries: the institutional endorsement is less independent than it appears, because the same researcher co-authored both the foundational accretion result and the safety review that the physics societies later endorsed, so one layer of the apparently independent confirmation is correlated. The reconstruction is <a class="paper-ref" data-node="n-lhc">navigable as a worked module</a>.</p>
+      <p>One corner of knowledge already runs the fully mechanized version of all this, and it is the existence proof that the rest is reachable. In formal mathematics, a theorem enters the shared record when a proof checker accepts the proof, with no human authority in the loop, at scale, every day. That is author-independent promotion, mechanized, on the one terminal where it is currently possible, a proof. It proves that author-independent promotion is real on at least one terminal, which is the existence proof that the rest is reachable, and it marks the destination the rest of the field is heading toward. It is named here as a proof of possibility, not a dependency; the argument stands with no formal mathematics in it at all.</p>
+
+      <h2>Parties</h2>
+      <p>F&ouml;ll's hypertext is one author's closed document. A reader can read it and cannot extend it, and that is fine for a textbook and fatal for infrastructure, because infrastructure for knowledge has to let many parties read it, add to it, and attach their own claims to it, and increasingly those parties include machine agents as well as people. The form has to support contribution by strangers without a central authority deciding what is true, and that is a genuinely different requirement from anything a single-author document faces.</p>
+      <p>The flat form fails twice here. A flat citation cannot be checked or promoted by another party, because it carries none of the information a check would need. And the obvious fix, a central maintainer who decides what is allowed to merge into the shared record, is an authority gate, which is the exact thing the typing discipline exists to refuse, because it quietly replaces &ldquo;this claim closed against the world&rdquo; with &ldquo;this claim was approved by the person in charge.&rdquo;</p>
+      <p>The systems that already host many contributors show the two ways this gate fails. An encyclopedia admits a claim by editor consensus and a citation to a reputable source, which certifies that someone reputable said it, not that it closed against anything. On a social feed the only thing that lifts a claim is amplification: what spreads is what draws engagement, which is correlated cascade, the opposite of the independent convergence a check requires. The rule below rejects both.</p>
+      <p>The addition is to make the citation itself a typed object. A link carries the relation it asserts, the terminal type of the result it points at, the verification state of that result, and whether it was declared by a person or computed from the content, so that any party can inspect it, check it, and propose that it be promoted. The whole structure is then exposed as data that a machine agent reads directly rather than scraping from rendered prose. And all of it is governed by a single rule that holds for every party without exception: a party may propose a claim or a link and may validate it for conformance, but no single party, human or machine, may promote it, because one party is not independent confirmation. A lone maintainer is at most a labeled stand-in for a gate that switches on when other parties converge, never the authority itself. This rule is what lets the structure scale to many contributors and to agents without becoming either a free-for-all or a dictatorship.</p>
+      <p>This is where the scaling problem and the practical payoff turn out to be the same object, and where the open preprint record is the worked instance worth naming. The preprint corpus is a multi-party body of knowledge growing faster than it can be checked, now absorbing a rising flood of machine-generated submissions, and it runs on exactly the flat citation graph this paper proposes to type. The typed citation is the repair, and the same fields that let one party check a link are the fields a decision-maker reads to navigate. Relation, terminal type, verification state, and declared-or-computed are, read one way, what is needed to clean up the record, and read another way, exactly what is needed to see which cruxes in a contested question could be settled and which are standoffs, what is actually confirmed rather than asserted, and what is load-bearing and unaudited. The cleanup and the decision tool are one artifact read at two distances.</p>
+      <p>The honesty of this claim depends on marking two seams, and they are the same kind of seam marked throughout. The cleanup reading is near-term and largely mechanical once the schema exists, because typing existing citations is mostly defined work. The decision-grade reading wants the typed graph computed over a real corpus at coverage, and what exists today is the mechanism and a hand-built demonstration, not that corpus. And the decision tool's honest output is the COVID output one level up: it locates and prices the disagreement, it does not make the call. The path between here and there is statable in stages, a flat citation, then a typed declared link, then a computed map, and the value grows with coverage along that path.</p>
+
+      <h2>Generation, and the gate</h2>
+      <p>The three additions describe the artifact: what is recorded on each claim and each link. They do not describe how the artifact gets built, and the brief that matters now is the building, because the building is where the machine enters and where the design either answers the age it is built for or dodges it. The process that produces and maintains the typed structure is one loop, and it has two stations that must not be confused, because the obvious objection to this whole proposal lives in the gap between them.</p>
+      <p>The first station is generation. Candidate claims are produced, each one typed at its terminal, each link traced to what it rests on. This is where volume comes from and where a capable agent does the most work, because an agent can generate claims, ingest a corpus, trace attributions, and map dependencies far faster than a person, and the faster it does so the more there is to navigate. This is the productive face of the same flood that motivates the repair: the machine multiplies the candidates. But generation confers no status. A claim enters the structure asserted and single-author, marked as such, however fluent it reads and however much compute produced it, and the typing rule is enforced at entry so that nothing joins the shared structure without a terminal. The human steering point is here and it is narrow and load-bearing: a person declares the axioms the analysis runs on and assigns, or ratifies, the terminal of each claim, because what counts as evidence and what kind of thing a claim is are the decisions that set everything downstream, and they are the decisions a generator should not make unsupervised. The agent forces; the person sets the prior.</p>
+      <p>The second station is the gate. A claim moves from asserted to confirmed only when independent parties have tried to kill it and failed. Attacks on form are caught by a linter; killed claims are kept, not deleted, with their terminal recorded and a condition under which they could revive, so refutation is first-class and the structure carries its own graveyard; surviving claims are priced at their terminals; and corrections are folded back as primary data rather than treated as noise. No party promotes its own claim, and the rule binds a person, an institution, and an agent identically.</p>
+      <p>The gate has a part that is easy to state and easy to get wrong, and it is the part the COVID case was held in reserve to prove. Convergence is confirmation only if the converging parties are independent. Agreement that comes from shared inputs is not confirmation, it is correlated cascade wearing the costume of consensus, and a gate that counts agreement without checking independence certifies the cascade. This is not hypothetical: the COVID case is exactly the failure caught in the act, six analyses that looked like six independent confirmations and were one shared input weighted six ways, a fact a citation count would have certified as overwhelming agreement and the typed structure exposes as a single load-bearing prior. The typing is what makes the independence inspectable, because every claim carries its declared axioms, so two analyses that agree can be checked for whether they agree from the same priors or from different ones. So the gate is not &ldquo;enough parties agreed.&rdquo; It is &ldquo;enough independent parties failed to kill it,&rdquo; and the independence test is inside the gate, not a courtesy added after.</p>
+      <p>Now the objection, which is the one a reader who works on this for a living will raise, and the answer that is the reason the whole substrate is shaped the way it is. Infrastructure for an age of machine-generated knowledge, the objection runs, should be built around the machine: tuned to detect what current models produce, to catch their failure modes, to certify their outputs. The opposite is true, and the reason is mechanical. An agent-specific gate is tuned to the generation of models in front of it, and it is therefore rebuilt every generation and learned around by the next, because the generator out-evolves any defense aimed at the generator. A gate that tests the producer is in an arms race it loses by construction, since the producer improves faster than the test of it. The gate proposed here tests none of that. It tests whether a claim survived independent attack, and it does not ask what produced the claim, because the survival of a claim against independent adversaries is a property of the claim and the world, not of its author. That is why the rule names no agent. The flood is agentic, and the durable response is agent-agnostic, not because the machine is ignored but because a defense that does not expire is one that does not depend on which machine it is facing. An agent, at this gate, is only the fastest stranger, and the rule that was built to admit strangers without a central authority already admits it, on exactly the same terms, with exactly the same independence required before anything it says is allowed to count.</p>
+      <p>So the agent's place in the process is precise, and stating it precisely is what turns the apparent silence of this paper on AI into its actual position on AI. The agent is load-bearing at generation, where it multiplies what there is to check and does the ingestion and tracing a person could not do at volume. It is bound at the gate, where nothing it produces promotes on its own authority and where its agreement with another agent counts for nothing until the two are shown to be independent. The same loop runs whether the parties are people or agents or both, which is the property that lets it survive the thing it was built for.</p>
+
+      <h2>The gate, run live</h2>
+      <p>Exposing the cascade is no longer the hard part. A capable investigation with no structure at all now finds the COVID non-independence when asked, types the claims, and names the load-bearing prior, so the gain a typed structure offers is not that it sees what a summary misses. The hard part is a gate that acts on the cascade across contributions that never coordinated, and that is the thing a single run cannot be, because the run is the unit being composed. The demonstration runs as code. Two emitters, one given the population corpus and one the molecular and documentary corpus, neither shown the other's work or output, each emitted typed claims onto one shared address space. A mechanical compose then ran with no model in it. It found that both vantages rest their strongest claim on one sealed dataset and counted that agreement once rather than as two confirmations, while marking as independent the two places they converge from disjoint evidence. It took the incumbent map's central crux, typed as an irreducible prior, and accepted both contributors' correction of it to a withheld record whose resolving dataset exists and is sealed. And it flagged, unprompted, that one emitter claimed verification the other declined, and that the two improvised different types for the same withheld-record situation, which is the structure reporting a gap in its own ontology. The result is a map whose shape neither emitter could see alone: the dispute carries two load-bearing cruxes, one per vantage, each sealed behind a different withheld record, which is a truer picture than one fog of irreducible disagreement. That is the gate doing across uncoordinated contributors what no amount of single-run capability reproduces, and the independence test the COVID case was held in reserve to prove is here firing on contributions that were generated apart and composed without a hand in the loop.</p>
+      <p>The discipline runs the other way too. When the strongest available investigation is added as a third contributor, its quantitative layer comes with it: a decomposition that attributes most of the disagreement to the market factor, and a collapse of the spread from eight orders to two when that one shared factor is held common. That layer enters typed by the run's own status field, which marks the per-factor numbers imputed, fitted to reproduce each source's stated bottom line rather than read from it. The gate admits the sourced spread and holds the imputed decomposition as conjecture rather than promoting it, so the richest output in the room is composed in without being trusted past what it substantiates. The collapse is the count-once rule with a magnitude on it, and the rule that holds it back is the one the gate applies to a person or an institution, here applied to the most capable machine: not how good the analysis reads, but what survived independent check.</p>
+
+<style>@@INCLUDE:view/styles/compose-gate.css@@</style>
+<div class="cg-run" id="cgRun">
+  <div class="cg-head">Run the gate <span class="cg-sub">compose_gate.py, unedited, in your browser</span></div>
+  <p class="cg-intro">The contributors below were generated apart and never saw each other's work. Toggle which enter the compose and run the actual file. The relations, the independence verdicts, and the linter flags are produced by the code, not narrated. C is the strongest baseline's own quantitative output; watch the gate admit its spread and hold its imputed decomposition as conjecture.</p>
+  <div class="cg-toggles">
+    <label><input type="checkbox" checked disabled> incumbent map</label>
+    <label><input type="checkbox" id="cgA" checked> A &middot; population vantage</label>
+    <label><input type="checkbox" id="cgB" checked> B &middot; molecular / documentary</label>
+    <label><input type="checkbox" id="cgC" checked> C &middot; Claude Code (quantitative)</label>
+    <label><input type="checkbox" id="cgD"> D &middot; your contribution</label>
+  </div>
+  <details class="cg-gen">
+    <summary>Generate your own contribution, then compose it</summary>
+    <p class="cg-genintro">Copy this contract into any LLM. It emits a typed contribution on the COVID question against the same schema the gate enforces. Paste the JSON array it returns below, tick D, and run. The gate composes your contribution with the rest and disciplines it on identical terms: an agent is only the fastest stranger.</p>
+    <div class="cg-promptwrap">
+      <button class="cg-copy" id="cgCopy">Copy contract</button>
+      <pre class="cg-prompt" id="cg-prompt-view"></pre>
+    </div>
+    <label class="cg-idlbl">emitter id <input id="cgDid" class="cg-id" value="D" maxlength="12"></label>
+    <textarea class="cg-paste" id="cgPaste" placeholder="Paste the JSON array of nodes the LLM returned here, then tick D above and run."></textarea>
+  </details>
+  <button class="cg-btn" id="cgBtn">Run the gate</button>
+  <div class="cg-status" id="cgStatus"></div>
+  <pre class="cg-out" id="cgOut" aria-live="polite"></pre>
+</div>
+<script type="text/plain" id="cg-py">@@INCLUDE:data/compose-gate/compose_gate.py@@</script>
+<script type="application/json" id="cg-incumbent">@@INCLUDE:data/compose-gate/incumbent.json@@</script>
+<script type="application/json" id="cg-A">@@INCLUDE:data/compose-gate/A.json@@</script>
+<script type="application/json" id="cg-B">@@INCLUDE:data/compose-gate/B.json@@</script>
+<script type="application/json" id="cg-C">@@INCLUDE:data/compose-gate/C.json@@</script>
+<script type="text/plain" id="cg-prompt">@@INCLUDE:data/compose-gate/prompt.txt@@</script>
+<script type="text/plain" id="cg-captured">@@INCLUDE:data/compose-gate/captured.txt@@</script>
+<script>@@INCLUDE:engine/compose-gate/clean-json.js@@
+@@INCLUDE:view/compose-gate.js@@</script>
+
+      <h2>Doing, and being</h2>
+      <p>The run you just watched settles what the gate is by showing what it is not. It is not a thing any single run can be, because the run is the unit being composed, and a composer is not one of its own inputs however capable that input becomes. This is the positive form of the agent-agnostic answer. The objection asked why the infrastructure is not built around the machine; the deeper reply is that the machine is the wrong kind of thing to build around, because a run does and infrastructure is. A run produces and is gone. The gate persists, composes what never coordinated, and holds across contributions a single run could not have made together. The durable thing in an age of fast producers is the part that stands still while the producers churn.</p>
+      <p>There are two things a run cannot be, and the gate is the first. The second is the corpus, and what the typing does is what builds it. Typing carves a question into parts: the casual question about eggs is one question until it is typed and four after, because the terminal is the knife, and each part's terminal names who answers at that cut. The world answers a measurement. A model run forward to a prediction answers a derivation. A sealed dataset answers a withheld record, once it opens. A commitment answers a constitutive question, and no measurement reaches it. Only the cuts the world or a model can answer route onward to be modeled and measured; the cuts a commitment answers are priced and refused, and refusing them is the carve done right. The black-hole case ran that chain to the end, and the eggs case shows the same knife carving where the work is not yet done.</p>
+      <p>The black-hole case felt like reading the world directly, and the reason it felt that way is the corpus in plain view. Its joints were carved long before this argument ran them: black hole, cross-section, accretion, capture, a body at rest, the constancy of the speed of light. The cut feels found because the cutting is old and has held. The eggs case is carved live, where the inherited structure is thin, so there the cut feels made. It is one operation at two stages of accumulation, and the difference between them is the pile of earlier cuts that survived the world's correction. That pile is what the next cut stands on, and that pile is the second thing no run can be. A run can carve a question when asked; it cannot be the accumulated carvings, the standing record of which models have held and where they departed from real phenomena, that departure record being the matched negative store to the kill record, kept so the next analysis starts from the carving instead of making it again.</p>
+      <p>That corpus is a market rather than a list, and the reason is the part that makes it more than a filing cabinet. A transformation is not true in a vacuum. It is licensed under a foundation, the axioms it runs on, and it is verified to a standard, the same three-track vector every claim here already carries. The same operation appears as several entries, one per foundation that licenses it and one per standard it has been checked to, and a query arrives carrying which foundation and which standard it needs. That is what gives the market more than one seller, and it is the precise reason the corpus is a separate structure with its own gate rather than a wing of this one: its gate is mechanical proof-checking, its floor is a chosen foundation, and forcing it to inherit this submission's commitments would be a category error. The two meet at a single point, the axiom declaration. This submission's discipline of stating the axioms an analysis runs on is the very query a buyer hands the transformation market, so the edge between them is one act read from two sides: here are the axioms this runs on, and here are the transformations licensed under them.</p>
+      <p>The corpus enters this package typed as a derivation-terminal structure, and it is almost entirely unbuilt. That is not a weakness to concede; it is the day-one state of infrastructure, which starts empty and accrues by use, building out the transformations that get pulled and leaving the rest until they are needed. The most speculative object in this package is the author's own transformation market, and it is typed by the same gate as everything else and sits at the unbuilt end because it has not earned more. An architecture that holds its author's own idea to that bar, in public, is the demonstration this proposal is about, and it draws the line the gate would draw on anyone: the argument promotes, because the claim that the gate uniquely finds a correlated cascade was killed against a capable baseline and what survived is the composer and the corpus that no run can be, while the corpus itself does not promote, because that it exists at coverage is named and almost none of it is populated. The promoted argument and the unpopulated corpus are held apart by the same rule that separates an asserted claim from a confirmed one, which is the rule the whole paper has been about.</p>
+
+      <h2>The map, and what it is for</h2>
+      <p>The three cases in this paper are three terminal types reached from one question, not three topics, and the links among them are typed, which gives the collection a real notion of distance. Two pieces of the structure are close when one piece's terminal type is what the other piece exercises. That is why the intrinsic-egg branch sits one step from the LHC case: both close against the world, and the egg branch is a measurement question the way the collider question is. And it is why the individual-response branch sits one step from COVID: both bottom out in a prior that the evidence does not fix. The distance is shared terminal structure, and stating that is what keeps the word &ldquo;map&rdquo; from being decoration, because a map without a distance is only a list of links with a nicer name.</p>
+      <p>Each reader crosses this space on a path of their own, from their own starting knowledge. This paper is one such path, the conservative one. It is the view with every unverified claim filtered out, traversed in a single order, which is why it can be read straight through and grant the whole case without a detour. The casual question is a second entrance to the same space, for a reader who would rather explore than be walked. And the contestable extensions, a thermodynamic reading of the provenance question among them, live deeper in, behind forks that are labeled as conjecture, reachable and carrying none of the weight of this path. Depth is the quarantine: the same filter that produced this paper is what hides them, and a reader who wants them turns the filter off by descending, with the labels telling them what kind of ground they are walking onto.</p>
+      <p>What an institution would actually adopt is not this rendering of three cases, which is a demonstration. It is the typed layer and its loop pointed at a corpus the institution has a stake in, a question of a recognizable shape: contested, consequential, structurally disputed, and flatly recorded, which is the shape the three cases here were built to instance rather than three instances of one topic. The destination is the computed version of this map over such a corpus, with generation at volume and the gate holding independence, and the formal-mathematics corner is the standing proof that the fully mechanized version of the gate runs. Naming the shape rather than a domain is deliberate: the layer works over any typed corpus, and the party with the stake is the right one to choose it.</p>
+      <p>The reader has now been given the whole case: the form that serves novice and expert by handing them the path, the three things that form needs before it can carry general knowledge rather than settled metallurgy, the loop that builds the structure with the agent load-bearing at generation and bound at the gate, and the single rule that lets many parties and many agents build on it without any of them becoming the authority over what is true. The case has been made in these pages, and not in a link off them, which is the property that makes this the path worth reading.</p>
+
+      <a class="paper-to-spec" id="paper-to-overview" href="#overview">
+        <span class="pts-k">The system in brief</span>
+        <span class="pts-t">Read the overview: the architecture in one condensed pass, before the full spec.</span>
+        <span class="pts-arrow">&#8599;</span>
+      </a>
+
+      <h2 class="src-h">Sources</h2>
+      <p class="src-p">F&ouml;ll's <em>Iron, Steel and Swords</em> hypertext: tf.uni-kiel.de/matwis/amat/iss. Its structure is a matter of record; the generalization to non-uniform knowledge is this paper's proposal, argued above.</p>
+      <p class="src-p">LHC safety: the LHC Safety Assessment Group review (Ellis, Giudice, Mangano, Tkachev, Wiedemann, arXiv:0806.3414) and Giddings and Mangano (arXiv:0806.3381), with dense-object survival as the empirical anchor. The correlated-endorsement point follows from the shared authorship of the foundational and review papers.</p>
+      <p class="src-p">COVID origins: the published Bayesian analyses of the question and their critiques. The spread figure and the market-clustering crux are theirs; the structural reading, that the spread collapses onto a few shared inputs with one load-bearing and asymmetric prior, and that the apparent convergence of the analyses is correlated rather than independent, is what the typing adds.</p>
+      <p class="src-p">Citation flatness, the machine-generated flood, and verification load: the reproducibility and peer-review literature, and the documented strain in the open preprint record.</p>
+      <p class="src-p">The typed citation, the build loop, and the computed map are shown here as a mechanism and a hand-built instance, not at corpus scale. The line between the declared layer that exists and the computed layer that does not is marked wherever the claim appears. The generator-verifier separation underlying the build loop, and the independence requirement on convergence, are developed at length in companion work in preparation.</p>
+      <h2>How this was made</h2>
+      <p>This document, the gate that runs inside it, and the contributions it composes were produced through human-AI collaboration, which is the process the paper argues for, turned on itself. An AI was load-bearing at generation: it multiplied candidate claims, drafted prose, wrote the compose-gate, and generated the emitter contributions. None of that promoted on its own authority. A human set the priors, declared the axioms, assigned the terminals, and ran the gate, and the loop did what it is built to do, kills included. The dominant-crux attribution was caught over-claiming and reversed. A claim that the gate uniquely acts on correlated evidence was falsified against a strong baseline that did the same in code. An earlier contrast, that a summary cannot find the crux, was retired when an off-the-shelf run found it unaided.</p>
+      <p>One thing stated plainly, because the honesty of the rest depends on it. This was a working session run under the loop's discipline, not a fully gated pipeline. The parts that passed the gate are marked as such; the whole was not certified by a formal gate, since claiming otherwise would be the unearned promotion the linter exists to catch. The human directed the work and is responsible for what it claims.</p>
+      <p>The reader does not have to take the rule on faith. The runner above accepts a contribution generated by any model, composes it with the rest, and holds it to identical terms. This document does not only describe a gate that admits strangers without a central authority. It hands you the gate and invites you to be the next one.</p>
+    </article>
+  </div>
+</section>
+
+<!-- OVERVIEW VIEW (the system in brief, in-file). sits between the paper and the spec. -->
+<section id="overviewview" class="paper-view overview-view">
+  <div class="wrap">
+    <div class="crumb"><a id="overview-bk-paper">the paper</a><span class="sep">/</span><span>the overview</span></div>
+    <article class="paper">
+      <h1>The System in Brief</h1>
+      <p class="lede">A typed claim-graph and the loop that builds it. Every claim carries what a flat citation omits: its type, its verification state, and its provenance. The graph is built by one loop with two stations, an agent that multiplies candidates and a person who types them, closing at a gate where nothing promotes on its own authority. The organizing principle is requisite variety. Generation has outrun regulation, so the structure amplifies the regulator's variety and attenuates the variety it must absorb.</p>
+
+      <h2>Architecture</h2>
+      <p><strong>The path.</strong> A claim travels: proposed, then sound in a model, then checked against the world. The middle segment is a derivation, a traversal of transformations. The terminal is the last binding closure the claim has reached, and promotion is advancing along the path.</p>
+      <p><strong>Terminal types.</strong> The closures a claim can reach, each naming who answers at that cut. On the path: a <em>measurement</em>, where the world closes a prediction the derivation produced (LHC safety runs here, every surviving branch closing against an astronomical observation); a <em>derivation</em>, where formal work legitimately stops with no measurement owed; a <em>withheld record</em>, a measurement behind a named sealed door, convertible when the record opens. Off the path: an <em>irreducible prior</em>, topping out in a reference-class choice no measurement reaches (the COVID dispute tops out here, priced and refused); a <em>constitutive</em> terminal, topping out in a framework adopted or refused (the welfare side of the eggs question). Meta: a <em>question set</em>, a claim about whether the graph's branches are all drawn (the eggs question, one prompt that is at least four).</p>
+      <p><strong>The typing rule.</strong> A claim is typed by where it can terminate, and the type is the knife that carves a question into parts. Each part's terminal names who answers it: the world a measurement, a model run forward a derivation, a sealed dataset a withheld record, a commitment a constitutive question. The cuts the world or a model can answer route onward; the cuts a commitment answers are priced and refused.</p>
+      <p><strong>The loop.</strong> The generation station multiplies candidates and sets the prior by declaring axioms and typing each claim. The gate promotes nothing on its own authority: agreement counts only once the agreeing parties are shown independent, and the rule names no agent, so it does not expire as the generators improve. The gate's composition across uncoordinated contributors is mechanical, demonstrated in <code>compose_gate.py</code>, which composes two emitters' frozen output with no model in the loop. The gate tests survival against attack, and a standing adversarial process supplies the attacks rather than waiting for them, so the map hardens as more scrutiny is spent on it.</p>
+      <p><strong>The corpora.</strong> Three stores accumulate. The <em>atlas</em> is the derivation segment made queryable, structural expertise that lived in tacit form turned into external variety any agent can read. The <em>kill record</em> holds refuted claims, axiom-tagged. The <em>departure record</em> holds the places structural patterns fail real phenomena, the matched negative store to the kill record and the interface between the atlas and a measurement.</p>
+      <p><strong>The partition.</strong> The two sides of the path. The auditable side, claims that cross a derivation to a measurement, is where a mechanical gate closes. The priced-and-refused side, the off-path terminals, is where no mechanical test reaches and judgment prices each side rather than audits it. The structure routes the first onward and refuses the second by construction, which is what grounds the no-verdict discipline.</p>
+      <p><strong>Composition.</strong> The property the substrate exists to produce: uncoordinated contributions accrete onto one map instead of each run inventing a schema and discarding it. It is realized by one address space shared across contributors, the typed schema they all write to, and the gate that admits a claim only on independent corroboration. The site contract is emit and ingest, with no central merge; standing is two-leveled, a claim is open to anyone and judged on its grounding while changing the schema or the rules is staked against an earned record; a fork is a query not a copy, and disagreement is exposed and priced rather than reconciled. The rules govern structure and never content, so a more capable contributor can flood the claim layer, all of it judged the same way, and gain no power to rewrite the gate.</p>
+
+      <h2>Where it sits in the stack</h2>
+      <p>The submission spans the three layers a full epistemic stack separates, with discipline about which component serves which.</p>
+      <p><strong>Ingestion.</strong> Emit and the typing rule. A claim enters attributed to its source and typed at the moment it enters, and the gate's recognition of one claim arriving from several sources in different forms is an ingestion-side merge that becomes load-bearing later.</p>
+      <p><strong>Structure.</strong> The path, the terminal types, and the corpora. The graph resolves which claims support which, carves one question into its sub-questions with the typing knife, and tracks its own evolution through the atlas, the kill record, and the departure record.</p>
+      <p><strong>Assessment.</strong> The gate and the partition. The gate flags correlated evidence presented as independent and counts agreement only once independence is shown; the partition separates what a measurement settled from what a standoff only performed as settled, and prices the questions no evidence reaches.</p>
+
+      <h2>Current state</h2>
+      <p><strong>Earned.</strong> Claims travel the path; the derivation segment is real on two measurement cases in two states; the partition is structural on a case that forks across it; composition runs as code across two uncoordinated emitters.</p>
+      <p><strong>Asserted, not yet built.</strong> That the transformations named in the cases are populated atlas entries with typed preconditions. They are named, not yet stored. Populating a handful, with their preconditions and their selection-aware or heterogeneity-aware variants, would move the atlas from illustrative to load-bearing.</p>
+      <p><strong>A leap, characterized.</strong> That every measurement claim crosses a derivation segment, and that the departure shape seen twice, an aggregate transformation failing on a phenomenon that is not the homogeneous population it assumes, is a reusable pattern rather than a suggestive echo. Two and three instances carry these past assertion; neither is yet a law. The unit of progress is the next instance plus the named gap.</p>
+      <p><strong>The genesis bound.</strong> What is demonstrated is the seed, not the mature institution. The two-emitter case is the minimal configuration, two independent channels, and the properties that make the substrate valuable at scale, independence across many contributors, a map no author owns, standing with a real history, hold only past a threshold the seed has not crossed. The path to it is named, not yet walked.</p>
+
+      <a class="paper-to-spec" id="overview-to-spec" href="#spec">
+        <span class="pts-k">The method in full</span>
+        <span class="pts-t">Read the spec: the operable workflow that produces this structure, and how it scales to many contributors through one shared map.</span>
+        <span class="pts-arrow">&#8599;</span>
+      </a>
+    </article>
+  </div>
+</section>
+
+<!-- SPEC VIEW (full operable spec, in-file). reached at the paper's end. -->
+<section id="specview" class="paper-view spec-view">
+  <div class="wrap">
+    <div class="crumb"><a id="spec-bk-overview">the overview</a><span class="sep">/</span><span>the spec</span></div>
+    <article class="paper spec">
+<h1>A Typed Substrate for Navigating Knowledge</h1>
+<h2>Specification: Human-AI Workflow for Epistemic Infrastructure</h2>
+<hr />
+<h2>1. Overview</h2>
+<p>This document specifies a step-by-step human-AI workflow for building typed claim graphs that navigate consequential knowledge. The method produces <span class="term" data-term="the-structure">the typed structure</span> - a directed graph in which every claim is annotated with its closure type, its verification state, and its declared axiomatic dependencies, and in which every edge carries a typed relation and the verification state of its target. The specification is agent-agnostic, domain-neutral, and designed to produce artifacts that compound across sessions, domains, and participants.</p>
+<h3>Core commitments</h3>
+<p><strong>Two-station loop.</strong> The build process alternates between a generation station, where candidate claims are produced and typed, and <span class="term" data-term="the-gate">the gate</span>, where claims are promoted only on independent survival of adversarial attack. Generation multiplies candidates. <span class="term" data-term="the-gate">The gate</span> confers status. The stations are structurally separated and must never be confused.</p>
+<p><strong>Agent-agnostic design.</strong> An LLM inference is stateless. It carries no persistent state that behavioral governance could operate on. Governance therefore targets the structure of outputs rather than the behavior of the agent producing them. <span class="term" data-term="the-structure">The typed structure</span> records, on every claim and every link, what the agent is not permitted to control: its own terminal type, its verification vector, its declared-or-computed flag. This makes the method durable across model generations. A gate that tests whether a claim survived independent attack does not depend on which machine produced the claim. The generator out-evolves any defense aimed at the generator; a defense aimed at the claim does not expire.</p>
+<p><strong>Self-adoption as adversarial robustness.</strong> <span class="term" data-term="the-structure">The typed structure</span> is self-adopted. It is a group's own codified best practices, not an externally imposed standard. This is load-bearing: external imposition produces gaming, since relaxing constraints benefits a group without self-defeating consequences, while self-adoption dissolves the motivated-revision problem.</p>
+<h3>What the method is for</h3>
+<p>The method addresses structural integrity in knowledge domains. It catches structurally flawed proposals before they enter the permanent record. It does not evaluate interest, elegance, or value - a structurally sound, <span class="term" data-term="pre-filter">pre-filter</span>-passing, verifier-approved result that happens to be uninteresting is a legitimate output. It does not replace practitioner training; it is research infrastructure for people who already possess trained domain intuition.</p>
+<hr />
+<h2>2. The Loop: Generation and the Gate</h2>
+<h3>Generation station</h3>
+<p>Candidate claims are produced at volume. Each claim is typed at its terminal - the terminal type is assigned by its closure condition, not by authority or by the fluency of its prose. Each link is traced to what it rests on. The claim enters the graph asserted and single-author.</p>
+<p>The human steering point is narrow and load-bearing: a person declares <span class="term" data-term="declared-axioms">the declared axioms</span> the analysis runs on and assigns, or ratifies, the terminal of each claim. What counts as evidence and what kind of thing a claim is are the decisions that set everything downstream, and they are decisions the generator should not make unsupervised. The agent multiplies candidates; the human sets the prior.</p>
+<p>Claims are typed at entry. Nothing joins the shared structure without a terminal. The <code>conjecture</code> flag is set on author-typed speculative claims. The <code>loadBearing</code> flag marks cruxes that carry most of the dispute spread.</p>
+<h3><span class="term" data-term="the-gate">The gate</span></h3>
+<p>A claim moves from asserted to confirmed only when independent parties have tried to kill it and failed. <span class="term" data-term="the-gate">The gate</span> enforces four rules:</p>
+<ol>
+<li><strong>No self-promotion.</strong> No party promotes its own claim. The rule binds persons, institutions, and agents identically.</li>
+<li><strong>Kills are kept, not deleted.</strong> Every killed claim remains in <span class="term" data-term="kill-record">the kill record</span> with its terminal recorded and a condition under which it could revive. <span class="term" data-term="the-structure">The typed structure</span> carries its own graveyard.</li>
+<li><strong>Convergence is not confirmation until independence is tested.</strong> Two analyses that agree are not two independent confirmations if they share upstream dependencies. The independence test inspects the full upstream chain of the converging analyses, both their declared axioms and their evidential inputs: a shared declared prior or a shared load-bearing datum between two nodes means correlated agreement, not independent confirmation. The two channels are distinct and both must be checked. The COVID exemplar is a shared-input collapse, not a shared-axiom one: the analyses can declare different priors and still be correlated because they pivot on the same early-case datum, so an independence test that inspected declared axioms alone would miss exactly the failure this method exists to catch.</li>
+<li><strong>Attacks on form are caught by a pre-filter.</strong> <span class="term" data-term="pre-filter">The linter</span> catches structural violations before they consume verification bandwidth. Surviving claims are priced at their terminals. Corrections are folded back as primary data.</li>
+</ol>
+<p>The gate's independence test is the load-bearing problem on multi-party structures. Agreement that comes from shared upstream dependencies is correlated cascade wearing the costume of consensus. A <span class="term" data-term="the-gate">gate</span> that counts agreement without checking independence certifies the cascade. The typing makes independence inspectable because every claim carries both its declared axioms and the evidential inputs its links rest on, so two analyses that agree can be checked for whether they agree from the same upstream dependencies or from genuinely separate ones. <span class="term" data-term="the-gate">The gate</span> is not "enough parties agreed." It is "enough independent parties failed to kill it."</p>
+<hr />
+<h2>3. The Typed Structure</h2>
+<h3>Terminal types</h3>
+<p>Every claim in the graph is assigned exactly one terminal type from the ontology. The terminal determines how the node closes - what would have to happen for the claim to be settled, revised, or withdrawn.</p>
+<table>
+<thead>
+<tr>
+<th>Terminal key</th>
+<th>Closure condition</th>
+<th>Exemplar case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>measurement</code></td>
+<td>Closes against something the universe has already evaluated.</td>
+<td>LHC safety - every surviving branch closes against astronomical observation.</td>
+</tr>
+<tr>
+<td><code>irreducible-prior</code></td>
+<td>The dispute lives here. No amount of shared evidence dissolves it.</td>
+<td>COVID origins - six analyses spanning twenty orders of magnitude in odds, collapsing onto a small number of shared inputs weighted differently.</td>
+</tr>
+<tr>
+<td><code>question-set</code></td>
+<td>Produces a falsifiable completeness test, not an answer.</td>
+<td>Eggs - the engine produces a finding that the question set is incomplete, with the missing branches named.</td>
+</tr>
+<tr>
+<td><code>pending</code></td>
+<td>Terminal not yet assigned. Typed when the node is built, by its own closure.</td>
+<td>Used when a channel is drawn but its terminal is not pre-fudged.</td>
+</tr>
+</tbody>
+</table>
+<p>A fourth kind, the <code>conjecture</code>, is carried as a flag on a claim rather than as a terminal: an author's own proposal that has not been checked by anyone (see Declared vs. computed, below).</p>
+<p>The ontology is not fixed at the empirical four. A case can demand a closure kind they cannot express, and the eggs harm question does. Whether a hen's interests count is a <code>constitutive</code> terminal: it closes by adopting or refusing a framework rather than by evidence, and the framework is carried as a parameter, the way a withheld-record node carries the sealed dataset that would settle it. The step from the facts to a verdict activates the closure terminal, a <code>derivation</code> (the geometric method, or a formal proof, in its other registers) whose system is a normative framework instead of a set of axioms, which is the use the verdict step makes of it. One terminal, <code>simulation-bound</code>, stays reserved, named to show the ontology extends but not exercised by these cases. The sufficiency is shown by running, not asserted: the same eggs-harm contributions typed under the empirical four leave the two normative nodes reaching for a kind the ontology lacks, and under the extended set they type cleanly. The check is a runnable file.</p>
+<style>.suff{margin:1.4rem 0;border:1px solid #ddd6c6;border-radius:10px;overflow:hidden}.suff figcaption{font-size:.85rem;padding:.6rem .9rem;background:#faf8f2;border-bottom:1px solid #eee5d2;opacity:.85}.suff pre{margin:0;background:#141109;color:#e9e3d3;padding:1rem;font:11.5px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto;max-height:420px;white-space:pre}</style>
+<figure class="suff"><figcaption>The eggs harm question, typed under four terminals then six. The undercoverage is reported by the run, not asserted: the two normative nodes reach for a kind the four lack, and the extended set types them. Runnable as <code>eggs-sufficiency/sufficiency_gate.py</code> in the repository.</figcaption><pre>========================================================================
+SUFFICIENCY RUN  -  4-terminal ontology = [&#x27;irreducible-prior&#x27;, &#x27;measurement&#x27;, &#x27;pending&#x27;, &#x27;question-set&#x27;]
+========================================================================
+
+[COVERAGE] does every emitted closure-kind have a terminal here?
+  NO - 4 node(s) name a kind this ontology LACKS:
+     philosophy: Q-EGG-OUGHT reaches for &#x27;derivation&#x27;  -&gt; UNAVAILABLE
+     philosophy: Q-EGG-PATIENT reaches for &#x27;constitutive&#x27;  -&gt; UNAVAILABLE
+     welfare: Q-EGG-OUGHT reaches for &#x27;derivation&#x27;  -&gt; UNAVAILABLE
+     welfare: Q-EGG-PATIENT reaches for &#x27;constitutive&#x27;  -&gt; UNAVAILABLE
+  undercovered kinds: [&#x27;constitutive&#x27;, &#x27;derivation&#x27;]
+
+[TYPED MAP]
+  Q-EGG-LDL
+     [health] measurement
+  Q-EGG-MEASURE
+     [health] question-set
+  Q-EGG-OUGHT
+     [philosophy] derivation  &lt;-- no terminal for this kind   framework=normative framework: consequentialist / deontological / virtue
+     [welfare] derivation  &lt;-- no terminal for this kind   framework=normative ethics: consequentialist vs deontological
+  Q-EGG-PATIENT
+     [philosophy] constitutive  &lt;-- no terminal for this kind   framework=moral-status criterion: sentience / interests / contract
+     [welfare] constitutive  &lt;-- no terminal for this kind   framework=moral-patienthood: sentientist vs contractarian
+  Q-EGG-RISKTOL
+     [health] irreducible-prior
+
+[NEUTRALITY] frameworks named as parameters, none endorsed
+     a claim here closes against: moral-patienthood: sentientist vs contractarian
+     a claim here closes against: moral-status criterion: sentience / interests / contract
+     a claim here closes against: normative ethics: consequentialist vs deontological
+     a claim here closes against: normative framework: consequentialist / deontological / virtue
+  the room types what each claim closes against and adopts none of them
+
+[TYPING CORROBORATION] addresses where emitters agree on kind (quarantined nodes excluded)
+  (none in this ontology)
+
+========================================================================
+SUFFICIENCY RUN  -  6-terminal ontology = [&#x27;constitutive&#x27;, &#x27;derivation&#x27;, &#x27;irreducible-prior&#x27;, &#x27;measurement&#x27;, &#x27;pending&#x27;, &#x27;question-set&#x27;]
+========================================================================
+
+[COVERAGE] does every emitted closure-kind have a terminal here?
+  YES - every emitted claim types cleanly
+
+[TYPED MAP]
+  Q-EGG-LDL
+     [health] measurement
+  Q-EGG-MEASURE
+     [health] question-set
+  Q-EGG-OUGHT
+     [philosophy] derivation   framework=normative framework: consequentialist / deontological / virtue
+     [welfare] derivation   framework=normative ethics: consequentialist vs deontological
+  Q-EGG-PATIENT
+     [philosophy] constitutive   framework=moral-status criterion: sentience / interests / contract
+     [welfare] constitutive   framework=moral-patienthood: sentientist vs contractarian
+  Q-EGG-RISKTOL
+     [health] irreducible-prior
+
+[NEUTRALITY] frameworks named as parameters, none endorsed
+     a claim here closes against: moral-patienthood: sentientist vs contractarian
+     a claim here closes against: moral-status criterion: sentience / interests / contract
+     a claim here closes against: normative ethics: consequentialist vs deontological
+     a claim here closes against: normative framework: consequentialist / deontological / virtue
+  the room types what each claim closes against and adopts none of them
+
+[TYPING CORROBORATION] addresses where emitters agree on kind (quarantined nodes excluded)
+  Q-EGG-OUGHT: &#x27;derivation&#x27; typed independently by [&#x27;philosophy&#x27;, &#x27;welfare&#x27;]  -&gt; robust, framework-neutral
+  Q-EGG-PATIENT: &#x27;constitutive&#x27; typed independently by [&#x27;philosophy&#x27;, &#x27;welfare&#x27;]  -&gt; robust, framework-neutral
+
+VERDICT: 4-terminal ontology undercovers the normative residue (constitutive, derivation).
+         6-terminal ontology covers it. The gap surfaced as emitters reaching for an
+         unavailable kind, not as an assertion. No ethical framework was adopted at any point.
+</pre></figure>
+<h3>Typing rule</h3>
+<p>A claim is assigned its terminal type based on its closure condition - the specific state of the world, evidence base, or formal system that would settle the claim. The terminal type is not a label of confidence. It is a label of kind: a measurement and an irreducible prior can both be held with high confidence, but they close against different things, and mistaking one for the other is a category error.</p>
+<p>The typing rule is enforced at entry: no node joins the graph without a terminal. The <code>pending</code> terminal is legitimate for nodes whose closure condition has not yet been determined; the terminal is assigned when the node is built, by its own closure, not pre-fudged by authority.</p>
+<h3>Verification vector</h3>
+<p>Every claim carries a verification state as a vector across three tracks, not a single stamp:</p>
+<ul>
+<li><strong><code>formal</code></strong>: Whether a proof of the claim has been mechanically checked. Values include <code>unformalized</code>, <code>formalized-unverified</code>, <code>formalized-verified</code>.</li>
+<li><strong><code>engineering</code></strong>: Whether the claim has been made to run or replicate. Values include <code>unvalidated</code>, <code>validated-single</code>, <code>validated-multiple</code>, <code>reproduced-independent</code>.</li>
+<li><strong><code>domainStandard</code></strong>: Whether the relevant experts confirm or dispute it. Values include <code>unreviewed</code>, <code>expert-confirmed</code>, <code>expert-disputed</code>, <code>consensus</code>, <code>retracted</code>.</li>
+</ul>
+<p>A claim can be strong on one track and silent on another, which is itself information. Promotion from <code>asserted</code> to <code>confirmed</code> happens only on independent convergence across the relevant tracks - which tracks matter depends on the terminal type and the domain configuration.</p>
+<h3>Declared vs. computed</h3>
+<p>Every claim carries a <code>conjecture</code> boolean flag. When true, the claim is author-typed - a speculative proposal that has not been checked by anyone. When false and confirmed, the claim's status has survived <span class="term" data-term="the-gate">the gate</span>. The <code>loadBearing</code> boolean marks cruxes that carry most of the dispute spread; these are the nodes whose revision would most alter the structure's outputs.</p>
+<hr />
+<h2>4. <span class="term" data-term="declared-axioms">The Declared Axioms</span> (Tiered Structure)</h2>
+<p><span class="term" data-term="declared-axioms">The declared axioms</span> organize the structure's commitments into tiers ranked by defensibility, with strict directional dependency. Higher tiers are harder to challenge. If a higher tier falls, everything below it requires re-examination; if a lower tier fails, the higher tiers are untouched.</p>
+<h3>Structural rules</h3>
+<ul>
+<li>Dependencies are strictly acyclic. No circular justification.</li>
+<li>Falsification flows upward only: a failed implementation does not kill an axiom.</li>
+<li>Refactoring flows downward: changing an axiom immediately invalidates all dependent elements.</li>
+<li>Every entry at every tier must be falsifiable within that tier's terms.</li>
+</ul>
+<h3>Two falsification modes</h3>
+<p><span class="term" data-term="declared-axioms">The declared axioms</span> hold two kinds of entries:</p>
+<ol>
+<li><strong>Empirical commitments</strong> are tested against external evidence. Revision is triggered when evidence contradicts the claim.</li>
+<li><strong>Value-consistency commitments</strong> are tested against behavioral consistency - whether the agent's decisions remain aligned with the priority ordering. Revision is triggered when the agent's moral reasoning or lived experience evolves.</li>
+</ol>
+<p>Both produce structural consequences when triggered: downward cascade, and <span class="term" data-term="kill-record">kill record</span> reactivation queries. Collapsing these into a single falsifiability requirement either excludes value commitments from the Core or dilutes the criterion into meaninglessness.</p>
+<h3>The seven adversarial-tier challenges</h3>
+<p>Every structural placement in <span class="term" data-term="declared-axioms">the declared axioms</span> must survive these seven challenges before <span class="term" data-term="the-structure">the typed structure</span> is considered tight:</p>
+<ol>
+<li><strong>Challenge placements upward.</strong> For every proposed Tier 0 entry: "If this were proven wrong, would you actually abandon the project, or would you revise and continue?" If revise, it belongs at Tier 1 or below.</li>
+<li><strong>Challenge placements downward.</strong> For entries placed low: "If someone on your team violated this, would it feel like a tactical error or a fundamental betrayal?" If betrayal, it may belong higher.</li>
+<li><strong>Separate functions from contracts.</strong> When a specific approach is proposed: "Is this the capability you need, or is this one way of providing that capability?" Functions are durable; contracts are swappable.</li>
+<li><strong>Test for disguised preferences.</strong> "Is this a structural commitment, or is this something you prefer that you'd reluctantly sacrifice under pressure?" Preferences masquerading as axioms bloat the core.</li>
+<li><strong>Probe framings.</strong> When an entry is stated in abstract terms, demand the concrete operational version. "Ethical integrity" is abstract; "Every agent's conscience is respected" is operational.</li>
+<li><strong>Test mergeability.</strong> When two entries sit at the same tier and seem related: "Are these genuinely independent commitments, or are they two expressions of one deeper commitment?"</li>
+<li><strong>Construct collision hypotheticals.</strong> For any two commitments whose relative priority matters, construct a concrete scenario where they conflict and only one can be honored. The answer reveals the true priority ordering.</li>
+</ol>
+<h3>Three collision outcomes</h3>
+<p>Collision hypotheticals produce three structurally distinct results:</p>
+<ul>
+<li><strong>Priority ordering.</strong> One entry yields to the other. This reveals the true ranking.</li>
+<li><strong>Dependency graph.</strong> The entries relate by dependency rather than priority. Neither yields; one requires the other. When this pattern appears across multiple Tier 0 entries, the result is a dependency graph rather than a linear ordering.</li>
+<li><strong>Cooperative dissolution.</strong> A mechanism reconciles the entries. They cooperate rather than compete. When this occurs, document the reconciling mechanism; it is often a structural feature worth preserving explicitly.</li>
+</ul>
+<h3>Procedural Tier 0 clustering</h3>
+<p>In maximum-objectivity domains - those with access to formal verification infrastructure, binary empirical anchors, or deterministic non-human arbiters - configure Tier 0 around procedural commitments (how to verify) rather than substantive commitments (what to prove). The most non-negotiable commitments are the ones that keep the verification process honest. This is a design choice, not an empirical finding: the configuration protects the verification process itself from being captured by the content it evaluates.</p>
+<hr />
+<h2>5. <span class="term" data-term="pre-filter">The Pre-Filter</span> (Linter)</h2>
+<p><span class="term" data-term="pre-filter">The linter</span> is a mechanical pre-filter between the generator and the verifier. It catches structural violations so the verifier can focus on judgment calls. Every <span class="term" data-term="pre-filter">linter</span> rule must trace to a specific entry in <span class="term" data-term="declared-axioms">the declared axioms</span>. Orphan rules are forbidden.</p>
+<h3>Flag mode to kill mode maturity gradient</h3>
+<p>Linter rules operate on a maturity gradient:</p>
+<ul>
+<li><strong>Flag mode:</strong> The rule produces a warning requiring human judgment. Appropriate for low-objectivity domains, immature infrastructure, and rules whose binary resolution depends on context that resists automation.</li>
+<li><strong>Kill mode:</strong> The rule produces an automatic rejection. The test is genuinely binary, the data feeding it is reliable, and the team trusts it to run unattended. Appropriate for high-objectivity domains and for mature rules that have proven reliable.</li>
+</ul>
+<p>A rule graduates from flag to kill when the data feeding it has proven reliable, the rule has produced no false positives over a meaningful period, and the team trusts the test to run unattended. Some rules will never graduate: "Would we be uncomfortable explaining this to anyone who asked?" permanently requires human judgment. These rules belong in <span class="term" data-term="pre-filter">the linter</span> as flags rather than being exiled to the verifier.</p>
+<h3>Redirect-first three-stage protocol</h3>
+<p>The redirect-first protocol is an alternative to the standard filtering <span class="term" data-term="pre-filter">linter</span>:</p>
+<ol>
+<li><strong>Verify intent</strong> behind the proposal.</li>
+<li><strong>Audit</strong> the proposed action against trellis constraints.</li>
+<li>If the action violates a constraint, <strong>generate a compliant alternative</strong> that satisfies the verified intent.</li>
+</ol>
+<p>Under this contract, an open obligation (a sorry) emerges only when Stage 3 fails to find a compliant alternative. A kill occurs only when the proposal violates Tier 0 and Stage 3 cannot redirect. This protocol is especially valuable when generation is expensive and when the search is a random walk where intent is more valuable than any specific method.</p>
+<h3>Rule accumulation from kill-record post-mortems</h3>
+<p>Linter rules can be retrospectively generated from post-mortems of significant failures. After resolving a major crisis, ask: "What structural blindness allowed this error to persist? Can we encode a check that would have caught it at <span class="term" data-term="the-gate">the gate</span>?" The resulting rule is added to <span class="term" data-term="pre-filter">the linter</span>. <span class="term" data-term="reassessment">Reassessment</span> outputs should routinely include: updated axiom tiers, new kill-record entries, new <span class="term" data-term="pre-filter">linter</span> rules derived from post-mortems, and revised reassessment triggers.</p>
+<hr />
+<h2>6. <span class="term" data-term="kill-record">The Kill Record</span></h2>
+<p><span class="term" data-term="kill-record">The kill record</span> is <span class="term" data-term="the-structure">the typed structure's</span> negative knowledge base. It records everything tried and killed, indexed so precisely that the structure can distinguish a point failure from a class failure, can reactivate entries when constraints revise, and can separate the intent behind a killed approach from the method that failed.</p>
+<h3>Entry structure</h3>
+<p>Every kill-record entry carries the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dead Entry</strong></td>
+<td>What was tried.</td>
+</tr>
+<tr>
+<td><strong>Justifiable Intent</strong></td>
+<td>The legitimate goal behind the killed approach. Separates intent (which often survives) from method (which failed).</td>
+</tr>
+<tr>
+<td><strong>Killed By</strong></td>
+<td>Which declared-axiom entry or <span class="term" data-term="pre-filter">linter</span> rule performed the blocking.</td>
+</tr>
+<tr>
+<td><strong>Kill Mechanism</strong></td>
+<td>The precise structural reason, named and reusable if possible. Named mechanisms accumulate a vocabulary of structural failure modes.</td>
+</tr>
+<tr>
+<td><strong>Parent Problem</strong></td>
+<td>What function or goal the entry was trying to serve.</td>
+</tr>
+<tr>
+<td><strong>How It Died</strong></td>
+<td>The specific mechanism of failure in prose.</td>
+</tr>
+<tr>
+<td><strong>Block Scope</strong></td>
+<td><code>point</code> (this specific approach fails) or <code>class</code> (an entire family of approaches fails for the same structural reason).</td>
+</tr>
+<tr>
+<td><strong>Structural Residue</strong></td>
+<td>What survives from the attempt and remains viable in a different configuration.</td>
+</tr>
+<tr>
+<td><strong>Contract Reference</strong></td>
+<td>Where the surviving insight lives in the active structure.</td>
+</tr>
+<tr>
+<td><strong>Reactivation Conditions</strong></td>
+<td>Exactly what trellis change would release this entry back into the viable strategy space.</td>
+</tr>
+</tbody>
+</table>
+<h3>Conditional kills and reactivation</h3>
+<p>Kills are conditional, not absolute. They are indexed to the current state of <span class="term" data-term="declared-axioms">the declared axioms</span>. If a future reassessment revises an axiom that killed an entry, the entry is automatically flagged for re-evaluation. This conditional reactivation is the structural feature that distinguishes <span class="term" data-term="kill-record">the kill record</span> from an inert negative knowledge base: an entry re-enters the viable set when the constraint that blocked it is revised.</p>
+<h3>The generative function of kills</h3>
+<p>The separation of intent from method, through the Justifiable Intent field, makes the generative function explicit. When a constraint kills a tactic, the insight is often generative: the intent survives and <span class="term" data-term="kill-record">the kill record</span> actively seeds the next iteration, while the Structural Residue field carries forward whatever components remain viable in a different configuration.</p>
+<h3>Permanently dead entries</h3>
+<p>Some entries are killed by value commitments that only tighten over time. These entries will never reactivate. Their Justifiable Intent and Structural Residue fields remain valuable as generator inputs even though the specific method is permanently closed.</p>
+<hr />
+<h2>7. <span class="term" data-term="reassessment">Reassessment</span></h2>
+<p><span class="term" data-term="reassessment">Reassessment</span> periodically audits <span class="term" data-term="declared-axioms">the declared axioms</span> itself, preventing the structure from hardening into dogma. It asks: "Are our foundational assumptions still warranted, given everything we have learned, including the pattern of failures in <span class="term" data-term="kill-record">the kill record</span>?"</p>
+<h3>Trigger conditions</h3>
+<p>Reassessment is triggered by two distinct signals:</p>
+<ul>
+<li><strong>Schedule-triggered:</strong> A defined temporal cadence appropriate to the domain's clock speed.</li>
+<li><strong>Signal-triggered:</strong> A defined variance metric, such as an abnormal clustering of failures against a single axiom, or a major external event.</li>
+</ul>
+<p><span class="term" data-term="reassessment">Reassessment</span> evaluates the distribution of failures in <span class="term" data-term="kill-record">the kill record</span>. If a disproportionate number of kills trace to a single axiom, that axiom is under structural pressure and must be examined. <span class="term" data-term="reassessment">Reassessment</span> targets specific axioms under pressure, not the entire structure simultaneously. Wholesale <span class="term" data-term="reassessment">reassessment</span> destroys the structure's ability to function as a filter.</p>
+<h3>Monotonic contraction within a version</h3>
+<p>Within any fixed structure version, the viable set contracts monotonically. Hypotheses are killed; they remain killed. <span class="term" data-term="reassessment">Reassessment</span> operates at the meta-level: when accumulated evidence shifts toward a revised structure, previously blocked hypotheses may re-enter the viable set under the new version. Each <span class="term" data-term="reassessment">reassessment</span> is documented as a version increment, recording which axioms were revised, which <span class="term" data-term="kill-record">kill-record</span> entries are flagged for reactivation, and which <span class="term" data-term="pre-filter">linter</span> rules are newly added, removed, or mode-shifted.</p>
+<hr />
+<h2>8. Domain Configuration</h2>
+<h3>Archetype axes</h3>
+<p>Before building, profile the domain along two axes:</p>
+<p><strong>Axis 1: Epistemic mode</strong> - what kind of knowledge the structure primarily governs:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Theory-building</strong></td>
+<td>Constructing explanatory or formal frameworks. Internal consistency is the primary validator.</td>
+</tr>
+<tr>
+<td><strong>Empirical</strong></td>
+<td>External data arbitrates between competing hypotheses.</td>
+</tr>
+<tr>
+<td><strong>Operational</strong></td>
+<td>Execution against objectives in real time.</td>
+</tr>
+<tr>
+<td><strong>Normative</strong></td>
+<td>Values, rights, and constraints on permissible action.</td>
+</tr>
+<tr>
+<td><strong>Creative</strong></td>
+<td>Guidance without over-constraining generative output.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Axis 2: Objectivity level</strong> - how the domain validates its commitments:</p>
+<ul>
+<li><strong>High:</strong> Binary or near-binary validation. A proof compiles or does not. A physical law holds or does not.</li>
+<li><strong>Medium:</strong> Empirical validation with noise. Data arbitrates, but attribution is complex and evidence accumulates gradually.</li>
+<li><strong>Low:</strong> Judgment-dependent validation. Success criteria are contested, indicators lag, and reasonable people can disagree.</li>
+</ul>
+<p>Most real domains straddle multiple archetypes and sit at a specific point on the objectivity spectrum. The configuration choices that follow from the profile are the linter mode (flag versus kill, per Section 5), whether Tier 0 clusters around procedural or substantive commitments (per Section 4), and which verification tracks are load-bearing for promotion (per Section 3).</p>
+<h3><span class="term" data-term="open-obligations">The open-obligations record</span></h3>
+<p><span class="term" data-term="open-obligations">The open-obligations record</span> tracks the implementation or verification status of each obligation the structure declares. It is the honest-incompleteness companion to the kill record: <span class="term" data-term="kill-record">the kill record</span> records what has been tried and killed; <span class="term" data-term="open-obligations">the open-obligations record</span> records what is viable but incomplete.</p>
+<p>Each obligation is typed by:</p>
+<ul>
+<li><strong>Classification:</strong> <code>resolvable</code> (known path, just undone) vs. <code>frontier</code> (requires new mathematics or new capability).</li>
+<li><strong>Difficulty estimate:</strong> LOW, MODERATE, HIGH, CRITICAL BOTTLENECK.</li>
+<li><strong>Dependencies:</strong> which obligations block which others.</li>
+<li><strong>Deliverable specification:</strong> what "done" concretely looks like.</li>
+</ul>
+<p><strong>Gate obligation designation.</strong> For structures with a central open problem, designate a single gate obligation whose resolution determines the viability of the entire architecture. All other obligations trace their relevance to <span class="term" data-term="the-gate">the gate</span>. The open-obligations record structures as a tree with <span class="term" data-term="the-gate">the gate</span> at the root.</p>
+<p><strong>Domain affinity:</strong> High for operational and formal verification domains. Moderate for theory-building and empirical. Low for creative. Potentially transformative in domains where incompleteness tracking has historically been informal.</p>
+<hr />
+<h2>9. Site Contract: How the Method Reads and Writes the Graph</h2>
+<h3>Emitting (writing to the graph)</h3>
+<p>A claim becomes a node with the following fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claim</code></td>
+<td>string</td>
+<td>The claim text.</td>
+</tr>
+<tr>
+<td><code>terminal</code></td>
+<td>string</td>
+<td>Terminal type key from the ontology.</td>
+</tr>
+<tr>
+<td><code>closureNote</code></td>
+<td>string</td>
+<td>Explanation of how this node closes.</td>
+</tr>
+<tr>
+<td><code>intro</code></td>
+<td>string</td>
+<td>Prose introduction.</td>
+</tr>
+<tr>
+<td><code>vector</code></td>
+<td>object</td>
+<td>Verification state with three tracks: <code>formal</code>, <code>engineering</code>, <code>domainStandard</code>.</td>
+</tr>
+<tr>
+<td><code>conjecture</code></td>
+<td>boolean</td>
+<td>True for author-typed speculative claims.</td>
+</tr>
+<tr>
+<td><code>loadBearing</code></td>
+<td>boolean</td>
+<td>True for cruxes that carry most of the dispute spread.</td>
+</tr>
+<tr>
+<td><code>forks</code></td>
+<td>array</td>
+<td>Outgoing edges, each with <code>to</code>, <code>label</code>, <code>edge</code>, optional <code>meta</code>, optional <code>conjecture</code>.</td>
+</tr>
+<tr>
+<td><code>sources</code></td>
+<td>array</td>
+<td>Typed citations, each with <code>id</code>, <code>cite</code>, <code>ident</code>, <code>rel</code>, <code>resultTerminal</code>, <code>tracks</code>, <code>typing</code>, <code>locator</code>, <code>note</code>, optional <code>resolution</code>, optional <code>setAside</code>.</td>
+</tr>
+<tr>
+<td><code>built</code></td>
+<td>string</td>
+<td>Human-readable status string.</td>
+</tr>
+<tr>
+<td><code>allowFork</code></td>
+<td>boolean</td>
+<td>Whether the runnable cell seed is shown.</td>
+</tr>
+</tbody>
+</table>
+<p>Links become typed edges with:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>to</code></td>
+<td>string</td>
+<td>Target node ID.</td>
+</tr>
+<tr>
+<td><code>label</code></td>
+<td>string</td>
+<td>Edge label text.</td>
+</tr>
+<tr>
+<td><code>edge</code></td>
+<td>string</td>
+<td>Relation type: <code>forks-to</code>, <code>exemplifies</code>, <code>conflicts-with</code>, etc.</td>
+</tr>
+<tr>
+<td><code>meta</code></td>
+<td>string</td>
+<td>Optional metadata annotation.</td>
+</tr>
+<tr>
+<td><code>conjecture</code></td>
+<td>boolean</td>
+<td>Optional flag for speculative edges.</td>
+</tr>
+</tbody>
+</table>
+<p>Source/edge fields:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rel</code></td>
+<td>string</td>
+<td>Relation type: <code>concept</code>, <code>framework</code>, <code>infrastructure</code>, <code>illustration</code>, <code>anchor</code>, <code>conflicts-with</code>.</td>
+</tr>
+<tr>
+<td><code>resultTerminal</code></td>
+<td>string</td>
+<td>Terminal type of the cited result.</td>
+</tr>
+<tr>
+<td><code>tracks</code></td>
+<td>object</td>
+<td><code>{formal, engineering, domainStandard}</code>, each taking a value from the verification-vector enumeration defined in Section 3.</td>
+</tr>
+<tr>
+<td><code>typing</code></td>
+<td>string</td>
+<td><code>author-verified</code>, <code>author-declared</code>, etc.</td>
+</tr>
+<tr>
+<td><code>locator</code></td>
+<td>string</td>
+<td>What the source rests on.</td>
+</tr>
+<tr>
+<td><code>resolution</code></td>
+<td>string</td>
+<td>For conflict edges, e.g. <code>acknowledged-limitation</code>.</td>
+</tr>
+<tr>
+<td><code>setAside</code></td>
+<td>boolean</td>
+<td>Whether the source is set aside by design.</td>
+</tr>
+</tbody>
+</table>
+<h3>Ingesting (reading from the graph)</h3>
+<p>The generation station consumes existing nodes as context for producing new candidates. <span class="term" data-term="the-gate">The gate</span> reads an edge's fields to check converging source independence. Specifically:</p>
+<ul>
+<li>Two nodes whose source chains share an upstream dependency are correlated, not independent. The dependency can be a shared declared axiom or a shared evidential input (a common <code>locator</code> or a common cited source). The gate's independence test inspects both the <span class="term" data-term="declared-axioms">declared axioms</span> a node carries and the <code>sources</code> chains on converging paths, because correlation through a shared datum is invisible to an axiom-only check.</li>
+<li>The <code>typing</code> field (<code>author-verified</code>, <code>author-declared</code>) tells <span class="term" data-term="the-gate">the gate</span> whether a source's status was checked or merely asserted.</li>
+<li>The <code>tracks</code> vector on a cited source reveals whether the convergence is genuine across all relevant dimensions or concentrated on only one.</li>
+</ul>
+<h3>Typing rule (concretely)</h3>
+<p>Each claim is assigned its terminal type based on its closure condition:</p>
+<ul>
+<li>If the claim closes against a measurement the universe has already evaluated → <code>measurement</code>.</li>
+<li>If the claim's dispute lives in a prior that no shared evidence dissolves → <code>irreducible-prior</code>.</li>
+<li>If the claim produces a falsifiable completeness test rather than an answer → <code>question-set</code>.</li>
+<li>If the terminal has not yet been assigned → <code>pending</code>, typed when the node is built by its own closure.</li>
+<li>An author's unchecked proposal is flagged <code>conjecture</code> rather than given a terminal. Domain-specific terminal keys may be added where the supporting infrastructure exists.</li>
+</ul>
+<p>The terminal type determines how the node renders and how inter-node distance is computed: two nodes are close when one node's terminal type is what the other node exercises.</p>
+<h3>Hot-swap design</h3>
+<p>Terms in the spec body are wrapped with <code>data-term</code> attributes referencing the resolver. Terminal types are referenced by their schema keys. Nothing is hard-coded to a single vocabulary register. <span class="term" data-term="the-structure">The typed structure</span> can be rendered in plain register or literature register without changing the underlying graph. This hot-swap design is not decorative; it is the mechanism that keeps the specification portable across communities that use different surface vocabularies for the same structural operations.</p>
+<hr />
+<h2>10. Scaling: The Shared Map</h2>
+<p>The method as described governs one author's structure. It scales to many parties through a single shared typed map, not through pairwise merging. There is no operation that reconciles one party's graph with another's. There is one map, and every party publishes into it.</p>
+<h3>One map, not many merges</h3>
+<p>Many parties do not merge their structures with each other. They publish into one shared typed map. My claim and your contradicting claim both live in the map at once, each tagged with the <span class="term" data-term="declared-axioms">declared axioms</span> it descends from, and the map does not collapse them, because it was never trying to make them agree. The map is an index of who claims what, under what assumptions, terminating in what kind of closure. A disagreement is not a conflict to be resolved; it is two edges in the map with different axiom roots. This is why merge is the wrong verb: merging implies producing one reconciled state, and the map never reconciles. It accumulates and types.</p>
+<h3>Publishing is free and non-rival</h3>
+<p>Any party appends claims to the map under their own <span class="term" data-term="declared-axioms">declared axioms</span>. Adding mine does not consume yours; two parties can hold different axioms with no conflict, because axioms compose without a chokepoint. This is the free, non-rival composition the method's adversarial-robustness argument requires: there is no central authority over what may enter, so there is nothing to capture or game. Publishing grants no standing, so flooding the map with claims gains a party nothing.</p>
+<h3>Standing is gated, not granted</h3>
+<p>The failure mode of a freely writable shared map is noise: if anyone can publish under any axioms, the tags are worthless unless the map distinguishes what has been claimed from what has earned standing. It does. Publishing is open to all; promotion from <code>asserted</code> to <code>confirmed</code> still requires independent survival at <span class="term" data-term="the-gate">the gate</span>, now operating on the map rather than on one author's structure. Independence is still checked by inspecting shared upstream dependencies, the shared axiom roots and shared inputs, across the map. The map therefore holds two distinguishable layers at once: what is claimed, which is open, and what has standing, which is gated. A reader queries either.</p>
+<h3>A fork is a query, not a copy</h3>
+<p>Forking is reading the sub-map downstream of a chosen axiom set: show me the structure as it stands if these priors are accepted. It is a query against the one map, not a copy of it. Because nothing is copied, nothing later diverges and nothing must be reconciled. Two readers who accept different axiom sets are looking at two views of one map, not maintaining two maps.</p>
+<h3>Disagreement is exposed and priced, not reconciled</h3>
+<p>The only rivalry is over the shared world: claims with different axiom roots predict differently about the same terminal. The map does not adjudicate that rivalry. It exposes it, priced, so a reader can see exactly which axiom they would have to accept to reach which conclusion. This is the irreducible-prior terminal made multi-party: not six analyses reconciled into one answer, but six analyses indexed to their shared and unshared inputs, so the spread is legible as what it is rather than flattened into a false consensus or a false balance.</p>
+<h3>Kills coexist, axiom-tagged</h3>
+<p>A kill is not removed from the map when another party disagrees. It is a recorded edge: this claim was killed under these axioms, with this reactivation condition. A party operating under different axioms may have the same claim alive. Both states coexist, each axiom-tagged, exactly like any other disagreement. <span class="term" data-term="kill-record">The kill record</span> is therefore not a separate structure that must be merged; it is already in the map as typed edges, which is one more case the single-map design absorbs into its general mechanism rather than handling specially.</p>
+<h3>Changing the rules is staked, not open</h3>
+<p>Publishing a claim is open; changing the schema or the rules is not. The two are different acts with different leverage: a claim is one edge the gate can later kill, while a change to how claims are typed or read re-types every edge already in the map. So the open, agent-agnostic admission that governs claims does not govern the rule layer. A change there requires standing earned through a record of surviving claims, and the proposer stakes that standing on it, forfeiting it if the change fails. The core commitments, the independence check, the terminal ontology, the refusal of a verdict, are not amendable at all; rejecting one of them is not an amendment but a separate map with different commitments, read against this one at typed boundaries rather than merged. The claim layer can be radically open precisely because the rule layer is gated: a contributor of any capability may flood claims, all judged the same way, and gain no power to rewrite the gate it must pass. The rules govern the structure of a contribution and never its content, which is why the gate can report whether a claim survived independent attack and what type it is, and never reports what is true.</p>
+<h3>Attacks are generated, not awaited</h3>
+<p>Promotion at the gate is survival against independent attack, and the attacks need not wait for a contributor to raise them. A standing adversarial process runs against the map, generating challenges to claims that hold standing: it attempts to refute them, to find the shared upstream dependency behind an apparent convergence, to surface the unstated axiom a claim rests on. Because promotion is survival against attack, the standing of the map rises with the scrutiny spent on it, and scrutiny is the input that gets cheaper as models improve. The adversarial process is agent-agnostic like the gate it feeds, and runs at whatever volume the available compute allows, so the same capability growth that swells the claim layer deepens the attack that layer must survive. This is the sense in which the method strengthens, rather than weakens, as generation gets cheaper.</p>
+<h3>Why a more capable generator cannot capture the map</h3>
+<p>The sharpest worry about an agent-agnostic gate is a contributor far more capable than the rest, a generator that could in principle out-think the check. It cannot capture the map, on three independent grounds. Capability buys no power over the rules, since the rule layer is staked: a more capable agent can produce more claims but cannot rewrite the gate they must pass. The cost of forging convergence rises faster than capability lowers it, since a forged agreement must survive verification across every independent channel at once, and the count of independent channels is exactly what the gate checks, so added capability does not outrun the cross-channel test. And extreme capability self-limits at the claim level, since a claim only the most capable agent can verify has by construction no independent corroboration: independence is measured in the evidence a claim rests on, not in the sophistication of its author, and a single-channel claim does not promote however brilliant it is. The independence check and the limit on a lone capable agent press from opposite directions toward the same place.</p>
+<h3>What the shared map solves, and what it does not</h3>
+<p>The shared map solves typing at scale: disagreement among arbitrarily many parties scales by accumulating and typing, never by forcing reconciliation, and the method's core commitments (free composition, the gate, the terminal ontology, the kill record) operate unchanged on one shared substrate rather than on one author's graph.</p>
+<p>The one operation the shared map most depends on, and the one that looks hardest at scale, is the gate's independence check: deciding whether two attacks on a claim are genuinely independent or secretly rest on a shared upstream dependency. That check does not require tracing the whole provenance graph. It reduces to a bounded, known computation, carried by a compact per-claim dependency sketch and a tunable error bound, and the contradiction layer turns out to be the same computation over the same index. The reduction and its residual are set out in Section 11.</p>
+<p>The shared map does not by itself solve navigation at scale. Which claim a reader sees first, when thousands are published under varying axioms, is a ranking and discovery problem the map does not close. The standing signal from <span class="term" data-term="the-gate">the gate</span> informs ranking, confirmed claims surface above asserted ones, and load-bearing claims above peripheral ones, but it does not fully determine it. Surfacing the load-bearing claim out of the flood is the open problem the gate informs and does not solve, and it is named here as open rather than papered over.</p>
+<p>The shared map also does not yet hold the properties that make it valuable as a commons rather than as one author's index. Independence across many uncoordinated contributors, a map no single party owns, and standing that carries a real history of survival are properties of a populated map, and none of them holds at the start, when one author holds the schema and the map is nearly empty. The author at the start is also the party with the most to gain from keeping the schema theirs, so the path from a seeded map to an un-ownable one is a transient phase whose founding advantage dissolves at a threshold: the point at which enough independent contribution has accrued that the map is no longer the author's to own. That path is specified here as a direction, not walked. The honest unit is the seed plus the named distance to a commons.</p>
+<h3>Status</h3>
+<p>This scaling design is specified as a protocol, not a running multi-party deployment. What exists is the rule set and the structural account of how publish, query, standing, and disagreement behave on one shared map. What does not yet exist is the map at corpus scale with many live contributors. The line between the specified rule and the unbuilt deployment is the same seam marked throughout this document.</p>
+<hr />
+<h2>11. Where this might go</h2>
+<p>What this document specifies has been built once, at the smallest honest scale: one author, three worked cases, the loop run by hand and the gate evaluated by inspection rather than by machine. That is enough to show the loop closes and the typing holds. It is not the thing the method is for.</p>
+<p>The thing it is for is the same structure at the scale of the actual flood: many parties publishing into one shared map, a real corpus in place of three cases, the map computed continuously rather than assembled by hand. At that scale the loop's two stations diverge in difficulty. Generation, ingestion, typing, conformance, storage, and admission rest on substrates that already exist and already run: content-addressed immutable stores, append-only models that hold contradiction without collapse, write-time schema conformance, and capability-based admission that gates writing without ever touching standing. The one station without an obvious substrate is the gate, because its independence check, deciding whether two attacks share an upstream dependency, is the one operation that looks like it demands tracing the whole provenance graph backward for every promotion.</p>
+<p>It does not. The independence check reduces to a bounded, known computation. Each claim can carry a compact fixed-size sketch of its upstream dependencies, computed forward at write time by merging the sketches of its parents, so that two claims' independence is estimated by comparing sketches rather than by traversing the graph. Bottom-k min-hash sketches (Broder 1997; Cohen and Kaplan 2007) estimate the overlap of two dependency sets in constant time, and the false-negative rate, the dangerous direction, where correlated attackers are mistaken for independent ones, falls off exponentially in the sketch size and is therefore tunable to any required margin. Maintaining these sketches as the map grows is incremental view maintenance, for which a general, exact method exists (Budiu, Chajed, McSherry, Ryzhyk and Tannen 2023). The gate moves off the ingestion path and becomes a continuously maintained view, decoupling write latency from the cost of the check.</p>
+<p>One observation makes the larger system simpler than it first appears. The gate's independence check and the contradiction layer's axiom-tagging are not two problems. A claim's support set, the axioms and inputs it rests on, is a provenance polynomial over an absorptive semiring (Green, Karvounarakis and Tannen 2007), and that is the same object as the minimal assumption sets an assumption-based truth maintenance system records (de Kleer 1986). Checking independence is checking whether two such support sets share a root; tagging contradiction is recording which support sets coexist. Both run on one shared dependency index. The system has one hard core, not two, and the sketch that bounds the independence check bounds the contradiction layer with it. How far back a trace must reach before shared dependence stops mattering is itself becoming tractable to state algebraically (Hellerstein 2026).</p>
+<p>What remains is real and worth naming. The sketches must be maintained at quality under continuous insertion, and the false-negative rate under a high-velocity stream, rather than in the static case, is the number that decides whether the gate can be trusted. The horizon question, how shallow a provenance trace can be before it misses real correlation, is empirical and depends on the shape of an actual corpus, which three hand-built cases cannot supply. And navigation at scale, surfacing the load-bearing claim out of the flood without adjudicating truth, remains the open problem named in the previous section. These are the places where the demonstration stops and the building would begin.</p>
+<p>The distance between the two has changed shape, though. The gap between this hand-built demonstration and the map the method is for is no longer an open question of whether the hard mechanism can be computed at all. It is engineering on substrates that exist, against a residual that can be stated precisely. That is a smaller and different kind of unknown than the one this document began with, and naming it exactly is the most this submission can honestly claim to have done.</p>
+<hr />
+<h2>12. Register Table (Appendix)</h2>
+<table>
+<thead>
+<tr>
+<th>Paper-surface term</th>
+<th>Nearest literature equivalent</th>
+<th>What it adds beyond the literature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="term" data-term="the-structure">the typed structure</span></td>
+<td>the hard core and protective belt (Lakatos 1970)</td>
+<td>Protected conjecturally rather than by convention; the staged constraint-graph supplies a structure the metaphor lacks.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="the-gate">the gate</span></td>
+<td>cooperative red-teaming (Irving et al. 2018)</td>
+<td>Specifies monotonic contraction under a fixed constraint set and an independence test on converging parties; red-teaming specifies neither.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="pre-filter">the linter</span></td>
+<td>a static-analysis gate (software engineering)</td>
+<td>Three stages - verify intent, then audit, then generate a compliant alternative - where a static gate is the audit alone.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="kill-record">the kill record</span></td>
+<td>a negative knowledge base (Popper, World 3)</td>
+<td>Adds conditional reactivation: an entry re-enters the viable set when the constraint that blocked it is revised. A negative knowledge base is inert.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="reassessment">reassessment</span></td>
+<td>reflective equilibrium (Rawls 1971; Kuhn 1962)</td>
+<td>Scheduled and evidence-triggered, signalled by kill-record metadata, not retrospective or crisis-driven.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="declared-axioms">the declared axioms</span></td>
+<td>an axiom system (formal logic)</td>
+<td>Tiered by defensibility, with two falsification modes (empirical and value-consistency) rather than one.</td>
+</tr>
+<tr>
+<td><span class="term" data-term="open-obligations">the open-obligations record</span></td>
+<td>proof-obligation tracking (Lean; Coq)</td>
+<td>Types each obligation by difficulty, dependency, and gate designation; an issue tracker types none of these.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>13. Open Questions (Appendix)</h2>
+<p><strong>Schema field semantics.</strong> The verification-vector values per track are enumerated in Section 3 and used consistently in the site contract, but that enumeration has not been formally closed against every value the underlying schema may carry. A complete, schema-validated enumeration should be produced before the schema is treated as stable.</p>
+<p><strong>Rubric weights for gate promotion.</strong> The relative weighting across the three verification tracks (<code>formal</code>, <code>engineering</code>, <code>domainStandard</code>) for promotion decisions is domain-dependent and has not been reduced to a universal rule. The specification leaves this as a domain-configuration parameter. Whether a universal default can be specified remains open.</p>
+<p><strong>Independence test at velocity.</strong> The gate's independence test - inspecting shared <span class="term" data-term="declared-axioms">declared axioms</span> and inputs between converging nodes - reduces to a bounded, known computation, set out in Section 11: a per-claim provenance sketch forward-aggregated from parents, compared in constant time, with a false-negative rate tunable in the sketch size, and maintained as an incremental view. What remains open is that rate under continuous high-velocity insertion rather than in the static case, and the empirical horizon question of how shallow a provenance trace can be before it misses real correlation. Both depend on the shape of an actual corpus and cannot be closed against three hand-built cases.</p>
+<p><strong>Behavioral feasibility boundary.</strong> The specification deliberately omits behavioral feasibility constraints on human operators. Whether a structure that depends on manual steps can sustain those steps is a deployment-level question, not a structural one, but the boundary between structural specification and deployment feasibility has not been formally drawn.</p>
+<p><strong>Kill-record reactivation automation.</strong> The conditional reactivation of kill-record entries when axioms revise is described as "automatically flagged." The mechanism by which this flagging operates - whether query-driven, event-driven, or batched - is an implementation choice not specified here.</p>
+<p><strong>Navigation at scale.</strong> The shared map (Section 10) types disagreement at scale but does not solve which claim a reader sees first when thousands are published under varying axioms. The gate's standing signal informs ranking but does not fully determine it. A discovery and ranking layer over the map is an open problem.</p>
+<p><strong>Domain archetype coverage.</strong> The two-axis classification (epistemic mode × objectivity level) instances five epistemic modes and three objectivity levels. Whether this classification is exhaustive or whether additional modes or levels are needed for domains not yet surveyed remains open.</p>
+<hr />
+<p><em>This specification is a structural document, not a corpus-scale deployment. What exists is the mechanism and its schema; what does not yet exist is the computed map over a full corpus at coverage. The line between the declared layer and the computed layer is marked wherever the distinction appears.</em></p>
+    </article>
+  </div>
+</section>
+
+<!-- vocabulary register control (hot-swap) + delta popover -->
+<div class="register" id="register" role="group" aria-label="vocabulary register">
+  <b>vocab</b>
+  <button data-reg="plain" class="on">plain</button>
+  <button data-reg="literature">literature</button>
+</div>
+<div class="term-pop" id="termpop" role="tooltip"></div>
+
+<footer>
+  <div class="wrap">
+    <span>Single instance / single author. Promotion gate switches on with other contributors.</span>
+    <button class="machine-btn" id="machine-btn">view machine graph</button>
+  </div>
+  <div class="wrap" style="margin-top:14px">
+    <span>Machine surface: the graph is embedded as <code>script#kg-graph</code> and shipped as <code>graph.json</code>, same bytes. Agents read it directly. Contract: <code>contract.md</code>.</span>
+  </div>
+  <pre class="machinedump" id="machinedump" hidden></pre>
+</footer>
+
+<script type="application/json" id="kg-graph">@@INCLUDE:data/graph.json@@</script>
+<script>@@INCLUDE:engine/export.js@@
+@@INCLUDE:data/registers.js@@
+@@INCLUDE:view/app.js@@</script>
+</body>
+</html>
