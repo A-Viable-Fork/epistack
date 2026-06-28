@@ -1,0 +1,110 @@
+/* Role: styles for the v1 decompose surface (rail, focused card, collapsed children).
+   Contract: classes emitted by view/card.js, view/rail.js, view/decompose-app.js.
+   Invariant: presentation only; no behavior, no data. Mirrors the artifact's warm-paper
+   palette so the v1 surface and the migrated artifact read as one project. */
+
+:root {
+  --paper: #faf8f2;
+  --ink: #221d14;
+  --faint: #8c8475;
+  --line: #e3dcc9;
+  --line2: #d8cfb8;
+  --accent: #7a4f1d;
+  --break: #b23b2e;
+  --break-bg: #fdf1ee;
+  --basis: #2f5d50;
+  --basis-bg: #eef5f1;
+  --k-transformation: #4a6da7;
+  --k-primitive: #2f5d50;
+  --k-assumption: #9a6a2e;
+  --k-observation: #6a5aa0;
+  --k-claim: #7a4f1d;
+  --k-prediction: #6a5aa0;
+  --k-comparison: #b23b2e;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.55 "IBM Plex Sans", system-ui, sans-serif;
+}
+.page { max-width: 760px; margin: 0 auto; padding: 2.2rem 1.25rem 5rem; }
+
+.topbar { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: .3rem; }
+.topbar h1 { font: 600 1.15rem/1.3 "IBM Plex Mono", ui-monospace, monospace; margin: 0; letter-spacing: -.01em; }
+.home-btn { background: none; border: 1px solid var(--line2); border-radius: 7px; padding: .3rem .7rem; font: 500 .8rem "IBM Plex Mono", monospace; color: var(--faint); cursor: pointer; }
+.home-btn:hover { color: var(--ink); border-color: var(--faint); }
+.lede { color: var(--faint); font-size: .92rem; margin: .2rem 0 1.6rem; max-width: 60ch; }
+.lede b { color: var(--ink); font-weight: 500; }
+
+/* rail */
+.rail { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin: 0 0 1.1rem; font: 500 .82rem "IBM Plex Mono", monospace; }
+.rail-case { color: var(--accent); }
+.rail-sep { color: var(--faint); }
+.rail-seg { background: none; border: none; padding: 0; color: var(--faint); cursor: pointer; font: inherit; }
+.rail-seg:hover { color: var(--ink); text-decoration: underline; }
+.rail-current { color: var(--ink); font-weight: 600; }
+
+/* focused card */
+.card { border: 1px solid var(--line2); border-radius: 12px; background: #fff; padding: 1.3rem 1.4rem; box-shadow: 0 1px 0 rgba(0,0,0,.02); }
+.card-head { display: flex; align-items: center; gap: .55rem; flex-wrap: wrap; }
+.card-label { font: 600 1.3rem/1.25 "Newsreader", Georgia, serif; margin: 0; flex: 1 1 auto; }
+.state-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--basis); flex: 0 0 auto; }
+.state-contradicted { background: var(--break); }
+.state-given, .state-basis { background: var(--faint); }
+.kind-badge { font: 600 .68rem "IBM Plex Mono", monospace; text-transform: lowercase; padding: .15rem .5rem; border-radius: 999px; color: #fff; }
+.kb-transformation { background: var(--k-transformation); }
+.kb-primitive { background: var(--k-primitive); }
+.kb-assumption { background: var(--k-assumption); }
+.kb-observation { background: var(--k-observation); }
+.kb-claim { background: var(--k-claim); }
+.kb-prediction { background: var(--k-prediction); }
+.kb-comparison { background: var(--k-comparison); }
+.affordances { display: flex; gap: .3rem; }
+.aff { font-size: .95rem; color: var(--faint); width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 6px; }
+.aff-down { color: var(--k-transformation); border-color: var(--k-transformation); }
+
+.card-role { font-size: 1.02rem; margin: .8rem 0 .4rem; }
+.card-io { font: .85rem "IBM Plex Mono", monospace; color: var(--faint); display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .2rem 0 .9rem; }
+.io-arrow { color: var(--accent); }
+
+/* the break block: the center of gravity */
+.break-block { border: 1px solid #f0d6d0; background: var(--break-bg); border-radius: 9px; padding: .75rem .9rem; margin: .6rem 0; }
+.bb-lab { font: 600 .68rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .04em; color: var(--break); }
+.bb-when { font-weight: 600; margin: .3rem 0 .25rem; }
+.bb-why { margin: .25rem 0 0; font-size: .95rem; }
+.cancel-block { border-color: #cfe0d8; background: var(--basis-bg); }
+.cancel-block .bb-lab { color: var(--basis); }
+
+/* math and basis slots */
+.math-block { display: flex; align-items: center; gap: .6rem; margin: .8rem 0 .2rem; flex-wrap: wrap; }
+.math { font: .9rem "IBM Plex Mono", monospace; background: #f4f0e6; padding: .35rem .55rem; border-radius: 6px; }
+.fbadge { font: 600 .65rem "IBM Plex Mono", monospace; padding: .1rem .45rem; border-radius: 999px; border: 1px solid var(--line2); color: var(--faint); }
+.fbadge-typed { color: var(--k-transformation); border-color: var(--k-transformation); }
+.fbadge-lean_verified { color: var(--basis); border-color: var(--basis); }
+.basis-block, .world-block { border: 1px dashed var(--line2); background: var(--basis-bg); border-radius: 9px; padding: .7rem .9rem; margin: .8rem 0 .2rem; }
+.basis-tag { font: 600 .66rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .04em; color: var(--basis); display: block; margin-bottom: .3rem; }
+.basis-block p, .world-block p { margin: 0; font-size: .94rem; }
+.basis-target { color: var(--faint); }
+
+/* footer motions */
+.card-foot { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; padding-top: .8rem; border-top: 1px solid var(--line); }
+.motion { font: 500 .76rem "IBM Plex Mono", monospace; padding: .25rem .6rem; border-radius: 999px; }
+.motion-on { background: #eef2f9; color: var(--k-transformation); }
+.motion-wall { background: var(--basis-bg); color: var(--basis); }
+.motion-later { background: #f4f0e6; color: var(--faint); }
+
+/* collapsed children */
+.children { margin-top: 1.4rem; }
+.children-head { font: 600 .72rem "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .05em; color: var(--faint); margin: 0 0 .5rem .2rem; }
+.child-card { display: flex; align-items: center; gap: .6rem; width: 100%; text-align: left; background: #fff; border: 1px solid var(--line2); border-radius: 9px; padding: .65rem .85rem; margin-bottom: .5rem; cursor: pointer; font: inherit; }
+.child-card:hover { border-color: var(--faint); background: #fffdf8; }
+.child-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+.dot-transformation { background: var(--k-transformation); }
+.dot-primitive { background: var(--k-primitive); }
+.dot-given { background: var(--faint); }
+.child-label { flex: 1 1 auto; font-weight: 500; }
+.child-meta { font: 500 .72rem "IBM Plex Mono", monospace; color: var(--faint); }
+.child-primitive .child-meta { color: var(--basis); }

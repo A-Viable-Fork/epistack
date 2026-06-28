@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decompose: the population pipeline</title>
+<style>@@INCLUDE:view/styles/decompose.css@@</style>
+</head>
+<body>
+<div class="page">
+  <div class="topbar">
+    <h1>Decompose</h1>
+    <button class="home-btn" id="home">reset</button>
+  </div>
+  <p class="lede">
+    One claim, opened. A <b>population statistic supports a conclusion</b> decomposes into a
+    two-stage pipeline, and each stage decomposes again until it reaches a named basis that
+    is cited rather than rebuilt. Click a step to drill down; click the rail to climb back.
+    This is the v1 surface: decompose only. Compare across cases (v2) and perturbation (v3)
+    are shown as affordances but not yet wired.
+  </p>
+  <div id="app"></div>
+</div>
+
+<script>@@INCLUDE:data/primitives/primitives.js@@</script>
+<script>@@INCLUDE:data/atlas/atlas.js@@</script>
+<script>@@INCLUDE:data/cases/population-pipeline.js@@</script>
+<script>@@INCLUDE:engine/decompose.js@@</script>
+<script>@@INCLUDE:view/card.js@@</script>
+<script>@@INCLUDE:view/rail.js@@</script>
+<script>@@INCLUDE:view/decompose-app.js@@</script>
+</body>
+</html>

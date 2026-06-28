@@ -11,32 +11,33 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = path.resolve(__dirname, "..");
-const TEMPLATE = path.join(ROOT, "view", "index.template.html");
-const OUT = path.join(ROOT, "submission.html");
-
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 
-function build() {
-  let tpl = fs.readFileSync(TEMPLATE, "utf8");
+// Build targets: each template inlines its @@INCLUDE@@ modules into one standalone file.
+//   submission.html is the migrated artifact; v1.html is the decompose surface (the v1
+//   milestone, kept separate until it is reviewed and merged into the deliverable).
+const TARGETS = [
+  { template: "view/index.template.html", out: "submission.html" },
+  { template: "view/decompose.template.html", out: "v1.html" },
+];
+
+function buildOne(target) {
+  let tpl = fs.readFileSync(path.join(ROOT, target.template), "utf8");
   const included = [];
   const out = tpl.replace(TOKEN, (_, rel) => {
     const abs = path.join(ROOT, rel.trim());
     let body = fs.readFileSync(abs, "utf8");
     // Inlined JS/data carries a UMD export tail for headless (Node) use; harmless in
     // the browser (module is undefined). Strip a trailing newline so the inlined
-    // block sits flush inside its tag, matching the original single-file layout.
+    // block sits flush inside its tag, matching the single-file layout.
     body = body.replace(/\n$/, "");
     included.push(rel.trim());
     return body;
   });
   const leftover = out.match(TOKEN);
-  if (leftover) throw new Error("unresolved include tokens: " + leftover.join(", "));
-  // Guard the standalone invariant: an inlined module must not contain a raw
-  // </script> that would close the host tag early.
-  fs.writeFileSync(OUT, out);
-  console.log("built submission.html (" + out.length + " bytes)");
-  console.log("inlined " + included.length + " modules:");
-  for (const r of included) console.log("  " + r);
+  if (leftover) throw new Error(`${target.out}: unresolved include tokens: ` + leftover.join(", "));
+  fs.writeFileSync(path.join(ROOT, target.out), out);
+  console.log(`built ${target.out} (${out.length} bytes) from ${included.length} modules`);
 }
 
-build();
+for (const t of TARGETS) buildOne(t);

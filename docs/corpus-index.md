@@ -32,7 +32,7 @@ through the includes it carries, so it is not required to have its own row.
 | `engine/terminals.js` | the terminal-type registry and promotion conditions (T1-6) |
 | `engine/export.js` | machine-readable node + citation-edge export (migrated, pure) |
 | `engine/compose-gate/clean-json.js` | strip fences/prose from a model JSON reply (migrated, pure) |
-| `engine/decompose.js` | seam: the DOWN motion (v1, not built at this checkpoint) |
+| `engine/decompose.js` | the DOWN motion: classify, motions, focusView (v1, built) |
 | `engine/perturb.js` | seam: the ALONG motion, authored overlay (v3, not built) |
 | `engine/compare.js` | seam: the SIDEWAYS motion (v2, not built) |
 
@@ -42,11 +42,14 @@ through the includes it carries, so it is not required to have its own row.
 |---|---|
 | `view/app.js` | the migrated single-page artifact: rendering, register UI, routing |
 | `view/compose-gate.js` | the in-browser compose-gate runner (Pyodide, click-gated) |
-| `view/card.js` | seam: the v1 node card (not built at this checkpoint) |
-| `view/rail.js` | seam: the v1 spine rail (not built at this checkpoint) |
+| `view/card.js` | the v1 node card: break block, basis citation, motion affordances |
+| `view/rail.js` | the v1 spine rail: the clicked path, root to focused |
+| `view/decompose-app.js` | the v1 decompose surface boot: state, render loop, drill nav |
 | `view/styles/main.css` | the artifact's main stylesheet |
 | `view/styles/compose-gate.css` | the compose-gate panel styles |
-| `view/index.template.html` | the build template; carries @@INCLUDE@@ tokens for bundle.js |
+| `view/styles/decompose.css` | the v1 decompose surface styles |
+| `view/index.template.html` | the build template for submission.html; @@INCLUDE@@ tokens |
+| `view/decompose.template.html` | the build template for v1.html (the decompose surface) |
 
 ## build/ and root tooling
 
