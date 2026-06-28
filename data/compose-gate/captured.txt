@@ -1,0 +1,79 @@
+==========================================================================
+COMPOSE-GATE REPORT  (incumbent + A + B + C)
+==========================================================================
+
+[VALIDATION] OK - all nodes schema- and registry-valid
+
+[COMPOSED MAP]
+
+  Q-BASERATE   contributors=['A', 'incumbent']
+     relation : typing-disagreement
+     resolve  : surface competing typings with provenance; do not silently overwrite
+        - terminals by contributor: {'incumbent': ['irreducible-prior'], 'A': ['irreducible-prior', 'measurement']}
+
+  Q-FCS-DEFUSE   contributors=['B', 'C', 'incumbent']
+     relation : typing-disagreement -> WITHHELD-RECORD REFINE
+     resolve  : adopt withheld-record typing; incumbent's irreducible-prior elides a registered sealed resolver
+        - incumbent: irreducible-prior, no resolver named
+        - ['B', 'C']: withheld-record-gated, resolver=['DS-LABRECORDS-WIV']
+        - sealed-but-existing resolver is not irreducible-in-principle (correction)
+        - 3+ terminals at one address -> candidate for decomposition
+
+  Q-GEO-WHYWUHAN   contributors=['A', 'incumbent']
+     relation : merge / accumulate
+     resolve  : union of complementary claims
+
+  Q-LAYER0   contributors=['A', 'B', 'incumbent']
+     relation : typing-disagreement
+     resolve  : surface competing typings with provenance; do not silently overwrite
+        - terminals by contributor: {'incumbent': ['irreducible-prior'], 'A': ['question-set'], 'B': ['measurement']}
+        - 3+ terminals at one address -> candidate for decomposition
+
+  Q-METHOD   contributors=['A', 'B', 'incumbent']
+     relation : typing-disagreement
+     resolve  : surface competing typings with provenance; do not silently overwrite
+        - terminals by contributor: {'incumbent': ['irreducible-prior'], 'A': ['question-set'], 'B': ['question-set']}
+
+  Q-PIVOT-MARKET   contributors=['A', 'B', 'C', 'incumbent']
+     relation : typing-disagreement -> WITHHELD-RECORD REFINE
+     resolve  : adopt withheld-record typing; incumbent's irreducible-prior elides a registered sealed resolver
+        - incumbent: irreducible-prior, no resolver named
+        - ['A', 'B', 'C']: withheld-record-gated, resolver=['DS-EARLYCASE-DEC2019']
+        - sealed-but-existing resolver is not irreducible-in-principle (correction)
+        - 3+ terminals at one address -> candidate for decomposition
+
+[INDEPENDENCE PASS]
+  datasets used by >1 emitter (cross-run dependency): {'DS-EARLYCASE-DEC2019': ['A', 'B', 'C'], 'DS-FCS-MOLEC': ['B', 'C'], 'DS-DEFUSE-2018': ['B', 'C'], 'DS-LABRECORDS-WIV': ['B', 'C']}
+  Q-PIVOT-MARKET: SHARED-INPUT agreement (count once)  ['DS-EARLYCASE-DEC2019']
+  Q-FCS-DEFUSE: SHARED-INPUT agreement (count once)  ['DS-DEFUSE-2018', 'DS-FCS-MOLEC', 'DS-LABRECORDS-WIV']
+  Q-METHOD: INDEPENDENT corroboration (weight up)  {'A': ['DS-EARLYCASE-DEC2019', 'DS-PHYLO-EARLY'], 'B': ['DS-FCS-MOLEC', 'DS-SARBECO-SURVEY']}
+  Q-LAYER0: INDEPENDENT corroboration (weight up)  {'A': ['DS-EARLYCASE-DEC2019'], 'B': ['DS-DEFUSE-2018']}
+
+[LINTER: typing honesty]
+  emitter A: {'author-declared': 8}
+  emitter B: {'author-verified': 6, 'author-declared': 6}
+  emitter C: {'author-declared': 4}
+  author-verified claims requiring substantiation:
+     B  Q-FCS-DEFUSE  DS-FCS-MOLEC
+     B  Q-FCS-DEFUSE  DS-SARBECO-SURVEY
+     B  Q-FCS-DEFUSE  DS-FCS-MOLEC
+     B  Q-FCS-DEFUSE  DS-FCS-MOLEC
+     B  Q-METHOD  DS-SARBECO-SURVEY
+     B  Q-METHOD  DS-FCS-MOLEC
+
+[LINTER: imported imputed/conjecture claims -> pending substantiation]
+     C  Q-PIVOT-MARKET  status=imputed-decomposition  -> enters as conjecture, NOT promoted
+     C  Q-FCS-DEFUSE  status=imputed-decomposition  -> enters as conjecture, NOT promoted
+
+[LINTER: ontology consistency on withheld-record-gated nodes]
+  GAP: withheld-gated nodes carry >1 distinct terminal ->
+     'question-set': ['A:Q-PIVOT-MARKET', 'B:Q-FCS-DEFUSE', 'B:Q-PIVOT-MARKET', 'C:Q-PIVOT-MARKET']
+     'pending': ['B:Q-FCS-DEFUSE', 'C:Q-FCS-DEFUSE']
+  -> ontology has no canonical 'withheld-record' terminal; emitters improvised
+
+[STRUCTURAL SUMMARY: load-bearing cruxes]
+  A: Q-PIVOT-MARKET   withheld-resolver=DS-EARLYCASE-DEC2019
+  B: Q-FCS-DEFUSE   withheld-resolver=DS-LABRECORDS-WIV
+  C: Q-PIVOT-MARKET   withheld-resolver=DS-EARLYCASE-DEC2019
+  -> 3 load-bearing crux assertion(s) across 2 distinct sealed datasets: ['DS-EARLYCASE-DEC2019', 'DS-LABRECORDS-WIV']
+  -> map shape: SEALED DOORS (one per vantage), not one irreducible fog

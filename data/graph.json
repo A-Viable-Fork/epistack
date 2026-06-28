@@ -1,0 +1,583 @@
+{
+ "$schema": "typed-citation-schema-v0.1",
+ "$about": "Canonical typed claim graph. Source of truth for both the human render and the machine surface. See contract.md.",
+ "version": "0.2",
+ "ontology": {
+  "measurement": {
+   "label": "measurement",
+   "color": "var(--t-measurement)",
+   "closure": "Closes against something the universe has already evaluated.",
+   "exemplar": "LHC safety"
+  },
+  "irreducible-prior": {
+   "label": "irreducible-prior",
+   "color": "var(--t-irreducible-prior)",
+   "closure": "The dispute lives here. No amount of shared evidence dissolves it.",
+   "exemplar": "COVID origins"
+  },
+  "withheld-record": {
+   "label": "withheld-record",
+   "color": "var(--t-withheld-record)",
+   "closure": "A named sealed dataset would settle it. A measurement with a door in front of it, convertible to measurement when the record opens. Terminal with a reactivation condition, not a permanent standoff.",
+   "exemplar": "COVID: the market-clustering crux"
+  },
+  "question-set": {
+   "label": "question-set",
+   "color": "var(--t-question-set)",
+   "closure": "Produces a falsifiable completeness test, not an answer.",
+   "exemplar": "Eggs (this parse)"
+  },
+  "constitutive": {
+   "label": "constitutive",
+   "color": "var(--t-constitutive)",
+   "closure": "Closes by adopting or refusing a framework, not by evidence. Not a credence set under uncertainty but a commitment about what counts, the floor a view is built on. The framework is the carried parameter.",
+   "exemplar": "Eggs: do hen interests count"
+  },
+  "derivation": {
+   "label": "derivation",
+   "color": "var(--t-derivation)",
+   "closure": "Closes by inference within a declared system, the system carried as a parameter: a set of axioms for a proof, a normative framework for an ought. The ethics use is a derivation.",
+   "exemplar": "Eggs: the verdict step"
+  },
+  "simulation-bound": {
+   "label": "simulation-bound",
+   "color": "var(--t-simulation-bound)",
+   "closure": "Closes against a bounded simulation.",
+   "exemplar": "(reserved)",
+   "reserved": true
+  },
+  "pending": {
+   "label": "type pending",
+   "color": "var(--t-pending)",
+   "closure": "Terminal not yet assigned. Typed when the node is built, by its own closure.",
+   "exemplar": "",
+   "pending": true
+  }
+ },
+ "graph": {
+  "entrance": {
+   "tokens": [
+    {
+     "word": "Should",
+     "to": "n-should",
+     "terminal": "question-set"
+    },
+    {
+     "word": "I",
+     "to": "n-i",
+     "terminal": "irreducible-prior"
+    },
+    {
+     "word": "eat",
+     "to": "n-eat",
+     "terminal": "pending"
+    },
+    {
+     "word": "eggs",
+     "to": "n-eggs",
+     "terminal": "measurement",
+     "forksTwo": true
+    },
+    {
+     "word": "?",
+     "to": "n-meta",
+     "terminal": null,
+     "meta": true
+    }
+   ]
+  },
+  "n-eggs": {
+   "claim": "“Eggs” is two questions.",
+   "terminal": null,
+   "intro": "The word a layperson reads as the simple one is the one that splits. Asked honestly, eggs forks into two different kinds of question with two different exits: what the egg is, and what flow it came from.",
+   "forks": [
+    {
+     "to": "n-intrinsic",
+     "label": "What is the egg, intrinsically?",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-provenance",
+     "label": "What flow did the egg come from?",
+     "edge": "forks-to",
+     "meta": "omitted by the naive parse"
+    }
+   ]
+  },
+  "n-intrinsic": {
+   "claim": "The intrinsic channel closes against the record.",
+   "terminal": "measurement",
+   "closureNote": "Composition, contaminants, and the actual outcome effect of dietary cholesterol. This is where the well-known reversal lives: dietary cholesterol's weak link to serum cholesterol and to outcomes for most people, against decades of guideline restriction. The dietary version of this closure is contested; the astronomical version of the same closure is clean.",
+   "intro": "This channel shares a terminal type with LHC safety. Not a topic, a closure condition: both close against something already evaluated. It is the branch most people mistake for the whole question. Follow it to the case where that closure is clean.",
+   "forks": [
+    {
+     "to": "n-lhc",
+     "label": "Exemplar: LHC safety",
+     "edge": "exemplifies"
+    }
+   ],
+   "leak": {
+    "to": "n-provenance",
+    "text": "Pastured and caged eggs differ measurably in composition, so this channel, followed honestly, leaks into provenance. The channels are not clean partitions."
+   },
+   "built": "Anchor pointer: the dietary-cholesterol guideline reversal, carried, not fetched in this lean build.",
+   "allowFork": false
+  },
+  "n-lhc": {
+   "claim": "The LHC will not produce a black hole that endangers Earth.",
+   "terminal": "measurement",
+   "closureNote": "Every surviving branch closes against an observation: the stability of astronomical bodies across cosmic history.",
+   "vector": {
+    "formal": "unformalized",
+    "engineering": "validated-single",
+    "domainStandard": "expert-confirmed"
+   },
+   "nullNote": "The null both camps share: higher-energy cosmic-ray collisions have struck the Earth, the Sun, and other bodies throughout their lifetimes with no consequence. The question is only how the LHC could differ.",
+   "branches": [
+    {
+     "name": "Hawking disintegration",
+     "terminal": "pending",
+     "setAside": true,
+     "claim": "Micro black holes evaporate at once (Hawking), so they never accrete.",
+     "close": "Terminal: theory-dependent. It leans on the very physics in question, so it is set aside. The conclusion holds without it."
+    },
+    {
+     "name": "Capture, then accretion",
+     "terminal": "measurement",
+     "claim": "A stable hole from a cosmic ray would be relativistic and pass through Earth. One made at the LHC could be slow enough to be captured. That is the one real difference from cosmic rays.",
+     "close": "Closes on Giddings-Mangano: white dwarfs and neutron stars capture even fast holes, and their observed survival rules out the dangerous regime."
+    },
+    {
+     "name": "Vacuum decay (bubble)",
+     "terminal": "measurement",
+     "claim": "A true-vacuum bubble would expand at light speed regardless of what seeded it.",
+     "close": "Closes directly on cosmic rays: far more energetic collisions have happened across the visible universe and triggered no bubble."
+    },
+    {
+     "name": "Vacuum crystal (preferred frame)",
+     "terminal": "measurement",
+     "openResidual": true,
+     "claim": "A structured vacuum that takes sustained damage at a fixed point would be birefringent, and the LHC point is not at rest in any cosmological frame.",
+     "close": "Closes on the polarimetry bound (2e-32) and on kinematics. Residual: a genuinely Lorentz-invariant cumulative effect would evade both, flagged open."
+    }
+   ],
+   "sources": [
+    {
+     "id": "S-GM",
+     "cite": "Giddings & Mangano (2008)",
+     "ident": "arXiv:0806.3381 (Phys.Rev.D 78 035009)",
+     "rel": "concept",
+     "resultTerminal": "measurement",
+     "tracks": {
+      "formal": "unformalized",
+      "engineering": "validated-single",
+      "domainStandard": "expert-confirmed"
+     },
+     "typing": "author-verified (tracing)",
+     "locator": "Dense objects capture even fast holes; their survival bounds the danger. Rests on observed WD/NS populations plus first-principles accretion.",
+     "note": "The empirical anchor of the whole reconstruction. Closes the velocity gap the cosmic-ray argument leaves open."
+    },
+    {
+     "id": "S-LSAG",
+     "cite": "Ellis, Giudice, Mangano, Tkachev, Wiedemann (2008)",
+     "ident": "arXiv:0806.3414 (J.Phys.G 35 115004)",
+     "rel": "framework",
+     "resultTerminal": "measurement",
+     "tracks": {
+      "formal": "unformalized",
+      "engineering": "validated-single",
+      "domainStandard": "expert-confirmed"
+     },
+     "typing": "author-verified (full read)",
+     "locator": "Cosmic rays as the null; the velocity difference named as one significant difference (Sec. 1, Sec. 4). Names special relativity (ref. 4) as the load-bearing assumption.",
+     "note": "Caveat: the endorsement chain is partially independent. Mangano co-authored both the foundational accretion paper and this review."
+    },
+    {
+     "id": "S-CERN",
+     "cite": "CERN, Will CERN generate a black hole?",
+     "ident": "home.cern (LHC FAQ)",
+     "rel": "illustration",
+     "resultTerminal": "pending",
+     "setAside": true,
+     "tracks": {
+      "formal": "unformalized",
+      "engineering": "unvalidated",
+      "domainStandard": "unreviewed"
+     },
+     "typing": "author-verified",
+     "locator": "States the institutional position (Hawking evaporation). The argument does not depend on it.",
+     "note": "Set aside by design; greyed under assumption removal."
+    },
+    {
+     "id": "S-KM",
+     "cite": "Kostelecky & Mewes (2002)",
+     "ident": "arXiv:hep-ph/0205211",
+     "rel": "concept",
+     "resultTerminal": "measurement",
+     "tracks": {
+      "formal": "unformalized",
+      "engineering": "validated-single",
+      "domainStandard": "expert-confirmed"
+     },
+     "typing": "author-verified",
+     "locator": "Spectral polarimetry bounds photon-sector Lorentz violation at 2e-32. The terminal exclusion for the crystal reading.",
+     "note": ""
+    },
+    {
+     "id": "S-JOHNSON",
+     "cite": "Johnson, LHC risk-framing critique",
+     "ident": "to-confirm",
+     "rel": "conflicts-with",
+     "resultTerminal": "irreducible-prior",
+     "resolution": "acknowledged-limitation",
+     "tracks": {
+      "formal": "unformalized",
+      "engineering": "unvalidated",
+      "domainStandard": "expert-disputed"
+     },
+     "typing": "author-declared",
+     "locator": "Argues such assessments can be insulated by framing. The strongest live objection.",
+     "note": "Blunted because the empirical anchor closes against an observation no framing choice changes. Identifier to confirm before this edge ships."
+    }
+   ],
+   "built": "Complete. Sources verified against primary. Two artifacts.",
+   "allowFork": true
+  },
+  "n-i": {
+   "claim": "Who is asking, in contested data?",
+   "terminal": "irreducible-prior",
+   "closureNote": "Population evidence answers “eggs.” Individual response, your lipid and genetic reaction, answers “I,” and the two can point opposite. Where the data is contested the answer reduces to how much you trust the channel, which is the COVID shape.",
+   "intro": "Population-level evidence, cohort studies and guidelines, answers eggs. Individual response, hyper-responder status, APOE genotype, allergies, baseline diet, answers I. These come apart hard: eggs are fine on average and eggs raise your LDL because you are a hyper-responder are both true and point opposite, and the way you find out differs, a guideline versus an n-of-1 test. Collapsing I into eggs is the most common completeness failure in dietary reasoning.",
+   "forks": [
+    {
+     "to": "n-covid",
+     "label": "Exemplar: COVID origins",
+     "edge": "exemplifies"
+    }
+   ],
+   "built": "Anchor pointer: individual cholesterol response heterogeneity, not fetched in this lean build.",
+   "allowFork": false
+  },
+  "n-covid": {
+   "claim": "Where does the COVID-origins disagreement actually live?",
+   "terminal": "irreducible-prior",
+   "closureNote": "Six analyses span roughly twenty orders of magnitude, and that spread is not six independent reads. It collapses onto a few shared inputs set differently. The load-bearing one is a prior on how much the early case data was distorted, which no shared evidence fixes.",
+   "vector": {
+    "formal": "unformalized",
+    "engineering": "unvalidated",
+    "domainStandard": "expert-disputed"
+   },
+   "noVerdict": "No posterior is computed here. The engine locates the dispute and prices it. It does not pick a side.",
+   "intro": "The dispute is not a flat contest of arguments. It is a small number of cruxes, each terminating on a typed irreducible prior, with the spread propagating dominantly from two of them. Both camps work from largely the same evidence; they weight a few facts differently, and the weighting is set by priors the evidence does not fix.",
+   "collapseDemo": {
+    "analyses": [
+     "Stansifer",
+     "Van Treuren",
+     "Filan",
+     "Alexander",
+     "Johnston",
+     "Miller",
+     "Rootclaim",
+     "Weissman"
+    ],
+    "sharedInputs": [
+     "CV-2, the market Bayes factor. Every zoonosis analysis pivots on it and flips without it.",
+     "The out-of-model-correction methodology, shared across the lab-leak analyses.",
+     "A narrow, CCP-mediated source pool the analyses draw on with the same trust posture."
+    ]
+   },
+   "forks": [
+    {
+     "to": "n-cv2",
+     "label": "CV-2. The market clustering",
+     "edge": "forks-to",
+     "meta": "load-bearing"
+    },
+    {
+     "to": "n-cv1",
+     "label": "CV-1. The geographic prior",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-cv3",
+     "label": "CV-3. The furin cleavage site",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-cv4",
+     "label": "CV-4. The base rate",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-cv-method",
+     "label": "The methodology crux",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-cv-layer0",
+     "label": "Layer 0. Institutions and formation",
+     "edge": "forks-to",
+     "meta": "surfaces only if weighted, frontier"
+    }
+   ],
+   "link": {
+    "href": "covid-origins-crux-map.html",
+    "label": "Open the full crux map (two-sided discount ledger)"
+   },
+   "built": "Gate substantially discharged, primary-anchored. Both camps confirm the collapse.",
+   "allowFork": false
+  },
+  "n-cv2": {
+   "claim": "CV-2. The market clustering.",
+   "terminal": "irreducible-prior",
+   "loadBearing": true,
+   "closureNote": "Irreducible-by-access channel-trust. A complete, unbiased early case search would resolve it. That search is partly sealed and CCP-mediated, so in practice it reduces to how much search distortion each camp assumes.",
+   "sharedEvidence": "The earliest confirmed cases cluster on the Huanan market; the first confirmed case and roughly half of the first forty had market connections. Both lineages were found at or near the market. Positive environmental samples concentrate near the southwest wildlife stalls (Worobey 2022, Pekar 2022).",
+   "readings": [
+    {
+     "side": "Zoonosis",
+     "text": "The clustering is signal. Worobey and Pekar assign it a large Bayes factor; Stansifer states the epidemiological proximity of the earliest cases to a plausible animal source is the most important basis for his verdict, with the genetic case insufficient to overcome it."
+    },
+    {
+     "side": "Lab-leak",
+     "text": "Ascertainment bias. Deliberate screening for market connections began only on December 30, after the first forty cases, but the market is where authorities and a SARS-1-primed community looked first. Weissman 2024 published a collider-stratification model where biased early ascertainment fits the location data better than an all-from-market model. Remove the market factor and the zoonosis analyses flip."
+    }
+   ],
+   "discount": {
+    "asymmetric": true,
+    "text": "The two bills are not equal and not in the same currency. Zoonosis pays trust the early case data that exists. Lab-leak pays assume that data was distorted in a specific direction by a specific, large amount. The lab-leak bill is the heavier and the more auditable one, because the magnitude of possible ascertainment bias in the first forty cases is constrained by the December 30 screening timeline. Pricing this as a wash would be the central False-Symmetry violation. It is an exchange-rate asymmetry between a trust-the-data bill and a larger assume-the-data-was-warped bill, with the timeline partly constraining the latter. Converting it into a posterior still requires the reader to set the channel-trust prior, which this work does not do."
+   },
+   "built": "This crux carries most of the spread. Stansifer section-7.4 market factor (order 10,000) reported by Weissman, the one section-7 anchor not directly re-verified here.",
+   "allowFork": false
+  },
+  "n-cv1": {
+   "claim": "CV-1. The geographic prior.",
+   "terminal": "irreducible-prior",
+   "closureNote": "Irreducible-by-choice prior (reference class). No fact resolves which reference class is correct.",
+   "sharedEvidence": "The outbreak surfaced in Wuhan. The Wuhan Institute of Virology, a major coronavirus research center, is in Wuhan. The closest known relatives (BANAL-52, RaTG13) are in Yunnan and Laos, roughly 1500 km away.",
+   "readings": [
+    {
+     "side": "Zoonosis",
+     "text": "Wuhan is a large hub; the reference class of places a spillover could surface absorbs the coincidence. (Weissman notes WIV used Wuhan residents as negative antibody controls, so the city is remote from the bat reservoir, which cuts both ways.)"
+    },
+    {
+     "side": "Lab-leak",
+     "text": "A coronavirus pandemic surfacing in the one city with a major coronavirus gain-of-function lab is a strong coincidence under zoonosis."
+    }
+   ],
+   "discount": {
+    "asymmetric": false,
+    "text": "The cleanest pure prior, and close to symmetric. Both sides price it by reference-class selection. Rootclaim states that giving Wuhan no weight at all drops their conclusion only from 94% to 92% lab-leak, discounting their own strongest geographic evidence to show robustness. The price is small and paid in the unauditable prior currency by both."
+   },
+   "allowFork": false
+  },
+  "n-cv3": {
+   "claim": "CV-3. The furin cleavage site.",
+   "terminal": "irreducible-prior",
+   "closureNote": "Interpretation prior plus absence-weighting, gated by a sealed channel. The tiebreaker, WIV's actual undisclosed virus inventory, would resolve much of it. NIH terminated WIV's subaward in 2022 for refusal to share records.",
+   "sharedEvidence": "COVID resembles BANAL-52 plus a 12-nucleotide furin cleavage site absent from all roughly 1500 other sarbecoviruses, coding arginine as CGG-CGG. The DEFUSE proposal (2018) described inserting furin cleavage sites into such viruses. No intermediate animal host has been identified.",
+   "readings": [
+    {
+     "side": "Lab-leak (Deigin)",
+     "text": "A clean 12-nt insertion, the mammalian CGG codons, and a grant proposing exactly this read as engineered. Absence of a found progenitor reads as suspicious."
+    },
+    {
+     "side": "Zoonosis (Miller)",
+     "text": "Insertions of 12 to 15 nt occur in nature (HKU1). The site is messy (PRRAR, not the clean RRKR a designer would choose), apparently inserted via a frameshift, and CGG appears in the virus anyway. WIV did not have BANAL-52; DEFUSE was rejected. Absence reads as not-yet-found, as SARS-1's host took years."
+    }
+   ],
+   "discount": {
+    "asymmetric": false,
+    "text": "The closest-to-symmetric crux. Each side reads the same molecular feature oppositely. Lab-leak's reading requires WIV to have held an unpublished near-perfect backbone; zoonosis's requires a low-probability natural insertion. Neither bill is auditable from outside without the sealed records. Roughly comparable price, tiebreaker sealed."
+   },
+   "built": "Advanced (S-CV-FCS). Read as the sealed tiebreaker.",
+   "allowFork": false
+  },
+  "n-cv4": {
+   "claim": "CV-4. The base rate.",
+   "terminal": "irreducible-prior",
+   "closureNote": "Irreducible-by-choice prior. A reference-class selection: historical frequency versus conditional-on-the-practice.",
+   "sharedEvidence": "Natural pandemics in the region occur on the order of one per thirty years. Concentrated gain-of-function research on pandemic-potential viruses is recent. A commonly cited figure is about one in five hundred labs leaking a given pathogen.",
+   "readings": [
+    {
+     "side": "Zoonosis",
+     "text": "The historical base rate of lab-origin pandemics is near zero; nature's is nonzero and regular."
+    },
+    {
+     "side": "Lab-leak",
+     "text": "The relevant reference class is not the historical frequency of lab pandemics but the probability of a pandemic given this kind of research happening in this city, which the historical frequency does not capture."
+    }
+   ],
+   "discount": {
+    "asymmetric": false,
+    "text": "Pure prior, unauditable, paid by both in the reference-class currency. Not the locus of the spread."
+   },
+   "allowFork": false
+  },
+  "n-cv-method": {
+   "claim": "The methodology crux.",
+   "terminal": "irreducible-prior",
+   "closureNote": "An asymmetry in method, auditable in principle: does the procedure let degraded data increase confidence? Flagged, not adjudicated. The second component of the spread alongside CV-2.",
+   "sharedEvidence": "Rootclaim's method adds two out-of-model corrections: the likelihood that a better explanation is yet to be found, and the likelihood of mistakes in the estimates.",
+   "readings": [
+    {
+     "side": "Lab-leak",
+     "text": "These corrections make the analysis robust."
+    },
+    {
+     "side": "Zoonosis",
+     "text": "They convert epistemic uncertainty into Bayes factors. Stansifer works it out: across many weak observations the log-odds undergo a random walk whose noise grows as the square root of the count, while a modest selection bias drifts linearly and overwhelms it, so a fair analysis revealing a real anomaly and a slightly biased analysis with no true signal are indistinguishable from the data alone."
+    }
+   ],
+   "discount": {
+    "asymmetric": false,
+    "text": "Shared across the lab-leak analyses, which use substantially the same structure, itself a correlated-independence finding. Lowering data quality should not raise confidence, yet these corrections can."
+   },
+   "allowFork": false
+  },
+  "n-cv-layer0": {
+   "claim": "Layer 0. Institutions and the formation of credibility.",
+   "terminal": "irreducible-prior",
+   "edgeMeta": "surfaces only if the leaf weights it",
+   "closureNote": "The deepest sorry (S-CV-LAYER0), frontier. The dispute is downstream of institutions that constitute what counts as a credible source and which hypothesis counts as legitimate. Translated only: no Foucault and no Hodge in judge-facing prose, which raw would trip Unmapped Vocabulary.",
+   "intro": "The 2020-to-2021 recoding of lab-leak from conspiracy to live hypothesis, with the evidence barely moving, is the textbook instance. The formations are asymmetric, not a level marketplace. The establishment that controls the primary evidence has a structural interest against lab-leak; the counter-formation is constituted by distrust of that establishment, giving it an interest toward cover-up narratives.",
+   "splitNote": {
+    "capacity": "Does a camp's prescription preserve the system's capacity to detect and regulate the next spillover: surveillance, honest records, not severing the channel? Degrading that capacity is bad under every prior. This is the one prior-independent valence and the real locus of the asymmetry.",
+    "distribution": "Which carrier eats the cost. Not adjudicable, belongs in the gradient sector. Dressing a distributional preference as a capacity argument is the failure mode to guard, auditable by where the cut falls."
+   },
+   "built": "Open. Frontier. Without the persistence-floor capacity component as an asymptote it is a retrodiction machine; that component is what gives it falsifiable content.",
+   "allowFork": false
+  },
+  "n-provenance": {
+   "claim": "Whether the hen's interests count is a commitment, not a measurement.",
+   "terminal": "constitutive",
+   "edgeMeta": "omitted by the naive parse",
+   "closureNote": "A pastured hen and a caged hen differ measurably, and that difference is the branch below. Whether those differences carry moral weight for you does not close against any measurement. More evidence about how a hen lives moves some people, and the core is not a credence you set under uncertainty; it is a commitment about who counts, the floor a moral view is built on rather than a claim made inside one. It closes only by adopting or refusing a moral-status criterion, sentience-based, interest-based, contractarian, and the criterion is the carried parameter. The room marks the kind and takes no side. This branch was missing entirely from the four words.",
+   "intro": "People cut ethics expecting it to be the brake on eggs, or the accelerant. The node exhibits which kind of question it is, not which way it points: it closes by a choice of framework, named as a parameter, and the parse endorses none. Magnitude and direction stay unadjudicated.",
+   "forks": [
+    {
+     "to": "n-prov-measure",
+     "label": "Measurable production effects",
+     "edge": "forks-to"
+    },
+    {
+     "to": "n-thermo",
+     "label": "A thermodynamic reading",
+     "edge": "forks-to",
+     "conjecture": true
+    }
+   ]
+  },
+  "n-prov-measure": {
+   "claim": "Production systems have measurable effects.",
+   "terminal": "measurement",
+   "closureNote": "Land, emissions, soil carbon, welfare indicators, and composition differ measurably by system. This much is partly citable and sits near the surface.",
+   "intro": "This is the citable half of the provenance question. It rides near the surface in the established vocabulary.",
+   "built": "Pointer-level in this shell. Anchors carried, not fetched.",
+   "allowFork": false
+  },
+  "n-thermo": {
+   "claim": "Regenerative production is variety-generating; industrial is variety-draining.",
+   "terminal": "irreducible-prior",
+   "conjecture": true,
+   "closureNote": "A thermodynamic accounting that assigns the two systems opposite signs. Author-typed, the energy-escape content, no external source by construction. This is the labeled conjecture fork: reachable, load-bearing for nothing on the surface.",
+   "intro": "You reached this by choosing to descend. It is marked conjecture so production value never reads as established result. Magnitude and direction are unadjudicated.",
+   "built": "Conjecture. Manuscript in preparation. Quarantined by label, not deleted.",
+   "allowFork": false
+  },
+  "n-should": {
+   "claim": "What counts as a complete answer?",
+   "terminal": "question-set",
+   "closureNote": "The engine produces a completeness test, not an answer: are all the decision-changing branches drawn. A question set that cuts a channel a decision depends on has insufficient variety to match it, and the cut biases the answer with a sign, not at random.",
+   "intro": "“Should” sets what counts as evidence for everything downstream. It forks twice: is there a normative element at all, and if so does it reduce to health, prudential and instrumental to your goals, or carry a non-prudential element, welfare or systemic duty. If it is purely prudential, the question is empirical all the way down and the other channels suffice. If it carries a non-prudential element, no nutritional data closes it, because that channel answers a different question.",
+   "completeness": "The naive question, are eggs healthy, omits at least three decision-changing branches. Each is a distinct way of knowing, not an elaboration of the others, and the parse exhibits them rather than concluding the question.",
+   "forks": [
+    {
+     "to": "n-i",
+     "label": "The indexical channel: population versus you",
+     "edge": "forks-to",
+     "meta": "missing branch"
+    },
+    {
+     "to": "n-eat",
+     "label": "The counterfactual channel: versus what you would eat instead",
+     "edge": "forks-to",
+     "meta": "missing branch"
+    },
+    {
+     "to": "n-provenance",
+     "label": "The provenance channel: the production-system sign-flip",
+     "edge": "forks-to",
+     "meta": "missing branch"
+    },
+    {
+     "to": "n-ought",
+     "label": "The verdict step: typed, not taken",
+     "edge": "forks-to",
+     "meta": "derivation"
+    }
+   ],
+   "linesOfFlight": [
+    {
+     "name": "Ethical (welfare)",
+     "status": "walked, not cut",
+     "text": "Departs toward a theory of obligation to animals that no fact about your lipids speaks to. Walked rather than cut, because provenance can flip the conclusion: cutting it off entirely would hide a decision-changing branch."
+    },
+    {
+     "name": "Systemic (food-system)",
+     "status": "cut, then reopened as prudential",
+     "text": "Departs toward collective consequence: land, feed, emissions, antibiotic load. A prudential reading routes it back. If the production system degrades the wider system you yourself depend on, then 'should' picks up a self-interested component after all, your own stake routed through the collective one."
+    },
+    {
+     "name": "Positional (identity)",
+     "status": "drawn, then cut",
+     "text": "Welfare and systemic considerations loop back through reputational and identity cost to you, a prudential price for eating against your community's norms. Drawn as the hinge, then cut, because pricing it fully is its own leaf."
+    }
+   ],
+   "built": "Substantially discharged as the structural exhibit. The parse is the deliverable, and it issues no verdict.",
+   "allowFork": false
+  },
+  "n-eat": {
+   "claim": "Eggs versus what you would eat instead.",
+   "terminal": "pending",
+   "closureNote": "Two eggs is a different object than six; boiled is a different object than fried in a degraded seed oil; and the real decision is almost never eggs versus nothing, it is eggs versus the counterfactual plate. The marginal-substitution channel can flip the sign while every intrinsic fact stays fixed.",
+   "intro": "Eggs displacing oatmeal is a different decision than eggs displacing a fast-food breakfast. This is the one open typing in the entrance: the channel is real, and the terminal is assigned when the node is built, by its own closure, not pre-fudged here. Yes, you should, if you would otherwise eat fast food.",
+   "built": "Channel drawn. Terminal pending, the one open typing.",
+   "allowFork": false
+  },
+  "n-meta": {
+   "meta": true,
+   "claim": "What is this, and how do you read it?",
+   "blocks": [
+    {
+     "h": "How to navigate",
+     "t": "Every claim is a node with one terminal badge, set by how the node closes. Coloured words and chips are typed: the colour is the terminal type. A fork is a door, and its mouth carries the badge of where it leads, so you always know whether you are walking toward a measurement, a citation, or a conjecture. Switch to Inspector, top right, to see the verification tracks and the source locators."
+    },
+    {
+     "h": "What the infrastructure is",
+     "t": "One repository-structured typed claim graph, of which this is a single filled instance. The three cases are not three topics, they are three terminal types reached from one question. A citation is a typed edge that promotes only by convergent independent confirmation, never by the author. This instance is single-author, so the promotion gate is named, not staged. The empty forks are where another player's instance would differ."
+    }
+   ]
+  },
+  "n-ought": {
+   "claim": "Given all of it, the step to a verdict is an inference, not a finding.",
+   "terminal": "derivation",
+   "closureNote": "The move from the facts to 'so I should' or 'so I should not' closes by inference within a chosen normative framework, the way a proof closes against a set of axioms. It is the formal-closure terminal with a framework in the system slot instead of axioms, the use a derivation makes of it. It rests on an empirical premise and a moral-status premise and supplies neither, which is why the room types the step and does not take it.",
+   "intro": "The verdict is where people want the parse to land. It does not. The step is typed, not performed: a derivation that closes against whichever framework you bring, resting on the measured branch and the constitutive branch above it.",
+   "forks": [
+    {
+     "to": "n-intrinsic",
+     "label": "empirical premise",
+     "edge": "exemplifies"
+    },
+    {
+     "to": "n-provenance",
+     "label": "moral-status premise",
+     "edge": "exemplifies"
+    }
+   ],
+   "built": "The verdict step, typed as a derivation (formal-closure with a framework as the system), not issued.",
+   "allowFork": true
+  }
+ }
+}
