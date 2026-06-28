@@ -16,6 +16,13 @@ const KINDS = [
   "observation", // a world-fact that closes a claim; never perturbed (the world is fixed)
   "prediction", // S6: the value the cascade produces
   "comparison", // S6: tests a prediction against an observation; flips on perturbation
+  "question", // v2: a concrete-entry framing node; the contested question a learner enters at
+];
+
+// v2 teaching layer (docs/teaching-layer.md). The on-ramp register, authored alongside the
+// terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
+const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
+
 ];
 
 // Terminal types: the closures a claim can reach (executive/judge overviews + graph ontology).
@@ -67,6 +74,7 @@ const REQUIRED_FIELDS = {
   observation: ["id", "kind", "label", "world_value"],
   prediction: ["id", "kind", "label", "value", "produced_by"],
   comparison: ["id", "kind", "label", "test", "state"],
+  question: ["id", "kind", "label", "explain"],
 };
 
 const SORRY_FIELDS = ["sorry", "TODO_verify"];
@@ -126,6 +134,37 @@ function validateNode(node) {
   if (node.position && !POSITIONS.includes(node.position))
     problems.push(`${node.id}: bad position '${node.position}'`);
 
+  // v2: typeset math is an object { tex, plain, assumes }. The terse string form is still
+  // valid (the LHC cascade uses it); an object must carry tex and a plain fallback.
+  if (node.math && typeof node.math === "object") {
+    if (isEmpty(node.math.tex)) problems.push(`${node.id}: math object missing 'tex'`);
+    if (isEmpty(node.math.plain)) problems.push(`${node.id}: math object missing 'plain' fallback`);
+  }
+
+  // v2: if an explain block is present, it must be complete (the teaching register).
+  for (const p of validateExplain(node)) problems.push(p);
+
+  return problems;
+}
+
+// validateExplain: internal consistency of a present explain block (no empty fields, well
+// formed symbols). It does NOT require any field to be present; the linter decides which
+// fields a given node kind must carry (an equation node owes all six; a framing question
+// owes only hook/intuition/stakes). Keeps validateNode lenient about teaching policy.
+function validateExplain(node) {
+  const problems = [];
+  const e = node && node.explain;
+  if (!e) return problems;
+  for (const f of Object.keys(e)) {
+    if (f === "symbols") continue;
+    if (isEmpty(e[f])) problems.push(`${node.id}: explain.${f} is present but empty`);
+  }
+  if (e.symbols !== undefined) {
+    if (!Array.isArray(e.symbols)) problems.push(`${node.id}: explain.symbols must be an array`);
+    else e.symbols.forEach((s, i) => {
+      if (isEmpty(s.sym) || isEmpty(s.plain)) problems.push(`${node.id}: explain.symbols[${i}] needs sym + plain`);
+    });
+  }
   return problems;
 }
 
@@ -139,6 +178,10 @@ const SCHEMA = {
   COMPARISON_STATES,
   REQUIRED_FIELDS,
   SORRY_FIELDS,
+  EXPLAIN_FIELDS,
+  hasMarker,
+  validateNode,
+  validateExplain,
   hasMarker,
   validateNode,
 };

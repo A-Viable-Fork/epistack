@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Can you trust your sample?</title>
+
+<!-- Prototype dependencies via CDN: KaTeX for real math typesetting, two type families.
+     For the standalone submission build these get vendored/inlined so the artifact opens
+     from file:// with no network. See docs/design-axioms.md T0-6. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous" />
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous"></script>
+
+<style>
+/* ============================================================================
+   Tokens. The searchlight world: a cool daylight reading surface, ink text,
+   one warm lamp-amber that always means "attention / what you see", a cool
+   slate for "what is actually there", and a dim blue-black for the night field.
+   ============================================================================ */
+:root{
+  --paper:#E7EAEC;        /* cool daylight reading surface (not cream) */
+  --paper-2:#DFE3E6;      /* slightly recessed panels */
+  --ink:#1A2026;          /* dark slate, not pure black */
+  --ink-soft:#48555F;     /* secondary text */
+  --ink-faint:#8995A0;    /* captions, eyebrows */
+  --rule:#CDD3D8;         /* hairlines */
+  --lamp:#E8A33D;         /* the one accent: attention, the beam, what you see */
+  --lamp-deep:#C9852A;
+  --slate:#647682;        /* what is really there */
+  --night:#141A1F;        /* the field at night (visual panel only) */
+  --night-2:#1C242B;
+  --danger:#C5604B;       /* the break, used sparingly */
+
+  --serif:"Newsreader",Georgia,serif;
+  --sans:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,monospace;
+
+  --measure:62ch;
+  --r:14px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:18px;line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;padding:48px 20px 80px;
+}
+.wrap{width:100%;max-width:720px}
+
+/* breadcrumb: seats this single step inside the larger question it belongs to.
+   Structural, not decorative: it is the path you drilled to get here. */
+.crumb{
+  font-family:var(--sans);font-size:.78rem;font-weight:500;color:var(--ink-faint);
+  letter-spacing:.01em;margin:0 4px 26px;line-height:1.5;
+}
+.crumb b{color:var(--ink-soft);font-weight:600}
+.crumb .sep{margin:0 .5em;opacity:.6}
+
+/* the card */
+.card{
+  background:transparent;
+}
+.eyebrow{
+  font-family:var(--sans);font-size:.72rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.13em;color:var(--ink-faint);margin:0 0 10px;
+  display:flex;align-items:center;gap:9px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+
+.kindline{
+  font-family:var(--sans);font-size:.74rem;font-weight:600;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;gap:8px;margin-bottom:14px;
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--slate);display:inline-block}
+
+.hook{
+  font-family:var(--sans);font-weight:700;font-size:2.05rem;line-height:1.12;
+  letter-spacing:-.02em;margin:.1em 0 .55em;color:var(--ink);
+}
+.intuition{font-size:1.18rem;line-height:1.6;margin:0 0 2.2em;max-width:var(--measure)}
+.intuition em{font-style:italic;color:var(--ink)}
+
+section{margin:0 0 2.4em}
+.lead{max-width:var(--measure)}
+
+/* the math, communicated */
+.math-wrap{
+  background:var(--paper-2);border:1px solid var(--rule);border-radius:var(--r);
+  padding:22px 24px 18px;margin-top:6px;
+}
+.math-display{font-size:1.1rem;margin:.1em 0 .2em;text-align:center;color:var(--ink)}
+.math-says{
+  font-family:var(--serif);font-size:1.02rem;color:var(--ink-soft);text-align:center;
+  margin:.3em auto .9em;max-width:54ch;
+}
+.glosses{display:grid;gap:8px;margin:14px 0 6px}
+.gloss{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:baseline;
+  font-size:.95rem;padding-top:9px;border-top:1px dashed var(--rule)}
+.gloss .sym{font-family:var(--mono);font-size:.86rem;color:var(--lamp-deep);white-space:nowrap}
+.gloss .def{color:var(--ink-soft)}
+.assumes{
+  font-family:var(--sans);font-size:.82rem;color:var(--ink-soft);margin-top:14px;
+  padding:8px 12px;background:rgba(232,163,61,.1);border-left:2px solid var(--lamp);border-radius:0 6px 6px 0;
+}
+.assumes b{font-weight:600;color:var(--ink)}
+
+/* the signature: the searchlight field, the one dark luminous element */
+.scope{
+  background:var(--night);border-radius:var(--r);overflow:hidden;
+  box-shadow:0 14px 40px -18px rgba(20,26,31,.6);
+}
+.scope-head{
+  padding:16px 20px 4px;color:#AEB9C2;font-family:var(--sans);font-size:.82rem;
+}
+.scope-head b{color:#E7EDF2;font-weight:600}
+.scope svg{display:block;width:100%;height:auto}
+.scope-controls{
+  padding:6px 20px 20px;display:flex;flex-direction:column;gap:14px;
+}
+.slider-row{display:flex;align-items:center;gap:14px}
+.slider-row label{font-family:var(--sans);font-size:.8rem;color:#9AA6B0;white-space:nowrap}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;flex:1;height:4px;border-radius:4px;
+  background:linear-gradient(90deg,#39434C,#5A6670);outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+  background:var(--lamp);border:2px solid #2A323A;box-shadow:0 0 12px rgba(232,163,61,.6);cursor:pointer;
+}
+input[type=range]::-moz-range-thumb{
+  width:20px;height:20px;border-radius:50%;background:var(--lamp);border:2px solid #2A323A;
+  box-shadow:0 0 12px rgba(232,163,61,.6);cursor:pointer;
+}
+input[type=range]:focus-visible{box-shadow:0 0 0 3px rgba(232,163,61,.4)}
+.btn{
+  font-family:var(--sans);font-size:.82rem;font-weight:600;color:#E7EDF2;
+  background:#2A323A;border:1px solid #3A444D;border-radius:9px;padding:9px 14px;cursor:pointer;
+  align-self:flex-start;transition:background .15s,border-color .15s;
+}
+.btn:hover{background:#333D46;border-color:#4A5560}
+.btn[aria-pressed=true]{background:var(--lamp);color:#23170A;border-color:var(--lamp-deep)}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(232,163,61,.4)}
+.scope-caption{
+  padding:0 20px 20px;color:#C4CDD5;font-family:var(--serif);font-size:1rem;line-height:1.5;
+  min-height:3em;
+}
+.scope-caption .key{color:var(--lamp);font-style:italic}
+
+.viz-aside{font-family:var(--sans);font-size:.8rem;color:var(--ink-faint);margin:12px 4px 0;text-align:center}
+
+/* the break, featured as a story */
+.break{
+  border-left:3px solid var(--danger);background:rgba(197,96,75,.06);
+  border-radius:0 var(--r) var(--r) 0;padding:18px 22px;max-width:var(--measure);
+}
+.break .eyebrow{color:var(--danger)}
+.break .eyebrow::after{background:rgba(197,96,75,.25)}
+.break p{margin:0;font-size:1.06rem}
+
+.stakes{max-width:var(--measure);color:var(--ink-soft);font-size:1.02rem}
+
+/* the precise version: progressive disclosure into the inspect/audit layer */
+details.precise{
+  margin-top:1.2em;border-top:1px solid var(--rule);padding-top:1.1em;
+}
+details.precise>summary{
+  font-family:var(--sans);font-size:.82rem;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;letter-spacing:.01em;
+}
+details.precise>summary::-webkit-details-marker{display:none}
+details.precise>summary .chev{transition:transform .2s;color:var(--ink-faint)}
+details.precise[open]>summary .chev{transform:rotate(90deg)}
+.inspect{
+  font-family:var(--mono);font-size:.82rem;line-height:1.7;color:var(--ink-soft);
+  background:var(--paper-2);border:1px solid var(--rule);border-radius:10px;
+  padding:14px 16px;margin-top:14px;
+}
+.inspect .row{display:grid;grid-template-columns:9ch 1fr;gap:12px;padding:3px 0}
+.inspect .k{color:var(--ink-faint)}
+.inspect .v{color:var(--ink)}
+.fbadge{font-family:var(--sans);font-size:.68rem;font-weight:600;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--ink-faint);border:1px solid var(--rule);border-radius:5px;padding:1px 6px;margin-left:6px}
+
+/* motions footer */
+.motions{display:flex;flex-wrap:wrap;gap:10px;margin-top:2em;padding-top:1.3em;border-top:1px solid var(--rule)}
+.motion{
+  font-family:var(--sans);font-size:.8rem;font-weight:500;border-radius:999px;padding:8px 14px;
+  display:flex;align-items:center;gap:7px;border:1px solid var(--rule);color:var(--ink-soft);background:var(--paper-2);
+}
+.motion .g{font-size:.95rem}
+.motion.on{color:var(--ink);border-color:#B9C0C6}
+.motion.later{opacity:.62}
+.motion .tag{font-size:.68rem;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.05em}
+
+.footnote{font-family:var(--sans);font-size:.76rem;color:var(--ink-faint);margin-top:2.4em;line-height:1.55}
+
+@media (max-width:560px){
+  body{font-size:17px;padding:32px 16px 64px}
+  .hook{font-size:1.7rem}
+  .gloss{grid-template-columns:1fr}
+  .inspect .row{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <nav class="crumb" aria-label="where this step sits">
+    Why is the origin of COVID still argued about?
+    <span class="sep">▸</span> Does the case map show where it started?
+    <span class="sep">▸</span> <b>Can you trust your sample?</b>
+  </nav>
+
+  <article class="card">
+
+    <div class="kindline"><span class="dot"></span> a step in the reasoning</div>
+    <h1 class="hook">Can you trust your sample?</h1>
+    <p class="intuition">
+      <em>Where the cases turn up</em> can only tell you where something started if you counted
+      them fairly everywhere. Look harder in some places than others, and your map shows where you
+      <em>looked</em>, not where things <em>are</em>.
+    </p>
+
+    <!-- THE MATH, COMMUNICATED -->
+    <section>
+      <p class="eyebrow">The one line of math</p>
+      <div class="math-wrap">
+        <div class="math-display" id="eq"></div>
+        <p class="math-says">The cases you see at a place equals the cases really there,
+          times how hard you looked there.</p>
+        <div class="glosses">
+          <div class="gloss"><span class="sym" id="g1"></span><span class="def">how many cases you counted at place x</span></div>
+          <div class="gloss"><span class="sym" id="g2"></span><span class="def">how many cases are really at place x</span></div>
+          <div class="gloss"><span class="sym" id="g3"></span><span class="def">how thoroughly you searched place x</span></div>
+        </div>
+        <p class="assumes"><b>This only works if</b> you searched everywhere equally, so that
+          detect(x) is the same number at every place. Then what you see is a faithful copy of what is there.</p>
+      </div>
+    </section>
+
+    <!-- THE SIGNATURE: the searchlight -->
+    <section>
+      <p class="eyebrow">See it</p>
+      <div class="scope">
+        <div class="scope-head">Cases are spread <b>evenly</b> across the area. Sweep your searchlight and watch what you <b>see</b>.</div>
+        <svg id="viz" viewBox="0 0 600 340" role="img" aria-label="A field of evenly spread cases at night. A searchlight you can move brightens part of the field, and the cases you see pile up wherever the light points, even though the field is even.">
+          <defs>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="14"/>
+            </filter>
+            <linearGradient id="obsfill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#E8A33D" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#E8A33D" stop-opacity=".05"/>
+            </linearGradient>
+          </defs>
+
+          <!-- field -->
+          <text x="40" y="26" fill="#7E8A94" font-family="Hanken Grotesk,sans-serif" font-size="12">the field: where cases actually are</text>
+          <g id="beam"></g>
+          <g id="dots"></g>
+
+          <!-- divider -->
+          <line x1="40" y1="186" x2="560" y2="186" stroke="#2C353D" stroke-width="1"/>
+
+          <!-- observed panel -->
+          <text x="40" y="208" fill="#7E8A94" font-family="Hanken Grotesk,sans-serif" font-size="12">what you see: where the counted cases pile up</text>
+          <line id="axis" x1="40" y1="312" x2="560" y2="312" stroke="#3A444D" stroke-width="1"/>
+          <path id="truthline" fill="none" stroke="#7E8A94" stroke-width="1.5" stroke-dasharray="5 5"/>
+          <path id="obs" fill="url(#obsfill)" stroke="#E8A33D" stroke-width="2"/>
+          <text id="truthlabel" x="46" fill="#8A96A0" font-family="Hanken Grotesk,sans-serif" font-size="11">the even truth</text>
+
+          <!-- market marker -->
+          <g id="market">
+            <line x1="0" y1="30" x2="0" y2="312" stroke="#5A6670" stroke-width="1" stroke-dasharray="2 4"/>
+            <text y="332" fill="#9AA6B0" font-family="Hanken Grotesk,sans-serif" font-size="11" text-anchor="middle">the market</text>
+          </g>
+        </svg>
+        <div class="scope-controls">
+          <div class="slider-row">
+            <label for="sweep">where you looked</label>
+            <input id="sweep" type="range" min="0" max="1000" value="680" aria-label="move the searchlight across the area" />
+          </div>
+          <button class="btn" id="flat" aria-pressed="false">Look everywhere equally</button>
+        </div>
+        <p class="scope-caption" id="cap" aria-live="polite"></p>
+      </div>
+      <p class="viz-aside">The field underneath never changes. Only your searchlight moves.</p>
+    </section>
+
+    <!-- THE BREAK -->
+    <section class="break">
+      <p class="eyebrow">Where it breaks</p>
+      <p>Suppose early testing happened mostly around one market. You find a cluster of cases there,
+        not because it started there, but because that is where you looked. The cluster is a picture
+        of your searchlight, not the source.</p>
+    </section>
+
+    <!-- THE STAKES -->
+    <section>
+      <p class="eyebrow">Why it matters</p>
+      <p class="stakes">Every conclusion that reads meaning from where the cases are, origin, spread,
+        the hottest spot, depends on this step holding. If it fails, those conclusions are reading the
+        searchlight. This is the step the COVID origin argument turns on.</p>
+    </section>
+
+    <!-- THE PRECISE VERSION: the inspect/audit layer, one tap deeper -->
+    <details class="precise">
+      <summary><span class="chev">▸</span> See the precise version</summary>
+      <div class="inspect">
+        <div class="row"><span class="k">kind</span><span class="v">transformation &nbsp;·&nbsp; stage 1 of 2 &nbsp;·&nbsp; representativeness <span class="fbadge">nl</span></span></div>
+        <div class="row"><span class="k">role</span><span class="v">map an observed sample to an estimate of the population it is drawn from</span></div>
+        <div class="row"><span class="k">takes</span><span class="v">sample {x_i} &nbsp;→&nbsp; produces population estimate</span></div>
+        <div class="row"><span class="k">breaks</span><span class="v">inclusion in the sample is correlated with the variable of interest</span></div>
+        <div class="row"><span class="k">why</span><span class="v">the draw is non-exchangeable; inclusion is correlated with the variable being estimated, so the maximum-likelihood location reflects detect(x), not true(x)</span></div>
+        <div class="row"><span class="k">floor</span><span class="v">decomposes to prim.estimator, prim.exchangeability</span></div>
+      </div>
+    </details>
+
+    <!-- MOTIONS -->
+    <div class="motions" aria-label="ways to move through the map">
+      <span class="motion on"><span class="g">↓</span> made of 2 steps</span>
+      <span class="motion later"><span class="g">↔</span> also in 2 cases <span class="tag">compare</span></span>
+      <span class="motion later"><span class="g">↻</span> flip this <span class="tag">perturb</span></span>
+    </div>
+
+    <p class="footnote">Prototype of one node, learning-first. Math is typeset with KaTeX; the
+      searchlight is live. In the full surface the three motions are wired: down opens the two
+      sub-steps, sideways shows the same step inside the eggs case (where it holds) and where the
+      two diverge, flip lets you break the assumption and watch the conclusion give way.</p>
+
+  </article>
+</div>
+
+<script>
+"use strict";
+
+/* ---- the one equation, typeset ---- */
+function tex(el, s, display){
+  try { katex.render(s, el, {displayMode: !!display, throwOnError:false}); }
+  catch(e){ el.textContent = s; }
+}
+window.addEventListener("DOMContentLoaded", function(){
+  tex(document.getElementById("eq"),
+      "\\text{observed}(x)\\;=\\;\\text{true}(x)\\,\\cdot\\,\\text{detect}(x)", true);
+  tex(document.getElementById("g1"), "\\text{observed}(x)", false);
+  tex(document.getElementById("g2"), "\\text{true}(x)", false);
+  tex(document.getElementById("g3"), "\\text{detect}(x)", false);
+});
+
+/* ============================================================================
+   The searchlight. Truth is uniform (cases spread evenly). The searchlight is a
+   bump you sweep, detect(x). What you SEE is the density of counted cases,
+   observed(x) = true(x) * detect(x), normalized so its area matches the truth's:
+   it rises above the even truth wherever the light points, and sinks below where
+   it does not. "Look everywhere equally" flattens detect, and what you see
+   becomes the truth. The field of dots is fixed; only the light moves.
+   ============================================================================ */
+(function(){
+  var X0=40, X1=560, FYc=108, FY0=40, FY1=176;      // field band
+  var BASE=312, OBSTOP=224;                           // observed panel
+  var MARKET=0.68, SIGMA=0.085;
+  var NPTS=120;                                       // curve resolution
+  var NDOTS=150;
+
+  var sweep=document.getElementById("sweep");
+  var flatBtn=document.getElementById("flat");
+  var cap=document.getElementById("cap");
+  var gDots=document.getElementById("dots");
+  var gBeam=document.getElementById("beam");
+  var obsPath=document.getElementById("obs");
+  var truthPath=document.getElementById("truthline");
+  var truthLabel=document.getElementById("truthlabel");
+  var market=document.getElementById("market");
+
+  var flat=false;
+  function mapX(u){ return X0 + u*(X1-X0); }
+
+  // fixed pseudo-random field of cases (uniform in x), stable across renders
+  var seed=20260628;
+  function rnd(){ seed=(seed*1103515245+12345)&0x7fffffff; return seed/0x7fffffff; }
+  var DOTS=[];
+  for(var i=0;i<NDOTS;i++){ DOTS.push({ u:rnd(), y:FY0+8+rnd()*(FY1-FY0-16) }); }
+
+  function detect(u){ return flat ? 1 : Math.exp(-((u-c)*(u-c))/(2*SIGMA*SIGMA)); }
+  var c = 0.68;
+
+  // place the market marker
+  market.querySelector("line").setAttribute("x1", mapX(MARKET));
+  market.querySelector("line").setAttribute("x2", mapX(MARKET));
+  market.querySelector("text").setAttribute("x", mapX(MARKET));
+
+  function lerp(a,b,t){ return a+(b-a)*t; }
+  function mix(c1,c2,t){ // c as [r,g,b]
+    return "rgb("+Math.round(lerp(c1[0],c2[0],t))+","+Math.round(lerp(c1[1],c2[1],t))+","+Math.round(lerp(c1[2],c2[2],t))+")";
+  }
+  var SLATE=[100,118,130], LAMP=[232,163,61];
+
+  function renderDots(){
+    var s="";
+    for(var i=0;i<DOTS.length;i++){
+      var d=DOTS[i], b=detect(d.u);              // brightness 0..1
+      var x=mapX(d.u), r=(1.5+2.4*b).toFixed(2);
+      var op=(0.16+0.84*b).toFixed(2);
+      var col=mix(SLATE,LAMP,b);
+      s+='<circle cx="'+x.toFixed(1)+'" cy="'+d.y.toFixed(1)+'" r="'+r+'" fill="'+col+'" opacity="'+op+'"/>';
+    }
+    gDots.innerHTML=s;
+  }
+
+  function renderBeam(){
+    if(flat){
+      // a soft even wash: the lights come up everywhere
+      gBeam.innerHTML='<rect x="'+X0+'" y="'+FY0+'" width="'+(X1-X0)+'" height="'+(FY1-FY0)+'" fill="#E8A33D" opacity="0.07"/>';
+      return;
+    }
+    var cx=mapX(c);
+    gBeam.innerHTML=
+      '<ellipse cx="'+cx.toFixed(1)+'" cy="'+FYc+'" rx="78" ry="74" fill="#E8A33D" opacity="0.16" filter="url(#soft)"/>'+
+      '<ellipse cx="'+cx.toFixed(1)+'" cy="'+FYc+'" rx="30" ry="62" fill="#F2C078" opacity="0.18" filter="url(#soft)"/>';
+  }
+
+  function renderCurves(){
+    // sample detect, normalize to a density with the same total as the uniform truth
+    var xs=[], ds=[], sum=0;
+    for(var i=0;i<=NPTS;i++){ var u=i/NPTS; var dv=detect(u); xs.push(u); ds.push(dv); sum+=dv; }
+    var uniform = (NPTS+1)/ ( (NPTS+1) ); // = 1 per-sample average baseline
+    // observed_i normalized so mean(observed)=mean(truth)=1, then scaled to pixels
+    var mean = sum/(NPTS+1);
+    var H = (BASE-OBSTOP);                 // pixel height available
+    var truthLevelVal = 1;                  // normalized truth height (uniform)
+    // choose a vertical scale so truth sits ~45% up the panel, leaving room for the bump
+    var scale = (H*0.42);                   // pixels per unit density
+    function yOf(val){ return BASE - val*scale; }
+
+    var truthY = yOf(truthLevelVal);
+    truthPath.setAttribute("d","M "+X0+" "+truthY.toFixed(1)+" L "+X1+" "+truthY.toFixed(1));
+    truthLabel.setAttribute("y",(truthY-6).toFixed(1));
+
+    var p="M "+X0+" "+BASE;
+    for(var j=0;j<xs.length;j++){
+      var val = ds[j]/mean;                 // normalized so mean=1 (area matches truth)
+      var x=mapX(xs[j]).toFixed(1), y=yOf(val).toFixed(1);
+      p+=" L "+x+" "+y;
+    }
+    p+=" L "+X1+" "+BASE+" Z";
+    obsPath.setAttribute("d",p);
+  }
+
+  function renderCaption(){
+    if(flat){
+      cap.innerHTML='Look everywhere the same, and what you see <span class="key">is</span> the truth: cases are spread evenly, with no special place. This is the assumption holding.';
+      return;
+    }
+    if(Math.abs(c-MARKET)<0.07){
+      cap.innerHTML='You looked hardest at <span class="key">the market</span>, so that is where the cases pile up. But the field is even. The cluster is your searchlight, not the source.';
+    } else if (c<0.18){
+      cap.innerHTML='Your searchlight is off to one edge, and the cases appear to gather there. Move it and the cluster follows, because the field underneath is even.';
+    } else {
+      cap.innerHTML='The cases appear to cluster <span class="key">wherever your searchlight points</span>, not where they actually are. Slide it to the market and the cluster jumps there.';
+    }
+  }
+
+  function render(){
+    renderBeam(); renderDots(); renderCurves(); renderCaption();
+  }
+
+  sweep.addEventListener("input", function(){
+    if(flat){ flat=false; flatBtn.setAttribute("aria-pressed","false"); flatBtn.textContent="Look everywhere equally"; }
+    c = (+sweep.value)/1000;
+    render();
+  });
+  flatBtn.addEventListener("click", function(){
+    flat=!flat;
+    flatBtn.setAttribute("aria-pressed", flat?"true":"false");
+    flatBtn.textContent = flat ? "Use a searchlight" : "Look everywhere equally";
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
