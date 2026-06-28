@@ -1,0 +1,30 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+.npm/
+
+# Environment and secrets (never commit)
+.env
+.env.*
+*.pem
+*.key
+secrets/
+*.secret
+
+# Claude local machine state (keep the shared settings.json committed)
+.claude/settings.local.json
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# The built deliverable is committed on purpose (a judge double-clicks it),
+# so submission.html is NOT ignored. Transient build scratch is.
+build/.cache/
+*.tmp
