@@ -8,6 +8,15 @@
 // Invariant: pure data. The explain layer is AUTHORED (generation), the terse role/why_breaks
 //   is the verified-register spec it lands on; which is which stays marked. The two
 //   case-specific numbers stay deferred (covid.instance, eggs.instance TODO_verify).
+// Role: the population-mismatch case-family, authored as data (docs/population-pipeline.md).
+//   A self-contained data module the engine loads (T0-4): the shared two-stage pipeline,
+//   its floor (shared primitives), and the two instances (COVID, eggs) that fail at
+//   different stages. Fully authored except the two flagged case-specific verifications.
+// Contract: exports a case object { id, title, atlas_refs, nodes, instances } whose nodes
+//   conform to data/schema.js and whose children/atlas refs resolve against
+//   data/primitives + data/atlas.
+// Invariant: pure data. Adding this case edited no engine and no other case. The departure
+//   between the two instances is the coordinate of the broken node, not a resemblance.
 "use strict";
 
 const CASE = {
@@ -93,6 +102,14 @@ const CASE = {
       id: "pipe.root",
       kind: "transformation",
       label: "The same machine, twice",
+  atlas_refs: ["atlas.statistic-supports-conclusion"],
+
+  nodes: {
+    // -- the shared decomposition (the atlas parent) --
+    "pipe.root": {
+      id: "pipe.root",
+      kind: "transformation",
+      label: "Statistic supports a conclusion",
       role: "a statistic computed from a sample supports a conclusion about a target",
       position: "step",
       takes: ["sample {x_i}"],
@@ -109,6 +126,7 @@ const CASE = {
         plain: "sample -> statistic -> conclusion",
         assumes: "each arrow holds on its own",
       },
+      math: "sample -> statistic -> conclusion",
       formal_status: "nl",
       composition: "sequence",
       children: ["pipe.stage1", "pipe.stage2"],
@@ -135,6 +153,7 @@ const CASE = {
       id: "pipe.stage1",
       kind: "transformation",
       label: "Can you trust your sample?",
+      label: "Representativeness",
       role: "map an observed sample to an estimate of the population it is drawn from",
       position: "step",
       takes: ["sample {x_i}"],
@@ -169,12 +188,19 @@ const CASE = {
         stakes:
           "Every conclusion that reads meaning from where the cases are, origin, spread, hotspot, depends on this step holding. If it fails, those conclusions are reading the searchlight.",
       },
+        "observed density equals true density times a detection function over the variable; if detection is not flat, the statistic reads the shape of the detection function as signal about the truth; the draw is non-exchangeable",
+      load_bearing: "a non-flat detection function makes the sample read its own selection as signal",
+      math: "observed(x) = true(x) * detect(x); the step assumes detect(x) = const",
+      formal_status: "nl",
+      composition: "sequence",
+      children: ["prim.estimator", "prim.exchangeability"],
     },
 
     "pipe.stage2": {
       id: "pipe.stage2",
       kind: "transformation",
       label: "Is the average enough?",
+      label: "Sufficiency",
       role: "map a population statistic to a conclusion about the target",
       position: "step",
       takes: ["statistic"],
@@ -211,6 +237,13 @@ const CASE = {
     },
 
     // ===================== the eggs closure (S6 split) =====================
+      math: "conclusion needs F(distribution); statistic carries only E[.]; F not recoverable from E",
+      formal_status: "nl",
+      composition: "sequence",
+      children: ["prim.estimator", "prim.sufficiency"],
+    },
+
+    // -- the eggs closure, split into three nodes per S6 --
     "eggs.prediction": {
       id: "eggs.prediction",
       kind: "prediction",
@@ -238,6 +271,8 @@ const CASE = {
 
   // Instances: each instantiates pipe.root and breaks at a different child. The departure is
   // the coordinate of the broken node. These carry the two deferred verifications.
+  // Instances: each instantiates pipe.root and breaks at a different child. The departure
+  // is the coordinate of the broken node. These carry the two deferred verifications.
   instances: [
     {
       id: "covid.instance",
@@ -245,6 +280,11 @@ const CASE = {
       atlas_ref: "atlas.statistic-supports-conclusion",
       case: "COVID origin",
       binds: { sample: "observed early cases", statistic: "spatial clustering", conclusion: "origin location" },
+      binds: {
+        sample: "observed early cases",
+        statistic: "spatial clustering",
+        conclusion: "origin location",
+      },
       broken_node: "pipe.stage1",
       departure:
         "stage-1 failure; the observed-case sample is biased by spatially concentrated surveillance, so inclusion correlates with location, the quantity being estimated",
@@ -259,6 +299,11 @@ const CASE = {
       atlas_ref: "atlas.statistic-supports-conclusion",
       case: "eggs, individual dietary response",
       binds: { sample: "study responses", statistic: "mean response", conclusion: "an individual's response" },
+      binds: {
+        sample: "study responses",
+        statistic: "mean response",
+        conclusion: "an individual's response",
+      },
       broken_node: "pipe.stage2",
       departure:
         "stage-2 failure; responders are heterogeneous, and the mean discards the within-population variance the individual conclusion needs",

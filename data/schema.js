@@ -23,6 +23,8 @@ const KINDS = [
 // terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
 const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
 
+];
+
 // Terminal types: the closures a claim can reach (executive/judge overviews + graph ontology).
 const TERMINALS = [
   "measurement",
@@ -180,6 +182,8 @@ const SCHEMA = {
   hasMarker,
   validateNode,
   validateExplain,
+  hasMarker,
+  validateNode,
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = SCHEMA;
