@@ -17,6 +17,7 @@
     atlas: ATLAS,
     cases: [CASE],
     components: Object.assign({}, VISUALS, CARD_LAYOUTS),
+    forks: typeof FORKS !== "undefined" ? FORKS : undefined,
   });
   const resolve = makeResolver(registry);
 
@@ -25,8 +26,13 @@
   const REVEAL_ID = "pipe.root"; // the shared machine, surfaced from a stage as the reveal
   const caseLabel = "Two arguments";
 
+  // a hash names any resolvable id as the entry, which is how you point the reader's path at a
+  // fork (v1.html#pipe.stage1.plain opens the forked node). Falls back to the concrete entry.
+  const hash = typeof location !== "undefined" && location.hash ? decodeURIComponent(location.hash.slice(1)) : "";
+  const startId = hash && resolve(hash) ? hash : ROOT_ID;
+
   // explicit UI state: the path of clicks from the entry to the focused node
-  const state = { path: [ROOT_ID] };
+  const state = { path: [startId] };
 
   const mount = document.getElementById("app");
 

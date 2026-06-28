@@ -16,7 +16,7 @@ function buildRegistry(sources) {
     registry[id] = c;
   };
 
-  const { primitives, atlas, cases, components } = sources;
+  const { primitives, atlas, cases, components, forks } = sources;
   if (primitives) for (const id of Object.keys(primitives)) put(id, primitives[id], "primitives");
   if (atlas) for (const id of Object.keys(atlas)) put(id, atlas[id], "atlas");
   if (Array.isArray(cases))
@@ -25,6 +25,7 @@ function buildRegistry(sources) {
       if (Array.isArray(c.instances)) for (const inst of c.instances) put(inst.id, inst, "case:" + c.id);
     }
   if (components) for (const id of Object.keys(components)) put(id, components[id], "components");
+  if (forks) for (const id of Object.keys(forks)) put(id, forks[id], "forks");
 
   return registry;
 }

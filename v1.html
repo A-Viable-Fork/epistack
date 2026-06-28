@@ -621,6 +621,42 @@ const CASE = {
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { CASE };</script>
+<script>// Role: fork descriptors. A fork is a new id that names a parent and lists only its overrides
+//   (docs/components-and-forking.md). It inherits everything else by reference, so parent
+//   improvements flow into the un-overridden fields. A fork is its departure from a parent.
+// Contract: exports { id -> descriptor }. Live: { id, forks: parentId, overrides:{...} }.
+//   Snapshot: { id, copy_of: parentId, at: version }. resolve() (engine/resolve.js) merges a
+//   live fork's overrides onto the resolved parent and freezes a snapshot.
+// Invariant: pure data. Reference-not-inline taken to its conclusion: forking is a diff, not
+//   a copy. The same metric that measures the distance between two cases governs a fork.
+"use strict";
+
+const FORKS = {
+  // The canonical fork (docs/components-and-forking.md "the worked case"): the clunky stage-1
+  // intuition, improved. It overrides explain.intuition and nothing else, so the math, the
+  // children, the role, and the searchlight visual all inherit live from pipe.stage1.
+  "pipe.stage1.plain": {
+    id: "pipe.stage1.plain",
+    forks: "pipe.stage1",
+    overrides: {
+      explain: {
+        intuition:
+          "A map of where cases show up only tells you where something started if you searched everywhere equally hard. Look harder in some places than others, and the map just shows where you looked, not where the cases are.",
+      },
+    },
+  },
+
+  // A snapshot fork (the other flavor): frozen against its parent at a version. Propagation
+  // stops; the copy is on its own. Here it pins stage 2 so a later edit to pipe.stage2 would
+  // not change it, demonstrating the copy_of path the resolver and linter support.
+  "pipe.stage2.pinned": {
+    id: "pipe.stage2.pinned",
+    copy_of: "pipe.stage2",
+    at: "v2",
+  },
+};
+
+if (typeof module !== "undefined" && module.exports) module.exports = { FORKS };</script>
 
 <script>// Role: assemble the one registry. Merge every addressable component (primitives, case
 //   nodes, atlas entries, instances, and presentation components) into a single id-keyed
@@ -640,7 +676,7 @@ function buildRegistry(sources) {
     registry[id] = c;
   };
 
-  const { primitives, atlas, cases, components } = sources;
+  const { primitives, atlas, cases, components, forks } = sources;
   if (primitives) for (const id of Object.keys(primitives)) put(id, primitives[id], "primitives");
   if (atlas) for (const id of Object.keys(atlas)) put(id, atlas[id], "atlas");
   if (Array.isArray(cases))
@@ -649,6 +685,7 @@ function buildRegistry(sources) {
       if (Array.isArray(c.instances)) for (const inst of c.instances) put(inst.id, inst, "case:" + c.id);
     }
   if (components) for (const id of Object.keys(components)) put(id, components[id], "components");
+  if (forks) for (const id of Object.keys(forks)) put(id, forks[id], "forks");
 
   return registry;
 }
@@ -1188,6 +1225,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { renderRa
     atlas: ATLAS,
     cases: [CASE],
     components: Object.assign({}, VISUALS, CARD_LAYOUTS),
+    forks: typeof FORKS !== "undefined" ? FORKS : undefined,
   });
   const resolve = makeResolver(registry);
 
@@ -1196,8 +1234,13 @@ if (typeof module !== "undefined" && module.exports) module.exports = { renderRa
   const REVEAL_ID = "pipe.root"; // the shared machine, surfaced from a stage as the reveal
   const caseLabel = "Two arguments";
 
+  // a hash names any resolvable id as the entry, which is how you point the reader's path at a
+  // fork (v1.html#pipe.stage1.plain opens the forked node). Falls back to the concrete entry.
+  const hash = typeof location !== "undefined" && location.hash ? decodeURIComponent(location.hash.slice(1)) : "";
+  const startId = hash && resolve(hash) ? hash : ROOT_ID;
+
   // explicit UI state: the path of clicks from the entry to the focused node
-  const state = { path: [ROOT_ID] };
+  const state = { path: [startId] };
 
   const mount = document.getElementById("app");
 

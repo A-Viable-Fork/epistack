@@ -18,6 +18,7 @@ through the includes it carries, so it is not required to have its own row.
 | `data/components/cards.js` | registered card-layout descriptors (teaching / terse) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
+| `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
 | `data/compose-gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
 | `data/compose-gate/incumbent.json` | compose-gate incumbent map |
 | `data/compose-gate/A.json` | compose-gate contribution A |
@@ -63,4 +64,5 @@ through the includes it carries, so it is not required to have its own row.
 | `build/bundle.js` | the deliverable build: inlines modules into submission.html + v1.html |
 | `build/extract.mjs` | the one-time migration tool: slices knowledge-game.html into modules |
 | `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
+| `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |

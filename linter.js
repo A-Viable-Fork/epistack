@@ -21,6 +21,7 @@ const { PRIMITIVES } = require("./data/primitives/primitives.js");
 const { ATLAS } = require("./data/atlas/atlas.js");
 const { VISUALS } = require("./data/components/visuals.js");
 const { CARD_LAYOUTS } = require("./data/components/cards.js");
+const { FORKS } = require("./data/forks/forks.js");
 const { buildRegistry } = require("./engine/registry.js");
 const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
@@ -29,7 +30,7 @@ const cases = CASE_FILES.map((f) => require(f).CASE);
 const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS);
 let registry;
 try {
-  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS });
+  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
 } catch (e) {
   fail("T0-1", "registry build failed: " + e.message);
   registry = Object.create(null);
@@ -106,6 +107,23 @@ for (const id of Object.keys(PRIMITIVES)) {
   const aSet = new Set(actual);
   for (const p of declared) if (!aSet.has(p)) fail("A3/dependents", `${id}: declared parent '${p}' does not reference it`);
   for (const p of actual) if (!dSet.has(p)) fail("A3/dependents", `${id}: '${p}' references it but is not in its parents back-reference`);
+}
+
+// ---- C2: every fork resolves (forks/copy_of parent exists) and no fork cycles ----
+for (const id of Object.keys(registry)) {
+  const c = registry[id];
+  const parent = c.forks || c.copy_of;
+  if (!parent) continue;
+  if (!registry[parent]) { fail("C2/fork", `${id}: fork parent '${parent}' does not resolve`); continue; }
+  // walk the parent chain; a revisit is a cycle
+  const seen = new Set([id]);
+  let cur = parent;
+  while (cur) {
+    if (seen.has(cur)) { fail("C2/fork", `${id}: fork cycle through '${cur}'`); break; }
+    seen.add(cur);
+    const p = registry[cur];
+    cur = p && (p.forks || p.copy_of);
+  }
 }
 
 // ---- Rule 3: marker <-> ledger one-to-one ----
