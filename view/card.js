@@ -45,8 +45,9 @@ const CARD_RENDERERS = { "card.teaching": renderTeachingCard, "card.terse": rend
 
 function renderCard(node, ctx) {
   ctx = ctx || {};
-  const layoutId = node.card || (node.explain ? "card.teaching" : "card.terse");
-  if (ctx.resolve) ctx.resolve(layoutId); // route the layout lookup through the resolver too
+  // the layout is the client's call (its kind-to-look mapping), not the node's. Fall back to
+  // the teaching layout when the node carries an explain block, else terse.
+  const layoutId = ctx.layout === "terse" ? "card.terse" : ctx.layout === "teaching" ? "card.teaching" : node.explain ? "card.teaching" : "card.terse";
   const render = CARD_RENDERERS[layoutId] || renderTerseCard;
   return render(node, ctx);
 }
@@ -86,12 +87,13 @@ function renderTeachingCard(node, ctx) {
     card.appendChild(sec);
   }
 
-  // the visual, resolved by reference and handed its params
-  if (node.visual && node.visual.component && typeof renderVisual === "function") {
+  // the visual, supplied by the client (it maps this node's kind to a visual and renders it
+  // from the node's presentation.data). The card never names a visual.
+  if (ctx.visualEl) {
     const sec = vEl("section");
     sec.appendChild(vEl("p", "eyebrow", "See it"));
-    sec.appendChild(renderVisual(node.visual.component, node.visual.params));
-    sec.appendChild(vEl("p", "viz-aside", "The field underneath never changes. Only your searchlight moves."));
+    sec.appendChild(ctx.visualEl);
+    if (ctx.visualAside) sec.appendChild(vEl("p", "viz-aside", esc(ctx.visualAside)));
     card.appendChild(sec);
   }
 

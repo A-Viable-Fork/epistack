@@ -30,11 +30,13 @@ The last two are where a careless project writes "future work." Here they say wh
 
 **[B6] The compare view.** The cross-case sideways motion: two unrelated cases shown breaking in the same structure at different stages. Built.
 
-**[B7] The store-and-API boundary.** Storage is the canonical typed graph; the engine exposes it through open reads and a gated write; the consuming components are forkable. Built.
+**[B7] The store-and-API boundary.** Storage is the canonical typed graph; the engine exposes it through open reads and a gated write, named as a single documented contract (`engine/api.js`, `docs/api.md`); the consuming components are clients of that API. Built.
+
+**[B8] The two-tier client layer.** A node declares only its kind (`presentation: { type, data }`, a closed graph-owned set); clients map kind to look. The thin tier (`client.plain`: tokens + a kind-to-look mapping over the default read path, covering every kind) and the fat tier (`client.teaching`, the learning walk; `client.auditor`, an inspect-and-dependents console that uses a wider slice of the API a genuinely different way) both ship, switchable in `v1.html`. The boundary is enforced by the linter: a client touches no truth field and never reaches the store. Built and verified in-browser. The five-minute reskin is shown by `client.plain.warm`, a tokens-only fork. `docs/clients.md` is the authoring contract.
 
 ## In progress
 
-**[P1] The client layer.** The boundary holds and the consuming components are forkable today; the two-tier client system, thin clients that restyle the read response and fat clients that compose more of the API their own way, with a node declaring only its kind, is being built. Discharge: the client-layer and thin-client-kit work lands, a second client uses the store a genuinely different way, and a non-engineer ships a thin client from the kit.
+**[P1] A non-engineer ships a thin client from the kit.** The two-tier layer, the second client, and the enforced boundary are built (B8); what remains is the human test that someone can author a thin client from `docs/clients.md` and `docs/api.md` alone, without reading the engine. Discharge: a non-engineer ships a working thin client from the kit.
 
 ## Asserted, not built
 

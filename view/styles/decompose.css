@@ -136,6 +136,30 @@ button.motion { cursor: pointer; font: inherit; font-size: .8rem; font-weight: 5
 /* compare-on motion (active, the sideways reveal) */
 .motion.compare-on { color: #23170a; background: var(--lamp); border-color: var(--lamp-deep); }
 
+/* the client switcher (host chrome) */
+.switcher { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0 2px 22px; }
+.sw-label { font-family: var(--sans); font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-faint); }
+.sw-btn { font-family: var(--sans); font-size: .8rem; font-weight: 500; color: var(--ink-soft); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
+.sw-btn:hover { border-color: var(--ink-faint); }
+.sw-btn.on { color: #fff; background: var(--lamp-deep); border-color: var(--lamp-deep); }
+
+/* the auditor console (token-driven, so tokens reskin it) */
+.aud-bar { font-family: var(--mono); font-size: .85rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 10px 14px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 10px; margin-bottom: 1.2em; }
+.aud-tag { color: var(--lamp); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem; }
+.aud-id { color: var(--ink); font-weight: 600; }
+.aud-kind { color: var(--ink-faint); }
+.aud-block { margin: 0 0 1.4em; }
+.aud-h { font-family: var(--mono); font-size: .74rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-faint); margin: 0 0 .6em; border-bottom: 1px solid var(--rule); padding-bottom: .35em; }
+.aud-rows { font-family: var(--mono); font-size: .82rem; line-height: 1.6; }
+.aud-row { display: grid; grid-template-columns: 12ch 1fr; gap: 12px; padding: 3px 0; }
+.aud-k { color: var(--ink-faint); }
+.aud-v { color: var(--ink); }
+.aud-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.aud-link { font-family: var(--mono); font-size: .8rem; color: var(--lamp); background: transparent; border: 1px solid var(--rule); border-radius: 6px; padding: 5px 9px; cursor: pointer; }
+.aud-link:hover { border-color: var(--lamp); }
+.aud-note { font-family: var(--mono); font-size: .8rem; color: var(--ink-soft); line-height: 1.55; margin: 0; }
+.aud-gate .aud-h { color: var(--lamp); }
+
 /* the cross-case compare view */
 .compare .hook { margin-bottom: .35em; }
 .pipeline-row { display: flex; align-items: stretch; gap: 12px; margin: 1.6em 0 1.4em; flex-wrap: wrap; }

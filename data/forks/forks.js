@@ -31,6 +31,22 @@ const FORKS = {
     copy_of: "pipe.stage2",
     at: "v2",
   },
+
+  // The thin-client reskin (docs/clients.md "the five-minute fork"): client.plain.warm forks
+  // client.plain and overrides ONLY tokens, a warm parchment skin. It inherits the mapping,
+  // the renderer, and the tier live, so the whole surface reskins with zero change to the store.
+  "client.plain.warm": {
+    id: "client.plain.warm",
+    forks: "client.plain",
+    overrides: {
+      title: "Plain reader (warm)",
+      tokens: {
+        "--paper": "#f6f1e7", "--paper-2": "#eee7d6", "--ink": "#2a2416", "--ink-soft": "#5b5340",
+        "--ink-faint": "#9a9176", "--rule": "#e0d8c2", "--lamp": "#b5651d", "--lamp-deep": "#8f4e16",
+        "--slate": "#7a7156", "--night": "#1c1810", "--danger": "#b23b2e",
+      },
+    },
+  },
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { FORKS };

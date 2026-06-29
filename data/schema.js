@@ -23,6 +23,23 @@ const KINDS = [
 // terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
 const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
 
+// The closed, graph-owned set of semantic node kinds for presentation. A node declares WHAT
+// IT IS with presentation: { type, data }; it never names a layout or a visual. A client maps
+// each kind to a look. The set is closed so every thin client renders every node, and no
+// client may invent a kind (docs/architecture-storage-api-clients.md, docs/clients.md).
+const PRESENTATION_TYPES = [
+  "question", // a concrete contested question, the learner's entry
+  "selection-step", // a representativeness step; carries a distribution + detection function
+  "sufficiency-step", // a sufficiency step; a statistic to a target conclusion
+  "transformation", // a generic derivation/composition step
+  "primitive", // a cited basis, the floor
+  "observation", // a world-fact that closes a claim
+  "prediction", // the value the reasoning produces
+  "comparison", // a test of a prediction against an observation
+  "assumption", // a perturbable proposition
+  "claim", // a case-level assertion with a terminal type
+];
+
 // Terminal types: the closures a claim can reach (executive/judge overviews + graph ontology).
 const TERMINALS = [
   "measurement",
@@ -142,6 +159,17 @@ function validateNode(node) {
   // v2: if an explain block is present, it must be complete (the teaching register).
   for (const p of validateExplain(node)) problems.push(p);
 
+  // storage/API/clients boundary: a node declares its semantic kind, never how it looks.
+  // It must carry presentation.type from the closed set, and must NOT name a concrete visual
+  // or card layout (that decision belongs to a client). docs/architecture-storage-api-clients.md.
+  if (!node.presentation || isEmpty(node.presentation.type)) {
+    problems.push(`${node.id}: missing presentation.type (the semantic node kind)`);
+  } else if (!PRESENTATION_TYPES.includes(node.presentation.type)) {
+    problems.push(`${node.id}: unknown presentation.type '${node.presentation.type}'`);
+  }
+  if (node.visual) problems.push(`${node.id}: a node may not name a 'visual' (a client maps its kind to one)`);
+  if (node.card) problems.push(`${node.id}: a node may not name a 'card' layout (a client decides the layout)`);
+
   return problems;
 }
 
@@ -177,6 +205,7 @@ const SCHEMA = {
   REQUIRED_FIELDS,
   SORRY_FIELDS,
   EXPLAIN_FIELDS,
+  PRESENTATION_TYPES,
   hasMarker,
   validateNode,
   validateExplain,

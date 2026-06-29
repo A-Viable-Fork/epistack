@@ -19,6 +19,7 @@ through the includes it carries, so it is not required to have its own row.
 | `data/components/views.js` | registered view-component descriptors (the compare view) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
+| `data/clients/clients.js` | registered client descriptors (tokens + kind-to-look mapping + tier) |
 | `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
 | `data/compose-gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
 | `data/compose-gate/incumbent.json` | compose-gate incumbent map |
@@ -41,6 +42,7 @@ through the includes it carries, so it is not required to have its own row.
 | `engine/decompose.js` | the DOWN motion: classify, motions, focusView (v1, built) |
 | `engine/perturb.js` | seam: the ALONG motion, authored overlay (v3, not built) |
 | `engine/compare.js` | the SIDEWAYS motion: atlas clones to broken-node coordinates (built) |
+| `engine/api.js` | the client-facing API: open reads (resolve/decompose/compare/dependents) + gated submit |
 
 ## view/ (reads the engine; owns no data)
 
@@ -50,9 +52,12 @@ through the includes it carries, so it is not required to have its own row.
 | `view/compose-gate.js` | the in-browser compose-gate runner (Pyodide, click-gated) |
 | `view/card.js` | the learning-first node card (teaching layer + inspect disclosure) |
 | `view/rail.js` | the spine rail: the clicked path, entry to focused |
+| `view/host.js` | the host: builds the API from storage, selects the client, applies tokens |
+| `view/clients/teaching.js` | the teaching client (fat): the learning-first walk + compare |
+| `view/clients/thin.js` | a thin client: tokens + kind-to-look over the default read path |
+| `view/clients/auditor.js` | the auditor client (fat): inspect layer + dependents + the gate |
 | `view/visuals.js` | view-side renderers for visual components (the searchlight) |
 | `view/compare-view.js` | the cross-case compare view renderer (learning-first reveal) |
-| `view/decompose-app.js` | the decompose surface boot: registry, resolver, drill + reveal nav |
 | `view/styles/main.css` | the artifact's main stylesheet |
 | `view/styles/compose-gate.css` | the compose-gate panel styles |
 | `view/styles/decompose.css` | the v1 decompose surface styles |

@@ -18,6 +18,7 @@ const CASE = {
     "lhc.claim": {
       id: "lhc.claim",
       kind: "claim",
+      presentation: { type: "claim" },
       label: "The hazard is bounded",
       role: "the densest long-lived bodies survive, so the dangerous three-part antecedent is false",
       position: "hypothesis",
@@ -27,6 +28,7 @@ const CASE = {
     "lhc.antecedent": {
       id: "lhc.antecedent",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "Production AND stopping AND accretion",
       role: "the three-part condition for a produced black hole to destroy a body within its lifetime",
       position: "step",
@@ -48,6 +50,7 @@ const CASE = {
     "lhc.assume.danger": {
       id: "lhc.assume.danger",
       kind: "assumption",
+      presentation: { type: "assumption" },
       label: "Stable black hole, dangerously accreting",
       position: "hypothesis",
       // authored perturbation (architecture-spec section 5): flip false -> true and the
@@ -71,6 +74,7 @@ const CASE = {
     "lhc.assume.neutral": {
       id: "lhc.assume.neutral",
       kind: "assumption",
+      presentation: { type: "assumption" },
       label: "The object is neutral",
       position: "precondition",
     },
@@ -89,6 +93,7 @@ const CASE = {
     "lhc.N2.1": {
       id: "lhc.N2.1",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "Lab-frame velocity from kinematics",
       role: "compute the black hole's lab-frame velocity from the production kinematics",
       position: "step",
@@ -112,6 +117,7 @@ const CASE = {
     "lhc.N2.2": {
       id: "lhc.N2.2",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "Stopping length",
       role: "compute the distance over which the black hole loses its energy in matter",
       position: "step",
@@ -135,6 +141,7 @@ const CASE = {
     "lhc.N2.3": {
       id: "lhc.N2.3",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "Stopping condition",
       role: "decide whether a produced black hole halts inside a given body",
       position: "step",
@@ -169,6 +176,7 @@ const CASE = {
     "lhc.prediction": {
       id: "lhc.prediction",
       kind: "prediction",
+      presentation: { type: "prediction" },
       label: "Time to destruction",
       value: "t_destroy(S, under the dangerous hypothesis)",
       produced_by: "lhc.branch3",
@@ -176,6 +184,7 @@ const CASE = {
     "lhc.observation": {
       id: "lhc.observation",
       kind: "observation",
+      presentation: { type: "observation" },
       label: "Neutron stars survive",
       world_value: "white dwarfs and neutron stars survive to ages of order a gigayear",
       immutable: true,
@@ -183,6 +192,7 @@ const CASE = {
     "lhc.comparison": {
       id: "lhc.comparison",
       kind: "comparison",
+      presentation: { type: "comparison" },
       label: "Predicted destruction time vs observed age",
       test: "t_destroy < tau_S",
       state: "consistent",

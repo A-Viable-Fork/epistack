@@ -24,6 +24,7 @@ const CASE = {
     "q.start": {
       id: "q.start",
       kind: "question",
+      presentation: { type: "question" },
       label: "Two arguments that never end",
       children: ["q.covid", "q.eggs"],
       explain: {
@@ -37,6 +38,7 @@ const CASE = {
     "q.covid": {
       id: "q.covid",
       kind: "question",
+      presentation: { type: "question" },
       label: "Why is the origin of COVID still argued about?",
       children: ["q.covid.casemap"],
       explain: {
@@ -50,6 +52,7 @@ const CASE = {
     "q.covid.casemap": {
       id: "q.covid.casemap",
       kind: "question",
+      presentation: { type: "question" },
       label: "Does the case map show where it started?",
       children: ["pipe.stage1"],
       explain: {
@@ -63,6 +66,7 @@ const CASE = {
     "q.eggs": {
       id: "q.eggs",
       kind: "question",
+      presentation: { type: "question" },
       label: "Why do people argue about whether eggs are bad for you?",
       children: ["q.eggs.individual"],
       explain: {
@@ -76,6 +80,7 @@ const CASE = {
     "q.eggs.individual": {
       id: "q.eggs.individual",
       kind: "question",
+      presentation: { type: "question" },
       label: "Does the average diner tell you about you?",
       children: ["pipe.stage2"],
       explain: {
@@ -92,6 +97,7 @@ const CASE = {
     "pipe.root": {
       id: "pipe.root",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "The same machine, twice",
       role: "a statistic computed from a sample supports a conclusion about a target",
       position: "step",
@@ -134,6 +140,10 @@ const CASE = {
     "pipe.stage1": {
       id: "pipe.stage1",
       kind: "transformation",
+      presentation: {
+        type: "selection-step",
+        data: { distribution: "uniform", detection: "gaussian-bump", marker: 0.68, markerLabel: "the market", spread: 0.085 },
+      },
       label: "Can you trust your sample?",
       tag: "representativeness",
       role: "map an observed sample to an estimate of the population it is drawn from",
@@ -154,7 +164,6 @@ const CASE = {
       formal_status: "nl",
       composition: "sequence",
       children: ["prim.estimator", "prim.exchangeability"],
-      visual: { component: "viz.searchlight", params: { sigma: 0.085, marker: 0.68, markerLabel: "the market" } },
       explain: {
         hook: "Can you trust your sample?",
         intuition:
@@ -175,6 +184,7 @@ const CASE = {
     "pipe.stage2": {
       id: "pipe.stage2",
       kind: "transformation",
+      presentation: { type: "sufficiency-step" },
       label: "Is the average enough?",
       tag: "sufficiency",
       role: "map a population statistic to a conclusion about the target",
@@ -216,6 +226,7 @@ const CASE = {
     "eggs.prediction": {
       id: "eggs.prediction",
       kind: "prediction",
+      presentation: { type: "prediction" },
       label: "Mean response applied to an individual",
       value: "the mean response m",
       produced_by: "pipe.stage2",
@@ -223,6 +234,7 @@ const CASE = {
     "eggs.observation": {
       id: "eggs.observation",
       kind: "observation",
+      presentation: { type: "observation" },
       label: "Measured population mean",
       world_value: "the measured population mean response",
       immutable: true,
@@ -230,6 +242,7 @@ const CASE = {
     "eggs.comparison": {
       id: "eggs.comparison",
       kind: "comparison",
+      presentation: { type: "comparison" },
       label: "Does the mean transfer to an individual?",
       test: "does m, applied to an individual, hold?",
       state: "contradicted",

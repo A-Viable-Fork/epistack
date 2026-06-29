@@ -22,13 +22,14 @@ const { ATLAS } = require("./data/atlas/atlas.js");
 const { VISUALS } = require("./data/components/visuals.js");
 const { CARD_LAYOUTS } = require("./data/components/cards.js");
 const { VIEW_COMPONENTS } = require("./data/components/views.js");
+const { CLIENTS } = require("./data/clients/clients.js");
 const { FORKS } = require("./data/forks/forks.js");
 const { buildRegistry } = require("./engine/registry.js");
 const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
-const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS);
+const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS);
 let registry;
 try {
   registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
@@ -205,6 +206,32 @@ else {
     fail("rule7/T0-6", "submission.html references an external script other than the click-gated Pyodide runtime");
 }
 // NOTE: the no-console-error-on-load half of rule 7 needs a browser and is not run here.
+
+// ---- Phase E: the storage / API / clients boundary, proved ----
+// 1. A client reaches the store only through the API. A client file (view/clients/*) may not
+//    name the store, build a registry, or reach a raw resolver; the api object is its only door.
+const clientDir = path.join(ROOT, "view", "clients");
+if (fs.existsSync(clientDir)) {
+  const FORBIDDEN = /\b(PRIMITIVES|ATLAS|VISUALS|CARD_LAYOUTS|VIEW_COMPONENTS|CLIENTS|FORKS|buildRegistry|makeResolver)\b|\bCASE\b|registry\[|require\(/;
+  for (const f of walk(clientDir).filter((x) => x.endsWith(".js"))) {
+    fs.readFileSync(f, "utf8").split("\n").forEach((l, i) => {
+      const code = l.replace(/\/\/.*$/, "");
+      if (FORBIDDEN.test(code)) fail("E/boundary", `${path.relative(ROOT, f)}:${i + 1} a client may not reach the store directly (use the API)`);
+    });
+  }
+}
+// 2. A client carries only presentation (tokens + mapping + identity), no truth field. A thin
+//    client's mapping covers every node kind (the render-everything guarantee). No client may
+//    invent a kind. The api object exposes no store-mutation method, so a client cannot write
+//    except through submit, which is structural and needs no separate check.
+const CLIENT_KEYS = new Set(["id", "kind", "tier", "renderer", "title", "tokens", "mapping"]);
+const KIND_SET = SCHEMA.PRESENTATION_TYPES;
+for (const id of Object.keys(CLIENTS)) {
+  const c = CLIENTS[id];
+  for (const key of Object.keys(c)) if (!CLIENT_KEYS.has(key)) fail("E/client-shape", `${id}: a client carries only tokens + mapping, not '${key}'`);
+  if (c.mapping) for (const k of Object.keys(c.mapping)) if (!KIND_SET.includes(k)) fail("E/client-kind", `${id}: mapping names a kind '${k}' that is not in the closed set`);
+  if (c.tier === "thin") for (const k of KIND_SET) if (!c.mapping || !c.mapping[k]) fail("E/thin-coverage", `${id}: thin client must cover kind '${k}'`);
+}
 
 // ---- Rule 9: corpus-index lists every module and data file ----
 const indexPath = path.join(ROOT, "docs", "corpus-index.md");

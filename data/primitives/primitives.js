@@ -11,6 +11,7 @@ const PRIMITIVES = {
   "prim.estimator": {
     id: "prim.estimator",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Summary statistic",
     role: "compute a summary statistic from a sample",
     math: "T = f({x_i})",
@@ -23,6 +24,7 @@ const PRIMITIVES = {
   "prim.exchangeability": {
     id: "prim.exchangeability",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Exchangeability / selection",
     role: "the condition that sample inclusion is independent of the estimand",
     math: "P(include | x) = const",
@@ -34,6 +36,7 @@ const PRIMITIVES = {
   "prim.sufficiency": {
     id: "prim.sufficiency",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Sufficiency",
     role: "the relation between a statistic and the information it retains about a parameter",
     math: "T sufficient for theta iff P(x | T, theta) = P(x | T)",
@@ -47,6 +50,7 @@ const PRIMITIVES = {
   "prim.lorentz-boost": {
     id: "prim.lorentz-boost",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Lorentz boost",
     role: "convert a center-of-mass velocity to the lab frame",
     math: "beta_lab from the CoM-to-lab boost",
@@ -58,6 +62,7 @@ const PRIMITIVES = {
   "prim.bethe-bloch": {
     id: "prim.bethe-bloch",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Bethe-Bloch stopping power",
     role: "electromagnetic energy loss per length for a charged projectile in matter",
     math: "-dE/dx (charged), Bethe-Bloch",
@@ -69,6 +74,7 @@ const PRIMITIVES = {
   "prim.geometric-capture": {
     id: "prim.geometric-capture",
     kind: "primitive",
+    presentation: { type: "primitive" },
     label: "Geometric / gravitational capture",
     role: "energy loss by capture for a neutral object, far weaker, density-gated",
     math: "-dE/dx (neutral), geometric capture cross-section",

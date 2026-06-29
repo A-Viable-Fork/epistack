@@ -15,7 +15,7 @@
     <h1>Take it apart</h1>
     <button class="home-btn" id="home">start over</button>
   </div>
-  <p class="lede">
+  <p class="lede" id="lede">
     Some arguments never end. Pick one, and take its reasoning apart, one step at a time,
     until you reach something you already trust. Two famous arguments turn out to run the
     same little machine and break in two different places. No statistics background needed.
@@ -25,23 +25,36 @@
 
 <script>@@INCLUDE:vendor/katex/katex.min.js@@</script>
 
+<!-- storage: the canonical typed graph and its registered presentation components -->
+<script>@@INCLUDE:data/schema.js@@</script>
 <script>@@INCLUDE:data/primitives/primitives.js@@</script>
 <script>@@INCLUDE:data/atlas/atlas.js@@</script>
 <script>@@INCLUDE:data/components/visuals.js@@</script>
 <script>@@INCLUDE:data/components/cards.js@@</script>
 <script>@@INCLUDE:data/components/views.js@@</script>
+<script>@@INCLUDE:data/clients/clients.js@@</script>
 <script>@@INCLUDE:data/cases/population-pipeline.js@@</script>
 <script>@@INCLUDE:data/forks/forks.js@@</script>
 
+<!-- the API: the engine, the only door clients use -->
 <script>@@INCLUDE:engine/registry.js@@</script>
 <script>@@INCLUDE:engine/resolve.js@@</script>
 <script>@@INCLUDE:engine/decompose.js@@</script>
 <script>@@INCLUDE:engine/compare.js@@</script>
+<script>@@INCLUDE:engine/api.js@@</script>
 
+<!-- shared view helpers -->
 <script>@@INCLUDE:view/visuals.js@@</script>
 <script>@@INCLUDE:view/card.js@@</script>
 <script>@@INCLUDE:view/rail.js@@</script>
 <script>@@INCLUDE:view/compare-view.js@@</script>
-<script>@@INCLUDE:view/decompose-app.js@@</script>
+
+<!-- clients: forkable units over the API, read-only against truth -->
+<script>@@INCLUDE:view/clients/teaching.js@@</script>
+<script>@@INCLUDE:view/clients/thin.js@@</script>
+<script>@@INCLUDE:view/clients/auditor.js@@</script>
+
+<!-- the host wires the API to the active client -->
+<script>@@INCLUDE:view/host.js@@</script>
 </body>
 </html>
