@@ -142,12 +142,32 @@ button.motion { cursor: pointer; font: inherit; font-size: .8rem; font-weight: 5
 .child-label { flex: 1 1 auto; font-weight: 500; }
 .child-meta { font-size: .72rem; color: var(--ink-faint); text-transform: lowercase; }
 
+/* compare-on motion (active, the sideways reveal) */
+.motion.compare-on { color: #23170a; background: var(--lamp); border-color: var(--lamp-deep); }
+
+/* the cross-case compare view */
+.compare .hook { margin-bottom: .35em; }
+.pipeline-row { display: flex; align-items: stretch; gap: 12px; margin: 1.6em 0 1.4em; flex-wrap: wrap; }
+.pstage { flex: 1 1 240px; text-align: left; background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r); padding: 16px 18px; cursor: pointer; font-family: var(--sans); color: var(--ink); display: flex; flex-direction: column; gap: 4px; min-width: 220px; transition: border-color .15s; }
+.pstage:hover { border-color: var(--ink-faint); }
+.pstage-step { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-faint); }
+.pstage-name { font-size: 1.12rem; font-weight: 700; line-height: 1.2; }
+.pstage-role { font-size: .82rem; color: var(--ink-faint); margin-bottom: 2px; }
+.pstage.lit { border-color: var(--danger); background: rgba(197, 96, 75, .07); box-shadow: inset 0 0 0 1px rgba(197, 96, 75, .25); }
+.break-mark { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: .82rem; font-weight: 600; color: var(--danger); text-transform: uppercase; letter-spacing: .04em; }
+.break-mark .bm-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--danger); flex: 0 0 auto; box-shadow: 0 0 0 3px rgba(197, 96, 75, .2); }
+.break-plain { font-family: var(--serif); font-size: 1rem; line-height: 1.45; color: var(--ink); font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 2px; }
+.pipe-arrow { align-self: center; color: var(--ink-faint); font-size: 1.3rem; flex: 0 0 auto; }
+.compare-takeaway { margin-top: .4em; }
+
 @media (max-width: 560px) {
   body { font-size: 17px; }
   .page { padding: 28px 16px 72px; }
   .hook { font-size: 1.7rem; }
   .gloss { grid-template-columns: 1fr; }
   .inspect .row { grid-template-columns: 1fr; }
+  .pipeline-row { flex-direction: column; }
+  .pipe-arrow { transform: rotate(90deg); align-self: flex-start; margin-left: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }</style>
 </head>
@@ -348,6 +368,23 @@ const CARD_LAYOUTS = {
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { CARD_LAYOUTS };</script>
+<script>// Role: registered view-level components, addressable and forkable like the cards and
+//   visuals (docs/components-and-forking.md). The cross-case compare view is one of these.
+// Contract: exports { id -> { id, kind:"view", title } }. The render function lives in
+//   view/ (view owns DOM); this layer owns only the descriptor.
+// Invariant: pure data, no DOM. A motion or a route names the view by id; the renderer
+//   resolves it. Forkable: fork view.compare to change its framing without touching the data.
+"use strict";
+
+const VIEW_COMPONENTS = {
+  "view.compare": {
+    id: "view.compare",
+    kind: "view",
+    title: "cross-case compare view",
+  },
+};
+
+if (typeof module !== "undefined" && module.exports) module.exports = { VIEW_COMPONENTS };</script>
 <script>// Role: the population-mismatch case-family, authored as data (docs/population-pipeline.md)
 //   with the v2 teaching layer (docs/teaching-layer.md). A self-contained data module the
 //   engine loads (T0-4). The terse fields are the inspect layer; explain{} is the on-ramp.
@@ -485,6 +522,7 @@ const CASE = {
       id: "pipe.stage1",
       kind: "transformation",
       label: "Can you trust your sample?",
+      tag: "representativeness",
       role: "map an observed sample to an estimate of the population it is drawn from",
       position: "step",
       takes: ["sample {x_i}"],
@@ -525,6 +563,7 @@ const CASE = {
       id: "pipe.stage2",
       kind: "transformation",
       label: "Is the average enough?",
+      tag: "sufficiency",
       role: "map a population statistic to a conclusion about the target",
       position: "step",
       takes: ["statistic"],
@@ -596,6 +635,7 @@ const CASE = {
       case: "COVID origin",
       binds: { sample: "observed early cases", statistic: "spatial clustering", conclusion: "origin location" },
       broken_node: "pipe.stage1",
+      plain: "The early cases were a map of where people looked, not where the virus started.",
       departure:
         "stage-1 failure; the observed-case sample is biased by spatially concentrated surveillance, so inclusion correlates with location, the quantity being estimated",
       closure:
@@ -610,6 +650,7 @@ const CASE = {
       case: "eggs, individual dietary response",
       binds: { sample: "study responses", statistic: "mean response", conclusion: "an individual's response" },
       broken_node: "pipe.stage2",
+      plain: "The average hid that people react in opposite ways, so it can't tell one person what to do.",
       departure:
         "stage-2 failure; responders are heterogeneous, and the mean discards the within-population variance the individual conclusion needs",
       closure:
@@ -829,6 +870,79 @@ function focusView(resolve, id) {
 
 if (typeof module !== "undefined" && module.exports)
   module.exports = { classify, isExpandable, motions, focusView };</script>
+<script>// Role: the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones
+//   (the instances across cases), and for each compute its broken-node coordinate, which
+//   child of the shared pipeline is the one that breaks. The departure is that coordinate
+//   (docs/family-discrimination.md), not a description of resemblance.
+// Contract: compare(resolve, atlasOrNode) -> { atlas, pipeline, stages, instances } | null,
+//   where each instance is { caseLabel, instanceId, brokenNode, coordinate, stage, plain,
+//   departure, closure }. pipelineMembers(resolve, rootId) -> Set of the root + descendants.
+//   Pure and DOM-free (T0-2, T1-5); state is passed, never reached for.
+// Invariant: the distance between two cases is the distance between their broken nodes in the
+//   shared basis. compare reads that distance; it never re-derives a primitive or asserts a
+//   resemblance.
+"use strict";
+
+// resolve the atlas entry from either an atlas id, an atlas entry object, or a node that
+// carries an atlas_ref.
+function atlasEntryOf(resolve, atlasOrNode) {
+  const v = typeof atlasOrNode === "string" ? resolve(atlasOrNode) : atlasOrNode;
+  if (!v) return null;
+  if (Array.isArray(v.clones)) return v; // already an atlas entry
+  if (v.atlas_ref) return resolve(v.atlas_ref) || null; // a node pointing into the atlas
+  return null;
+}
+
+function compare(resolve, atlasOrNode) {
+  const atlas = atlasEntryOf(resolve, atlasOrNode);
+  if (!atlas || !Array.isArray(atlas.clones) || !atlas.clones.length) return null;
+
+  // each clone names an instance; the instance carries its broken node and which pipeline
+  // it instantiates.
+  const instances = atlas.clones.map((cl) => {
+    const inst = resolve(cl.node_id) || {};
+    return {
+      caseLabel: cl.case || inst.case || cl.node_id,
+      instanceId: cl.node_id,
+      brokenNode: inst.broken_node,
+      instantiates: inst.instantiates,
+      plain: inst.plain,
+      departure: inst.departure || cl.departure,
+      closure: inst.closure,
+    };
+  });
+
+  // the shared pipeline is the node the instances instantiate (one shared root).
+  const pipelineId = instances[0] && instances[0].instantiates;
+  const pipeline = pipelineId ? resolve(pipelineId) : null;
+  const childIds = pipeline && Array.isArray(pipeline.children) ? pipeline.children : [];
+  const stages = childIds.map((id) => resolve(id)).filter(Boolean);
+
+  // the broken-node coordinate: the index of the broken stage in the shared pipeline.
+  for (const i of instances) {
+    i.coordinate = childIds.indexOf(i.brokenNode);
+    i.stage = i.brokenNode ? resolve(i.brokenNode) : null;
+  }
+
+  return { atlas, pipeline, stages, instances };
+}
+
+// pipelineMembers: the root plus everything reachable by children edges. Used to decide
+// whether a focused node is "inside" a shared pipeline and so can open the compare view.
+function pipelineMembers(resolve, rootId) {
+  const seen = new Set();
+  const stack = [rootId];
+  while (stack.length) {
+    const id = stack.pop();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    const n = resolve(id);
+    if (n && Array.isArray(n.children)) for (const c of n.children) stack.push(c);
+  }
+  return seen;
+}
+
+if (typeof module !== "undefined" && module.exports) module.exports = { compare, pipelineMembers, atlasEntryOf };</script>
 
 <script>// Role: the view-side renderers for registered visual components. A node references a visual
 //   by id (data/components/visuals.js); the card resolves the descriptor and calls the
@@ -1142,7 +1256,15 @@ function renderMotions(node, ctx) {
     r.addEventListener("click", ctx.reveal.onReveal);
     foot.appendChild(r);
   }
-  if (m.compare && m.compare.available) foot.innerHTML += `<span class="motion later"><span class="g">↔</span> also in ${m.compare.count} cases <span class="tag">compare</span></span>`;
+  // the compare motion: active (a button) when the app supplies a handler, else shown as later
+  if (ctx.onCompare) {
+    const c = vEl("button", "motion compare-on");
+    c.innerHTML = `<span class="g">↔</span> ${esc(ctx.compareLabel || "compare the two cases")}`;
+    c.addEventListener("click", ctx.onCompare);
+    foot.appendChild(c);
+  } else if (m.compare && m.compare.available) {
+    foot.innerHTML += `<span class="motion later"><span class="g">↔</span> also in ${m.compare.count} cases <span class="tag">compare</span></span>`;
+  }
   if (m.perturb) foot.innerHTML += `<span class="motion later"><span class="g">↻</span> flip this <span class="tag">perturb</span></span>`;
   return foot;
 }
@@ -1206,62 +1328,172 @@ function renderRail(pathNodes, onJump, caseLabel) {
 }
 
 if (typeof module !== "undefined" && module.exports) module.exports = { renderRail };</script>
-<script>// Role: the v1 decompose surface. Boots the spine rail + focused card + collapsed children
-//   over the population pipeline, and drives drill-down navigation. Decompose only (compare
-//   is v2, perturb is v3). See docs/architecture-spec.md sections 6 and 8.
-// Contract: reads the inlined data (PRIMITIVES, CASE, ATLAS), builds the registry and the
-//   resolver (engine/registry, engine/resolve), and renders through the engine (focusView,
-//   motions) and view (renderCard, renderChildCard, renderRail). Mounts into #app.
-// Invariant: view owns ephemeral UI state (the path the user clicked), not data. Every
-//   lookup goes through resolve(id); the graph is immutable, navigation only changes which
-//   node is focused (T0-3). No localStorage.
+<script>// Role: the cross-case compare view (the SIDEWAYS reveal). Renders the shared pipeline ONCE
+//   with both instances overlaid and the break marked on different children: COVID lit at
+//   stage 1, eggs at stage 2. The distance between the cases is the distance between the two
+//   lit stages, shown rather than asserted. Learning-first, then the precise version on demand.
+// Contract: renderCompareView(model, ctx)->Element. model is engine/compare.js's output;
+//   ctx = { onStage(id), resolve }. Reads the engine output; owns no data.
+// Invariant: view depends on engine depends on data (T0-2). Plain copy that frames the reveal
+//   is one-off and stays inline (the floor principle); the case-specific lines come from data
+//   (instance.plain), referenced not duplicated.
+"use strict";
+
+function cvEl(tag, cls, html) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (html != null) e.innerHTML = html;
+  return e;
+}
+function cvEsc(s) {
+  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function renderCompareView(model, ctx) {
+  ctx = ctx || {};
+  const root = cvEl("section", "compare");
+
+  root.appendChild(cvEl("div", "kindline", '<span class="dot"></span> the surprising part'));
+  root.appendChild(cvEl("h1", "hook", "The same machine, twice"));
+  root.appendChild(
+    cvEl(
+      "p",
+      "intuition",
+      "Two arguments that look unrelated turn out to run the same little pipeline: take a sample, boil it to a number, draw a conclusion. They do not fail the same way. They break at <em>different steps</em>, and that is exactly what the disagreement is about.",
+    ),
+  );
+
+  // the shared pipeline, once: a row of stage boxes with the breaks lit on different stages
+  const row = cvEl("div", "pipeline-row");
+  model.stages.forEach((stage, i) => {
+    const box = cvEl("button", "pstage");
+    const breaksHere = model.instances.filter((inst) => inst.brokenNode === stage.id);
+    if (breaksHere.length) box.classList.add("lit");
+    const hook = (stage.explain && stage.explain.hook) || stage.label || stage.id;
+    let inner =
+      `<span class="pstage-step">step ${i + 1}${stage.tag ? " &middot; " + cvEsc(stage.tag) : ""}</span>` +
+      `<span class="pstage-name">${cvEsc(hook)}</span>`;
+    breaksHere.forEach((inst) => {
+      inner +=
+        `<span class="break-mark"><span class="bm-dot"></span>` +
+        `<b>${cvEsc(inst.caseLabel)}</b> breaks here</span>` +
+        `<span class="break-plain">${cvEsc(inst.plain || inst.departure || "")}</span>`;
+    });
+    box.innerHTML = inner;
+    if (ctx.onStage) box.addEventListener("click", () => ctx.onStage(stage.id));
+    row.appendChild(box);
+    if (i < model.stages.length - 1) row.appendChild(cvEl("span", "pipe-arrow", "&rarr;"));
+  });
+  root.appendChild(row);
+
+  // the one-line takeaway, the distance made explicit
+  const cov = model.instances.find((x) => x.coordinate === 0);
+  const egg = model.instances.find((x) => x.coordinate === 1);
+  if (cov && egg) {
+    root.appendChild(
+      cvEl(
+        "p",
+        "stakes compare-takeaway",
+        `One pipeline, two break points: <b>${cvEsc(cov.caseLabel)}</b> at step ${cov.coordinate + 1}, ` +
+          `<b>${cvEsc(egg.caseLabel)}</b> at step ${egg.coordinate + 1}. The gap between the two cases is the gap between those two steps.`,
+      ),
+    );
+  }
+
+  // the precise version: the departure coordinates, the stage preconditions, the closures
+  const d = cvEl("details", "precise");
+  d.appendChild(cvEl("summary", null, '<span class="chev">&#9656;</span> See the precise version'));
+  const box = cvEl("div", "inspect");
+  let rows = "";
+  const row2 = (k, v) => `<div class="row"><span class="k">${cvEsc(k)}</span><span class="v">${v}</span></div>`;
+  rows += row2("atlas", cvEsc(model.atlas.id));
+  rows += row2("pipeline", cvEsc(model.pipeline ? model.pipeline.id : "") + " &nbsp; [" + model.stages.map((s) => cvEsc(s.id)).join(", ") + "]");
+  model.instances.forEach((inst) => {
+    rows += row2(
+      cvEsc(inst.caseLabel),
+      "broken node <b>" + cvEsc(inst.brokenNode) + "</b> (coordinate " + inst.coordinate + ")" +
+        (inst.departure ? "<br>departure: " + cvEsc(inst.departure) : "") +
+        (inst.closure ? "<br>closure: " + cvEsc(inst.closure) : ""),
+    );
+  });
+  box.innerHTML = rows;
+  d.appendChild(box);
+  root.appendChild(d);
+
+  // a hint that the stages are clickable, back into the decomposition
+  root.appendChild(cvEl("p", "viz-aside", "Tap a step to take it apart."));
+  return root;
+}
+
+const VIEW_RENDERERS = { "view.compare": renderCompareView };
+
+function renderView(component, model, ctx) {
+  const fn = VIEW_RENDERERS[component];
+  if (!fn) {
+    const w = document.createElement("div");
+    w.textContent = "[view " + component + " not registered]";
+    return w;
+  }
+  return fn(model, ctx);
+}
+
+if (typeof module !== "undefined" && module.exports) module.exports = { renderCompareView, renderView };</script>
+<script>// Role: the decompose + compare surface. Boots the spine rail + focused card + collapsed
+//   children over the population pipeline, drives drill-down, and opens the cross-case
+//   compare view (the SIDEWAYS reveal). See docs/architecture-spec.md sections 6 and 8.
+// Contract: reads the inlined data, builds the registry + resolver, and renders through the
+//   engine (focusView, motions, compare, pipelineMembers) and view (renderCard, renderRail,
+//   renderView). Mounts into #app.
+// Invariant: view owns ephemeral UI state (the path, and whether the compare view is open),
+//   not data. Every lookup goes through resolve(id); the graph is immutable (T0-3). No
+//   localStorage.
 "use strict";
 
 (function () {
-  // build the one registry and resolver; every lookup routes through resolve (Phase A).
-  // presentation components (the searchlight visual) are registered alongside the data.
+  // build the one registry and resolver; every lookup routes through resolve.
+  // presentation components (visuals, card layouts, views) are registered alongside the data.
   const registry = buildRegistry({
     primitives: PRIMITIVES,
     atlas: ATLAS,
     cases: [CASE],
-    components: Object.assign({}, VISUALS, CARD_LAYOUTS),
+    components: Object.assign({}, VISUALS, CARD_LAYOUTS, typeof VIEW_COMPONENTS !== "undefined" ? VIEW_COMPONENTS : {}),
     forks: typeof FORKS !== "undefined" ? FORKS : undefined,
   });
   const resolve = makeResolver(registry);
 
   // learning-first entry: open at the concrete contested question (B5), not the abstract root.
   const ROOT_ID = CASE.entry || "pipe.root";
-  const REVEAL_ID = "pipe.root"; // the shared machine, surfaced from a stage as the reveal
   const caseLabel = "Two arguments";
 
-  // a hash names any resolvable id as the entry, which is how you point the reader's path at a
-  // fork (v1.html#pipe.stage1.plain opens the forked node). Falls back to the concrete entry.
+  // precompute, for each atlas the case names, the set of nodes "inside" its shared pipeline.
+  // a focused node that is a pipeline member (root, stage, or primitive) can open compare.
+  const atlasPipelines = (CASE.atlas_refs || []).map((aref) => {
+    const entry = resolve(aref);
+    const first = entry && entry.clones && entry.clones[0];
+    const pipeId = first && resolve(first.node_id) && resolve(first.node_id).instantiates;
+    return { aref, members: pipeId ? pipelineMembers(resolve, pipeId) : new Set() };
+  });
+  function compareAtlasFor(id) {
+    const n = resolve(id);
+    if (n && n.atlas_ref) return n.atlas_ref;
+    for (const p of atlasPipelines) if (p.members.has(id)) return p.aref;
+    return null;
+  }
+
+  // a hash names any resolvable id as the entry (points the reader at a fork, a node, the root).
   const hash = typeof location !== "undefined" && location.hash ? decodeURIComponent(location.hash.slice(1)) : "";
   const startId = hash && resolve(hash) ? hash : ROOT_ID;
 
-  // explicit UI state: the path of clicks from the entry to the focused node
-  const state = { path: [startId] };
-
+  // explicit UI state: the click path, and the open compare atlas (null = decompose mode).
+  const state = { path: [startId], compare: null };
   const mount = document.getElementById("app");
 
-  function focusChild(id) {
-    if (!resolve(id)) return;
-    state.path.push(id);
-    render();
-  }
-  function jumpTo(index) {
-    state.path = state.path.slice(0, index + 1);
-    render();
-  }
-  function goTo(id) {
-    if (!resolve(id)) return;
-    state.path = [id]; // a fresh frame: the reveal opens the shared machine as its own root
-    render();
-  }
-  function reset() {
-    state.path = [ROOT_ID];
-    render();
-  }
+  function focusChild(id) { if (!resolve(id)) return; state.compare = null; state.path.push(id); render(); }
+  function jumpTo(index) { state.compare = null; state.path = state.path.slice(0, index + 1); render(); }
+  function goTo(id) { if (!resolve(id)) return; state.compare = null; state.path = [id]; render(); }
+  function reset() { state.compare = null; state.path = [ROOT_ID]; render(); }
+  function openCompare(atlasId) { state.compare = atlasId; render(); }
+  function closeCompare() { state.compare = null; render(); }
 
   function render() {
     mount.innerHTML = "";
@@ -1269,24 +1501,45 @@ if (typeof module !== "undefined" && module.exports) module.exports = { renderRa
     const focusedId = state.path[state.path.length - 1];
     const focused = resolve(focusedId);
 
+    // ---- compare mode: the cross-case reveal ----
+    if (state.compare) {
+      const back = document.createElement("nav");
+      back.className = "rail";
+      const b = document.createElement("button");
+      b.className = "rail-seg";
+      b.innerHTML = "&lsaquo; back to " + (focused.label || focusedId);
+      b.addEventListener("click", closeCompare);
+      back.appendChild(b);
+      const sep = document.createElement("span"); sep.className = "rail-sep"; sep.textContent = "/";
+      const cur = document.createElement("span"); cur.className = "rail-seg rail-current"; cur.textContent = "compare";
+      back.appendChild(sep); back.appendChild(cur);
+      mount.appendChild(back);
+
+      const model = compare(resolve, state.compare);
+      mount.appendChild(renderView("view.compare", model, { onStage: goTo, resolve: resolve }));
+      window.scrollTo({ top: 0 });
+      return;
+    }
+
+    // ---- decompose mode ----
     mount.appendChild(renderRail(pathNodes, jumpTo, caseLabel));
 
-    // the reveal affordance: when focused on a stage of the shared machine, offer the jump up
-    // to pipe.root (where both cases are seen to break at different stages).
-    const root = resolve(REVEAL_ID);
-    const isStage = root && Array.isArray(root.children) && root.children.includes(focusedId) && focusedId !== REVEAL_ID;
-    const reveal = isStage ? { label: "the shared machine", onReveal: () => goTo(REVEAL_ID) } : null;
+    // compare is reachable both ways: as the sideways motion from any pipeline node, and as
+    // the end-of-path reveal (a primitive labels it "now see the surprising part").
+    const atlasId = compareAtlasFor(focusedId);
+    const isLeaf = !(focused.children && focused.children.length);
+    const onCompare = atlasId ? () => openCompare(atlasId) : null;
+    const compareLabel = isLeaf ? "now see the surprising part" : "compare the two cases";
 
     const fv = focusView(resolve, focusedId);
-    mount.appendChild(renderCard(focused, { motions: motions(focused, resolve), resolve: resolve, reveal: reveal }));
+    mount.appendChild(renderCard(focused, {
+      motions: motions(focused, resolve), resolve: resolve, onCompare: onCompare, compareLabel: compareLabel,
+    }));
 
-    // collapsed children, exactly one level down
     if (fv.children.length) {
       const wrap = document.createElement("section");
       wrap.className = "children";
-      const h = document.createElement("h3");
-      h.className = "children-head";
-      h.textContent = "made of";
+      const h = document.createElement("h3"); h.className = "children-head"; h.textContent = "made of";
       wrap.appendChild(h);
       fv.children.forEach((entry) => wrap.appendChild(renderChildCard(entry, focusChild)));
       mount.appendChild(wrap);
@@ -1295,7 +1548,6 @@ if (typeof module !== "undefined" && module.exports) module.exports = { renderRa
     window.scrollTo({ top: 0 });
   }
 
-  // a quiet reset affordance in the corner
   const home = document.getElementById("home");
   if (home) home.addEventListener("click", reset);
 

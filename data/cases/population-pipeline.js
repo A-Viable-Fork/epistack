@@ -135,6 +135,7 @@ const CASE = {
       id: "pipe.stage1",
       kind: "transformation",
       label: "Can you trust your sample?",
+      tag: "representativeness",
       role: "map an observed sample to an estimate of the population it is drawn from",
       position: "step",
       takes: ["sample {x_i}"],
@@ -175,6 +176,7 @@ const CASE = {
       id: "pipe.stage2",
       kind: "transformation",
       label: "Is the average enough?",
+      tag: "sufficiency",
       role: "map a population statistic to a conclusion about the target",
       position: "step",
       takes: ["statistic"],
@@ -246,6 +248,7 @@ const CASE = {
       case: "COVID origin",
       binds: { sample: "observed early cases", statistic: "spatial clustering", conclusion: "origin location" },
       broken_node: "pipe.stage1",
+      plain: "The early cases were a map of where people looked, not where the virus started.",
       departure:
         "stage-1 failure; the observed-case sample is biased by spatially concentrated surveillance, so inclusion correlates with location, the quantity being estimated",
       closure:
@@ -260,6 +263,7 @@ const CASE = {
       case: "eggs, individual dietary response",
       binds: { sample: "study responses", statistic: "mean response", conclusion: "an individual's response" },
       broken_node: "pipe.stage2",
+      plain: "The average hid that people react in opposite ways, so it can't tell one person what to do.",
       departure:
         "stage-2 failure; responders are heterogeneous, and the mean discards the within-population variance the individual conclusion needs",
       closure:

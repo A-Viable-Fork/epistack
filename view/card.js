@@ -180,7 +180,15 @@ function renderMotions(node, ctx) {
     r.addEventListener("click", ctx.reveal.onReveal);
     foot.appendChild(r);
   }
-  if (m.compare && m.compare.available) foot.innerHTML += `<span class="motion later"><span class="g">↔</span> also in ${m.compare.count} cases <span class="tag">compare</span></span>`;
+  // the compare motion: active (a button) when the app supplies a handler, else shown as later
+  if (ctx.onCompare) {
+    const c = vEl("button", "motion compare-on");
+    c.innerHTML = `<span class="g">↔</span> ${esc(ctx.compareLabel || "compare the two cases")}`;
+    c.addEventListener("click", ctx.onCompare);
+    foot.appendChild(c);
+  } else if (m.compare && m.compare.available) {
+    foot.innerHTML += `<span class="motion later"><span class="g">↔</span> also in ${m.compare.count} cases <span class="tag">compare</span></span>`;
+  }
   if (m.perturb) foot.innerHTML += `<span class="motion later"><span class="g">↻</span> flip this <span class="tag">perturb</span></span>`;
   return foot;
 }

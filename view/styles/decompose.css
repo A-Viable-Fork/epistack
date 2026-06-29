@@ -133,11 +133,31 @@ button.motion { cursor: pointer; font: inherit; font-size: .8rem; font-weight: 5
 .child-label { flex: 1 1 auto; font-weight: 500; }
 .child-meta { font-size: .72rem; color: var(--ink-faint); text-transform: lowercase; }
 
+/* compare-on motion (active, the sideways reveal) */
+.motion.compare-on { color: #23170a; background: var(--lamp); border-color: var(--lamp-deep); }
+
+/* the cross-case compare view */
+.compare .hook { margin-bottom: .35em; }
+.pipeline-row { display: flex; align-items: stretch; gap: 12px; margin: 1.6em 0 1.4em; flex-wrap: wrap; }
+.pstage { flex: 1 1 240px; text-align: left; background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r); padding: 16px 18px; cursor: pointer; font-family: var(--sans); color: var(--ink); display: flex; flex-direction: column; gap: 4px; min-width: 220px; transition: border-color .15s; }
+.pstage:hover { border-color: var(--ink-faint); }
+.pstage-step { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-faint); }
+.pstage-name { font-size: 1.12rem; font-weight: 700; line-height: 1.2; }
+.pstage-role { font-size: .82rem; color: var(--ink-faint); margin-bottom: 2px; }
+.pstage.lit { border-color: var(--danger); background: rgba(197, 96, 75, .07); box-shadow: inset 0 0 0 1px rgba(197, 96, 75, .25); }
+.break-mark { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: .82rem; font-weight: 600; color: var(--danger); text-transform: uppercase; letter-spacing: .04em; }
+.break-mark .bm-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--danger); flex: 0 0 auto; box-shadow: 0 0 0 3px rgba(197, 96, 75, .2); }
+.break-plain { font-family: var(--serif); font-size: 1rem; line-height: 1.45; color: var(--ink); font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 2px; }
+.pipe-arrow { align-self: center; color: var(--ink-faint); font-size: 1.3rem; flex: 0 0 auto; }
+.compare-takeaway { margin-top: .4em; }
+
 @media (max-width: 560px) {
   body { font-size: 17px; }
   .page { padding: 28px 16px 72px; }
   .hook { font-size: 1.7rem; }
   .gloss { grid-template-columns: 1fr; }
   .inspect .row { grid-template-columns: 1fr; }
+  .pipeline-row { flex-direction: column; }
+  .pipe-arrow { transform: rotate(90deg); align-self: flex-start; margin-left: 1.5rem; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

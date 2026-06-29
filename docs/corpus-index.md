@@ -16,6 +16,7 @@ through the includes it carries, so it is not required to have its own row.
 | `data/atlas/atlas.js` | atlas entries (abstract patterns) with clones and departures |
 | `data/components/visuals.js` | registered visual-component descriptors (the searchlight) |
 | `data/components/cards.js` | registered card-layout descriptors (teaching / terse) |
+| `data/components/views.js` | registered view-component descriptors (the compare view) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
 | `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
@@ -39,7 +40,7 @@ through the includes it carries, so it is not required to have its own row.
 | `engine/compose-gate/clean-json.js` | strip fences/prose from a model JSON reply (migrated, pure) |
 | `engine/decompose.js` | the DOWN motion: classify, motions, focusView (v1, built) |
 | `engine/perturb.js` | seam: the ALONG motion, authored overlay (v3, not built) |
-| `engine/compare.js` | seam: the SIDEWAYS motion (v2, not built) |
+| `engine/compare.js` | the SIDEWAYS motion: atlas clones to broken-node coordinates (built) |
 
 ## view/ (reads the engine; owns no data)
 
@@ -50,6 +51,7 @@ through the includes it carries, so it is not required to have its own row.
 | `view/card.js` | the learning-first node card (teaching layer + inspect disclosure) |
 | `view/rail.js` | the spine rail: the clicked path, entry to focused |
 | `view/visuals.js` | view-side renderers for visual components (the searchlight) |
+| `view/compare-view.js` | the cross-case compare view renderer (learning-first reveal) |
 | `view/decompose-app.js` | the decompose surface boot: registry, resolver, drill + reveal nav |
 | `view/styles/main.css` | the artifact's main stylesheet |
 | `view/styles/compose-gate.css` | the compose-gate panel styles |

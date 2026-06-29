@@ -21,13 +21,14 @@ const { PRIMITIVES } = require("./data/primitives/primitives.js");
 const { ATLAS } = require("./data/atlas/atlas.js");
 const { VISUALS } = require("./data/components/visuals.js");
 const { CARD_LAYOUTS } = require("./data/components/cards.js");
+const { VIEW_COMPONENTS } = require("./data/components/views.js");
 const { FORKS } = require("./data/forks/forks.js");
 const { buildRegistry } = require("./engine/registry.js");
 const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
-const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS);
+const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS);
 let registry;
 try {
   registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
