@@ -52,6 +52,17 @@ a stable id only when it is shared or likely forked; one-off content stays inlin
 - Module head comment, three lines: role, contract, invariant. Comment the why, not the what.
   Greppable markers: `// SORRY:`, `// DEPARTURE:`, `// CONTRACT:`.
 - No em dashes in prose, code, or commits. Use a comma, a period, or restructure.
+- Status ledger is the single source of build truth. `docs/status-ledger.md` is the only place
+  build status is asserted; a PR is not done until the ledger line it affects moves, by exactly
+  the amount actually built. Prose elsewhere cites a ledger entry rather than re-hedging.
+
+## The shape: storage, a typed API, clients
+
+`data/` is storage, the one canonical typed graph. The engine is a typed API over it: reads
+(`resolve`, `decompose`, `compare`, `dependents`) are open; a write is `submit(claim)` to the
+gate, which promotes only on independent corroboration, never a direct store mutation. Clients
+(the view surfaces) consume the API and touch no truth field. See `docs/api.md`,
+`docs/clients.md`, `docs/architecture-storage-api-clients.md`.
 
 ## Build and check
 
