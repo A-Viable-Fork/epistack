@@ -48,7 +48,8 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `engine/decompose.js` | the DOWN motion: classify, motions, focusView (v1, built) |
 | `engine/perturb.js` | seam: the ALONG motion, authored overlay (v3, not built) |
 | `engine/compare.js` | the SIDEWAYS motion: atlas clones to broken-node coordinates (built) |
-| `engine/api.js` | the client-facing API: open reads (resolve/decompose/compare/dependents) + gated submit |
+| `engine/api.js` | the client-facing API: open reads (resolve/decompose/compare/dependents/gaps) + gated submit |
+| `engine/gaps.js` | the gap detector: grounding/freshness/coverage/dangling predicates as typed objects (objective, unranked) |
 
 ## view/ (reads the engine; owns no data)
 
@@ -78,5 +79,6 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `build/extract.mjs` | the one-time migration tool: slices knowledge-game.html into modules |
 | `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
 | `build/new-client.mjs` | scaffold a thin client: emit clients/<name>.json from the default |
+| `build/check-gaps.mjs` | the gap detector's oracle: predicate isolation tests + the sorry-ledger reproduction check |
 | `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |

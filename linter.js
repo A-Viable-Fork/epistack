@@ -249,6 +249,32 @@ for (const id of Object.keys(MANIFESTS)) {
   for (const p of validateManifest(resolved, KIND_SET)) fail("kit/manifest", p);
 }
 
+// ---- A2: the subjectivity boundary. The gap detector emits only OBJECTIVE structural gaps:
+//      no importance/score/weight/rank/priority field, and no code path orders gaps by importance
+//      or recommends one to close. Prioritization is absent by construction, not by convention
+//      (docs/architecture-storage-api-clients.md; docs/status-ledger.md A2).
+const { detectGaps } = require("./engine/gaps.js");
+const RANK_FIELDS = ["importance", "score", "weight", "rank", "priority"];
+let gapList = [];
+try {
+  gapList = detectGaps({ primitives: PRIMITIVES, atlas: ATLAS, cases });
+} catch (e) {
+  fail("A2/gaps", "gap detector threw: " + e.message);
+}
+for (const g of gapList) {
+  for (const k of RANK_FIELDS)
+    if (k in g) fail("A2/no-prioritization", `gap at ${g.at} carries a forbidden '${k}' field (a gap is objective; prioritization belongs to the assessment layer)`);
+  if (!g.kind || !g.at || !g.missing || !g.discharge)
+    fail("A2/gap-shape", `gap at ${g.at || "?"} is not a well-typed { kind, at, missing, discharge }`);
+}
+// static guarantee on the detector: it never sorts (emits in detection order) and never writes a
+// prioritization field onto a gap. The objective layer cannot rank; the client only renders it.
+fs.readFileSync(path.join(ROOT, "engine", "gaps.js"), "utf8").split("\n").forEach((l, i) => {
+  const code = l.replace(/\/\/.*$/, "");
+  if (/\.sort\s*\(/.test(code)) fail("A2/no-prioritization", `engine/gaps.js:${i + 1} sorts; the detector must emit gaps in detection order, never ranked`);
+  if (/\b(importance|score|weight|rank|priority)\s*:/.test(code)) fail("A2/no-prioritization", `engine/gaps.js:${i + 1} writes a prioritization field onto a gap`);
+});
+
 // ---- Rule 9: corpus-index lists every module and data file ----
 const indexPath = path.join(ROOT, "docs", "corpus-index.md");
 const indexText = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, "utf8") : "";

@@ -111,6 +111,24 @@ details.precise[open] > summary .chev { transform: rotate(90deg); }
 .inspect .v { color: var(--ink); }
 .fbadge { font-family: var(--sans); font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); border: 1px solid var(--rule); border-radius: 5px; padding: 1px 6px; margin-left: 6px; }
 
+/* gap panel: the objective gaps the API detects at a node, reported read-only, never ranked. */
+.gaps { max-width: var(--measure); margin: 1.6em 0 .4em; border: 1px solid var(--rule); border-radius: var(--r); background: var(--paper-2); padding: 16px 18px; }
+.gaps-head { font-family: var(--sans); font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); margin: 0 0 4px; }
+.gaps-note { font-family: var(--sans); font-size: .85rem; color: var(--ink-soft); margin: 0 0 12px; }
+.gap-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.gap { border-left: 3px solid var(--ink-faint); border-radius: 0 8px 8px 0; background: var(--paper); padding: 10px 14px; }
+.gap-grounding { border-left-color: var(--danger); }
+.gap-freshness { border-left-color: var(--lamp-deep); }
+.gap-coverage { border-left-color: var(--lamp); }
+.gap-dangling { border-left-color: var(--slate); }
+.gap-row { display: flex; align-items: baseline; gap: 10px; }
+.gap-kind { font-family: var(--sans); font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); }
+.gap-at { font-family: var(--mono); font-size: .78rem; color: var(--ink-faint); }
+.gap-missing { font-family: var(--sans); font-size: .92rem; color: var(--ink); margin: 6px 0 4px; }
+.gap-discharge { font-family: var(--sans); font-size: .85rem; color: var(--ink-soft); margin: 0; }
+.gap-label { font-weight: 600; color: var(--ink-faint); text-transform: uppercase; font-size: .68rem; letter-spacing: .05em; }
+.gap-ref { display: inline-block; font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); margin-top: 6px; }
+
 /* motions */
 .motions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2em; padding-top: 1.3em; border-top: 1px solid var(--rule); }
 .motion { font-family: var(--sans); font-size: .8rem; font-weight: 500; border-radius: 999px; padding: 8px 14px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--rule); color: var(--ink-soft); background: var(--paper-2); }
