@@ -14,12 +14,6 @@ const TOK_TEACHING = {
   "--ink-faint": "#8995a0", "--rule": "#cdd3d8", "--lamp": "#e8a33d", "--lamp-deep": "#c9852a",
   "--slate": "#647682", "--night": "#141a1f", "--danger": "#c5604b",
 };
-// a clean cool light skin, a different visual language (blue accent, white paper, no dark field).
-const TOK_PLAIN = {
-  "--paper": "#ffffff", "--paper-2": "#f1f3f5", "--ink": "#11151a", "--ink-soft": "#3d4853",
-  "--ink-faint": "#7a8693", "--rule": "#dfe3e8", "--lamp": "#2f6df0", "--lamp-deep": "#2356c8",
-  "--slate": "#5b6b7a", "--night": "#0f1722", "--danger": "#c5364b",
-};
 // a dark console palette for the auditor.
 const TOK_AUDITOR = {
   "--paper": "#0e1116", "--paper-2": "#161b22", "--ink": "#e6edf3", "--ink-soft": "#9da7b3",
@@ -41,20 +35,9 @@ const MAP_TEACHING = {
   comparison: { layout: "terse" },
   claim: { layout: "terse" },
 };
-// the thin skin: same coverage, but selection-step is mapped to NO visual (a different
-// presentation of the same data), proving the mapping, not the store, decides the look.
-const MAP_PLAIN = {
-  question: { layout: "teaching" },
-  "selection-step": { layout: "teaching" },
-  "sufficiency-step": { layout: "teaching" },
-  transformation: { layout: "teaching" },
-  assumption: { layout: "terse" },
-  primitive: { layout: "terse" },
-  observation: { layout: "terse" },
-  prediction: { layout: "terse" },
-  comparison: { layout: "terse" },
-  claim: { layout: "terse" },
-};
+// Thin clients are no longer hand-coded here. They are declarative manifests under clients/,
+// composed from the palette (data/clients/palette.js) and authored with the kit. This file now
+// holds only the FAT clients, which call more of the API and compose their own way.
 
 const CLIENTS = {
   // FAT: the learning-first teaching surface. Concrete entry, the compare reveal, the
@@ -78,17 +61,6 @@ const CLIENTS = {
     title: "Auditor console",
     tokens: TOK_AUDITOR,
     mapping: MAP_TEACHING,
-  },
-  // THIN: tokens + a kind-to-look mapping over the default read path. Covers every kind. The
-  // five-minute fork; reskins with no extra API use.
-  "client.plain": {
-    id: "client.plain",
-    kind: "client",
-    tier: "thin",
-    renderer: "thin",
-    title: "Plain reader",
-    tokens: TOK_PLAIN,
-    mapping: MAP_PLAIN,
   },
 };
 

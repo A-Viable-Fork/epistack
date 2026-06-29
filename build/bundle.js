@@ -12,6 +12,20 @@ const path = require("node:path");
 
 const ROOT = path.resolve(__dirname, "..");
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
+const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
+
+// gather every thin-client manifest under clients/ into one inlined object. A community client
+// is a validated manifest dropped into clients/; the build picks it up with no other change.
+function clientManifests() {
+  const dir = path.join(ROOT, "clients");
+  if (!fs.existsSync(dir)) return "var MANIFESTS = {};";
+  const out = {};
+  for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json")).sort()) {
+    const m = JSON.parse(fs.readFileSync(path.join(dir, f), "utf8"));
+    out[m.id] = m;
+  }
+  return "var MANIFESTS = " + JSON.stringify(out, null, 2) + ";";
+}
 
 // Build targets: each template inlines its @@INCLUDE@@ modules into one standalone file.
 //   submission.html is the migrated artifact; v1.html is the decompose surface (the v1
@@ -23,6 +37,7 @@ const TARGETS = [
 
 function buildOne(target) {
   let tpl = fs.readFileSync(path.join(ROOT, target.template), "utf8");
+  tpl = tpl.split(MANIFEST_TOKEN).join(clientManifests()); // inline the thin-client manifests
   const included = [];
   const out = tpl.replace(TOKEN, (_, rel) => {
     const abs = path.join(ROOT, rel.trim());

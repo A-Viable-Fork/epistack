@@ -23,13 +23,23 @@ const { VISUALS } = require("./data/components/visuals.js");
 const { CARD_LAYOUTS } = require("./data/components/cards.js");
 const { VIEW_COMPONENTS } = require("./data/components/views.js");
 const { CLIENTS } = require("./data/clients/clients.js");
+const { validateManifest } = require("./data/clients/palette.js");
 const { FORKS } = require("./data/forks/forks.js");
 const { buildRegistry } = require("./engine/registry.js");
 const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
 const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
-const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS);
+// thin-client manifests under clients/ (declarative, palette-composed, possibly forks)
+const MANIFESTS = {};
+const manifestDir = path.join(ROOT, "clients");
+if (fs.existsSync(manifestDir))
+  for (const f of fs.readdirSync(manifestDir).filter((x) => x.endsWith(".json"))) {
+    try { const m = JSON.parse(fs.readFileSync(path.join(manifestDir, f), "utf8")); MANIFESTS[m.id] = m; }
+    catch (e) { fail("kit/manifest", `clients/${f}: not valid JSON (${e.message})`); }
+  }
+
+const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS, MANIFESTS);
 let registry;
 try {
   registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
@@ -231,6 +241,12 @@ for (const id of Object.keys(CLIENTS)) {
   for (const key of Object.keys(c)) if (!CLIENT_KEYS.has(key)) fail("E/client-shape", `${id}: a client carries only tokens + mapping, not '${key}'`);
   if (c.mapping) for (const k of Object.keys(c.mapping)) if (!KIND_SET.includes(k)) fail("E/client-kind", `${id}: mapping names a kind '${k}' that is not in the closed set`);
   if (c.tier === "thin") for (const k of KIND_SET) if (!c.mapping || !c.mapping[k]) fail("E/thin-coverage", `${id}: thin client must cover kind '${k}'`);
+}
+// thin-client manifests (clients/*.json): validate the RESOLVED manifest (fork-aware) against
+// the palette, covering every kind. A malformed manifest fails the build loudly.
+for (const id of Object.keys(MANIFESTS)) {
+  const resolved = resolve(id) || MANIFESTS[id];
+  for (const p of validateManifest(resolved, KIND_SET)) fail("kit/manifest", p);
 }
 
 // ---- Rule 9: corpus-index lists every module and data file ----

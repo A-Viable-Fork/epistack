@@ -1,0 +1,31 @@
+{
+  "id": "client.blueprint",
+  "kind": "client",
+  "tier": "thin",
+  "title": "Blueprint",
+  "tokens": {
+    "--paper": "#0e1c2b",
+    "--paper-2": "#16293c",
+    "--ink": "#dce8f4",
+    "--ink-soft": "#9ab2c9",
+    "--ink-faint": "#5f7790",
+    "--rule": "#28415a",
+    "--lamp": "#38bdf8",
+    "--lamp-deep": "#0ea5e9",
+    "--slate": "#6b8299",
+    "--night": "#07121d",
+    "--danger": "#f87171"
+  },
+  "mapping": {
+    "question": { "layout": "teaching", "visual": "none" },
+    "selection-step": { "layout": "teaching", "visual": "viz.selection-static" },
+    "sufficiency-step": { "layout": "teaching", "visual": "none" },
+    "transformation": { "layout": "teaching", "visual": "none" },
+    "assumption": { "layout": "terse", "visual": "none" },
+    "primitive": { "layout": "terse", "visual": "none" },
+    "observation": { "layout": "terse", "visual": "none" },
+    "prediction": { "layout": "terse", "visual": "none" },
+    "comparison": { "layout": "terse", "visual": "none" },
+    "claim": { "layout": "terse", "visual": "none" }
+  }
+}

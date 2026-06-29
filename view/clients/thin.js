@@ -19,6 +19,15 @@ function renderThin(api, mount, client, opts) {
     const m = mapping[node.presentation && node.presentation.type];
     return m && m.layout ? m.layout : node.explain ? "teaching" : "terse";
   }
+  // the visual the manifest maps this node's kind to (or none), rendered from presentation.data.
+  function visualFor(node) {
+    const m = mapping[node.presentation && node.presentation.type];
+    if (!m || !m.visual || m.visual === "none" || typeof renderVisual !== "function") return null;
+    const d = (node.presentation && node.presentation.data) || {};
+    if (m.visual === "viz.searchlight" || m.visual === "viz.selection-static")
+      return renderVisual(m.visual, { sigma: d.spread, marker: d.marker, markerLabel: d.markerLabel });
+    return renderVisual(m.visual, d);
+  }
 
   function render() {
     mount.innerHTML = "";
@@ -26,8 +35,8 @@ function renderThin(api, mount, client, opts) {
     const focusedId = state.path[state.path.length - 1];
     const focused = api.resolve(focusedId);
 
-    mount.appendChild(renderRail(pathNodes, jumpTo, "Plain reader"));
-    mount.appendChild(renderCard(focused, { layout: layoutFor(focused), motions: api.motions(focusedId) }));
+    mount.appendChild(renderRail(pathNodes, jumpTo, client.title || "Plain reader"));
+    mount.appendChild(renderCard(focused, { layout: layoutFor(focused), visualEl: visualFor(focused), motions: api.motions(focusedId) }));
 
     const fv = api.decompose(focusedId);
     if (fv.children.length) {

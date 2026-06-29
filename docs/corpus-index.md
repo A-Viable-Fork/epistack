@@ -5,6 +5,11 @@ A manifest of every module and data file. Linter rule 9 fails on any tracked fil
 this current: a new file is a new row. The template `view/index.template.html` is named
 through the includes it carries, so it is not required to have its own row.
 
+The `clients/` directory is deliberately outside the tracked set. It holds community
+thin-client manifests (`clients/*.json`), each authored from the kit and validated by the
+linter against the palette and the kind set, but not corpus-indexed: a manifest is content a
+non-engineer drops in, not a module of the codebase, so it carries no index row.
+
 ## data/ (pure values; layer owns no behavior)
 
 | file | role |
@@ -19,7 +24,8 @@ through the includes it carries, so it is not required to have its own row.
 | `data/components/views.js` | registered view-component descriptors (the compare view) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
-| `data/clients/clients.js` | registered client descriptors (tokens + kind-to-look mapping + tier) |
+| `data/clients/clients.js` | the fat client descriptors (teaching, auditor) |
+| `data/clients/palette.js` | the thin-client palette catalog + validateManifest (the kit) |
 | `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
 | `data/compose-gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
 | `data/compose-gate/incumbent.json` | compose-gate incumbent map |
@@ -71,5 +77,6 @@ through the includes it carries, so it is not required to have its own row.
 | `build/bundle.js` | the deliverable build: inlines modules into submission.html + v1.html |
 | `build/extract.mjs` | the one-time migration tool: slices knowledge-game.html into modules |
 | `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
+| `build/new-client.mjs` | scaffold a thin client: emit clients/<name>.json from the default |
 | `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |
