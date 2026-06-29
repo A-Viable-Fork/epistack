@@ -39,11 +39,38 @@ const resolve = makeResolver(registry);
 
 // schema-node subset (primitives + case nodes) for the field and decomposition checks;
 // atlas entries and instances are addressable components but not schema graph nodes.
+// ---- load the data world: primitives + atlas + cases ----
+const { PRIMITIVES } = require("./data/primitives/primitives.js");
+const { ATLAS } = require("./data/atlas/atlas.js");
+const { VISUALS } = require("./data/components/visuals.js");
+const { CARD_LAYOUTS } = require("./data/components/cards.js");
+const { FORKS } = require("./data/forks/forks.js");
+const { buildRegistry } = require("./engine/registry.js");
+const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
+const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
+const cases = CASE_FILES.map((f) => require(f).CASE);
+
+const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS);
+let registry;
+try {
+  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
+} catch (e) {
+  fail("T0-1", "registry build failed: " + e.message);
+  registry = Object.create(null);
+}
+const resolve = makeResolver(registry);
+
+// schema-node subset (primitives + case nodes) for the field and decomposition checks;
+// atlas entries and instances are addressable components but not schema graph nodes.
 const nodeMap = Object.create(null);
 for (const id of Object.keys(PRIMITIVES)) nodeMap[id] = PRIMITIVES[id];
 const instances = [];
 for (const c of cases) {
   for (const id of Object.keys(c.nodes || {})) nodeMap[id] = c.nodes[id];
+  for (const id of Object.keys(c.nodes || {})) {
+    if (nodeMap[id]) fail("T0-1", `duplicate node id across data: ${id}`);
+    nodeMap[id] = c.nodes[id];
+  }
   for (const inst of c.instances || []) instances.push(inst);
 }
 
@@ -74,6 +101,59 @@ for (const c of cases) {
         fail("B1/teaching", `${id}: explain missing required '${f}' for a ${n.kind}`);
     }
   }
+}
+
+// ---- Rule 2 + A4: every reference resolves (through the resolver), and reference-not-inline.
+// A reference field holds an id (a string); an embedded object is inlined duplication.
+const REF_ARRAY_FIELDS = ["children", "inputs", "outputs"];
+const REF_SCALAR_FIELDS = ["atlas_ref", "produced_by", "instantiates", "broken_node", "forks", "copy_of"];
+for (const id of Object.keys(registry)) {
+  const c = registry[id];
+  // reference-not-inline: shared references must be id strings, never embedded components
+  for (const f of REF_ARRAY_FIELDS) {
+    if (c[f] != null && Array.isArray(c[f]))
+      c[f].forEach((x) => { if (typeof x !== "string") fail("A2/reference-not-inline", `${id}: '${f}' holds an inlined component, not an id`); });
+  }
+  for (const f of REF_SCALAR_FIELDS) {
+    if (c[f] != null && typeof c[f] !== "string") fail("A2/reference-not-inline", `${id}: '${f}' holds an inlined component, not an id`);
+  }
+  if (SCHEMA.hasMarker(c)) continue; // ledgered stub: its refs are part of the gap
+  for (const ref of referencesOf(c)) {
+    if (resolve(ref) === undefined) fail("rule2/T0-4", `${id}: reference '${ref}' does not resolve`);
+  }
+}
+
+// ---- A3: the dependents query is consistent with declared back-references ----
+// A primitive's `parents` are its back-references; they must equal what actually references
+// it. This catches a stale back-reference and exercises the blast-radius query.
+for (const id of Object.keys(PRIMITIVES)) {
+  const declared = PRIMITIVES[id].parents;
+  if (!declared) continue;
+  const actual = dependents(registry, id);
+  const dSet = new Set(declared);
+  const aSet = new Set(actual);
+  for (const p of declared) if (!aSet.has(p)) fail("A3/dependents", `${id}: declared parent '${p}' does not reference it`);
+  for (const p of actual) if (!dSet.has(p)) fail("A3/dependents", `${id}: '${p}' references it but is not in its parents back-reference`);
+}
+
+// ---- C2: every fork resolves (forks/copy_of parent exists) and no fork cycles ----
+for (const id of Object.keys(registry)) {
+  const c = registry[id];
+  const parent = c.forks || c.copy_of;
+  if (!parent) continue;
+  if (!registry[parent]) { fail("C2/fork", `${id}: fork parent '${parent}' does not resolve`); continue; }
+  // walk the parent chain; a revisit is a cycle
+  const seen = new Set([id]);
+  let cur = parent;
+  while (cur) {
+    if (seen.has(cur)) { fail("C2/fork", `${id}: fork cycle through '${cur}'`); break; }
+    seen.add(cur);
+    const p = registry[cur];
+    cur = p && (p.forks || p.copy_of);
+  }
+// ---- Rule 2: atlas_ref / child / input / output references resolve ----
+function refExists(id) {
+  return Boolean(nodeMap[id]);
 }
 
 // ---- Rule 2 + A4: every reference resolves (through the resolver), and reference-not-inline.

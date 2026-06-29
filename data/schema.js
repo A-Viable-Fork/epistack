@@ -23,6 +23,12 @@ const KINDS = [
 // terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
 const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
 
+];
+
+// v2 teaching layer (docs/teaching-layer.md). The on-ramp register, authored alongside the
+// terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
+const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
+
 // Terminal types: the closures a claim can reach (executive/judge overviews + graph ontology).
 const TERMINALS = [
   "measurement",
@@ -177,6 +183,9 @@ const SCHEMA = {
   REQUIRED_FIELDS,
   SORRY_FIELDS,
   EXPLAIN_FIELDS,
+  hasMarker,
+  validateNode,
+  validateExplain,
   hasMarker,
   validateNode,
   validateExplain,
