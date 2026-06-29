@@ -36,6 +36,66 @@ function renderTeaching(api, mount, client, opts) {
     return m && m.layout ? m.layout : node.explain ? "teaching" : "terse";
   }
 
+  // the objective gaps the API detects at this node or in its subtree, surfaced read-only. The
+  // panel reports each gap as found and ranks nothing: which gap matters most is left to the
+  // reader (docs/architecture-storage-api-clients.md; the subjectivity boundary).
+  function renderGapPanel(gaps) {
+    const sec = document.createElement("section");
+    sec.className = "gaps";
+    const h = document.createElement("h3");
+    h.className = "gaps-head";
+    h.textContent = (gaps.length === 1 ? "1 open gap here" : gaps.length + " open gaps here");
+    sec.appendChild(h);
+    const note = document.createElement("p");
+    note.className = "gaps-note";
+    note.textContent =
+      "These are the holes the map knows about at this step, reported as found. Which one matters most is yours to weigh; the map does not rank them.";
+    sec.appendChild(note);
+    const ul = document.createElement("ul");
+    ul.className = "gap-list";
+    gaps.forEach((g) => {
+      const li = document.createElement("li");
+      li.className = "gap gap-" + g.kind;
+      const row = document.createElement("div");
+      row.className = "gap-row";
+      const kind = document.createElement("span");
+      kind.className = "gap-kind";
+      kind.textContent = g.kind;
+      const at = document.createElement("span");
+      at.className = "gap-at";
+      at.textContent = g.at;
+      row.appendChild(kind);
+      row.appendChild(at);
+      li.appendChild(row);
+      const miss = document.createElement("p");
+      miss.className = "gap-missing";
+      miss.textContent = g.missing;
+      li.appendChild(miss);
+      const dis = document.createElement("p");
+      dis.className = "gap-discharge";
+      const lab = document.createElement("span");
+      lab.className = "gap-label";
+      lab.textContent = "closes when ";
+      dis.appendChild(lab);
+      dis.appendChild(document.createTextNode(g.discharge));
+      li.appendChild(dis);
+      const refText = g.sorry_ref
+        ? "sorry ledger: " + g.sorry_ref
+        : g.ledger_ref
+        ? "status ledger: " + g.ledger_ref
+        : "";
+      if (refText) {
+        const ref = document.createElement("span");
+        ref.className = "gap-ref";
+        ref.textContent = refText;
+        li.appendChild(ref);
+      }
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);
+    return sec;
+  }
+
   function render() {
     mount.innerHTML = "";
     const pathNodes = state.path.map((id) => api.resolve(id)).filter(Boolean);
@@ -74,6 +134,9 @@ function renderTeaching(api, mount, client, opts) {
       onCompare: onCompare,
       compareLabel: compareLabel,
     }));
+
+    const nodeGaps = (api.gaps ? api.gaps(focusedId) : []) || [];
+    if (nodeGaps.length) mount.appendChild(renderGapPanel(nodeGaps));
 
     if (fv.children.length) {
       const wrap = document.createElement("section");

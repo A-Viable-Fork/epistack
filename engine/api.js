@@ -22,6 +22,8 @@
         classify: require("./decompose.js").classify,
         compare: require("./compare.js").compare,
         pipelineMembers: require("./compare.js").pipelineMembers,
+        detectGaps: require("./gaps.js").detectGaps,
+        detectGapsAt: require("./gaps.js").detectGapsAt,
         SCHEMA: require("../data/schema.js"),
       }
     : {
@@ -33,6 +35,8 @@
         classify: classify,
         compare: compare,
         pipelineMembers: pipelineMembers,
+        detectGaps: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGaps : null,
+        detectGapsAt: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGapsAt : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null,
       };
 
@@ -69,6 +73,12 @@
       dependents: (id) => E.dependents(registry, id), // the blast radius: who references id
       motions: (id) => E.motions(resolve(id), resolve), // { decompose, compare, perturb }
       classify: (id) => E.classify(resolve(id)), // structural class of a node
+      // gaps: the substrate's own objective holes as first-class typed facts. gaps() over the
+      // whole graph, gaps(id) over a node's subtree. Read-only; the detector ranks nothing.
+      gaps: (id) =>
+        id == null
+          ? E.detectGaps(sources)
+          : E.detectGapsAt(sources, id),
       kinds: () => (E.SCHEMA ? E.SCHEMA.PRESENTATION_TYPES.slice() : []), // the closed kind set
       pipelineMembers: (rootId) => E.pipelineMembers(resolve, rootId),
       entry: () => entryId, // the case's learning-first entry id
