@@ -51,3 +51,38 @@ if (typeof module !== "undefined" && module.exports) module.exports = { renderRa
 // SORRY: seam only at this checkpoint. Built in v1 alongside view/card.js, on the
 //   population pipeline. Not built here yet (task non-goal).
 "use strict";
+
+function renderRail(pathNodes, onJump, caseLabel) {
+  const rail = document.createElement("nav");
+  rail.className = "rail";
+
+  if (caseLabel) {
+    const tag = document.createElement("span");
+    tag.className = "rail-case";
+    tag.textContent = caseLabel;
+    rail.appendChild(tag);
+    const sep = document.createElement("span");
+    sep.className = "rail-sep";
+    sep.textContent = "/";
+    rail.appendChild(sep);
+  }
+
+  pathNodes.forEach((node, i) => {
+    const last = i === pathNodes.length - 1;
+    const seg = document.createElement(last ? "span" : "button");
+    seg.className = "rail-seg" + (last ? " rail-current" : "");
+    seg.textContent = node.label || node.id;
+    if (!last) seg.addEventListener("click", () => onJump(i));
+    rail.appendChild(seg);
+    if (!last) {
+      const sep = document.createElement("span");
+      sep.className = "rail-sep";
+      sep.textContent = "›";
+      rail.appendChild(sep);
+    }
+  });
+
+  return rail;
+}
+
+if (typeof module !== "undefined" && module.exports) module.exports = { renderRail };

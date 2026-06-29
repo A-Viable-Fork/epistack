@@ -21,6 +21,7 @@ through the includes it carries, so it is not required to have its own row.
 | `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
 | `data/cases/population-pipeline.js` | the population-mismatch family, fully authored (COVID + eggs) |
 | `data/cases/lhc-cascade.js` | LHC safety; Branch 2 authored to the floor, Branches 1 and 3 stubbed |
+| `data/forks/forks.js` | fork descriptors (live pipe.stage1.plain, snapshot pipe.stage2.pinned) |
 | `data/compose-gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
 | `data/compose-gate/incumbent.json` | compose-gate incumbent map |
 | `data/compose-gate/A.json` | compose-gate contribution A |
@@ -63,7 +64,9 @@ through the includes it carries, so it is not required to have its own row.
 | `view/rail.js` | seam: the v1 spine rail (not built at this checkpoint) |
 | `view/styles/main.css` | the artifact's main stylesheet |
 | `view/styles/compose-gate.css` | the compose-gate panel styles |
-| `view/index.template.html` | the build template; carries @@INCLUDE@@ tokens for bundle.js |
+| `view/styles/decompose.css` | the v1 decompose surface styles |
+| `view/index.template.html` | the build template for submission.html; @@INCLUDE@@ tokens |
+| `view/decompose.template.html` | the build template for v1.html (the decompose surface) |
 
 ## build/ and root tooling
 
@@ -75,4 +78,6 @@ through the includes it carries, so it is not required to have its own row.
 | `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `build/bundle.js` | the deliverable build: inlines modules into submission.html (T0-6) |
 | `build/extract.mjs` | the one-time migration tool: slices knowledge-game.html into modules |
+| `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
+| `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |

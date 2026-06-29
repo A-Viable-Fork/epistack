@@ -25,6 +25,10 @@ const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", 
 
 ];
 
+// v2 teaching layer (docs/teaching-layer.md). The on-ramp register, authored alongside the
+// terse fields (which stay as the inspect layer). explain.symbols glosses every symbol.
+const EXPLAIN_FIELDS = ["hook", "intuition", "in_words", "symbols", "scenario", "stakes"];
+
 // Terminal types: the closures a claim can reach (executive/judge overviews + graph ontology).
 const TERMINALS = [
   "measurement",
@@ -184,6 +188,7 @@ const SCHEMA = {
   validateExplain,
   hasMarker,
   validateNode,
+  validateExplain,
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = SCHEMA;

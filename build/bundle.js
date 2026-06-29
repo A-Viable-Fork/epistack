@@ -28,8 +28,16 @@ const OUT = path.join(ROOT, "submission.html");
 
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 
-function build() {
-  let tpl = fs.readFileSync(TEMPLATE, "utf8");
+// Build targets: each template inlines its @@INCLUDE@@ modules into one standalone file.
+//   submission.html is the migrated artifact; v1.html is the decompose surface (the v1
+//   milestone, kept separate until it is reviewed and merged into the deliverable).
+const TARGETS = [
+  { template: "view/index.template.html", out: "submission.html" },
+  { template: "view/decompose.template.html", out: "v1.html" },
+];
+
+function buildOne(target) {
+  let tpl = fs.readFileSync(path.join(ROOT, target.template), "utf8");
   const included = [];
   const out = tpl.replace(TOKEN, (_, rel) => {
     const abs = path.join(ROOT, rel.trim());
@@ -58,4 +66,4 @@ for (const t of TARGETS) buildOne(t);
   for (const r of included) console.log("  " + r);
 }
 
-build();
+for (const t of TARGETS) buildOne(t);
