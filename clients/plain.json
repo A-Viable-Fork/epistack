@@ -1,0 +1,31 @@
+{
+  "id": "client.plain",
+  "kind": "client",
+  "tier": "thin",
+  "title": "Plain reader",
+  "tokens": {
+    "--paper": "#ffffff",
+    "--paper-2": "#f1f3f5",
+    "--ink": "#11151a",
+    "--ink-soft": "#3d4853",
+    "--ink-faint": "#7a8693",
+    "--rule": "#dfe3e8",
+    "--lamp": "#2f6df0",
+    "--lamp-deep": "#2356c8",
+    "--slate": "#5b6b7a",
+    "--night": "#0f1722",
+    "--danger": "#c5364b"
+  },
+  "mapping": {
+    "question": { "layout": "teaching", "visual": "none" },
+    "selection-step": { "layout": "teaching", "visual": "none" },
+    "sufficiency-step": { "layout": "teaching", "visual": "none" },
+    "transformation": { "layout": "teaching", "visual": "none" },
+    "assumption": { "layout": "terse", "visual": "none" },
+    "primitive": { "layout": "terse", "visual": "none" },
+    "observation": { "layout": "terse", "visual": "none" },
+    "prediction": { "layout": "terse", "visual": "none" },
+    "comparison": { "layout": "terse", "visual": "none" },
+    "claim": { "layout": "terse", "visual": "none" }
+  }
+}

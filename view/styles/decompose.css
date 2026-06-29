@@ -142,6 +142,15 @@ button.motion { cursor: pointer; font: inherit; font-size: .8rem; font-weight: 5
 .sw-btn { font-family: var(--sans); font-size: .8rem; font-weight: 500; color: var(--ink-soft); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
 .sw-btn:hover { border-color: var(--ink-faint); }
 .sw-btn.on { color: #fff; background: var(--lamp-deep); border-color: var(--lamp-deep); }
+.sw-btn.thin { border-style: dashed; }
+.sw-btn.broken { color: var(--danger); border-color: var(--danger); text-decoration: line-through; }
+.client-error { font-family: var(--sans); border: 1px solid var(--danger); background: rgba(197, 96, 75, .08); color: var(--ink); border-radius: 10px; padding: 16px 18px; }
+.client-error ul { margin: .5em 0 0; padding-left: 1.2em; font-size: .9rem; color: var(--ink-soft); }
+
+/* the static-figure visual (a palette alternative to the live searchlight) */
+.selection-static { margin: 0; background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+.selection-static svg { display: block; width: 100%; height: auto; padding: 8px 8px 0; }
+.selection-static .ss-cap { font-family: var(--serif); font-size: .95rem; color: var(--ink-soft); padding: 6px 16px 14px; margin: 0; }
 
 /* the auditor console (token-driven, so tokens reskin it) */
 .aud-bar { font-family: var(--mono); font-size: .85rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 10px 14px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 10px; margin-bottom: 1.2em; }

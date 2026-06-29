@@ -86,3 +86,5 @@ See `CITATION.cff`, or cite as: `<author>, "A Typed Substrate for Navigating Kno
 ## Forking and contributing
 
 The map is built to be forked. A new case is a data file under `data/cases/` conforming to the schema in `data/schema.js`; the linter enforces the schema and the layer boundaries. The design axioms explain what to keep invariant. Because of the license, public forks and hosted modifications carry the same source-availability obligation, which is the point: the map stays open as it grows.
+
+The lightest fork is a **thin client**: one declarative manifest that restyles what the engine returns, no code below it. Run `node build/new-client.mjs <name>`, edit the tokens and the kind-to-look mapping in the generated `clients/<name>.json`, rebuild, and open `v1.html#client=<name>`. Community manifests live in `clients/`; each is validated at build and at render, so a manifest that misses a kind or names a layout the palette does not have fails loudly instead of rendering broken. The full authoring path is `docs/thin-clients.md`. For a client that uses the map a genuinely different way, write a fat client against the API per `docs/clients.md`.

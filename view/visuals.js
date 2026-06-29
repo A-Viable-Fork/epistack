@@ -112,11 +112,43 @@ function renderSearchlight(params) {
   return root;
 }
 
+// A static-figure variant of the searchlight: the even truth, one fixed detection bump at the
+// marker, and the observed curve, with no slider and no animation. Consumes the same
+// presentation.data a selection-step carries, so a thin client can map selection-step to this
+// instead of the interactive searchlight (a palette choice, no code).
+function renderSelectionStatic(params) {
+  const P = Object.assign({ sigma: 0.085, marker: 0.68, markerLabel: "the market" }, params || {});
+  const X0 = 40, X1 = 560, BASE = 250, NPTS = 120;
+  const mapX = (u) => X0 + u * (X1 - X0);
+  const detect = (u) => Math.exp(-((u - P.marker) * (u - P.marker)) / (2 * P.sigma * P.sigma));
+  const ds = []; let sum = 0;
+  for (let i = 0; i <= NPTS; i++) { const dv = detect(i / NPTS); ds.push(dv); sum += dv; }
+  const mean = sum / (NPTS + 1), scale = (BASE - 70) * 0.42, yOf = (v) => BASE - v * scale;
+  let p = "M " + X0 + " " + BASE;
+  for (let j = 0; j <= NPTS; j++) p += " L " + mapX(j / NPTS).toFixed(1) + " " + yOf(ds[j] / mean).toFixed(1);
+  p += " L " + X1 + " " + BASE + " Z";
+  const truthY = yOf(1).toFixed(1);
+  const root = document.createElement("figure");
+  root.className = "selection-static";
+  root.innerHTML =
+    '<svg viewBox="0 0 600 270" role="img" aria-label="The even truth as a flat dashed line, and the observed cases as a single bump where the search was concentrated, even though the field is even.">' +
+    '<defs><linearGradient id="ssfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--lamp)" stop-opacity=".4"/><stop offset="1" stop-color="var(--lamp)" stop-opacity=".05"/></linearGradient></defs>' +
+    '<line x1="' + X0 + '" y1="' + BASE + '" x2="' + X1 + '" y2="' + BASE + '" stroke="var(--rule)" stroke-width="1"/>' +
+    '<path d="M ' + X0 + " " + truthY + " L " + X1 + " " + truthY + '" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-dasharray="5 5"/>' +
+    '<path d="' + p + '" fill="url(#ssfill)" stroke="var(--lamp)" stroke-width="2"/>' +
+    '<text x="46" y="' + (yOf(1) - 6).toFixed(1) + '" fill="var(--ink-faint)" font-family="sans-serif" font-size="11">the even truth</text>' +
+    '<line x1="' + mapX(P.marker).toFixed(1) + '" y1="40" x2="' + mapX(P.marker).toFixed(1) + '" y2="' + BASE + '" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 4"/>' +
+    '<text x="' + mapX(P.marker).toFixed(1) + '" y="' + (BASE + 16) + '" fill="var(--ink-faint)" font-family="sans-serif" font-size="11" text-anchor="middle">' + esc(P.markerLabel) + "</text>" +
+    "</svg>" +
+    '<figcaption class="ss-cap">What you see piles up where you looked hardest, even though the field is even.</figcaption>';
+  return root;
+}
+
 function esc(s) {
   return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-const VISUAL_RENDERERS = { "viz.searchlight": renderSearchlight };
+const VISUAL_RENDERERS = { "viz.searchlight": renderSearchlight, "viz.selection-static": renderSelectionStatic };
 
 function renderVisual(component, params) {
   const fn = VISUAL_RENDERERS[component];

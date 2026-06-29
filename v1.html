@@ -151,6 +151,15 @@ button.motion { cursor: pointer; font: inherit; font-size: .8rem; font-weight: 5
 .sw-btn { font-family: var(--sans); font-size: .8rem; font-weight: 500; color: var(--ink-soft); background: var(--paper-2); border: 1px solid var(--rule); border-radius: 999px; padding: 6px 13px; cursor: pointer; }
 .sw-btn:hover { border-color: var(--ink-faint); }
 .sw-btn.on { color: #fff; background: var(--lamp-deep); border-color: var(--lamp-deep); }
+.sw-btn.thin { border-style: dashed; }
+.sw-btn.broken { color: var(--danger); border-color: var(--danger); text-decoration: line-through; }
+.client-error { font-family: var(--sans); border: 1px solid var(--danger); background: rgba(197, 96, 75, .08); color: var(--ink); border-radius: 10px; padding: 16px 18px; }
+.client-error ul { margin: .5em 0 0; padding-left: 1.2em; font-size: .9rem; color: var(--ink-soft); }
+
+/* the static-figure visual (a palette alternative to the live searchlight) */
+.selection-static { margin: 0; background: var(--paper-2); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+.selection-static svg { display: block; width: 100%; height: auto; padding: 8px 8px 0; }
+.selection-static .ss-cap { font-family: var(--serif); font-size: .95rem; color: var(--ink-soft); padding: 6px 16px 14px; margin: 0; }
 
 /* the auditor console (token-driven, so tokens reskin it) */
 .aud-bar { font-family: var(--mono); font-size: .85rem; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; padding: 10px 14px; background: var(--paper-2); border: 1px solid var(--rule); border-radius: 10px; margin-bottom: 1.2em; }
@@ -630,6 +639,66 @@ const VIEW_COMPONENTS = {
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { VIEW_COMPONENTS };</script>
+<script>// Role: the thin-client palette and the manifest validator. A thin client is a single
+//   declarative manifest (tokens + a kind-to-look mapping) that composes from this palette of
+//   built-in layouts and visual renderers. No engine, API, or view code for the common case.
+// Contract: PALETTE = { layouts, visuals } catalogs (id -> description); validateManifest(
+//   manifest, kinds) -> [problem strings]. Pure data + a pure function, DOM-free.
+// Invariant: the palette names are the only layouts/visuals a thin client may choose; a manifest
+//   that names anything else, or misses a kind, fails loudly (docs/thin-clients.md). The closed
+//   node-kind set stays graph-owned: a manifest maps kinds, it never invents one.
+"use strict";
+
+const PALETTE = {
+  // layout ids understood by view/card.js
+  layouts: {
+    teaching: "the learning-first card: hook, intuition, the communicated math, the visual, the break as a scenario, the stakes, and a see-the-precise-version disclosure",
+    terse: "a compact card; a primitive renders as a walled citation, an observation/prediction/comparison as its world-fact or test",
+  },
+  // visual ids understood by view/visuals.js (plus "none" for no visual)
+  visuals: {
+    "viz.searchlight": "the interactive swept searchlight; consumes a selection-step's distribution + detection data",
+    "viz.selection-static": "a static-figure variant of the searchlight (no slider); same data",
+    none: "no visual",
+  },
+};
+
+function isPlainObject(v) {
+  return v != null && typeof v === "object" && !Array.isArray(v);
+}
+
+// validateManifest: a manifest covers every node kind, names only palette entries, and carries
+// well-formed tokens. `kinds` is the closed set (api.kinds()). Empty array == valid.
+function validateManifest(manifest, kinds) {
+  const problems = [];
+  if (!isPlainObject(manifest)) return ["manifest is not an object"];
+  const id = manifest.id || "(no id)";
+  if (manifest.tier && manifest.tier !== "thin") problems.push(`${id}: the kit validates thin clients; tier is '${manifest.tier}'`);
+
+  // tokens: a map of CSS custom properties to string values
+  if (manifest.tokens !== undefined) {
+    if (!isPlainObject(manifest.tokens)) problems.push(`${id}: tokens must be an object`);
+    else for (const k of Object.keys(manifest.tokens)) {
+      if (!/^--[a-z0-9-]+$/i.test(k)) problems.push(`${id}: token '${k}' is not a CSS custom property (--name)`);
+      if (typeof manifest.tokens[k] !== "string") problems.push(`${id}: token '${k}' must be a string`);
+    }
+  }
+
+  // mapping: every kind covered, every layout/visual from the palette
+  const m = manifest.mapping;
+  if (!isPlainObject(m)) return problems.concat([`${id}: mapping must be an object`]);
+  for (const k of kinds) {
+    const entry = m[k];
+    if (!entry) { problems.push(`${id}: mapping is missing kind '${k}' (a thin client must cover every kind)`); continue; }
+    if (!entry.layout || !PALETTE.layouts[entry.layout]) problems.push(`${id}: kind '${k}' names layout '${entry.layout}', not in the palette`);
+    if (entry.visual != null && entry.visual !== "none" && !PALETTE.visuals[entry.visual]) problems.push(`${id}: kind '${k}' names visual '${entry.visual}', not in the palette`);
+  }
+  for (const k of Object.keys(m)) if (!kinds.includes(k)) problems.push(`${id}: mapping names kind '${k}' that is not in the closed set`);
+
+  return problems;
+}
+
+if (typeof module !== "undefined" && module.exports) module.exports = { PALETTE, validateManifest };</script>
 <script>// Role: the registered client descriptors. A client is a forkable unit over the untouched
 //   store, read-only against truth (docs/architecture-storage-api-clients.md, docs/clients.md).
 //   A descriptor carries only presentation: tokens (design tokens) + mapping (node kind -> a
@@ -645,12 +714,6 @@ const TOK_TEACHING = {
   "--paper": "#e7eaec", "--paper-2": "#dfe3e6", "--ink": "#1a2026", "--ink-soft": "#48555f",
   "--ink-faint": "#8995a0", "--rule": "#cdd3d8", "--lamp": "#e8a33d", "--lamp-deep": "#c9852a",
   "--slate": "#647682", "--night": "#141a1f", "--danger": "#c5604b",
-};
-// a clean cool light skin, a different visual language (blue accent, white paper, no dark field).
-const TOK_PLAIN = {
-  "--paper": "#ffffff", "--paper-2": "#f1f3f5", "--ink": "#11151a", "--ink-soft": "#3d4853",
-  "--ink-faint": "#7a8693", "--rule": "#dfe3e8", "--lamp": "#2f6df0", "--lamp-deep": "#2356c8",
-  "--slate": "#5b6b7a", "--night": "#0f1722", "--danger": "#c5364b",
 };
 // a dark console palette for the auditor.
 const TOK_AUDITOR = {
@@ -673,20 +736,9 @@ const MAP_TEACHING = {
   comparison: { layout: "terse" },
   claim: { layout: "terse" },
 };
-// the thin skin: same coverage, but selection-step is mapped to NO visual (a different
-// presentation of the same data), proving the mapping, not the store, decides the look.
-const MAP_PLAIN = {
-  question: { layout: "teaching" },
-  "selection-step": { layout: "teaching" },
-  "sufficiency-step": { layout: "teaching" },
-  transformation: { layout: "teaching" },
-  assumption: { layout: "terse" },
-  primitive: { layout: "terse" },
-  observation: { layout: "terse" },
-  prediction: { layout: "terse" },
-  comparison: { layout: "terse" },
-  claim: { layout: "terse" },
-};
+// Thin clients are no longer hand-coded here. They are declarative manifests under clients/,
+// composed from the palette (data/clients/palette.js) and authored with the kit. This file now
+// holds only the FAT clients, which call more of the API and compose their own way.
 
 const CLIENTS = {
   // FAT: the learning-first teaching surface. Concrete entry, the compare reveal, the
@@ -711,20 +763,155 @@ const CLIENTS = {
     tokens: TOK_AUDITOR,
     mapping: MAP_TEACHING,
   },
-  // THIN: tokens + a kind-to-look mapping over the default read path. Covers every kind. The
-  // five-minute fork; reskins with no extra API use.
-  "client.plain": {
-    id: "client.plain",
-    kind: "client",
-    tier: "thin",
-    renderer: "thin",
-    title: "Plain reader",
-    tokens: TOK_PLAIN,
-    mapping: MAP_PLAIN,
-  },
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { CLIENTS };</script>
+<script>var MANIFESTS = {
+  "client.blueprint": {
+    "id": "client.blueprint",
+    "kind": "client",
+    "tier": "thin",
+    "title": "Blueprint",
+    "tokens": {
+      "--paper": "#0e1c2b",
+      "--paper-2": "#16293c",
+      "--ink": "#dce8f4",
+      "--ink-soft": "#9ab2c9",
+      "--ink-faint": "#5f7790",
+      "--rule": "#28415a",
+      "--lamp": "#38bdf8",
+      "--lamp-deep": "#0ea5e9",
+      "--slate": "#6b8299",
+      "--night": "#07121d",
+      "--danger": "#f87171"
+    },
+    "mapping": {
+      "question": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "selection-step": {
+        "layout": "teaching",
+        "visual": "viz.selection-static"
+      },
+      "sufficiency-step": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "transformation": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "assumption": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "primitive": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "observation": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "prediction": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "comparison": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "claim": {
+        "layout": "terse",
+        "visual": "none"
+      }
+    }
+  },
+  "client.plain": {
+    "id": "client.plain",
+    "kind": "client",
+    "tier": "thin",
+    "title": "Plain reader",
+    "tokens": {
+      "--paper": "#ffffff",
+      "--paper-2": "#f1f3f5",
+      "--ink": "#11151a",
+      "--ink-soft": "#3d4853",
+      "--ink-faint": "#7a8693",
+      "--rule": "#dfe3e8",
+      "--lamp": "#2f6df0",
+      "--lamp-deep": "#2356c8",
+      "--slate": "#5b6b7a",
+      "--night": "#0f1722",
+      "--danger": "#c5364b"
+    },
+    "mapping": {
+      "question": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "selection-step": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "sufficiency-step": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "transformation": {
+        "layout": "teaching",
+        "visual": "none"
+      },
+      "assumption": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "primitive": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "observation": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "prediction": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "comparison": {
+        "layout": "terse",
+        "visual": "none"
+      },
+      "claim": {
+        "layout": "terse",
+        "visual": "none"
+      }
+    }
+  },
+  "client.warm": {
+    "id": "client.warm",
+    "kind": "client",
+    "tier": "thin",
+    "forks": "client.plain",
+    "overrides": {
+      "title": "Plain reader (warm)",
+      "tokens": {
+        "--paper": "#f6f1e7",
+        "--paper-2": "#eee7d6",
+        "--ink": "#2a2416",
+        "--ink-soft": "#5b5340",
+        "--ink-faint": "#9a9176",
+        "--rule": "#e0d8c2",
+        "--lamp": "#b5651d",
+        "--lamp-deep": "#8f4e16",
+        "--slate": "#7a7156",
+        "--night": "#1c1810",
+        "--danger": "#b23b2e"
+      }
+    }
+  }
+};</script>
 <script>// Role: the population-mismatch case-family, authored as data (docs/population-pipeline.md)
 //   with the v2 teaching layer (docs/teaching-layer.md). A self-contained data module the
 //   engine loads (T0-4). The terse fields are the inspect layer; explain{} is the on-ramp.
@@ -1049,21 +1236,6 @@ const FORKS = {
     at: "v2",
   },
 
-  // The thin-client reskin (docs/clients.md "the five-minute fork"): client.plain.warm forks
-  // client.plain and overrides ONLY tokens, a warm parchment skin. It inherits the mapping,
-  // the renderer, and the tier live, so the whole surface reskins with zero change to the store.
-  "client.plain.warm": {
-    id: "client.plain.warm",
-    forks: "client.plain",
-    overrides: {
-      title: "Plain reader (warm)",
-      tokens: {
-        "--paper": "#f6f1e7", "--paper-2": "#eee7d6", "--ink": "#2a2416", "--ink-soft": "#5b5340",
-        "--ink-faint": "#9a9176", "--rule": "#e0d8c2", "--lamp": "#b5651d", "--lamp-deep": "#8f4e16",
-        "--slate": "#7a7156", "--night": "#1c1810", "--danger": "#b23b2e",
-      },
-    },
-  },
 };
 
 if (typeof module !== "undefined" && module.exports) module.exports = { FORKS };</script>
@@ -1530,11 +1702,43 @@ function renderSearchlight(params) {
   return root;
 }
 
+// A static-figure variant of the searchlight: the even truth, one fixed detection bump at the
+// marker, and the observed curve, with no slider and no animation. Consumes the same
+// presentation.data a selection-step carries, so a thin client can map selection-step to this
+// instead of the interactive searchlight (a palette choice, no code).
+function renderSelectionStatic(params) {
+  const P = Object.assign({ sigma: 0.085, marker: 0.68, markerLabel: "the market" }, params || {});
+  const X0 = 40, X1 = 560, BASE = 250, NPTS = 120;
+  const mapX = (u) => X0 + u * (X1 - X0);
+  const detect = (u) => Math.exp(-((u - P.marker) * (u - P.marker)) / (2 * P.sigma * P.sigma));
+  const ds = []; let sum = 0;
+  for (let i = 0; i <= NPTS; i++) { const dv = detect(i / NPTS); ds.push(dv); sum += dv; }
+  const mean = sum / (NPTS + 1), scale = (BASE - 70) * 0.42, yOf = (v) => BASE - v * scale;
+  let p = "M " + X0 + " " + BASE;
+  for (let j = 0; j <= NPTS; j++) p += " L " + mapX(j / NPTS).toFixed(1) + " " + yOf(ds[j] / mean).toFixed(1);
+  p += " L " + X1 + " " + BASE + " Z";
+  const truthY = yOf(1).toFixed(1);
+  const root = document.createElement("figure");
+  root.className = "selection-static";
+  root.innerHTML =
+    '<svg viewBox="0 0 600 270" role="img" aria-label="The even truth as a flat dashed line, and the observed cases as a single bump where the search was concentrated, even though the field is even.">' +
+    '<defs><linearGradient id="ssfill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--lamp)" stop-opacity=".4"/><stop offset="1" stop-color="var(--lamp)" stop-opacity=".05"/></linearGradient></defs>' +
+    '<line x1="' + X0 + '" y1="' + BASE + '" x2="' + X1 + '" y2="' + BASE + '" stroke="var(--rule)" stroke-width="1"/>' +
+    '<path d="M ' + X0 + " " + truthY + " L " + X1 + " " + truthY + '" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-dasharray="5 5"/>' +
+    '<path d="' + p + '" fill="url(#ssfill)" stroke="var(--lamp)" stroke-width="2"/>' +
+    '<text x="46" y="' + (yOf(1) - 6).toFixed(1) + '" fill="var(--ink-faint)" font-family="sans-serif" font-size="11">the even truth</text>' +
+    '<line x1="' + mapX(P.marker).toFixed(1) + '" y1="40" x2="' + mapX(P.marker).toFixed(1) + '" y2="' + BASE + '" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 4"/>' +
+    '<text x="' + mapX(P.marker).toFixed(1) + '" y="' + (BASE + 16) + '" fill="var(--ink-faint)" font-family="sans-serif" font-size="11" text-anchor="middle">' + esc(P.markerLabel) + "</text>" +
+    "</svg>" +
+    '<figcaption class="ss-cap">What you see piles up where you looked hardest, even though the field is even.</figcaption>';
+  return root;
+}
+
 function esc(s) {
   return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-const VISUAL_RENDERERS = { "viz.searchlight": renderSearchlight };
+const VISUAL_RENDERERS = { "viz.searchlight": renderSearchlight, "viz.selection-static": renderSelectionStatic };
 
 function renderVisual(component, params) {
   const fn = VISUAL_RENDERERS[component];
@@ -2025,6 +2229,15 @@ function renderThin(api, mount, client, opts) {
     const m = mapping[node.presentation && node.presentation.type];
     return m && m.layout ? m.layout : node.explain ? "teaching" : "terse";
   }
+  // the visual the manifest maps this node's kind to (or none), rendered from presentation.data.
+  function visualFor(node) {
+    const m = mapping[node.presentation && node.presentation.type];
+    if (!m || !m.visual || m.visual === "none" || typeof renderVisual !== "function") return null;
+    const d = (node.presentation && node.presentation.data) || {};
+    if (m.visual === "viz.searchlight" || m.visual === "viz.selection-static")
+      return renderVisual(m.visual, { sigma: d.spread, marker: d.marker, markerLabel: d.markerLabel });
+    return renderVisual(m.visual, d);
+  }
 
   function render() {
     mount.innerHTML = "";
@@ -2032,8 +2245,8 @@ function renderThin(api, mount, client, opts) {
     const focusedId = state.path[state.path.length - 1];
     const focused = api.resolve(focusedId);
 
-    mount.appendChild(renderRail(pathNodes, jumpTo, "Plain reader"));
-    mount.appendChild(renderCard(focused, { layout: layoutFor(focused), motions: api.motions(focusedId) }));
+    mount.appendChild(renderRail(pathNodes, jumpTo, client.title || "Plain reader"));
+    mount.appendChild(renderCard(focused, { layout: layoutFor(focused), visualEl: visualFor(focused), motions: api.motions(focusedId) }));
 
     const fv = api.decompose(focusedId);
     if (fv.children.length) {
@@ -2128,93 +2341,96 @@ function renderAuditor(api, mount, client, opts) {
 }</script>
 
 <!-- the host wires the API to the active client -->
-<script>// Role: the host. The wiring that builds the API from storage once, selects the active client,
-//   applies that client's tokens, and runs it. The host is infrastructure, not a client: it is
-//   the only place the data is named, so clients never see storage (docs/clients.md).
-// Contract: boots on load; #client=<name> in the hash selects the client, #node=<id> sets the
-//   entry node. Renders a switcher and mounts the active client into #app.
-// Invariant: clients receive only the api object; they never see PRIMITIVES/CASE/ATLAS. Tokens
-//   are applied as CSS custom properties so switching a client reskins the whole surface.
+<script>// Role: the host. The wiring that builds the API from storage once, registers the fat clients
+//   and the thin-client manifests, validates each manifest against the palette, applies the
+//   active client's tokens, and runs it. The host is infrastructure, not a client.
+// Contract: boots on load; #client=<name> selects the client, #node=<id> sets the entry node.
+//   Renders a gallery (every client, node-preserving, shareable by hash) and mounts into #app.
+// Invariant: clients receive only the api object; they never see storage. A malformed thin
+//   manifest fails loudly in the gallery and never renders a broken node (docs/thin-clients.md).
 "use strict";
 
 (function () {
-  // build the API over storage. This is the wiring boundary; below here is the store.
+  const manifests = typeof MANIFESTS !== "undefined" ? MANIFESTS : {};
+
+  // build the API over storage, registering the fat client descriptors and the thin manifests.
   const api = createApi({
     primitives: PRIMITIVES,
     atlas: ATLAS,
     cases: [CASE],
-    components: Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS),
+    components: Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS, manifests),
     forks: typeof FORKS !== "undefined" ? FORKS : undefined,
   });
 
   const RENDERERS = { teaching: renderTeaching, thin: renderThin, auditor: renderAuditor };
-  const SHORT = {
-    teaching: "client.teaching",
-    auditor: "client.auditor",
-    plain: "client.plain",
-    warm: "client.plain.warm",
-  };
-  const SWITCH = [
-    { name: "teaching", label: "Teaching walk" },
-    { name: "auditor", label: "Auditor console" },
-    { name: "plain", label: "Plain reader" },
-  ];
+  const short = (id) => id.replace(/^client\./, "");
+
+  // the gallery: every client, fat and thin, with thin manifests validated against the palette.
+  const gallery = [];
+  for (const c of Object.values(CLIENTS)) {
+    gallery.push({ id: c.id, name: short(c.id), title: c.title || c.id, tier: c.tier, renderer: c.renderer, problems: [] });
+  }
+  for (const id of Object.keys(manifests)) {
+    const resolved = api.resolve(id) || manifests[id];
+    const problems = typeof validateManifest === "function" ? validateManifest(resolved, api.kinds()) : [];
+    gallery.push({ id, name: short(id), title: (resolved && resolved.title) || id, tier: "thin", renderer: "thin", problems });
+  }
+  const byName = {};
+  gallery.forEach((g) => (byName[g.name] = g));
 
   const mount = document.getElementById("app");
 
   function parseHash() {
     const h = typeof location !== "undefined" ? location.hash.replace(/^#/, "") : "";
     const out = {};
-    h.split("&").forEach((p) => {
-      const i = p.indexOf("=");
-      if (i > 0) out[p.slice(0, i)] = decodeURIComponent(p.slice(i + 1));
-    });
+    h.split("&").forEach((p) => { const i = p.indexOf("="); if (i > 0) out[p.slice(0, i)] = decodeURIComponent(p.slice(i + 1)); });
     return out;
   }
-
   function applyTokens(tokens) {
-    const root = document.documentElement;
-    if (tokens) for (const k of Object.keys(tokens)) root.style.setProperty(k, tokens[k]);
+    const r = document.documentElement;
+    if (tokens) for (const k of Object.keys(tokens)) r.style.setProperty(k, tokens[k]);
   }
-
-  function renderSwitcher(activeName) {
+  function renderGallery(activeName, node) {
     let bar = document.getElementById("switcher");
-    if (!bar) {
-      bar = document.createElement("div");
-      bar.id = "switcher";
-      bar.className = "switcher";
-      mount.parentNode.insertBefore(bar, mount);
-    }
+    if (!bar) { bar = document.createElement("div"); bar.id = "switcher"; bar.className = "switcher"; mount.parentNode.insertBefore(bar, mount); }
     bar.innerHTML = '<span class="sw-label">client</span>';
-    SWITCH.forEach((s) => {
+    gallery.forEach((g) => {
       const b = document.createElement("button");
-      b.className = "sw-btn" + (s.name === activeName ? " on" : "");
-      b.textContent = s.label;
-      b.addEventListener("click", () => { location.hash = "client=" + s.name; });
+      const broken = g.problems && g.problems.length;
+      b.className = "sw-btn" + (g.name === activeName ? " on" : "") + (broken ? " broken" : "") + (g.tier === "thin" ? " thin" : "");
+      b.textContent = g.title + (g.tier === "thin" ? "" : " · fat");
+      b.title = broken ? "invalid manifest: " + g.problems[0] : g.tier + " client";
+      b.addEventListener("click", () => { location.hash = "client=" + g.name + (node ? "&node=" + node : ""); });
       bar.appendChild(b);
     });
   }
 
   function boot() {
     const q = parseHash();
-    const name = q.client && SHORT[q.client] ? q.client : "teaching";
-    const client = api.resolve(SHORT[name]);
-    if (!client) { mount.textContent = "no client: " + name; return; }
-    applyTokens(client.tokens);
-    document.body.setAttribute("data-client", name);
-    // the reader lede is teaching framing; the auditor brings its own console header.
+    const g = q.client && byName[q.client] ? byName[q.client] : byName["teaching"];
+    const node = q.node;
+    renderGallery(g.name, node);
+    document.body.setAttribute("data-client", g.name);
     const lede = document.getElementById("lede");
-    if (lede) lede.style.display = name === "auditor" ? "none" : "";
-    renderSwitcher(name);
-    const render = RENDERERS[client.renderer];
-    if (!render) { mount.textContent = "no renderer for " + client.id; return; }
-    render(api, mount, client, { node: q.node });
+    if (lede) lede.style.display = g.renderer === "teaching" || g.renderer === "thin" ? "" : "none";
+
+    const client = api.resolve(g.id) || g;
+    // a malformed thin manifest fails loudly and renders nothing broken.
+    if (g.problems && g.problems.length) {
+      applyTokens(null);
+      mount.innerHTML = '<div class="client-error"><b>This thin client manifest is invalid.</b><ul>' +
+        g.problems.map((p) => "<li>" + String(p).replace(/</g, "&lt;") + "</li>").join("") + "</ul></div>";
+      return;
+    }
+    applyTokens(client.tokens);
+    const render = RENDERERS[g.renderer];
+    if (!render) { mount.textContent = "no renderer for " + g.id; return; }
+    render(api, mount, client, { node: node });
   }
 
   window.addEventListener("hashchange", boot);
   const home = document.getElementById("home");
   if (home) home.addEventListener("click", () => { location.hash = ""; boot(); });
-
   boot();
 })();</script>
 </body>
