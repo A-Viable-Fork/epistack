@@ -19,6 +19,7 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `data/graph.json` | the migrated typed claim graph (v0.1 citation schema) the artifact renders |
 | `data/primitives/primitives.js` | the floor: shared basis primitives with citations |
 | `data/atlas/atlas.js` | atlas entries (abstract patterns) with clones and departures |
+| `data/bodies/bodies.js` | the body corpus (the empirical floor): bodies whose populated properties are measurement-terminal leaves |
 | `data/components/visuals.js` | registered visual-component descriptors (the searchlight) |
 | `data/components/cards.js` | registered card-layout descriptors (teaching / terse) |
 | `data/components/views.js` | registered view-component descriptors (the compare view) |

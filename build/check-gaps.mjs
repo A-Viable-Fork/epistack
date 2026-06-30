@@ -10,6 +10,7 @@ const require = createRequire(import.meta.url);
 const G = require("../engine/gaps.js");
 const { PRIMITIVES } = require("../data/primitives/primitives.js");
 const { ATLAS } = require("../data/atlas/atlas.js");
+const { BODIES } = require("../data/bodies/bodies.js");
 const cases = ["../data/cases/population-pipeline.js", "../data/cases/lhc-cascade.js"].map((f) => require(f).CASE);
 
 const fails = [];
@@ -124,9 +125,9 @@ const noRank = (gaps) => gaps.every((g) => RANK_KEYS.every((k) => !(k in g)));
   ok(G.groundingGaps(nodeMap, []).some((x) => x.at === "leaf"), "body: an uncited measurement leaf does not ground (grounding gap)");
 }
 
-// ---- the reproduction check: run on the real cases ----
+// ---- the reproduction check: run on the real cases (with the body corpus wired in) ----
 
-const sources = { primitives: PRIMITIVES, atlas: ATLAS, cases };
+const sources = { primitives: PRIMITIVES, atlas: ATLAS, cases, bodies: BODIES };
 const gaps = G.detectGaps(sources);
 
 ok(noRank(gaps), "no gap carries an importance/score/weight/rank/priority field");
@@ -150,10 +151,13 @@ for (const k of EXPECTED_MARKERS) ok(foundRefs.has(k), `reproduces the sorry-led
 // the un-populated atlas is found as a coverage gap
 ok(gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "reproduces the un-populated atlas as a coverage gap (A1)");
 
-// no false ones: every gap corresponds to a sorry-ledger marker or a status-ledger entry
-const ok_correspondent = (g) => !!g.sorry_ref || !!g.ledger_ref;
+// no false ones: every gap corresponds to a sorry-ledger marker, a status-ledger entry, or is a
+// populate-on-demand body coverage gap (ref-less by design: the demand is the gap). On the real
+// corpus no node cites a body, so none of the latter is present and the set is unchanged.
+const isPopulateOnDemand = (g) => g.kind === "coverage" && /not populated to the floor/.test(g.missing);
+const ok_correspondent = (g) => !!g.sorry_ref || !!g.ledger_ref || isPopulateOnDemand(g);
 const orphans = gaps.filter((g) => !ok_correspondent(g));
-ok(orphans.length === 0, "adds no false ones: every gap carries a sorry_ref or a ledger_ref" + (orphans.length ? " (orphans: " + orphans.map((o) => o.kind + "@" + o.at).join(", ") + ")" : ""));
+ok(orphans.length === 0, "adds no false ones: every gap carries a sorry_ref or a ledger_ref, or is a populate-on-demand body gap" + (orphans.length ? " (orphans: " + orphans.map((o) => o.kind + "@" + o.at).join(", ") + ")" : ""));
 
 // freshness and dangling are empty on the clean corpus (honest: present, fixture-tested, no instances)
 ok(!gaps.some((g) => g.kind === "freshness"), "freshness: zero on the current corpus (no stale source)");

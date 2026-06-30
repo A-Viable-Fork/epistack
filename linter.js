@@ -19,6 +19,8 @@ let checked = 0;
 // ---- load the data world: primitives + atlas + cases, into the one registry ----
 const { PRIMITIVES } = require("./data/primitives/primitives.js");
 const { ATLAS } = require("./data/atlas/atlas.js");
+const { BODIES } = require("./data/bodies/bodies.js");
+const GAPS = require("./engine/gaps.js");
 const { VISUALS } = require("./data/components/visuals.js");
 const { CARD_LAYOUTS } = require("./data/components/cards.js");
 const { VIEW_COMPONENTS } = require("./data/components/views.js");
@@ -58,6 +60,10 @@ for (const c of cases) {
   for (const id of Object.keys(c.nodes || {})) nodeMap[id] = c.nodes[id];
   for (const inst of c.instances || []) instances.push(inst);
 }
+// the empirical floor: flatten populated body properties into measurement leaves, exactly as the
+// detector does, so the linter validates them as cited primitives and sees the same graph.
+const bodyLeaves = GAPS.flattenBodies(BODIES);
+for (const id of Object.keys(bodyLeaves)) nodeMap[id] = bodyLeaves[id];
 
 // ---- Rule 1: required fields per kind (via schema, the single source of truth) ----
 for (const id of Object.keys(nodeMap)) {
@@ -249,15 +255,37 @@ for (const id of Object.keys(MANIFESTS)) {
   for (const p of validateManifest(resolved, KIND_SET)) fail("kit/manifest", p);
 }
 
+// ---- Body corpus shape: the empirical floor. A populated property is a measurement leaf and must
+//      carry value, unit, and citation so it grounds; a stub must carry a sorry string and never a
+//      value (it is a placeholder, not a terminal). The flattened leaves above are validated as
+//      cited primitives by rule 1; this checks the source shape before flattening.
+for (const bid of Object.keys(BODIES)) {
+  const b = BODIES[bid];
+  if (!b.id || !b.name || !b.properties) { fail("body/shape", `${bid}: a body needs id, name, properties`); continue; }
+  for (const pname of Object.keys(b.properties)) {
+    const p = b.properties[pname];
+    const where = `${bid}#${pname}`;
+    if (p && p.sorry) {
+      if (p.value !== undefined) fail("body/shape", `${where}: a stub must not carry a value (it is unpopulated)`);
+    } else if (GAPS.isPopulated(p)) {
+      if (p.value === undefined) fail("body/shape", `${where}: a populated property needs a value`);
+      if (!p.unit) fail("body/shape", `${where}: a populated property needs a unit`);
+      if (p.terminal_type !== "measurement") fail("body/shape", `${where}: a body property is a measurement terminal`);
+    } else {
+      fail("body/shape", `${where}: a property is neither a populated measurement (value + unit + citation) nor a stub (sorry)`);
+    }
+  }
+}
+
 // ---- A2: the subjectivity boundary. The gap detector emits only OBJECTIVE structural gaps:
 //      no importance/score/weight/rank/priority field, and no code path orders gaps by importance
 //      or recommends one to close. Prioritization is absent by construction, not by convention
 //      (docs/architecture-storage-api-clients.md; docs/status-ledger.md A2).
-const { detectGaps } = require("./engine/gaps.js");
+const detectGaps = GAPS.detectGaps;
 const RANK_FIELDS = ["importance", "score", "weight", "rank", "priority"];
 let gapList = [];
 try {
-  gapList = detectGaps({ primitives: PRIMITIVES, atlas: ATLAS, cases });
+  gapList = detectGaps({ primitives: PRIMITIVES, atlas: ATLAS, cases, bodies: BODIES });
 } catch (e) {
   fail("A2/gaps", "gap detector threw: " + e.message);
 }
