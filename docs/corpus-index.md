@@ -81,5 +81,6 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
 | `build/new-client.mjs` | scaffold a thin client: emit clients/<name>.json from the default |
 | `build/check-gaps.mjs` | the gap detector's oracle: predicate isolation tests + the sorry-ledger reproduction check |
+| `build/check-perturb.mjs` | the perturbation overlay's oracle: the authored danger-flip cascade, non-destructive and deterministic |
 | `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |

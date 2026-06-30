@@ -23,6 +23,7 @@ and returns resolved, read-only values. A read never mutates anything.
 | `api.classify(id)` | a node id | the structural class (transformation / primitive / given) |
 | `api.gaps()` | nothing | every objective structural gap in the graph, as typed objects (below) |
 | `api.gaps(id)` | a node id | the gaps at that node or anywhere in its decomposition subtree |
+| `api.perturb(flipped)` | a set of assumption ids | the authored-consequence overlay `{ states, trails }` for those flips; a non-destructive what-if read (below) |
 | `api.kinds()` | nothing | the closed set of semantic node kinds (presentation types) |
 | `api.entry()` | nothing | the case's learning-first entry id |
 | `api.compareTargetFor(id)` | a node id | the atlas a node can open compare on (its own `atlas_ref`, or its shared pipeline's), or `null` |
@@ -50,6 +51,28 @@ A gap object never carries an importance, score, weight, rank, or priority field
 orders gaps by importance. The detector reports gaps objectively; **which gap most needs closing
 is a subjective judgment, deferred to assessment-layer clients, never decided in the store**
 (`docs/architecture-storage-api-clients.md`). The linter proves the absence of any ranking path.
+
+## Perturbation is a non-destructive what-if read
+
+`api.perturb(flipped)` is the ALONG motion: given a set of assumption ids to flip, it returns the
+overlay those flips produce, read from the authored `perturb.cascade` each assumption carries. It
+never mutates the graph; a client displays the overlay and a Reset clears back to the empty set.
+
+```
+{ states: { [targetId]: new_state, ... },
+  trails: [ { from, to, new_state, consequence }, ... ] }
+```
+
+- `states` is the as-flipped state of each consequence node (the `state` vocabulary: sound /
+  consistent / contradicted). On the LHC case, flipping `lhc.assume.danger` sets
+  `lhc.prediction: "sound"` and `lhc.comparison: "contradicted"`, so the survival comparison turns red.
+- `trails` is the ordered consequence chain per flip, chained along the inference path
+  (assumption to its targets), each link carrying the authored `consequence` text for highlight.
+- `api.perturb([])` returns the as-argued graph (`{ states: {}, trails: [] }`).
+
+The consequence is a recorded fact read from the graph, never derived by a propagation rule. The
+computed propagation engine stays excluded (`docs/exclusion-reservoir.md`, T1-3) until authored
+consequences exist for every case and a rule audit exists; this read is the permitted authored path.
 
 ## The write is a gated submission, not CRUD
 
