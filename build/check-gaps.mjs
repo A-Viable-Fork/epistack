@@ -148,8 +148,8 @@ const EXPECTED_MARKERS = [
 const foundRefs = new Set(gaps.map((g) => g.sorry_ref).filter(Boolean));
 for (const k of EXPECTED_MARKERS) ok(foundRefs.has(k), `reproduces the sorry-ledger marker ${k} as a gap`);
 
-// the un-populated atlas is found as a coverage gap
-ok(gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "reproduces the un-populated atlas as a coverage gap (A1)");
+// the atlas is populated with typed preconditions, so no A1 coverage gap remains
+ok(!gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "the atlas carries typed preconditions: no A1 coverage gap remains");
 
 // no false ones: every gap corresponds to a sorry-ledger marker, a status-ledger entry, or is a
 // populate-on-demand body coverage gap (ref-less by design: the demand is the gap). The LHC model
