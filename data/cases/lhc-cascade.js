@@ -160,6 +160,14 @@ const CASE = {
       atlas_ref: "atlas.projectile-stops-in-target",
       inputs: ["lhc.assume.neutral", "lhc.N2.2"],
       outputs: ["lhc.antecedent"],
+      // the empirical floor: the stopping condition reads the density and radius of the dense
+      // bodies (which can stop the object) and the Earth foil (too sparse to). Each is a measured
+      // body property, grounded because the world closed it (data/bodies/bodies.js).
+      body_refs: [
+        "earth#mean_density", "earth#radius",
+        "white-dwarf#mean_density", "white-dwarf#radius",
+        "neutron-star#mean_density", "neutron-star#radius",
+      ],
     },
 
     // -- Branch 3: accretion. STUB (sorry) + the deferred accretion-regime verification. --
@@ -180,6 +188,10 @@ const CASE = {
       label: "Time to destruction",
       value: "t_destroy(S, under the dangerous hypothesis)",
       produced_by: "lhc.branch3",
+      // the integration ceiling: t_destroy integrates the accretion until the object has consumed
+      // the body, so it reads the body's mass (data/bodies/bodies.js). The accretion RATE is the
+      // deferred regime, carried once by lhc.branch3#sorry, not re-surfaced here.
+      body_refs: ["white-dwarf#mass", "neutron-star#mass"],
     },
     "lhc.observation": {
       id: "lhc.observation",
@@ -197,6 +209,9 @@ const CASE = {
       test: "t_destroy < tau_S",
       state: "consistent",
       note: "as-argued the bodies survive (consistent); flipping lhc.assume.danger turns this contradicted",
+      // tau_S is the body's measured age: the survival bound reads the dense bodies' ages
+      // (data/bodies/bodies.js), the world-fact the prediction is tested against.
+      body_refs: ["white-dwarf#age", "neutron-star#age"],
     },
   },
 };

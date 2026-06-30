@@ -42,9 +42,15 @@ if (fs.existsSync(manifestDir))
   }
 
 const COMPONENTS = Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS, MANIFESTS);
+// the empirical floor in the registry: the flattened measurement leaves, plus a body-existence
+// entry per body so that a model node's body_refs (which point at the body, "<body>#<property>")
+// resolve. A populated property grounds; an unpopulated one is a coverage gap, not a broken edge.
+const bodyLeaves = GAPS.flattenBodies(BODIES);
+const bodyRegistry = Object.assign({}, bodyLeaves);
+for (const bid of Object.keys(BODIES)) bodyRegistry["body." + bid] = { id: "body." + bid, name: BODIES[bid].name, body_existence: true };
 let registry;
 try {
-  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS });
+  registry = buildRegistry({ primitives: PRIMITIVES, atlas: ATLAS, cases, components: COMPONENTS, forks: FORKS, bodies: bodyRegistry });
 } catch (e) {
   fail("T0-1", "registry build failed: " + e.message);
   registry = Object.create(null);
@@ -60,9 +66,8 @@ for (const c of cases) {
   for (const id of Object.keys(c.nodes || {})) nodeMap[id] = c.nodes[id];
   for (const inst of c.instances || []) instances.push(inst);
 }
-// the empirical floor: flatten populated body properties into measurement leaves, exactly as the
-// detector does, so the linter validates them as cited primitives and sees the same graph.
-const bodyLeaves = GAPS.flattenBodies(BODIES);
+// the empirical floor: the flattened measurement leaves are schema nodes too, validated as cited
+// primitives by rule 1 (bodyLeaves built above for the registry; the same map seeds the nodeMap).
 for (const id of Object.keys(bodyLeaves)) nodeMap[id] = bodyLeaves[id];
 
 // ---- Rule 1: required fields per kind (via schema, the single source of truth) ----
