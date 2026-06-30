@@ -103,7 +103,7 @@
   // atlas pattern with clones but no typed preconditions (the un-populated atlas). Rebuttal-search
   // and question-set fire only on explicit markers, so absence is not flagged as a gap (a typing
   // choice: we do not assert a gap we have not characterized).
-  function coverageGaps(nodeMap, atlas) {
+  function coverageGaps(nodeMap, atlas, bodies) {
     const gaps = [];
     for (const id of Object.keys(atlas || {})) {
       const a = atlas[id];
@@ -141,6 +141,34 @@
           });
         }
       }
+      // populate-on-demand: a model node references a body property that the body declares as a
+      // stub or does not have. The demand is the gap; the discharge is the measurement. If the body
+      // itself does not exist, this says nothing: that ref is a dangling gap (referencesOf -> body
+      // existence). "Add only what a model needs, populate more on demand."
+      if (Array.isArray(n.body_refs)) {
+        for (const ref of n.body_refs) {
+          if (typeof ref !== "string") continue;
+          const hash = ref.indexOf("#");
+          const bid = hash >= 0 ? ref.slice(0, hash) : ref;
+          const pname = hash >= 0 ? ref.slice(hash + 1) : "";
+          const body = bodies && bodies[bid];
+          if (!body) continue; // absent body: the dangling rule owns it
+          const prop = (body.properties || {})[pname];
+          if (isPopulated(prop)) continue; // a populated property is a grounded terminal: no gap
+          // the populate-on-demand gap carries neither sorry_ref nor ledger_ref: the demand is the
+          // gap and the discharge is the measurement. A stub that names a ledger-resident marker may
+          // carry an explicit ledger_ref; the accretion stub names the existing branch-3 marker in
+          // prose and mints none, so none is attached.
+          const g = {
+            kind: "coverage",
+            at: n.id,
+            missing: "references body property '" + ref + "', which is not populated to the floor",
+            discharge: "measure and cite this property",
+          };
+          if (prop && prop.ledger_ref) g.ledger_ref = prop.ledger_ref;
+          gaps.push(g);
+        }
+      }
     }
     return gaps;
   }
@@ -169,8 +197,43 @@
     return gaps;
   }
 
-  // assemble the schema nodes (primitives + case nodes), the instances, and the atlas from the
-  // engine's sources, exactly as the linter does, so the detector sees the same graph.
+  // a property is populated (a real measurement leaf) iff it carries a citation and is not a stub.
+  function isPopulated(p) {
+    return !!(p && !p.sorry && p.citation != null);
+  }
+  // flatten ONLY the populated properties of a body corpus into measurement leaf nodes, keyed by
+  // `body.<body_id>.<property>`, kind primitive, terminal_type measurement. A stub is a placeholder,
+  // not a terminal, so it does not become a node and cannot accidentally ground anything.
+  function flattenBodies(bodies) {
+    const leaves = Object.create(null);
+    for (const bid of Object.keys(bodies || {})) {
+      const b = bodies[bid];
+      const props = (b && b.properties) || {};
+      for (const pname of Object.keys(props)) {
+        const p = props[pname];
+        if (!isPopulated(p)) continue; // skip stubs / unpopulated declarations
+        const lid = "body." + bid + "." + pname;
+        leaves[lid] = {
+          id: lid,
+          kind: "primitive",
+          presentation: { type: "primitive" },
+          label: (b.name || bid) + " " + pname.replace(/_/g, " "),
+          role: "measured property of " + (b.name || bid) + " (the empirical floor)",
+          terminal_type: "measurement",
+          value: p.value,
+          unit: p.unit,
+          citation: p.citation,
+          children: [],
+        };
+        if (p.regime != null) leaves[lid].regime = p.regime;
+      }
+    }
+    return leaves;
+  }
+
+  // assemble the schema nodes (primitives + case nodes + flattened body leaves), the instances, the
+  // atlas, and the body corpus from the engine's sources, exactly as the linter does, so the
+  // detector sees the same graph.
   function collect(sources) {
     sources = sources || {};
     const nodeMap = Object.create(null);
@@ -181,14 +244,20 @@
       for (const id of Object.keys(c.nodes || {})) nodeMap[id] = c.nodes[id];
       for (const inst of c.instances || []) instances.push(inst);
     }
-    return { nodeMap, instances, atlas: sources.atlas || {} };
+    const bodies = sources.bodies || {};
+    const bodyLeaves = flattenBodies(bodies);
+    for (const id of Object.keys(bodyLeaves)) nodeMap[id] = bodyLeaves[id];
+    return { nodeMap, instances, atlas: sources.atlas || {}, bodies };
   }
 
-  // the ids the graph can resolve: every schema node, every instance, every atlas entry.
-  function knownIds(nodeMap, instances, atlas) {
+  // the ids the graph can resolve: every schema node (incl. flattened body leaves), every instance,
+  // every atlas entry, and every body's existence id `body.<body_id>` (so a body_ref to an existing
+  // body never dangles; only a ref to an absent body does).
+  function knownIds(nodeMap, instances, atlas, bodies) {
     const known = new Set(Object.keys(nodeMap));
     for (const i of instances) known.add(i.id);
     for (const id of Object.keys(atlas || {})) known.add(id);
+    for (const bid of Object.keys(bodies || {})) known.add("body." + bid);
     return known;
   }
 
@@ -208,12 +277,12 @@
 
   // detectGaps(sources) -> every gap, objective and unranked, in a stable kind order.
   function detectGaps(sources) {
-    const { nodeMap, instances, atlas } = collect(sources);
-    const known = knownIds(nodeMap, instances, atlas);
+    const { nodeMap, instances, atlas, bodies } = collect(sources);
+    const known = knownIds(nodeMap, instances, atlas, bodies);
     return [].concat(
       groundingGaps(nodeMap, instances),
       freshnessGaps(nodeMap, instances),
-      coverageGaps(nodeMap, atlas),
+      coverageGaps(nodeMap, atlas, bodies),
       danglingGaps(nodeMap, instances, atlas, known)
     );
   }
@@ -254,6 +323,8 @@
     collect,
     knownIds,
     subtreeIds,
+    flattenBodies,
+    isPopulated,
     STALE_STATUSES,
   };
   if (NODE) module.exports = out;

@@ -38,6 +38,13 @@ function referencesOf(c) {
   if (c.guard && c.guard.assumption_id) pushOne(c.guard.assumption_id);
   if (c.perturb && Array.isArray(c.perturb.cascade)) c.perturb.cascade.forEach((s) => pushOne(s.target));
   if (Array.isArray(c.clones)) c.clones.forEach((cl) => pushOne(cl.node_id));
+  // body_refs cite a body property as "<body>#<property>". The reference edge points at the BODY
+  // (its existence): an absent body falls through to the dangling rule, while an existing body
+  // whose property is not yet populated is a populate-on-demand coverage gap, not a broken edge.
+  if (Array.isArray(c.body_refs))
+    c.body_refs.forEach((r) => {
+      if (typeof r === "string" && r) pushOne("body." + r.split("#")[0]);
+    });
   if (c.visual && c.visual.component) pushOne(c.visual.component);
   pushOne(c.card);
   pushOne(c.forks);

@@ -10,6 +10,7 @@ const require = createRequire(import.meta.url);
 const G = require("../engine/gaps.js");
 const { PRIMITIVES } = require("../data/primitives/primitives.js");
 const { ATLAS } = require("../data/atlas/atlas.js");
+const { BODIES } = require("../data/bodies/bodies.js");
 const cases = ["../data/cases/population-pipeline.js", "../data/cases/lhc-cascade.js"].map((f) => require(f).CASE);
 
 const fails = [];
@@ -73,9 +74,60 @@ const noRank = (gaps) => gaps.every((g) => RANK_KEYS.every((k) => !(k in g)));
   ok(g.length === 1 && g[0].at === "a" && /ghost/.test(g[0].missing), "dangling: flags the edge to the absent id only");
 }
 
-// ---- the reproduction check: run on the real cases ----
+// BODY: a populated body property, flattened, is a grounded measurement terminal.
+{
+  const bodies = { sun: { id: "sun", name: "the Sun", properties: { mass: { value: 2e30, unit: "kg", citation: { source: "std" }, terminal_type: "measurement" } } } };
+  const { nodeMap } = G.collect({ bodies });
+  ok(nodeMap["body.sun.mass"] && nodeMap["body.sun.mass"].kind === "primitive" && !!nodeMap["body.sun.mass"].citation, "body: a populated property flattens to a cited primitive leaf");
+  nodeMap.model = { id: "model", kind: "transformation", children: ["body.sun.mass"] };
+  ok(!G.groundingGaps(nodeMap, []).some((x) => x.at === "body.sun.mass"), "body: a populated body leaf grounds (no grounding gap)");
+}
 
-const sources = { primitives: PRIMITIVES, atlas: ATLAS, cases };
+// BODY: a stub does not flatten into a node (it cannot accidentally ground).
+{
+  const bodies = { wd: { id: "wd", name: "a white dwarf", properties: { accretion_regime: { sorry: "deferred" } } } };
+  const { nodeMap } = G.collect({ bodies });
+  ok(!nodeMap["body.wd.accretion_regime"], "body: a stub property does not become a node");
+}
+
+// BODY: a model node whose body_refs names an existing body but a stub/missing property fires
+// exactly one populate-on-demand coverage gap, carrying neither sorry_ref nor ledger_ref.
+{
+  const bodies = { wd: { id: "wd", name: "a white dwarf", properties: {
+    mean_density: { value: 1e9, unit: "kg/m^3", citation: { source: "x" }, terminal_type: "measurement" },
+    accretion_regime: { sorry: "deferred to Giddings-Mangano" },
+  } } };
+  const gs = G.coverageGaps({ stub: { id: "stub", kind: "transformation", body_refs: ["wd#accretion_regime"] } }, {}, bodies);
+  ok(gs.length === 1 && gs[0].kind === "coverage" && gs[0].at === "stub" && /not populated to the floor/.test(gs[0].missing) && /measure and cite/.test(gs[0].discharge), "body: a stub property -> one populate-on-demand coverage gap");
+  ok(gs[0].sorry_ref === undefined && gs[0].ledger_ref === undefined, "body: the populate-on-demand gap carries no sorry_ref or ledger_ref");
+  ok(G.coverageGaps({ miss: { id: "miss", kind: "transformation", body_refs: ["wd#luminosity"] } }, {}, bodies).length === 1, "body: a property the body lacks -> one coverage gap");
+  ok(G.coverageGaps({ pop: { id: "pop", kind: "transformation", body_refs: ["wd#mean_density"] } }, {}, bodies).length === 0, "body: a populated property -> no coverage gap");
+}
+
+// BODY: a model node whose body_refs names an absent body fires a dangling gap, not a coverage gap;
+// an existing body's unpopulated property never dangles (coverage owns it).
+{
+  const bodies = { wd: { id: "wd", name: "a white dwarf", properties: {} } };
+  const nm = { m: { id: "m", kind: "transformation", body_refs: ["ghost#mass"] } };
+  ok(G.coverageGaps(nm, {}, bodies).length === 0, "body: an absent body fires no coverage gap");
+  const d = G.danglingGaps(nm, [], {}, G.knownIds(nm, [], {}, bodies));
+  ok(d.length === 1 && d[0].kind === "dangling" && /body\.ghost/.test(d[0].missing), "body: an absent body fires a dangling gap (broken edge)");
+  const nm2 = { m2: { id: "m2", kind: "transformation", body_refs: ["wd#mass"] } };
+  ok(G.danglingGaps(nm2, [], {}, G.knownIds(nm2, [], {}, bodies)).length === 0, "body: an existing body's missing property does not dangle");
+}
+
+// BODY: a measurement leaf with no citation does NOT ground (citation required, as for the math floor).
+{
+  const nodeMap = {
+    root: { id: "root", kind: "transformation", children: ["leaf"] },
+    leaf: { id: "leaf", kind: "primitive", terminal_type: "measurement" },
+  };
+  ok(G.groundingGaps(nodeMap, []).some((x) => x.at === "leaf"), "body: an uncited measurement leaf does not ground (grounding gap)");
+}
+
+// ---- the reproduction check: run on the real cases (with the body corpus wired in) ----
+
+const sources = { primitives: PRIMITIVES, atlas: ATLAS, cases, bodies: BODIES };
 const gaps = G.detectGaps(sources);
 
 ok(noRank(gaps), "no gap carries an importance/score/weight/rank/priority field");
@@ -99,10 +151,13 @@ for (const k of EXPECTED_MARKERS) ok(foundRefs.has(k), `reproduces the sorry-led
 // the un-populated atlas is found as a coverage gap
 ok(gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "reproduces the un-populated atlas as a coverage gap (A1)");
 
-// no false ones: every gap corresponds to a sorry-ledger marker or a status-ledger entry
-const ok_correspondent = (g) => !!g.sorry_ref || !!g.ledger_ref;
+// no false ones: every gap corresponds to a sorry-ledger marker, a status-ledger entry, or is a
+// populate-on-demand body coverage gap (ref-less by design: the demand is the gap). On the real
+// corpus no node cites a body, so none of the latter is present and the set is unchanged.
+const isPopulateOnDemand = (g) => g.kind === "coverage" && /not populated to the floor/.test(g.missing);
+const ok_correspondent = (g) => !!g.sorry_ref || !!g.ledger_ref || isPopulateOnDemand(g);
 const orphans = gaps.filter((g) => !ok_correspondent(g));
-ok(orphans.length === 0, "adds no false ones: every gap carries a sorry_ref or a ledger_ref" + (orphans.length ? " (orphans: " + orphans.map((o) => o.kind + "@" + o.at).join(", ") + ")" : ""));
+ok(orphans.length === 0, "adds no false ones: every gap carries a sorry_ref or a ledger_ref, or is a populate-on-demand body gap" + (orphans.length ? " (orphans: " + orphans.map((o) => o.kind + "@" + o.at).join(", ") + ")" : ""));
 
 // freshness and dangling are empty on the clean corpus (honest: present, fixture-tested, no instances)
 ok(!gaps.some((g) => g.kind === "freshness"), "freshness: zero on the current corpus (no stale source)");
