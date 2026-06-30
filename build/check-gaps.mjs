@@ -138,7 +138,7 @@ ok(gaps.every((g) => KINDS.has(g.kind) && g.at && g.missing && g.discharge), "ev
 
 // the six sorry-ledger structural markers are each reproduced, carrying their ledger key
 const EXPECTED_MARKERS = [
-  "lhc.branch1#sorry",
+  // lhc.branch1#sorry is discharged: Branch 1 (production) is authored to the floor (N1.1-N1.3).
   "lhc.branch3#sorry",
   "lhc.N2.1#TODO_verify",
   "lhc.N2.2#TODO_verify",
