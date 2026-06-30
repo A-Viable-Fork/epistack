@@ -40,13 +40,20 @@ function buildOne(target) {
   tpl = tpl.split(MANIFEST_TOKEN).join(clientManifests()); // inline the thin-client manifests
   const included = [];
   const out = tpl.replace(TOKEN, (_, rel) => {
-    const abs = path.join(ROOT, rel.trim());
+    rel = rel.trim();
+    const abs = path.join(ROOT, rel);
     let body = fs.readFileSync(abs, "utf8");
     // Inlined JS/data carries a UMD export tail for headless (Node) use; harmless in
     // the browser (module is undefined). Strip a trailing newline so the inlined
     // block sits flush inside its tag, matching the single-file layout.
     body = body.replace(/\n$/, "");
-    included.push(rel.trim());
+    included.push(rel);
+    // Case modules each declare `const CASE = ...`; two of them at top level would collide.
+    // Wrap each case include in an IIFE that scopes its CASE and registers it on window.CASES,
+    // so many cases coexist in one bundle. The host reads window.CASES.
+    if (/^data\/cases\//.test(rel)) {
+      return "(function(){\n" + body + "\n;(window.CASES=window.CASES||[]).push(CASE);\n})();";
+    }
     return body;
   });
   const leftover = out.match(TOKEN);
