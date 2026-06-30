@@ -54,6 +54,9 @@ function renderCard(node, ctx) {
 
 // ---- the learning-first card ----
 function renderTeachingCard(node, ctx) {
+  // a node with no teaching content (an authored explain block) cannot render the learning-first
+  // layout even when a client maps its kind to it; fall back to the terse card rather than break.
+  if (!node.explain) return renderTerseCard(node, ctx);
   const e = node.explain;
   const card = vEl("article", "card teaching kind-" + node.kind);
 
@@ -191,7 +194,19 @@ function renderMotions(node, ctx) {
   } else if (m.compare && m.compare.available) {
     foot.innerHTML += `<span class="motion later"><span class="g">↔</span> also in ${m.compare.count} cases <span class="tag">compare</span></span>`;
   }
-  if (m.perturb) foot.innerHTML += `<span class="motion later"><span class="g">↻</span> flip this <span class="tag">perturb</span></span>`;
+  // the perturb motion: a live "flip this" / "reset" control when the client supplies handlers
+  // (the fat client), else shown as later. The client displays the engine-computed overlay; the
+  // card writes no truth field.
+  if (m.perturb) {
+    if (ctx.onPerturb) {
+      const p = vEl("button", "motion perturb-on" + (ctx.perturbActive ? " active" : ""));
+      p.innerHTML = `<span class="g">↻</span> ${ctx.perturbActive ? "reset to as-argued" : "flip this assumption"}`;
+      p.addEventListener("click", ctx.perturbActive ? ctx.onResetPerturb : ctx.onPerturb);
+      foot.appendChild(p);
+    } else {
+      foot.innerHTML += `<span class="motion later"><span class="g">↻</span> flip this <span class="tag">perturb</span></span>`;
+    }
+  }
   return foot;
 }
 

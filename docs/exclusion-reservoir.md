@@ -13,6 +13,13 @@ reactivation condition is a kill you cannot revisit. Seeded from the exclusion r
 | Bundling that minifies or obfuscates the submission source | the source is the forkable artifact and a judge may read it | never for the submission build; a separate minified build is fine if the readable one stays the deliverable |
 | Re-deriving a primitive in the engine to avoid a citation | breaks the decomposition floor (T1-2) | never |
 
+The "Computed perturbation in v1" row stays excluded: its condition is still unmet (authored
+consequences do not yet exist for every case, and no rule audit exists). What this does NOT exclude,
+and what is now built, is the authored-overlay APPLICATION: `engine/perturb.js` reads the consequence
+cascade an assumption already carries and renders it as a non-destructive overlay (status ledger B11).
+That is a read over authored data, not a propagation rule, so it carries no silent-error risk and is
+the permitted path. The excluded engine is the one that would COMPUTE consequences from a rule.
+
 ## Appended during setup
 
 | pattern | excluded because | reactivate when |
