@@ -14,11 +14,50 @@ function renderTeaching(api, mount, client, opts) {
   const REVEAL_ID = "pipe.root";
   const caseLabel = "Two arguments";
   const start = opts.node && api.has(opts.node) ? opts.node : ROOT_ID;
-  const state = { path: [start], compare: null };
+  const state = { path: [start], compare: null, flipped: new Set() };
 
   function focusChild(id) { if (!api.has(id)) return; state.compare = null; state.path.push(id); render(); }
   function jumpTo(i) { state.compare = null; state.path = state.path.slice(0, i + 1); render(); }
   function goTo(id) { if (!api.has(id)) return; state.compare = null; state.path = [id]; render(); }
+  function flip(id) { state.flipped.add(id); render(); }
+  function resetPerturb(id) { state.flipped.delete(id); render(); }
+
+  // the perturbation overlay: the authored consequence cascade for a flipped assumption, read from
+  // api.perturb and DISPLAYED (the comparison takes contradicted and turns red with its consequence
+  // text). The client writes no truth field; a Reset clears back to the as-argued graph.
+  function renderPerturbOverlay(overlay) {
+    const sec = document.createElement("section");
+    sec.className = "perturb-overlay";
+    sec.appendChild(Object.assign(document.createElement("h3"), { className: "po-head", textContent: "If you flip this assumption" }));
+    const note = document.createElement("p");
+    note.className = "po-note";
+    note.textContent = "A non-destructive what-if: the authored consequences cascade along the inference path. Reset restores the as-argued graph.";
+    sec.appendChild(note);
+    const ol = document.createElement("ol");
+    ol.className = "po-trail";
+    overlay.trails.forEach((link) => {
+      const li = document.createElement("li");
+      li.className = "po-link pstate-" + link.new_state;
+      const head = document.createElement("div");
+      head.className = "po-link-head";
+      const to = document.createElement("span");
+      to.className = "po-to";
+      to.textContent = link.to;
+      const st = document.createElement("span");
+      st.className = "po-state";
+      st.textContent = link.new_state;
+      head.appendChild(to);
+      head.appendChild(st);
+      li.appendChild(head);
+      const cons = document.createElement("p");
+      cons.className = "po-consequence";
+      cons.textContent = link.consequence;
+      li.appendChild(cons);
+      ol.appendChild(li);
+    });
+    sec.appendChild(ol);
+    return sec;
+  }
   function openCompare(atlasId) { state.compare = atlasId; render(); }
   function closeCompare() { state.compare = null; render(); }
 
@@ -126,14 +165,25 @@ function renderTeaching(api, mount, client, opts) {
     const compareLabel = isLeaf ? "now see the surprising part" : "compare the two cases";
 
     const fv = api.decompose(focusedId);
+    const motions = api.motions(focusedId);
+    const flipped = state.flipped.has(focusedId);
     mount.appendChild(renderCard(focused, {
       layout: layoutFor(focused),
       visualEl: visualFor(focused),
       visualAside: "The field underneath never changes. Only your searchlight moves.",
-      motions: api.motions(focusedId),
+      motions: motions,
       onCompare: onCompare,
       compareLabel: compareLabel,
+      onPerturb: () => flip(focusedId),
+      onResetPerturb: () => resetPerturb(focusedId),
+      perturbActive: flipped,
     }));
+
+    // the ALONG motion: when this assumption is flipped, display its authored-consequence overlay.
+    if (motions.perturb && flipped && api.perturb) {
+      const overlay = api.perturb([focusedId]);
+      if (overlay && overlay.trails.length) mount.appendChild(renderPerturbOverlay(overlay));
+    }
 
     const nodeGaps = (api.gaps ? api.gaps(focusedId) : []) || [];
     if (nodeGaps.length) mount.appendChild(renderGapPanel(nodeGaps));

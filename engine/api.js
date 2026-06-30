@@ -24,6 +24,7 @@
         pipelineMembers: require("./compare.js").pipelineMembers,
         detectGaps: require("./gaps.js").detectGaps,
         detectGapsAt: require("./gaps.js").detectGapsAt,
+        perturb: require("./perturb.js").perturb,
         SCHEMA: require("../data/schema.js"),
       }
     : {
@@ -37,6 +38,7 @@
         pipelineMembers: pipelineMembers,
         detectGaps: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGaps : null,
         detectGapsAt: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGapsAt : null,
+        perturb: typeof perturb !== "undefined" ? perturb : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null,
       };
 
@@ -72,6 +74,9 @@
       compare: (atlasOrId) => E.compare(resolve, atlasOrId), // cross-case model | null
       dependents: (id) => E.dependents(registry, id), // the blast radius: who references id
       motions: (id) => E.motions(resolve(id), resolve), // { decompose, compare, perturb }
+      // perturb: the ALONG motion as a non-destructive what-if read. Given a set of flipped
+      // assumption ids, return the authored-consequence overlay { states, trails }; never mutates.
+      perturb: (flippedSet) => E.perturb(resolve, flippedSet || []),
       classify: (id) => E.classify(resolve(id)), // structural class of a node
       // gaps: the substrate's own objective holes as first-class typed facts. gaps() over the
       // whole graph, gaps(id) over a node's subtree. Read-only; the detector ranks nothing.

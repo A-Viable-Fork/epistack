@@ -129,6 +129,22 @@ details.precise[open] > summary .chev { transform: rotate(90deg); }
 .gap-label { font-weight: 600; color: var(--ink-faint); text-transform: uppercase; font-size: .68rem; letter-spacing: .05em; }
 .gap-ref { display: inline-block; font-family: var(--mono); font-size: .72rem; color: var(--ink-faint); margin-top: 6px; }
 
+/* perturbation: the live flip control and the authored-consequence overlay (display-only). */
+.motion.perturb-on { font-family: var(--sans); font-size: .82rem; font-weight: 600; color: var(--lamp-deep); background: rgba(232, 163, 61, .12); border: 1px solid var(--lamp); border-radius: 9px; padding: 7px 13px; cursor: pointer; }
+.motion.perturb-on.active { color: var(--danger); background: rgba(197, 96, 75, .1); border-color: var(--danger); }
+.perturb-overlay { max-width: var(--measure); margin: 1.4em 0 .4em; border: 1px solid var(--danger); border-left-width: 3px; border-radius: var(--r); background: rgba(197, 96, 75, .05); padding: 16px 18px; }
+.po-head { font-family: var(--sans); font-size: .82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--danger); margin: 0 0 4px; }
+.po-note { font-family: var(--sans); font-size: .85rem; color: var(--ink-soft); margin: 0 0 12px; }
+.po-trail { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.po-link { border-left: 3px solid var(--slate); border-radius: 0 8px 8px 0; background: var(--paper); padding: 10px 14px; }
+.po-link.pstate-contradicted { border-left-color: var(--danger); }
+.po-link.pstate-sound { border-left-color: var(--lamp-deep); }
+.po-link-head { display: flex; align-items: baseline; gap: 10px; }
+.po-to { font-family: var(--mono); font-size: .8rem; color: var(--ink); }
+.po-state { font-family: var(--sans); font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-faint); }
+.pstate-contradicted .po-state { color: var(--danger); }
+.po-consequence { font-family: var(--sans); font-size: .92rem; color: var(--ink); margin: 6px 0 0; }
+
 /* motions */
 .motions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2em; padding-top: 1.3em; border-top: 1px solid var(--rule); }
 .motion { font-family: var(--sans); font-size: .8rem; font-weight: 500; border-radius: 999px; padding: 8px 14px; display: flex; align-items: center; gap: 7px; border: 1px solid var(--rule); color: var(--ink-soft); background: var(--paper-2); }

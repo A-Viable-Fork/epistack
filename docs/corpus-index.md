@@ -47,7 +47,7 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `engine/export.js` | machine-readable node + citation-edge export (migrated, pure) |
 | `engine/compose-gate/clean-json.js` | strip fences/prose from a model JSON reply (migrated, pure) |
 | `engine/decompose.js` | the DOWN motion: classify, motions, focusView (v1, built) |
-| `engine/perturb.js` | seam: the ALONG motion, authored overlay (v3, not built) |
+| `engine/perturb.js` | the ALONG motion: apply a flipped assumption's authored consequence cascade as a non-destructive overlay (built) |
 | `engine/compare.js` | the SIDEWAYS motion: atlas clones to broken-node coordinates (built) |
 | `engine/api.js` | the client-facing API: open reads (resolve/decompose/compare/dependents/gaps) + gated submit |
 | `engine/gaps.js` | the gap detector: grounding/freshness/coverage/dangling predicates as typed objects (objective, unranked) |
@@ -81,5 +81,6 @@ non-engineer drops in, not a module of the codebase, so it carries no index row.
 | `build/vendor-katex.mjs` | vendor KaTeX (JS + CSS with fonts inlined) for offline typeset math |
 | `build/new-client.mjs` | scaffold a thin client: emit clients/<name>.json from the default |
 | `build/check-gaps.mjs` | the gap detector's oracle: predicate isolation tests + the sorry-ledger reproduction check |
+| `build/check-perturb.mjs` | the perturbation overlay's oracle: the authored danger-flip cascade, non-destructive and deterministic |
 | `build/fork-demo.mjs` | demonstrate the canonical fork: pipe.stage1.plain changes only the intuition |
 | `linter.js` | enforces the design-axioms linter rules in CI and locally |
