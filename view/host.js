@@ -10,11 +10,16 @@
 (function () {
   const manifests = typeof MANIFESTS !== "undefined" ? MANIFESTS : {};
 
+  // every bundled case registers itself on window.CASES (the bundler wraps each case include so
+  // their `const CASE` declarations do not collide). The first case is the default entry.
+  const cases = typeof window !== "undefined" && Array.isArray(window.CASES) ? window.CASES : (typeof CASE !== "undefined" ? [CASE] : []);
+
   // build the API over storage, registering the fat client descriptors and the thin manifests.
   const api = createApi({
     primitives: PRIMITIVES,
     atlas: ATLAS,
-    cases: [CASE],
+    bodies: typeof BODIES !== "undefined" ? BODIES : undefined,
+    cases: cases,
     components: Object.assign({}, VISUALS, CARD_LAYOUTS, VIEW_COMPONENTS, CLIENTS, manifests),
     forks: typeof FORKS !== "undefined" ? FORKS : undefined,
   });

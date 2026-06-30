@@ -24,6 +24,7 @@
         pipelineMembers: require("./compare.js").pipelineMembers,
         detectGaps: require("./gaps.js").detectGaps,
         detectGapsAt: require("./gaps.js").detectGapsAt,
+        flattenBodies: require("./gaps.js").flattenBodies,
         perturb: require("./perturb.js").perturb,
         SCHEMA: require("../data/schema.js"),
       }
@@ -38,6 +39,7 @@
         pipelineMembers: pipelineMembers,
         detectGaps: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGaps : null,
         detectGapsAt: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGapsAt : null,
+        flattenBodies: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.flattenBodies : null,
         perturb: typeof perturb !== "undefined" ? perturb : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null,
       };
@@ -59,7 +61,17 @@
 
   function createApi(sources) {
     sources = sources || {};
-    const registry = E.buildRegistry(sources);
+    // the empirical floor: when a body corpus is supplied, register its flattened measurement
+    // leaves and a body-existence entry per body so body_refs resolve. The raw corpus stays on
+    // `sources` for the gap detector (which flattens it itself).
+    let regSources = sources;
+    if (sources.bodies && E.flattenBodies) {
+      const reg = E.flattenBodies(sources.bodies);
+      for (const bid of Object.keys(sources.bodies))
+        reg["body." + bid] = { id: "body." + bid, name: sources.bodies[bid].name, body_existence: true };
+      regSources = Object.assign({}, sources, { bodies: reg });
+    }
+    const registry = E.buildRegistry(regSources);
     const resolve = E.makeResolver(registry);
     const entryId =
       sources.entry ||
