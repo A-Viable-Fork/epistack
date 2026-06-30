@@ -152,12 +152,19 @@ for (const k of EXPECTED_MARKERS) ok(foundRefs.has(k), `reproduces the sorry-led
 ok(gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "reproduces the un-populated atlas as a coverage gap (A1)");
 
 // no false ones: every gap corresponds to a sorry-ledger marker, a status-ledger entry, or is a
-// populate-on-demand body coverage gap (ref-less by design: the demand is the gap). On the real
-// corpus no node cites a body, so none of the latter is present and the set is unchanged.
+// populate-on-demand body coverage gap (ref-less by design: the demand is the gap). The LHC model
+// now cites the body corpus (load-bearing), but every cited property is populated, so no
+// populate-on-demand gap is present and the set is unchanged.
 const isPopulateOnDemand = (g) => g.kind === "coverage" && /not populated to the floor/.test(g.missing);
 const ok_correspondent = (g) => !!g.sorry_ref || !!g.ledger_ref || isPopulateOnDemand(g);
 const orphans = gaps.filter((g) => !ok_correspondent(g));
 ok(orphans.length === 0, "adds no false ones: every gap carries a sorry_ref or a ledger_ref, or is a populate-on-demand body gap" + (orphans.length ? " (orphans: " + orphans.map((o) => o.kind + "@" + o.at).join(", ") + ")" : ""));
+
+// load-bearing and grounded: the LHC nodes that now cite the body corpus carry no coverage gap
+// (every cited property is populated) and no dangling gap (every cited body exists).
+const BODY_CITERS = ["lhc.N2.3", "lhc.prediction", "lhc.comparison"];
+ok(!gaps.some((g) => (g.kind === "coverage" || g.kind === "dangling") && BODY_CITERS.includes(g.at)),
+  "the body corpus is load-bearing and fully grounded: no coverage or dangling gap on the citing LHC nodes");
 
 // freshness and dangling are empty on the clean corpus (honest: present, fixture-tested, no instances)
 ok(!gaps.some((g) => g.kind === "freshness"), "freshness: zero on the current corpus (no stale source)");
