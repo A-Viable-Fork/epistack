@@ -33,14 +33,15 @@ No server, no network call, no install beyond a browser. The in-browser compose-
 
 The code makes the same commitments the system makes about knowledge: typed, decomposed to a shared basis, gaps named, forkable. The design axioms are in `docs/design-axioms.md` and are binding.
 
-Three layers, never crossed. `data/` is pure values, including the one schema that every node imports. `engine/` is pure logic with no DOM, so it runs headless for the compose gate and the linter. `view/` reads the engine and renders, and owns no data. A new case is added by writing a data file, never by editing the engine.
+One trust boundary, crossed only through a membrane. `kernel/` is the trusted core, pure logic with no DOM, so it runs headless for the gate and the linter; it imports only `kernel/`. `api/` is the sole membrane; it imports the kernel and nothing in the periphery. `periphery/` is the fallible layer, every AI component and every render surface, and it reaches the kernel only through `api/`. `corpora/` is pure data, imported by nothing. A new case is a folder under `corpora/`, never an edit to the kernel. See `docs/knowledge-system-how.md` for the boundary and `docs/design-axioms.md` (T0-2).
 
 ```
-data/      schema.js (single source of truth), atlas/, cases/, primitives/
-engine/    graph, decompose, perturb, compare, terminals, compose-gate/
-view/      card, rail, views, styles
-build/     bundle.js -> submission.html
-docs/      design-axioms, architecture-spec, schema-revisions, corpus-index, sorry-ledger
+kernel/     schema/ (lattice, the one schema), store, grounding, gate, analysis, motions
+api/        api.js (the membrane): open reads, gated write
+corpora/    _shared/ (units, bodies, atlas), _primitives/, lhc/ population/ ... (pure data)
+periphery/  navigate/ (render, clients, fat) + ingest/ author/ assess/ query/ redteam/ filter/
+build/      bundle.js -> submission.html ; check-gaps, check-perturb, check-map
+docs/       knowledge-system-{what,how,why}, judges-document, status-ledger, design-axioms, corpus-index, sorry-ledger
 ```
 
 ## Methodology

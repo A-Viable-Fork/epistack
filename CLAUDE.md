@@ -26,15 +26,19 @@ Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on t
 
 ## Architecture rule
 
-Three layers, dependency arrows one way, never crossed:
+One trust boundary, crossed only through the membrane. Dependency arrows one way (T0-2):
 
-    data/   pure values. schema.js is the single source of truth every node imports.
-    engine/ pure logic, DOM-free: no window, no document. Runs headless.
-    view/   reads the engine, renders, owns no data.
+    kernel/    trusted core. Pure logic, DOM-free: no window, no document. Runs headless.
+               schema/ carries the one schema and the lattice. Imports only kernel/.
+    api/       the sole membrane. Imports kernel/ (and api/); never the periphery.
+    periphery/ fallible: every AI component + every render surface. Reaches the kernel
+               only through api/, never kernel/ directly.
+    corpora/   pure data, imported by nothing (a corpus->corpus reference is data).
 
-view depends on engine depends on data. A DOM call in `engine/` or a data literal in
-`view/` is a Tier 0 violation. A new case is a data file under `data/cases/`; adding one
-never edits the engine or the view.
+periphery -> api -> kernel; corpora is data; build/ may reach any layer. A DOM call in
+`kernel/` or `api/`, or a `periphery` module importing `kernel` directly, is a Tier 0
+violation. A new case is a folder under `corpora/`; adding one never edits the kernel.
+`build/check-map.mjs` derives the import graph and enforces the boundary.
 
 **Reference, never inline.** Every shared thing (a primitive, a transformation, a card
 layout, a visual, a teaching block) lives once at a stable id and is referenced by it;
@@ -58,13 +62,16 @@ a stable id only when it is shared or likely forked; one-off content stays inlin
 
 ## The shape: storage, a typed API, clients
 
-`data/` is storage, the one canonical typed graph. The engine is a typed API over it: reads
-(`resolve`, `decompose`, `compare`, `dependents`) are open; a write is `submit(claim)` to the
-gate, which promotes only on independent corroboration, never a direct store mutation. Clients
-(the view surfaces) consume the API and touch no truth field. See `docs/api.md`,
-`docs/clients.md`, `docs/architecture-storage-api-clients.md`.
+`corpora/` is storage, the one canonical typed graph. The `kernel/` is a typed core and `api/`
+is a typed API over it: reads (`resolve`, `decompose`, `compare`, `dependents`, `gaps`) are open;
+a write is `submit(claim)` to the gate, which promotes only on independent corroboration, never a
+direct store mutation. Periphery surfaces consume the API and touch no truth field. See
+`docs/api.md`, `docs/clients.md`, `docs/knowledge-system-how.md`.
 
 ## Build and check
 
-    node build/bundle.js   # inline data + engine + view into submission.html
-    node linter.js         # fields, references, sorry-ledger, layer boundaries, corpus index
+    node build/bundle.js       # inline kernel + api + corpora + periphery into submission.html
+    node linter.js             # fields, references, sorry-ledger, trust boundary, corpus index
+    node build/check-gaps.mjs  # the gap detector reproduces the sorry ledger (5 gaps)
+    node build/check-perturb.mjs  # the perturbation overlay is pure and deterministic
+    node build/check-map.mjs   # derives the repo's import graph, enforces the trust boundary

@@ -1,91 +1,134 @@
 # Status Ledger
 
-The single source of build truth for the submission. Every claim about what is and is not built lives here, graded on one scale, so that the prose elsewhere states a claim and points here instead of re-hedging in every paragraph. If a maturity claim appears anywhere else, it is wrong by construction: this file is the only place build status is asserted.
+The single source of build truth. Every claim about what is and is not built lives here, graded on one scale, so prose elsewhere states a claim and points here instead of re-hedging in every paragraph. If a maturity claim appears anywhere else, it is wrong by construction: this file is the only place build status is asserted.
 
-The grade runs from built to named, a gradient a reader can take top to bottom.
+## How to read this ledger
+
+The infrastructure is mapped in full, every function and component the three architecture documents name, organized into five build stages. A stage is a coherent slice of capability that stands on its own and that later stages build on. Stage 0 is the working kernel that ships today. Stages 1 through 4 lay out the path to the full system, each component named with its grade, so the scope of what remains is legible at a glance rather than discovered piecemeal.
+
+Each component carries one grade:
 
 **Built and verified.** Coded or stored, and the oracle (build, linter, test, or measurement) passes.
-**In progress.** The boundary or scaffold exists; the full thing is being built, with what remains named.
-**Asserted, not built.** Designed and named, not yet stored or coded.
+**In progress.** The boundary or scaffold exists and the remainder is named.
+**Specified.** Designed and named, ready to build.
 **A characterized leap.** A claim that reaches past its evidence, with the gap stated and the instance that would close it.
-**Named, not walked.** The path is described, not yet taken.
 
-The last two are where a careless project writes "future work." Here they say what is missing and what would close it. The unit of progress is the named gap, not the confident resolution.
+The unit of progress is the named component and the named gap. Within a stage, the open code obligations and deferred verifications live one level down in `docs/sorry-ledger.md`, machine-checked one-to-one with the markers in `data/`; this ledger tracks scope and maturity, the sorry ledger tracks the live obligations of whichever stage is in flight.
 
-Two groupings sit below the gradient: **the coordination layer**, a detailed mature-system design held at the asserted-not-built grade and grouped for coherence; and **open seams**, named risks in that design rather than features, each with what would resolve it.
+**Discipline.** A component is done when its line here moves, on the same merge that builds it.
 
-**Scope.** This ledger is judge-facing and tracks the maturity of the claims. Open code obligations, latent bugs, and the specific deferred verifications live one level down in `docs/sorry-ledger.md`, which is developer-facing; the lines below cross-reference it where a status is discharged by a code obligation. The internal viability tracking stays offstage in its own file and never merges here.
+The blueprint vocabulary is the spine. Three documents define the architecture: the functions (What), the makeup (How), and the rationale (Why). Component names below match them.
 
-**Discipline.** A PR is not done until the line it affects moves. Status lives here and is updated by the same merge that changes it, the same rule already applied to the corpus index and the sorry ledger.
+---
 
-## Built and verified
+## Stage 0: The working kernel
 
-**[B1] The path.** A claim travels proposed, then sound in a model, then checked against the world, and promotion is advancing along it. Built.
+The deterministic core operating over formal knowledge, with its contract boundary and its reading surfaces. This is the engine that ships. It grounds claims to a floor, detects gaps mechanically, composes contributions through a gate, preserves refutations, and exposes all of it through an open read and a gated write that clients consume. Demonstrated on three cases of different shape.
 
-**[B2] The derivation segment, two cases.** The middle segment is a real traversal of transformations on two measurement cases in two terminal states. Built. On the LHC case, the production branch is now authored to the floor alongside stopping: `lhc.branch1` decomposes to N1.1 (fixed-target CoM energy), N1.2 (collision count, citing the body corpus for area and exposure), and N1.3 (the cross-section cancellation that drops the unknown sigma_BH), each on cited primitive leaves. Branch 3 (accretion) remains the one deferred production-side gap, gated on the Giddings-Mangano regime (`lhc.branch3#sorry`). The generalization to every measurement claim is a leap; see L1.
+**[0.1] The typed claim store.** Storage is the canonical typed graph: claims as nodes, support as typed edges, one schema imported everywhere (`data/schema.js`, design axiom T0-1). Built.
 
-**[B3] The partition.** The auditable side and the priced-and-refused side are structurally separated on a case that forks across the cut. Built.
+**[0.2] The formal floor.** The measurement and proof terminals: cited primitive leaves, and the body corpus (Earth, the Sun, a white dwarf, a neutron star) as measurement-terminal leaves with value, unit, and citation (`data/bodies/bodies.js`). A claim grounds because the world or a proof closes it. Built and verified; dense-body scalars are order-of-magnitude placeholders flagged for tightening.
 
-**[B4] Composition.** Two uncoordinated emitters' frozen output composes mechanically, no model in the loop, in `compose_gate.py`. Built and runnable.
+**[0.3] The grounding engine.** The detector that decides groundedness and finds the structural gaps: support reaching no terminal, a leaf that is not a cited primitive, a stale dependency, missing coverage, a dangling reference. Exposed as open API reads (`api.gaps`; `engine/gaps.js`). Run on the cases it reproduces the sorry ledger exactly, adds no false gaps, ranks nothing. Built and verified.
 
-**[B5] The teaching client.** The plain-language learning-first surface, the explain layer, typeset math, the searchlight visual, and the concrete entry path. Built, verified in-browser.
+**[0.4] The composition gate.** The sole write path: two uncoordinated emitters' frozen output composes mechanically, no model in the loop (`compose_gate.py`). Built and runnable.
 
-**[B6] The compare view.** The cross-case sideways motion: two unrelated cases shown breaking in the same structure at different stages. Built.
+**[0.5] The exclusion store.** Refuted claims kept with the reason and grounds, so a kill is recorded and cannot be silently revived (`docs/exclusion-reservoir.md`). Built.
 
-**[B7] The store-and-API boundary.** Storage is the canonical typed graph; the engine exposes it through open reads and a gated write, named as a single documented contract (`engine/api.js`, `docs/api.md`); the consuming components are clients of that API. Built.
+**[0.6] The atlas.** Structural patterns made queryable, each carrying typed preconditions and their variants (`atlas.statistic-supports-conclusion` with its representativeness and sufficiency stages; `atlas.projectile-stops-in-target` with its density-regime variant). Load-bearing: the detector finds no coverage gap on either. Built and verified.
 
-**[B8] The two-tier client layer.** A node declares only its kind (`presentation: { type, data }`, a closed graph-owned set); clients map kind to look. The thin tier (tokens + a kind-to-look mapping over the default read path, covering every kind) and the fat tier (`client.teaching`, the learning walk; `client.auditor`, an inspect-and-dependents console that uses a wider slice of the API a genuinely different way) both ship, switchable in `v1.html`. The boundary is enforced by the linter: a client touches no truth field and never reaches the store. Built and verified in-browser. `docs/clients.md` is the fat-client authoring contract.
+**[0.7] The perturbation overlay.** Flip an assumption and watch the conclusion give way: the engine reads the authored consequence cascade and returns a non-destructive overlay (`engine/perturb.js`, `api.perturb`), displayed by the fat client. Pure, non-destructive, deterministic (`build/check-perturb.mjs`). Built and verified in-browser.
 
-**[B9] The thin-client kit.** A thin client is a single declarative manifest in `clients/` (tokens + a kind-to-look mapping), composed from a fixed palette of layouts and visuals (`data/clients/palette.js`) and validated loudly at build and at render: a manifest that misses a kind, names a layout or visual outside the palette, or malforms its tokens fails and renders nothing broken. The scaffold `node build/new-client.mjs <name>` emits a valid covering manifest; the gallery in `v1.html` switches clients by `#client=<name>` while preserving the node. `client.plain` (the default reader) and `client.warm` (a tokens-only fork of it) ship as manifests. A third client, `client.blueprint`, was authored from the kit alone, no engine, API, or view file edited, re-presenting one kind from the palette. `docs/thin-clients.md` is the authoring contract. Built and verified in-browser.
+**[0.8] The store-and-API boundary.** Storage is the canonical graph; the engine exposes it through open reads and a gated write as one documented contract (`engine/api.js`, `docs/api.md`); consumers are clients of that API. Built.
 
-**[A2] Structural gap detection.** The detector finds the substrate's objective structural gaps, grounding (support reaching no terminal, or a leaf that is not a cited primitive), freshness (a dependency on a superseded source), coverage (no rebuttal searched, a question-set branch undrawn, an atlas pattern with no typed preconditions), and dangling dependencies, as first-class typed objects, and exposes them as open API reads (`api.gaps`, `api.gaps(id)`; `engine/gaps.js`, `docs/api.md`). Run on the cases it reproduces the sorry ledger exactly: a grounding gap for each live sorry marker, the un-populated atlas as two coverage gaps, no false ones, nothing ranked (`build/check-gaps.mjs`). The default client surfaces gaps read-only at a node, kind, what is missing, and the discharge, ranking nothing; the linter forbids any importance/score/weight/rank/priority field and any sort-by-importance path, so prioritization is absent by construction. Built and verified in-browser. Which gap most needs closing is subjective and stays out of scope; the deeper inconsistency and topological-hole methods are N5.
+**[0.9] The navigator.** The reading surfaces: the thin tier (a declarative manifest mapping node kind to look, validated loudly at build and render) and the fat tier (`client.teaching`, the learning walk; `client.auditor`, an inspect-and-dependents console), switchable in the shipped artifact, the boundary enforced by the linter so a client touches no truth field. The teaching client, the compare view (two cases breaking in the same structure at different stages), and the thin-client kit all ship. Built and verified in-browser.
 
-**[B10] The body corpus (the empirical floor).** Bodies (Earth, the Sun, a white dwarf, a neutron star) are a corpus sibling to the primitives, `data/bodies/bodies.js`: a body property is a measurement-terminal leaf with a value, a unit, and a citation, grounding the graph because the world closed it, the way a math primitive grounds because a derivation stops. The detector flattens populated properties into cited primitive leaves and adds one rule, populate-on-demand coverage: a model node that references a body property the body declares as a stub or lacks is a coverage gap whose discharge is the measurement, while a reference to an absent body is a dangling gap. Seeded with the bodies the LHC model reaches for (scalars populated, the accretion regime deferred to the existing `lhc.branch3` marker). The corpus is load-bearing: the stopping condition (`lhc.N2.3`) cites the dense bodies' and the Earth foil's density and radius, the prediction cites the dense-body mass (the integration ceiling), and the comparison cites their age (the survival time it tests against); every cited property is populated, so the LHC survival bound is now anchored to the empirical floor with no new gap. The accretion rate stays the single deferred item (`lhc.branch3#sorry`), surfaced once. Built and verified; the dense-body density and radius citations are order-of-magnitude placeholders flagged for tightening.
+**[0.10] The partition.** The auditable side (claims crossing to a measurement) and the priced-and-refused side (the off-path terminals) structurally separated, which grounds the no-verdict discipline. Built.
 
-**[B11] Perturbation (the authored overlay).** The ALONG motion: flip an assumption and watch the conclusion give way. The engine reads the assumption's authored consequence cascade and returns a non-destructive overlay (`engine/perturb.js`, `api.perturb`); the fat client's "flip this assumption" control displays it, so flipping `lhc.assume.danger` turns the survival comparison red with its authored consequence and a Reset restores the as-argued graph. The overlay is a recorded fact read from the graph, never derived by a rule; pure, non-destructive, and deterministic (`build/check-perturb.mjs`). The COMPUTED propagation engine stays excluded (`docs/exclusion-reservoir.md`, T1-3) until authored consequences exist for every case and a rule audit exists; authoring a cascade on the population case is the next content step. Built and verified in-browser: the LHC case is bundled into `v1.html` (alongside the population case and the body corpus), so the flip is clickable in the shipped artifact at `v1.html#node=lhc.assume.danger`.
+**Stage 0 open obligations** (in `docs/sorry-ledger.md`): the LHC accretion branch (`lhc.branch3#sorry`, gated on the Giddings-Mangano regime) and four deferred verifications (the two LHC kinematic checks, the two case instances). Discharging them closes the formal floor on all three cases. The generalization of the derivation segment to every measurement claim is a characterized leap, and the two-stage factoring of the contested statistic is a second; both close with further instances.
 
-**[A1] The populated atlas.** The two atlas patterns carry typed preconditions and their variants, not just clones. `atlas.statistic-supports-conclusion` names the representativeness condition (stage 1, the selection-aware variant, violated by `covid.instance`) and the sufficiency condition (stage 2, the heterogeneity-aware variant, violated by `eggs.instance`), so L2's two-stage factoring is stored, not just narrated. `atlas.projectile-stops-in-target` names the stopping condition and its density-regime variant (Earth is too sparse and the object passes through; white-dwarf and neutron-star densities stop it). The atlas is load-bearing: the gap detector finds no coverage gap on either entry (`build/check-gaps.mjs`). Built and verified.
+---
 
-## A characterized leap
+## Stage 1: The full grounding model
 
-**[L1] Every measurement claim crosses a derivation.** Real on two measurement cases; the generalization is the leap. Discharge: more measurement cases, or a structural argument that the segment is always present. The specific deferred verification of the LHC accretion regime against Giddings-Mangano (arXiv:0806.3381) is in the sorry ledger, not yet run.
+The lattice and the three grounding modes made explicit in the schema, turning the formal-first kernel into the three-mode kernel. This is what lets the system hold contested and declared knowledge with the same rigor it holds measured knowledge.
 
-**[L2] The two-stage factoring of the contested statistic.** The inference factors into a representativeness stage and a sufficiency stage, and the two contested cases fail at different stages rather than instancing one repeated failure. Earned from two; the reach is a conjecture. Discharge: a third instance that fails at one of the two stages as predicted. The case-specific numbers for COVID and eggs are deferred in the sorry ledger.
+**[1.1] The grounding lattice.** The ordering every claim sits in, from untyped at the bottom, through the forum tiers, to the three floors, measuring how much a downstream claim may rely on this one. Carried in the schema, with a ceiling (the highest grounding a claim could reach, fixed by its kind) and an effective grounding (what it achieves) on every claim. Specified.
 
-## Named, not walked
+**[1.2] The three grounding modes.** Formal (evidence or proof), constitutive (declaration), and forum (argument) as first-class modes, with the existing terminals slotted under them: measurement and proof under formal, the constitutive terminal under constitutive, the priced reference-class and question-set terminals under forum. Groundedness is checked per mode. Specified.
 
-**[N1] The genesis-to-institution path.** The two-emitter case is the seed; the properties that make the substrate valuable at scale, independence across many contributors, a map no author owns, and standing with a real history, hold only past a threshold the seed has not crossed. The path is named, not walked.
+**[1.3] The forum region.** The contested region with its tiers, raw, attributed, structured, and its two subtypes: an open question whose ceiling is a floor (a real debt) and an unsettleable judgment whose ceiling is structured forum (settled once structured). Specified.
 
-**[N2] The data-layer unification.** One canonical store behind both the engine API and the compose-gate, resolving the three-artifact split at the repo root. A design decision to settle in chat; the clean store-and-API boundary is most of what it needs. Not yet walked.
+**[1.4] The contamination rule.** The mechanical guarantee that weakness flows downward: a claim's effective grounding is the lattice minimum over its necessary supports and the maximum over its sufficient alternatives, run along support edges only, so a formal claim resting on a forum assumption takes the forum value and may never advertise more grounding than its supports provide. The gate admits a proposal only when declared grounding is at or below effective grounding. Specified.
 
-**[N3] The LHC teaching content.** The teaching client is built on the population case; authoring it for the LHC cascade is gated on the human acceptance walk of the population case. Named, not walked.
+**[1.5] The edge taxonomy.** Edges as claims, typed by the same lattice, so an inference carries its own grounding. The families and their routing: support (enters the grounding computation), undercut (lowers a support edge's grounding), rebut (routes to reconciliation), presupposition (a separate validity check), restatement (deduplication), specialization (nuance), and the discourse edges (question structure). Specified.
 
-**[N5] Deeper gap detection: inconsistency and topological holes.** Beyond the objective structural gaps of A2, two deeper kinds are characterized but not built, and both belong to the subjective assessment layer. Inconsistency: put a justified confidence flow on the graph and the discrete Hodge decomposition separates a consistent credence potential from local circular inconsistency and from globally irreducible tension; the harmonic part is the prize, but it needs a justified metric on the edges or the decomposition is decorative. Topological holes: model adjudications as 2-cells and the first Betti number counts loops of relation with no adjudication spanning them, a formal hole in the reasoning; conjecture-grade, pending a commitment to what fills a loop. Both are chat-and-research, not a build.
+**[1.6] The reconciliation register.** Conflict between two grounded claims held as a first-class disagreement with its crux extracted, rather than suppressed in favor of one side. Specified.
 
-## The coordination layer (designed, not built)
+---
 
-The mature-system design from the architecture doc (`docs/architecture-the-unownable-graph.md`). All sit at the asserted-not-built grade: specified in detail, no code. The discharge for each is implementation. N1 is the institution these compose into.
+## Stage 2: Assessment, robustness, and ingestion
 
-**[C1] Layered access.** Three layers: a private personal layer, an open forum layer carrying no verification weight, and the gated canonical layer. Designed.
+The structural assessments the kernel computes mechanically, the interpretive assessments the periphery contributes, and the pipeline that turns messy sources into claims. This is the layer that makes the engine useful on a raw, multi-source dispute.
 
-**[C2] Time-locked standing.** The non-transferable, decaying, domain-typed, revocable labor credential that gates the canonical write, earned only by sampled verifiable work, and priced in elapsed time so compute cannot front-load it. Designed.
+**[2.1] The robustness analysis.** The reliability reading alongside grounding: the support graph read as a fault tree, a single point of failure found as a dominator, robustness computed as the grounding level after the worst single removal, the fragility the interval between them. Run separately over support dependence and presupposition dependence for two distinct failure modes. Flags correlated evidence presented as independent. Specified.
 
-**[C3] The Knowledge Game.** The gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh that flags sterile agreement, and stratified random verification with asymmetric quorum. Designed.
+**[2.2] Mechanical assessment.** The argument-quality measures decidable from structure: double-counted evidence (from the robustness pass), missing coverage (from the grounding engine), and the set of claims affected if one falls. Surfaced as open reads. Specified; extends Stage 0's gap detection.
 
-**[C4] The red-team immune system.** Super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing. Designed.
+**[2.3] The ingestion pipeline.** The producer that reads messy multi-source material and emits attributed candidate claims with proposed types and links, then submits them through the gate. Extraction and first-pass typing live here; the gate makes them safe. This is the competition's ingestion layer. Specified.
 
-**[C5] The patch history.** Storage as a tamper-evident, append-only sequence of sealed canonical patches, so a captured present cannot un-verify the past. Designed.
+**[2.4] The assessment agent.** The consumer that reads through the API and produces the interpretive assessments the kernel does not compute mechanically, the decisive question in a dispute, where a move carries more rhetorical than evidential weight, what to examine next, its conclusions submitted back through the gate as claims. Specified.
 
-**[C6] Client-side patch selection.** Canonical as a per-client choice over the patch history, so a fork is a re-point rather than a rupture and no single gate can be owned. Designed.
+**[2.5] The query surface.** The discerning consumer's interface: whether a claim is grounded and where it is weakest, answered by walking the graph. Specified; thin layer over Stage 0 reads.
 
-## Open seams (named risks in the design)
+**[2.6] The red-team surface.** The tools for attacking the graph, proposing objections, finding thin grounding, submitting refutations, which operationalizes survival under scrutiny. Specified.
 
-Risks in the coordination layer, surfaced rather than hidden. Each is unresolved; each names what would close it.
+**[2.7] The forum filter.** The reader-side tier selection: the kernel keeps everything down to the raw tier, and the filter decides what a given reader sees, so openness at the bottom and strictness at the floor coexist. Specified.
 
-**[S1] The time-lock survival inequality.** Whether synthetic labor can survive a long sampling-and-revocation window more cheaply than the value of capture, against a high-value target with near-free synthetic labor. Defensible and parameterized, not proven. Closes with the inequality stated and computed.
+---
 
-**[S2] Synthetic versus genuine harmonic.** The harmonic inversion moves the attack to manufacturing cross-domain disagreement that looks heterogeneous. Whether synthetic harmonic is distinguishable from genuine is open; the cost argument (faking disagreement across genuinely different traditions is nearly as dear as having it) is plausible and unproven.
+## Stage 3: Composition and federation
 
-**[S3] Patch-boundary integrity.** Making patches the rollback unit makes the boundary a target: poisoning the window just before a patch seals, or contesting where the last good patch is. Rests on the provenance envelope, append-only and tamper-evident; closes by establishing that property rigorously.
+Many sovereign kernels composing through a thin shared layer, so whole bodies of knowledge accrete by addition rather than by merger into one owned graph.
 
-**[S4] The density-collapse lever.** A governance threshold an attacker could drive a local cluster past, by inflating participant density and interaction velocity, to force collapse of a targeted sub-graph without engaging any claim's content. Surfaced in adversarial review, not yet answered.
+**[3.1] The composition protocol.** Cross-kernel citation as an edge whose target lives in another store, inheriting the target's grounding under that kernel's floors, plus the thin connective tissue: a shared way to express units and definitions so they translate, and boundary-dispute resolution. Downstream of the kernel format, since content-addressing and grounding mode already carry it. Specified.
+
+**[3.2] Subscription.** Notification when a relied-on claim changes across a boundary, a cited claim withdrawn, a gap closed, a grounding lowered, so a citing kernel never stands on a claim that has been pulled. Specified.
+
+**[3.3] Multiple kernels and grounding profiles.** The system running many kernels, each with its grounding profile (the distribution of formal, constitutive, and forum knowledge and where each sits), exposed as a read. A mathematics kernel is almost all formal; a nutrition-policy kernel is mostly forum with formal islands. Specified.
+
+---
+
+## Stage 4: The coordination fabric
+
+The machinery that lets distributed parties write without anyone owning the result, and that makes capture of the commons recoverable. This is the unownable-graph design.
+
+**[4.1] Layered access.** A private personal layer, an open forum layer carrying no verification weight, and the gated canonical layer. Specified.
+
+**[4.2] Time-locked standing.** The non-transferable, decaying, domain-typed, revocable labor credential that gates the canonical write, earned by sampled verifiable work and priced in elapsed time so compute cannot front-load it. Specified.
+
+**[4.3] The Knowledge Game.** The gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh that flags sterile agreement, and stratified random verification with asymmetric quorum. Specified.
+
+**[4.4] The red-team immune system.** Super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing. Specified.
+
+**[4.5] The patch ledger.** Storage as a tamper-evident, append-only sequence of sealed canonical patches, so a captured present cannot un-verify the past. Specified.
+
+**[4.6] Client-side patch selection.** Canonical as a per-client choice over the patch history, so a fork is a re-point rather than a rupture and no single gate can be owned. Specified.
+
+### Open seams in Stage 4
+
+Named risks in the coordination design, each with what would resolve it.
+
+**[S1] The time-lock survival inequality.** Whether synthetic labor survives a long sampling-and-revocation window more cheaply than the value of capture. Parameterized; closes with the inequality stated and computed.
+
+**[S2] Synthetic versus genuine harmonic.** Whether manufactured cross-domain disagreement is distinguishable from genuine. The cost argument is plausible; closes with the distinguishability result.
+
+**[S3] Patch-boundary integrity.** Whether the patch boundary, as the rollback unit, is safe against poisoning the window before a seal. Rests on the append-only provenance envelope; closes by establishing that property rigorously.
+
+**[S4] The density-collapse lever.** Whether an attacker can force collapse of a targeted sub-graph by inflating participant density and interaction velocity. Surfaced in adversarial review; open.
+
+---
+
+## The deeper assessment methods
+
+Two research-grade methods sit above the staged build, in the subjective assessment layer, available to compute the harder readings once their open commitments are settled. Inconsistency: a justified confidence flow plus the discrete Hodge decomposition separates a consistent credence potential from local circular inconsistency and from globally irreducible tension; the harmonic part is the prize, pending a justified metric on the edges. Topological holes: adjudications as 2-cells, with the first Betti number counting loops of relation no adjudication spans; pending a commitment to what fills a loop. Both are research, and both would compute the cross-cutting quantities, how load-bearing a claim is, how faithful an isomorphism is, that the staged build leaves to judgment.

@@ -7,11 +7,11 @@
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
-const G = require("../engine/gaps.js");
-const { PRIMITIVES } = require("../data/primitives/primitives.js");
-const { ATLAS } = require("../data/atlas/atlas.js");
-const { BODIES } = require("../data/bodies/bodies.js");
-const cases = ["../data/cases/population-pipeline.js", "../data/cases/lhc-cascade.js"].map((f) => require(f).CASE);
+const G = require("../kernel/analysis/gaps.js");
+const { PRIMITIVES } = require("../corpora/_primitives/primitives.js");
+const { ATLAS } = require("../corpora/_shared/atlas/atlas.js");
+const { BODIES } = require("../corpora/_shared/bodies/bodies.js");
+const cases = ["../corpora/population/population-pipeline.js", "../corpora/lhc/lhc-cascade.js"].map((f) => require(f).CASE);
 
 const fails = [];
 const ok = (cond, msg) => { if (!cond) fails.push(msg); };

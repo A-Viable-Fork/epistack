@@ -31,6 +31,20 @@ jobs:
         # decomposition with primitive leaves, corpus-index completeness
         run: node linter.js
 
+      - name: Check the oracles
+        # the gap detector reproduces the sorry ledger; the perturbation overlay
+        # is pure and deterministic; the repo map derives the import graph and
+        # enforces the trust boundary (periphery -> api -> kernel, one way).
+        run: |
+          node build/check-gaps.mjs
+          node build/check-perturb.mjs
+          node build/check-map.mjs
+
+      - name: Verify the generated repo map is committed and current
+        # check-map rewrites docs/repo-map.{md,generated.json}; a diff here means a
+        # source change moved the map but the committed copy was not regenerated.
+        run: git diff --exit-code -- docs/repo-map.md docs/repo-map.generated.json
+
       - name: Build the standalone artifact
         run: node build/bundle.js
 
