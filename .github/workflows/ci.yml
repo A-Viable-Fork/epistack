@@ -33,11 +33,13 @@ jobs:
 
       - name: Check the oracles
         # the gap detector reproduces the sorry ledger; the perturbation overlay
-        # is pure and deterministic; the repo map derives the import graph and
-        # enforces the trust boundary (periphery -> api -> kernel, one way).
+        # is pure and deterministic; the lattice demonstrator reproduces the
+        # structural detector and the contamination check bites; the repo map
+        # derives the import graph and enforces the trust boundary (one way).
         run: |
           node build/check-gaps.mjs
           node build/check-perturb.mjs
+          node build/check-lattice.mjs
           node build/check-map.mjs
 
       - name: Verify the generated repo map is committed and current

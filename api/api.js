@@ -25,6 +25,10 @@
         detectGaps: require("../kernel/analysis/gaps.js").detectGaps,
         detectGapsAt: require("../kernel/analysis/gaps.js").detectGapsAt,
         flattenBodies: require("../kernel/analysis/gaps.js").flattenBodies,
+        collect: require("../kernel/analysis/gaps.js").collect,
+        subtreeIds: require("../kernel/analysis/gaps.js").subtreeIds,
+        groundingOf: require("../kernel/grounding/contamination.js").groundingOf,
+        contaminationGaps: require("../kernel/grounding/contamination.js").contaminationGaps,
         perturb: require("../kernel/motions/perturb.js").perturb,
         SCHEMA: require("../kernel/schema/schema.js"),
       }
@@ -40,6 +44,10 @@
         detectGaps: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGaps : null,
         detectGapsAt: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGapsAt : null,
         flattenBodies: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.flattenBodies : null,
+        collect: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.collect : null,
+        subtreeIds: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.subtreeIds : null,
+        groundingOf: typeof EpiStackGrounding !== "undefined" ? EpiStackGrounding.groundingOf : null,
+        contaminationGaps: typeof EpiStackGrounding !== "undefined" ? EpiStackGrounding.contaminationGaps : null,
         perturb: typeof perturb !== "undefined" ? perturb : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null,
       };
@@ -96,6 +104,23 @@
         id == null
           ? E.detectGaps(sources)
           : E.detectGapsAt(sources, id),
+      // grounding: the Stage 1 lattice read alongside a node, its mode, ceiling, effective
+      // grounding, and lattice region, folded from the support subtree (kernel/grounding/
+      // contamination.js). Read-only; the fold runs along children support edges only.
+      grounding: (id) => {
+        if (!E.collect || !E.groundingOf) return null;
+        return E.groundingOf(E.collect(sources).nodeMap, id);
+      },
+      // contamination: nodes whose declared FORMAL terminal is undercut by a forum support (the
+      // contamination rule). contamination() over the whole graph, contamination(id) over a subtree.
+      contamination: (id) => {
+        if (!E.collect || !E.contaminationGaps) return [];
+        const nm = E.collect(sources).nodeMap;
+        const all = E.contaminationGaps(nm);
+        if (id == null) return all;
+        const sub = E.subtreeIds ? E.subtreeIds(nm, id) : new Set([id]);
+        return all.filter((g) => sub.has(g.at));
+      },
       kinds: () => (E.SCHEMA ? E.SCHEMA.PRESENTATION_TYPES.slice() : []), // the closed kind set
       pipelineMembers: (rootId) => E.pipelineMembers(resolve, rootId),
       entry: () => entryId, // the case's learning-first entry id

@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 86,
-  "edgeCount": 49,
+  "nodeCount": 87,
+  "edgeCount": 62,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -56,8 +56,8 @@
       "path": "kernel/grounding/contamination.js",
       "type": "kernel",
       "group": "grounding",
-      "role": "the contamination rule: weakness flows downward (min over necessary supports, max over sufficient), along support edges only.",
-      "contract": "STUB [1.4] Stage 1, specified not built. The gate admits only when declared grounding <= effective grounding."
+      "role": "effective grounding and the contamination rule. Folds a node's support subtree along `children` edges only, combining by meet (conjunction/sequence, jointly necessary) or join (disjunction, independently sufficient), capped by the node's own declared terminal; then flags any node whose declared terminal is FORMAL but whose effective grounding folds into the forum region (weakness flowed down from a forum support into a claim that advertises a floor).",
+      "contract": "[1.4] Stage 1 demonstrator. Exports effectiveGrounding(nodeMap, id), ceilingOf(node), groundingOf(nodeMap, id) -> { mode, ceiling, effective, region }, and contaminationGaps(nodeMap) -> [{ kind, at, declared_floor, effective, forum_support, ... }]. Pure, DOM-free; kernel imports only kernel (lattice + terminals)."
     },
     {
       "path": "kernel/grounding/profile.js",
@@ -105,8 +105,8 @@
       "path": "kernel/schema/lattice.js",
       "type": "kernel",
       "group": "schema",
-      "role": "the grounding lattice: the ordering every claim sits in (ceiling + effective grounding), with meet and join.",
-      "contract": "STUB [1.1] Stage 1, specified not built (docs/status-ledger.md). Carried in the schema; computes the lattice."
+      "role": "the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary minimum) and join (independently-sufficient maximum). untyped at the bottom; the forum tiers raw < attributed < structured; then the three floors proof, measurement, declaration, each above the forum tiers and MUTUALLY INCOMPARABLE (they collapse to one floor rank for the meet).",
+      "contract": "[1.1] Stage 1 demonstrator. Exports POSITIONS, floorRank(pos), meet(a,b), join(a,b), regionOf(pos), isFloor(pos). Pure, DOM-free; kernel imports only kernel."
     },
     {
       "path": "kernel/schema/modes.js",
@@ -466,6 +466,13 @@
       "contract": "`node build/check-gaps.mjs`. Exits 0 if every assertion holds, 1 with a report."
     },
     {
+      "path": "build/check-lattice.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven terminals, that the effective-grounding fold reproduces the current structural detector at the boolean level on every real case, and that the contamination check bites on a throwaway fixture while the three real cases report their honest state (no contamination).",
+      "contract": "`node build/check-lattice.mjs`. Exits 0 if every assertion holds, 1 with a report."
+    },
+    {
       "path": "build/check-map.mjs",
       "type": "build",
       "group": null,
@@ -622,6 +629,20 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/grounding/contamination.js",
+      "to": "kernel/schema/lattice.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/grounding/contamination.js",
+      "to": "kernel/schema/terminals.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "api/api.js",
       "to": "kernel/schema/registry.js",
       "type": "imports",
@@ -652,6 +673,13 @@
     {
       "from": "api/api.js",
       "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/grounding/contamination.js",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
@@ -697,6 +725,62 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "kernel/schema/terminals.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "kernel/schema/lattice.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "kernel/grounding/contamination.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "corpora/_shared/bodies/bodies.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-lattice.mjs",
+      "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-map.mjs",
@@ -886,8 +970,18 @@
       "type": "checked-by"
     },
     {
+      "from": "kernel/grounding/contamination.js",
+      "to": "build/check-lattice.mjs",
+      "type": "checked-by"
+    },
+    {
       "from": "kernel/motions/perturb.js",
       "to": "build/check-perturb.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/schema/lattice.js",
+      "to": "build/check-lattice.mjs",
       "type": "checked-by"
     },
     {

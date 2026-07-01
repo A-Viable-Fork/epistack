@@ -76,6 +76,7 @@ direct store mutation. Periphery surfaces consume the API and touch no truth fie
 
     node build/bundle.js       # inline kernel + api + corpora + periphery into submission.html
     node linter.js             # fields, references, sorry-ledger, trust boundary, corpus index
-    node build/check-gaps.mjs  # the gap detector reproduces the sorry ledger (5 gaps)
+    node build/check-gaps.mjs  # the gap detector reproduces the sorry ledger
     node build/check-perturb.mjs  # the perturbation overlay is pure and deterministic
+    node build/check-lattice.mjs  # modes + lattice reproduce the detector; contamination bites
     node build/check-map.mjs   # derives the repo's import graph, enforces the trust boundary
