@@ -136,12 +136,12 @@ ok(noRank(gaps), "no gap carries an importance/score/weight/rank/priority field"
 const KINDS = new Set(["grounding", "freshness", "coverage", "dangling"]);
 ok(gaps.every((g) => KINDS.has(g.kind) && g.at && g.missing && g.discharge), "every gap is { kind, at, missing, discharge }");
 
-// the remaining sorry-ledger markers are each reproduced, carrying their ledger key. Two branch
-// stubs are now discharged: lhc.branch1#sorry (production, authored N1.1-N1.3) and lhc.branch3#sorry
-// (accretion, authored N3.1-N3.2 from Giddings-Mangano arXiv:0806.3381, not reconstructed).
+// the remaining sorry-ledger markers are each reproduced, carrying their ledger key. The LHC case is
+// now fully grounded: the two branch stubs are authored (lhc.branch1 production, lhc.branch3 accretion
+// from Giddings-Mangano arXiv:0806.3381) and the two Branch-2 verifications (lhc.N2.1 kinematic factor,
+// lhc.N2.2 charged/neutral split) are discharged, verified against the same source. Only the two
+// population-case instances remain.
 const EXPECTED_MARKERS = [
-  "lhc.N2.1#TODO_verify",
-  "lhc.N2.2#TODO_verify",
   "covid.instance#TODO_verify",
   "eggs.instance#TODO_verify",
 ];
