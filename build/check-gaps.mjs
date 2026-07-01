@@ -136,17 +136,15 @@ ok(noRank(gaps), "no gap carries an importance/score/weight/rank/priority field"
 const KINDS = new Set(["grounding", "freshness", "coverage", "dangling"]);
 ok(gaps.every((g) => KINDS.has(g.kind) && g.at && g.missing && g.discharge), "every gap is { kind, at, missing, discharge }");
 
-// the remaining sorry-ledger markers are each reproduced, carrying their ledger key. The LHC case is
-// now fully grounded: the two branch stubs are authored (lhc.branch1 production, lhc.branch3 accretion
-// from Giddings-Mangano arXiv:0806.3381) and the two Branch-2 verifications (lhc.N2.1 kinematic factor,
-// lhc.N2.2 charged/neutral split) are discharged, verified against the same source. Only the two
-// population-case instances remain.
-const EXPECTED_MARKERS = [
-  "covid.instance#TODO_verify",
-  "eggs.instance#TODO_verify",
-];
+// the remaining sorry-ledger markers are each reproduced, carrying their ledger key. The corpus is
+// now grounded to the floor on all three cases: the LHC case is authored across all three branches
+// (lhc.branch1 production, lhc.branch3 accretion from Giddings-Mangano arXiv:0806.3381) with the two
+// Branch-2 verifications discharged; and the two population-case instances (covid.instance, eggs.instance)
+// are verified against the epidemiology and nutrition literatures. No deferred-verification markers remain.
+const EXPECTED_MARKERS = [];
 const foundRefs = new Set(gaps.map((g) => g.sorry_ref).filter(Boolean));
 for (const k of EXPECTED_MARKERS) ok(foundRefs.has(k), `reproduces the sorry-ledger marker ${k} as a gap`);
+ok(gaps.length === 0, `all grounding gaps discharged; found ${gaps.length}: ${JSON.stringify(gaps.map((g) => g.at))}`);
 
 // the atlas is populated with typed preconditions, so no A1 coverage gap remains
 ok(!gaps.some((g) => g.kind === "coverage" && g.ledger_ref === "A1"), "the atlas carries typed preconditions: no A1 coverage gap remains");

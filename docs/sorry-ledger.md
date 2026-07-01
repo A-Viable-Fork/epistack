@@ -12,8 +12,8 @@ A marker key is `<node_id>#<field>`, where `field` is `sorry` or `TODO_verify`.
 
 | marker key | kind | gen/ver | gap | resolves when |
 |---|---|---|---|---|
-| `covid.instance#TODO_verify` | deferred-verification | generated | Which specific COVID clustering analysis is instanced, and whether selection (stage-1 representativeness) is the dominant critique of it or one of several. The pipeline placement (stage-1 failure) is structural and robust; the case-specific instantiation is not yet verified. | The specific analysis and the dominance of the selection critique are checked against the actual analyses. Cannot move the stage-1 verdict. |
-| `eggs.instance#TODO_verify` | deferred-verification | generated | The eggs effect sizes and the strength of the hyper/hypo-responder split (the stage-2 sufficiency failure) are asserted, not quantified against the nutrition literature. | The effect sizes and heterogeneity are quantified against the literature. Cannot move the stage-2 verdict. |
+
+*No live node markers remain. All deferred-verification gaps are discharged: the LHC case is authored across all three branches with its two Branch-2 checks verified against Giddings-Mangano (arXiv:0806.3381), and the two population-case instances are verified against the literature, covid.instance against the epidemiology (Worobey et al. 2022; the ascertainment-bias critique, Weissman JRSS-A 2024, a leading critique among several) and eggs.instance against the nutrition science (the modest, heterogeneous dietary-cholesterol-to-LDL effect and the ~1/3 hyper-responder split, Fernandez PMID 16340654). Each discharged node carries a `verified` field with its anchors. The corpus is grounded to the floor on all three cases.*
 
 ## Prose: gaps that are not node markers
 
