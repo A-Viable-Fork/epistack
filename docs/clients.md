@@ -84,4 +84,4 @@ not name the store (`PRIMITIVES`, `CASE`, `ATLAS`, ...), build a registry, or re
 resolver; a client descriptor carries only tokens + mapping; a thin client covers every kind;
 no client names a kind outside the closed set. A new client of either tier cannot break a claim.
 
-Build status for the client layer is graded in `docs/status-ledger.md` (B8).
+Build status for the client layer is graded in `docs/status-ledger.md` (Stage 0, [0.9]).

@@ -9,6 +9,10 @@ verification state, and its provenance. The novel property is composition: one s
 typed schema lets uncoordinated investigations accrete onto a single map. The deliverable
 is one standalone interactive artifact, `submission.html`, that a judge double-clicks to open.
 
+The orientation for the whole goal is the three blueprints, `docs/knowledge-system-what.md`
+(the functions), `docs/knowledge-system-how.md` (the makeup), and `docs/knowledge-system-why.md`
+(the rationale); `docs/judges-document.md` is the competition-facing summary.
+
 The binding design document is `docs/design-axioms.md`. Tier 0 there is non-negotiable.
 Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on the data model.
 

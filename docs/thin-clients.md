@@ -93,5 +93,5 @@ A thin client is a self-contained, forkable unit: a validated manifest in `clien
 as a hash link (`v1.html#client=<name>`). Drop a manifest into `clients/`, rebuild, and the
 gallery picks it up with no other change. Fat clients live alongside as modules against the API.
 
-Build status for the client layer and this kit is graded in `docs/status-ledger.md` (B8, B9), not
+Build status for the client layer and this kit is graded in `docs/status-ledger.md` (Stage 0, [0.9]), not
 asserted here.
