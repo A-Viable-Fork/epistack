@@ -50,6 +50,14 @@ The value lives in the copyable substrate, the records and their history, so hon
 
 ---
 
+## Postscript: a dated note on scaling (late June 2026)
+
+*A dated observation, added after the argument above, which stands on its own.*
+
+In late June 2026, during the competition window, a new AI workbench for scientific research, Claude Science, was released: a working environment with artifact generation, a reviewer agent, session forking, and integrated tools and connectors. Under this architecture it is a periphery component. Its generative and reviewing work is producer and consumer work that writes through the same gate and reads through the same interface, and the kernel's guarantees hold unchanged whether that work comes from a person, a general model, or a purpose-built science workbench. A capability the architecture was not designed around enters by adding a periphery tool, and the trusted core does not move. This is the criterion that the system scales with new AI and new AI interfaces, shown by an event in the world rather than argued on paper: as the tools improve, the periphery improves, and the discipline at the membrane is what stays fixed.
+
+---
+
 ## Provenance
 
 This work began on June 22, 2026, and was developed in close collaboration with AI systems used as generators and verifiers under human direction. The collaboration is disclosed here under the same standard the method applies to every claim: state who did the work and how it was checked.
