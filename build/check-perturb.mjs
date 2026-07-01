@@ -1,4 +1,4 @@
-// Role: the perturbation overlay's oracle. Exercises engine/perturb.js on the LHC case: the empty
+// Role: the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty
 //   overlay, the authored danger-flip cascade, a non-perturbable assumption, non-destructiveness,
 //   and determinism. The overlay is read from authored data, never computed by a rule (T1-3).
 // Contract: `node build/check-perturb.mjs`. Exits 0 if every assertion holds, 1 with a report.
@@ -6,8 +6,8 @@
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
-const { perturb } = require("../engine/perturb.js");
-const { CASE } = require("../data/cases/lhc-cascade.js");
+const { perturb } = require("../kernel/motions/perturb.js");
+const { CASE } = require("../corpora/lhc/lhc-cascade.js");
 
 const fails = [];
 const ok = (cond, msg) => { if (!cond) fails.push(msg); };

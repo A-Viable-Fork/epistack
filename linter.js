@@ -9,32 +9,32 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const ROOT = __dirname;
-const SCHEMA = require("./data/schema.js");
-const graphUtil = require("./engine/graph.js");
+const SCHEMA = require("./kernel/schema/schema.js");
+const graphUtil = require("./kernel/store/graph.js");
 
 const problems = [];
 const fail = (rule, msg) => problems.push({ rule, msg });
 let checked = 0;
 
 // ---- load the data world: primitives + atlas + cases, into the one registry ----
-const { PRIMITIVES } = require("./data/primitives/primitives.js");
-const { ATLAS } = require("./data/atlas/atlas.js");
-const { BODIES } = require("./data/bodies/bodies.js");
-const GAPS = require("./engine/gaps.js");
-const { VISUALS } = require("./data/components/visuals.js");
-const { CARD_LAYOUTS } = require("./data/components/cards.js");
-const { VIEW_COMPONENTS } = require("./data/components/views.js");
-const { CLIENTS } = require("./data/clients/clients.js");
-const { validateManifest } = require("./data/clients/palette.js");
-const { FORKS } = require("./data/forks/forks.js");
-const { buildRegistry } = require("./engine/registry.js");
-const { makeResolver, referencesOf, dependents } = require("./engine/resolve.js");
-const CASE_FILES = ["./data/cases/population-pipeline.js", "./data/cases/lhc-cascade.js"];
+const { PRIMITIVES } = require("./corpora/_primitives/primitives.js");
+const { ATLAS } = require("./corpora/_shared/atlas/atlas.js");
+const { BODIES } = require("./corpora/_shared/bodies/bodies.js");
+const GAPS = require("./kernel/analysis/gaps.js");
+const { VISUALS } = require("./periphery/navigate/render/components/visuals.js");
+const { CARD_LAYOUTS } = require("./periphery/navigate/render/components/cards.js");
+const { VIEW_COMPONENTS } = require("./periphery/navigate/render/components/views.js");
+const { CLIENTS } = require("./periphery/navigate/clients/clients.js");
+const { validateManifest } = require("./periphery/navigate/clients/palette.js");
+const { FORKS } = require("./corpora/_shared/forks.js");
+const { buildRegistry } = require("./kernel/schema/registry.js");
+const { makeResolver, referencesOf, dependents } = require("./kernel/grounding/resolve.js");
+const CASE_FILES = ["./corpora/population/population-pipeline.js", "./corpora/lhc/lhc-cascade.js"];
 const cases = CASE_FILES.map((f) => require(f).CASE);
 
-// thin-client manifests under clients/ (declarative, palette-composed, possibly forks)
+// thin-client manifests under periphery/navigate/clients/ (declarative, palette-composed, possibly forks)
 const MANIFESTS = {};
-const manifestDir = path.join(ROOT, "clients");
+const manifestDir = path.join(ROOT, "periphery", "navigate", "clients");
 if (fs.existsSync(manifestDir))
   for (const f of fs.readdirSync(manifestDir).filter((x) => x.endsWith(".json"))) {
     try { const m = JSON.parse(fs.readFileSync(path.join(manifestDir, f), "utf8")); MANIFESTS[m.id] = m; }
@@ -187,8 +187,11 @@ for (const n of Object.values(nodeMap)) {
   if (n.kind === "primitive" && n.children && n.children.length) fail("rule5/T1-2", `${n.id}: primitive has children`);
 }
 
-// ---- Rules 4 & 6: no DOM / localStorage / shared mutable in engine/ ----
+// ---- Rules 4 & 6: no DOM / localStorage / shared mutable in the trusted core (kernel/, api/) ----
+// The trust boundary (T0-2): the kernel and the api membrane run headless and touch no DOM; only
+// the periphery renders. This is the old "no DOM in engine/" check retargeted to the core.
 function walk(dir, out = []) {
+  if (!fs.existsSync(dir)) return out;
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) walk(p, out);
@@ -196,18 +199,18 @@ function walk(dir, out = []) {
   }
   return out;
 }
-const engineJs = walk(path.join(ROOT, "engine")).filter((f) => f.endsWith(".js"));
+const coreJs = walk(path.join(ROOT, "kernel")).concat(walk(path.join(ROOT, "api"))).filter((f) => f.endsWith(".js"));
 const DOM_RE = /\b(document|window|localStorage|sessionStorage)\b/;
-for (const f of engineJs) {
+for (const f of coreJs) {
   const lines = fs.readFileSync(f, "utf8").split("\n");
   lines.forEach((l, i) => {
     const code = l.replace(/\/\/.*$/, ""); // ignore line comments (they may name the DOM)
-    if (DOM_RE.test(code)) fail("rule4/T0-2", `${path.relative(ROOT, f)}:${i + 1} references the DOM/storage in engine/`);
+    if (DOM_RE.test(code)) fail("rule4/T0-2", `${path.relative(ROOT, f)}:${i + 1} references the DOM/storage in the trusted core (kernel/ or api/)`);
   });
 }
 
 // ---- Rule 8: every JS module has a head comment (role, contract, invariant) ----
-const MODULE_DIRS = ["data", "engine", "view", "build"];
+const MODULE_DIRS = ["kernel", "api", "corpora", "periphery", "build"];
 const allModuleJs = MODULE_DIRS.flatMap((d) => walk(path.join(ROOT, d))).filter((f) => f.endsWith(".js") || f.endsWith(".mjs"));
 allModuleJs.push(path.join(ROOT, "linter.js"));
 for (const f of allModuleJs) {
@@ -229,9 +232,9 @@ else {
 // NOTE: the no-console-error-on-load half of rule 7 needs a browser and is not run here.
 
 // ---- Phase E: the storage / API / clients boundary, proved ----
-// 1. A client reaches the store only through the API. A client file (view/clients/*) may not
-//    name the store, build a registry, or reach a raw resolver; the api object is its only door.
-const clientDir = path.join(ROOT, "view", "clients");
+// 1. A client reaches the store only through the API. A fat client (periphery/navigate/fat/*) may
+//    not name the store, build a registry, or reach a raw resolver; the api object is its only door.
+const clientDir = path.join(ROOT, "periphery", "navigate", "fat");
 if (fs.existsSync(clientDir)) {
   const FORBIDDEN = /\b(PRIMITIVES|ATLAS|VISUALS|CARD_LAYOUTS|VIEW_COMPONENTS|CLIENTS|FORKS|buildRegistry|makeResolver)\b|\bCASE\b|registry\[|require\(/;
   for (const f of walk(clientDir).filter((x) => x.endsWith(".js"))) {
@@ -302,16 +305,16 @@ for (const g of gapList) {
 }
 // static guarantee on the detector: it never sorts (emits in detection order) and never writes a
 // prioritization field onto a gap. The objective layer cannot rank; the client only renders it.
-fs.readFileSync(path.join(ROOT, "engine", "gaps.js"), "utf8").split("\n").forEach((l, i) => {
+fs.readFileSync(path.join(ROOT, "kernel", "analysis", "gaps.js"), "utf8").split("\n").forEach((l, i) => {
   const code = l.replace(/\/\/.*$/, "");
-  if (/\.sort\s*\(/.test(code)) fail("A2/no-prioritization", `engine/gaps.js:${i + 1} sorts; the detector must emit gaps in detection order, never ranked`);
-  if (/\b(importance|score|weight|rank|priority)\s*:/.test(code)) fail("A2/no-prioritization", `engine/gaps.js:${i + 1} writes a prioritization field onto a gap`);
+  if (/\.sort\s*\(/.test(code)) fail("A2/no-prioritization", `kernel/analysis/gaps.js:${i + 1} sorts; the detector must emit gaps in detection order, never ranked`);
+  if (/\b(importance|score|weight|rank|priority)\s*:/.test(code)) fail("A2/no-prioritization", `kernel/analysis/gaps.js:${i + 1} writes a prioritization field onto a gap`);
 });
 
 // ---- Rule 9: corpus-index lists every module and data file ----
 const indexPath = path.join(ROOT, "docs", "corpus-index.md");
 const indexText = fs.existsSync(indexPath) ? fs.readFileSync(indexPath, "utf8") : "";
-const TRACK_DIRS = ["data", "engine", "view", "build"];
+const TRACK_DIRS = ["kernel", "api", "corpora", "periphery", "build"];
 const tracked = TRACK_DIRS.flatMap((d) => walk(path.join(ROOT, d)));
 tracked.push(path.join(ROOT, "linter.js"));
 for (const f of tracked) {

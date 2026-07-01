@@ -8,14 +8,14 @@
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
-const { PRIMITIVES } = require("../data/primitives/primitives.js");
-const { ATLAS } = require("../data/atlas/atlas.js");
-const { VISUALS } = require("../data/components/visuals.js");
-const { CARD_LAYOUTS } = require("../data/components/cards.js");
-const { FORKS } = require("../data/forks/forks.js");
-const { CASE } = require("../data/cases/population-pipeline.js");
-const { buildRegistry } = require("../engine/registry.js");
-const { makeResolver } = require("../engine/resolve.js");
+const { PRIMITIVES } = require("../corpora/_primitives/primitives.js");
+const { ATLAS } = require("../corpora/_shared/atlas/atlas.js");
+const { VISUALS } = require("../periphery/navigate/render/components/visuals.js");
+const { CARD_LAYOUTS } = require("../periphery/navigate/render/components/cards.js");
+const { FORKS } = require("../corpora/_shared/forks.js");
+const { CASE } = require("../corpora/population/population-pipeline.js");
+const { buildRegistry } = require("../kernel/schema/registry.js");
+const { makeResolver } = require("../kernel/grounding/resolve.js");
 
 const registry = buildRegistry({
   primitives: PRIMITIVES,

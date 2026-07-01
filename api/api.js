@@ -14,19 +14,19 @@
   // engine dependencies: required in Node, globals in the inlined browser bundle.
   const E = NODE
     ? {
-        buildRegistry: require("./registry.js").buildRegistry,
-        makeResolver: require("./resolve.js").makeResolver,
-        dependents: require("./resolve.js").dependents,
-        focusView: require("./decompose.js").focusView,
-        motions: require("./decompose.js").motions,
-        classify: require("./decompose.js").classify,
-        compare: require("./compare.js").compare,
-        pipelineMembers: require("./compare.js").pipelineMembers,
-        detectGaps: require("./gaps.js").detectGaps,
-        detectGapsAt: require("./gaps.js").detectGapsAt,
-        flattenBodies: require("./gaps.js").flattenBodies,
-        perturb: require("./perturb.js").perturb,
-        SCHEMA: require("../data/schema.js"),
+        buildRegistry: require("../kernel/schema/registry.js").buildRegistry,
+        makeResolver: require("../kernel/grounding/resolve.js").makeResolver,
+        dependents: require("../kernel/grounding/resolve.js").dependents,
+        focusView: require("../kernel/motions/decompose.js").focusView,
+        motions: require("../kernel/motions/decompose.js").motions,
+        classify: require("../kernel/motions/decompose.js").classify,
+        compare: require("../kernel/motions/compare.js").compare,
+        pipelineMembers: require("../kernel/motions/compare.js").pipelineMembers,
+        detectGaps: require("../kernel/analysis/gaps.js").detectGaps,
+        detectGapsAt: require("../kernel/analysis/gaps.js").detectGapsAt,
+        flattenBodies: require("../kernel/analysis/gaps.js").flattenBodies,
+        perturb: require("../kernel/motions/perturb.js").perturb,
+        SCHEMA: require("../kernel/schema/schema.js"),
       }
     : {
         buildRegistry: buildRegistry,

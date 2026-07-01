@@ -12,7 +12,7 @@
 (function (root) {
   const NODE = typeof module !== "undefined" && module.exports;
   const E = NODE
-    ? { referencesOf: require("./resolve.js").referencesOf, SCHEMA: require("../data/schema.js") }
+    ? { referencesOf: require("../grounding/resolve.js").referencesOf, SCHEMA: require("../schema/schema.js") }
     : { referencesOf: typeof referencesOf !== "undefined" ? referencesOf : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null };
 

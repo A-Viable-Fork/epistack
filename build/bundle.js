@@ -17,7 +17,7 @@ const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 // gather every thin-client manifest under clients/ into one inlined object. A community client
 // is a validated manifest dropped into clients/; the build picks it up with no other change.
 function clientManifests() {
-  const dir = path.join(ROOT, "clients");
+  const dir = path.join(ROOT, "periphery", "navigate", "clients");
   if (!fs.existsSync(dir)) return "var MANIFESTS = {};";
   const out = {};
   for (const f of fs.readdirSync(dir).filter((x) => x.endsWith(".json")).sort()) {
@@ -31,8 +31,8 @@ function clientManifests() {
 //   submission.html is the migrated artifact; v1.html is the decompose surface (the v1
 //   milestone, kept separate until it is reviewed and merged into the deliverable).
 const TARGETS = [
-  { template: "view/index.template.html", out: "submission.html" },
-  { template: "view/decompose.template.html", out: "v1.html" },
+  { template: "periphery/navigate/render/index.template.html", out: "submission.html" },
+  { template: "periphery/navigate/render/decompose.template.html", out: "v1.html" },
 ];
 
 function buildOne(target) {
@@ -51,7 +51,7 @@ function buildOne(target) {
     // Case modules each declare `const CASE = ...`; two of them at top level would collide.
     // Wrap each case include in an IIFE that scopes its CASE and registers it on window.CASES,
     // so many cases coexist in one bundle. The host reads window.CASES.
-    if (/^data\/cases\//.test(rel)) {
+    if (/^corpora\/(lhc|population|covid|eggs)\//.test(rel)) {
       return "(function(){\n" + body + "\n;(window.CASES=window.CASES||[]).push(CASE);\n})();";
     }
     return body;
