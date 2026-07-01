@@ -136,10 +136,10 @@ ok(noRank(gaps), "no gap carries an importance/score/weight/rank/priority field"
 const KINDS = new Set(["grounding", "freshness", "coverage", "dangling"]);
 ok(gaps.every((g) => KINDS.has(g.kind) && g.at && g.missing && g.discharge), "every gap is { kind, at, missing, discharge }");
 
-// the six sorry-ledger structural markers are each reproduced, carrying their ledger key
+// the remaining sorry-ledger markers are each reproduced, carrying their ledger key. Two branch
+// stubs are now discharged: lhc.branch1#sorry (production, authored N1.1-N1.3) and lhc.branch3#sorry
+// (accretion, authored N3.1-N3.2 from Giddings-Mangano arXiv:0806.3381, not reconstructed).
 const EXPECTED_MARKERS = [
-  // lhc.branch1#sorry is discharged: Branch 1 (production) is authored to the floor (N1.1-N1.3).
-  "lhc.branch3#sorry",
   "lhc.N2.1#TODO_verify",
   "lhc.N2.2#TODO_verify",
   "covid.instance#TODO_verify",

@@ -1,11 +1,12 @@
 // Role: the LHC-safety case-family, authored as data (docs/lhc-cascade.md,
-//   docs/schema-revisions.md). A self-contained data module (T0-4). Branch 2 (stopping)
-//   is authored to the floor; Branches 1 (production) and 3 (accretion) are STUBS carrying
-//   sorry markers, per the task: do not invent their contents.
+//   docs/schema-revisions.md). A self-contained data module (T0-4). All three branches are
+//   authored to the floor: production (Branch 1), stopping (Branch 2), and accretion (Branch 3,
+//   read from Giddings-Mangano arXiv:0806.3381, not reconstructed). Two Branch-2 verifications
+//   (N2.1, N2.2) remain deferred, ledgered as TODO_verify.
 // Contract: exports a case object { id, title, atlas_refs, nodes } conforming to
 //   data/schema.js; children/atlas refs resolve against data/primitives + data/atlas.
-// Invariant: pure data. Every gap is marked and ledgered (docs/sorry-ledger.md). The
-//   deferred accretion-regime verification (Giddings-Mangano) is NOT resolved here.
+// Invariant: pure data. Every gap is marked and ledgered (docs/sorry-ledger.md). The accretion
+//   regime (N3.1) is authored from the source; the two remaining N2 verifications are not filled.
 "use strict";
 
 const CASE = {
@@ -247,14 +248,97 @@ const CASE = {
       ],
     },
 
-    // -- Branch 3: accretion. STUB (sorry) + the deferred accretion-regime verification. --
+    // -- Branch 3: accretion. AUTHORED TO THE FLOOR from Giddings-Mangano (arXiv:0806.3381),
+    //    not reconstructed from a generic Bondi form (docs/lhc-cascade.md). --
     "lhc.branch3": {
       id: "lhc.branch3",
       kind: "transformation",
+      presentation: { type: "transformation" },
       label: "Accretion: how fast does a stopped black hole grow?",
-      role: "given a black hole at rest inside body S, compute the time to consume it (N3.1 accretion rate, N3.2 time to destruction)",
-      sorry:
-        "Branch 3 (accretion) is NOT authored to the floor. It carries the load-bearing accretion-regime deferred verification: the exact dM/dt for a micro black hole inside degenerate matter is regime-dependent and must be read from Giddings-Mangano (arXiv:0806.3381), not reconstructed from the Bondi reference form. Do not invent or guess the rate. See docs/sorry-ledger.md lhc.branch3#sorry.",
+      role: "given a black hole at rest inside body S, compute the time to consume it: the regime-dependent accretion rate (N3.1) integrated to a destruction time (N3.2)",
+      position: "step",
+      takes: ["M_BH", "body density rho_S", "sound speed / degeneracy properties", "regime"],
+      produces: ["t_destroy(S) under the dangerous hypothesis"],
+      preserves: ["the accretion physics of Giddings-Mangano, regime by regime"],
+      function: "derive",
+      breaks: "the naive four-dimensional Bondi form is used where a departure governs",
+      why_breaks:
+        "the rate is piecewise and is not naive four-dimensional Bondi: it is electromagnetic-capture below the crossover mass and D-dimensional Bondi above it (N3.1), the Bondi radius is the D-dimensional form not the four-dimensional reference, and in neutron-star nuclear matter the atomic phases collapse to a single geometric law; using the reference Bondi form in any of these regimes gives the wrong destroy-time",
+      load_bearing: "the destroy-time is set by the correct regime of the rate; the three departures from naive Bondi are the content of getting accretion right",
+      math: "t_destroy = integral dM / (dM/dt),  dM/dt piecewise by regime (G-M arXiv:0806.3381)",
+      formal_status: "nl",
+      composition: "sequence",
+      children: ["lhc.N3.1", "lhc.N3.2"],
+      outputs: ["lhc.antecedent"],
+    },
+
+    "lhc.N3.1": {
+      id: "lhc.N3.1",
+      kind: "transformation",
+      presentation: { type: "transformation" },
+      label: "Regime-dependent accretion rate",
+      role: "compute dM/dt for a micro black hole inside degenerate matter, piecewise by capture-radius regime, per Giddings-Mangano",
+      position: "step",
+      takes: ["M_BH", "body density rho_S", "sound speed c_s", "dimension D"],
+      produces: ["dM/dt(M), piecewise by regime"],
+      preserves: ["the accretion physics; the master law dM/dt = pi r_c^2 F across regimes"],
+      function: "derive",
+      breaks: "the rate is taken as naive four-dimensional Bondi",
+      why_breaks:
+        "the rate departs from naive four-dimensional Bondi three ways: (1) it is piecewise by capture-radius regime, electromagnetic-capture (G-M 4.19) below the crossover mass M_{a,D} (4.35) and Bondi (4.31) above it; (2) the Bondi radius is the D-dimensional form R_B = [(D-3)/(4 c_s^2)]^{1/(D-3)} R (4.32), not the four-dimensional reference; (3) in neutron-star nuclear matter there are no atoms, so the atomic phases collapse to a single nucleon-scale phase and the rate becomes the geometric law dM/dt = pi rho R^2 (8.10). White-dwarf phase structure holds at degenerate-electron parameters (Section 7.2); the neutron-star geometric law is (4.31) with c_s = 1, lambda_D = 1, R_B -> R",
+      load_bearing: "the rate is piecewise and is NOT naive four-dimensional Bondi; the three departures decide the destroy-time",
+      math: "dM/dt = pi r_c^2 F (4.1);  EM-capture pi rho v R_EM^2 (4.19) for M < M_{a,D} (4.35);  Bondi pi lambda_D c_s R_B^2 rho (4.31), R_B (4.32);  NS geometric pi rho R^2 (8.10)",
+      formal_status: "nl",
+      composition: "sequence",
+      children: [
+        "prim.gm-master-rate",
+        "prim.gm-em-capture",
+        "prim.gm-crossover-mass",
+        "prim.gm-bondi-ddim",
+        "prim.gm-geometric-rate",
+      ],
+      // the empirical floor: the rate reads the dense bodies' densities, and their radii where the
+      // geometric (nuclear-matter) law dM/dt = pi rho R^2 makes the geometry enter. Each is a
+      // measured body property (corpora/_shared/bodies/bodies.js). NOTE: the corpus property is
+      // named mean_density, so the body_ref uses that exact name.
+      body_refs: [
+        "white-dwarf#mean_density", "white-dwarf#radius",
+        "neutron-star#mean_density", "neutron-star#radius",
+      ],
+    },
+
+    "lhc.N3.2": {
+      id: "lhc.N3.2",
+      kind: "transformation",
+      presentation: { type: "transformation" },
+      label: "Time to destruction and the survival contradiction",
+      role: "integrate the accretion rate to the time to consume the body, piecewise across regimes, and read it against observed ages",
+      position: "step",
+      takes: ["dM/dt(M)", "initial mass M_0", "body mass M_S", "observed age tau_S"],
+      produces: ["t_destroy(S), and the exclusion: t_destroy << tau_S under the dangerous hypothesis"],
+      preserves: ["the destroy-time integral; the modus-tollens contradiction with survival"],
+      function: "derive",
+      breaks: "the integral is evaluated in the wrong regime, or the object survives the sampling window",
+      why_breaks:
+        "the destroy-time is the piecewise integral t_destroy = integral dM/(dM/dt) (G-M 4.39-4.41 via the Bondi radius; neutron-star analogue 8.11): a white dwarf is consumed in <= 80 Myr for the longest unwarped D=7 phase (7.7-7.12; t_Earth/t_WD ~ 1.9e4, 7.15), and a neutron star in <~ 50 yr for D <= 7 up to ~10 Myr for D = 11 once the hole reaches the core (8.2.1, 8.2.2). Observed white dwarfs reach ages ~2.5 Gyr and neutron stars >> 10^9 yr, so a dangerously accreting stopped black hole would destroy these bodies in times far below their observed ages. Their survival is the contradiction: G-M exclude stable black holes for crossover radius R_C >~ 15 Angstrom (Section 9)",
+      load_bearing: "this is the not-Q of the cascade's modus tollens: a dangerous hole gives t_destroy << tau_S, which the bodies' survival contradicts",
+      math: "t_destroy = integral_{M_0}^{M_S} dM / (dM/dt) << tau_S  =>  not (dangerous accretion)  (G-M Section 9)",
+      formal_status: "nl",
+      composition: "sequence",
+      children: [
+        "prim.gm-destroy-integral",
+        "prim.gm-wd-destroytime",
+        "prim.gm-ns-destroytime",
+        "prim.gm-exclusion",
+      ],
+      inputs: ["lhc.assume.danger", "lhc.N3.1"],
+      outputs: ["lhc.prediction"],
+      // the empirical floor: the destroy-time integrates to the body's mass (the integration ceiling)
+      // and is read against the body's observed age. Each is a measured body property.
+      body_refs: [
+        "white-dwarf#mass", "white-dwarf#age",
+        "neutron-star#mass", "neutron-star#age",
+      ],
     },
 
     // -- the closure, split into three nodes per S6 --
@@ -266,8 +350,8 @@ const CASE = {
       value: "t_destroy(S, under the dangerous hypothesis)",
       produced_by: "lhc.branch3",
       // the integration ceiling: t_destroy integrates the accretion until the object has consumed
-      // the body, so it reads the body's mass (data/bodies/bodies.js). The accretion RATE is the
-      // deferred regime, carried once by lhc.branch3#sorry, not re-surfaced here.
+      // the body, so it reads the body's mass (corpora/_shared/bodies/bodies.js). The accretion RATE
+      // is now authored to the floor at lhc.N3.1 (Giddings-Mangano), no longer a deferred regime.
       body_refs: ["white-dwarf#mass", "neutron-star#mass"],
     },
     "lhc.observation": {

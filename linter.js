@@ -301,12 +301,18 @@ for (const bid of Object.keys(BODIES)) {
     const where = `${bid}#${pname}`;
     if (p && p.sorry) {
       if (p.value !== undefined) fail("body/shape", `${where}: a stub must not carry a value (it is unpopulated)`);
+    } else if (p && p.regime_ref) {
+      // a resolved cross-reference to an authored model node (a non-scalar property, e.g. a
+      // piecewise law): no scalar value, no open sorry, and the referenced node must resolve.
+      if (p.value !== undefined) fail("body/shape", `${where}: a regime_ref is not a scalar and must carry no value`);
+      if (p.citation !== undefined) fail("body/shape", `${where}: a regime_ref points at an authored node, not a measurement citation`);
+      if (!registry[p.regime_ref]) fail("body/shape", `${where}: regime_ref '${p.regime_ref}' does not resolve to a node`);
     } else if (GAPS.isPopulated(p)) {
       if (p.value === undefined) fail("body/shape", `${where}: a populated property needs a value`);
       if (!p.unit) fail("body/shape", `${where}: a populated property needs a unit`);
       if (p.terminal_type !== "measurement") fail("body/shape", `${where}: a body property is a measurement terminal`);
     } else {
-      fail("body/shape", `${where}: a property is neither a populated measurement (value + unit + citation) nor a stub (sorry)`);
+      fail("body/shape", `${where}: a property is neither a populated measurement (value + unit + citation), a stub (sorry), nor a resolved cross-reference (regime_ref)`);
     }
   }
 }
