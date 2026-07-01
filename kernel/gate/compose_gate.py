@@ -113,7 +113,9 @@ def compose_and_gate(contributions, incumbent, registries=REGISTRIES):
     ds_emitters = defaultdict(set)
     for e in emitters:
         for d in emit[e]: ds_emitters[d].add(e)
-    shared_cross = {d: sorted(es) for d, es in ds_emitters.items() if len(es) > 1}
+    # sorted by dataset id so the report line is deterministic (set iteration order otherwise
+    # varies with the hash seed; the composition is deterministic, and so now is its rendering).
+    shared_cross = {d: sorted(ds_emitters[d]) for d in sorted(ds_emitters) if len(ds_emitters[d]) > 1}
     indep = {}
     for addr, grp in by_addr.items():
         per = defaultdict(set)

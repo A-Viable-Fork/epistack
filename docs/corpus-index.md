@@ -118,7 +118,6 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
-| `build/extract.mjs` | one-time migration tool. Slices knowledge-game.html into layered modules |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
