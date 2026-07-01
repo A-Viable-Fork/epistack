@@ -11,6 +11,7 @@ const path = require("node:path");
 const ROOT = __dirname;
 const SCHEMA = require("./kernel/schema/schema.js");
 const graphUtil = require("./kernel/store/graph.js");
+const REPO_MAP = require("./build/repo-map.schema.js"); // the trust-boundary import table (T0-2)
 
 const problems = [];
 const fail = (rule, msg) => problems.push({ rule, msg });
@@ -207,6 +208,31 @@ for (const f of coreJs) {
     const code = l.replace(/\/\/.*$/, ""); // ignore line comments (they may name the DOM)
     if (DOM_RE.test(code)) fail("rule4/T0-2", `${path.relative(ROOT, f)}:${i + 1} references the DOM/storage in the trusted core (kernel/ or api/)`);
   });
+}
+
+// Rule 4 (imports): the trust boundary as a static import property. No periphery module imports
+// kernel directly (only through api/); kernel imports only kernel; api imports kernel and api.
+// Decided by the same legality table build/check-map.mjs derives the full map from (T0-2).
+const IMPORT_RE = [/require\(\s*["']([^"']+)["']\s*\)/g, /import\s+[^"';]*?from\s*["']([^"']+)["']/g, /import\s*["']([^"']+)["']/g];
+for (const dir of ["kernel", "api", "periphery"]) {
+  for (const f of walk(path.join(ROOT, dir)).filter((x) => x.endsWith(".js") || x.endsWith(".mjs"))) {
+    const rel = path.relative(ROOT, f).replace(/\\/g, "/");
+    if (rel.endsWith("_nodes.js")) continue;
+    const fromType = REPO_MAP.typeForPath(rel);
+    const src = fs.readFileSync(f, "utf8");
+    for (const reOrig of IMPORT_RE) {
+      const re = new RegExp(reOrig.source, "g");
+      let m;
+      while ((m = re.exec(src))) {
+        const spec = m[1];
+        if (!spec.startsWith(".")) continue;
+        const target = path.relative(ROOT, path.resolve(path.dirname(f), spec)).replace(/\\/g, "/");
+        const toType = REPO_MAP.typeForPath(target);
+        if (toType && !REPO_MAP.importLegal(fromType, toType))
+          fail("rule4/T0-2", `${rel} imports ${toType} '${target}' directly (illegal: ${fromType} reaches ${toType} only through the membrane)`);
+      }
+    }
+  }
 }
 
 // ---- Rule 8: every JS module has a head comment (role, contract, invariant) ----

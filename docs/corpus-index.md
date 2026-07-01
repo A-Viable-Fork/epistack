@@ -9,6 +9,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `kernel/_nodes.js` | the kernel node manifest for the typed repository map (build/repo-map.schema.js) |
 | `kernel/analysis/assessment.js` | mechanical assessment: double-counted evidence, missing coverage, the blast radius if one claim falls; surfaced as open reads |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.js` | the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval |
@@ -45,6 +46,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `api/_nodes.js` | the api node manifest for the typed repository map (build/repo-map.schema.js) |
 | `api/api.js` | the engine's client-facing API. THE single door between clients and storage. Reads |
 | `api/compose.js` | the cross-kernel composition protocol: a citation whose target lives in another store, inheriting the target's grounding under its floors |
 | `api/credential.js` | the credential layer: who may propose to which kernel, time-locked so it can be neither seized nor revoked instantly; reading requires none |
@@ -58,6 +60,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `corpora/_nodes.js` | the corpora node manifest for the typed repository map (build/repo-map.schema.js) |
 | `corpora/_primitives/primitives.js` | the floor. Named standard transformations, the coordinate basis. Each is a leaf |
 | `corpora/_shared/atlas/atlas.js` | the atlas. Abstract transformation patterns (the index) that case nodes point into |
 | `corpora/_shared/bodies/bodies.js` | the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor) |
@@ -73,6 +76,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `periphery/_nodes.js` | the periphery node manifest for the typed repository map (build/repo-map.schema.js) |
 | `periphery/assess/assess.js` | the assessment agent: an AI consumer that produces interpretive assessments the kernel cannot compute, submitted back through the gate as claims |
 | `periphery/author/author.js` | the authoring and curation tools: add claims, propose groundings, discharge open questions, record refutations, AI-assisted |
 | `periphery/filter/filter.js` | the forum filter: reader-side tier selection over what the kernel keeps down to the raw tier; openness at the bottom, strictness at the floor |
@@ -107,12 +111,15 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `build/_nodes.js` | the build node manifest for the typed repository map (build/repo-map.schema.js) |
 | `build/bundle.js` | the deliverable build. Inlines the data + engine + view modules back into |
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
+| `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
 | `build/extract.mjs` | one-time migration tool. Slices knowledge-game.html into layered modules |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
+| `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |
 
 ## root tooling

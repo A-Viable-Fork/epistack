@@ -1,0 +1,934 @@
+{
+  "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
+  "nodeCount": 86,
+  "edgeCount": 49,
+  "nodes": [
+    {
+      "path": "kernel/analysis/assessment.js",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "mechanical assessment: double-counted evidence, missing coverage, the blast radius if one claim falls; surfaced as open reads.",
+      "contract": "STUB [2.2] Stage 2, specified not built. Extends today's gap detection (kernel/analysis/gaps.js)."
+    },
+    {
+      "path": "kernel/analysis/gaps.js",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- clients.md, \"objective structure, subjective assessment\"). A structural gap is an objective fact about the graph, detected mechanically, first-class like a claim. Pure, DOM-free.",
+      "contract": "detectGaps(sources) -> [gap]; gap = { kind, at, missing, discharge, sorry_ref?, ledger_ref? }. Per-predicate exports (groundingGaps/freshnessGaps/coverageGaps/danglingGaps) for isolation tests. Reads the schema for kinds/markers; reuses referencesOf for edges."
+    },
+    {
+      "path": "kernel/analysis/robustness.js",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval.",
+      "contract": "STUB [2.1] Stage 2, specified not built. Flags correlated evidence presented as independent."
+    },
+    {
+      "path": "kernel/gate/clean-json.js",
+      "type": "kernel",
+      "group": "gate",
+      "role": "strip code fences and surrounding prose from a model's JSON reply.",
+      "contract": "cleanJSON(raw:string) -> string, the bare JSON array/object text."
+    },
+    {
+      "path": "kernel/gate/immune.js",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing.",
+      "contract": "STUB [4.4] Stage 4, specified not built."
+    },
+    {
+      "path": "kernel/gate/lifecycle.js",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification.",
+      "contract": "STUB [4.3] Stage 4, specified not built. Extends today's composition gate (kernel/gate/compose_gate.py)."
+    },
+    {
+      "path": "kernel/grounding/check.js",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum.",
+      "contract": "STUB [1.2] Stage 1, specified not built. Extends today's grounding engine (kernel/analysis/gaps.js)."
+    },
+    {
+      "path": "kernel/grounding/contamination.js",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the contamination rule: weakness flows downward (min over necessary supports, max over sufficient), along support edges only.",
+      "contract": "STUB [1.4] Stage 1, specified not built. The gate admits only when declared grounding <= effective grounding."
+    },
+    {
+      "path": "kernel/grounding/profile.js",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where.",
+      "contract": "STUB [3.3] Stage 3, specified not built. Exposed as a read."
+    },
+    {
+      "path": "kernel/grounding/resolve.js",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the one resolver. Every data and presentation lookup goes through resolve(id), which understands forks (merge a live fork's overrides onto its resolved parent, or return a snapshot's frozen copy). Also: referencesOf and the dependents query.",
+      "contract": "makeResolver(registry)->resolve(id); referencesOf(component)->[id]; dependents(registry, id)->[id]; deepMerge(a, b)->object. All pure and DOM-free."
+    },
+    {
+      "path": "kernel/motions/compare.js",
+      "type": "kernel",
+      "group": "motions",
+      "role": "the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones (the instances across cases), and for each compute its broken-node coordinate, which child of the shared pipeline is the one that breaks. The departure is that coordinate (docs/family-discrimination.md), not a description of resemblance.",
+      "contract": "compare(resolve, atlasOrNode) -> { atlas, pipeline, stages, instances } | null, where each instance is { caseLabel, instanceId, brokenNode, coordinate, stage, plain, departure, closure }. pipelineMembers(resolve, rootId) -> Set of the root + descendants. Pure and DOM-free (T0-2, T1-5); state is passed, never reached for."
+    },
+    {
+      "path": "kernel/motions/decompose.js",
+      "type": "kernel",
+      "group": "motions",
+      "role": "the DOWN motion. Zoom into a node's interior: classify each node as expandable (transformation), a cited basis (primitive), or a given (atomic assumption/observation/ closure), and resolve one level of children. Walks `children` edges only.",
+      "contract": "classify(node)->string; motions(node, resolve)->{decompose,compare,perturb}; focusView(resolve, id)->{node, children:[{node, kind, expandable}]}. `resolve` is the id resolver from engine/resolve.js. All functions are pure and DOM-free (T0-2, T1-5)."
+    },
+    {
+      "path": "kernel/motions/perturb.js",
+      "type": "kernel",
+      "group": "motions",
+      "role": "the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay, reading the authored consequence cascade each assumption carries and propagating it along the inference path to the comparison nodes. Authored data, not a computed rule (T1-3, exclusion reservoir).",
+      "contract": "perturb(resolveOrMap, flippedSet) -> overlay { states, trails }. resolveOrMap is the id resolver (or a node map); flippedSet is an iterable of assumption ids. Pure and DOM-free."
+    },
+    {
+      "path": "kernel/schema/edges.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse).",
+      "contract": "STUB [1.5] Stage 1, specified not built. Only support enters the grounding computation."
+    },
+    {
+      "path": "kernel/schema/lattice.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the grounding lattice: the ordering every claim sits in (ceiling + effective grounding), with meet and join.",
+      "contract": "STUB [1.1] Stage 1, specified not built (docs/status-ledger.md). Carried in the schema; computes the lattice."
+    },
+    {
+      "path": "kernel/schema/modes.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument).",
+      "contract": "STUB [1.2] Stage 1, specified not built. The terminals slot under the modes; groundedness checked per mode."
+    },
+    {
+      "path": "kernel/schema/registers.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "vocabulary registers. Each concept's label per register, plus the coinage delta, so a register swap never flattens meaning. Pure data, no behavior.",
+      "contract": "TERMS (id -> {plain,literature,src,delta}); AUTOWRAP (id -> [phrases])."
+    },
+    {
+      "path": "kernel/schema/registry.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "assemble the one registry. Merge every addressable component (primitives, case nodes, atlas entries, instances, and presentation components) into a single id-keyed map that the resolver reads. This is the address space the composition claim rests on.",
+      "contract": "buildRegistry({primitives, atlas, cases, components, forks, bodies})->{ id -> component }. bodies is a pre-flattened id-keyed map (body leaves + body-existence entries); the caller builds it so this stays DOM-free and require-free. Pure; throws on a duplicate id."
+    },
+    {
+      "path": "kernel/schema/schema.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the one node schema. Single source of truth (design axiom T0-1). Every node created, validated, or read imports this; no module hand-rolls a parallel shape.",
+      "contract": "exports the kind/terminal/enum vocabularies, REQUIRED_FIELDS per kind, and validateNode(node) -> [problem strings]. Pure data + pure functions, DOM-free."
+    },
+    {
+      "path": "kernel/schema/terminals.js",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the terminal-type registry. One place that names the closures a claim can reach and the promotion condition each implies (design axiom T1-6: a registry, not a switch).",
+      "contract": "TERMINAL_REGISTRY (type -> {promotes}); promotionFor(type) -> string."
+    },
+    {
+      "path": "kernel/store/exclusion.js",
+      "type": "kernel",
+      "group": "store",
+      "role": "the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived.",
+      "contract": "STUB [0.5] the kill record as code (today prose in docs/exclusion-reservoir.md)."
+    },
+    {
+      "path": "kernel/store/graph.js",
+      "type": "kernel",
+      "group": "store",
+      "role": "pure graph utilities over the node schema. Index, traversal, acyclicity.",
+      "contract": "functions take a node map ({id -> node}) or node list and return values; never touch the DOM, never mutate inputs."
+    },
+    {
+      "path": "kernel/store/patch-ledger.js",
+      "type": "kernel",
+      "group": "store",
+      "role": "storage as a tamper-evident, append-only sequence of sealed canonical patches.",
+      "contract": "STUB [4.5] Stage 4, specified not built. A captured present cannot un-verify the past."
+    },
+    {
+      "path": "kernel/store/reconciliation.js",
+      "type": "kernel",
+      "group": "store",
+      "role": "the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux.",
+      "contract": "STUB [1.6] Stage 1, specified not built. Rebut edges route here."
+    },
+    {
+      "path": "kernel/gate/compose_gate.py",
+      "type": "kernel",
+      "group": "gate",
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "api/api.js",
+      "type": "api",
+      "group": null,
+      "role": "the engine's client-facing API. THE single door between clients and storage. Reads are open (resolve, decompose, compare, dependents, motions, kinds, entry); the one write is submit(claim), a gated submission, never a direct store mutation.",
+      "contract": "createApi(sources) -> api. sources is the data (primitives, atlas, cases, components, forks); the API builds the registry + resolver internally so clients never see storage. Every method is a read except submit. Pure over its inputs, DOM-free."
+    },
+    {
+      "path": "api/compose.js",
+      "type": "api",
+      "group": null,
+      "role": "the cross-kernel composition protocol: a citation whose target lives in another store, inheriting the target's grounding under its floors.",
+      "contract": "STUB [3.1] Stage 3, specified not built. The thin connective tissue."
+    },
+    {
+      "path": "api/credential.js",
+      "type": "api",
+      "group": null,
+      "role": "the credential layer: who may propose to which kernel, time-locked so it can be neither seized nor revoked instantly; reading requires none.",
+      "contract": "STUB [4.2] Stage 4, specified not built."
+    },
+    {
+      "path": "api/export.js",
+      "type": "api",
+      "group": null,
+      "role": "machine-readable export of a forked node and its typed citation edge.",
+      "contract": "promotionFor(terminal)->string; exportYaml(node)->YAML string."
+    },
+    {
+      "path": "api/fork.js",
+      "type": "api",
+      "group": null,
+      "role": "the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal.",
+      "contract": "STUB [4.6] Stage 4, specified not built. A fork is a re-point over the patch history."
+    },
+    {
+      "path": "api/propose.js",
+      "type": "api",
+      "group": null,
+      "role": "the propose interface: accept a claim, edge, join, or refutation and hand it to the gate, which decides; never writes directly.",
+      "contract": "STUB: the write half of the API, to split out of api/api.js. Writing is always proposing."
+    },
+    {
+      "path": "api/read.js",
+      "type": "api",
+      "group": null,
+      "role": "the open read interface: resolve, decompose, compose, compare, dependents, gaps, profile, exclusions, disagreements; no credential.",
+      "contract": "STUB: the read half of the API, to split out of api/api.js. Reading is open."
+    },
+    {
+      "path": "api/subscribe.js",
+      "type": "api",
+      "group": null,
+      "role": "the subscription interface: notify a consumer when something it relies on changes (a cited claim withdrawn, a gap closed, a grounding lowered).",
+      "contract": "STUB [3.2] Stage 3, specified not built."
+    },
+    {
+      "path": "corpora/_primitives/primitives.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the floor. Named standard transformations, the coordinate basis. Each is a leaf that cites its proof and is never re-derived in the engine (T1-2). Shared across the DAG: a primitive has many parents, which is how branches \"share a basis\".",
+      "contract": "exports { id -> primitive node } conforming to data/schema.js (kind primitive)."
+    },
+    {
+      "path": "corpora/_shared/atlas/atlas.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the atlas. Abstract transformation patterns (the index) that case nodes point into via atlas_ref. Each entry lists its clones with the departure that diverges them.",
+      "contract": "exports { id -> AtlasEntry }. An AtlasEntry has { id, role, signature, clones }. A clone is { case, node_id, departure }; departure is the coordinate of the diverging node in the shared decomposition, not a description of resemblance."
+    },
+    {
+      "path": "corpora/_shared/bodies/bodies.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor) and data/atlas. A body (Earth, the Sun, a white dwarf, a neutron star) is an entry whose properties are measurement-terminal leaves: each populated property has a value, a unit, and a citation, and it grounds the graph because the world closed it, the way a math primitive grounds because a derivation legitimately stops.",
+      "contract": "exports { BODIES }, a map body_id -> { id, name, properties }. A property maps a name to either a populated leaf { value, unit, citation, terminal_type: \"measurement\", regime? } or a declared-but-unpopulated stub { sorry: \"<what would close it>\" }. The engine flattens ONLY populated properties into measurement leaves at id `body.<body_id>.<property>` (kind primitive, terminal_type measurement). A stub never becomes a node, so it cannot accidentally ground."
+    },
+    {
+      "path": "corpora/_shared/forks.js",
+      "type": "corpus",
+      "group": null,
+      "role": "fork descriptors. A fork is a new id that names a parent and lists only its overrides (docs/components-and-forking.md). It inherits everything else by reference, so parent improvements flow into the un-overridden fields. A fork is its departure from a parent.",
+      "contract": "exports { id -> descriptor }. Live: { id, forks: parentId, overrides:{...} }. Snapshot: { id, copy_of: parentId, at: version }. resolve() (engine/resolve.js) merges a live fork's overrides onto the resolved parent and freezes a snapshot."
+    },
+    {
+      "path": "corpora/_shared/units.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the thin shared root: units and cross-kernel definitions so they translate across kernels (bodies and atlas sit alongside).",
+      "contract": "STUB [3.1] the shared connective data; pure values, no behavior."
+    },
+    {
+      "path": "corpora/covid/covid.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the COVID-origin case. Its instance is authored in the shared two-stage pipeline corpus and is not split out.",
+      "contract": "STUB: covid.instance lives in corpora/population/population-pipeline.js (one file, both instances; splitting would refactor). This dir marks the case home."
+    },
+    {
+      "path": "corpora/eggs/eggs.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the eggs case. Its instance is authored in the shared two-stage pipeline corpus and is not split out.",
+      "contract": "STUB: eggs.instance lives in corpora/population/population-pipeline.js (one file, both instances; splitting would refactor). This dir marks the case home."
+    },
+    {
+      "path": "corpora/lhc/lhc-cascade.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the LHC-safety case-family, authored as data (docs/lhc-cascade.md, docs/schema-revisions.md). A self-contained data module (T0-4). Branch 2 (stopping) is authored to the floor; Branches 1 (production) and 3 (accretion) are STUBS carrying sorry markers, per the task: do not invent their contents.",
+      "contract": "exports a case object { id, title, atlas_refs, nodes } conforming to data/schema.js; children/atlas refs resolve against data/primitives + data/atlas."
+    },
+    {
+      "path": "corpora/population/population-pipeline.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the population-mismatch case-family, authored as data (docs/population-pipeline.md) with the v2 teaching layer (docs/teaching-layer.md). A self-contained data module the engine loads (T0-4). The terse fields are the inspect layer; explain{} is the on-ramp.",
+      "contract": "exports a case object { id, title, teaching, atlas_refs, entry, nodes, instances } whose nodes conform to data/schema.js; refs resolve against data/primitives + data/atlas + data/components/visuals. teaching:true makes the linter require explain on its transformation/assumption/question nodes."
+    },
+    {
+      "path": "corpora/_shared/graph.json",
+      "type": "corpus",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "periphery/assess/assess.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the assessment agent: an AI consumer that produces interpretive assessments the kernel cannot compute, submitted back through the gate as claims.",
+      "contract": "STUB [2.4] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "periphery/author/author.js",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the authoring and curation tools: add claims, propose groundings, discharge open questions, record refutations, AI-assisted.",
+      "contract": "STUB Stage 2 producer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "periphery/filter/filter.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the forum filter: reader-side tier selection over what the kernel keeps down to the raw tier; openness at the bottom, strictness at the floor.",
+      "contract": "STUB [2.7] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "periphery/ingest/ingest.js",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the ingestion pipeline: read messy multi-source material, emit attributed candidate claims with proposed types and links, submit through the gate.",
+      "contract": "STUB [2.3] Stage 2 producer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "periphery/navigate/clients/clients.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the registered client descriptors. A client is a forkable unit over the untouched store, read-only against truth (docs/architecture-storage-api-clients.md, docs/clients.md). A descriptor carries only presentation: tokens (design tokens) + mapping (node kind -> a layout and an optional visual) + which renderer drives it + its tier.",
+      "contract": "exports { id -> { id, kind:\"client\", tier, renderer, tokens, mapping } }. The render functions live in view/clients/ (view owns DOM); this layer owns only the descriptor."
+    },
+    {
+      "path": "periphery/navigate/clients/palette.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the thin-client palette and the manifest validator. A thin client is a single declarative manifest (tokens + a kind-to-look mapping) that composes from this palette of built-in layouts and visual renderers. No engine, API, or view code for the common case.",
+      "contract": "PALETTE = { layouts, visuals } catalogs (id -> description); validateManifest( manifest, kinds) -> [problem strings]. Pure data + a pure function, DOM-free."
+    },
+    {
+      "path": "periphery/navigate/fat/auditor.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the auditor client (FAT). A genuinely different USE of the same store: it leads with the inspect layer (the terse audit-grade fields), the dependents query (the blast radius), and the gate's reasoning. Not a reskin of the teaching walk; a different composition over a wider slice of the API (docs/clients.md).",
+      "contract": "renderAuditor(api, mount, client, opts) -> void. Uses api.resolve / decompose / dependents / classify / kinds / submit. Read-only against truth."
+    },
+    {
+      "path": "periphery/navigate/fat/teaching.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the teaching client (FAT). The learning-first walk: concrete entry, drill, the compare reveal, the searchlight. Renders exactly as v1. Reads only through the API; touches no truth field and never imports the store (docs/clients.md).",
+      "contract": "renderTeaching(api, mount, client, opts) -> void. api is the engine API; client is the descriptor (tokens + mapping); opts.node optionally sets the entry node."
+    },
+    {
+      "path": "periphery/navigate/fat/thin.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "a THIN client. Tokens + a kind-to-look mapping over the default read path (drill). It restyles the response and nothing more; it covers every node kind, so it renders the whole map. The five-minute fork (docs/clients.md).",
+      "contract": "renderThin(api, mount, client, opts) -> void. Uses only api.entry / resolve / decompose; no compare, no dependents, no custom composition."
+    },
+    {
+      "path": "periphery/navigate/render/app.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the single-page artifact. Renders graph nodes, the paper/overview/spec views, the vocabulary register UI, the fork-this cell, and routing.",
+      "contract": "reads data/graph.json (DOM block #kg-graph), data/registers.js, and the engine helpers (promotionFor, exportYaml). Owns DOM, not data."
+    },
+    {
+      "path": "periphery/navigate/render/card.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the node card. v2 learning-first (docs/teaching-layer.md, matching card-prototype.html): hook, intuition, the communicated math (typeset, glossed, read as a sentence, assumption shown), the visual, the break as a scenario, the stakes, then \"see the precise version\" which discloses the terse inspect layer, then the motions. A node with no explain block falls back to a compact terse card (primitives, closure nodes).",
+      "contract": "renderCard(node, ctx)->Element; renderChildCard(entry, onClick)->Element. ctx = { motions, resolve, reveal }. Reads the engine and the visual renderer; owns no data."
+    },
+    {
+      "path": "periphery/navigate/render/compare-view.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the cross-case compare view (the SIDEWAYS reveal). Renders the shared pipeline ONCE with both instances overlaid and the break marked on different children: COVID lit at stage 1, eggs at stage 2. The distance between the cases is the distance between the two lit stages, shown rather than asserted. Learning-first, then the precise version on demand.",
+      "contract": "renderCompareView(model, ctx)->Element. model is engine/compare.js's output; ctx = { onStage(id), resolve }. Reads the engine output; owns no data."
+    },
+    {
+      "path": "periphery/navigate/render/components/cards.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the registered card-layout components. A card is addressable and resolvable like any other component, so it is forkable (docs/components-and-forking.md): a contributor can fork a layout, reorder or drop a section, and point a node at the fork.",
+      "contract": "exports { id -> { id, kind:\"card\", title, sections:[...] } }. The render function for each layout lives in view/card.js (view owns DOM); this layer owns only the descriptor."
+    },
+    {
+      "path": "periphery/navigate/render/components/views.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "registered view-level components, addressable and forkable like the cards and visuals (docs/components-and-forking.md). The cross-case compare view is one of these.",
+      "contract": "exports { id -> { id, kind:\"view\", title } }. The render function lives in view/ (view owns DOM); this layer owns only the descriptor."
+    },
+    {
+      "path": "periphery/navigate/render/components/visuals.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the registered visual components. A node does not contain a visual; it references one by id and passes params (docs/components-and-forking.md). This file holds the data descriptors so a visual is addressable, resolvable, and forkable like any component.",
+      "contract": "exports { id -> { id, kind:\"visual\", title, defaults } }. The render function for each id lives in view/ (view owns DOM); this layer owns only the descriptor."
+    },
+    {
+      "path": "periphery/navigate/render/compose-gate.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the in-browser compose-gate runner. Loads Pyodide on click and runs the captured compose_gate.py over the incumbent plus the ticked contributions, with a captured-output fallback when the network is unavailable.",
+      "contract": "wires #cgBtn; reads the data blocks (#cg-*) and #cgPaste; writes #cgOut."
+    },
+    {
+      "path": "periphery/navigate/render/host.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the host. The wiring that builds the API from storage once, registers the fat clients and the thin-client manifests, validates each manifest against the palette, applies the active client's tokens, and runs it. The host is infrastructure, not a client.",
+      "contract": "boots on load; #client=<name> selects the client, #node=<id> sets the entry node. Renders a gallery (every client, node-preserving, shareable by hash) and mounts into #app."
+    },
+    {
+      "path": "periphery/navigate/render/rail.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the spine rail. The decomposition path from the root claim to the focused node, horizontal and clickable to jump back up. \"Where am I and how do I get back\", always visible. See docs/architecture-spec.md section 6.",
+      "contract": "renderRail(pathNodes, onJump, caseLabel)->Element. pathNodes is the ordered list of nodes from root to focused; onJump(index) truncates the path to that node."
+    },
+    {
+      "path": "periphery/navigate/render/visuals.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the view-side renderers for registered visual components. A node references a visual by id (data/components/visuals.js); the card resolves the descriptor and calls the renderer here with the node's params. Ported from card-prototype.html (the searchlight).",
+      "contract": "VISUAL_RENDERERS[id](params)->Element. renderVisual(component, params)->Element dispatches by id. Owns DOM/SVG; reads no data of its own."
+    },
+    {
+      "path": "periphery/query/query.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the query surface: answer whether a claim is grounded and where it is weakest, by walking the graph through the read interface.",
+      "contract": "STUB [2.5] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "periphery/redteam/redteam.js",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the red-team surface: attack the graph, propose objections, find thin grounding, submit refutations through the gate.",
+      "contract": "STUB [2.6] Stage 2 producer, specified not built. Reaches the kernel only through api/."
+    },
+    {
+      "path": "build/bundle.js",
+      "type": "build",
+      "group": null,
+      "role": "the deliverable build. Inlines the data + engine + view modules back into one standalone submission.html that opens from file:// (design axiom T0-6).",
+      "contract": "reads view/index.template.html and the files named by its @@INCLUDE@@ tokens; writes submission.html at the repo root. No network, no minify."
+    },
+    {
+      "path": "build/check-gaps.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the detector over the real cases and asserts it reproduces the sorry-ledger structural markers plus the un-populated atlas, adds no false ones, and ranks nothing (the A2 discharge check).",
+      "contract": "`node build/check-gaps.mjs`. Exits 0 if every assertion holds, 1 with a report."
+    },
+    {
+      "path": "build/check-map.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the typed-repository-map oracle. Assembles the node manifests, validates them, checks coverage both ways, DERIVES the import edges from the real source, verifies every edge against the trust-boundary invariants, checks the declared runtime flows for supporting evidence, and emits the generated map (docs/repo-map.generated.json + docs/repo-map.md).",
+      "contract": "`node build/check-map.mjs`. Exits 0 if everything holds, 1 with a named report. Writes the two generated artifacts each run; role and contract are parsed from module head comments."
+    },
+    {
+      "path": "build/check-perturb.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty overlay, the authored danger-flip cascade, a non-perturbable assumption, non-destructiveness, and determinism. The overlay is read from authored data, never computed by a rule (T1-3).",
+      "contract": "`node build/check-perturb.mjs`. Exits 0 if every assertion holds, 1 with a report."
+    },
+    {
+      "path": "build/extract.mjs",
+      "type": "build",
+      "group": null,
+      "role": "one-time migration tool. Slices knowledge-game.html into layered modules (data/, engine/, view/) and writes view/index.template.html with include tokens.",
+      "contract": "reads ../knowledge-game.html; writes the module files and the template. Idempotent: re-running regenerates the same files from the original artifact."
+    },
+    {
+      "path": "build/fork-demo.mjs",
+      "type": "build",
+      "group": null,
+      "role": "demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain forks pipe.stage1 and overrides only explain.intuition; everything else is inherited live. This prints the diff between resolving the parent and resolving the fork.",
+      "contract": "`node build/fork-demo.mjs`. Reads the data + resolver; prints the changed and inherited fields. No writes, no network."
+    },
+    {
+      "path": "build/new-client.mjs",
+      "type": "build",
+      "group": null,
+      "role": "scaffold a new thin client. Emits clients/<name>.json pre-filled with the default mapping and tokens, ready to edit. A new client starts from a working copy, not a blank file.",
+      "contract": "`node build/new-client.mjs <name>`. Writes clients/<name>.json (refuses to clobber). No engine, API, or view code is touched; a thin client is one manifest."
+    },
+    {
+      "path": "build/repo-map.schema.js",
+      "type": "build",
+      "group": null,
+      "role": "the schema for the typed repository map. A typed graph of the repository itself, in the same form the system uses for knowledge: typed nodes, typed edges, invariants enforced. It defines the node types (the trust-boundary layer), the groups, the edge types, and the import-legality table that states the trust boundary as a machine-checkable property.",
+      "contract": "exports NODE_TYPES, KERNEL_GROUPS, PERIPHERY_GROUPS, EDGE_TYPES, IMPORT_RULES, and the helpers typeForPath / groupForPath / importLegal / validateNode. Pure, DOM-free."
+    },
+    {
+      "path": "build/vendor-katex.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor KaTeX into the repo so the deliverable opens from file:// with no network (design axiom T0-6; v2 hard constraint \"no CDN survives into the build\").",
+      "contract": "reads node_modules/katex/dist (from `npm install katex`), writes vendor/katex/katex.min.js (verbatim) and vendor/katex/katex.inline.css (the stylesheet with every woff2 font embedded as a data: URI, woff/ttf fallbacks dropped)."
+    },
+    {
+      "path": "linter.js",
+      "type": "build",
+      "group": null,
+      "role": "the design discipline made mechanical. Enforces the linter rules in docs/design-axioms.md against the data, the layer boundaries, and the corpus index.",
+      "contract": "`node linter.js`. Exits 0 if clean, 1 with a report of violations otherwise."
+    },
+    {
+      "path": "docs/knowledge-system-what.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/knowledge-system-how.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/knowledge-system-why.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/judges-document.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/status-ledger.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/sorry-ledger.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/design-axioms.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/api.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/clients.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/corpus-index.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/repo-map.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/repo-map.generated.json",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    }
+  ],
+  "edges": [
+    {
+      "from": "kernel/analysis/gaps.js",
+      "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/gaps.js",
+      "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/schema/registry.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/motions/decompose.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/motions/compare.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/motions/perturb.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gaps.mjs",
+      "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gaps.mjs",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-gaps.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-gaps.mjs",
+      "to": "corpora/_shared/bodies/bodies.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-map.mjs",
+      "to": "build/repo-map.schema.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-perturb.mjs",
+      "to": "kernel/motions/perturb.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-perturb.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "periphery/navigate/render/components/visuals.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "periphery/navigate/render/components/cards.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "corpora/_shared/forks.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "corpora/population/population-pipeline.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "kernel/schema/registry.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "linter.js",
+      "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "linter.js",
+      "to": "kernel/store/graph.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "linter.js",
+      "to": "build/repo-map.schema.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "linter.js",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "linter.js",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "linter.js",
+      "to": "corpora/_shared/bodies/bodies.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "linter.js",
+      "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "linter.js",
+      "to": "periphery/navigate/render/components/visuals.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "linter.js",
+      "to": "periphery/navigate/render/components/cards.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "linter.js",
+      "to": "periphery/navigate/render/components/views.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "linter.js",
+      "to": "periphery/navigate/clients/clients.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "linter.js",
+      "to": "periphery/navigate/clients/palette.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "linter.js",
+      "to": "corpora/_shared/forks.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "linter.js",
+      "to": "kernel/schema/registry.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "linter.js",
+      "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/gaps.js",
+      "to": "build/check-gaps.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/motions/perturb.js",
+      "to": "build/check-perturb.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "api/api.js",
+      "to": "kernel/gate/compose_gate.py",
+      "type": "gated-write"
+    },
+    {
+      "from": "periphery/navigate/fat/auditor.js",
+      "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/fat/teaching.js",
+      "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/fat/thin.js",
+      "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/render/host.js",
+      "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "build/check-gaps.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-perturb.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/fork-demo.mjs",
+      "to": "corpora/population/population-pipeline.js",
+      "type": "loads-corpus"
+    }
+  ]
+}
