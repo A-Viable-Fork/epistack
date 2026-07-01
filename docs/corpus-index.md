@@ -13,16 +13,17 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/analysis/assessment.js` | mechanical assessment: double-counted evidence, missing coverage, the blast radius if one claim falls; surfaced as open reads |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.js` | the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval |
-| `kernel/gate/A.json` | data (JSON) |
-| `kernel/gate/B.json` | data (JSON) |
-| `kernel/gate/C.json` | data (JSON) |
-| `kernel/gate/captured.txt` | compose-gate fixture text |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
+| `kernel/gate/fixtures/A.json` | data (JSON) |
+| `kernel/gate/fixtures/B.json` | data (JSON) |
+| `kernel/gate/fixtures/C.json` | data (JSON) |
+| `kernel/gate/fixtures/README.md` | file |
+| `kernel/gate/fixtures/captured.txt` | compose-gate fixture text |
+| `kernel/gate/fixtures/incumbent.json` | data (JSON) |
+| `kernel/gate/fixtures/prompt.txt` | compose-gate fixture text |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
-| `kernel/gate/incumbent.json` | data (JSON) |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
-| `kernel/gate/prompt.txt` | compose-gate fixture text |
 | `kernel/grounding/check.js` | the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum |
 | `kernel/grounding/contamination.js` | effective grounding and the contamination rule. Folds a node's support subtree along |
 | `kernel/grounding/profile.js` | the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where |

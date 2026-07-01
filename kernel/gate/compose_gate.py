@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
-"""compose_gate.py - mechanical compose-and-gate over independent typed contributions.
-No model runs here. Judgment lives in the registries and the RULES below; everything
-else is deterministic over the typed fields the emitters wrote. Hardened to tolerate
-malformed / partial contributions (e.g. pasted LLM output): bad nodes are reported as
-violations, never crash the run.
-Input : incumbent.json + every contribution_*.json in the directory.
+"""compose_gate.py - the membrane: mechanical compose-and-gate over independent typed
+contributions. No model runs here. Judgment lives in the registries and the RULES below;
+everything else is deterministic over the typed fields the emitters wrote. Hardened to
+tolerate malformed / partial contributions (e.g. pasted LLM output): bad nodes are
+reported as violations, never crash the run.
+
+The gate logic exists in exactly one place: compose_and_gate(contributions, incumbent,
+registries). It reads no files and prints nothing. Two callers drive it:
+  - main(): the browser/CWD convention. Loads incumbent.json + every contribution_*.json
+    from the working directory (the in-browser Pyodide harness writes these, then calls
+    main()), composes, and prints the report. Behavior-preserving; the judge's demo run
+    is unchanged.
+  - __main__: the command-line demo. Loads the fixtures beside this module
+    (fixtures/incumbent.json + fixtures/<id>.json) and prints the same report, so
+    `python compose_gate.py` composes the demo (incumbent + A + B + C) directly.
 """
 import json, glob, os
 from collections import defaultdict
 
+# ---- the registries: the trusted judgment the gate reads, passed to compose_and_gate ----
 SOURCE_REGISTRY = {
     "DS-EARLYCASE-DEC2019": {"withheld": True},  "DS-ENVSAMPLES-HSM": {"withheld": False},
     "DS-PHYLO-EARLY":       {"withheld": False}, "DS-BASERATE-HIST":  {"withheld": False},
@@ -17,28 +27,30 @@ SOURCE_REGISTRY = {
 }
 ONTOLOGY   = {"measurement", "irreducible-prior", "withheld-record", "question-set", "pending"}
 NODE_SPACE = {"Q-PIVOT-MARKET","Q-GEO-WHYWUHAN","Q-FCS-DEFUSE","Q-BASERATE","Q-METHOD","Q-LAYER0"}
+REGISTRIES = {"sources": SOURCE_REGISTRY, "ontology": ONTOLOGY, "node_space": NODE_SPACE}
 
-def names_withheld_resolver(n):
+def names_withheld_resolver(n, source_registry=SOURCE_REGISTRY):
     r = n.get("namesWithheldResolver")
-    return bool(r) and SOURCE_REGISTRY.get(r, {}).get("withheld", False)
+    return bool(r) and source_registry.get(r, {}).get("withheld", False)
 def idents(n):
     return {s["ident"] for s in (n.get("sources") or []) if isinstance(s, dict) and "ident" in s}
 def load(p):
     with open(p) as f: return json.load(f)
 
-def validate(n):
+def validate(n, registries=REGISTRIES):
+    ontology, node_space, source_registry = registries["ontology"], registries["node_space"], registries["sources"]
     e = []
-    if n.get("terminal") not in ONTOLOGY:
+    if n.get("terminal") not in ontology:
         e.append(f"{n['_src']}:{n['addr']}: bad/missing terminal {n.get('terminal')!r}")
-    if n["addr"] not in NODE_SPACE and not str(n["addr"]).startswith("Q-NEW-"):
+    if n["addr"] not in node_space and not str(n["addr"]).startswith("Q-NEW-"):
         e.append(f"{n['_src']}:{n['addr']}: addr off-space (not a registered question)")
     for s in (n.get("sources") or []):
-        if not isinstance(s, dict) or s.get("ident") not in SOURCE_REGISTRY:
+        if not isinstance(s, dict) or s.get("ident") not in source_registry:
             bad = s.get("ident") if isinstance(s, dict) else s
             e.append(f"{n['_src']}:{n['addr']}: unregistered/malformed source {bad!r}")
     return e
 
-def ingest(arr, src, violations, nodes):
+def ingest(arr, src, violations, nodes, registries=REGISTRIES):
     if not isinstance(arr, list):
         violations.append(f"{src}: top-level JSON must be an array of nodes"); return
     for n in arr:
@@ -47,16 +59,17 @@ def ingest(arr, src, violations, nodes):
         n["_src"] = src
         if "addr" not in n:
             violations.append(f"{src}: a node is missing 'addr' -> skipped"); continue
-        violations += validate(n); nodes.append(n)
+        violations += validate(n, registries); nodes.append(n)
 
-def main():
+def compose_and_gate(contributions, incumbent, registries=REGISTRIES):
+    """The gate, pure. contributions: {src -> [node, ...]}; incumbent: [node, ...]; registries:
+    the source registry, ontology, and node space. Returns the gate result (violations, the
+    composed graph, the independence pass, the typing/imputed/ontology linters, the cruxes).
+    Reads no files and prints nothing; ingestion order is incumbent then sorted contributor src."""
     nodes, violations = [], []
-    try: ingest(load("incumbent.json"), "incumbent", violations, nodes)
-    except Exception as ex: violations.append(f"incumbent.json: cannot read ({ex})")
-    for path in sorted(glob.glob("contribution_*.json")):
-        src = os.path.basename(path).replace("contribution_", "").replace(".json", "")
-        try: ingest(load(path), src, violations, nodes)
-        except Exception as ex: violations.append(f"contribution_{src}.json: invalid JSON ({ex})")
+    ingest(incumbent, "incumbent", violations, nodes, registries)
+    for src in sorted(contributions):
+        ingest(contributions[src], src, violations, nodes, registries)
     emitters = sorted({n["_src"] for n in nodes if n["_src"] != "incumbent"})
 
     by_addr = defaultdict(list)
@@ -70,7 +83,7 @@ def main():
         terms = {k: sorted(v) for k, v in terms.items()}
         distinct = {n.get("terminal") for n in grp}
         inc = next((n for n in grp if n["_src"] == "incumbent"), None)
-        wr  = [n for n in grp if names_withheld_resolver(n)]
+        wr  = [n for n in grp if names_withheld_resolver(n, registries["sources"])]
         rec = {"contributors": srcs, "relation": None, "resolution": None, "notes": []}
         if len(distinct) > 1:
             if inc and inc.get("terminal") == "irreducible-prior" and wr:
@@ -120,12 +133,22 @@ def main():
             if s.get("typing") == "author-verified": verified.append((n["_src"], n["addr"], s.get("ident")))
     wterms = defaultdict(set)
     for n in nodes:
-        if names_withheld_resolver(n): wterms[n.get("terminal")].add(f"{n['_src']}:{n['addr']}")
+        if names_withheld_resolver(n, registries["sources"]): wterms[n.get("terminal")].add(f"{n['_src']}:{n['addr']}")
     imputed = [(n["_src"], n["addr"], n.get("status")) for n in nodes if n.get("conjecture") and n["_src"] != "incumbent"]
     crux = [(n["_src"], n["addr"], n.get("namesWithheldResolver")) for n in nodes if n.get("loadBearing") and n["_src"] in emit]
     sealed = sorted({d for _, _, d in crux if d})
 
-    P = print
+    return {"emitters": emitters, "violations": violations, "composed": composed,
+            "shared_cross": shared_cross, "indep": indep, "tstats": tstats,
+            "verified": verified, "imputed": imputed, "wterms": wterms, "crux": crux, "sealed": sealed}
+
+def format_report(result):
+    """Render the gate result as the report text, byte-for-byte as the script has always printed."""
+    emitters, violations, composed = result["emitters"], result["violations"], result["composed"]
+    shared_cross, indep, tstats = result["shared_cross"], result["indep"], result["tstats"]
+    verified, imputed, wterms, crux, sealed = result["verified"], result["imputed"], result["wterms"], result["crux"], result["sealed"]
+    lines = []
+    P = lines.append
     P("="*74); P(f"COMPOSE-GATE REPORT  (incumbent + {' + '.join(emitters) if emitters else 'no contributions'})"); P("="*74)
     P("\n[VALIDATION] " + ("OK - all nodes schema- and registry-valid" if not violations else f"{len(violations)} issue(s):"))
     for v in violations: P("   - " + v)
@@ -158,4 +181,37 @@ def main():
     for s, a, d in crux: P(f"  {s}: {a}   withheld-resolver={d}")
     P(f"  -> {len(crux)} load-bearing crux assertion(s) across {len(sealed)} distinct sealed datasets: {sealed}")
     if len(sealed) > 1: P("  -> map shape: SEALED DOORS (one per vantage), not one irreducible fog")
+    return "\n".join(lines) + "\n"
 
+def main():
+    """Browser/CWD convention: load incumbent.json + every contribution_*.json from the working
+    directory (the in-browser harness writes these), compose, and print. Byte-identical to the
+    script's long-standing behavior when driven by the Pyodide runner."""
+    incumbent, violations = [], []
+    try: incumbent = load("incumbent.json")
+    except Exception as ex: violations.append(f"incumbent.json: cannot read ({ex})")
+    contributions = {}
+    for path in sorted(glob.glob("contribution_*.json")):
+        src = os.path.basename(path).replace("contribution_", "").replace(".json", "")
+        try: contributions[src] = load(path)
+        except Exception as ex: violations.append(f"contribution_{src}.json: invalid JSON ({ex})")
+    result = compose_and_gate(contributions, incumbent)
+    # preserve the incumbent/contribution read-failure messages ahead of the schema violations
+    result["violations"] = violations + result["violations"]
+    print(format_report(result), end="")
+
+def _run_fixtures(fixtures_dir):
+    """CLI demo: incumbent.json + every other <id>.json in fixtures_dir as contribution <id>."""
+    incumbent = load(os.path.join(fixtures_dir, "incumbent.json"))
+    contributions = {}
+    for path in sorted(glob.glob(os.path.join(fixtures_dir, "*.json"))):
+        stem = os.path.splitext(os.path.basename(path))[0]
+        if stem == "incumbent": continue
+        contributions[stem] = load(path)
+    print(format_report(compose_and_gate(contributions, incumbent)), end="")
+
+# The command-line demo. Guarded on __file__ so it is inert under the in-browser Pyodide
+# harness, which execs this source (also as __main__) and then calls main() itself; there
+# __file__ is undefined, so this block is skipped and the browser run is unchanged.
+if __name__ == "__main__" and "__file__" in globals():
+    _run_fixtures(os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures"))
