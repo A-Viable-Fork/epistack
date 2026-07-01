@@ -6,8 +6,9 @@
 //   + data/components/visuals. teaching:true makes the linter require explain on its
 //   transformation/assumption/question nodes.
 // Invariant: pure data. The explain layer is AUTHORED (generation), the terse role/why_breaks
-//   is the verified-register spec it lands on; which is which stays marked. The two
-//   case-specific numbers stay deferred (covid.instance, eggs.instance TODO_verify).
+//   is the verified-register spec it lands on; which is which stays marked. The two case
+//   instances (covid.instance, eggs.instance) are now verified against the literature and carry
+//   a `verified` field with the anchors; their deferred-verification markers are discharged.
 "use strict";
 
 const CASE = {
@@ -266,8 +267,18 @@ const CASE = {
         "stage-1 failure; the observed-case sample is biased by spatially concentrated surveillance, so inclusion correlates with location, the quantity being estimated",
       closure:
         "REFUSED at the irreducible-prior terminal. With the draw non-exchangeable, the clustering statistic cannot discriminate origin from surveillance pattern, so the inference does not close on the data; it returns a priced prior, not a measurement",
-      TODO_verify:
-        "which specific COVID analysis, and whether selection is the dominant critique of its clustering argument or one of several",
+      // VERIFIED (Gemini deep-research pass), verdict marginal. Specific analysis: Worobey et al.
+      // 2022, Science (abp8715), the Huanan market early-epicenter clustering argument. The
+      // non-exchangeability is documented, not assumed: early-pandemic case definitions included
+      // contact with wet markets and with known cases, concentrating detection near the market
+      // (Weissman, "Proximity Ascertainment Bias in Early Covid Case Locations", JRSS Series A
+      // 187(3):720, 2024). Selection/ascertainment bias is a LEADING but not sole-dominant critique:
+      // Stoyan and Chiu (JRSS-A 187(3):710, 2024) separately attack the centroid-as-origin
+      // assumption and the Monte Carlo test, and Worobey et al. tested for and dispute ascertainment
+      // bias (replies arXiv:2403.05859, 2405.08040). The refusal reason holds; its dominance is
+      // qualified to one of several co-equal statistical critiques.
+      verified:
+        "Worobey et al. 2022 Science (abp8715); ascertainment/proximity bias documented (Weissman, JRSS-A 187(3):720, 2024), a leading critique among several co-equal ones (Stoyan and Chiu, JRSS-A 187(3):710, 2024). Refusal well-founded; dominance qualified to one-of-several.",
     },
     {
       id: "eggs.instance",
@@ -281,8 +292,20 @@ const CASE = {
         "stage-2 failure; responders are heterogeneous, and the mean discards the within-population variance the individual conclusion needs",
       closure:
         "SPLIT. Stage 1 holds, so the population statistic is sound and the population claim closes on a measurement; stage 2 fails, so the individual claim does not follow. Resolves to a sound population claim and an unsupported individual claim",
-      TODO_verify:
-        "the eggs effect sizes and the strength of the hyper/hypo-responder split, against the nutrition literature",
+      // VERIFIED (Gemini deep-research pass), verdict confirmed. Effect sizes: the dietary-cholesterol
+      // to-LDL effect is real but modest. Controlled-feeding meta-analysis, ~100 mg/day added dietary
+      // cholesterol raises total cholesterol ~0.056 mmol/L (about 2 mg/dL) and the LDL/HDL ratio ~0.02;
+      // an egg-RCT meta-analysis (17 trials) puts higher egg intake at +8.14 mg/dL LDL-C and +0.14 in
+      // the LDL/HDL ratio. The egg-to-cardiovascular-outcome association is genuinely contested: Zhong
+      // et al. 2019 JAMA (each additional half-egg/day about +6% CVD) versus Drouin-Chartier et al.
+      // 2020 BMJ (an egg/day not associated with CVD; meta-analysis of ~1.72M participants null).
+      // Responder split: well-documented, about one third of individuals are hyper-responders whose
+      // serum cholesterol rises substantially with dietary cholesterol while hypo-responders change
+      // little (Fernandez, PMID 16340654; McNamara; Katan). The between-individual spread, from
+      // near-zero in hypo-responders to well above the mean in hyper-responders, is large relative to
+      // the modest population mean, so the mean genuinely discards the variance an individual needs.
+      verified:
+        "Dietary-cholesterol-to-LDL effect real but modest (~100 mg/day -> +0.056 mmol/L TC; egg-RCT meta +8.14 mg/dL LDL, +0.14 LDL/HDL); egg-to-CVD association contested (Zhong 2019 JAMA vs Drouin-Chartier 2020 BMJ); ~1/3 hyper-responders, between-individual spread large vs the modest mean (Fernandez, PMID 16340654). Stage-2 refusal well-founded.",
     },
   ],
 };
