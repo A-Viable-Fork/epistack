@@ -49,7 +49,13 @@ module.exports = [
   {
     "path": "kernel/grounding/contamination.js",
     "type": "kernel",
-    "group": "grounding"
+    "group": "grounding",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-lattice.mjs"
+      }
+    ]
   },
   {
     "path": "kernel/grounding/profile.js",
@@ -90,7 +96,13 @@ module.exports = [
   {
     "path": "kernel/schema/lattice.js",
     "type": "kernel",
-    "group": "schema"
+    "group": "schema",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-lattice.mjs"
+      }
+    ]
   },
   {
     "path": "kernel/schema/modes.js",

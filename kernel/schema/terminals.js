@@ -22,5 +22,22 @@ function promotionFor(type) {
   return e ? e.promotes : "terminal pending";
 }
 
+// The three grounding MODES (docs/knowledge-system-how.md, the lattice). The seven terminals
+// partition into three modes: formal (evidence or proof), constitutive (declaration), forum
+// (argument). modeOf is total over the seven registered terminals; unknown -> null.
+const MODES = ["formal", "constitutive", "forum"];
+const TERMINAL_MODE = {
+  measurement: "formal",
+  derivation: "formal",
+  "withheld-record": "formal",
+  "simulation-bound": "formal",
+  constitutive: "constitutive",
+  "irreducible-prior": "forum",
+  "question-set": "forum",
+};
+function modeOf(terminal_type) {
+  return TERMINAL_MODE[terminal_type] || null;
+}
+
 if (typeof module !== "undefined" && module.exports)
-  module.exports = { TERMINAL_REGISTRY, promotionFor };
+  module.exports = { TERMINAL_REGISTRY, promotionFor, MODES, modeOf };
