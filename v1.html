@@ -1698,17 +1698,22 @@ const CASE = {
       produces: ["beta_BH"],
       preserves: ["the production physics, unchanged across scenarios"],
       function: "derive",
-      breaks: "the scenario is mis-assigned (cosmic-ray fast vs LHC slow)",
+      breaks: "the scenario is mis-assigned (cosmic-ray relativistic vs LHC non-relativistic)",
       why_breaks:
-        "the same production physics yields a relativistic black hole for a fixed-target cosmic-ray collision and a nearly-at-rest one at the symmetric LHC, so nature's fast black holes do not directly bound the LHC's slow one; this scenario departure is the root of the case",
-      load_bearing: "same boost, two scenarios, opposite outputs: nature fast-and-escapes, LHC slow-and-stays",
-      math: "gamma_BH ~ sqrt(s)/(2 m_N) (cosmic-ray);  beta_BH ~ 0 (LHC)",
+        "the same production physics yields a highly relativistic black hole for a fixed-target cosmic-ray collision (gamma up to ~4.5e4 at LHC-scale mass) and a non-relativistic one at the symmetric LHC, so nature's fast black holes do not directly bound the LHC's slow one; this scenario departure is the root of the case. The LHC object is non-relativistic but most are produced above Earth's escape velocity (11 km/s) from imbalanced parton kinematics and radiation, so only a small but finite fraction bind and could accrete",
+      load_bearing: "same boost, two scenarios, opposite outputs: nature relativistic-and-escapes, LHC slow-and-a-fraction-stays",
+      math: "gamma_BH ~ sqrt(s)/(2 m_N) (cosmic-ray, up to gamma ~ 4.5e4);  beta_BH << 1 (LHC, non-relativistic; most exceed Earth escape velocity 11 km/s, a small fraction bind)",
       formal_status: "typed",
       composition: "sequence",
       children: ["prim.lorentz-boost"],
       scenario: "nature|LHC",
-      TODO_verify:
-        "confirm the precise kinematic factor gamma_BH ~ sqrt(s)/(2 m_N) for the assumed production process. See docs/sorry-ledger.md lhc.N2.1#TODO_verify.",
+      // VERIFIED against Giddings-Mangano arXiv:0806.3381 (Gemini deep-research pass): the kinematic
+      // factor gamma_BH ~ sqrt(s)/(2 m_N) is eq (5.4) at the bulk-production point x1 ~ x2 (since
+      // sqrt(s) = sqrt(2 E m_N) gives sqrt(s)/(2 m_N) = sqrt(E/2 m_N)), with eq (5.5) and fig. 7
+      // giving gamma up to ~4.5e4; the relativistic-CR / non-relativistic-LHC asymmetry is Section 5
+      // intro and Section 4.2.1. Correction from the source: LHC objects are non-relativistic but
+      // most exceed Earth's 11 km/s escape velocity, so only a small fraction are trapped.
+      verified: "Giddings-Mangano arXiv:0806.3381, Section 5.1 eqs (5.3)-(5.5), fig. 7; Sections 5 (intro) and 4.2.1",
     },
 
     "lhc.N2.2": {
@@ -1724,15 +1729,20 @@ const CASE = {
       function: "derive",
       breaks: "the charge regime is wrong",
       why_breaks:
-        "a charged black hole loses energy electromagnetically and stops in ordinary matter (Bethe-Bloch), while a neutral one stops only by far-weaker geometric capture and needs very high density; the regime is load-bearing and gated on the charge assumption",
-      load_bearing: "the charged/neutral split decides which bodies can stop the object",
+        "a charged black hole loses energy electromagnetically and stops in ordinary matter (Bethe-Bloch), so Earth stops it up to ~7 TeV and the Sun beyond; a neutral one interacts only gravitationally, by far-weaker Coulomb slow-down plus accretion capture, and needs degenerate density, so only white dwarfs and neutron stars stop it (the Sun is insufficient); the regime is load-bearing and gated on the charge assumption",
+      load_bearing: "the charged/neutral split decides which bodies can stop the object: charged bounded by Earth and the Sun, neutral by white dwarfs and neutron stars",
       math: "lambda_stop = E_BH / |dE/dx|(rho, charge, beta)",
       formal_status: "nl",
       composition: "disjunction",
       guard: { assumption_id: "lhc.assume.neutral", value: true },
       children: ["prim.bethe-bloch", "prim.geometric-capture"],
-      TODO_verify:
-        "confirm the charged/neutral split and which bodies bound which case (charged: ordinary matter and the Sun; neutral: white dwarfs and neutron stars) against arXiv:0806.3381. See docs/sorry-ledger.md lhc.N2.2#TODO_verify.",
+      // VERIFIED against Giddings-Mangano arXiv:0806.3381 (Gemini deep-research pass): the charge
+      // dependence of the mechanism (Bethe-Bloch for charged, gravitational-only for neutral) and the
+      // body assignment (charged: Earth up to ~7 TeV and the Sun for heavier; neutral: white dwarfs and
+      // neutron stars, the Sun insufficient) are Section 2.2 and the d0 stopping-scale analysis in
+      // Section 5.2. Note from the source: the neutral mechanism is two gravitational effects, Coulomb
+      // slow-down (scattering) plus accretion capture (eq 5.7), not solely geometric capture.
+      verified: "Giddings-Mangano arXiv:0806.3381, Section 2.2 (charged Bethe-Bloch, Earth ~7 TeV / Sun; neutral gravitational, Sun insufficient) and Section 5.2 (neutral d0 scales: WD, NS)",
     },
 
     "lhc.N2.3": {

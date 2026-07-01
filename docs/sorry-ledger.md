@@ -12,8 +12,6 @@ A marker key is `<node_id>#<field>`, where `field` is `sorry` or `TODO_verify`.
 
 | marker key | kind | gen/ver | gap | resolves when |
 |---|---|---|---|---|
-| `lhc.N2.1#TODO_verify` | deferred-verification | generated | The kinematic factor `gamma_BH ~ sqrt(s)/(2 m_N)` is the right scaling for a black hole carrying the full lab energy; the precise factor for the assumed production process is unconfirmed. | The factor is confirmed against the source treatment. |
-| `lhc.N2.2#TODO_verify` | deferred-verification | generated | The charged/neutral stopping split is load-bearing, and which bodies bound which case (charged: ordinary matter and the Sun; neutral: white dwarfs and neutron stars) is asserted from structure, not yet checked against the source's exact treatment. | The split and body assignment are checked against arXiv:0806.3381. |
 | `covid.instance#TODO_verify` | deferred-verification | generated | Which specific COVID clustering analysis is instanced, and whether selection (stage-1 representativeness) is the dominant critique of it or one of several. The pipeline placement (stage-1 failure) is structural and robust; the case-specific instantiation is not yet verified. | The specific analysis and the dominance of the selection critique are checked against the actual analyses. Cannot move the stage-1 verdict. |
 | `eggs.instance#TODO_verify` | deferred-verification | generated | The eggs effect sizes and the strength of the hyper/hypo-responder split (the stage-2 sufficiency failure) are asserted, not quantified against the nutrition literature. | The effect sizes and heterogeneity are quantified against the literature. Cannot move the stage-2 verdict. |
 
