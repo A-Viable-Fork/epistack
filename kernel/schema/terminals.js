@@ -6,7 +6,7 @@
 "use strict";
 
 // Mirrors the promotion semantics the artifact already encodes (view/app: promotionFor)
-// and docs/executive-overview.md (terminal types). Kept here as the single registry.
+// and docs/knowledge-system-how.md (the floors / terminal types). Kept here as the single registry.
 const TERMINAL_REGISTRY = {
   measurement: { promotes: "promotes on engineering or domain-standard by independent confirmation" },
   "irreducible-prior": { promotes: "does not promote; priced, not resolved" },

@@ -10,6 +10,8 @@ Most tools that survey a question return prose. This returns a typed graph. A cl
 
 The central claim is composition: because every node speaks one typed schema, two investigations with disjoint sources can be merged mechanically, with no model in the loop, onto one map. The submission demonstrates this on three cases chosen to fail differently from each other, a confident answer over complex evidence, a curated debate that the engine prices and refuses rather than resolves, and a mundane statistic that is contested for a precise structural reason.
 
+**Start here.** The orientation for the whole goal is the three blueprints in `docs/`: `knowledge-system-what.md` (the functions), `knowledge-system-how.md` (the makeup), and `knowledge-system-why.md` (the rationale). For the competition-facing summary, read `docs/judges-document.md`. Build status for every component is graded in `docs/status-ledger.md`.
+
 ## Status
 
 Active development, prepared for the FLF EpiStack competition. The engine, the case data, and the build are under construction; open obligations are tracked honestly in `docs/sorry-ledger.md`, including deferred verifications that are marked in the data rather than quietly resolved.

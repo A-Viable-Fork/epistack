@@ -27,14 +27,15 @@ kill or a discrepancy without a record is one you cannot revisit.
   **preserves** it (behavior-preserving mandate; do not quietly resolve). Boot does not hit
   it, so there is no load-time console error. Reactivation: fix in the schema-migration phase
   by defining the track labels, which is a deliberate behavior change, not part of the migration.
-- **G-B. Overview "shape seen twice" language is superseded but not yet edited.**
-  `docs/family-discrimination.md` concludes that the loose "population mismatch" family dies
-  and is replaced by a two-stage pipeline with stage-localized failures, and states that the
-  "departure shape seen twice ... is a reusable pattern" phrasing in `docs/executive-overview.md`
-  and `docs/judge-overview.md` overclaims sameness and **should be replaced**. That edit is a
-  content change outside the scope of Phases 0-4 and is deferred, not silently applied.
-  Reactivation: when the overviews are revised, swap the repetition claim for the earned
-  shared-structure-with-stage-localized-failures claim.
+- **G-B. Overview "shape seen twice" language overclaimed sameness. CLOSED.**
+  `docs/family-discrimination.md` concluded that the loose "population mismatch" family dies
+  and is replaced by a two-stage pipeline with stage-localized failures, and that the earlier
+  "departure shape seen twice ... is a reusable pattern" phrasing overclaimed sameness and
+  should be replaced. Resolution: the overviews that carried the overclaim have been retired,
+  and `docs/judges-document.md` now states the earned claim in their place, "the same machinery,
+  three terminations, the divergence localized rather than repeated" (one shared structure with
+  the failure localized at different terminations, not a repeated pattern). The overclaim no
+  longer appears anywhere in the repository.
 - **G-C. The atlas/cases data model is migration-pending.** The Phase 2 artifact still loads
   its graph from a DOM `<script id="kg-graph">` block (a typed claim graph in the v0.1 citation
   schema), which predates the revised node schema in `docs/schema-revisions.md`. The seed data

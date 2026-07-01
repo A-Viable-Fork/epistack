@@ -100,5 +100,5 @@ The linter additionally proves that a client file never names the store or build
 resolver (see `docs/clients.md`, Phase E checks in `linter.js`). The thing most exposed to many
 hands, the client layer, is provably the thing that cannot corrupt the substance.
 
-Build status for the API and the client layer is graded in `docs/status-ledger.md` (B7, B8),
+Build status for the API and the client layer is graded in `docs/status-ledger.md` (Stage 0, [0.8] and [0.9]),
 not asserted here.
