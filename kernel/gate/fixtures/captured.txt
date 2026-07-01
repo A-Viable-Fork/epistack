@@ -43,7 +43,7 @@ COMPOSE-GATE REPORT  (incumbent + A + B + C)
         - 3+ terminals at one address -> candidate for decomposition
 
 [INDEPENDENCE PASS]
-  datasets used by >1 emitter (cross-run dependency): {'DS-EARLYCASE-DEC2019': ['A', 'B', 'C'], 'DS-FCS-MOLEC': ['B', 'C'], 'DS-DEFUSE-2018': ['B', 'C'], 'DS-LABRECORDS-WIV': ['B', 'C']}
+  datasets used by >1 emitter (cross-run dependency): {'DS-DEFUSE-2018': ['B', 'C'], 'DS-EARLYCASE-DEC2019': ['A', 'B', 'C'], 'DS-FCS-MOLEC': ['B', 'C'], 'DS-LABRECORDS-WIV': ['B', 'C']}
   Q-PIVOT-MARKET: SHARED-INPUT agreement (count once)  ['DS-EARLYCASE-DEC2019']
   Q-FCS-DEFUSE: SHARED-INPUT agreement (count once)  ['DS-DEFUSE-2018', 'DS-FCS-MOLEC', 'DS-LABRECORDS-WIV']
   Q-METHOD: INDEPENDENT corroboration (weight up)  {'A': ['DS-EARLYCASE-DEC2019', 'DS-PHYLO-EARLY'], 'B': ['DS-FCS-MOLEC', 'DS-SARBECO-SURVEY']}

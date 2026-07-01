@@ -77,12 +77,6 @@ Comments carry role and why, mirroring the node fields. The mechanics are in the
 
 ---
 
-## The HTML recode target
+## The HTML recode (complete)
 
-The current `knowledge-game.html` is one file of roughly 2900 lines mixing data, logic, and DOM. The recode pulls it apart into the structure above, and it is done in one disciplined order:
-
-1. **Behavior-preserving first.** Extract data, engine, and view into separate modules without changing what the artifact does. The build must reproduce the current artifact. This is the refactor, and it ends at a checkpoint for review before any feature is added.
-2. **Then the schema migration.** Bring the node records up to the revised schema, the composition field, the function field, the prediction-observation-comparison closure split, with the linter enforcing field completeness.
-3. **Then v1 features.** The decompose UI on the population pipeline first, because it is fully authored and its compare view is the earned result on one screen.
-
-The order matters for the same reason the research order matters: get the structure right and the behavior preserved before adding to it, so that when something breaks later you know it was the addition, not the migration.
+The submission began as one file, `knowledge-game.html`, roughly 2900 lines mixing data, logic, and DOM. It was pulled apart into the structure above in one disciplined order, behavior-preserving extraction first, then the schema migration, then the v1 features, so that when something broke later it was legibly the addition and not the migration. That recode is done: the tree is now the trust-boundary layout, and the build reproduces the artifact from modular source (`build/bundle.js`). The original single-file artifact and the one-time extraction tool that sliced it (`build/extract.mjs`) have been retired now that nothing consumes them; both remain in git history at the commits where they were live, so the migration stays auditable.

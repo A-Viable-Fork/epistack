@@ -38,10 +38,6 @@ module.exports = [
     ]
   },
   {
-    "path": "build/extract.mjs",
-    "type": "build"
-  },
-  {
     "path": "build/fork-demo.mjs",
     "type": "build",
     "flows": [

@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 87,
+  "nodeCount": 86,
   "edgeCount": 62,
   "nodes": [
     {
@@ -485,13 +485,6 @@
       "group": null,
       "role": "the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty overlay, the authored danger-flip cascade, a non-perturbable assumption, non-destructiveness, and determinism. The overlay is read from authored data, never computed by a rule (T1-3).",
       "contract": "`node build/check-perturb.mjs`. Exits 0 if every assertion holds, 1 with a report."
-    },
-    {
-      "path": "build/extract.mjs",
-      "type": "build",
-      "group": null,
-      "role": "one-time migration tool. Slices knowledge-game.html into layered modules (data/, engine/, view/) and writes view/index.template.html with include tokens.",
-      "contract": "reads ../knowledge-game.html; writes the module files and the template. Idempotent: re-running regenerates the same files from the original artifact."
     },
     {
       "path": "build/fork-demo.mjs",
