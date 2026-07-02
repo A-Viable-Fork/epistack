@@ -32,6 +32,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-translate.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-perturb.mjs",
     "type": "build",
     "flows": [
@@ -61,6 +65,10 @@ module.exports = [
   },
   {
     "path": "build/repo-map.schema.js",
+    "type": "build"
+  },
+  {
+    "path": "build/translate-trellis.mjs",
     "type": "build"
   },
   {

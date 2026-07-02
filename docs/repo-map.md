@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 100. Import edges: 94. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -78,6 +78,12 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-perturb.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
 - `build/check-perturb.mjs` -> `kernel/motions/perturb.js`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
+- `build/check-translate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/fork-demo.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/forks.js`  *(build -> corpus)*
@@ -93,6 +99,7 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `build/gate-demo.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `linter.js` -> `build/repo-map.schema.js`  *(build -> build)*
 - `linter.js` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `linter.js` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*

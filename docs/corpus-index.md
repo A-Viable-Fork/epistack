@@ -129,10 +129,12 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
+| `build/check-translate.mjs` | the trellis-to-v3 translator's oracle (Phase A). A fragment test over conjunction, disjunction, |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
 | `build/gate-demo.mjs` | the runnable composition demo, now under Node (intake data model v3). The v3 JS gate |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
+| `build/translate-trellis.mjs` | the trellis-to-v3 ingestion path (docs/trellis-to-v3.md). A pure, deterministic translator |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |
 
 ## root tooling

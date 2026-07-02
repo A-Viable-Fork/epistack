@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 98,
-  "edgeCount": 99,
+  "nodeCount": 100,
+  "edgeCount": 106,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -557,6 +557,13 @@
       "contract": "`node build/check-map.mjs`. Exits 0 if everything holds, 1 with a named report. Writes the two generated artifacts each run; role and contract are parsed from module head comments."
     },
     {
+      "path": "build/check-translate.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the Phase A acceptance oracle for the trellis-to-v3 translator (docs/trellis-to-v3.md). A fragment test over the four shapes the migration must carry, conjunction, disjunction, a cited measurement leaf, and a forum terminal, plus a byte-identical determinism check.",
+      "contract": "`node build/check-translate.mjs` exits non-zero on any failure and prints each check. Imports only the v3 kernel and this module's translator. No corpus is loaded here (Phase B does)."
+    },
+    {
       "path": "build/check-perturb.mjs",
       "type": "build",
       "group": null,
@@ -590,6 +597,13 @@
       "group": null,
       "role": "the schema for the typed repository map. A typed graph of the repository itself, in the same form the system uses for knowledge: typed nodes, typed edges, invariants enforced. It defines the node types (the trust-boundary layer), the groups, the edge types, and the import-legality table that states the trust boundary as a machine-checkable property.",
       "contract": "exports NODE_TYPES, KERNEL_GROUPS, PERIPHERY_GROUPS, EDGE_TYPES, IMPORT_RULES, and the helpers typeForPath / groupForPath / importLegal / validateNode. Pure, DOM-free."
+    },
+    {
+      "path": "build/translate-trellis.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the trellis-to-v3 ingestion path (intake data model v3; docs/trellis-to-v3.md). A pure, deterministic translator from an authored trellis case graph (a node map + instances) to v3 claim and link records the kernel holds. The trellis stays the authoring source; this produces the records, it does not replace the corpus. It changes no grounding verdict: a node's declared grade is what its terminal already earned, so the v3 earned grade reproduces the trellis floor.",
+      "contract": "translateTrellis(caseGraph, opts) -> { claims, links, sources, kinds, byNode }. Pure; imports only kernel/schema (build may import kernel). Two runs over the same input produce byte-identical records (same identities, same hashes, same sorted order)."
     },
     {
       "path": "build/vendor-katex.mjs",
@@ -1091,6 +1105,48 @@
       "toLayer": "corpus"
     },
     {
+      "from": "build/check-translate.mjs",
+      "to": "build/translate-trellis.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-translate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-translate.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-translate.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-translate.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-translate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/fork-demo.mjs",
       "to": "corpora/_primitives/primitives.js",
       "type": "imports",
@@ -1191,6 +1247,13 @@
     {
       "from": "build/gate-demo.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/translate-trellis.mjs",
+      "to": "kernel/schema/records.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
