@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 86,
-  "edgeCount": 62,
+  "nodeCount": 91,
+  "edgeCount": 69,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -95,6 +95,20 @@
       "contract": "perturb(resolveOrMap, flippedSet) -> overlay { states, trails }. resolveOrMap is the id resolver (or a node map); flippedSet is an iterable of assumption ids. Pure and DOM-free."
     },
     {
+      "path": "kernel/schema/canonical.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a record into a byte-exact canonical form and hashes it. This is the determinism foundation of the gate kernel: two inputs with the same content produce identical bytes and identical hashes.",
+      "contract": "canonicalize(value, policy) -> canonical node; encode(node) -> canonical string; hashOf(value|node) -> hex sha256; computeIdentity(fields...) helpers. ESM, kernel imports only kernel. Node standard-library hashing (node:crypto) is the one named hash function; nothing else."
+    },
+    {
+      "path": "kernel/schema/confidence.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 confidence order (intake data model v3, Section 9). An enumerated lattice: the bottom and the open grades form a line; the settled tier is a branch, an empirical axis (checked < independently-rechecked) and a constitutive position incomparable to it. For every combination step all settled positions collapse to one level `settled`, giving the working line 0 < 1 < 2 < 3 < settled with meet, join, and floor-collapse.",
+      "contract": "POSITIONS, modeOf, tierOf, collapse, collapsedRank, meet, join, leqWithinMode, comparableWithinMode. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/edges.js",
       "type": "kernel",
       "group": "schema",
@@ -116,6 +130,13 @@
       "contract": "STUB [1.2] Stage 1, specified not built. The terminals slot under the modes; groundedness checked per mode."
     },
     {
+      "path": "kernel/schema/records.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking record (Design Decision A). Each builder validates the spec's exact fields and allowed values, routes undeclared fields into the tamper-evident extension area, and produces the canonical form and hash. Claims and links compute their content identity; every traversal is capped by the grade of the link it crosses.",
+      "contract": "claimRecord, linkRecord, checkingRecord, wellFormednessFinding, referenceBindingRow, contradictionRecord, withdrawnClaimRecord, reinstatementCondition, corroborationFinding. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/registers.js",
       "type": "kernel",
       "group": "schema",
@@ -135,6 +156,13 @@
       "group": "schema",
       "role": "the one node schema. Single source of truth (design axiom T0-1). Every node created, validated, or read imports this; no module hand-rolls a parallel shape.",
       "contract": "exports the kind/terminal/enum vocabularies, REQUIRED_FIELDS per kind, and validateNode(node) -> [problem strings]. Pure data + pure functions, DOM-free."
+    },
+    {
+      "path": "kernel/schema/tables.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the two reference tables (intake data model v3, Section 10) and the source-footprint closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS that enter every check; this module holds their shape and the reflexive-transitive closure that corroboration and checker-independence read over source dependencies.",
+      "contract": "makeSourceTable(rows), makeKindTable(rows); sourceClass, ceilingFor, footprintClosure. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/schema/terminals.js",
@@ -466,6 +494,13 @@
       "contract": "`node build/check-gaps.mjs`. Exits 0 if every assertion holds, 1 with a report."
     },
     {
+      "path": "build/check-gate.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by phase; the tests are the deliverable as much as the code, because the core is trusted only because it is mechanically checkable. Phase A: the canonical form, the records, the confidence order, the reference tables.",
+      "contract": "`node build/check-gate.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
+    },
+    {
       "path": "build/check-lattice.mjs",
       "type": "build",
       "group": null,
@@ -636,6 +671,27 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/schema/records.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/records.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/tables.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "api/api.js",
       "to": "kernel/schema/registry.js",
       "type": "imports",
@@ -718,6 +774,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-lattice.mjs",

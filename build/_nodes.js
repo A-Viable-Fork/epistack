@@ -20,6 +20,10 @@ module.exports = [
     ]
   },
   {
+    "path": "build/check-gate.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-lattice.mjs",
     "type": "build"
   },

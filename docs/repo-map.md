@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 91. Import edges: 57. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -19,6 +19,9 @@ Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy th
 - `kernel/analysis/gaps.js` -> `kernel/schema/schema.js`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/lattice.js`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/terminals.js`  *(kernel -> kernel)*
+- `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 
 ### api
 
@@ -37,6 +40,10 @@ Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy th
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `kernel/analysis/gaps.js`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-lattice.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-lattice.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-lattice.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*

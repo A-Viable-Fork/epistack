@@ -89,6 +89,16 @@ module.exports = [
     ]
   },
   {
+    "path": "kernel/schema/canonical.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
+    "path": "kernel/schema/confidence.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/edges.js",
     "type": "kernel",
     "group": "schema"
@@ -110,6 +120,11 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/records.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/registers.js",
     "type": "kernel",
     "group": "schema"
@@ -121,6 +136,11 @@ module.exports = [
   },
   {
     "path": "kernel/schema/schema.js",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
+    "path": "kernel/schema/tables.mjs",
     "type": "kernel",
     "group": "schema"
   },

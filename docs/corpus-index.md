@@ -31,12 +31,16 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/motions/compare.js` | the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones |
 | `kernel/motions/decompose.js` | the DOWN motion. Zoom into a node's interior: classify each node as expandable |
 | `kernel/motions/perturb.js` | the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay, reading the |
+| `kernel/schema/canonical.mjs` | the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a |
+| `kernel/schema/confidence.mjs` | the v3 confidence order (intake data model v3, Section 9). An enumerated lattice: the |
 | `kernel/schema/edges.js` | the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse) |
 | `kernel/schema/lattice.js` | the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary |
 | `kernel/schema/modes.js` | the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument) |
+| `kernel/schema/records.mjs` | the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking |
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
+| `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
 | `kernel/schema/terminals.js` | the terminal-type registry. One place that names the closures a claim can reach |
 | `kernel/store/exclusion.js` | the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived |
 | `kernel/store/graph.js` | pure graph utilities over the node schema. Index, traversal, acyclicity |
@@ -115,6 +119,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/_nodes.js` | the build node manifest for the typed repository map (build/repo-map.schema.js) |
 | `build/bundle.js` | the deliverable build. Inlines the data + engine + view modules back into |
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
+| `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
