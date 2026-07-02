@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 106,
-  "edgeCount": 147,
+  "nodeCount": 108,
+  "edgeCount": 148,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -305,6 +305,13 @@
       "contract": "createLocalProvider(snapshot) -> { kind, propose(proposedClaim) -> receipt, read(query) -> [claim] }. snapshot = { state, sources, kinds }. ESM; api imports kernel (never the reverse)."
     },
     {
+      "path": "api/providers/remote-provider.mjs",
+      "type": "api",
+      "group": null,
+      "role": "a stub remote provider behind the same propose/read contract (Prompt 10). It stands in for a hosted kernel: a real one would POST the proposed claim to an endpoint and return the receipt the server computed. This stub imports NO kernel module, holds no grounding logic, and returns a fixed receipt, so it demonstrates the seam: the client drives it identically to the local provider by changing one import, with no change to the widget.",
+      "contract": "createRemoteProvider(config) -> { kind, propose(proposedClaim) -> receipt, read(query) -> [claim] }. config.endpoint is where a real provider would call. ESM; no kernel, no DOM."
+    },
+    {
       "path": "api/read.js",
       "type": "api",
       "group": null,
@@ -506,6 +513,13 @@
       "group": "consumer",
       "role": "the host. The wiring that builds the API from storage once, registers the fat clients and the thin-client manifests, validates each manifest against the palette, applies the active client's tokens, and runs it. The host is infrastructure, not a client.",
       "contract": "boots on load; #client=<name> selects the client, #node=<id> sets the entry node. Renders a gallery (every client, node-preserving, shareable by hash) and mounts into #app."
+    },
+    {
+      "path": "periphery/navigate/render/propose-widget.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the propose widget (Prompt 10). A judge enters a typed claim, statement, kind, an optional citation, and supports chosen from the current store, and sees the receipt: the grade, the price into the forum, or the refusal with the failing check named. The widget calls the propose/read CONTRACT and renders; it computes no grade, price, or refusal of its own.",
+      "contract": "wires the #pw-* DOM. Depends on the vendored contract (window.EpiClientApi) and two providers (window.EpiLocalProvider, window.EpiRemoteProvider); the snapshot is #pw-snapshot."
     },
     {
       "path": "periphery/navigate/render/rail.js",
@@ -1705,6 +1719,11 @@
     {
       "from": "periphery/navigate/render/host.js",
       "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/render/propose-widget.js",
+      "to": "api/client-api.mjs",
       "type": "reads-through-api"
     },
     {

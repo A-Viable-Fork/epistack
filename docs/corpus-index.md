@@ -59,6 +59,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `api/fork.js` | the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal |
 | `api/propose.js` | the propose interface: accept a claim, edge, join, or refutation and hand it to the gate, which decides; never writes directly |
 | `api/providers/local-provider.mjs` | the local provider behind the propose/read contract: runs the real v3 gate over the migrated snapshot in-process; the one API-layer module that imports the kernel |
+| `api/providers/remote-provider.mjs` | a stub remote provider behind the same contract: imports no kernel, returns a fixed receipt standing in for a hosted kernel, so the provider swap is one import |
 | `api/read.js` | the open read interface: resolve, decompose, compose, compare, dependents, gaps, profile, exclusions, disagreements; no credential |
 | `api/subscribe.js` | the subscription interface: notify a consumer when something it relies on changes (a cited claim withdrawn, a gap closed, a grounding lowered) |
 
@@ -111,8 +112,10 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/decompose.template.html` | build template; @@INCLUDE@@ tokens |
 | `periphery/navigate/render/host.js` | the host. The wiring that builds the API from storage once, registers the fat clients |
 | `periphery/navigate/render/index.template.html` | build template; @@INCLUDE@@ tokens |
+| `periphery/navigate/render/propose-widget.js` | the propose widget (Prompt 10): a judge enters a typed claim and reads the gate's receipt; calls the propose/read contract and renders, computing no grounding |
 | `periphery/navigate/render/rail.js` | the spine rail. The decomposition path from the root claim to the focused node, |
 | `periphery/navigate/render/styles/compose-gate.css` | stylesheet |
+| `periphery/navigate/render/styles/propose-widget.css` | stylesheet |
 | `periphery/navigate/render/styles/decompose.css` | stylesheet |
 | `periphery/navigate/render/styles/main.css` | stylesheet |
 | `periphery/navigate/render/visuals.js` | the view-side renderers for registered visual components. A node references a visual |

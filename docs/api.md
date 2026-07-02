@@ -96,6 +96,32 @@ client never calls `submit`.
 This is the part that makes it a knowledge store rather than a database: reads are public; a
 write has to earn its place.
 
+## The propose/read contract, and its providers
+
+Above the trellis `api` sits a second, provider-agnostic surface: the **contract** the interactive
+artifact is a client of (Prompt 10; `api/client-api.mjs`). The API is a contract, not a location:
+
+```
+createClientApi(provider) -> {
+  propose(proposedClaim) -> receipt,   // the full data-model Section-11 receipt the gate produced
+  read(query) -> [claim with grounding], // claims, each with its declared and derived-earned grade
+  providerKind() -> "local" | "remote",
+}
+```
+
+Two providers satisfy the same contract, and a client swaps between them by changing one import:
+
+- the **local provider** (`api/providers/local-provider.mjs`) runs the real v3 gate in-process over a
+  frozen snapshot of the migrated corpus (`vendor/gate/snapshot.json`). It is the **one API-layer
+  module that imports the kernel**. `propose` builds the claim and its supports and calls `decide`;
+  its receipt is byte-identical to a direct kernel run (`build/check-client.mjs`).
+- the **remote provider** (`api/providers/remote-provider.mjs`) imports no kernel; it stands in for a
+  hosted kernel, returning a receipt in the same shape. A live one would POST to an endpoint.
+
+The client (the propose widget, `periphery/navigate/render/propose-widget.js`) calls `propose` and
+`read` and never learns which provider answered, so the remote provider drops in with no change to
+the widget. The client computes no grade, price, or refusal: every verdict comes back on the receipt.
+
 ## Why this is the whole door
 
 The `api` object exposes reads and `submit` and nothing else. There is no setter, no store

@@ -25,9 +25,11 @@ const MODULES = [
   "kernel/store/apply.mjs",
   "kernel/store/decay.mjs",
   "kernel/gate/gate.mjs",
-  // the API layer: the local provider (the one api module that imports the kernel) and the contract.
-  // Bundled here so the propose/read path runs client-side; their kernel imports resolve to __M.
+  // the API layer: the local provider (the one api module that imports the kernel), the stub remote
+  // provider (imports no kernel), and the contract. Bundled so the propose/read path runs client-
+  // side and the provider swap is demonstrable; kernel imports resolve to __M.
   "api/providers/local-provider.mjs",
+  "api/providers/remote-provider.mjs",
   "api/client-api.mjs",
 ];
 // the surface the compose-gate panel consumes.
@@ -87,6 +89,7 @@ const exposeObj = (names) => "{\n" + names.map((n) => `  ${n}: ${exportedBy[n]}.
 out += "root.EpiGate = " + exposeObj(EXPOSE) + ";\n";
 out += "root.EpiClientApi = " + exposeObj(["createClientApi"]) + ";\n";
 out += "root.EpiLocalProvider = " + exposeObj(["createLocalProvider"]) + ";\n";
+out += "root.EpiRemoteProvider = " + exposeObj(["createRemoteProvider"]) + ";\n";
 out += "})(typeof window !== \"undefined\" ? window : globalThis);\n";
 
 const dest = join(ROOT, "vendor/gate/gate.bundle.js");

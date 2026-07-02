@@ -50,6 +50,10 @@ module.exports = [
     ]
   },
   {
+    "path": "api/providers/remote-provider.mjs",
+    "type": "api"
+  },
+  {
     "path": "api/read.js",
     "type": "api"
   },

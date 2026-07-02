@@ -156,6 +156,38 @@
 <script>@@INCLUDE:kernel/gate/clean-json.js@@
 @@INCLUDE:periphery/navigate/render/compose-gate.js@@</script>
 
+<style>@@INCLUDE:periphery/navigate/render/styles/propose-widget.css@@</style>
+<div class="pw-run" id="pw">
+  <div class="pw-head">Propose a claim <span class="pw-sub">the real gate, on your claim, in your browser</span></div>
+  <p class="pw-intro">Enter a typed claim and read the gate's receipt: the grade it earns, or its price into the forum, or the refusal with the failing check named. The widget calls the API and renders; it computes no grounding itself.</p>
+  <ul class="pw-bounds">
+    <li>This runs the real gate on your claim. It shows the gate's ruling, not durable accretion: a file-scheme artifact has no server, so your claim is graded and shown, and the shared map the next reader inherits is the coordination layer, argued here and run in the deployed system.</li>
+    <li>The grade reflects the grounding you supplied, not the truth. A claim stated with no checking record enters as asserted; adding a citation raises it.</li>
+    <li>Correctness is real here. What the deployed system adds is persistence and identity, not soundness.</li>
+  </ul>
+  <div class="pw-field"><label for="pw-statement">Statement</label><textarea id="pw-statement" placeholder="A single, checkable claim in one sentence."></textarea></div>
+  <div class="pw-row2">
+    <div class="pw-field"><label for="pw-kind">Kind</label><select id="pw-kind"></select></div>
+    <div class="pw-field"><label for="pw-declared">Claim a grade</label><select id="pw-declared"></select></div>
+  </div>
+  <div class="pw-field"><label for="pw-citation">Citation (optional)</label><input type="text" id="pw-citation" placeholder="e.g. Author 2020, Journal"></div>
+  <div class="pw-field">
+    <label for="pw-support-filter">Supports, chosen from the current store</label>
+    <input type="text" id="pw-support-filter" placeholder="filter the store by text or kind…">
+    <div class="pw-supports" id="pw-supports"></div>
+  </div>
+  <div class="pw-providers">
+    <span>Provider:</span>
+    <label><input type="radio" name="pw-provider" value="local" checked> local (runs the gate here)</label>
+    <label><input type="radio" name="pw-provider" value="remote"> remote (stub, stands in for a hosted kernel)</label>
+  </div>
+  <button class="pw-btn" id="pw-run">Propose to the gate</button>
+  <div class="pw-status" id="pw-status"></div>
+  <div class="pw-out" id="pw-out" aria-live="polite"></div>
+</div>
+<script type="application/json" id="pw-snapshot">@@INCLUDE:vendor/gate/snapshot.json@@</script>
+<script>@@INCLUDE:periphery/navigate/render/propose-widget.js@@</script>
+
       <h2>Doing, and being</h2>
       <p>The run you just watched settles what the gate is by showing what it is not. It is not a thing any single run can be, because the run is the unit being composed, and a composer is not one of its own inputs however capable that input becomes. This is the positive form of the agent-agnostic answer. The objection asked why the infrastructure is not built around the machine; the deeper reply is that the machine is the wrong kind of thing to build around, because a run does and infrastructure is. A run produces and is gone. The gate persists, composes what never coordinated, and holds across contributions a single run could not have made together. The durable thing in an age of fast producers is the part that stands still while the producers churn.</p>
       <p>There are two things a run cannot be, and the gate is the first. The second is the corpus, and what the typing does is what builds it. Typing carves a question into parts: the casual question about eggs is one question until it is typed and four after, because the terminal is the knife, and each part's terminal names who answers at that cut. The world answers a measurement. A model run forward to a prediction answers a derivation. A sealed dataset answers a withheld record, once it opens. A commitment answers a constitutive question, and no measurement reaches it. Only the cuts the world or a model can answer route onward to be modeled and measured; the cuts a commitment answers are priced and refused, and refusing them is the carve done right. The black-hole case ran that chain to the end, and the eggs case shows the same knife carving where the work is not yet done.</p>

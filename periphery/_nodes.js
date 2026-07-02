@@ -115,6 +115,17 @@ module.exports = [
     ]
   },
   {
+    "path": "periphery/navigate/render/propose-widget.js",
+    "type": "periphery",
+    "group": "consumer",
+    "flows": [
+      {
+        "type": "reads-through-api",
+        "to": "api/client-api.mjs"
+      }
+    ]
+  },
+  {
     "path": "periphery/navigate/render/rail.js",
     "type": "periphery",
     "group": "consumer"
