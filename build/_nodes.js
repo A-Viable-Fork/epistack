@@ -86,6 +86,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-gate-browser.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-katex.mjs",
     "type": "build"
   },

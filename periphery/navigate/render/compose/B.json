@@ -1,0 +1,20 @@
+{
+  "id": "B",
+  "label": "molecular / documentary vantage",
+  "claims": [
+    {
+      "key": "B.casedef",
+      "kind": "measurement",
+      "statement": "The early case definition itself required market or known-case contact, so detection was concentrated near the market by the protocol, independently of the epidemiological testing-density record.",
+      "source_id": "src:B:documentary",
+      "contributor_id": "B",
+      "declared_grade": "checked",
+      "checking_records": [
+        { "checker_id": "B-doc", "method_class": "data-audit", "method": "reconstructed the case-definition documents", "checked_at_state": "genesis", "outcome": "confirms-with-noted-limits: documentary record incomplete", "independence": "distinct-party" }
+      ]
+    }
+  ],
+  "links": [
+    { "link_kind": "supports", "from": "B.casedef", "to": "covid.origin", "support_group": "gB", "source_id": "src:B:documentary", "contributor_id": "B", "declared_grade": "supported" }
+  ]
+}

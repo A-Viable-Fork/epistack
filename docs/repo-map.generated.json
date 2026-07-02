@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 101,
-  "edgeCount": 123,
+  "nodeCount": 102,
+  "edgeCount": 124,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -35,7 +35,7 @@
       "path": "kernel/gate/gate.mjs",
       "type": "kernel",
       "group": "gate",
-      "role": "the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by the link-kind routing table, computes earned grades, decides the contribution against a store state, and writes the receipt. This is the sole canonical write path, absorbing the role the retired compose_gate.py held: it composes independent typed contributions with no model in the loop, and the decision is a deterministic function of content and the store state.",
+      "role": "the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by the link-kind routing table, computes earned grades, decides the contribution against a store state, and writes the receipt. This is the sole canonical write path, absorbing the role the retired Python compose-gate held: it composes independent typed contributions with no model in the loop, and the decision is a deterministic function of content and the store state.",
       "contract": "decide(contribution, storeView, versions) -> receipt (Section 11). restatementClosure, satisfiesReinstatement exported for tests. Pure, ESM; kernel imports only kernel."
     },
     {
@@ -50,7 +50,7 @@
       "type": "kernel",
       "group": "gate",
       "role": "the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification.",
-      "contract": "STUB [4.3] Stage 4, specified not built. Extends today's composition gate (kernel/gate/compose_gate.py)."
+      "contract": "STUB [4.3] Stage 4, specified not built. Extends today's composition gate (kernel/gate/gate.mjs)."
     },
     {
       "path": "kernel/gate/verify.mjs",
@@ -120,7 +120,7 @@
       "type": "kernel",
       "group": "schema",
       "role": "the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a record into a byte-exact canonical form and hashes it. This is the determinism foundation of the gate kernel: two inputs with the same content produce identical bytes and identical hashes.",
-      "contract": "canonicalize(value, policy) -> canonical node; encode(node) -> canonical string; hashOf(value|node) -> hex sha256; computeIdentity(fields...) helpers. ESM, kernel imports only kernel. Node standard-library hashing (node:crypto) is the one named hash function; nothing else."
+      "contract": "canonicalize(value, policy) -> canonical node; encode(node) -> canonical string; hashOf(value|node) -> hex sha256; computeIdentity(fields...) helpers. ESM, kernel imports only kernel. sha256 (schema/sha256.mjs, a vendored pure-JS implementation) is the one named hash, so the trusted core hashes identically headless and in a file:// page; nothing else hashes."
     },
     {
       "path": "kernel/schema/confidence.mjs",
@@ -156,6 +156,13 @@
       "group": "schema",
       "role": "the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking record (Design Decision A). Each builder validates the spec's exact fields and allowed values, routes undeclared fields into the tamper-evident extension area, and produces the canonical form and hash. Claims and links compute their content identity; every traversal is capped by the grade of the link it crosses.",
       "contract": "claimRecord, linkRecord, checkingRecord, wellFormednessFinding, referenceBindingRow, contradictionRecord, withdrawnClaimRecord, reinstatementCondition, corroborationFinding. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/schema/sha256.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the one named hash (sha256), as a vendored pure-JS implementation so the kernel runs identically headless (Node) and in the browser. A correct sha256 is byte-for-byte identical to node:crypto's, so nothing that was hashed changes; this only removes the node:crypto dependency that kept the trusted core from loading in a file:// page.",
+      "contract": "sha256Hex(input) -> lowercase hex digest; input is a UTF-8 string or a byte array. Pure, ESM; kernel imports only kernel; no DOM, no node builtins."
     },
     {
       "path": "kernel/schema/registers.js",
@@ -240,13 +247,6 @@
       "group": "store",
       "role": "the store-state record and the history chain (intake data model v3, Section 13). A store state is the full contents at a point plus a hash that chains to its predecessor: because the predecessor's hash is inside the preimage, a rewritten past announces itself in the first mismatched link of the chain.",
       "contract": "genesis(); makeState(fields) -> a state with its computed state_hash; verifyChain(states) -> { ok, firstBreak }. Pure, ESM; kernel imports only kernel."
-    },
-    {
-      "path": "kernel/gate/compose_gate.py",
-      "type": "kernel",
-      "group": "gate",
-      "role": null,
-      "contract": null
     },
     {
       "path": "api/api.js",
@@ -483,8 +483,8 @@
       "path": "periphery/navigate/render/compose-gate.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the in-browser compose-gate runner. Loads Pyodide on click and runs the captured compose_gate.py over the incumbent plus the ticked contributions, with a captured-output fallback when the network is unavailable.",
-      "contract": "wires #cgBtn; reads the data blocks (#cg-*) and #cgPaste; writes #cgOut."
+      "role": "the in-browser compose-gate runner. Runs the actual v3 gate kernel (window.EpiGate, vendored from kernel/ by build/vendor-gate-browser.mjs) over the incumbent map plus the ticked contributions. No network, no Python: the gate composes uncoordinated typed contributions and prices their independence, mechanically, in the page.",
+      "contract": "wires #cgBtn; reads the JSON data blocks (#cg-*) and #cgPaste; writes #cgOut. Depends on window.EpiGate. The JSON cleanup is kernel/gate/clean-json.js."
     },
     {
       "path": "periphery/navigate/render/host.js",
@@ -588,7 +588,7 @@
       "path": "build/gate-demo.mjs",
       "type": "build",
       "group": null,
-      "role": "the runnable composition demo, now under Node (intake data model v3). The v3 JS gate absorbs the role compose_gate.py held: two uncoordinated contributors' frozen typed output composes mechanically, with no model in the loop, and the gate prices independence across contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.",
+      "role": "the runnable composition demo, now under Node (intake data model v3). The v3 JS gate absorbs the role the retired Python compose-gate held: two uncoordinated contributors' frozen typed output composes mechanically, with no model in the loop, and the gate prices independence across contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.",
       "contract": "no arguments; prints the composition report. Imports only the v3 kernel and Node stdlib."
     },
     {
@@ -611,6 +611,13 @@
       "group": null,
       "role": "the trellis-to-v3 ingestion path (intake data model v3; docs/trellis-to-v3.md). A pure, deterministic translator from an authored trellis case graph (a node map + instances) to v3 claim and link records the kernel holds. The trellis stays the authoring source; this produces the records, it does not replace the corpus. It changes no grounding verdict: a node's declared grade is what its terminal already earned, so the v3 earned grade reproduces the trellis floor.",
       "contract": "translateTrellis(caseGraph, opts) -> { claims, links, sources, kinds, byNode }. Pure; imports only kernel/schema (build may import kernel). Two runs over the same input produce byte-identical records (same identities, same hashes, same sorted order)."
+    },
+    {
+      "path": "build/vendor-gate-browser.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the v3 gate kernel into one browser script so the compose-gate panel runs the actual kernel in a file:// page, with no network and no Python. The kernel .mjs modules are the single source of truth; this concatenates them (import graph resolved to a local registry) into vendor/gate/gate.bundle.js, exposed as window.EpiGate. It rewrites nothing but the module boundary, so the browser runs byte-for-byte the same logic the oracles check headless.",
+      "contract": "`node build/vendor-gate-browser.mjs` writes the generated bundle. No arguments."
     },
     {
       "path": "build/vendor-katex.mjs",
@@ -799,6 +806,13 @@
     {
       "from": "kernel/grounding/earned-grade.mjs",
       "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/canonical.mjs",
+      "to": "kernel/schema/sha256.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1497,7 +1511,7 @@
     },
     {
       "from": "api/api.js",
-      "to": "kernel/gate/compose_gate.py",
+      "to": "kernel/gate/gate.mjs",
       "type": "gated-write"
     },
     {

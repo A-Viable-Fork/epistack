@@ -6,9 +6,8 @@
 <title>The Knowledge Game</title>
 <meta name="kg-schema" content="typed-citation-schema-v0.1">
 <link rel="alternate" type="application/json" href="graph.json" title="Knowledge graph (machine surface)">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- No web fonts: the artifact is fully standalone (T0-6). The font stacks in main.css fall back to
+     Georgia / system-ui / ui-monospace, so the page renders with no network call, like v1.html. -->
 <style>@@INCLUDE:periphery/navigate/render/styles/main.css@@</style>
 </head>
 <body class="mode-reader">
@@ -41,7 +40,7 @@
         <div class="baseline-tag">Baseline, and what composition adds</div>
         <p>Point a careful agentic investigation at the COVID sub-question and it returns an excellent analysis: it types each claim, names the load-bearing crux, and catches that the competing analyses are not independent. That is the bar, and a structure that only re-derived it would add nothing. What a single run cannot do is compose. Each run invents its own schema and discards it, so two runs accrete into nothing.</p>
         <p>The value is the substrate that makes independent runs compose onto one map. Two emitters were given disjoint corpora and one shared contract, and never saw each other. A mechanical gate, no model in the loop, composed their frozen output: it found both rested their strongest claim on one sealed dataset and counted that agreement once, while marking as independent the places they corroborated from disjoint evidence; it accepted both contributors' correction of the incumbent map's central crux, from irreducible prior to withheld record; and it flagged, on its own, that one emitter claimed verification the other declined and that the two improvised different types for the same situation. The dispute resolved to two sealed doors, one per vantage, that neither emitter saw alone.</p>
-        <div class="baseline-note">Runs as code: compose_gate.py over the three contributions and the incumbent map. The gate acting on non-independence across contributors is the one thing no single investigation produces.</div>
+        <div class="baseline-note">Runs as code: the v3 gate kernel over the three contributions and the incumbent map, in your browser, offline. The gate acting on non-independence across contributors is the one thing no single investigation produces.</div>
       </div>
       <p class="intro-next">What follows is a question. You can explore it, following any word to where it actually terminates, or you can leave immediately for the paper, which makes the whole case straight through. Behind the paper sits the spec: the operable method itself, and the protocol for how the structure scales to many contributors through one shared map. The choice is the point: the reader controls the path. This document was produced through the same loop it describes, and the paper closes by saying how.</p>
       <button class="enter" id="enter">Enter the question <span aria-hidden="true">&#8595;</span></button>
@@ -124,8 +123,8 @@
 
 <style>@@INCLUDE:periphery/navigate/render/styles/compose-gate.css@@</style>
 <div class="cg-run" id="cgRun">
-  <div class="cg-head">Run the gate <span class="cg-sub">compose_gate.py, unedited, in your browser</span></div>
-  <p class="cg-intro">The contributors below were generated apart and never saw each other's work. Toggle which enter the compose and run the actual file. The relations, the independence verdicts, and the linter flags are produced by the code, not narrated. C is the strongest baseline's own quantitative output; watch the gate admit its spread and hold its imputed decomposition as conjecture.</p>
+  <div class="cg-head">Run the gate <span class="cg-sub">the v3 gate kernel, unedited, in your browser, offline</span></div>
+  <p class="cg-intro">The contributors below were generated apart and never saw each other's work. Toggle which enter the compose and run the actual kernel: the same gate the headless oracles check, vendored into this page, no network and no model in the loop. Each vantage alone earns the shared conclusion only <em>supported</em>; watch two disjoint vantages lift it to <em>corroborated</em>, priced from the source table. C is the strongest baseline's own quantitative output; the gate admits its measurement and holds its imputed sub-mechanism as conjecture, at asserted.</p>
   <div class="cg-toggles">
     <label><input type="checkbox" checked disabled> incumbent map</label>
     <label><input type="checkbox" id="cgA" checked> A &middot; population vantage</label>
@@ -135,25 +134,25 @@
   </div>
   <details class="cg-gen">
     <summary>Generate your own contribution, then compose it</summary>
-    <p class="cg-genintro">Copy this contract into any LLM. It emits a typed contribution on the COVID question against the same schema the gate enforces. Paste the JSON array it returns below, tick D, and run. The gate composes your contribution with the rest and disciplines it on identical terms: an agent is only the fastest stranger.</p>
+    <p class="cg-genintro">Copy this contract into any LLM. It emits a typed contribution on the COVID question against the same schema the gate enforces. Paste the JSON object it returns below, tick D, and run. The gate composes your contribution with the rest and disciplines it on identical terms: an agent is only the fastest stranger. It prices your independence from the source table, not from your say-so.</p>
     <div class="cg-promptwrap">
       <button class="cg-copy" id="cgCopy">Copy contract</button>
       <pre class="cg-prompt" id="cg-prompt-view"></pre>
     </div>
     <label class="cg-idlbl">emitter id <input id="cgDid" class="cg-id" value="D" maxlength="12"></label>
-    <textarea class="cg-paste" id="cgPaste" placeholder="Paste the JSON array of nodes the LLM returned here, then tick D above and run."></textarea>
+    <textarea class="cg-paste" id="cgPaste" placeholder="Paste the JSON contribution the LLM returned here, then tick D above and run."></textarea>
   </details>
   <button class="cg-btn" id="cgBtn">Run the gate</button>
   <div class="cg-status" id="cgStatus"></div>
   <pre class="cg-out" id="cgOut" aria-live="polite"></pre>
 </div>
-<script type="text/plain" id="cg-py">@@INCLUDE:kernel/gate/compose_gate.py@@</script>
-<script type="application/json" id="cg-incumbent">@@INCLUDE:kernel/gate/fixtures/incumbent.json@@</script>
-<script type="application/json" id="cg-A">@@INCLUDE:kernel/gate/fixtures/A.json@@</script>
-<script type="application/json" id="cg-B">@@INCLUDE:kernel/gate/fixtures/B.json@@</script>
-<script type="application/json" id="cg-C">@@INCLUDE:kernel/gate/fixtures/C.json@@</script>
-<script type="text/plain" id="cg-prompt">@@INCLUDE:kernel/gate/fixtures/prompt.txt@@</script>
-<script type="text/plain" id="cg-captured">@@INCLUDE:kernel/gate/fixtures/captured.txt@@</script>
+<script type="application/json" id="cg-tables">@@INCLUDE:periphery/navigate/render/compose/tables.json@@</script>
+<script type="application/json" id="cg-incumbent">@@INCLUDE:periphery/navigate/render/compose/incumbent.json@@</script>
+<script type="application/json" id="cg-A">@@INCLUDE:periphery/navigate/render/compose/A.json@@</script>
+<script type="application/json" id="cg-B">@@INCLUDE:periphery/navigate/render/compose/B.json@@</script>
+<script type="application/json" id="cg-C">@@INCLUDE:periphery/navigate/render/compose/C.json@@</script>
+<script type="text/plain" id="cg-prompt">@@INCLUDE:periphery/navigate/render/compose/prompt.txt@@</script>
+<script>@@INCLUDE:vendor/gate/gate.bundle.js@@</script>
 <script>@@INCLUDE:kernel/gate/clean-json.js@@
 @@INCLUDE:periphery/navigate/render/compose-gate.js@@</script>
 
@@ -202,7 +201,7 @@
       <p><strong>The path.</strong> A claim travels: proposed, then sound in a model, then checked against the world. The middle segment is a derivation, a traversal of transformations. The terminal is the last binding closure the claim has reached, and promotion is advancing along the path.</p>
       <p><strong>Terminal types.</strong> The closures a claim can reach, each naming who answers at that cut. On the path: a <em>measurement</em>, where the world closes a prediction the derivation produced (LHC safety runs here, every surviving branch closing against an astronomical observation); a <em>derivation</em>, where formal work legitimately stops with no measurement owed; a <em>withheld record</em>, a measurement behind a named sealed door, convertible when the record opens. Off the path: an <em>irreducible prior</em>, topping out in a reference-class choice no measurement reaches (the COVID dispute tops out here, priced and refused); a <em>constitutive</em> terminal, topping out in a framework adopted or refused (the welfare side of the eggs question). Meta: a <em>question set</em>, a claim about whether the graph's branches are all drawn (the eggs question, one prompt that is at least four).</p>
       <p><strong>The typing rule.</strong> A claim is typed by where it can terminate, and the type is the knife that carves a question into parts. Each part's terminal names who answers it: the world a measurement, a model run forward a derivation, a sealed dataset a withheld record, a commitment a constitutive question. The cuts the world or a model can answer route onward; the cuts a commitment answers are priced and refused.</p>
-      <p><strong>The loop.</strong> The generation station multiplies candidates and sets the prior by declaring axioms and typing each claim. The gate promotes nothing on its own authority: agreement counts only once the agreeing parties are shown independent, and the rule names no agent, so it does not expire as the generators improve. The gate's composition across uncoordinated contributors is mechanical, demonstrated in <code>compose_gate.py</code>, which composes three emitters' frozen output with no model in the loop. The gate tests survival against attack, and a standing adversarial process supplies the attacks rather than waiting for them, so the map hardens as more scrutiny is spent on it.</p>
+      <p><strong>The loop.</strong> The generation station multiplies candidates and sets the prior by declaring axioms and typing each claim. The gate promotes nothing on its own authority: agreement counts only once the agreeing parties are shown independent, and the rule names no agent, so it does not expire as the generators improve. The gate's composition across uncoordinated contributors is mechanical, demonstrated by the v3 gate kernel running in this page, which composes three emitters' frozen output with no model in the loop. The gate tests survival against attack, and a standing adversarial process supplies the attacks rather than waiting for them, so the map hardens as more scrutiny is spent on it.</p>
       <p><strong>The corpora.</strong> Three stores accumulate. The <em>atlas</em> is the derivation segment made queryable, structural expertise that lived in tacit form turned into external variety any agent can read. The <em>kill record</em> holds refuted claims, axiom-tagged. The <em>departure record</em> holds the places structural patterns fail real phenomena, the matched negative store to the kill record and the interface between the atlas and a measurement.</p>
       <p><strong>The partition.</strong> The two sides of the path. The auditable side, claims that cross a derivation to a measurement, is where a mechanical gate closes. The priced-and-refused side, the off-path terminals, is where no mechanical test reaches and judgment prices each side rather than audits it. The structure routes the first onward and refuses the second by construction, which is what grounds the no-verdict discipline.</p>
       <p><strong>Composition.</strong> The property the substrate exists to produce: uncoordinated contributions accrete onto one map instead of each run inventing a schema and discarding it. It is realized by one address space shared across contributors, the typed schema they all write to, and the gate that admits a claim only on independent corroboration. The site contract is emit and ingest, with no central merge; standing is two-leveled, a claim is open to anyone and judged on its grounding while changing the schema or the rules is staked against an earned record; a fork is a query not a copy, and disagreement is exposed and priced rather than reconciled. The rules govern structure and never content, so a more capable contributor can flood the claim layer, all of it judged the same way, and gain no power to rewrite the gate.</p>

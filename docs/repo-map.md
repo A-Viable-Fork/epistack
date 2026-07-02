@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 101. Import edges: 109. Runtime flow edges: 14. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -28,6 +28,7 @@ Nodes: 101. Import edges: 109. Runtime flow edges: 14. All import edges satisfy 
 - `kernel/grounding/contamination.js` -> `kernel/schema/lattice.js`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/terminals.js`  *(kernel -> kernel)*
 - `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/canonical.mjs` -> `kernel/schema/sha256.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -137,7 +138,7 @@ Nodes: 101. Import edges: 109. Runtime flow edges: 14. All import edges satisfy 
 - `kernel/grounding/contamination.js` **checked-by** `build/check-lattice.mjs`
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
 - `kernel/schema/lattice.js` **checked-by** `build/check-lattice.mjs`
-- `api/api.js` **gated-write** `kernel/gate/compose_gate.py`
+- `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`

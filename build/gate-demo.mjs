@@ -1,7 +1,7 @@
 // Role: the runnable composition demo, now under Node (intake data model v3). The v3 JS gate
-//   absorbs the role compose_gate.py held: two uncoordinated contributors' frozen typed output
-//   composes mechanically, with no model in the loop, and the gate prices independence across
-//   contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.
+//   absorbs the role the retired Python compose-gate held: two uncoordinated contributors' frozen
+//   typed output composes mechanically, with no model in the loop, and the gate prices independence
+//   across contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.
 // Contract: no arguments; prints the composition report. Imports only the v3 kernel and Node stdlib.
 // Invariant: deterministic; the same fixtures produce the same receipts and the same state hashes.
 import { makeSourceTable, makeKindTable } from "../kernel/schema/tables.mjs";

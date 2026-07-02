@@ -1,0 +1,20 @@
+{
+  "id": "A",
+  "label": "population / epidemiological vantage",
+  "claims": [
+    {
+      "key": "A.surveillance",
+      "kind": "measurement",
+      "statement": "Early testing concentrated spatially around one market: reported case density tracks surveillance intensity, so inclusion in the sample is correlated with location (ascertainment bias, measured over the case-location record).",
+      "source_id": "src:A:surveillance",
+      "contributor_id": "A",
+      "declared_grade": "checked",
+      "checking_records": [
+        { "checker_id": "A-epi", "method_class": "data-audit", "method": "audited the case-location and testing-density record", "checked_at_state": "genesis", "outcome": "confirms", "independence": "distinct-party" }
+      ]
+    }
+  ],
+  "links": [
+    { "link_kind": "supports", "from": "A.surveillance", "to": "covid.origin", "support_group": "gA", "source_id": "src:A:surveillance", "contributor_id": "A", "declared_grade": "supported" }
+  ]
+}

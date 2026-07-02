@@ -9,8 +9,12 @@
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
+const { execFileSync } = require("node:child_process");
 
 const ROOT = path.resolve(__dirname, "..");
+
+// regenerate the browser gate bundle from the kernel first, so the deliverable is never stale.
+execFileSync("node", [path.join(__dirname, "vendor-gate-browser.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 

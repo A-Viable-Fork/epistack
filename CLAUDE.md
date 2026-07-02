@@ -19,8 +19,9 @@ Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on t
 ## Hard constraints (do not violate)
 
 - **Standalone open.** The built artifact runs from `file://` with no server, no network
-  call, no install a browser lacks. The Pyodide compose-gate runner loads in-browser. Any
-  dependency that breaks a double-click to open is out.
+  call, no install a browser lacks. The compose-gate runs the v3 gate kernel in-page, vendored
+  offline from the same modules the oracles check. Any dependency that breaks a double-click to
+  open is out.
 - **No Constitutional Kernel**, by name or apparatus, in any judge-facing text.
 - **Gaps are first-class.** Every unverified node carries a `sorry` or `TODO_verify` marker,
   and every marker is listed in `docs/sorry-ledger.md`. Never fill, guess at, or quietly
@@ -80,5 +81,8 @@ direct store mutation. Periphery surfaces consume the API and touch no truth fie
     node build/check-perturb.mjs  # the perturbation overlay is pure and deterministic
     node build/check-lattice.mjs  # modes + lattice reproduce the detector; contamination bites
     node build/check-gate.mjs  # the v3 intake gate kernel: canonical form, earned grade, apply, verify
+    node build/check-translate.mjs # the trellis-to-v3 translator: the four shapes + determinism
+    node build/check-migrate.mjs   # the three cases migrated to v3; grounding reproduced, no divergence
     node build/gate-demo.mjs   # runnable composition demo: two contributors compose through the gate
     node build/check-map.mjs   # derives the repo's import graph, enforces the trust boundary
+    node build/vendor-gate-browser.mjs # vendor the v3 gate into vendor/gate/gate.bundle.js (offline panel)

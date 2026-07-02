@@ -88,8 +88,10 @@ api.submit(claim) -> { accepted, status, promoted, rule, gate, note }
 only on independent corroboration: agreement counts once the agreeing parties are shown
 independent. The contract enforces this, not the client, so the store cannot be quietly
 written. It can only be added to under the rule, and the rule governs structure, never content.
-The gate's mechanism is `compose_gate.py`, which composes two uncoordinated emitters' frozen
-output with no model in the loop. A read-only client never calls `submit`.
+The gate's mechanism is the v3 gate kernel (`kernel/gate/gate.mjs`), which composes uncoordinated
+emitters' frozen typed output with no model in the loop; it runs headless in the oracles and,
+vendored to `vendor/gate/gate.bundle.js`, live in the artifact's compose-gate panel. A read-only
+client never calls `submit`.
 
 This is the part that makes it a knowledge store rather than a database: reads are public; a
 write has to earn its place.

@@ -31,7 +31,7 @@ The deterministic core operating over formal knowledge, with its contract bounda
 
 **[0.3] The grounding engine.** The detector that decides groundedness and finds the structural gaps: support reaching no terminal, a leaf that is not a cited primitive, a stale dependency, missing coverage, a dangling reference. Exposed as open API reads (`api.gaps`; `engine/gaps.js`). Run on the cases it reproduces the sorry ledger exactly, adds no false gaps, ranks nothing. Built and verified.
 
-**[0.4] The composition gate.** The sole write path: two uncoordinated emitters' frozen output composes mechanically, no model in the loop (`compose_gate.py`). Built and runnable.
+**[0.4] The composition gate.** The sole write path: two uncoordinated emitters' frozen output composes mechanically, no model in the loop (the v3 gate kernel, `kernel/gate/gate.mjs`, run headless by the oracles and live in the artifact's compose-gate panel, vendored offline to `vendor/gate/gate.bundle.js`; the Python compose-gate and its Pyodide runner are retired). The three cases are carried to the v3 model by a pure, deterministic trellis-to-v3 translator (`build/translate-trellis.mjs`, `docs/trellis-to-v3.md`) that reproduces the trellis grounding rather than re-establishing it: zero open gaps preserved, no divergence, LHC reaching measurement, COVID terminating at a priced-prior forum, eggs splitting (`build/check-translate.mjs`, `build/check-migrate.mjs`). Built and runnable.
 
 **[0.5] The exclusion store.** Refuted claims kept with the reason and grounds, so a kill is recorded and cannot be silently revived (`docs/exclusion-reservoir.md`). Built.
 
