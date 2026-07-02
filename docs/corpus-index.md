@@ -52,11 +52,13 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 |---|---|
 | `api/_nodes.js` | the api node manifest for the typed repository map (build/repo-map.schema.js) |
 | `api/api.js` | the engine's client-facing API. THE single door between clients and storage. Reads |
+| `api/client-api.mjs` | the propose/read contract (Prompt 10): a provider-agnostic seam, createClientApi(provider), that a client calls without learning which provider answers |
 | `api/compose.js` | the cross-kernel composition protocol: a citation whose target lives in another store, inheriting the target's grounding under its floors |
 | `api/credential.js` | the credential layer: who may propose to which kernel, time-locked so it can be neither seized nor revoked instantly; reading requires none |
 | `api/export.js` | machine-readable export of a forked node and its typed citation edge |
 | `api/fork.js` | the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal |
 | `api/propose.js` | the propose interface: accept a claim, edge, join, or refutation and hand it to the gate, which decides; never writes directly |
+| `api/providers/local-provider.mjs` | the local provider behind the propose/read contract: runs the real v3 gate over the migrated snapshot in-process; the one API-layer module that imports the kernel |
 | `api/read.js` | the open read interface: resolve, decompose, compose, compare, dependents, gaps, profile, exclusions, disagreements; no credential |
 | `api/subscribe.js` | the subscription interface: notify a consumer when something it relies on changes (a cited claim withdrawn, a gap closed, a grounding lowered) |
 
@@ -126,6 +128,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
+| `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
@@ -135,7 +138,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
 | `build/translate-trellis.mjs` | the trellis-to-v3 ingestion path (docs/trellis-to-v3.md). A pure, deterministic translator |
-| `build/vendor-gate-browser.mjs` | vendor the v3 gate kernel into vendor/gate/gate.bundle.js so the compose-gate panel runs it offline |
+| `build/vendor-gate-browser.mjs` | vendor the v3 gate kernel (plus the propose/read contract and local provider) into vendor/gate/gate.bundle.js so the client runs the real gate offline |
+| `build/vendor-snapshot.mjs` | freeze the migrated corpus into vendor/gate/snapshot.json, the store state the local provider proposes against |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |
 
 ## root tooling

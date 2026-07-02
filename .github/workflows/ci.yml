@@ -43,12 +43,17 @@ jobs:
           node build/check-gate.mjs
           node build/check-translate.mjs
           node build/check-migrate.mjs
+          node build/check-client.mjs
           node build/check-map.mjs
 
-      - name: Verify the vendored browser gate bundle is committed and current
-        # the compose-gate panel runs this bundle; a diff means the kernel moved but the
-        # committed bundle was not regenerated (build/bundle.js regenerates it too).
-        run: node build/vendor-gate-browser.mjs && git diff --exit-code -- vendor/gate/gate.bundle.js
+      - name: Verify the vendored browser gate bundle and snapshot are committed and current
+        # the compose-gate panel and the propose widget run this bundle over this snapshot; a diff
+        # means the kernel or corpus moved but the committed artifacts were not regenerated
+        # (build/bundle.js regenerates both too).
+        run: |
+          node build/vendor-snapshot.mjs
+          node build/vendor-gate-browser.mjs
+          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json
 
       - name: Verify the generated repo map is committed and current
         # check-map rewrites docs/repo-map.{md,generated.json}; a diff here means a

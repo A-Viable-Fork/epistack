@@ -25,6 +25,10 @@ const MODULES = [
   "kernel/store/apply.mjs",
   "kernel/store/decay.mjs",
   "kernel/gate/gate.mjs",
+  // the API layer: the local provider (the one api module that imports the kernel) and the contract.
+  // Bundled here so the propose/read path runs client-side; their kernel imports resolve to __M.
+  "api/providers/local-provider.mjs",
+  "api/client-api.mjs",
 ];
 // the surface the compose-gate panel consumes.
 const EXPOSE = ["claimRecord", "linkRecord", "makeSourceTable", "makeKindTable", "genesis", "apply", "storeViewOf", "decide", "hashOf"];
@@ -74,12 +78,17 @@ for (const m of parsed) {
   out += `  return { ${m.exportNames.join(", ")} };\n`;
   out += "})();\n";
 }
-const gate = "__M[\"gate\"]", records = "__M[\"records\"]", tables = "__M[\"tables\"]", state = "__M[\"state\"]", apply = "__M[\"apply\"]", decay = "__M[\"decay\"]", canonical = "__M[\"canonical\"]";
-const lookup = { claimRecord: records, linkRecord: records, makeSourceTable: tables, makeKindTable: tables, genesis: state, apply, storeViewOf: decay, decide: gate, hashOf: canonical };
-out += "root.EpiGate = {\n";
-out += EXPOSE.map((n) => `  ${n}: ${lookup[n]}.${n}`).join(",\n") + "\n";
-out += "};\n})(typeof window !== \"undefined\" ? window : globalThis);\n";
+// map each exported name to the module that exports it, so exposure needs no hand-maintained table.
+const exportedBy = {};
+for (const m of parsed) for (const n of m.exportNames) exportedBy[n] = `__M[${JSON.stringify(m.key)}]`;
+const exposeObj = (names) => "{\n" + names.map((n) => `  ${n}: ${exportedBy[n]}.${n}`).join(",\n") + "\n}";
+// EpiGate: the raw kernel surface (the compose-gate panel consumes it). EpiClientApi / EpiLocalProvider:
+// the propose/read contract and the local provider, so the client runs the real gate in the page.
+out += "root.EpiGate = " + exposeObj(EXPOSE) + ";\n";
+out += "root.EpiClientApi = " + exposeObj(["createClientApi"]) + ";\n";
+out += "root.EpiLocalProvider = " + exposeObj(["createLocalProvider"]) + ";\n";
+out += "})(typeof window !== \"undefined\" ? window : globalThis);\n";
 
 const dest = join(ROOT, "vendor/gate/gate.bundle.js");
 writeFileSync(dest, out);
-console.log(`wrote vendor/gate/gate.bundle.js (${out.length} bytes) from ${MODULES.length} kernel modules`);
+console.log(`wrote vendor/gate/gate.bundle.js (${out.length} bytes) from ${MODULES.length} modules (kernel + api provider/contract)`);
