@@ -157,10 +157,16 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
     }
   }
 
-  // ---- corroboration & independence (Section 8): a claim supported by >1 contributor ----
-  for (const e of entries) {
-    const members = closureOf(e.identity);
-    const supLinks = links.filter((l) => l.link_kind === "supports" && members.has(l.to_identity));
+  // ---- corroboration & independence (Section 8): a claim supported by >1 contributor. Judged over
+  //      ALL supports into the claim's closure, the store's and this contribution's, deduped by id ----
+  const allSupportLinks = [...links, ...(storeView.links || [])];
+  const seenSup = new Set();
+  const dedupSup = allSupportLinks.filter((l) => l.link_kind === "supports" && !seenSup.has(l.identity) && seenSup.add(l.identity));
+  // the claims this contribution touches: its own entries, and any claim it adds a support into
+  const touched = new Set([...entries.map((e) => e.identity), ...links.filter((l) => l.link_kind === "supports").map((l) => l.to_identity)]);
+  for (const cid of touched) {
+    const members = closureOf(cid);
+    const supLinks = dedupSup.filter((l) => members.has(l.to_identity));
     const contributors = new Set(supLinks.map((l) => l.contributor_id));
     if (contributors.size >= 2) {
       const groups = new Map();

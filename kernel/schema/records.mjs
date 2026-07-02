@@ -229,7 +229,8 @@ export function corroborationFinding(raw) {
     closure_members: (raw.closure_members || []).slice(),
     support_groups: raw.support_groups || [],
     verdict: raw.verdict,
-    effective_count: req(raw.effective_count, "corroboration: effective_count required"),
+    // Section 1: numbers are exact-decimal strings, never JS numbers (which the canonical path rejects)
+    effective_count: String(req(raw.effective_count, "corroboration: effective_count required")),
     coverage_note: raw.coverage_note,
   };
   if (raw.verdict === "shared") f.shared_source_ids = (raw.shared_source_ids || []).slice();

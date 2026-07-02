@@ -26,17 +26,21 @@ function appendDedup(existing, incoming) {
 }
 
 export function apply(state, accepted) {
-  return makeState({
-    prior_state_hash: state.state_hash,
-    applied_contribution_hash: accepted.applied_contribution_hash,
-    receipt_reference: accepted.receipt_reference,
+  const next = {
     entries: unionById(state.entries, accepted.entries),
     links: unionById(state.links, accepted.links),
     withdrawn_records: appendDedup(state.withdrawn_records, accepted.withdrawn_records),
     contradiction_records: appendDedup(state.contradiction_records, accepted.contradiction_records),
     corroboration_findings: appendDedup(state.corroboration_findings, accepted.corroboration_findings),
     supersession_records: appendDedup(state.supersession_records, accepted.supersession_records),
-  });
+  };
+  // idempotence (Section 15): union and append that add nothing produce no new state. The store's
+  // growth is a function of content, so a resubmission returns the same state, same hash.
+  const unchanged = next.entries.length === (state.entries || []).length && next.links.length === (state.links || []).length
+    && next.withdrawn_records.length === (state.withdrawn_records || []).length && next.contradiction_records.length === (state.contradiction_records || []).length
+    && next.corroboration_findings.length === (state.corroboration_findings || []).length && next.supersession_records.length === (state.supersession_records || []).length;
+  if (unchanged) return state;
+  return makeState({ prior_state_hash: state.state_hash, applied_contribution_hash: accepted.applied_contribution_hash, receipt_reference: accepted.receipt_reference, ...next });
 }
 
 export function inForce(state, identity) {

@@ -36,6 +36,24 @@ export function derivedGrade(state, identity, tables, cache = new Map()) {
   return eg.earned;
 }
 
+// the gate store-view derived from a store state: the earned grade and in-force flag per entry, the
+// restatement links, the withdrawn records, and the reference tables. This is how a decision at read
+// time is run against the current contents.
+export function storeViewOf(state, tables) {
+  const earnedByIdentity = new Map();
+  const cache = new Map();
+  for (const e of state.entries || []) earnedByIdentity.set(e.identity, { earned: derivedGrade(state, e.identity, tables, cache), inForce: inForce(state, e.identity) });
+  return {
+    stateHash: state.state_hash,
+    earnedByIdentity,
+    links: state.links || [], // the store's links, so corroboration is judged over all supports into a claim
+    restatementLinks: (state.links || []).filter((l) => l.link_kind === "restatement").map((l) => ({ from_identity: l.from_identity, to_identity: l.to_identity })),
+    withdrawnRecords: state.withdrawn_records || [],
+    kindOf: new Map((state.entries || []).map((e) => [e.identity, e.kind])),
+    sourceTable: tables.sourceTable, kindTable: tables.kindTable,
+  };
+}
+
 // every in-force claim whose current derived grade fell below its declared grade, with the support
 // change named as the cause. The stored declared grade is unchanged; only the difference is surfaced.
 export function computeDecay(state, tables) {

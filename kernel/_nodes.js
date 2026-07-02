@@ -47,6 +47,11 @@ module.exports = [
     "group": "gate"
   },
   {
+    "path": "kernel/gate/verify.mjs",
+    "type": "kernel",
+    "group": "gate"
+  },
+  {
     "path": "kernel/grounding/check.js",
     "type": "kernel",
     "group": "grounding"

@@ -79,4 +79,6 @@ direct store mutation. Periphery surfaces consume the API and touch no truth fie
     node build/check-gaps.mjs  # the gap detector reproduces the sorry ledger
     node build/check-perturb.mjs  # the perturbation overlay is pure and deterministic
     node build/check-lattice.mjs  # modes + lattice reproduce the detector; contamination bites
+    node build/check-gate.mjs  # the v3 intake gate kernel: canonical form, earned grade, apply, verify
+    node build/gate-demo.mjs   # runnable composition demo: two contributors compose through the gate
     node build/check-map.mjs   # derives the repo's import graph, enforces the trust boundary

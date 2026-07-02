@@ -55,7 +55,7 @@ export function canonicalize(value, policy) {
   }
   if (Array.isArray(value)) {
     const elemPolicy = policy === "reference" || policy === "child" || policy === "sequence" ? undefined : policy;
-    const elems = value.map((v) => canonicalize(v, elemPolicy));
+    const elems = value.filter((v) => v !== undefined && v !== null).map((v) => canonicalize(v, elemPolicy)); // no null in canonical form
     if (policy === "sequence") return elems; // authored order preserved
     // unordered: sort by canonical byte order; reference lists drop exact duplicates
     const sorted = elems.slice().sort((a, b) => byteCompare(encode(a), encode(b)));
@@ -74,7 +74,7 @@ export function canonicalize(value, policy) {
   if (value !== null && typeof value === "object") {
     const out = {};
     for (const k of Object.keys(value)) {
-      if (value[k] === undefined) continue; // absent optional omitted; no null in canonical form
+      if (value[k] === undefined || value[k] === null) continue; // absent optional omitted; no null in canonical form
       out[k] = canonicalize(value[k]);
     }
     return out;

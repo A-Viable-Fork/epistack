@@ -25,6 +25,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
+| `kernel/gate/verify.mjs` | the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from |
 | `kernel/grounding/check.js` | the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum |
 | `kernel/grounding/contamination.js` | effective grounding and the contamination rule. Folds a node's support subtree along |
 | `kernel/grounding/earned-grade.mjs` | the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports |
@@ -129,6 +130,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
+| `build/gate-demo.mjs` | the runnable composition demo, now under Node (intake data model v3). The v3 JS gate |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |

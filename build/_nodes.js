@@ -52,6 +52,10 @@ module.exports = [
     ]
   },
   {
+    "path": "build/gate-demo.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/new-client.mjs",
     "type": "build"
   },

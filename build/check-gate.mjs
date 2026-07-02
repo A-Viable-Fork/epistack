@@ -50,7 +50,8 @@ const throws = (fn, msg) => { try { fn(); ok(false, `${msg} (did not throw)`); }
   throws(() => canonicalize(1.5), "A.3 a JS number on the canonical path throws (no float anywhere)");
   // static: no float-parsing call anywhere on the v3 kernel path (the stored-value path). The test
   // oracle itself is excluded: the scan pattern below names those tokens and would self-match.
-  const v3 = ["kernel/schema/canonical.mjs", "kernel/schema/confidence.mjs", "kernel/schema/records.mjs", "kernel/schema/tables.mjs"];
+  const v3 = ["kernel/schema/canonical.mjs", "kernel/schema/confidence.mjs", "kernel/schema/records.mjs", "kernel/schema/tables.mjs",
+    "kernel/grounding/earned-grade.mjs", "kernel/gate/gate.mjs", "kernel/gate/verify.mjs", "kernel/store/state.mjs", "kernel/store/apply.mjs", "kernel/store/decay.mjs"];
   const FLOAT = /\b(parseFloat|parseInt|Number\s*\(|Math\.(round|floor|ceil|trunc))/;
   for (const f of v3) ok(!FLOAT.test(readFileSync(join(ROOT, f), "utf8").replace(/^\/\/.*$/gm, "")), `A.3 no float/number parse in ${f}`);
 }
@@ -289,8 +290,74 @@ const TABLES = { sourceTable: SRC, kindTable: KINDS };
   eq(s1.entries.find((e) => e.identity === C.identity).declared_grade, "corroborated", "C.4 C's stored declared grade is unchanged");
 }
 
+// ================= PHASE D =================
+import { verifyDecision, windowReplay, resubmissionCheck } from "../kernel/gate/verify.mjs";
+import { storeViewOf } from "../kernel/store/decay.mjs";
+
+// --- D.1 an independent replay of one decision reproduces every receipt field byte-exactly ---
+{
+  const sv = storeViewOf(genesis(), TABLES);
+  const c = { hash: "HD1", entries: [claim("measurement", "dv1", "asserted", [])], links: [] };
+  const receipt = decide(c, sv, { rulesetVersion: "v3", schemaVersion: "v3" });
+  eq(verifyDecision(receipt, c, sv).result, "match", "D.1 the receipt re-derives byte-exactly from the contribution and store state its hashes name");
+  const tampered = { ...receipt, decision: "declined" };
+  const mism = verifyDecision(tampered, c, sv);
+  eq(mism.result, "mismatch", "D.1 a tampered receipt is caught");
+  eq(mism.first_divergent_field, "decision", "D.1 the verifier names the first divergent field");
+  eq(mism.receipt_value, "declined", "D.1 with the receipt value");
+  eq(mism.rederived_value, "accepted", "D.1 and the re-derived value");
+}
+
+// --- D.2 replaying a window of contributions lands at the recorded final state hash ---
+{
+  const e1 = claim("measurement", "w1", "asserted", []);
+  const e2 = claim("measurement", "w2", "asserted", []);
+  const e3 = claim("measurement", "w3", "asserted", []);
+  const l12 = R.linkRecord({ link_kind: "supports", from_identity: e1.identity, to_identity: e2.identity, support_group: "g", source_id: "S1", contributor_id: "P1", declared_grade: "asserted" });
+  const l23 = R.linkRecord({ link_kind: "supports", from_identity: e2.identity, to_identity: e3.identity, support_group: "g", source_id: "S1", contributor_id: "P1", declared_grade: "asserted" });
+  const c1 = { hash: "W1", entries: [e1], links: [] };
+  const c2 = { hash: "W2", entries: [e2], links: [l12] };
+  const c3 = { hash: "W3", entries: [e3], links: [l23] };
+  // record the history in dependency order
+  let st = genesis();
+  for (const c of [c1, c2, c3]) {
+    const r = decide(c, storeViewOf(st, TABLES), {});
+    ok(r.decision !== "declined", "D.2 each windowed contribution is accepted");
+    st = apply(st, { entries: c.entries, links: c.links, contradiction_records: r.contradiction_records, corroboration_findings: r.corroboration_findings, applied_contribution_hash: c.hash, receipt_reference: hashOf(r) });
+  }
+  const recordedFinal = st.state_hash;
+  const replay = windowReplay(genesis(), [{ contribution: c1 }, { contribution: c2 }, { contribution: c3 }], TABLES, {});
+  eq(replay.final_state_hash, recordedFinal, "D.2 replaying the window in the recorded dependency order lands at the same final state hash");
+}
+
+// --- D.3 resubmitting an already-recorded contribution is idempotent ---
+{
+  let st = genesis();
+  const c = { hash: "RS1", entries: [claim("measurement", "rs", "asserted", [])], links: [] };
+  const r = decide(c, storeViewOf(st, TABLES), {});
+  st = apply(st, { entries: c.entries, links: c.links, contradiction_records: r.contradiction_records, corroboration_findings: r.corroboration_findings, applied_contribution_hash: c.hash, receipt_reference: hashOf(r) });
+  const res = resubmissionCheck(st, c, TABLES, {});
+  eq(res.result, "unchanged", "D.3 resubmission re-derives the same decision and leaves the post-apply state hash identical");
+}
+
+// --- D.4 the verifier imports nothing outside Node's standard library and the kernel ---
+{
+  const v3 = ["kernel/schema/canonical.mjs", "kernel/schema/confidence.mjs", "kernel/schema/records.mjs", "kernel/schema/tables.mjs", "kernel/grounding/earned-grade.mjs", "kernel/gate/gate.mjs", "kernel/gate/verify.mjs", "kernel/store/state.mjs", "kernel/store/apply.mjs", "kernel/store/decay.mjs"];
+  const IMPORT = /\bfrom\s+["']([^"']+)["']/g;
+  let clean = true, offender = null;
+  for (const f of v3) {
+    const src = readFileSync(join(ROOT, f), "utf8");
+    let m;
+    while ((m = IMPORT.exec(src))) {
+      const spec = m[1];
+      if (!spec.startsWith(".") && !spec.startsWith("node:")) { clean = false; offender = `${f} -> ${spec}`; }
+    }
+  }
+  ok(clean, `D.4 every v3 import is relative kernel or a node: builtin${clean ? "" : " (offender: " + offender + ")"}`);
+}
+
 // ================= REPORT =================
-console.log(`gate kernel: Phases A-C checked (canonical form, records, order, tables; earned-grade, checks, gate; apply, history chain, supersession, decay).`);
+console.log(`gate kernel: Phases A-D checked (canonical form, records, order, tables; earned-grade, checks, gate; apply, chain, supersession, decay; verifier, window replay, resubmission).`);
 if (fails.length) {
   console.error(`\n${fails.length} assertion(s) failed:`);
   for (const f of fails) console.error("  - " + f);

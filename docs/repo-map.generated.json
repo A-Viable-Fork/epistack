@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 96,
-  "edgeCount": 87,
+  "nodeCount": 98,
+  "edgeCount": 99,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -51,6 +51,13 @@
       "group": "gate",
       "role": "the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification.",
       "contract": "STUB [4.3] Stage 4, specified not built. Extends today's composition gate (kernel/gate/compose_gate.py)."
+    },
+    {
+      "path": "kernel/gate/verify.mjs",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from its receipt plus the contribution and store state its hashes name, and reproduces every receipt field byte-exactly; replays a window of contributions and checks the final state; and checks resubmission idempotence. A distrusting party runs this as-is: it imports nothing outside Node's standard library and the kernel's own pure modules.",
+      "contract": "verifyDecision(receipt, contribution, storeView, versions) -> { result, first_divergent_field, receipt_value, rederived_value }; windowReplay(startState, steps, tables, versions) -> { result, final_state_hash, first_divergent_contribution }; resubmissionCheck(state, contribution, tables, versions) -> { result, first_divergent_field }. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/grounding/check.js",
@@ -564,6 +571,13 @@
       "contract": "`node build/fork-demo.mjs`. Reads the data + resolver; prints the changed and inherited fields. No writes, no network."
     },
     {
+      "path": "build/gate-demo.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the runnable composition demo, now under Node (intake data model v3). The v3 JS gate absorbs the role compose_gate.py held: two uncoordinated contributors' frozen typed output composes mechanically, with no model in the loop, and the gate prices independence across contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.",
+      "contract": "no arguments; prints the composition report. Imports only the v3 kernel and Node stdlib."
+    },
+    {
       "path": "build/new-client.mjs",
       "type": "build",
       "group": null,
@@ -715,6 +729,34 @@
     {
       "from": "kernel/gate/gate.mjs",
       "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -965,6 +1007,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/gate/verify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/check-lattice.mjs",
       "to": "kernel/schema/terminals.js",
       "type": "imports",
@@ -1093,6 +1142,55 @@
     {
       "from": "build/fork-demo.mjs",
       "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
