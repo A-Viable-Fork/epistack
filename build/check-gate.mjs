@@ -219,8 +219,78 @@ const selfCheck = { checker_id: "P1", method_class: "replication", method: "self
   ok("withdrawn_matches" in r && "restatement_closures" in r, "B.5 receipt carries withdrawn matches and restatement closures");
 }
 
+// ================= PHASE C =================
+import { genesis, makeState, verifyChain } from "../kernel/store/state.mjs";
+import { apply, inForce } from "../kernel/store/apply.mjs";
+import { computeDecay, derivedGrade } from "../kernel/store/decay.mjs";
+
+const TABLES = { sourceTable: SRC, kindTable: KINDS };
+
+// --- C.1 apply: union of entries + append of standing records; never edits a stored declared grade ---
+{
+  const g = genesis();
+  const c1 = claim("measurement", "e1", "asserted", []);
+  const s1 = apply(g, { entries: [c1], links: [], applied_contribution_hash: "H1", receipt_reference: "R1" });
+  ok(s1.entries.length === 1 && s1.prior_state_hash === g.state_hash, "C.1 apply produces a new state by union, chained to its predecessor");
+  const c2 = claim("measurement", "e2", "asserted", []);
+  const wd = R.withdrawnClaimRecord({ claim_identity: "X", withdrawn_at_state: s1.state_hash, withdrawn_by: "H2", reason: "r", reinstatement_condition: { condition_kind: "entry-of-kind", required_kind: "measurement" } });
+  const s2 = apply(s1, { entries: [c2], links: [], withdrawn_records: [wd], applied_contribution_hash: "H2", receipt_reference: "R2" });
+  ok(s2.entries.length === 2 && s2.entries.some((e) => e.identity === c1.identity), "C.1 union keeps every prior entry; append adds the standing record");
+  eq(s2.withdrawn_records.length, 1, "C.1 the withdrawal record is appended to history");
+  // a resubmission of the same identity with a DIFFERENT declared grade never edits the stored grade
+  const c1higher = claim("measurement", "e1", "corroborated", []);
+  const s3 = apply(s2, { entries: [c1higher], links: [], applied_contribution_hash: "H3", receipt_reference: "R3" });
+  eq(s3.entries.find((e) => e.identity === c1.identity).declared_grade, "asserted", "C.1 apply never edits a stored declared grade (existing entry wins on union)");
+  eq(s3.entries.length, 2, "C.1 resubmitting an existing identity adds no entry");
+}
+
+// --- C.2 supersession adds a pointer; the superseded entry stays and reads as not in force ---
+{
+  const g = genesis();
+  const oldE = claim("measurement", "old", "asserted", []);
+  const newE = claim("measurement", "new", "asserted", []);
+  const s1 = apply(g, { entries: [oldE, newE], links: [], applied_contribution_hash: "H1", receipt_reference: "R1" });
+  ok(inForce(s1, oldE.identity), "C.2 the entry is in force before supersession");
+  const sup = R.supersessionRecord({ superseded_identity: oldE.identity, successor_identity: newE.identity, at_state: s1.state_hash, reason: "replaced" });
+  const s2 = apply(s1, { entries: [], links: [], supersession_records: [sup], applied_contribution_hash: "H2", receipt_reference: "R2" });
+  ok(s2.entries.some((e) => e.identity === oldE.identity), "C.2 the superseded entry stays in the store");
+  ok(!inForce(s2, oldE.identity), "C.2 it reads as not in force");
+  ok(inForce(s2, newE.identity), "C.2 the successor is in force");
+}
+
+// --- C.3 the state hash includes the prior hash; a rewritten past breaks the chain at the first later link ---
+{
+  const g = genesis();
+  const s1 = apply(g, { entries: [claim("measurement", "a", "asserted", [])], links: [], applied_contribution_hash: "H1", receipt_reference: "R1" });
+  const s2 = apply(s1, { entries: [claim("measurement", "b", "asserted", [])], links: [], applied_contribution_hash: "H2", receipt_reference: "R2" });
+  const s3 = apply(s2, { entries: [claim("measurement", "c", "asserted", [])], links: [], applied_contribution_hash: "H3", receipt_reference: "R3" });
+  ok(verifyChain([g, s1, s2, s3]).ok, "C.3 the untampered chain verifies");
+  // rewrite s1's past: rebuild it with a grade-changed entry (self-consistent new hash)
+  const tampered = makeState({ prior_state_hash: s1.prior_state_hash, applied_contribution_hash: s1.applied_contribution_hash, receipt_reference: s1.receipt_reference, entries: [claim("measurement", "a", "corroborated", [])], links: s1.links, withdrawn_records: s1.withdrawn_records, contradiction_records: s1.contradiction_records, corroboration_findings: s1.corroboration_findings, supersession_records: s1.supersession_records });
+  ok(tampered.state_hash !== s1.state_hash, "C.3 altering a past state changes its hash");
+  const res = verifyChain([g, tampered, s2, s3]);
+  ok(!res.ok && res.firstBreak === 2, "C.3 the break announces itself at the first later link (s2's prior pointer no longer matches)");
+}
+
+// --- C.4 a claim whose support is withdrawn surfaces a decay finding; the stored declared grade is unchanged ---
+{
+  const g = genesis();
+  const P = claim("measurement", "premise P", "checked", [distinctCheck]);
+  const C = claim("measurement", "claim C", "corroborated", []);
+  const supPC = R.linkRecord({ link_kind: "supports", from_identity: P.identity, to_identity: C.identity, support_group: "g", source_id: "S1", contributor_id: "P1", declared_grade: "corroborated" });
+  const s0 = apply(g, { entries: [P, C], links: [supPC], applied_contribution_hash: "H1", receipt_reference: "R1" });
+  eq(derivedGrade(s0, C.identity, TABLES), "corroborated", "C.4 C derives corroborated while its support stands");
+  eq(computeDecay(s0, TABLES).length, 0, "C.4 no decay while the support is in force");
+  const wd = R.withdrawnClaimRecord({ claim_identity: P.identity, withdrawn_at_state: s0.state_hash, withdrawn_by: "H2", reason: "retracted", reinstatement_condition: { condition_kind: "entry-of-kind", required_kind: "measurement" } });
+  const s1 = apply(s0, { entries: [], links: [], withdrawn_records: [wd], applied_contribution_hash: "H2", receipt_reference: "R2" });
+  const decay = computeDecay(s1, TABLES);
+  ok(decay.length === 1 && decay[0].entry_identity === C.identity, "C.4 withdrawing the support surfaces a decay finding on C");
+  eq(decay[0].current_earned_grade, "ungraded", "C.4 the decay finding carries the fallen current earned grade");
+  eq(s1.entries.find((e) => e.identity === C.identity).declared_grade, "corroborated", "C.4 C's stored declared grade is unchanged");
+}
+
 // ================= REPORT =================
-console.log(`gate kernel: Phases A-B checked (canonical form, records, confidence order, tables; earned-grade rule, intake checks, gate decision).`);
+console.log(`gate kernel: Phases A-C checked (canonical form, records, order, tables; earned-grade, checks, gate; apply, history chain, supersession, decay).`);
 if (fails.length) {
   console.error(`\n${fails.length} assertion(s) failed:`);
   for (const f of fails) console.error("  - " + f);

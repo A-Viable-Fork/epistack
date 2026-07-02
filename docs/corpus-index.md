@@ -44,10 +44,13 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
 | `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
 | `kernel/schema/terminals.js` | the terminal-type registry. One place that names the closures a claim can reach |
+| `kernel/store/apply.mjs` | the apply contract (intake data model v3, Section 14). Apply changes structure only: the |
+| `kernel/store/decay.mjs` | derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never |
 | `kernel/store/exclusion.js` | the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived |
 | `kernel/store/graph.js` | pure graph utilities over the node schema. Index, traversal, acyclicity |
 | `kernel/store/patch-ledger.js` | storage as a tamper-evident, append-only sequence of sealed canonical patches |
 | `kernel/store/reconciliation.js` | the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux |
+| `kernel/store/state.mjs` | the store-state record and the history chain (intake data model v3, Section 13). A store |
 
 ## api/ (the sole membrane: kernel-facing contract)
 

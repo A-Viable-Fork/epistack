@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 93,
-  "edgeCount": 76,
+  "nodeCount": 96,
+  "edgeCount": 87,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -186,6 +186,20 @@
       "contract": "TERMINAL_REGISTRY (type -> {promotes}); promotionFor(type) -> string."
     },
     {
+      "path": "kernel/store/apply.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "the apply contract (intake data model v3, Section 14). Apply changes structure only: the only verbs are union (of entries and links, byte-identical duplicates merging by identity so resubmission adds nothing) and append (of standing records). Everything that looks like change, withdrawal, supersession, decay, is a NEW record pointing at an old one; apply never edits a stored declared grade, never removes or edits an entry, a link, or any standing record already in history, and never recomputes anything into storage.",
+      "contract": "apply(state, accepted) -> newState; inForce(state, identity) -> boolean. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/store/decay.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never stored: it is recomputed against the current state. When the recomputed earned grade falls below the declared grade, because a support was withdrawn, superseded, or lowered, the gap is surfaced as a decay finding, never silently corrected. Three moments, none rewrites another: the grade at intake is a fact about a past state fixed in the receipt; the grade at read is a derivation against the current state; the decay finding is their surfaced difference.",
+      "contract": "derivedGrade(state, identity, tables) -> position; computeDecay(state, tables) -> [decayFinding]. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/store/exclusion.js",
       "type": "kernel",
       "group": "store",
@@ -212,6 +226,13 @@
       "group": "store",
       "role": "the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux.",
       "contract": "STUB [1.6] Stage 1, specified not built. Rebut edges route here."
+    },
+    {
+      "path": "kernel/store/state.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "the store-state record and the history chain (intake data model v3, Section 13). A store state is the full contents at a point plus a hash that chains to its predecessor: because the predecessor's hash is inside the preimage, a rewritten past announces itself in the first mismatched link of the chain.",
+      "contract": "genesis(); makeState(fields) -> a state with its computed state_hash; verifyChain(states) -> { ok, firstBreak }. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/gate/compose_gate.py",
@@ -741,6 +762,62 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/store/apply.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/apply.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/state.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "api/api.js",
       "to": "kernel/schema/registry.js",
       "type": "imports",
@@ -862,6 +939,27 @@
     {
       "from": "build/check-gate.mjs",
       "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/decay.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

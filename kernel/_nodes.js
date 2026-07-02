@@ -160,6 +160,16 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/store/apply.mjs",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
+    "path": "kernel/store/decay.mjs",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
     "path": "kernel/store/exclusion.js",
     "type": "kernel",
     "group": "store"
@@ -176,6 +186,11 @@ module.exports = [
   },
   {
     "path": "kernel/store/reconciliation.js",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
+    "path": "kernel/store/state.mjs",
     "type": "kernel",
     "group": "store"
   },

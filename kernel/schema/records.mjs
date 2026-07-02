@@ -191,6 +191,35 @@ const COVERAGE_PREFIX = "computed over the source table at version";
 export function coverageNote(version) {
   return `${COVERAGE_PREFIX} ${version}; dependencies absent from the table are invisible to this check`;
 }
+// ---- the supersession record, decay finding, currency finding (Section 14) ----
+export function supersessionRecord(raw) {
+  return {
+    record_type: "supersession",
+    superseded_identity: req(raw.superseded_identity, "supersession: superseded_identity required"),
+    successor_identity: req(raw.successor_identity, "supersession: successor_identity required"),
+    at_state: req(raw.at_state, "supersession: at_state required"),
+    reason: normalizeString(raw.reason || ""),
+  };
+}
+export function decayFinding(raw) {
+  return {
+    finding_type: "decay",
+    entry_identity: req(raw.entry_identity, "decay: entry_identity required"),
+    declared_grade: grade(raw.declared_grade, "decay.declared_grade"),
+    current_earned_grade: grade(raw.current_earned_grade, "decay.current_earned_grade"),
+    cause: req(raw.cause, "decay: cause reference required"),
+  };
+}
+export function currencyFinding(raw) {
+  return {
+    finding_type: "currency",
+    entry_identity: req(raw.entry_identity, "currency: entry_identity required"),
+    declared_grade: grade(raw.declared_grade, "currency.declared_grade"),
+    standing: "ill-formed", // a fallen frame breaks form, not grade
+    cause: req(raw.cause, "currency: cause reference required"),
+  };
+}
+
 export function corroborationFinding(raw) {
   if (!VERDICTS.includes(raw.verdict)) throw new Error(`corroboration: bad verdict ${raw.verdict}`);
   req(raw.coverage_note, "corroboration: coverage_note mandatory");
