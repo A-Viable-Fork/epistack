@@ -252,8 +252,11 @@ if (!fs.existsSync(subPath)) fail("rule7/T0-6", "submission.html does not exist 
 else {
   const sub = fs.readFileSync(subPath, "utf8");
   if (/@@INCLUDE:/.test(sub)) fail("rule7/T0-6", "submission.html has unresolved include tokens");
-  if (/<script[^>]+src=(?!"https:\/\/cdn\.jsdelivr\.net\/pyodide)/.test(sub))
-    fail("rule7/T0-6", "submission.html references an external script other than the click-gated Pyodide runtime");
+  // the artifact is fully offline: the v3 gate runs in-page and there are no web fonts, so NO
+  // external resource is permitted (script, stylesheet, font, image, or preconnect). Any src= or
+  // href= pointing at an absolute http(s) URL is a standalone violation.
+  const ext = sub.match(/\b(?:src|href)=["']https?:\/\/[^"']+/i);
+  if (ext) fail("rule7/T0-6", "submission.html references an external resource (" + ext[0].slice(0, 60) + "…); the artifact must run with no network");
 }
 // NOTE: the no-console-error-on-load half of rule 7 needs a browser and is not run here.
 

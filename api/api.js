@@ -62,7 +62,7 @@
       status: "submitted",
       promoted: false,
       rule: "promotes only on independent corroboration; agreement counts once independence is shown",
-      gate: "compose_gate.py",
+      gate: "kernel/gate/gate.mjs",
       note: "not a store write; the store is added to only under the gate, and the rule governs structure, never content",
     };
   }

@@ -14,14 +14,6 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.js` | the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
-| `kernel/gate/compose_gate.py` | the compose-gate program (runs in-browser via Pyodide) |
-| `kernel/gate/fixtures/A.json` | data (JSON) |
-| `kernel/gate/fixtures/B.json` | data (JSON) |
-| `kernel/gate/fixtures/C.json` | data (JSON) |
-| `kernel/gate/fixtures/README.md` | file |
-| `kernel/gate/fixtures/captured.txt` | compose-gate fixture text |
-| `kernel/gate/fixtures/incumbent.json` | data (JSON) |
-| `kernel/gate/fixtures/prompt.txt` | compose-gate fixture text |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
@@ -40,6 +32,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/lattice.js` | the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary |
 | `kernel/schema/modes.js` | the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument) |
 | `kernel/schema/records.mjs` | the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking |
+| `kernel/schema/sha256.mjs` | the one named hash (sha256), a vendored pure-JS implementation so the kernel hashes identically |
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
@@ -106,7 +99,13 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/components/cards.js` | the registered card-layout components. A card is addressable and resolvable like any |
 | `periphery/navigate/render/components/views.js` | registered view-level components, addressable and forkable like the cards and |
 | `periphery/navigate/render/components/visuals.js` | the registered visual components. A node does not contain a visual; it references |
-| `periphery/navigate/render/compose-gate.js` | the in-browser compose-gate runner. Loads Pyodide on click and runs the |
+| `periphery/navigate/render/compose-gate.js` | the in-browser compose-gate runner. Runs the vendored v3 gate kernel (window.EpiGate) over the incumbent plus the ticked contributions, offline |
+| `periphery/navigate/render/compose/tables.json` | the compose-gate source and kind tables (v3): the trusted inputs the gate prices independence over |
+| `periphery/navigate/render/compose/incumbent.json` | the compose-gate incumbent map: the shared COVID-origin conclusion the contributors compose onto |
+| `periphery/navigate/render/compose/A.json` | compose-gate contribution A (population / epidemiological vantage), a v3 typed contribution |
+| `periphery/navigate/render/compose/B.json` | compose-gate contribution B (molecular / documentary vantage), a v3 typed contribution |
+| `periphery/navigate/render/compose/C.json` | compose-gate contribution C (Claude Code quantitative), a v3 typed contribution with an imputed sub-mechanism held at asserted |
+| `periphery/navigate/render/compose/prompt.txt` | the bring-your-own-contribution contract: emit a v3 contribution any LLM can produce, for the D flow |
 | `periphery/navigate/render/decompose.template.html` | build template; @@INCLUDE@@ tokens |
 | `periphery/navigate/render/host.js` | the host. The wiring that builds the API from storage once, registers the fat clients |
 | `periphery/navigate/render/index.template.html` | build template; @@INCLUDE@@ tokens |
@@ -128,11 +127,15 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
+| `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
+| `build/check-translate.mjs` | the trellis-to-v3 translator's oracle (Phase A). A fragment test over conjunction, disjunction, |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
 | `build/gate-demo.mjs` | the runnable composition demo, now under Node (intake data model v3). The v3 JS gate |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
+| `build/translate-trellis.mjs` | the trellis-to-v3 ingestion path (docs/trellis-to-v3.md). A pure, deterministic translator |
+| `build/vendor-gate-browser.mjs` | vendor the v3 gate kernel into vendor/gate/gate.bundle.js so the compose-gate panel runs it offline |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |
 
 ## root tooling

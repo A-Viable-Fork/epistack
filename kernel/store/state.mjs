@@ -8,7 +8,7 @@
 //   sorted by canonical byte order, deduped), fields ordered by byte order, hashed over the whole
 //   sequence with prior_state_hash included. The change-evidence property is all this record claims.
 "use strict";
-import { canonicalize, encode, hashBytes } from "../schema/canonical.mjs";
+import { canonicalize, encode, hashBytes, byteCompare } from "../schema/canonical.mjs";
 
 export const GENESIS_MARKER = "GENESIS";
 const SETS = ["entries", "links", "withdrawn_records", "contradiction_records", "corroboration_findings", "supersession_records"];
@@ -21,7 +21,7 @@ function elementNode(el) {
 // a set canonicalized as an unordered array: sort by canonical byte order, drop exact duplicates.
 function canonSet(elements) {
   const nodes = (elements || []).map(elementNode);
-  nodes.sort((a, b) => Buffer.compare(Buffer.from(encode(a), "utf8"), Buffer.from(encode(b), "utf8")));
+  nodes.sort((a, b) => byteCompare(encode(a), encode(b)));
   const out = [];
   let last = null;
   for (const n of nodes) { const e = encode(n); if (e !== last) out.push(n); last = e; }
@@ -35,7 +35,7 @@ function stateHash(fields) {
   if (fields.applied_contribution_hash !== undefined) pre.applied_contribution_hash = fields.applied_contribution_hash;
   if (fields.receipt_reference !== undefined) pre.receipt_reference = fields.receipt_reference;
   for (const s of SETS) pre[s] = canonSet(fields[s]);
-  return hashBytes(Buffer.from(encode(pre), "utf8"));
+  return hashBytes(encode(pre));
 }
 
 export function makeState(fields) {

@@ -140,6 +140,11 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/sha256.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/registers.js",
     "type": "kernel",
     "group": "schema"
@@ -198,10 +203,5 @@ module.exports = [
     "path": "kernel/store/state.mjs",
     "type": "kernel",
     "group": "store"
-  },
-  {
-    "path": "kernel/gate/compose_gate.py",
-    "type": "kernel",
-    "group": "gate"
   }
 ];

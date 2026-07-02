@@ -1,8 +1,0 @@
-[
- {"addr":"Q-GEO-WHYWUHAN","_src":"incumbent","terminal":"irreducible-prior","loadBearing":false,"namesWithheldResolver":null,"claim":"CV-1 geographic prior; reference-class choice","sources":[],"assertedLean":null},
- {"addr":"Q-PIVOT-MARKET","_src":"incumbent","terminal":"irreducible-prior","loadBearing":true,"namesWithheldResolver":null,"claim":"CV-2 market clustering; irreducible-by-access channel-trust","sources":[{"ident":"DS-EARLYCASE-DEC2019","rel":"anchor","typing":"author-declared"}],"assertedLean":null},
- {"addr":"Q-FCS-DEFUSE","_src":"incumbent","terminal":"irreducible-prior","loadBearing":false,"namesWithheldResolver":null,"claim":"CV-3 furin cleavage site; interpretation prior gated by sealed channel","sources":[{"ident":"DS-FCS-MOLEC","rel":"anchor","typing":"author-declared"}],"assertedLean":null},
- {"addr":"Q-BASERATE","_src":"incumbent","terminal":"irreducible-prior","loadBearing":false,"namesWithheldResolver":null,"claim":"CV-4 base rate; reference-class selection","sources":[{"ident":"DS-BASERATE-HIST","rel":"anchor","typing":"author-declared"}],"assertedLean":null},
- {"addr":"Q-METHOD","_src":"incumbent","terminal":"irreducible-prior","loadBearing":false,"namesWithheldResolver":null,"claim":"methodology crux; out-of-model corrections","sources":[],"assertedLean":null},
- {"addr":"Q-LAYER0","_src":"incumbent","terminal":"irreducible-prior","loadBearing":false,"namesWithheldResolver":null,"claim":"institutions and credibility formation","sources":[],"assertedLean":null}
-]

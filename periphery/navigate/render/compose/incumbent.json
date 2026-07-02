@@ -1,0 +1,15 @@
+{
+  "id": "incumbent",
+  "label": "the incumbent map",
+  "claims": [
+    {
+      "key": "covid.origin",
+      "kind": "forum",
+      "statement": "COVID-19 origin: the early-case clustering returns a priced prior, not a measurement of origin, because the surveillance draw is non-exchangeable (inclusion correlates with the location being estimated).",
+      "source_id": "map:incumbent",
+      "contributor_id": "incumbent",
+      "declared_grade": "asserted"
+    }
+  ],
+  "links": []
+}

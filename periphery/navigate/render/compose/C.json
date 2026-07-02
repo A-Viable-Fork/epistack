@@ -1,0 +1,28 @@
+{
+  "id": "C",
+  "label": "Claude Code (quantitative)",
+  "claims": [
+    {
+      "key": "C.montecarlo",
+      "kind": "measurement",
+      "statement": "A Monte Carlo re-analysis reproduces the observed clustering under a null, non-exchangeable draw: the centroid statistic cannot discriminate a true origin from a surveillance pattern.",
+      "source_id": "src:C:montecarlo",
+      "contributor_id": "C",
+      "declared_grade": "checked",
+      "checking_records": [
+        { "checker_id": "C-mc", "method_class": "replication", "method": "re-ran the Monte Carlo under the null draw", "checked_at_state": "genesis", "outcome": "confirms", "independence": "distinct-party" }
+      ]
+    },
+    {
+      "key": "C.spillover",
+      "kind": "claim",
+      "statement": "The imputed spillover sub-mechanism (a specific intermediate-host pathway) that would explain the clustering.",
+      "source_id": "src:C:montecarlo",
+      "contributor_id": "C",
+      "declared_grade": "asserted"
+    }
+  ],
+  "links": [
+    { "link_kind": "supports", "from": "C.montecarlo", "to": "covid.origin", "support_group": "gC", "source_id": "src:C:montecarlo", "contributor_id": "C", "declared_grade": "supported" }
+  ]
+}

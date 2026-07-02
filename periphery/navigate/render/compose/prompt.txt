@@ -1,0 +1,44 @@
+You are contributing to a typed claim graph about the origin of COVID-19. Emit ONE JSON object, a
+typed contribution, against the schema below. Do not add prose outside the JSON.
+
+The graph already holds this shared conclusion (reference it by its exact key, do not redefine it):
+
+  key "covid.origin", kind "forum":
+  "COVID-19 origin: the early-case clustering returns a priced prior, not a measurement of origin,
+   because the surveillance draw is non-exchangeable (inclusion correlates with the location being
+   estimated)."
+
+Your job: add one or more premises of your own and a supports link into "covid.origin". Use a source
+id nobody else would share, so the gate can price your independence.
+
+Emit exactly this shape:
+
+{
+  "id": "D",
+  "label": "your vantage, in a few words",
+  "claims": [
+    {
+      "key": "D.premise",
+      "kind": "measurement",
+      "statement": "a single, checkable claim in one sentence",
+      "source_id": "src:D:your-source",
+      "contributor_id": "D",
+      "declared_grade": "checked",
+      "checking_records": [
+        { "checker_id": "D-1", "method_class": "data-audit", "method": "how it was checked",
+          "checked_at_state": "genesis", "outcome": "confirms", "independence": "distinct-party" }
+      ]
+    }
+  ],
+  "links": [
+    { "link_kind": "supports", "from": "D.premise", "to": "covid.origin", "support_group": "gD",
+      "source_id": "src:D:your-source", "contributor_id": "D", "declared_grade": "corroborated" }
+  ]
+}
+
+Allowed grades: ungraded, asserted, supported, corroborated, checked, independently-rechecked,
+constitutive. Allowed kinds here: measurement, claim, forum. method_class is one of replication,
+derivation-audit, data-audit, direct-measurement. outcome must start with "confirms". A checking
+record with independence "distinct-party" is what lets a measurement reach the settled tier; the gate
+lifts the conclusion to corroborated only when two supports have DISJOINT source footprints. It will
+not take your word for independence: it prices it from the source table. Paste the JSON, tick D, run.

@@ -16,7 +16,7 @@
 
 **T0-5. Gaps are first-class.** Every unverified node carries an explicit `sorry` or `TODO_verify` field, every such marker is listed in `docs/sorry-ledger.md`, and the linter fails on a marker that is not in the ledger or a ledger entry with no marker. Nothing is silently incomplete. This is the sorry ledger as a build artifact: the honest unit of progress is the named gap, and the code states its gaps the way the research does.
 
-**T0-6. The deliverable opens standalone.** The build emits one file that runs from `file://` with no server, no network call, no runtime dependency a judge does not already have in a browser. The Pyodide compose-gate runner loads in-browser. Modular source is the forkable thing; the single bundled artifact is the deliverable. Any dependency that breaks a double-click to open is excluded regardless of what it offers.
+**T0-6. The deliverable opens standalone.** The build emits one file that runs from `file://` with no server, no network call, no runtime dependency a judge does not already have in a browser. The compose-gate runs the v3 gate kernel in-page, vendored from the same modules the oracles check, with no network at all (the Pyodide runner it replaced is retired). Modular source is the forkable thing; the single bundled artifact is the deliverable. Any dependency that breaks a double-click to open is excluded regardless of what it offers.
 
 ---
 

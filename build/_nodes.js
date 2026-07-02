@@ -32,6 +32,24 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-translate.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-migrate.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/lhc/lhc-cascade.js"
+      },
+      {
+        "type": "loads-corpus",
+        "to": "corpora/population/population-pipeline.js"
+      }
+    ]
+  },
+  {
     "path": "build/check-perturb.mjs",
     "type": "build",
     "flows": [
@@ -61,6 +79,14 @@ module.exports = [
   },
   {
     "path": "build/repo-map.schema.js",
+    "type": "build"
+  },
+  {
+    "path": "build/translate-trellis.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/vendor-gate-browser.mjs",
     "type": "build"
   },
   {

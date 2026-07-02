@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -28,6 +28,7 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `kernel/grounding/contamination.js` -> `kernel/schema/lattice.js`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/terminals.js`  *(kernel -> kernel)*
 - `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/canonical.mjs` -> `kernel/schema/sha256.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -76,8 +77,28 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `build/check-lattice.mjs` -> `kernel/schema/schema.js`  *(build -> kernel)*
 - `build/check-lattice.mjs` -> `kernel/schema/terminals.js`  *(build -> kernel)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
+- `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
+- `build/check-migrate.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
+- `build/check-migrate.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
+- `build/check-migrate.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
+- `build/check-migrate.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
+- `build/check-migrate.mjs` -> `corpora/population/population-pipeline.js`  *(build -> corpus)*
+- `build/check-migrate.mjs` -> `kernel/analysis/gaps.js`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-migrate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-perturb.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
 - `build/check-perturb.mjs` -> `kernel/motions/perturb.js`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
+- `build/check-translate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-translate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/fork-demo.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/forks.js`  *(build -> corpus)*
@@ -93,6 +114,8 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `build/gate-demo.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `linter.js` -> `build/repo-map.schema.js`  *(build -> build)*
 - `linter.js` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `linter.js` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
@@ -115,8 +138,10 @@ Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy th
 - `kernel/grounding/contamination.js` **checked-by** `build/check-lattice.mjs`
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
 - `kernel/schema/lattice.js` **checked-by** `build/check-lattice.mjs`
-- `api/api.js` **gated-write** `kernel/gate/compose_gate.py`
+- `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
+- `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
+- `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/check-perturb.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/fork-demo.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `periphery/navigate/fat/auditor.js` **reads-through-api** `api/api.js`

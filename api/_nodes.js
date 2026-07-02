@@ -11,7 +11,7 @@ module.exports = [
     "flows": [
       {
         "type": "gated-write",
-        "to": "kernel/gate/compose_gate.py"
+        "to": "kernel/gate/gate.mjs"
       }
     ]
   },

@@ -1,0 +1,13 @@
+{
+  "sources": [
+    { "source_id": "map:incumbent", "source_class": "institutional-report", "rests_on": [] },
+    { "source_id": "src:A:surveillance", "source_class": "primary-measurement", "rests_on": [] },
+    { "source_id": "src:B:documentary", "source_class": "peer-reviewed", "rests_on": [] },
+    { "source_id": "src:C:montecarlo", "source_class": "dataset", "rests_on": [] }
+  ],
+  "kinds": [
+    { "kind": "forum", "ceiling": "corroborated" },
+    { "kind": "measurement", "ceiling": "independently-rechecked" },
+    { "kind": "claim", "ceiling": "corroborated" }
+  ]
+}

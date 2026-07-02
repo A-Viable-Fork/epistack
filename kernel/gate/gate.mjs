@@ -1,8 +1,8 @@
 // Role: the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by
 //   the link-kind routing table, computes earned grades, decides the contribution against a store
 //   state, and writes the receipt. This is the sole canonical write path, absorbing the role the
-//   retired compose_gate.py held: it composes independent typed contributions with no model in the
-//   loop, and the decision is a deterministic function of content and the store state.
+//   retired Python compose-gate held: it composes independent typed contributions with no model in
+//   the loop, and the decision is a deterministic function of content and the store state.
 // Contract: decide(contribution, storeView, versions) -> receipt (Section 11). restatementClosure,
 //   satisfiesReinstatement exported for tests. Pure, ESM; kernel imports only kernel.
 // Invariant: a supports link is the only thing that enters the grade computation; depends-on routes
