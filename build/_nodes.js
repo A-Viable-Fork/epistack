@@ -20,6 +20,10 @@ module.exports = [
     ]
   },
   {
+    "path": "build/check-gate.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-lattice.mjs",
     "type": "build"
   },
@@ -46,6 +50,10 @@ module.exports = [
         "to": "corpora/population/population-pipeline.js"
       }
     ]
+  },
+  {
+    "path": "build/gate-demo.mjs",
+    "type": "build"
   },
   {
     "path": "build/new-client.mjs",

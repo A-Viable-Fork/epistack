@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 98. Import edges: 87. Runtime flow edges: 12. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -17,8 +17,28 @@ Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy th
 
 - `kernel/analysis/gaps.js` -> `kernel/grounding/resolve.js`  *(kernel -> kernel)*
 - `kernel/analysis/gaps.js` -> `kernel/schema/schema.js`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
+- `kernel/gate/verify.mjs` -> `kernel/gate/gate.mjs`  *(kernel -> kernel)*
+- `kernel/gate/verify.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/gate/verify.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
+- `kernel/gate/verify.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/lattice.js`  *(kernel -> kernel)*
 - `kernel/grounding/contamination.js` -> `kernel/schema/terminals.js`  *(kernel -> kernel)*
+- `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/store/apply.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/store/apply.mjs` -> `kernel/store/state.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
+- `kernel/store/state.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 
 ### api
 
@@ -37,6 +57,16 @@ Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy th
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `kernel/analysis/gaps.js`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/gate/verify.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/grounding/earned-grade.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-gate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-lattice.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-lattice.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-lattice.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
@@ -56,6 +86,13 @@ Nodes: 86. Import edges: 50. Runtime flow edges: 12. All import edges satisfy th
 - `build/fork-demo.mjs` -> `kernel/schema/registry.js`  *(build -> kernel)*
 - `build/fork-demo.mjs` -> `periphery/navigate/render/components/cards.js`  *(build -> periphery)*
 - `build/fork-demo.mjs` -> `periphery/navigate/render/components/visuals.js`  *(build -> periphery)*
+- `build/gate-demo.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `linter.js` -> `build/repo-map.schema.js`  *(build -> build)*
 - `linter.js` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `linter.js` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*

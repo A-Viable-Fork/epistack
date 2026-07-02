@@ -22,26 +22,36 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/gate/fixtures/captured.txt` | compose-gate fixture text |
 | `kernel/gate/fixtures/incumbent.json` | data (JSON) |
 | `kernel/gate/fixtures/prompt.txt` | compose-gate fixture text |
+| `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
+| `kernel/gate/verify.mjs` | the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from |
 | `kernel/grounding/check.js` | the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum |
 | `kernel/grounding/contamination.js` | effective grounding and the contamination rule. Folds a node's support subtree along |
+| `kernel/grounding/earned-grade.mjs` | the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports |
 | `kernel/grounding/profile.js` | the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where |
 | `kernel/grounding/resolve.js` | the one resolver. Every data and presentation lookup goes through resolve(id), |
 | `kernel/motions/compare.js` | the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones |
 | `kernel/motions/decompose.js` | the DOWN motion. Zoom into a node's interior: classify each node as expandable |
 | `kernel/motions/perturb.js` | the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay, reading the |
+| `kernel/schema/canonical.mjs` | the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a |
+| `kernel/schema/confidence.mjs` | the v3 confidence order (intake data model v3, Section 9). An enumerated lattice: the |
 | `kernel/schema/edges.js` | the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse) |
 | `kernel/schema/lattice.js` | the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary |
 | `kernel/schema/modes.js` | the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument) |
+| `kernel/schema/records.mjs` | the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking |
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
+| `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
 | `kernel/schema/terminals.js` | the terminal-type registry. One place that names the closures a claim can reach |
+| `kernel/store/apply.mjs` | the apply contract (intake data model v3, Section 14). Apply changes structure only: the |
+| `kernel/store/decay.mjs` | derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never |
 | `kernel/store/exclusion.js` | the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived |
 | `kernel/store/graph.js` | pure graph utilities over the node schema. Index, traversal, acyclicity |
 | `kernel/store/patch-ledger.js` | storage as a tamper-evident, append-only sequence of sealed canonical patches |
 | `kernel/store/reconciliation.js` | the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux |
+| `kernel/store/state.mjs` | the store-state record and the history chain (intake data model v3, Section 13). A store |
 
 ## api/ (the sole membrane: kernel-facing contract)
 
@@ -115,10 +125,12 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/_nodes.js` | the build node manifest for the typed repository map (build/repo-map.schema.js) |
 | `build/bundle.js` | the deliverable build. Inlines the data + engine + view modules back into |
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
+| `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
 | `build/fork-demo.mjs` | demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain |
+| `build/gate-demo.mjs` | the runnable composition demo, now under Node (intake data model v3). The v3 JS gate |
 | `build/new-client.mjs` | scaffold a new thin client. Emits clients/<name>.json pre-filled with the default |
 | `build/repo-map.schema.js` | the schema for the typed repository map. A typed graph of the repository itself, in the |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |

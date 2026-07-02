@@ -32,12 +32,22 @@ module.exports = [
     "group": "gate"
   },
   {
+    "path": "kernel/gate/gate.mjs",
+    "type": "kernel",
+    "group": "gate"
+  },
+  {
     "path": "kernel/gate/immune.js",
     "type": "kernel",
     "group": "gate"
   },
   {
     "path": "kernel/gate/lifecycle.js",
+    "type": "kernel",
+    "group": "gate"
+  },
+  {
+    "path": "kernel/gate/verify.mjs",
     "type": "kernel",
     "group": "gate"
   },
@@ -56,6 +66,11 @@ module.exports = [
         "to": "build/check-lattice.mjs"
       }
     ]
+  },
+  {
+    "path": "kernel/grounding/earned-grade.mjs",
+    "type": "kernel",
+    "group": "grounding"
   },
   {
     "path": "kernel/grounding/profile.js",
@@ -89,6 +104,16 @@ module.exports = [
     ]
   },
   {
+    "path": "kernel/schema/canonical.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
+    "path": "kernel/schema/confidence.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/edges.js",
     "type": "kernel",
     "group": "schema"
@@ -110,6 +135,11 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/records.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/registers.js",
     "type": "kernel",
     "group": "schema"
@@ -125,9 +155,24 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/tables.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/terminals.js",
     "type": "kernel",
     "group": "schema"
+  },
+  {
+    "path": "kernel/store/apply.mjs",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
+    "path": "kernel/store/decay.mjs",
+    "type": "kernel",
+    "group": "store"
   },
   {
     "path": "kernel/store/exclusion.js",
@@ -146,6 +191,11 @@ module.exports = [
   },
   {
     "path": "kernel/store/reconciliation.js",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
+    "path": "kernel/store/state.mjs",
     "type": "kernel",
     "group": "store"
   },

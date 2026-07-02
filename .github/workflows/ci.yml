@@ -40,6 +40,7 @@ jobs:
           node build/check-gaps.mjs
           node build/check-perturb.mjs
           node build/check-lattice.mjs
+          node build/check-gate.mjs
           node build/check-map.mjs
 
       - name: Verify the generated repo map is committed and current

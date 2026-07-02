@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 86,
-  "edgeCount": 62,
+  "nodeCount": 98,
+  "edgeCount": 99,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -32,6 +32,13 @@
       "contract": "cleanJSON(raw:string) -> string, the bare JSON array/object text."
     },
     {
+      "path": "kernel/gate/gate.mjs",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by the link-kind routing table, computes earned grades, decides the contribution against a store state, and writes the receipt. This is the sole canonical write path, absorbing the role the retired compose_gate.py held: it composes independent typed contributions with no model in the loop, and the decision is a deterministic function of content and the store state.",
+      "contract": "decide(contribution, storeView, versions) -> receipt (Section 11). restatementClosure, satisfiesReinstatement exported for tests. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/gate/immune.js",
       "type": "kernel",
       "group": "gate",
@@ -46,6 +53,13 @@
       "contract": "STUB [4.3] Stage 4, specified not built. Extends today's composition gate (kernel/gate/compose_gate.py)."
     },
     {
+      "path": "kernel/gate/verify.mjs",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from its receipt plus the contribution and store state its hashes name, and reproduces every receipt field byte-exactly; replays a window of contributions and checks the final state; and checks resubmission idempotence. A distrusting party runs this as-is: it imports nothing outside Node's standard library and the kernel's own pure modules.",
+      "contract": "verifyDecision(receipt, contribution, storeView, versions) -> { result, first_divergent_field, receipt_value, rederived_value }; windowReplay(startState, steps, tables, versions) -> { result, final_state_hash, first_divergent_contribution }; resubmissionCheck(state, contribution, tables, versions) -> { result, first_divergent_field }. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/grounding/check.js",
       "type": "kernel",
       "group": "grounding",
@@ -58,6 +72,13 @@
       "group": "grounding",
       "role": "effective grounding and the contamination rule. Folds a node's support subtree along `children` edges only, combining by meet (conjunction/sequence, jointly necessary) or join (disjunction, independently sufficient), capped by the node's own declared terminal; then flags any node whose declared terminal is FORMAL but whose effective grounding folds into the forum region (weakness flowed down from a forum support into a claim that advertises a floor).",
       "contract": "[1.4] Stage 1 demonstrator. Exports effectiveGrounding(nodeMap, id), ceilingOf(node), groundingOf(nodeMap, id) -> { mode, ceiling, effective, region }, and contaminationGaps(nodeMap) -> [{ kind, at, declared_floor, effective, forum_support, ... }]. Pure, DOM-free; kernel imports only kernel (lattice + terminals)."
+    },
+    {
+      "path": "kernel/grounding/earned-grade.mjs",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports links grouped by support_group, own basis B from checking records / constitutive kind, then the two-row rule capped by the kind's ceiling. Settledness is not inherited: a claim resting on settled support delivers S = settled, which converts to corroborated, never into the settled tier; only a claim's own basis (a distinct-party checking record, or a constitutive kind) reaches the settled tier, and only when its supports do not drag it down.",
+      "contract": "earnedGrade({ kind, ceiling, constitutive, checkingRecords, supports, independenceLift }) -> { earned, mode, S, B }. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/grounding/profile.js",
@@ -95,6 +116,20 @@
       "contract": "perturb(resolveOrMap, flippedSet) -> overlay { states, trails }. resolveOrMap is the id resolver (or a node map); flippedSet is an iterable of assumption ids. Pure and DOM-free."
     },
     {
+      "path": "kernel/schema/canonical.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a record into a byte-exact canonical form and hashes it. This is the determinism foundation of the gate kernel: two inputs with the same content produce identical bytes and identical hashes.",
+      "contract": "canonicalize(value, policy) -> canonical node; encode(node) -> canonical string; hashOf(value|node) -> hex sha256; computeIdentity(fields...) helpers. ESM, kernel imports only kernel. Node standard-library hashing (node:crypto) is the one named hash function; nothing else."
+    },
+    {
+      "path": "kernel/schema/confidence.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 confidence order (intake data model v3, Section 9). An enumerated lattice: the bottom and the open grades form a line; the settled tier is a branch, an empirical axis (checked < independently-rechecked) and a constitutive position incomparable to it. For every combination step all settled positions collapse to one level `settled`, giving the working line 0 < 1 < 2 < 3 < settled with meet, join, and floor-collapse.",
+      "contract": "POSITIONS, modeOf, tierOf, collapse, collapsedRank, meet, join, leqWithinMode, comparableWithinMode. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/edges.js",
       "type": "kernel",
       "group": "schema",
@@ -114,6 +149,13 @@
       "group": "schema",
       "role": "the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument).",
       "contract": "STUB [1.2] Stage 1, specified not built. The terminals slot under the modes; groundedness checked per mode."
+    },
+    {
+      "path": "kernel/schema/records.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking record (Design Decision A). Each builder validates the spec's exact fields and allowed values, routes undeclared fields into the tamper-evident extension area, and produces the canonical form and hash. Claims and links compute their content identity; every traversal is capped by the grade of the link it crosses.",
+      "contract": "claimRecord, linkRecord, checkingRecord, wellFormednessFinding, referenceBindingRow, contradictionRecord, withdrawnClaimRecord, reinstatementCondition, corroborationFinding. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/schema/registers.js",
@@ -137,11 +179,32 @@
       "contract": "exports the kind/terminal/enum vocabularies, REQUIRED_FIELDS per kind, and validateNode(node) -> [problem strings]. Pure data + pure functions, DOM-free."
     },
     {
+      "path": "kernel/schema/tables.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the two reference tables (intake data model v3, Section 10) and the source-footprint closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS that enter every check; this module holds their shape and the reflexive-transitive closure that corroboration and checker-independence read over source dependencies.",
+      "contract": "makeSourceTable(rows), makeKindTable(rows); sourceClass, ceilingFor, footprintClosure. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/terminals.js",
       "type": "kernel",
       "group": "schema",
       "role": "the terminal-type registry. One place that names the closures a claim can reach and the promotion condition each implies (design axiom T1-6: a registry, not a switch).",
       "contract": "TERMINAL_REGISTRY (type -> {promotes}); promotionFor(type) -> string."
+    },
+    {
+      "path": "kernel/store/apply.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "the apply contract (intake data model v3, Section 14). Apply changes structure only: the only verbs are union (of entries and links, byte-identical duplicates merging by identity so resubmission adds nothing) and append (of standing records). Everything that looks like change, withdrawal, supersession, decay, is a NEW record pointing at an old one; apply never edits a stored declared grade, never removes or edits an entry, a link, or any standing record already in history, and never recomputes anything into storage.",
+      "contract": "apply(state, accepted) -> newState; inForce(state, identity) -> boolean. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/store/decay.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never stored: it is recomputed against the current state. When the recomputed earned grade falls below the declared grade, because a support was withdrawn, superseded, or lowered, the gap is surfaced as a decay finding, never silently corrected. Three moments, none rewrites another: the grade at intake is a fact about a past state fixed in the receipt; the grade at read is a derivation against the current state; the decay finding is their surfaced difference.",
+      "contract": "derivedGrade(state, identity, tables) -> position; computeDecay(state, tables) -> [decayFinding]. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/store/exclusion.js",
@@ -170,6 +233,13 @@
       "group": "store",
       "role": "the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux.",
       "contract": "STUB [1.6] Stage 1, specified not built. Rebut edges route here."
+    },
+    {
+      "path": "kernel/store/state.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "the store-state record and the history chain (intake data model v3, Section 13). A store state is the full contents at a point plus a hash that chains to its predecessor: because the predecessor's hash is inside the preimage, a rewritten past announces itself in the first mismatched link of the chain.",
+      "contract": "genesis(); makeState(fields) -> a state with its computed state_hash; verifyChain(states) -> { ok, firstBreak }. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/gate/compose_gate.py",
@@ -466,6 +536,13 @@
       "contract": "`node build/check-gaps.mjs`. Exits 0 if every assertion holds, 1 with a report."
     },
     {
+      "path": "build/check-gate.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by phase; the tests are the deliverable as much as the code, because the core is trusted only because it is mechanically checkable. Phase A: the canonical form, the records, the confidence order, the reference tables.",
+      "contract": "`node build/check-gate.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
+    },
+    {
       "path": "build/check-lattice.mjs",
       "type": "build",
       "group": null,
@@ -492,6 +569,13 @@
       "group": null,
       "role": "demonstrate the canonical fork (docs/components-and-forking.md). pipe.stage1.plain forks pipe.stage1 and overrides only explain.intuition; everything else is inherited live. This prints the diff between resolving the parent and resolving the fork.",
       "contract": "`node build/fork-demo.mjs`. Reads the data + resolver; prints the changed and inherited fields. No writes, no network."
+    },
+    {
+      "path": "build/gate-demo.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the runnable composition demo, now under Node (intake data model v3). The v3 JS gate absorbs the role compose_gate.py held: two uncoordinated contributors' frozen typed output composes mechanically, with no model in the loop, and the gate prices independence across contributors. A reviewer runs `node build/gate-demo.mjs` and reads the receipts in seconds.",
+      "contract": "no arguments; prints the composition report. Imports only the v3 kernel and Node stdlib."
     },
     {
       "path": "build/new-client.mjs",
@@ -622,6 +706,62 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/verify.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/grounding/contamination.js",
       "to": "kernel/schema/lattice.js",
       "type": "imports",
@@ -631,6 +771,90 @@
     {
       "from": "kernel/grounding/contamination.js",
       "to": "kernel/schema/terminals.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/grounding/earned-grade.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/records.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/records.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/tables.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/apply.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/apply.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/state.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -718,6 +942,76 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/gate/verify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-lattice.mjs",
@@ -848,6 +1142,55 @@
     {
       "from": "build/fork-demo.mjs",
       "to": "kernel/grounding/resolve.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/gate-demo.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
