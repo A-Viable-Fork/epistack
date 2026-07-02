@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 100,
-  "edgeCount": 106,
+  "nodeCount": 101,
+  "edgeCount": 123,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -564,6 +564,13 @@
       "contract": "`node build/check-translate.mjs` exits non-zero on any failure and prints each check. Imports only the v3 kernel and this module's translator. No corpus is loaded here (Phase B does)."
     },
     {
+      "path": "build/check-migrate.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the Phase B acceptance oracle for the migration (docs/trellis-to-v3.md). Translates the three real cases (LHC, COVID, eggs) to v3 records, runs them through the v3 earned-grade and the gate, and verifies the grounding is REPRODUCED, not re-established: every declared grade is covered by the earned grade, the LHC cascade reaches measurement, the COVID inference terminates at a priced-prior forum, the eggs inference splits, and the migration opens no new gap.",
+      "contract": "`node build/check-migrate.mjs` exits non-zero on any failure or divergence. Loads the corpus (CommonJS) via createRequire; imports the v3 kernel and the translator."
+    },
+    {
       "path": "build/check-perturb.mjs",
       "type": "build",
       "group": null,
@@ -1091,6 +1098,104 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/analysis/gaps.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/_shared/bodies/bodies.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/population/population-pipeline.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "build/translate-trellis.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/check-perturb.mjs",
       "to": "kernel/motions/perturb.js",
       "type": "imports",
@@ -1259,6 +1364,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/translate-trellis.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "linter.js",
       "to": "kernel/schema/schema.js",
       "type": "imports",
@@ -1411,6 +1523,16 @@
     {
       "from": "build/check-gaps.mjs",
       "to": "corpora/_shared/atlas/atlas.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-migrate.mjs",
+      "to": "corpora/population/population-pipeline.js",
       "type": "loads-corpus"
     },
     {

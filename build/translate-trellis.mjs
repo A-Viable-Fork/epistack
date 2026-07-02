@@ -13,6 +13,7 @@
 //   own basis, a claim resting on it earns corroborated, never the settled tier.
 "use strict";
 import { claimRecord, linkRecord } from "../kernel/schema/records.mjs";
+import { capByCeiling } from "../kernel/schema/confidence.mjs";
 
 // ------------------------------------------------------------------------------------------------
 // The terminal-to-grade table (docs/trellis-to-v3.md). A trellis node's terminal (or, absent one,
@@ -37,6 +38,8 @@ export const KIND_TABLE_ROWS = [
   { kind: "constitutive", ceiling: "constitutive" }, // a definitional / framework claim
 ];
 
+const CEILING = new Map(KIND_TABLE_ROWS.map((r) => [r.kind, r.ceiling]));
+
 // a distinct-party checking record synthesized from a leaf's citation: the world (a measurement) or
 // a cited source (a standard result) is the distinct party that discharged the leaf. This is the
 // leaf's OWN basis, which is what reaches the settled tier; a derived node never gets one.
@@ -44,36 +47,59 @@ function citationCheck(method_class, checker_id) {
   return { checker_id, method_class, method: "migrated from the trellis citation", checked_at_state: "trellis", outcome: "confirms", independence: "distinct-party" };
 }
 
-// classify a node: its v3 kind, declared grade, and own-basis checking records. terminal_type wins
-// over kind (a leaf terminal fixes the grade); a chain node with a "measurement" terminal is a claim
-// that REACHES measurement through its supports, not a measurement leaf itself.
-function classifyNode(node) {
+// classify a node: its v3 kind, its declared grade, and its own-basis checking records. The declared
+// grade reproduces the trellis grounding verdict, so declared <= earned holds by construction:
+//   - an OWN-BASIS node (a measurement terminal, a cited primitive, an observation) declares its own
+//     basis tier (checked) capped by the kind ceiling, and carries the checking record that earns it;
+//   - a DERIVED node (transformation, claim, prediction, comparison, question, forum) declares
+//     corroborated exactly when it has delivering support, else asserted (an unsupported closure
+//     annotation, e.g. the refused individual side of a split, honestly reads as asserted, not a gap);
+//   - an assumption declares asserted.
+// The gap detector only grades a node reached as a child (kernel/analysis/gaps.js), so a childless
+// node nobody points at is not a grounding target; its declared grade is what its own structure earns.
+function classifyNode(node, hasSupport) {
   const t = node.terminal_type;
+  const cap = (tier, kind) => capByCeiling(tier, CEILING.get(kind));
+  if (t === "measurement") {
+    // the trellis grounded this node by its declared terminal; in v3 it carries its OWN measurement
+    // basis (the survival observation) and earns the settled tier, capped by its kind ceiling. For a
+    // claim (ceiling corroborated) that is corroborated: settledness is not inherited by a conclusion.
+    const kind = node.kind === "claim" ? "claim" : "measurement";
+    return { kind, declared_grade: cap("checked", kind), checking_records: [citationCheck("direct-measurement", "the-world")] };
+  }
   if (t === "irreducible-prior" || t === "forum")
-    return { kind: "forum", declared_grade: "corroborated", checking_records: undefined };
+    return { kind: "forum", declared_grade: hasSupport ? "corroborated" : "asserted", checking_records: undefined };
   if (t === "constitutive")
     return { kind: "constitutive", declared_grade: "constitutive", checking_records: undefined };
   switch (node.kind) {
     case "primitive":
-      return { kind: "primitive", declared_grade: "checked", checking_records: [citationCheck("derivation-audit", "cited-source")] };
+      return { kind: "primitive", declared_grade: cap("checked", "primitive"), checking_records: [citationCheck("derivation-audit", "cited-source")] };
     case "observation":
-      return { kind: "observation", declared_grade: "checked", checking_records: [citationCheck("direct-measurement", "the-world")] };
+      return { kind: "observation", declared_grade: cap("checked", "observation"), checking_records: [citationCheck("direct-measurement", "the-world")] };
     case "assumption":
       return { kind: "assumption", declared_grade: "asserted", checking_records: undefined };
     case "prediction":
-      return { kind: "prediction", declared_grade: "corroborated", checking_records: undefined };
     case "comparison":
-      return { kind: "comparison", declared_grade: "corroborated", checking_records: undefined };
     case "question":
-      return { kind: "question", declared_grade: "corroborated", checking_records: undefined };
     case "claim":
-      // terminal_type "measurement" here declares the CHAIN reaches measurement; the node earns
-      // corroborated resting on its (measurement-grounded) supports. Settledness is not inherited.
-      return { kind: "claim", declared_grade: "corroborated", checking_records: undefined };
     case "transformation":
-    default:
-      return { kind: "transformation", declared_grade: "corroborated", checking_records: undefined };
+    default: {
+      const kind = ["prediction", "comparison", "question", "claim"].includes(node.kind) ? node.kind : "transformation";
+      return { kind, declared_grade: hasSupport ? "corroborated" : "asserted", checking_records: undefined };
+    }
   }
+}
+
+// a node has delivering support iff it has a produced_by edge, any body_refs, or a child that
+// resolves to a non-assumption (an assumption child is a depends-on, which does not deliver).
+function hasDeliveringSupport(node, nodes, primitives) {
+  if (node.produced_by) return true;
+  if ((node.body_refs || []).length) return true;
+  for (const c of node.children || []) {
+    if (primitives[c]) return true;
+    if (nodes[c] && nodes[c].kind !== "assumption") return true;
+  }
+  return false;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -160,7 +186,7 @@ export function translateTrellis(caseGraph, opts = {}) {
   for (const id of Object.keys(nodes).sort()) {
     const node = nodes[id];
     if (node.kind === "primitive") continue; // primitives live in their own module; synthesized on demand
-    const cls = classifyNode(node);
+    const cls = classifyNode(node, hasDeliveringSupport(node, nodes, primitives));
     const rec = claimRecord({
       kind: cls.kind, statement: nodeStatement(node),
       source_id: sourceForNode(node, cls), contributor_id: contributor,
@@ -224,6 +250,36 @@ export function translateTrellis(caseGraph, opts = {}) {
     // carried by a children edge; outputs are dataflow and not emitted)
     for (const inId of (node.inputs || []).slice().sort()) {
       if (nodes[inId] && nodes[inId].kind === "assumption") dependsOn(byNode.get(inId), to, derivSource);
+    }
+  }
+
+  // -- pass 3: instances. An instance instantiates a pipeline and breaks at one stage; the break's
+  //    POSITION in the instantiated sequence fixes the terminal (docs/trellis-to-v3.md):
+  //      break at the first stage  -> the inference refuses to a priced prior (a forum conclusion,
+  //        grounded by that stage's own analysis, corroborated, capped there, never a measurement);
+  //      break at a later stage    -> a SPLIT: the sound prefix closes on a measurement (a claim
+  //        conclusion, corroborated), and the broken suffix does not follow (a refused claim,
+  //        asserted, unsupported). This is what the covid (stage-1) and eggs (stage-2) closures say. --
+  const derivSource = `src:derivation:${slug(caseId)}`;
+  for (const inst of (caseGraph.instances || []).slice().sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))) {
+    const pipe = nodes[inst.instantiates];
+    const stages = (pipe && pipe.children) || [];
+    const brokenIdx = stages.indexOf(inst.broken_node);
+    const group = `g:${inst.id}`;
+    if (brokenIdx <= 0) {
+      // first-stage break (or unlocatable): a forum conclusion, the priced prior
+      const src = `src:forum:${slug(inst.id)}`; addSource(src, "testimony");
+      const rec = claimRecord({ kind: "forum", statement: `${inst.id}: ${inst.case} (priced prior, not a measurement)`, source_id: src, contributor_id: contributor, declared_grade: "corroborated" });
+      byNode.set(inst.id, rec.identity); addClaim(rec);
+      const analysisStage = stages[Math.max(0, brokenIdx)]; // the stage whose sound analysis prices the prior
+      if (analysisStage && byNode.has(analysisStage)) supports(byNode.get(analysisStage), rec.identity, group, derivSource);
+    } else {
+      // later-stage break: SPLIT into a population conclusion and a refused individual conclusion
+      const pop = claimRecord({ kind: "claim", statement: `${inst.id}: ${inst.case} (population conclusion, closes on a measurement)`, source_id: derivSource, contributor_id: contributor, declared_grade: "corroborated" });
+      byNode.set(`${inst.id}.population`, pop.identity); addClaim(pop);
+      for (const st of stages.slice(0, brokenIdx)) if (byNode.has(st)) supports(byNode.get(st), pop.identity, group, derivSource);
+      const indiv = claimRecord({ kind: "claim", statement: `${inst.id}: ${inst.case} (individual application does not follow, refused)`, source_id: derivSource, contributor_id: contributor, declared_grade: "asserted" });
+      byNode.set(`${inst.id}.individual`, indiv.identity); addClaim(indiv); // no support: the refusal is the absence of delivery
     }
   }
 

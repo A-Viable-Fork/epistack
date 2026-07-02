@@ -36,6 +36,20 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-migrate.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/lhc/lhc-cascade.js"
+      },
+      {
+        "type": "loads-corpus",
+        "to": "corpora/population/population-pipeline.js"
+      }
+    ]
+  },
+  {
     "path": "build/check-perturb.mjs",
     "type": "build",
     "flows": [

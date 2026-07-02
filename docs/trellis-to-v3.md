@@ -93,6 +93,43 @@ engineer:
    guarantees distinct nodes get distinct content identities and lets the migration round-trip
    (`byNode` maps node id -> claim identity).
 
+## Instances: the break position fixes the terminal
+
+An instance instantiates a pipeline (`pipe.root`) and breaks at one stage. The break's **position
+in the instantiated sequence** fixes the case's terminal, which is the whole content of the two
+population cases:
+
+- **Break at the first stage** (COVID, at `pipe.stage1`, representativeness): the inference refuses
+  to a **priced prior**. The conclusion is a `forum` claim, grounded by that stage's own (sound)
+  analysis, so it earns `corroborated` but is capped at the forum ceiling: it returns a priced prior,
+  not a measurement. Its support closure contains no measurement leaf.
+- **Break at a later stage** (eggs, at `pipe.stage2`, sufficiency): the inference **splits**. The
+  sound prefix (stage 1) closes on a measurement, so a population `claim` conclusion earns
+  `corroborated`; the broken suffix does not follow, so an individual `claim` conclusion is
+  **refused**, left unsupported at `asserted`. The split is real: the individual side sits strictly
+  below the population side.
+
+This reads the closure from the structured `broken_node` and the instantiated pipeline's child order,
+never from the free-text `closure` string.
+
+## Grounding is reproduced, not re-established (Phase B)
+
+The trellis gap detector (`kernel/analysis/gaps.js`) grades a node for grounding **only if it is
+reached as a child**; a childless node nobody points at is not a grounding target. So the migration's
+job is not to make every claim earn a high grade, it is to reproduce that exact verdict:
+
+- every claim **reached as a support** bottoms out, through the graph, in grounded leaves (it earns
+  above `asserted`), which is the v3 form of "no support bottoms out in nothing";
+- a root or closure claim earns from its own basis, and an unsupported closure annotation (the
+  refused individual side of a split, `eggs.comparison`) honestly reads as `asserted`, which is not a
+  gap because the trellis never graded it either.
+
+`build/check-migrate.mjs` translates the three real cases and confirms: 0 open grounding gaps
+preserved, no claim declares a grade it cannot earn (60 claims), no support-reached claim stuck at
+asserted, the LHC cascade grounds in 10 measured body leaves, COVID terminates at the forum, eggs
+splits, and the gate accepts both cases. **No divergence surfaced**: where a trellis node overlaps a
+v3 claim, the earned grade agrees with what the terminal implies.
+
 ## The fragment test (Phase A acceptance)
 
 `build/check-translate.mjs` translates a fragment covering the four required shapes and asserts:
