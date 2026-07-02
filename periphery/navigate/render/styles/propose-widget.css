@@ -1,0 +1,35 @@
+/* The propose widget (Prompt 10): a judge proposes a typed claim and reads the receipt. Owns only
+   its own panel; inherits the page's font stacks and colour variables. */
+.pw-run { margin: 2.2rem auto; max-width: 60ch; border: 1px solid var(--rule, #2a3441); border-radius: 10px; padding: 1.1rem 1.3rem; background: var(--panel, rgba(255,255,255,0.02)); }
+.pw-head { font-family: var(--serif, Georgia, serif); font-size: 1.15rem; margin-bottom: .2rem; }
+.pw-sub { color: var(--ink-faint, #8A96A0); font-size: .82rem; }
+.pw-intro { color: var(--ink-soft, #c4cdd5); font-size: .92rem; line-height: 1.5; margin: .4rem 0 .9rem; }
+.pw-bounds { margin: .6rem 0 1rem; padding: .6rem .8rem; border-left: 2px solid var(--lamp-deep, #5a7a9a); background: rgba(90,122,154,0.06); border-radius: 0 6px 6px 0; }
+.pw-bounds li { font-size: .84rem; color: var(--ink-soft, #c4cdd5); line-height: 1.45; margin: .25rem 0; }
+.pw-field { margin: .55rem 0; }
+.pw-field label { display: block; font-size: .8rem; color: var(--ink-faint, #8A96A0); margin-bottom: .2rem; }
+.pw-run textarea, .pw-run input[type="text"], .pw-run select { width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.25); color: inherit; border: 1px solid var(--rule, #2a3441); border-radius: 6px; padding: .4rem .55rem; font: inherit; font-size: .9rem; }
+.pw-run textarea { min-height: 3.4em; resize: vertical; }
+.pw-row2 { display: flex; gap: .7rem; }
+.pw-row2 > div { flex: 1; }
+.pw-supports { max-height: 9.5em; overflow-y: auto; border: 1px solid var(--rule, #2a3441); border-radius: 6px; padding: .3rem .4rem; margin-top: .2rem; }
+.pw-support { display: block; font-size: .82rem; padding: .12rem 0; cursor: pointer; line-height: 1.35; }
+.pw-support .pw-sg { color: var(--lamp-deep, #8fb0d0); font-variant: small-caps; margin-right: .2rem; }
+.pw-empty { color: var(--ink-faint, #8A96A0); font-size: .82rem; padding: .3rem; }
+.pw-providers { display: flex; gap: 1.1rem; margin: .6rem 0; font-size: .84rem; color: var(--ink-soft, #c4cdd5); }
+.pw-providers label { cursor: pointer; }
+.pw-btn { margin-top: .5rem; background: var(--lamp-deep, #4a6a8a); color: #fff; border: 0; border-radius: 6px; padding: .5rem 1.1rem; font: inherit; font-size: .9rem; cursor: pointer; }
+.pw-btn:hover { filter: brightness(1.1); }
+.pw-status { font-size: .8rem; color: var(--ink-faint, #8A96A0); margin-top: .5rem; min-height: 1.2em; }
+.pw-out { margin-top: .7rem; padding: .8rem .9rem; border-radius: 8px; background: rgba(0,0,0,0.25); border: 1px solid var(--rule, #2a3441); display: none; }
+.pw-out.show { display: block; }
+.pw-verdict { font-family: var(--serif, Georgia, serif); font-size: 1.05rem; margin-bottom: .35rem; }
+.pw-graded { color: #7fc8a0; }
+.pw-priced { color: #d6b56a; }
+.pw-refused { color: #e08a8a; }
+.pw-why { font-size: .86rem; color: var(--ink-soft, #c4cdd5); line-height: 1.45; }
+.pw-grades { width: 100%; border-collapse: collapse; margin: .6rem 0 .2rem; font-size: .82rem; }
+.pw-grades th { text-align: left; color: var(--ink-faint, #8A96A0); font-weight: 500; border-bottom: 1px solid var(--rule, #2a3441); padding: .2rem .3rem; }
+.pw-grades td { padding: .25rem .3rem; }
+.pw-note { font-size: .78rem; color: var(--ink-faint, #8A96A0); margin-top: .4rem; font-style: italic; }
+.pw-prov { font-size: .78rem; color: var(--ink-faint, #8A96A0); margin-top: .3rem; }

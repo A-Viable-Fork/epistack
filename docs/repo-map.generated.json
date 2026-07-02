@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 102,
-  "edgeCount": 124,
+  "nodeCount": 108,
+  "edgeCount": 148,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -256,6 +256,13 @@
       "contract": "createApi(sources) -> api. sources is the data (primitives, atlas, cases, components, forks); the API builds the registry + resolver internally so clients never see storage. Every method is a read except submit. Pure over its inputs, DOM-free."
     },
     {
+      "path": "api/client-api.mjs",
+      "type": "api",
+      "group": null,
+      "role": "the propose/read contract (Prompt 10). The API is a contract, not a location: it names a provider and delegates. A client calls propose and read and never learns which provider answers, so a local provider (runs the gate in-process over a snapshot) and a remote provider (calls a hosted kernel) are interchangeable behind this one seam. Swapping providers changes one import; the client is untouched.",
+      "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
+    },
+    {
       "path": "api/compose.js",
       "type": "api",
       "group": null,
@@ -288,14 +295,28 @@
       "type": "api",
       "group": null,
       "role": "the propose interface: accept a claim, edge, join, or refutation and hand it to the gate, which decides; never writes directly.",
-      "contract": "STUB: the write half of the API, to split out of api/api.js. Writing is always proposing."
+      "contract": "STUB: the write half of api/api.js's own trellis surface, to split out later. The v3 propose/read CONTRACT is realized in api/client-api.mjs over a provider; the local provider that runs the gate is api/providers/local-provider.mjs (Prompt 10)."
+    },
+    {
+      "path": "api/providers/local-provider.mjs",
+      "type": "api",
+      "group": null,
+      "role": "the local provider behind the propose/read contract (Prompt 10). Runs the REAL v3 gate over a frozen snapshot of the migrated corpus, in-process: propose builds the judge's claim and its supports, runs `decide` against the snapshot store view, and returns the full receipt; read walks the snapshot and returns claims with their derived grounding. This is the ONE API-layer module that touches the kernel; a remote provider satisfies the same contract touching no kernel module.",
+      "contract": "createLocalProvider(snapshot) -> { kind, propose(proposedClaim) -> receipt, read(query) -> [claim] }. snapshot = { state, sources, kinds }. ESM; api imports kernel (never the reverse)."
+    },
+    {
+      "path": "api/providers/remote-provider.mjs",
+      "type": "api",
+      "group": null,
+      "role": "a stub remote provider behind the same propose/read contract (Prompt 10). It stands in for a hosted kernel: a real one would POST the proposed claim to an endpoint and return the receipt the server computed. This stub imports NO kernel module, holds no grounding logic, and returns a fixed receipt, so it demonstrates the seam: the client drives it identically to the local provider by changing one import, with no change to the widget.",
+      "contract": "createRemoteProvider(config) -> { kind, propose(proposedClaim) -> receipt, read(query) -> [claim] }. config.endpoint is where a real provider would call. ESM; no kernel, no DOM."
     },
     {
       "path": "api/read.js",
       "type": "api",
       "group": null,
       "role": "the open read interface: resolve, decompose, compose, compare, dependents, gaps, profile, exclusions, disagreements; no credential.",
-      "contract": "STUB: the read half of the API, to split out of api/api.js. Reading is open."
+      "contract": "STUB: the read half of api/api.js's own trellis surface, to split out later. The v3 read contract (claims with their grounding) is realized in api/client-api.mjs over a provider (Prompt 10); this stub remains the eventual home for splitting api.js's open reads."
     },
     {
       "path": "api/subscribe.js",
@@ -494,6 +515,13 @@
       "contract": "boots on load; #client=<name> selects the client, #node=<id> sets the entry node. Renders a gallery (every client, node-preserving, shareable by hash) and mounts into #app."
     },
     {
+      "path": "periphery/navigate/render/propose-widget.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the propose widget (Prompt 10). A judge enters a typed claim, statement, kind, an optional citation, and supports chosen from the current store, and sees the receipt: the grade, the price into the forum, or the refusal with the failing check named. The widget calls the propose/read CONTRACT and renders; it computes no grade, price, or refusal of its own.",
+      "contract": "wires the #pw-* DOM. Depends on the vendored contract (window.EpiClientApi) and two providers (window.EpiLocalProvider, window.EpiRemoteProvider); the snapshot is #pw-snapshot."
+    },
+    {
       "path": "periphery/navigate/render/rail.js",
       "type": "periphery",
       "group": "consumer",
@@ -548,6 +576,13 @@
       "group": null,
       "role": "the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven terminals, that the effective-grounding fold reproduces the current structural detector at the boolean level on every real case, and that the contamination check bites on a throwaway fixture while the three real cases report their honest state (no contamination).",
       "contract": "`node build/check-lattice.mjs`. Exits 0 if every assertion holds, 1 with a report."
+    },
+    {
+      "path": "build/check-client.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the Phase A acceptance oracle for the propose/read contract and the local provider (Prompt 10). Confirms propose runs the REAL gate over the migrated snapshot and returns a full receipt, read returns claims with their grounding, and the receipt is byte-identical to a direct kernel run, so the artifact grades exactly as Node does.",
+      "contract": "`node build/check-client.mjs` exits non-zero on any failure. Imports the contract, the local provider, and (for the cross-check) the kernel gate directly."
     },
     {
       "path": "build/check-map.mjs",
@@ -618,6 +653,13 @@
       "group": null,
       "role": "vendor the v3 gate kernel into one browser script so the compose-gate panel runs the actual kernel in a file:// page, with no network and no Python. The kernel .mjs modules are the single source of truth; this concatenates them (import graph resolved to a local registry) into vendor/gate/gate.bundle.js, exposed as window.EpiGate. It rewrites nothing but the module boundary, so the browser runs byte-for-byte the same logic the oracles check headless.",
       "contract": "`node build/vendor-gate-browser.mjs` writes the generated bundle. No arguments."
+    },
+    {
+      "path": "build/vendor-snapshot.mjs",
+      "type": "build",
+      "group": null,
+      "role": "freeze the migrated corpus into one store snapshot the local provider proposes against. Runs the trellis-to-v3 translator over the real cases, merges them into one store state, and writes vendor/gate/snapshot.json = { state, sources, kinds }. The provider (api/providers/local- provider.mjs) loads this and runs the real gate over it, in Node and in the browser alike.",
+      "contract": "`node build/vendor-snapshot.mjs` writes the snapshot. No arguments."
     },
     {
       "path": "build/vendor-katex.mjs",
@@ -948,6 +990,90 @@
       "to": "kernel/schema/schema.js",
       "type": "imports",
       "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-client.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
       "toLayer": "kernel"
     },
     {
@@ -1385,6 +1511,62 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "corpora/_primitives/primitives.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "corpora/_shared/bodies/bodies.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "corpora/population/population-pipeline.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "build/translate-trellis.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "linter.js",
       "to": "kernel/schema/schema.js",
       "type": "imports",
@@ -1515,6 +1697,11 @@
       "type": "gated-write"
     },
     {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "gated-write"
+    },
+    {
       "from": "periphery/navigate/fat/auditor.js",
       "to": "api/api.js",
       "type": "reads-through-api"
@@ -1532,6 +1719,11 @@
     {
       "from": "periphery/navigate/render/host.js",
       "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/render/propose-widget.js",
+      "to": "api/client-api.mjs",
       "type": "reads-through-api"
     },
     {
@@ -1556,6 +1748,16 @@
     },
     {
       "from": "build/fork-demo.mjs",
+      "to": "corpora/population/population-pipeline.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "corpora/lhc/lhc-cascade.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
       "to": "corpora/population/population-pipeline.js",
       "type": "loads-corpus"
     }

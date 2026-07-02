@@ -28,6 +28,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-client.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-map.mjs",
     "type": "build"
   },
@@ -88,6 +92,20 @@ module.exports = [
   {
     "path": "build/vendor-gate-browser.mjs",
     "type": "build"
+  },
+  {
+    "path": "build/vendor-snapshot.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/lhc/lhc-cascade.js"
+      },
+      {
+        "type": "loads-corpus",
+        "to": "corpora/population/population-pipeline.js"
+      }
+    ]
   },
   {
     "path": "build/vendor-katex.mjs",

@@ -1135,6 +1135,190 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
 
   return { restatementClosure, satisfiesReinstatement, decide };
 })();
+__M["local-provider"] = (function () {
+  var { decide } = __M["gate"];
+  var { claimRecord, linkRecord } = __M["records"];
+  var { makeSourceTable, makeKindTable } = __M["tables"];
+  var { storeViewOf } = __M["decay"];
+  var { hashOf } = __M["canonical"];
+// Role: the local provider behind the propose/read contract (Prompt 10). Runs the REAL v3 gate over
+//   a frozen snapshot of the migrated corpus, in-process: propose builds the judge's claim and its
+//   supports, runs `decide` against the snapshot store view, and returns the full receipt; read walks
+//   the snapshot and returns claims with their derived grounding. This is the ONE API-layer module
+//   that touches the kernel; a remote provider satisfies the same contract touching no kernel module.
+// Contract: createLocalProvider(snapshot) -> { kind, propose(proposedClaim) -> receipt, read(query)
+//   -> [claim] }. snapshot = { state, sources, kinds }. ESM; api imports kernel (never the reverse).
+// Invariant: the gate is the real one, not a mock; no grounding step is re-implemented here. The
+//   provider computes no grade, price, or refusal, it asks `decide` and reports what comes back.
+"use strict";
+
+function slug(s) {
+  return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
+}
+
+function createLocalProvider(snapshot) {
+  const state = snapshot.state;
+  const kindTable = makeKindTable(snapshot.kinds);
+  const baseTables = { sourceTable: makeSourceTable(snapshot.sources), kindTable };
+  const baseView = storeViewOf(state, baseTables); // derived grounding for read, computed once
+  const claimByIdentity = new Map((state.entries || []).map((e) => [e.identity, e]));
+
+  // a claim projected for a client: its declared grade, its derived earned grade, its in-force flag.
+  function project(e, view) {
+    const g = view.earnedByIdentity.get(e.identity) || {};
+    return {
+      identity: e.identity, kind: e.kind, statement: e.statement, source_id: e.source_id,
+      declared_grade: e.declared_grade, earned_grade: g.earned || "ungraded", in_force: g.inForce !== false,
+    };
+  }
+
+  // read(query): claims with their grounding. query filters by identity / kind / substring.
+  function read(query) {
+    query = query || {};
+    let claims = (state.entries || []).map((e) => project(e, baseView));
+    if (query.identity) claims = claims.filter((c) => c.identity === query.identity);
+    if (query.kind) claims = claims.filter((c) => c.kind === query.kind);
+    if (query.contains) {
+      const q = String(query.contains).toLowerCase();
+      claims = claims.filter((c) => c.statement.toLowerCase().includes(q));
+    }
+    return claims;
+  }
+
+  // propose(proposedClaim): build the judge's claim + supports, run the gate, return the receipt.
+  //   proposedClaim = { statement, kind, citation?, contributor_id?, declared_grade?,
+  //                      supports?: [ identity | { to_identity, declared_grade? } ] }
+  function propose(proposedClaim) {
+    const p = proposedClaim || {};
+    if (!p.statement) return { decision: "declined", error: "a claim needs a statement", findings: [], grade_table: [] };
+    const kind = p.kind || "claim";
+    const contributor_id = p.contributor_id || "judge";
+    // a citation becomes the claim's own basis: a distinct-party checking record on a cited source,
+    // which is what raises an otherwise-asserted claim. No citation, no checking record, so asserted.
+    const cited = p.citation && String(p.citation).trim();
+    const source_id = cited ? "judge:cite:" + slug(cited) : "judge:unsourced";
+    const source_class = cited ? "peer-reviewed" : "testimony";
+    const checking_records = cited
+      ? [{ checker_id: "judge-citation", method_class: "data-audit", method: String(cited), checked_at_state: "snapshot", outcome: "confirms", independence: "distinct-party" }]
+      : undefined;
+    const declared_grade = p.declared_grade || (cited ? "checked" : "asserted");
+
+    let claim;
+    try {
+      claim = claimRecord({ kind, statement: p.statement, source_id, contributor_id, declared_grade, checking_records });
+    } catch (e) {
+      return { decision: "declined", error: "malformed claim: " + e.message, findings: [], grade_table: [] };
+    }
+
+    // supports: existing snapshot claims the judge rests the new claim on. Each support keeps the
+    // supporting claim's own source footprint and sits in its own group, so independent supports lift.
+    const supports = (p.supports || []).map((s) => (typeof s === "string" ? { to_identity: s } : s));
+    const links = [];
+    for (const s of supports) {
+      const from = claimByIdentity.get(s.to_identity);
+      if (!from) continue; // a support into a claim not in the snapshot is dropped, not invented
+      links.push(linkRecord({
+        link_kind: "supports", from_identity: from.identity, to_identity: claim.identity,
+        support_group: "g:" + claim.identity + "/" + from.identity,
+        source_id: from.source_id, contributor_id, declared_grade: s.declared_grade || "corroborated",
+      }));
+    }
+
+    // the judge's source enters the table for this decision so the gate can price it; the snapshot
+    // sources are unchanged (adding a row leaves every existing claim's derivation identical).
+    const tables = { kindTable, sourceTable: makeSourceTable([...snapshot.sources, { source_id, source_class, rests_on: [] }]) };
+    const contribution = { hash: claim.hash, entries: [claim], links };
+    const receipt = decide(contribution, storeViewOf(state, tables), {});
+    receipt.proposed_identity = claim.identity; // so the client can find its row in the grade table
+    return receipt;
+  }
+
+  return { kind: "local", propose, read };
+}
+
+  return { createLocalProvider };
+})();
+__M["remote-provider"] = (function () {
+// Role: a stub remote provider behind the same propose/read contract (Prompt 10). It stands in for a
+//   hosted kernel: a real one would POST the proposed claim to an endpoint and return the receipt the
+//   server computed. This stub imports NO kernel module, holds no grounding logic, and returns a
+//   fixed receipt, so it demonstrates the seam: the client drives it identically to the local
+//   provider by changing one import, with no change to the widget.
+// Contract: createRemoteProvider(config) -> { kind, propose(proposedClaim) -> receipt, read(query)
+//   -> [claim] }. config.endpoint is where a real provider would call. ESM; no kernel, no DOM.
+// Invariant: a remote provider touches no kernel. It computes nothing; on a live deployment the
+//   server runs the same gate and returns the same shape. Here the shape is canned, and labelled so.
+"use strict";
+
+// a fixed, well-formed receipt in the Section-11 shape, so the client renders it exactly as a real
+// one. A hosted provider would return the server's computed receipt in this same shape instead.
+function stubReceipt(proposedClaim) {
+  const identity = "remote-stub-identity";
+  return {
+    ruleset_version: "remote-stub",
+    schema_version: "v3",
+    store_state: "remote-stub-state",
+    contribution_hash: "remote-stub",
+    proposed_identity: identity,
+    provider_note: "stub remote provider: a fixed receipt standing in for a hosted kernel; no gate ran here",
+    findings: [],
+    binding_table: [],
+    grade_table: [
+      { identity, ceiling: "corroborated", ceiling_mode: null, declared_grade: (proposedClaim && proposedClaim.declared_grade) || "asserted", earned_grade: "supported", earned_mode: null, S: "supported", B: "none" },
+    ],
+    restatement_closures: [[identity]],
+    withdrawn_matches: [],
+    corroboration_findings: [],
+    contradiction_records: [],
+    decision: "accepted",
+    decision_basis: ["remote-stub"],
+  };
+}
+
+function createRemoteProvider(config) {
+  const cfg = config || {};
+  return {
+    kind: "remote",
+    // a real remote provider would POST here and await the server's receipt; the stub returns a
+    // fixed one synchronously so the file:// artifact makes no network call.
+    //   async propose(c){ const r = await fetch(cfg.endpoint, {method:"POST", body: JSON.stringify(c)}); return r.json(); }
+    propose: (proposedClaim) => stubReceipt(proposedClaim),
+    read: () => [
+      { identity: "remote-stub-identity", kind: "claim", statement: "(the hosted map would be read from " + (cfg.endpoint || "the remote endpoint") + ")", source_id: "remote", declared_grade: "asserted", earned_grade: "supported", in_force: true },
+    ],
+  };
+}
+
+  return { createRemoteProvider };
+})();
+__M["client-api"] = (function () {
+// Role: the propose/read contract (Prompt 10). The API is a contract, not a location: it names a
+//   provider and delegates. A client calls propose and read and never learns which provider answers,
+//   so a local provider (runs the gate in-process over a snapshot) and a remote provider (calls a
+//   hosted kernel) are interchangeable behind this one seam. Swapping providers changes one import;
+//   the client is untouched.
+// Contract: createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim],
+//   providerKind() -> string }. provider must implement propose and read. ESM; the contract touches
+//   no kernel and no provider directly, so it is provider-agnostic by construction.
+// Invariant: this layer holds no grounding logic. It validates the shape of a call and forwards it;
+//   every grade, price, and refusal is produced by the provider's gate, never here.
+"use strict";
+
+function createClientApi(provider) {
+  if (!provider || typeof provider.propose !== "function" || typeof provider.read !== "function")
+    throw new Error("createClientApi: provider must implement propose(proposedClaim) and read(query)");
+  return {
+    // propose a typed claim; returns the full receipt (data model Section 11) the provider produced.
+    propose: (proposedClaim) => provider.propose(proposedClaim),
+    // read claims with their grounding; query filters, {} or no argument returns all.
+    read: (query) => provider.read(query || {}),
+    // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
+    providerKind: () => provider.kind || "unknown",
+  };
+}
+
+  return { createClientApi };
+})();
 root.EpiGate = {
   claimRecord: __M["records"].claimRecord,
   linkRecord: __M["records"].linkRecord,
@@ -1145,5 +1329,14 @@ root.EpiGate = {
   storeViewOf: __M["decay"].storeViewOf,
   decide: __M["gate"].decide,
   hashOf: __M["canonical"].hashOf
+};
+root.EpiClientApi = {
+  createClientApi: __M["client-api"].createClientApi
+};
+root.EpiLocalProvider = {
+  createLocalProvider: __M["local-provider"].createLocalProvider
+};
+root.EpiRemoteProvider = {
+  createRemoteProvider: __M["remote-provider"].createRemoteProvider
 };
 })(typeof window !== "undefined" ? window : globalThis);

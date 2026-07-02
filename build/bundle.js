@@ -13,7 +13,9 @@ const { execFileSync } = require("node:child_process");
 
 const ROOT = path.resolve(__dirname, "..");
 
-// regenerate the browser gate bundle from the kernel first, so the deliverable is never stale.
+// regenerate the frozen corpus snapshot and the browser gate bundle first, so the deliverable is
+// never stale: the client proposes against the snapshot, and both are inlined into the artifact.
+execFileSync("node", [path.join(__dirname, "vendor-snapshot.mjs")], { stdio: "inherit" });
 execFileSync("node", [path.join(__dirname, "vendor-gate-browser.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";

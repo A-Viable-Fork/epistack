@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 108. Import edges: 130. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -51,9 +51,21 @@ Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/gate/gate.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/schema/records.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/schema/tables.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/store/decay.mjs`  *(api -> kernel)*
 
 ### build
 
+- `build/check-client.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-client.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
+- `build/check-client.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-client.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-client.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-client.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-client.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-gaps.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
@@ -116,6 +128,14 @@ Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy 
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/vendor-snapshot.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
+- `build/vendor-snapshot.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
+- `build/vendor-snapshot.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
+- `build/vendor-snapshot.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
+- `build/vendor-snapshot.mjs` -> `corpora/population/population-pipeline.js`  *(build -> corpus)*
+- `build/vendor-snapshot.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/vendor-snapshot.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/vendor-snapshot.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `linter.js` -> `build/repo-map.schema.js`  *(build -> build)*
 - `linter.js` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `linter.js` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
@@ -139,12 +159,16 @@ Nodes: 102. Import edges: 110. Runtime flow edges: 14. All import edges satisfy 
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
 - `kernel/schema/lattice.js` **checked-by** `build/check-lattice.mjs`
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
+- `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/check-perturb.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/fork-demo.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
+- `build/vendor-snapshot.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
+- `build/vendor-snapshot.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `periphery/navigate/fat/auditor.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/fat/teaching.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/fat/thin.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/render/host.js` **reads-through-api** `api/api.js`
+- `periphery/navigate/render/propose-widget.js` **reads-through-api** `api/client-api.mjs`

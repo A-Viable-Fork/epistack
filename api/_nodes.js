@@ -16,6 +16,10 @@ module.exports = [
     ]
   },
   {
+    "path": "api/client-api.mjs",
+    "type": "api"
+  },
+  {
     "path": "api/compose.js",
     "type": "api"
   },
@@ -33,6 +37,20 @@ module.exports = [
   },
   {
     "path": "api/propose.js",
+    "type": "api"
+  },
+  {
+    "path": "api/providers/local-provider.mjs",
+    "type": "api",
+    "flows": [
+      {
+        "type": "gated-write",
+        "to": "kernel/gate/gate.mjs"
+      }
+    ]
+  },
+  {
+    "path": "api/providers/remote-provider.mjs",
     "type": "api"
   },
   {
