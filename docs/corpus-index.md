@@ -22,10 +22,12 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/gate/fixtures/captured.txt` | compose-gate fixture text |
 | `kernel/gate/fixtures/incumbent.json` | data (JSON) |
 | `kernel/gate/fixtures/prompt.txt` | compose-gate fixture text |
+| `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
 | `kernel/grounding/check.js` | the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum |
 | `kernel/grounding/contamination.js` | effective grounding and the contamination rule. Folds a node's support subtree along |
+| `kernel/grounding/earned-grade.mjs` | the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports |
 | `kernel/grounding/profile.js` | the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where |
 | `kernel/grounding/resolve.js` | the one resolver. Every data and presentation lookup goes through resolve(id), |
 | `kernel/motions/compare.js` | the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones |

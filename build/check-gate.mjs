@@ -121,8 +121,106 @@ const throws = (fn, msg) => { try { fn(); ok(false, `${msg} (did not throw)`); }
   ok(fp.has("S3") && fp.has("S2") && fp.has("S1"), "A.7 footprint closure is reflexive-transitive over rests_on");
 }
 
+// ================= PHASE B =================
+import { earnedGrade } from "../kernel/grounding/earned-grade.mjs";
+import { decide } from "../kernel/gate/gate.mjs";
+
+// --- B.1 the earned-grade rule reproduces all seven cases of Section 9 ---
+{
+  const emp = "independently-rechecked", con = "constitutive";
+  const dp = [{ independence: "distinct-party", footprint: ["c1"] }];
+  const eg = (a) => earnedGrade(a);
+  eq(eg({ ceiling: emp, checkingRecords: dp, supports: [{ group: "g", linkGrade: "checked", supportEarned: "corroborated", footprint: ["s1"] }] }).earned, "checked", "B.1 case 1: checked basis over corroborated support -> checked");
+  eq(eg({ ceiling: emp, checkingRecords: dp, supports: [{ group: "g", linkGrade: "checked", supportEarned: "asserted", footprint: ["s1"] }] }).earned, "asserted", "B.1 case 2: a checking record does not rescue an asserted necessary premise");
+  eq(eg({ ceiling: emp, checkingRecords: [], supports: [{ group: "g", linkGrade: emp, supportEarned: "checked", footprint: ["s1"] }] }).earned, "corroborated", "B.1 case 3: settled support, no own basis -> corroborated");
+  eq(eg({ ceiling: emp, checkingRecords: [], supports: [{ group: "g", linkGrade: "corroborated", supportEarned: "corroborated", footprint: ["s1"] }] }).earned, "corroborated", "B.1 case 4: corroborated support, no own basis -> corroborated");
+  eq(eg({ ceiling: con, constitutive: true, checkingRecords: [], supports: [] }).earned, "constitutive", "B.1 case 5: constitutive kind, no supports -> constitutive");
+  eq(eg({ ceiling: emp, checkingRecords: [], supports: [] }).earned, "asserted", "B.1 case 6: nothing and no basis -> asserted");
+  eq(eg({ ceiling: emp, checkingRecords: dp, supports: [] }).earned, "checked", "B.1 case 7: a directly checked leaf earns its basis");
+}
+
+// --- gate fixtures ---
+const KINDS = makeKindTable([
+  { kind: "measurement", ceiling: "independently-rechecked", compatibility_rule_id: "CMP-M" },
+  { kind: "definition", ceiling: "constitutive", compatibility_rule_id: "CMP-D" },
+  { kind: "forecast", ceiling: "corroborated", compatibility_rule_id: "CMP-F" },
+]);
+const SRC = makeSourceTable([
+  { source_id: "S1", source_class: "primary-measurement", rests_on: [] },
+  { source_id: "S2", source_class: "peer-reviewed", rests_on: [] },
+  { source_id: "S3", source_class: "dataset", rests_on: [] },
+]);
+const mkStore = (o = {}) => ({ stateHash: "ST0", earnedByIdentity: new Map(), restatementLinks: [], withdrawnRecords: [], kindOf: new Map(), sourceTable: SRC, kindTable: KINDS, ...o });
+const claim = (kind, statement, declared_grade, checking_records) => R.claimRecord({ kind, statement, source_id: "S1", contributor_id: "P1", declared_grade, checking_records });
+const distinctCheck = { checker_id: "C2", method_class: "replication", method: "re-ran", checked_at_state: "ST0", outcome: "confirms", independence: "distinct-party" };
+const selfCheck = { checker_id: "P1", method_class: "replication", method: "self", checked_at_state: "ST0", outcome: "confirms", independence: "self" };
+
+// --- B.2 admit when declared <= earned within mode; decline a settled grade whose mode the basis can't provide ---
+{
+  const admit = decide({ hash: "H1", entries: [claim("measurement", "m1", "checked", [distinctCheck])], links: [] }, mkStore());
+  eq(admit.decision, "accepted", "B.2 measurement with a distinct-party check declaring checked is admitted");
+  const below = decide({ hash: "H2", entries: [claim("measurement", "m1", "asserted", [distinctCheck])], links: [] }, mkStore());
+  eq(below.decision, "accepted", "B.2 declared below earned is accepted (recorded as declared)");
+  const modeMismatch = decide({ hash: "H3", entries: [claim("definition", "d1", "checked", [])], links: [] }, mkStore());
+  eq(modeMismatch.decision, "declined", "B.2 a definition declaring the empirical 'checked' is declined (mode its constitutive basis cannot provide)");
+  ok(modeMismatch.decision_basis.includes("GM-MODE"), "B.2 decline basis names the mode rule");
+}
+
+// --- B.3 self-only checking record earns open; a supported-grade necessary premise cannot reach settled ---
+{
+  const selfOnly = decide({ hash: "H4", entries: [claim("measurement", "m2", "checked", [selfCheck])], links: [] }, mkStore());
+  eq(selfOnly.grade_table[0].earned_grade, "asserted", "B.3 a self-only checking record contributes no basis: earns the open grade");
+  eq(selfOnly.decision, "declined", "B.3 declaring settled over a self-only record is declined");
+
+  // a claim with its own distinct-party check but resting on a supported-grade necessary premise
+  const c = claim("measurement", "m3", "supported", [distinctCheck]);
+  const sup = R.linkRecord({ link_kind: "supports", from_identity: "PREMISE", to_identity: c.identity, support_group: "g1", source_id: "S1", contributor_id: "P1", declared_grade: "checked" });
+  const store = mkStore({ earnedByIdentity: new Map([["PREMISE", { earned: "supported", mode: null, inForce: true }]]), kindOf: new Map([["PREMISE", "measurement"]]) });
+  const r = decide({ hash: "H5", entries: [c], links: [sup] }, store);
+  eq(r.grade_table[0].earned_grade, "supported", "B.3 a supported-grade necessary premise caps the claim at supported: cannot reach settled");
+  eq(r.grade_table[0].B, "checked", "B.3 the own basis is real (checked)"); eq(r.grade_table[0].S, "supported", "B.3 but delivery S is only supported");
+}
+
+// --- B.4 withdrawn-claim check: reinstatement condition, and the reworded case once a restatement link joins ---
+{
+  const W = claim("measurement", "claim W", "asserted", []);
+  const wrec = R.withdrawnClaimRecord({ claim_identity: W.identity, withdrawn_at_state: "ST0", withdrawn_by: "H0", reason: "retracted", reinstatement_condition: { condition_kind: "entry-at-grade", target_identity: W.identity, minimum_grade: "checked" } });
+  const store = mkStore({ withdrawnRecords: [wrec] });
+
+  const fail = decide({ hash: "H6", entries: [claim("measurement", "claim W", "asserted", [])], links: [] }, store);
+  eq(fail.decision, "declined", "B.4 reintroduction that fails the reinstatement condition is declined");
+  ok(fail.withdrawn_matches[0] && fail.withdrawn_matches[0].satisfaction === "unsatisfied", "B.4 the withdrawn match is unsatisfied");
+
+  const pass = decide({ hash: "H7", entries: [claim("measurement", "claim W", "checked", [distinctCheck])], links: [] }, store);
+  eq(pass.withdrawn_matches[0].satisfaction, "satisfied", "B.4 a reintroduction earning the required grade satisfies the condition");
+  eq(pass.decision, "accepted", "B.4 and is admitted");
+
+  const W2 = claim("measurement", "claim W, reworded", "asserted", []);
+  const noLink = decide({ hash: "H8", entries: [W2], links: [] }, store);
+  eq(noLink.withdrawn_matches.length, 0, "B.4 a reworded reintroduction without a restatement link is a stranger to the check");
+  const rest = R.linkRecord({ link_kind: "restatement", from_identity: W2.identity, to_identity: W.identity, source_id: "S1", contributor_id: "P1", declared_grade: "asserted" });
+  const withLink = decide({ hash: "H9", entries: [W2], links: [rest] }, store);
+  ok(withLink.withdrawn_matches.length === 1 && withLink.decision === "declined", "B.4 once a restatement link joins the identities, the reworded reintroduction is caught");
+}
+
+// --- B.5 every check emits its typed finding; the receipt carries the required tables ---
+{
+  const c = claim("measurement", "widely-supported", "corroborated", []);
+  const s1 = R.linkRecord({ link_kind: "supports", from_identity: "PA", to_identity: c.identity, support_group: "gA", source_id: "S1", contributor_id: "PX", declared_grade: "corroborated" });
+  const s2 = R.linkRecord({ link_kind: "supports", from_identity: "PB", to_identity: c.identity, support_group: "gB", source_id: "S2", contributor_id: "PY", declared_grade: "corroborated" });
+  const store = mkStore({ earnedByIdentity: new Map([["PA", { earned: "corroborated", inForce: true }], ["PB", { earned: "corroborated", inForce: true }]]) });
+  const r = decide({ hash: "H10", entries: [c], links: [s1, s2] }, store);
+  ok(Array.isArray(r.binding_table) && r.binding_table.length === 4, "B.5 receipt carries the binding table");
+  ok(r.grade_table[0] && "S" in r.grade_table[0] && "B" in r.grade_table[0], "B.5 the grade table carries S and B");
+  ok(r.corroboration_findings.length === 1 && r.corroboration_findings[0].coverage_note.includes("invisible to this check"), "B.5 corroboration finding present with its coverage note");
+  eq(r.corroboration_findings[0].verdict, "disjoint", "B.5 two disjoint-footprint contributors read as disjoint corroboration");
+  eq(r.grade_table[0].earned_grade, "corroborated", "B.5 independence lifts delivery to corroborated");
+  ok(Array.isArray(r.decision_basis) && r.decision_basis.length >= 1, "B.5 the receipt carries the decision basis");
+  ok("withdrawn_matches" in r && "restatement_closures" in r, "B.5 receipt carries withdrawn matches and restatement closures");
+}
+
 // ================= REPORT =================
-console.log(`gate kernel: Phase A checked (canonical form, records, confidence order, reference tables).`);
+console.log(`gate kernel: Phases A-B checked (canonical form, records, confidence order, tables; earned-grade rule, intake checks, gate decision).`);
 if (fails.length) {
   console.error(`\n${fails.length} assertion(s) failed:`);
   for (const f of fails) console.error("  - " + f);

@@ -32,6 +32,11 @@ module.exports = [
     "group": "gate"
   },
   {
+    "path": "kernel/gate/gate.mjs",
+    "type": "kernel",
+    "group": "gate"
+  },
+  {
     "path": "kernel/gate/immune.js",
     "type": "kernel",
     "group": "gate"
@@ -56,6 +61,11 @@ module.exports = [
         "to": "build/check-lattice.mjs"
       }
     ]
+  },
+  {
+    "path": "kernel/grounding/earned-grade.mjs",
+    "type": "kernel",
+    "group": "grounding"
   },
   {
     "path": "kernel/grounding/profile.js",

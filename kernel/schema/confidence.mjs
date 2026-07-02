@@ -65,6 +65,20 @@ export function comparableWithinMode(a, b) {
   if (ea.tier === "settled" && eb.tier === "settled") return ea.mode === eb.mode;
   return true; // open/bottom grades are on the shared line and compare freely
 }
+// cap a concrete earned position by a concrete ceiling position (Section 9, "Earned never exceeds
+// ceiling"). Drops to the ceiling when the earned rank exceeds it; on the empirical settled axis the
+// finer empiricalRank decides. Ceiling fixes mode, so a settled earned only meets a settled ceiling
+// of the same mode by construction of the basis.
+export function capByCeiling(pos, ceiling) {
+  const rp = collapsedRank(pos), rc = collapsedRank(ceiling);
+  if (rp < rc) return pos;
+  if (rp > rc) return ceiling;
+  const ep = POSITIONS[pos], ec = POSITIONS[ceiling];
+  if (ep.tier === "settled" && ec.tier === "settled" && ep.mode === "empirical" && ec.mode === "empirical")
+    return ep.empiricalRank <= ec.empiricalRank ? pos : ceiling;
+  return pos;
+}
+
 // declared <= earned within a mode. Returns { comparable, leq }. On the empirical settled axis the
 // finer empiricalRank decides; otherwise the collapsed rank decides.
 export function leqWithinMode(declared, earned) {

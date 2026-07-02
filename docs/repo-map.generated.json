@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 91,
-  "edgeCount": 69,
+  "nodeCount": 93,
+  "edgeCount": 76,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -32,6 +32,13 @@
       "contract": "cleanJSON(raw:string) -> string, the bare JSON array/object text."
     },
     {
+      "path": "kernel/gate/gate.mjs",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by the link-kind routing table, computes earned grades, decides the contribution against a store state, and writes the receipt. This is the sole canonical write path, absorbing the role the retired compose_gate.py held: it composes independent typed contributions with no model in the loop, and the decision is a deterministic function of content and the store state.",
+      "contract": "decide(contribution, storeView, versions) -> receipt (Section 11). restatementClosure, satisfiesReinstatement exported for tests. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/gate/immune.js",
       "type": "kernel",
       "group": "gate",
@@ -58,6 +65,13 @@
       "group": "grounding",
       "role": "effective grounding and the contamination rule. Folds a node's support subtree along `children` edges only, combining by meet (conjunction/sequence, jointly necessary) or join (disjunction, independently sufficient), capped by the node's own declared terminal; then flags any node whose declared terminal is FORMAL but whose effective grounding folds into the forum region (weakness flowed down from a forum support into a claim that advertises a floor).",
       "contract": "[1.4] Stage 1 demonstrator. Exports effectiveGrounding(nodeMap, id), ceilingOf(node), groundingOf(nodeMap, id) -> { mode, ceiling, effective, region }, and contaminationGaps(nodeMap) -> [{ kind, at, declared_floor, effective, forum_support, ... }]. Pure, DOM-free; kernel imports only kernel (lattice + terminals)."
+    },
+    {
+      "path": "kernel/grounding/earned-grade.mjs",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports links grouped by support_group, own basis B from checking records / constitutive kind, then the two-row rule capped by the kind's ceiling. Settledness is not inherited: a claim resting on settled support delivers S = settled, which converts to corroborated, never into the settled tier; only a claim's own basis (a distinct-party checking record, or a constitutive kind) reaches the settled tier, and only when its supports do not drag it down.",
+      "contract": "earnedGrade({ kind, ceiling, constitutive, checkingRecords, supports, independenceLift }) -> { earned, mode, S, B }. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/grounding/profile.js",
@@ -657,6 +671,34 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/grounding/contamination.js",
       "to": "kernel/schema/lattice.js",
       "type": "imports",
@@ -666,6 +708,13 @@
     {
       "from": "kernel/grounding/contamination.js",
       "to": "kernel/schema/terminals.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/grounding/earned-grade.mjs",
+      "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -799,6 +848,20 @@
     {
       "from": "build/check-gate.mjs",
       "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-gate.mjs",
+      "to": "kernel/gate/gate.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
