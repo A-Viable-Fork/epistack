@@ -27,6 +27,11 @@ module.exports = [
     "group": "analysis"
   },
   {
+    "path": "kernel/analysis/robustness.mjs",
+    "type": "kernel",
+    "group": "analysis"
+  },
+  {
     "path": "kernel/gate/clean-json.js",
     "type": "kernel",
     "group": "gate"

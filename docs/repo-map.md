@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 108. Import edges: 130. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 110. Import edges: 135. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -17,6 +17,9 @@ Nodes: 108. Import edges: 130. Runtime flow edges: 18. All import edges satisfy 
 
 - `kernel/analysis/gaps.js` -> `kernel/grounding/resolve.js`  *(kernel -> kernel)*
 - `kernel/analysis/gaps.js` -> `kernel/schema/schema.js`  *(kernel -> kernel)*
+- `kernel/analysis/robustness.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
+- `kernel/analysis/robustness.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/analysis/robustness.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
@@ -105,6 +108,8 @@ Nodes: 108. Import edges: 130. Runtime flow edges: 18. All import edges satisfy 
 - `build/check-migrate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-perturb.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
 - `build/check-perturb.mjs` -> `kernel/motions/perturb.js`  *(build -> kernel)*
+- `build/check-robustness.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
+- `build/check-robustness.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-translate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*

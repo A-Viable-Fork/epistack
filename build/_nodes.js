@@ -36,6 +36,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-robustness.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-translate.mjs",
     "type": "build"
   },

@@ -13,6 +13,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/analysis/assessment.js` | mechanical assessment: double-counted evidence, missing coverage, the blast radius if one claim falls; surfaced as open reads |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.js` | the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval |
+| `kernel/analysis/robustness.mjs` | the v3 robustness reading (Prompt 13): single points of failure over the support and presupposition closures, robustness, fragility, and the correlated-evidence flag, by re-derivation |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
@@ -133,6 +134,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
+| `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |
 | `build/check-perturb.mjs` | the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty |
 | `build/check-translate.mjs` | the trellis-to-v3 translator's oracle (Phase A). A fragment test over conjunction, disjunction, |
