@@ -44,6 +44,7 @@ jobs:
           node build/check-migrate.mjs
           node build/check-client.mjs
           node build/check-robustness.mjs
+          node build/check-characterized-gaps.mjs
           node build/check-map.mjs
 
       - name: Verify the vendored browser gate bundle and snapshot are committed and current

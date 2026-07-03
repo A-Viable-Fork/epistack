@@ -10,6 +10,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | file | role |
 |---|---|
 | `kernel/_nodes.js` | the kernel node manifest for the typed repository map (build/repo-map.schema.js) |
+| `kernel/analysis/characterized-gaps.mjs` | the characterized-gap reading (Prompt 18): an open-line claim with a floor ceiling, a transfer support, and a closing condition; distinguishes gap / bare assertion / settled |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.mjs` | the v3 robustness reading (Prompt 13): single points of failure over the support and presupposition closures, robustness, fragility, and the correlated-evidence flag, by re-derivation |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
@@ -127,6 +128,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/bundle.js` | the deliverable build. Inlines the data + engine + view modules back into |
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
+| `build/check-characterized-gaps.mjs` | the characterized-gaps oracle (Prompt 18): the closing-condition record, the capping transfer, the gap category, the three-way distinction, determinism, and the contract exposure |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |

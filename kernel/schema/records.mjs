@@ -19,6 +19,7 @@ const INDEPENDENCE = ["distinct-party", "self"];
 const BINDING_RESOLUTIONS = ["bound", "bound-superseded", "unresolved"];
 const PRESENT_IN = ["a-only", "b-only", "both-different-grouping"];
 const CONDITION_KINDS = ["entry-of-kind", "entry-at-grade", "citation-into-class"];
+const CLOSING_CONDITION_KINDS = ["measurement-on-the-system", "proof", "direct-study"];
 const VERDICTS = ["shared", "disjoint"];
 
 const req = (v, msg) => { if (v === undefined || v === null || v === "") throw new Error(msg); return v; };
@@ -57,14 +58,30 @@ export function checkingRecord(raw) {
   return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, canonical, hash };
 }
 
+// ---- the closing-condition record (Prompt 18) ----
+// The sorry made a first-class field: on a claim honestly held as a characterized gap, the specific
+// thing that would ground it. Mirrors the reinstatement condition on a withdrawn claim: a typed
+// record naming the missing measurement, proof, or direct study, with the target described. It does
+// not enter the claim's identity (identity is kind + statement), only its record.
+export function closingCondition(raw) {
+  if (!CLOSING_CONDITION_KINDS.includes(raw.condition_kind)) throw new Error(`closing condition: bad condition_kind ${raw.condition_kind}`);
+  const c = {
+    condition_kind: raw.condition_kind,
+    target: normalizeString(String(req(raw.target, "closing condition: target (what must be produced) required"))),
+  };
+  if (raw.system !== undefined) c.system = normalizeString(String(raw.system)); // the specific system a measurement/study is on
+  return c;
+}
+
 // ---- the claim record (Section 2) ----
-const CLAIM_FIELDS = ["identity", "kind", "statement", "source_id", "contributor_id", "declared_grade", "checking_records"];
+const CLAIM_FIELDS = ["identity", "kind", "statement", "source_id", "contributor_id", "declared_grade", "checking_records", "closing_condition"];
 export function claimRecord(raw) {
   const kind = normalizeString(req(raw.kind, "claim: kind required"));
   const statement = normalizeString(req(raw.statement, "claim: statement required"));
   const identity = computeClaimIdentity(kind, statement);
   const declared_grade = grade(raw.declared_grade, "claim.declared_grade");
   const checks = (raw.checking_records || []).map(checkingRecord);
+  const closing = raw.closing_condition !== undefined ? closingCondition(raw.closing_condition) : undefined;
   const declared = {
     identity: canonicalize(identity),
     kind: canonicalize(kind),
@@ -74,10 +91,11 @@ export function claimRecord(raw) {
     declared_grade: canonicalize(declared_grade),
   };
   if (raw.checking_records !== undefined) declared.checking_records = canonicalize(checks.map((c) => c.canonical), "child");
+  if (closing !== undefined) declared.closing_condition = canonicalize(closing);
   const { canonical, hash } = finalize(declared, extensionsOf(raw, CLAIM_FIELDS));
   return {
     record_type: "claim", identity, kind, statement, source_id: raw.source_id, contributor_id: raw.contributor_id,
-    declared_grade, checking_records: checks, canonical, hash,
+    declared_grade, checking_records: checks, closing_condition: closing, canonical, hash,
   };
 }
 

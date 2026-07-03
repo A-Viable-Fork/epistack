@@ -24,6 +24,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-characterized-gaps.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-client.mjs",
     "type": "build"
   },

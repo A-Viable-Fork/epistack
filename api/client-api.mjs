@@ -22,6 +22,8 @@ export function createClientApi(provider) {
     robustness: (query) => (provider.robustness ? provider.robustness(query || {}) : []),
     // read the open gaps in the graph (a claim whose declared grade is not covered by its earned grade).
     gaps: (query) => (provider.gaps ? provider.gaps(query || {}) : []),
+    // read the characterized gaps: honest leaps, each with the closing condition that would ground it.
+    characterizedGaps: (query) => (provider.characterizedGaps ? provider.characterizedGaps(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };

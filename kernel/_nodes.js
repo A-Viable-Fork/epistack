@@ -17,6 +17,11 @@ module.exports = [
     ]
   },
   {
+    "path": "kernel/analysis/characterized-gaps.mjs",
+    "type": "kernel",
+    "group": "analysis"
+  },
+  {
     "path": "kernel/analysis/robustness.mjs",
     "type": "kernel",
     "group": "analysis"

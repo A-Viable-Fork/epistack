@@ -8,13 +8,16 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 105. Import edges: 128. Runtime flow edges: 19. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 107. Import edges: 141. Runtime flow edges: 19. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
 
 ### kernel
 
+- `kernel/analysis/characterized-gaps.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/analysis/characterized-gaps.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
+- `kernel/analysis/characterized-gaps.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
 - `kernel/analysis/gaps.js` -> `kernel/grounding/resolve.js`  *(kernel -> kernel)*
 - `kernel/analysis/gaps.js` -> `kernel/schema/schema.js`  *(kernel -> kernel)*
 - `kernel/analysis/robustness.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
@@ -51,6 +54,7 @@ Nodes: 105. Import edges: 128. Runtime flow edges: 19. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/robustness.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/gate/gate.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
@@ -61,6 +65,15 @@ Nodes: 105. Import edges: 128. Runtime flow edges: 19. All import edges satisfy 
 
 ### build
 
+- `build/check-characterized-gaps.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-characterized-gaps.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
+- `build/check-characterized-gaps.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-characterized-gaps.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-client.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-client.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-client.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*

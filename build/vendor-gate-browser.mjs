@@ -26,6 +26,7 @@ const MODULES = [
   "kernel/store/decay.mjs",
   "kernel/gate/gate.mjs",
   "kernel/analysis/robustness.mjs",
+  "kernel/analysis/characterized-gaps.mjs",
   // the API layer: the local provider (the one api module that imports the kernel), the stub remote
   // provider (imports no kernel), and the contract. Bundled so the propose/read path runs client-
   // side and the provider swap is demonstrable; kernel imports resolve to __M.
@@ -49,7 +50,8 @@ function parseModule(relPath) {
   for (const line of lines) {
     const imp = line.match(/^import\s*\{([^}]*)\}\s*from\s*"([^"]+)";?\s*$/);
     if (imp) {
-      const names = imp[1].split(",").map((s) => s.trim()).filter(Boolean);
+      // `X` stays `X`; `X as Y` becomes the destructuring rename `X: Y` (both valid in `var {..}`).
+      const names = imp[1].split(",").map((s) => s.trim()).filter(Boolean).map((s) => s.replace(/\s+as\s+/, ": "));
       imports.push({ names, from: key(imp[2]) });
       continue; // drop the import line; wired via the registry instead
     }
