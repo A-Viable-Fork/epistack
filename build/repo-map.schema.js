@@ -11,9 +11,9 @@
 // the trust-boundary layer a node sits in. Checkable against a file's top-level directory.
 const NODE_TYPES = ["kernel", "api", "corpus", "periphery", "build", "doc"];
 
-// the component role within a layer. Kernel groups are its six sub-parts; periphery splits into
+// the component role within a layer. Kernel groups are its sub-parts; periphery splits into
 // producers and consumers; the rest are open (any string, or null).
-const KERNEL_GROUPS = ["schema", "store", "grounding", "gate", "analysis", "motions"];
+const KERNEL_GROUPS = ["schema", "store", "grounding", "gate", "analysis", "composition", "motions"];
 const PERIPHERY_GROUPS = ["producer", "consumer"];
 
 // edge kinds. `imports` is a static code dependency derived from source; the rest are runtime

@@ -11,7 +11,7 @@ is one standalone interactive artifact, `submission.html`, that a judge double-c
 
 The orientation for the whole goal is the three blueprints, `docs/knowledge-system-what.md`
 (the functions), `docs/knowledge-system-how.md` (the makeup), and `docs/knowledge-system-why.md`
-(the rationale); `docs/judges-document.md` is the competition-facing summary.
+(the rationale); `docs/what-stands-without-trust.md` is the competition-facing summary.
 
 The binding design document is `docs/design-axioms.md`. Tier 0 there is non-negotiable.
 Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on the data model.

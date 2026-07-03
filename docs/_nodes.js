@@ -18,7 +18,7 @@ module.exports = [
     "type": "doc"
   },
   {
-    "path": "docs/judges-document.md",
+    "path": "docs/what-stands-without-trust.md",
     "type": "doc"
   },
   {

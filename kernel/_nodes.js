@@ -27,6 +27,72 @@ module.exports = [
     "group": "analysis"
   },
   {
+    "path": "kernel/composition/records.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/transfer.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/vocabulary.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/framing.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/notify.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/profiles.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
     "path": "kernel/gate/clean-json.js",
     "type": "kernel",
     "group": "gate"

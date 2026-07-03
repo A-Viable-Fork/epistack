@@ -32,7 +32,7 @@ kill or a discrepancy without a record is one you cannot revisit.
   and is replaced by a two-stage pipeline with stage-localized failures, and that the earlier
   "departure shape seen twice ... is a reusable pattern" phrasing overclaimed sameness and
   should be replaced. Resolution: the overviews that carried the overclaim have been retired,
-  and `docs/judges-document.md` now states the earned claim in their place, "the same machinery,
+  and `docs/what-stands-without-trust.md` now states the earned claim in their place, "the same machinery,
   three terminations, the divergence localized rather than repeated" (one shared structure with
   the failure localized at different terminations, not a repeated pattern). The overclaim no
   longer appears anywhere in the repository.

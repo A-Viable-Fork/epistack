@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 107,
-  "edgeCount": 160,
+  "nodeCount": 114,
+  "edgeCount": 196,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -23,6 +23,48 @@
       "group": "analysis",
       "role": "the robustness reading over the support graph (intake data model v3). Grounding says how high a claim reaches; robustness says how much of that reach survives the loss of one support. The support graph is a reliability structure: jointly-necessary supports in a group are in series, independent groups are in parallel, a claim falling to the bottom of the order is a component failing. A single point of failure is a claim in the target's support closure whose removal lowers the target's earned grade; robustness is the earned grade after the worst single removal; fragility is the interval between the two. A distinct reading runs over the depends-on closure, where a single point of failure breaks well-formedness rather than lowering the grade.",
       "contract": "analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) -> reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing."
+    },
+    {
+      "path": "kernel/composition/records.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the composition-layer record types (composition spec, records 1 and 4; grows across the phases). A composite store holds these above the domain kernel: a cross-store citation names a domain claim and copies the grade the domain store held for it, and a composite claim owns a set of citations. Each builder validates the spec's fields, canonicalizes, and hashes, exactly as the domain records do, so a composition record is a v3-shaped record on the same canonical form.",
+      "contract": "citationRecord(raw), compositeClaimRecord(raw). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/transfer.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "grounding transfer across the store boundary (composition spec, record 2). The weakest-link rule that governs support inside a store governs it across the boundary: a composite claim is no more grounded than its weakest necessary cited claim. This module copies the domain store's grade into a citation (the composite never assigns a grade for a claim it does not own) and folds the necessary carried grades under one min, capped by the composite claim's ceiling.",
+      "contract": "domainGradeOf(state, id, tables), citeDomainClaim(domainStore, ref), compositeGrade({ ceiling, citations }), isStale(citation, sourceCurrentStateId). Pure, ESM; kernel imports kernel."
+    },
+    {
+      "path": "kernel/composition/vocabulary.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the shared vocabulary (composition spec, record 3, design decision B) and the ceiling selection (design decision A). Units and definitions that must mean the same thing in every store are declared once, here, and referenced by identity. Two claims agree on a quantity exactly when their term references share a term_id: identity at the layer is the proof, with no name-matching. A composite's ceiling follows from its cited quantities: the top of scale when they resolve to a single shared term, structured-forum when they weigh across distinct terms.",
+      "contract": "sharedTerm(raw), termReference(raw), sameQuantity(a, b), detectVersionSkew(citations), detectCacheDrift(term, cachedDefinition), requireTermReference(slot), ceilingForCitations(cits). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/framing.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the framing record and the presupposition edge (composition spec, record 5). This is the denominator seam: a domain claim presupposes a frame, a choice of comparison unit or baseline or relevant population, and that choice is made visible and swappable while the measurement stands. A framing record carries a status, not a grade; the presupposition edge is CHECKED (the frame is in-force), never GRADED. The edge enters no grade computation, so the domain claim keeps the grade its own floor gives it, whatever happens to the frame.",
+      "contract": "framingRecord(raw), presuppositionEdge(raw), checkPresupposition(edge, frame), frameOrphaned(edges, framesById), swapFrame(edge, successorFrame). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/notify.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "cross-boundary notification and the re-derivation contract (composition spec, record 6). A change to a cited claim or a framing record issues a notification; re-derivation updates the affected citations (re-graded, re-pointed to a successor on acceptance, or marked dangling), recomputes composite grades by the record-2 rule, propagates transitively through internal composite support, and emits an auditable re-derivation report that is itself a record.",
+      "contract": "changeNotification(raw), rederive(notification, ctx) -> { report, citations, dangling, suspended, grades, frame_orphaned }, rederivationReport(raw). Pure, ESM; kernel imports kernel."
+    },
+    {
+      "path": "kernel/composition/profiles.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the grounding profiles (composition spec, record 7). A read, never a mutation: input is a store at a state, output is a profile record. The two shapes differ deliberately. A domain store answers \"what floors am I standing on\": its floor distribution (the settled tier, where v3 records the measurement/proof/declaration floors as its settled positions) and its forum distribution. A composite store answers \"how much of me is inherited ground and how much is my own forum\": its cited grounding by inherited grade, its forum residents, the health of its citations, and the condition of its frame layer.",
+      "contract": "domainProfile(store), compositeProfile(store, ctx). Pure, ESM; kernel imports kernel."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -497,7 +539,7 @@
       "path": "periphery/navigate/shell/modules/prose.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/judges-document.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
+      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/what-stands-without-trust.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
       "contract": "registers on window.EpiShell. A section becomes a module; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves to the live node reading."
     },
     {
@@ -562,6 +604,13 @@
       "group": null,
       "role": "the characterized-gaps oracle (Prompt 18). Proves the closing-condition record, the transfer as an ordinary capping support, the gap reading's new category, and the three-way distinction (characterized gap vs bare assertion vs settled), on synthetic fixtures, plus determinism, the gate acceptance of a leap, and the read-contract exposure.",
       "contract": "`node build/check-characterized-gaps.mjs` exits non-zero on any failure. Imports the v3 kernel, the analysis module, and (for exposure) the client contract and the snapshot."
+    },
+    {
+      "path": "build/check-composition.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the composition-layer oracle (Prompt 19). Proves the composite store on synthetic fixtures: the cross-store citation copies the domain grade and never assigns it, the grounding transfer folds necessary carried grades under one min with the settled-collapse making it well defined, a forum-band citation carries the forum value through, and staleness is a read that leaves the citation intact. Grows across the phases; Phase A is sections 1 to 6.",
+      "contract": "`node build/check-composition.mjs` exits non-zero on any failure. Imports the v3 kernel and the composition layer only; no case data is touched (the corpus stays closed at zero gaps)."
     },
     {
       "path": "build/check-client.mjs",
@@ -690,7 +739,7 @@
       "contract": null
     },
     {
-      "path": "docs/judges-document.md",
+      "path": "docs/what-stands-without-trust.md",
       "type": "doc",
       "group": null,
       "role": null,
@@ -806,6 +855,139 @@
     {
       "from": "kernel/analysis/robustness.mjs",
       "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/framing.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/notify.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/vocabulary.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1170,6 +1352,83 @@
     {
       "from": "build/check-client.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/notify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/profiles.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1744,6 +2003,36 @@
     {
       "from": "kernel/analysis/gaps.js",
       "to": "build/check-gaps.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/vocabulary.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/framing.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "build/check-composition.mjs",
       "type": "checked-by"
     },
     {

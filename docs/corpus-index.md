@@ -13,6 +13,12 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/analysis/characterized-gaps.mjs` | the characterized-gap reading (Prompt 18): an open-line claim with a floor ceiling, a transfer support, and a closing condition; distinguishes gap / bare assertion / settled |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
 | `kernel/analysis/robustness.mjs` | the v3 robustness reading (Prompt 13): single points of failure over the support and presupposition closures, robustness, fragility, and the correlated-evidence flag, by re-derivation |
+| `kernel/composition/records.mjs` | the composition-layer records (Prompt 19): the cross-store citation and the composite claim, v3-shaped records that carry a copied domain grade across the store boundary |
+| `kernel/composition/transfer.mjs` | grounding transfer across the boundary (Prompt 19): copies the domain grade into a citation, folds necessary carried grades under the v3 min (settled-collapse), and detects staleness |
+| `kernel/composition/vocabulary.mjs` | the shared vocabulary (Prompt 19): shared terms declared once and referenced by identity, the ceiling selection (single term vs distinct terms), and the three divergence detections (version skew, cache drift, schema violation) |
+| `kernel/composition/framing.mjs` | the framing record and presupposition edge (Prompt 19): the denominator seam. A frame carries status not grade; the edge is checked (in-force) not graded, so a fallen or swapped frame flags frame-orphaned and leaves the measurement's floor grade untouched |
+| `kernel/composition/notify.mjs` | cross-boundary notification and re-derivation (Prompt 19): a change notification drives re-derivation of affected citations and composite grades, propagating transitively, and emits an auditable re-derivation report that is itself a record |
+| `kernel/composition/profiles.mjs` | the two grounding profiles (Prompt 19): a domain store by its floor distribution, a composite store by cited grounding, forum residents, citation health, and framing condition |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
@@ -113,7 +119,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/styles/main.css` | stylesheet |
 | `periphery/navigate/render/visuals.js` | the view-side renderers for registered visual components. A node references a visual |
 | `periphery/navigate/shell/shell.js` | the presentation shell (Prompt 17): content-agnostic navigation frame, module registry, and cross-link machinery; composes registered modules, holds no content |
-| `periphery/navigate/shell/modules/prose.js` | prose modules: sections of the paper with claim-references that link into the live graph (Phase B weaves docs/judges-document.md) |
+| `periphery/navigate/shell/modules/prose.js` | prose modules: sections of the paper with claim-references that link into the live graph (Phase B weaves docs/what-stands-without-trust.md) |
 | `periphery/navigate/shell/modules/cases.js` | case modules: each case's focus conclusion, its grounding and robustness read live through the contract, and what it rests on |
 | `periphery/navigate/shell/modules/demos.js` | demonstration modules: the compose-gate panel, the propose widget, and the robustness reading, registered on the shell |
 | `periphery/navigate/shell/styles/shell.css` | stylesheet |
@@ -129,6 +135,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-characterized-gaps.mjs` | the characterized-gaps oracle (Prompt 18): the closing-condition record, the capping transfer, the gap category, the three-way distinction, determinism, and the contract exposure |
+| `build/check-composition.mjs` | the composition-layer oracle (Prompt 19): the citation copies the domain grade, the grounding transfer folds the min with the settled-collapse, a forum-band citation carries the forum value, and staleness leaves the record intact |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
