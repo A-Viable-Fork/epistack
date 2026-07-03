@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 112. Import edges: 158. Runtime flow edges: 23. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -24,6 +24,17 @@ Nodes: 112. Import edges: 158. Runtime flow edges: 23. All import edges satisfy 
 - `kernel/analysis/robustness.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/analysis/robustness.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/composition/framing.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/composition/framing.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/composition/records.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/composition/transfer.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/composition/vocabulary.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/composition/notify.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/composition/profiles.mjs` -> `kernel/composition/framing.mjs`  *(kernel -> kernel)*
+- `kernel/composition/profiles.mjs` -> `kernel/composition/notify.mjs`  *(kernel -> kernel)*
+- `kernel/composition/profiles.mjs` -> `kernel/composition/transfer.mjs`  *(kernel -> kernel)*
+- `kernel/composition/profiles.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/composition/profiles.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
 - `kernel/composition/records.mjs` -> `kernel/composition/vocabulary.mjs`  *(kernel -> kernel)*
 - `kernel/composition/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/composition/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -90,6 +101,8 @@ Nodes: 112. Import edges: 158. Runtime flow edges: 23. All import edges satisfy 
 - `build/check-client.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-client.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/check-composition.mjs` -> `kernel/composition/notify.mjs`  *(build -> kernel)*
+- `build/check-composition.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
@@ -184,6 +197,8 @@ Nodes: 112. Import edges: 158. Runtime flow edges: 23. All import edges satisfy 
 
 - `kernel/analysis/gaps.js` **checked-by** `build/check-gaps.mjs`
 - `kernel/composition/framing.mjs` **checked-by** `build/check-composition.mjs`
+- `kernel/composition/notify.mjs` **checked-by** `build/check-composition.mjs`
+- `kernel/composition/profiles.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/records.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/transfer.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/vocabulary.mjs` **checked-by** `build/check-composition.mjs`

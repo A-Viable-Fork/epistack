@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 112,
-  "edgeCount": 181,
+  "nodeCount": 114,
+  "edgeCount": 196,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -51,6 +51,20 @@
       "group": "composition",
       "role": "the framing record and the presupposition edge (composition spec, record 5). This is the denominator seam: a domain claim presupposes a frame, a choice of comparison unit or baseline or relevant population, and that choice is made visible and swappable while the measurement stands. A framing record carries a status, not a grade; the presupposition edge is CHECKED (the frame is in-force), never GRADED. The edge enters no grade computation, so the domain claim keeps the grade its own floor gives it, whatever happens to the frame.",
       "contract": "framingRecord(raw), presuppositionEdge(raw), checkPresupposition(edge, frame), frameOrphaned(edges, framesById), swapFrame(edge, successorFrame). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/notify.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "cross-boundary notification and the re-derivation contract (composition spec, record 6). A change to a cited claim or a framing record issues a notification; re-derivation updates the affected citations (re-graded, re-pointed to a successor on acceptance, or marked dangling), recomputes composite grades by the record-2 rule, propagates transitively through internal composite support, and emits an auditable re-derivation report that is itself a record.",
+      "contract": "changeNotification(raw), rederive(notification, ctx) -> { report, citations, dangling, suspended, grades, frame_orphaned }, rederivationReport(raw). Pure, ESM; kernel imports kernel."
+    },
+    {
+      "path": "kernel/composition/profiles.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the grounding profiles (composition spec, record 7). A read, never a mutation: input is a store at a state, output is a profile record. The two shapes differ deliberately. A domain store answers \"what floors am I standing on\": its floor distribution (the settled tier, where v3 records the measurement/proof/declaration floors as its settled positions) and its forum distribution. A composite store answers \"how much of me is inherited ground and how much is my own forum\": its cited grounding by inherited grade, its forum residents, the health of its citations, and the condition of its frame layer.",
+      "contract": "domainProfile(store), compositeProfile(store, ctx). Pure, ESM; kernel imports kernel."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -853,6 +867,83 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
+      "to": "kernel/composition/notify.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/composition/records.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -1324,6 +1415,20 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/notify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/profiles.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1917,6 +2022,16 @@
     },
     {
       "from": "kernel/composition/framing.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/notify.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/profiles.mjs",
       "to": "build/check-composition.mjs",
       "type": "checked-by"
     },

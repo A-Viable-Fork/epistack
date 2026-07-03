@@ -17,6 +17,8 @@ import { citationRecord, compositeClaimRecord, crossDomainClaimRecord, weighting
 import { domainGradeOf, citeDomainClaim, compositeGrade, isStale } from "../kernel/composition/transfer.mjs";
 import { sharedTerm, termReference, sameQuantity, detectVersionSkew, detectCacheDrift, requireTermReference, ceilingForCitations } from "../kernel/composition/vocabulary.mjs";
 import { framingRecord, presuppositionEdge, checkPresupposition, frameOrphaned, swapFrame } from "../kernel/composition/framing.mjs";
+import { changeNotification, rederive } from "../kernel/composition/notify.mjs";
+import { domainProfile, compositeProfile } from "../kernel/composition/profiles.mjs";
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -229,6 +231,69 @@ ok(edge2.to_framing === "F-unit-serving" && edge2.edge_id !== edge.edge_id, "the
 ok(checkPresupposition(edge2, frameServing).in_force, "the re-pointed edge checks against the successor frame");
 ok(frameOrphaned([edge2], { "F-unit-serving": frameServing }).length === 0, "with the successor in force, the claim is no longer orphaned");
 ok(floorOf() === "checked", "the functional-unit measurement survives the swap of the unit, its grade untouched");
+
+// ---- Phase D: notification, re-derivation, and the two profiles ----
+// a composite store: a leaf commensurable claim on D2, a root internally supported by it, and a
+// cross-domain weighing of D1 against D2; plus a framed domain measurement and its edge.
+const clStmt = "the cost side is settled under one currency";
+const crStmt = "the intervention clears on the health-and-cost roll-up";
+const cxStmt = "the intervention is worth funding, all things weighed";
+const CL_id = hashOf({ statement: clStmt }), CR_id = hashOf({ statement: crStmt }), CX_id = hashOf({ statement: cxStmt });
+const citCL = citeDomainClaim(storeEcon, { citing_claim: CL_id, cited_claim: D2.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+const citCRd1 = citeDomainClaim(storeHealth, { citing_claim: CR_id, cited_claim: D1.identity, role: "necessary", made_at: MADE, term_ref: refQaly("3") });
+const citCXd1 = citeDomainClaim(storeHealth, { citing_claim: CX_id, cited_claim: D1.identity, role: "necessary", made_at: MADE, term_ref: refQaly("3") });
+const citCXd2 = citeDomainClaim(storeEcon, { citing_claim: CX_id, cited_claim: D2.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+const CL = compositeClaimRecord({ statement: clStmt, region: "floor", support: [citCL.citation_id] });
+const CR = { ...compositeClaimRecord({ statement: crStmt, region: "floor", support: [citCRd1.citation_id] }), internal_support: [CL_id] };
+const CX = crossDomainClaimRecord({ statement: cxStmt, support: [citCXd1.citation_id, citCXd2.citation_id], weighting: { kind: "weights", weights: { [citCXd1.citation_id]: "0.5", [citCXd2.citation_id]: "0.5" }, rationale: "an even split, stated as a value choice" } });
+const edgeFunc = presuppositionEdge({ from_store: "S-lca", from_claim: Dfunc.identity, to_framing: "F-unit-kg" });
+const compStore = { store_id: "C-roll-up", claims: [CL, CR, CX], citations: [citCL, citCRd1, citCXd1, citCXd2], edges: [edgeFunc], frames: [frameKg] };
+const ctxBase = { claims: compStore.claims, citations: compStore.citations, edges: compStore.edges };
+
+// =====================================================================================
+console.log("\n[14] a regrade re-derives the citing composite claims and reports old and new grade");
+const nRegrade = changeNotification({ source_store: "S-econ", subject: D2.identity, change: "regraded", old_grade: "checked", new_grade: "supported", old_state: storeEcon.state.state_hash, new_state: "S-econ@v2", issued_at: MADE });
+const rr = rederive(nRegrade, ctxBase);
+const affById = Object.fromEntries(rr.report.affected.map((a) => [a.claim_id, a]));
+ok(rr.report.record_type === "rederivation-report" && !!rr.report.hash, "the re-derivation report is itself a hashed record");
+ok(affById[CL_id] && affById[CL_id].old_grade === "settled" && affById[CL_id].new_grade === "supported", "the leaf composite claim re-derives settled -> supported");
+ok(affById[CR_id] && affById[CR_id].new_grade === "supported", "the root re-derives too: the change propagates transitively through internal support");
+ok(affById[CX_id] && affById[CX_id].old_grade === "corroborated" && affById[CX_id].new_grade === "supported", "the cross-domain weighing re-derives structured-forum -> supported");
+
+// =====================================================================================
+console.log("\n[15] a withdrawal without successor dangles the citation and suspends the claim");
+const nWithdraw = changeNotification({ source_store: "S-health", subject: D1.identity, change: "withdrawn", old_state: storeHealth.state.state_hash, new_state: "S-health@v2", issued_at: MADE });
+const rw = rederive(nWithdraw, ctxBase);
+ok(rw.dangling.has(citCRd1.citation_id) && rw.dangling.has(citCXd1.citation_id), "the citations to the withdrawn claim are marked dangling");
+ok(rw.suspended.has(CR_id) && rw.suspended.has(CX_id), "the citing claims are suspended pending a replacement citation");
+ok(rw.report.dangling.length === 2 && rw.report.suspended.includes(CR_id), "the report lists the dangling citations and the suspended claims");
+ok(rw.grades[CL_id] === "settled", "an unaffected composite claim keeps its grade");
+
+// =====================================================================================
+console.log("\n[16] a frame-status-change re-runs the presupposition checks and flags orphans");
+const frameKgWithdrawn2 = framingRecord({ framing_id: "F-unit-kg", statement: frameKg.statement, alternatives: frameKg.alternatives, status: "withdrawn" });
+const nFrame = changeNotification({ source_store: "C-roll-up", subject: "F-unit-kg", change: "frame-status-change", old_state: "C@v1", new_state: "C@v2", issued_at: MADE });
+const rf = rederive(nFrame, { ...ctxBase, framesById: { "F-unit-kg": frameKgWithdrawn2 } });
+ok(rf.frame_orphaned.length === 1 && rf.frame_orphaned[0].from_claim === Dfunc.identity, "the frame-status-change flags the newly frame-orphaned domain claim");
+ok(rf.report.affected.length === 0 && rf.report.dangling.length === 0, "no grade moved: a frame-status-change touches the checks, not the grades");
+
+// =====================================================================================
+console.log("\n[17] the two profiles report a domain store and a composite store differently");
+const storeMixed = { store_id: "S-mixed", state: makeState({ prior_state_hash: GENESIS_MARKER, entries: [D1, D2, D4] }), tables };
+const dp = domainProfile(storeMixed);
+ok(dp.record_type === "domain-grounding-profile", "the domain profile is a record");
+ok(dp.floor_distribution["independently-rechecked"] === 1 && dp.floor_distribution["checked"] === 1, "floor distribution: the two settled measurements, by floor");
+ok(dp.forum_distribution["asserted"] === 1, "forum distribution: the bare estimate rests in the forum");
+
+const sourceStates = { "S-health": storeHealth.state.state_hash, "S-econ": storeEcon.state.state_hash };
+const cp = compositeProfile(compStore, { sourceStates });
+ok(cp.record_type === "composite-grounding-profile", "the composite profile is a record");
+ok(cp.cited_grounding["settled"] === 2 && cp.cited_grounding["corroborated"] === 1, "cited grounding by inherited grade: two at the floor, the weighing at structured-forum");
+ok(cp.forum_resident === 1, "forum-resident count: the one cross-domain weighing");
+ok(cp.citation_health.current === 4 && cp.citation_health.stale === 0 && cp.citation_health.dangling === 0, "citation health: all four citations current against their source states");
+ok(cp.framing_in_force.in_force === 1 && cp.framing_in_force.frame_orphaned_dependents === 0, "framing condition: one frame in force, no orphaned dependents");
+const cpDangling = compositeProfile(compStore, { sourceStates, dangling: rw.dangling });
+ok(cpDangling.citation_health.dangling === 2, "citation health reflects the boundary: two citations dangling after the withdrawal");
 
 // =====================================================================================
 console.log("\n" + H);

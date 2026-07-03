@@ -71,6 +71,28 @@ module.exports = [
     ]
   },
   {
+    "path": "kernel/composition/notify.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/composition/profiles.mjs",
+    "type": "kernel",
+    "group": "composition",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-composition.mjs"
+      }
+    ]
+  },
+  {
     "path": "kernel/gate/clean-json.js",
     "type": "kernel",
     "group": "gate"

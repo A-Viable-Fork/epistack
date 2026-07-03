@@ -17,6 +17,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/composition/transfer.mjs` | grounding transfer across the boundary (Prompt 19): copies the domain grade into a citation, folds necessary carried grades under the v3 min (settled-collapse), and detects staleness |
 | `kernel/composition/vocabulary.mjs` | the shared vocabulary (Prompt 19): shared terms declared once and referenced by identity, the ceiling selection (single term vs distinct terms), and the three divergence detections (version skew, cache drift, schema violation) |
 | `kernel/composition/framing.mjs` | the framing record and presupposition edge (Prompt 19): the denominator seam. A frame carries status not grade; the edge is checked (in-force) not graded, so a fallen or swapped frame flags frame-orphaned and leaves the measurement's floor grade untouched |
+| `kernel/composition/notify.mjs` | cross-boundary notification and re-derivation (Prompt 19): a change notification drives re-derivation of affected citations and composite grades, propagating transitively, and emits an auditable re-derivation report that is itself a record |
+| `kernel/composition/profiles.mjs` | the two grounding profiles (Prompt 19): a domain store by its floor distribution, a composite store by cited grounding, forum residents, citation health, and framing condition |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
