@@ -56,7 +56,8 @@ jobs:
         run: |
           node build/vendor-snapshot.mjs
           node build/vendor-gate-browser.mjs
-          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json
+          node build/vendor-eggs.mjs
+          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json vendor/eggs/reading.json
 
       - name: Verify the generated repo map is committed and current
         # check-map rewrites docs/repo-map.{md,generated.json}; a diff here means a

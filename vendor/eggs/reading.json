@@ -1,0 +1,417 @@
+{
+  "generated_by": "build/vendor-eggs.mjs",
+  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
+  "domains": [
+    {
+      "store_id": "S-nutrition",
+      "floor_count": 10,
+      "forum_count": 6,
+      "claims": [
+        {
+          "statement": "each 100 mg/day of dietary cholesterol raises serum total cholesterol by about 2.2 mg/dL (",
+          "grade": "checked",
+          "source": "Weggemans, Zock & Katan (2001), Am J Clin Nutr 73(5):885-891"
+        },
+        {
+          "statement": "the dietary-cholesterol serum response is nonlinear with diminishing returns, little furth",
+          "grade": "checked",
+          "source": "Hopkins (1992), Am J Clin Nutr 55(6):1060-1070"
+        },
+        {
+          "statement": "the LDL-C rise from dietary cholesterol is partly offset by an HDL-C rise, so the LDL:HDL ",
+          "grade": "checked",
+          "source": "Berger et al. (2015), Am J Clin Nutr 102(2):276-294"
+        },
+        {
+          "statement": "in RCTs, whole eggs in metabolic-syndrome or type-2-diabetes populations do not raise LDL-",
+          "grade": "checked",
+          "source": "Blesso et al. (2013), J Clin Lipidol 7(5):463-471 (metabolic syndrome RCT)"
+        },
+        {
+          "statement": "one 50 g whole egg contains about 72 kcal, 6.3 g high-quality protein, 186 mg cholesterol,",
+          "grade": "checked",
+          "source": "USDA FoodData Central SR Legacy, FDC ID 171287 (egg, whole, raw)"
+        },
+        {
+          "statement": "the serum-cholesterol response to dietary cholesterol is continuous and unimodal, so hyper",
+          "grade": "checked",
+          "source": "Griffin et al. (2021), Proc Nutr Soc 80(2):142-149 (unimodal response)"
+        },
+        {
+          "statement": "the between-person SD of cholesterol responsiveness is about 0.29 mmol/L, roughly half the",
+          "grade": "checked",
+          "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "the LDL-C response to dietary cholesterol is moderately heritable (h2 about 0.59), with id",
+          "grade": "checked",
+          "source": "Williams et al. (2005), ATVB 25(7):1532 (twin heritability of response)"
+        },
+        {
+          "statement": "whether an individual's cholesterol response to eggs predicts their own CVD risk is unknow",
+          "grade": "asserted",
+          "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
+          "grade": "asserted",
+          "source": "Drouin-Chartier et al. (2020), BMJ 368:m513 (null egg-CVD, 28 cohorts)"
+        },
+        {
+          "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+          "grade": "asserted",
+          "source": "Tran et al. (2022), Circulation 145(20):e771 (dietary-cholesterol/CVD harm)"
+        },
+        {
+          "statement": "in the diabetic subgroup, egg consumption carries a CVD SRR of 1.22 (1.08 to 1.39) at one ",
+          "grade": "checked",
+          "source": "Godos et al. (2021), Eur J Nutr 60(4):1833-1848 (dose-response; diabetic subgroup)"
+        },
+        {
+          "statement": "in diabetics, the pooled CVD HR is 1.69 (1.09 to 2.62) for the highest versus lowest egg i",
+          "grade": "checked",
+          "source": "Shin et al. (2013), Atherosclerosis 229(2):524-530 (diabetic subgroup)"
+        },
+        {
+          "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+          "grade": "corroborated",
+          "source": "Godos et al. (2021), Eur J Nutr 60(4):1833-1848 (dose-response; diabetic subgroup)"
+        },
+        {
+          "statement": "the 2015-2020 US Dietary Guidelines removed the 300 mg/day dietary-cholesterol limit, whil",
+          "grade": "asserted",
+          "source": "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report"
+        },
+        {
+          "statement": "the AHA 2020 advisory allows up to one egg per day for healthy adults and two for older no",
+          "grade": "asserted",
+          "source": "Carson et al. (2020), AHA Science Advisory, Circulation 141(3):e39-e53"
+        }
+      ]
+    },
+    {
+      "store_id": "S-environment",
+      "floor_count": 10,
+      "forum_count": 6,
+      "claims": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked",
+          "source": "Leinonen et al. (2012), Poultry Science 91(1):8-25 (UK egg-system LCA)"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked",
+          "source": "WUR egg LCA factsheet; De Vries & De Boer (2010), Livestock Science (land per kg egg)"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "grade": "checked",
+          "source": "EFSA AHAW Panel (2023), EFSA Journal 21(2):e07789 (laying-hen welfare)"
+        },
+        {
+          "statement": "keel-bone fractures are ubiquitous across all commercial laying-hen housing (50 to 100 per",
+          "grade": "checked",
+          "source": "Thofner et al. (2021), PLOS ONE (keel-bone necropsy, 4,794 birds)"
+        },
+        {
+          "statement": "confined systems use more antibiotics and carry higher antimicrobial resistance than organ",
+          "grade": "checked",
+          "source": "Ager et al. (2023), Nature-family AMR meta-analysis (72 studies, 22 countries)"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked",
+          "source": "Panagos et al. (2024), Geoderma (soil-health survey, 6,000+ samples)"
+        },
+        {
+          "statement": "diverse pasture and organic systems support higher species richness per hectare than inten",
+          "grade": "checked",
+          "source": "Outhwaite et al. (2022), Nature 605:97-102 (biodiversity vs land-use intensity)"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked",
+          "source": "EPA (2011); Baram (2014) (manure-lagoon nitrate under confined systems)"
+        },
+        {
+          "statement": "the emissions-land-welfare trilemma has no dominant solution, intensive systems winning pe",
+          "grade": "asserted",
+          "source": "van Wagenberg et al. (2017), Animal Board Invited Review (179 articles)"
+        },
+        {
+          "statement": "whether the total water footprint favors confined or pasture systems depends on the water ",
+          "grade": "asserted",
+          "source": "Mekonnen & Hoekstra (2012), Ecosystems 15(3):401-415 (water footprint)"
+        },
+        {
+          "statement": "a farm-scale assessment may favor pasture while a global-scale assessment favors intensifi",
+          "grade": "asserted",
+          "source": "Leip et al. (2015), Environmental Research Letters 10:115004 (spatial scale)"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked",
+          "source": "Raposo (2025), Sustainability 17(3):1223 (improved-pasture SOC, IPCC Tier 1, 7,092 sites)"
+        },
+        {
+          "statement": "poultry-litter application to corn cropland retains about 41 percent of applied carbon, ad",
+          "grade": "checked",
+          "source": "Yang et al. (2019), J Cleaner Production (poultry-litter C retention on corn)"
+        },
+        {
+          "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+          "grade": "supported",
+          "source": "Congressional Research Service R48610; Newton et al. (2020) (regenerative axis definition)"
+        },
+        {
+          "statement": "integrating laying hens on pasture builds stable soil carbon at the litter-retention rate,",
+          "grade": "supported",
+          "source": "Soares et al. (2022) (no SOC increase from laying-hen integration; litter C:N 3.88)"
+        },
+        {
+          "statement": "regenerative grazing sequesters 2.5 to 9 t C/ha/yr, an advocacy figure 7 to 70 times the m",
+          "grade": "asserted",
+          "source": "Savory Institute / Teague advocacy claims (2.5-9 t C/ha/yr), per McGuire (2018) WSU critique"
+        }
+      ]
+    },
+    {
+      "store_id": "S-economics",
+      "floor_count": 4,
+      "forum_count": 2,
+      "claims": [
+        {
+          "statement": "feed conversion is about 1.95 to 2.20 kg feed/kg egg for caged systems against 2.5 to 5.3 ",
+          "grade": "checked",
+          "source": "Wiedemann & McGahan (2011), Australian egg-production LCA (FCR, CED)"
+        },
+        {
+          "statement": "cage non-renewable cumulative energy demand is about 10.7 to 16.9 MJ/kg egg against 20.3 t",
+          "grade": "checked",
+          "source": "Syc et al. (2022), Agriculture 12(3):355 (egg yield, battery vs organic)"
+        },
+        {
+          "statement": "both systems are net energy sinks, with an edible-to-input energy return of about 0.41 to ",
+          "grade": "checked",
+          "source": "Pelletier et al. (2016), Poultry Science (US egg-industry footprint, EROI)"
+        },
+        {
+          "statement": "free-range organic eggs cost about twice as much to produce as caged (about $1.32 against ",
+          "grade": "checked",
+          "source": "Elson (1985); Tserveni-Gousi et al. (organic vs caged egg production cost)"
+        },
+        {
+          "statement": "the intergenerational discount rate is a value choice, Stern's 1.4 percent against Nordhau",
+          "grade": "asserted",
+          "source": "Nordhaus (4.3%); Stern (2006, 1.4%); Weitzman (discount-rate disagreement)"
+        },
+        {
+          "statement": "which objective to maximize, energy return, economic welfare, biodiversity, or resilience,",
+          "grade": "asserted",
+          "source": "Franzese et al. (2009), Ecological Modelling (GER vs Emergy incommensurability)"
+        }
+      ]
+    }
+  ],
+  "cardiovascular": {
+    "null_claim": {
+      "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
+      "grade": "asserted"
+    },
+    "harm_claim": {
+      "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+      "grade": "asserted"
+    },
+    "diabetic_claim": {
+      "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+      "grade": "corroborated"
+    }
+  },
+  "characterized_gaps": [
+    {
+      "statement": "integrating laying hens on pasture builds stable soil carbon at the litter-retention rate,",
+      "ceiling": "checked",
+      "earned_grade": "supported",
+      "closing_condition": {
+        "condition_kind": "direct-study",
+        "target": "a direct soil-carbon study of laying-hen integration on pasture rather than litter applied to corn",
+        "system": "a pasture-integrated laying-hen operation"
+      },
+      "transfer_source": [
+        {
+          "statement": "poultry-litter application to corn cropland retains about 41 percent of applied carbon, ad",
+          "transfer_grade": "supported"
+        }
+      ]
+    },
+    {
+      "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+      "ceiling": "checked",
+      "earned_grade": "supported",
+      "closing_condition": {
+        "condition_kind": "measurement-on-the-system",
+        "target": "a direct multi-year soil-organic-carbon measurement under laying hens on pasture",
+        "system": "a regenerative laying-hen operation"
+      },
+      "transfer_source": [
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "transfer_grade": "supported"
+        }
+      ]
+    }
+  ],
+  "weighings": [
+    {
+      "statement": "whether to eat eggs, weighing the cardiovascular evidence against hen welfare and environm",
+      "ceiling": "corroborated",
+      "grade": "corroborated",
+      "rationale": "a stated value choice: personal health weighed first, then animal welfare, then climate; it measures nothing",
+      "cites": [
+        {
+          "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+          "domain": "S-nutrition",
+          "carried_grade": "corroborated",
+          "role": "necessary",
+          "term": "T-health"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-welfare"
+        },
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "corroborating",
+          "term": "T-co2"
+        }
+      ]
+    },
+    {
+      "statement": "which farming system is better, weighing emissions and land against welfare, cost, and reg",
+      "ceiling": "corroborated",
+      "grade": "supported",
+      "rationale": "a stated value choice weighing welfare and soil against per-kg emissions and cost; the ranking is the value, not a measurement",
+      "cites": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-co2"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-welfare"
+        },
+        {
+          "statement": "free-range organic eggs cost about twice as much to produce as caged (about $1.32 against ",
+          "domain": "S-economics",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-dollar"
+        },
+        {
+          "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+          "domain": "S-environment",
+          "carried_grade": "supported",
+          "role": "necessary",
+          "term": "T-soil"
+        }
+      ]
+    }
+  ],
+  "denominator": {
+    "throughput": {
+      "frame": "the denominator is product throughput: every impact is counted per kilogram of egg produced",
+      "alternatives": [
+        "net capital: impacts counted per unit of soil and ecosystem stock maintained",
+        "per hen housed",
+        "per hectare farmed"
+      ],
+      "measurements": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked"
+        }
+      ]
+    },
+    "netcapital": {
+      "frame": "the denominator is net capital: every impact is counted per unit of soil and ecosystem stock maintained",
+      "alternatives": [
+        "product throughput: impacts counted per kilogram of egg produced",
+        "per hen housed",
+        "per hectare farmed"
+      ],
+      "measurements": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked"
+        }
+      ]
+    }
+  },
+  "profile": {
+    "record_type": "composite-grounding-profile",
+    "store": "C-eggs",
+    "state": "current",
+    "cited_grounding": {
+      "corroborated": 1,
+      "supported": 1
+    },
+    "forum_resident": 2,
+    "citation_health": {
+      "current": 7,
+      "stale": 0,
+      "dangling": 0
+    },
+    "framing_in_force": {
+      "in_force": 1,
+      "frame_orphaned_dependents": 0
+    }
+  },
+  "cardiovascular_crux": {
+    "status": "specified",
+    "note": "The cardiovascular contradiction is held as structure: the population null and harm claims stay in tension, the diabetic-interaction claim grounds where they agree. Computing the crux of the contradiction (which single measurement would resolve it) is the one assessment piece still specified rather than built, so the tension is shown rather than resolved."
+  }
+}

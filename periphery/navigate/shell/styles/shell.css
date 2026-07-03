@@ -41,3 +41,23 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-prose p { font-size:.98rem; }
 .shell-prose h3 { font-size:1.02rem; margin:1.1rem 0 .3rem; color:var(--sh-ink); }
 @media (max-width:720px){ .shell-wrap{flex-direction:column;} .shell-nav{position:static;flex-basis:auto;flex-direction:row;flex-wrap:wrap;} .shell-closure ul{columns:1;} }
+
+/* the restructured eggs case module (Prompt 20): domains, weighings, characterized gaps, denominator */
+.eggs-domain { margin: 0.6rem 0; }
+.eggs-domain h4 { margin: 0.3rem 0; }
+.eggs-domain h4 small { font-weight: normal; opacity: 0.7; }
+.eggs-claims { margin: 0.2rem 0 0.6rem 1rem; padding: 0; }
+.eggs-claims li { margin: 0.2rem 0; list-style: disc; }
+.eggs-src { display: block; font-size: 0.8em; opacity: 0.6; }
+.eggs-weighing, .eggs-gap, .eggs-frame { border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.5rem 0; }
+.eggs-node-name { font-weight: 600; margin-bottom: 0.3rem; }
+.eggs-rationale { font-style: italic; opacity: 0.8; margin: 0.3rem 0; }
+.eggs-closing { margin: 0.3rem 0; }
+.eggs-transfer { font-size: 0.9em; opacity: 0.85; }
+.eggs-swap { margin: 0.4rem 0; padding: 0.3rem 0.7rem; cursor: pointer; border-radius: 5px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+.eggs-swap:hover { background: rgba(128,128,128,0.15); }
+.eggs-frame-note { font-size: 0.85em; opacity: 0.75; margin: 0.3rem 0; }
+.eggs-measurements { margin: 0.3rem 0 0 1rem; padding: 0; }
+.eggs-measurements li { margin: 0.15rem 0; list-style: circle; }
+.eggs-crux { margin-top: 0.8rem; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(200,140,0,0.7); background: rgba(200,140,0,0.08); font-size: 0.92em; }
+.shell-grade { font-weight: 600; padding: 0 0.3em; border-radius: 3px; }

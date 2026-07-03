@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 120,
-  "edgeCount": 215,
+  "nodeCount": 123,
+  "edgeCount": 223,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -578,6 +578,13 @@
       "contract": "registers on window.EpiShell. A section becomes a module; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves to the live node reading."
     },
     {
+      "path": "periphery/navigate/shell/modules/eggs-case.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the restructured eggs case as a shell module (Prompt 20). Renders the eggs question as a composite over its domains: the three domain stores grounded to their floors, the two cross-domain weighings at structured-forum, the regenerative characterized gaps with their closing conditions, and the denominator swap (product-throughput vs net-capital), exercisable in the page. The reading is the vendored build artifact (vendor/eggs/reading.json), computed by the kernel and composition layer at build time (build/vendor-eggs.mjs); the module renders it and computes no grade.",
+      "contract": "registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON."
+    },
+    {
       "path": "periphery/navigate/shell/modules/cases.js",
       "type": "periphery",
       "group": "consumer",
@@ -651,8 +658,22 @@
       "path": "build/check-eggs.mjs",
       "type": "build",
       "group": null,
-      "role": "the eggs-case oracle (Prompt 20). The eggs question, restructured into domain stores that ground to their own floors and an eggs composite that cites them across the boundary, run on real ingested research. It builds each domain store through the real v3 gate and the composite through the Prompt 19 composition layer, and verifies grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, and the denominator swap. Grows across the four phases; Phase A is the domain stores and the nutrition domain.",
-      "contract": "`node build/check-eggs.mjs` exits non-zero on any failure. Loads corpora/eggs (CommonJS) via createRequire; imports the v3 kernel and the composition layer only."
+      "role": "the eggs-case oracle (Prompt 20). The eggs question, restructured into domain stores that ground to their own floors and an eggs composite that cites them across the boundary, run on real ingested research. It verifies grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, the denominator swap, and the vendored reading the presentation renders. It builds through the shared builder (build/eggs-build.mjs), so it checks exactly the structure the presentation shows.",
+      "contract": "`node build/check-eggs.mjs` exits non-zero on any failure. Imports buildEggs, the v3 kernel, the composition layer, and corpora/eggs (via the builder)."
+    },
+    {
+      "path": "build/eggs-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the shared builder for the restructured eggs case (Prompt 20). Builds the three domain stores through the real v3 gate and the eggs composite through the composition layer, from the pure data in corpora/eggs. One builder, so the oracle that verifies the case (build/check-eggs.mjs) and the generator that vendors it for the presentation (build/vendor-eggs.mjs) build the SAME structure.",
+      "contract": "buildEggs() -> { tables, domains, idOf, weighs, framing, successor, edges, compStore, profile, COMPOSITE }. Pure over the corpus; imports the kernel, the composition layer, corpora/eggs."
+    },
+    {
+      "path": "build/vendor-eggs.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the restructured eggs case into one JSON reading the presentation shell renders in a file:// page, with no server and no live kernel in the browser. It builds the case through the shared builder (the same one the oracle verifies) and writes vendor/eggs/reading.json: the three domains grounded to their floors, the cardiovascular contradiction, the regenerative characterized gaps with their closing conditions, the two weighings at structured-forum, and the denominator in both framings so the swap is exercisable. The reading is a build artifact, regenerated, never edited.",
+      "contract": "`node build/vendor-eggs.mjs` writes the reading. No arguments. Deterministic."
     },
     {
       "path": "build/check-client.mjs",
@@ -1477,83 +1498,6 @@
     },
     {
       "from": "build/check-eggs.mjs",
-      "to": "corpora/eggs/tables.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "corpora/eggs/nutrition.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "corpora/eggs/environment.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "corpora/eggs/economics.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "corpora/eggs/composite.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/schema/records.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/schema/tables.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/store/state.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/store/apply.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/store/decay.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/gate/gate.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "build",
@@ -1568,7 +1512,7 @@
     },
     {
       "from": "build/check-eggs.mjs",
-      "to": "kernel/schema/canonical.mjs",
+      "to": "kernel/composition/records.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1576,13 +1520,6 @@
     {
       "from": "build/check-eggs.mjs",
       "to": "kernel/composition/transfer.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "kernel"
-    },
-    {
-      "from": "build/check-eggs.mjs",
-      "to": "kernel/composition/records.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1603,10 +1540,10 @@
     },
     {
       "from": "build/check-eggs.mjs",
-      "to": "kernel/composition/profiles.mjs",
+      "to": "build/eggs-build.mjs",
       "type": "imports",
       "fromLayer": "build",
-      "toLayer": "kernel"
+      "toLayer": "build"
     },
     {
       "from": "build/check-gaps.mjs",
@@ -1896,6 +1833,125 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/eggs-build.mjs",
+      "to": "corpora/eggs/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "corpora/eggs/nutrition.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "corpora/eggs/environment.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "corpora/eggs/economics.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "corpora/eggs/composite.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/eggs-build.mjs",
+      "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/fork-demo.mjs",
       "to": "corpora/_primitives/primitives.js",
       "type": "imports",
@@ -2013,6 +2069,27 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-eggs.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-eggs.mjs",
+      "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-eggs.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/vendor-snapshot.mjs",

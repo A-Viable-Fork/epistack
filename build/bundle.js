@@ -17,6 +17,8 @@ const ROOT = path.resolve(__dirname, "..");
 // never stale: the client proposes against the snapshot, and both are inlined into the artifact.
 execFileSync("node", [path.join(__dirname, "vendor-snapshot.mjs")], { stdio: "inherit" });
 execFileSync("node", [path.join(__dirname, "vendor-gate-browser.mjs")], { stdio: "inherit" });
+// the restructured eggs case reading the shell renders (domains, composite, gaps, denominator).
+execFileSync("node", [path.join(__dirname, "vendor-eggs.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 

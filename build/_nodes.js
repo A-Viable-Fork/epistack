@@ -36,6 +36,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/eggs-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/vendor-eggs.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-client.mjs",
     "type": "build"
   },
