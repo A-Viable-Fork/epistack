@@ -18,10 +18,12 @@ import { apply } from "../kernel/store/apply.mjs";
 import { storeViewOf } from "../kernel/store/decay.mjs";
 import { decide } from "../kernel/gate/gate.mjs";
 import { collapsedRank, tierOf } from "../kernel/schema/confidence.mjs";
+import { characterizedGaps, characterization } from "../kernel/analysis/characterized-gaps.mjs";
 
 const require = createRequire(import.meta.url);
 const { KINDS, SOURCES } = require("../corpora/eggs/tables.js");
 const { NUTRITION } = require("../corpora/eggs/nutrition.js");
+const { ENVIRONMENT } = require("../corpora/eggs/environment.js");
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -36,7 +38,7 @@ const sourceIds = new Set(SOURCES.map((s) => s.source_id));
 function buildDomain(domain) {
   const refId = new Map();
   const claims = domain.claims.map((spec) => {
-    const rec = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records });
+    const rec = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records, closing_condition: spec.closing_condition });
     refId.set(spec.ref, rec.identity);
     return { rec, spec };
   });
@@ -101,6 +103,43 @@ console.log("\n[A5] every claim carries its provenance");
 let missingProv = 0;
 for (const { spec } of nutrition.claims) if (!sourceIds.has(spec.source_id)) { missingProv++; console.log(`      NO SOURCE ${spec.ref} -> ${spec.source_id}`); }
 ok(missingProv === 0, `every nutrition claim resolves to a source row (provenance stated in the document)`);
+
+// the graph a reading operates over: the applied entries and links, plus the tables.
+const graphOf = (dom) => ({ entries: dom.state.entries, links: dom.state.links, tables });
+
+const environment = buildDomain(ENVIRONMENT);
+
+// =====================================================================================
+console.log("\n[B1] the environment domain store admits, and no stated mode conflicts with the gate");
+ok(environment.receipt.decision !== "declined", `the gate admits the environment store (decision ${environment.receipt.decision})`);
+const eConflicts = reportConflicts(environment);
+for (const c of eConflicts) console.log(`      CONFLICT ${c.statement} :: declared=${c.declared} earned=${c.earned}`);
+ok(eConflicts.length === 0, `no environment claim declares a grade it cannot earn (${environment.claims.length} claims)`);
+
+// =====================================================================================
+console.log("\n[B2] per-unit measurements reach the floor; cross-cutting trade-offs rest in the forum");
+for (const r of ["e.ghg", "e.land", "e.welfare", "e.keel", "e.antibiotics", "e.soil-health", "e.biodiversity", "e.runoff"])
+  ok(gradeRef(environment, r) === "checked", `${r} grounds to the measurement floor (checked)`);
+for (const r of ["e.trilemma", "e.water-metric", "e.scale"])
+  ok(tierOf(gradeRef(environment, r)) !== "settled", `${r} rests in the forum (${gradeRef(environment, r)})`);
+
+// =====================================================================================
+console.log("\n[B3] the regenerative soil-carbon claims read as characterized gaps");
+const gaps = characterizedGaps(graphOf(environment));
+const gapById = new Map(gaps.map((g) => [g.identity, g]));
+const socId = byRef(environment, "e.regen-soc"), litterId = byRef(environment, "e.regen-litter");
+ok(gapById.has(socId) && gapById.has(litterId), `both regenerative soil-carbon claims are listed as characterized gaps (got ${gaps.length})`);
+const socGap = gapById.get(socId) || {};
+ok(socGap.closing_condition && socGap.closing_condition.condition_kind === "measurement-on-the-system", "the soil-carbon gap carries its closing condition (the direct measurement that would ground it)");
+ok((socGap.transfer_sources || []).some((t) => t.from_identity === byRef(environment, "e.pasture-soc-proxy")), "it lists its transfer source: the grazing/dairy pasture measurement it rests on");
+ok(characterization(graphOf(environment), byRef(environment, "e.regen-advocacy")) === "bare-assertion", "the bare advocacy figure is a bare assertion, not a characterized gap");
+ok(!gapById.has(byRef(environment, "e.regen-advocacy")), "the bare assertion is not listed among the characterized gaps");
+
+// =====================================================================================
+console.log("\n[B4] no regenerative claim inherits a floor grade; the transfer caps it");
+ok(gradeRef(environment, "e.regen-soc") === "supported" && tierOf(gradeRef(environment, "e.regen-soc")) !== "settled", "the soil-carbon leap earns only supported, capped by its cross-system transfer, below the measurement floor");
+ok(gradeRef(environment, "e.pasture-soc-proxy") === "checked", "its transfer source is itself a floor measurement (checked) on a different system");
+ok(collapsedRank(gradeRef(environment, "e.regen-soc")) < collapsedRank(gradeRef(environment, "e.pasture-soc-proxy")), "the leap sits strictly below the measured proxy it transfers from: settledness is not inherited across the boundary");
 
 // =====================================================================================
 console.log("\n" + H);

@@ -34,6 +34,33 @@ const SOURCES = [
   { source_id: "src:shin-2013", source_class: "peer-reviewed", description: "Shin et al. (2013), Atherosclerosis 229(2):524-530 (diabetic subgroup)" },
   { source_id: "src:aha-2020", source_class: "institutional-report", description: "Carson et al. (2020), AHA Science Advisory, Circulation 141(3):e39-e53" },
   { source_id: "src:dga-2015", source_class: "institutional-report", description: "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report" },
+
+  // ---- environment (farming and regenerative documents) ----
+  { source_id: "src:leinonen-2012", source_class: "peer-reviewed", description: "Leinonen et al. (2012), Poultry Science 91(1):8-25 (UK egg-system LCA)" },
+  { source_id: "src:wur-eggs", source_class: "dataset", description: "WUR egg LCA factsheet; De Vries & De Boer (2010), Livestock Science (land per kg egg)" },
+  { source_id: "src:efsa-2023", source_class: "institutional-report", description: "EFSA AHAW Panel (2023), EFSA Journal 21(2):e07789 (laying-hen welfare)" },
+  { source_id: "src:thofner-2021", source_class: "peer-reviewed", description: "Thofner et al. (2021), PLOS ONE (keel-bone necropsy, 4,794 birds)" },
+  { source_id: "src:ager-2023", source_class: "peer-reviewed", description: "Ager et al. (2023), Nature-family AMR meta-analysis (72 studies, 22 countries)" },
+  { source_id: "src:panagos-2024", source_class: "peer-reviewed", description: "Panagos et al. (2024), Geoderma (soil-health survey, 6,000+ samples)" },
+  { source_id: "src:outhwaite-2022", source_class: "peer-reviewed", description: "Outhwaite et al. (2022), Nature 605:97-102 (biodiversity vs land-use intensity)" },
+  { source_id: "src:epa-2011", source_class: "institutional-report", description: "EPA (2011); Baram (2014) (manure-lagoon nitrate under confined systems)" },
+  { source_id: "src:van-wagenberg-2017", source_class: "peer-reviewed", description: "van Wagenberg et al. (2017), Animal Board Invited Review (179 articles)" },
+  { source_id: "src:mekonnen-2012", source_class: "peer-reviewed", description: "Mekonnen & Hoekstra (2012), Ecosystems 15(3):401-415 (water footprint)" },
+  { source_id: "src:leip-2015", source_class: "peer-reviewed", description: "Leip et al. (2015), Environmental Research Letters 10:115004 (spatial scale)" },
+  { source_id: "src:raposo-2025", source_class: "peer-reviewed", description: "Raposo (2025), Sustainability 17(3):1223 (improved-pasture SOC, IPCC Tier 1, 7,092 sites)" },
+  { source_id: "src:yang-2019", source_class: "peer-reviewed", description: "Yang et al. (2019), J Cleaner Production (poultry-litter C retention on corn)" },
+  { source_id: "src:soares-2022", source_class: "peer-reviewed", description: "Soares et al. (2022) (no SOC increase from laying-hen integration; litter C:N 3.88)" },
+  { source_id: "src:axis-r48610", source_class: "institutional-report", description: "Congressional Research Service R48610; Newton et al. (2020) (regenerative axis definition)" },
+  { source_id: "src:savory-advocacy", source_class: "testimony", description: "Savory Institute / Teague advocacy claims (2.5-9 t C/ha/yr), per McGuire (2018) WSU critique" },
+
+  // ---- economics (net-energy document) ----
+  { source_id: "src:wiedemann-2011", source_class: "peer-reviewed", description: "Wiedemann & McGahan (2011), Australian egg-production LCA (FCR, CED)" },
+  { source_id: "src:syc-2022", source_class: "peer-reviewed", description: "Syc et al. (2022), Agriculture 12(3):355 (egg yield, battery vs organic)" },
+  { source_id: "src:turner-2022", source_class: "peer-reviewed", description: "Turner et al. (2022), Canada egg LCA (organic lowest in 9/10 categories)" },
+  { source_id: "src:pelletier-2016", source_class: "peer-reviewed", description: "Pelletier et al. (2016), Poultry Science (US egg-industry footprint, EROI)" },
+  { source_id: "src:elson-costs", source_class: "peer-reviewed", description: "Elson (1985); Tserveni-Gousi et al. (organic vs caged egg production cost)" },
+  { source_id: "src:nordhaus-stern", source_class: "peer-reviewed", description: "Nordhaus (4.3%); Stern (2006, 1.4%); Weitzman (discount-rate disagreement)" },
+  { source_id: "src:franzese-2009", source_class: "peer-reviewed", description: "Franzese et al. (2009), Ecological Modelling (GER vs Emergy incommensurability)" },
 ];
 
 module.exports = { KINDS, SOURCES };

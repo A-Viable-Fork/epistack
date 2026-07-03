@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 117,
-  "edgeCount": 205,
+  "nodeCount": 118,
+  "edgeCount": 207,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -387,6 +387,13 @@
       "group": null,
       "role": "the nutrition domain store for the eggs case (Prompt 20). The dietary-cholesterol and lipid claims and the responder-heterogeneity claims ground to the measurement floor; the guidelines claims rest in the forum; the cardiovascular block is authored as the contested structure it is: a population null and a population harm claim joined by a contradicts link, agreeing only in the diabetic subgroup, so the diabetic-interaction claim grounds while the population claims stay in tension. Each claim carries its provenance (source_id into corpora/eggs/tables.js).",
       "contract": "exports NUTRITION = { store_id, claims:[spec], links:[spec] }; claim/link specs use local refs, resolved to identities by build/check-eggs.mjs. Pure data; corpora imports nothing."
+    },
+    {
+      "path": "corpora/eggs/environment.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the environment domain store for the eggs case (Prompt 20), ingested from the farming and the regenerative documents. Per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil, biodiversity) ground to the measurement floor; cross-cutting trade-offs rest in the forum. The regenerative soil-carbon claims are authored as CHARACTERIZED GAPS: each is a transfer from a system that is not a regenerative laying-hen operation, so it earns only the grade its transfer support delivers and carries a closing condition naming the one measurement that would ground it.",
+      "contract": "exports ENVIRONMENT = { store_id, claims:[spec], links:[spec] }. Pure data; imports nothing."
     },
     {
       "path": "corpora/lhc/lhc-cascade.js",
@@ -1470,6 +1477,13 @@
     },
     {
       "from": "build/check-eggs.mjs",
+      "to": "corpora/eggs/environment.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-eggs.mjs",
       "to": "kernel/schema/records.mjs",
       "type": "imports",
       "fromLayer": "build",
@@ -1513,6 +1527,13 @@
     {
       "from": "build/check-eggs.mjs",
       "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
