@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Stands Without Trust</title>
+<meta name="kg-schema" content="typed-citation-schema-v0.1">
+<!-- Standalone (T0-6): no web fonts, no network. The shell composes registered modules; each reads
+     the kernel only through the vendored propose/read contract. -->
+<style>:root{--serif:"Newsreader",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace;}</style>
+<style>@@INCLUDE:periphery/navigate/shell/styles/shell.css@@</style>
+<style>@@INCLUDE:periphery/navigate/render/styles/compose-gate.css@@</style>
+<style>@@INCLUDE:periphery/navigate/render/styles/propose-widget.css@@</style>
+</head>
+<body>
+<header class="shell-header">
+  <h1>What Stands Without Trust</h1>
+  <div class="shell-tag">One navigable surface: the paper, the three cases, and the live demonstrations, composed from registered modules. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
+</header>
+<div class="shell-wrap">
+  <nav class="shell-nav" id="shell-nav" aria-label="contents"></nav>
+  <main class="shell-content" id="shell-content"></main>
+</div>
+
+<!-- the demonstrations' inert markup, cloned into a module section on render, then wired by init() -->
+<template id="tmpl-compose">
+<div class="cg-run" id="cgRun">
+  <div class="cg-head">Run the gate <span class="cg-sub">the v3 gate kernel, unedited, in your browser, offline</span></div>
+  <p class="cg-intro">The contributors below were generated apart and never saw each other's work. Toggle which enter the compose and run the actual kernel: the same gate the headless oracles check, vendored into this page, no network and no model in the loop. Each vantage alone earns the shared conclusion only <em>supported</em>; watch two disjoint vantages lift it to <em>corroborated</em>, priced from the source table.</p>
+  <div class="cg-toggles">
+    <label><input type="checkbox" checked disabled> incumbent map</label>
+    <label><input type="checkbox" id="cgA" checked> A &middot; population vantage</label>
+    <label><input type="checkbox" id="cgB" checked> B &middot; molecular / documentary</label>
+    <label><input type="checkbox" id="cgC" checked> C &middot; Claude Code (quantitative)</label>
+    <label><input type="checkbox" id="cgD"> D &middot; your contribution</label>
+  </div>
+  <details class="cg-gen">
+    <summary>Generate your own contribution, then compose it</summary>
+    <p class="cg-genintro">Copy this contract into any LLM. It emits a typed contribution on the COVID question against the same schema the gate enforces. Paste the JSON object it returns below, tick D, and run. The gate composes your contribution with the rest and disciplines it on identical terms: an agent is only the fastest stranger.</p>
+    <div class="cg-promptwrap">
+      <button class="cg-copy" id="cgCopy">Copy contract</button>
+      <pre class="cg-prompt" id="cg-prompt-view"></pre>
+    </div>
+    <label class="cg-idlbl">emitter id <input id="cgDid" class="cg-id" value="D" maxlength="12"></label>
+    <textarea class="cg-paste" id="cgPaste" placeholder="Paste the JSON contribution the LLM returned here, then tick D above and run."></textarea>
+  </details>
+  <button class="cg-btn" id="cgBtn">Run the gate</button>
+  <div class="cg-status" id="cgStatus"></div>
+  <pre class="cg-out" id="cgOut" aria-live="polite"></pre>
+</div>
+</template>
+
+<template id="tmpl-propose">
+<div class="pw-run" id="pw">
+  <div class="pw-head">Propose a claim <span class="pw-sub">the real gate, on your claim, in your browser</span></div>
+  <p class="pw-intro">Enter a typed claim and read the gate's receipt: the grade it earns, or its price into the forum, or the refusal with the failing check named. The widget calls the API and renders; it computes no grounding itself.</p>
+  <ul class="pw-bounds">
+    <li>This runs the real gate on your claim. It shows the gate's ruling, not durable accretion: a file-scheme artifact has no server, so your claim is graded and shown, and the shared map the next reader inherits is the coordination layer, argued here and run in the deployed system.</li>
+    <li>The grade reflects the grounding you supplied, not the truth. A claim stated with no checking record enters as asserted; adding a citation raises it.</li>
+    <li>Correctness is real here. What the deployed system adds is persistence and identity, not soundness.</li>
+  </ul>
+  <div class="pw-field"><label for="pw-statement">Statement</label><textarea id="pw-statement" placeholder="A single, checkable claim in one sentence."></textarea></div>
+  <div class="pw-row2">
+    <div class="pw-field"><label for="pw-kind">Kind</label><select id="pw-kind"></select></div>
+    <div class="pw-field"><label for="pw-declared">Claim a grade</label><select id="pw-declared"></select></div>
+  </div>
+  <div class="pw-field"><label for="pw-citation">Citation (optional)</label><input type="text" id="pw-citation" placeholder="e.g. Author 2020, Journal"></div>
+  <div class="pw-field">
+    <label for="pw-support-filter">Supports, chosen from the current store</label>
+    <input type="text" id="pw-support-filter" placeholder="filter the store by text or kind…">
+    <div class="pw-supports" id="pw-supports"></div>
+  </div>
+  <div class="pw-providers">
+    <span>Provider:</span>
+    <label><input type="radio" name="pw-provider" value="local" checked> local (runs the gate here)</label>
+    <label><input type="radio" name="pw-provider" value="remote"> remote (stub, stands in for a hosted kernel)</label>
+  </div>
+  <button class="pw-btn" id="pw-run">Propose to the gate</button>
+  <div class="pw-status" id="pw-status"></div>
+  <div class="pw-out" id="pw-out" aria-live="polite"></div>
+</div>
+</template>
+
+<!-- page-level data: the compose fixtures and the store snapshot the demos and modules read -->
+<script type="application/json" id="cg-tables">@@INCLUDE:periphery/navigate/render/compose/tables.json@@</script>
+<script type="application/json" id="cg-incumbent">@@INCLUDE:periphery/navigate/render/compose/incumbent.json@@</script>
+<script type="application/json" id="cg-A">@@INCLUDE:periphery/navigate/render/compose/A.json@@</script>
+<script type="application/json" id="cg-B">@@INCLUDE:periphery/navigate/render/compose/B.json@@</script>
+<script type="application/json" id="cg-C">@@INCLUDE:periphery/navigate/render/compose/C.json@@</script>
+<script type="text/plain" id="cg-prompt">@@INCLUDE:periphery/navigate/render/compose/prompt.txt@@</script>
+<script type="application/json" id="pw-snapshot">@@INCLUDE:vendor/gate/snapshot.json@@</script>
+
+<!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider / EpiRemoteProvider) -->
+<script>@@INCLUDE:vendor/gate/gate.bundle.js@@</script>
+<!-- the demonstrations' wiring (define init(); the shell calls it after cloning the markup) -->
+<script>@@INCLUDE:kernel/gate/clean-json.js@@
+@@INCLUDE:periphery/navigate/render/compose-gate.js@@</script>
+<script>@@INCLUDE:periphery/navigate/render/propose-widget.js@@</script>
+<!-- the shell, then the modules that register on it -->
+<script>@@INCLUDE:periphery/navigate/shell/shell.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/prose.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/cases.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/demos.js@@</script>
+<!-- boot: bind the contract to the local provider and compose the registered modules -->
+<script>
+(function () {
+  "use strict";
+  var snap = JSON.parse(document.getElementById("pw-snapshot").textContent);
+  var api = window.EpiClientApi.createClientApi(window.EpiLocalProvider.createLocalProvider(snap));
+  window.EpiShell.compose({ api: api, nav: document.getElementById("shell-nav"), content: document.getElementById("shell-content") });
+})();
+</script>
+</body>
+</html>

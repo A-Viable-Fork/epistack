@@ -131,6 +131,44 @@ module.exports = [
     "group": "consumer"
   },
   {
+    "path": "periphery/navigate/shell/shell.js",
+    "type": "periphery",
+    "group": "consumer",
+    "flows": [
+      {
+        "type": "reads-through-api",
+        "to": "api/client-api.mjs"
+      }
+    ]
+  },
+  {
+    "path": "periphery/navigate/shell/modules/prose.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
+    "path": "periphery/navigate/shell/modules/cases.js",
+    "type": "periphery",
+    "group": "consumer",
+    "flows": [
+      {
+        "type": "reads-through-api",
+        "to": "api/client-api.mjs"
+      }
+    ]
+  },
+  {
+    "path": "periphery/navigate/shell/modules/demos.js",
+    "type": "periphery",
+    "group": "consumer",
+    "flows": [
+      {
+        "type": "reads-through-api",
+        "to": "api/client-api.mjs"
+      }
+    ]
+  },
+  {
     "path": "periphery/navigate/render/visuals.js",
     "type": "periphery",
     "group": "consumer"

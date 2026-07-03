@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 101,
-  "edgeCount": 143,
+  "nodeCount": 105,
+  "edgeCount": 146,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -478,6 +478,34 @@
       "group": "consumer",
       "role": "the spine rail. The decomposition path from the root claim to the focused node, horizontal and clickable to jump back up. \"Where am I and how do I get back\", always visible. See docs/architecture-spec.md section 6.",
       "contract": "renderRail(pathNodes, onJump, caseLabel)->Element. pathNodes is the ordered list of nodes from root to focused; onJump(index) truncates the path to that node."
+    },
+    {
+      "path": "periphery/navigate/shell/shell.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the presentation shell (Prompt 17). Content-agnostic: it holds the navigation frame, the chrome, the module registry, and the cross-link machinery, and nothing else. No case, no claim, no paragraph of the paper lives here. It composes whatever modules register themselves, so adding content is registering a module and never an edit to this file. This is the assessment layer's reading surface: modules read the kernel only through the propose/read contract.",
+      "contract": "window.EpiShell = { register(module), modules(), compose({api, nav, content}) }. A module is { id, title, kind: \"prose\"|\"case\"|\"demonstration\", order?, render(ctx) }. ctx carries the api (the contract), a mount element, and the cross-link helpers registerNode / linkToNode / proseDiscusses / navigate. Periphery; reaches the kernel only through ctx.api."
+    },
+    {
+      "path": "periphery/navigate/shell/modules/prose.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the prose modules (Prompt 17). A prose module is a section of the paper with claim-references marked so a reference links into the live graph. Phase A registers one framing module; Phase B weaves the judges document (docs/judges-document.md) as prose modules with cross-linking.",
+      "contract": "registers on window.EpiShell. A prose module's render builds its paragraphs and uses ctx.linkToNode(nodeKey, label) to mark a claim-reference, which resolves to the live node."
+    },
+    {
+      "path": "periphery/navigate/shell/modules/cases.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the case modules (Prompt 17). Each of the three migrated cases is a module: its focus conclusion, that conclusion's grounding and robustness read live through the API, and the claims it rests on. Registered on the shell; adding a case is registering another module.",
+      "contract": "registers on window.EpiShell. Each module reads api.read and api.robustness for its focus node, registers the node as a cross-link anchor (so prose can navigate to it and it can surface the prose about it), and renders the reading. No case data lives here beyond the focus node's stable id; the content is the graph, read through the contract."
+    },
+    {
+      "path": "periphery/navigate/shell/modules/demos.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the demonstration modules (Prompt 17). Three live interactive pieces registered on the shell: the compose-gate panel, the propose widget, and the robustness reading. Each is a module with the standard interface; the shell composes them wherever they are registered.",
+      "contract": "registers on window.EpiShell. The compose-gate and propose modules clone their markup from a <template> and call the panel's init(); the robustness module reads api.robustness."
     },
     {
       "path": "periphery/navigate/render/visuals.js",
@@ -1643,6 +1671,21 @@
     },
     {
       "from": "periphery/navigate/render/propose-widget.js",
+      "to": "api/client-api.mjs",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/shell/shell.js",
+      "to": "api/client-api.mjs",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/shell/modules/cases.js",
+      "to": "api/client-api.mjs",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/shell/modules/demos.js",
       "to": "api/client-api.mjs",
       "type": "reads-through-api"
     },

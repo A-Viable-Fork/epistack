@@ -8,6 +8,10 @@
 //   contributions produce the same receipts and the same earned grades every run (T0-6 holds, the
 //   page opens and runs the gate fully offline).
 (function () {
+  // init() wires the panel over whatever #cg-* DOM is present. On a page that already carries the
+  // markup (the classic submission) it self-runs at load; the shell injects the markup then calls
+  // window.EpiComposeGate.init(), so the same code serves both without a second implementation.
+  function init() {
   var btn = document.getElementById('cgBtn'); if (!btn) return;
   var out = document.getElementById('cgOut'), status = document.getElementById('cgStatus');
   function txt(id) { var e = document.getElementById(id); return e ? e.textContent : ''; }
@@ -119,4 +123,7 @@
     } finally { btn.disabled = false; }
   }
   btn.addEventListener('click', run);
+  }
+  window.EpiComposeGate = { init: init };
+  if (typeof document !== 'undefined' && document.getElementById('cgBtn')) init(); // classic page: DOM present at load
 })();

@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 101. Import edges: 127. Runtime flow edges: 16. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 105. Import edges: 127. Runtime flow edges: 19. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -167,3 +167,6 @@ Nodes: 101. Import edges: 127. Runtime flow edges: 16. All import edges satisfy 
 - `periphery/navigate/fat/thin.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/render/host.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/render/propose-widget.js` **reads-through-api** `api/client-api.mjs`
+- `periphery/navigate/shell/modules/cases.js` **reads-through-api** `api/client-api.mjs`
+- `periphery/navigate/shell/modules/demos.js` **reads-through-api** `api/client-api.mjs`
+- `periphery/navigate/shell/shell.js` **reads-through-api** `api/client-api.mjs`

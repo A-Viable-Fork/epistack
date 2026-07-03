@@ -37,7 +37,7 @@ function clientManifests() {
 //   submission.html is the migrated artifact; v1.html is the decompose surface (the v1
 //   milestone, kept separate until it is reviewed and merged into the deliverable).
 const TARGETS = [
-  { template: "periphery/navigate/render/index.template.html", out: "submission.html" },
+  { template: "periphery/navigate/shell/shell.template.html", out: "submission.html" },
   { template: "periphery/navigate/render/decompose.template.html", out: "v1.html" },
 ];
 

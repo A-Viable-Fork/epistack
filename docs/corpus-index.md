@@ -1,6 +1,6 @@
 # Corpus Index
 
-A manifest of every module and data file, organized by the trust-boundary layer it sits in. Linter rule 9 fails on any tracked file under `kernel/`, `api/`, `corpora/`, `periphery/`, or `build/` (plus `linter.js`) that is not listed here. Keep this current: a new file is a new row. `periphery/navigate/render/index.template.html` is named through the includes it carries, so it is exempt.
+A manifest of every module and data file, organized by the trust-boundary layer it sits in. Linter rule 9 fails on any tracked file under `kernel/`, `api/`, `corpora/`, `periphery/`, or `build/` (plus `linter.js`) that is not listed here. Keep this current: a new file is a new row. `periphery/navigate/shell/shell.template.html` and `periphery/navigate/render/decompose.template.html` are named through the includes they carry, so they are exempt. (The classic `index.template.html` and its built snapshot now live in `archive/`, outside the tracked layers.)
 
 The layers and their dependency direction (design axiom T0-2): `periphery -> api -> kernel`; `corpora` are pure data imported by nothing; `build` may reach any layer. Phase B's `build/check-map.mjs` derives and enforces this from the real import graph.
 
@@ -104,7 +104,6 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/compose/prompt.txt` | the bring-your-own-contribution contract: emit a v3 contribution any LLM can produce, for the D flow |
 | `periphery/navigate/render/decompose.template.html` | build template; @@INCLUDE@@ tokens |
 | `periphery/navigate/render/host.js` | the host. The wiring that builds the API from storage once, registers the fat clients |
-| `periphery/navigate/render/index.template.html` | build template; @@INCLUDE@@ tokens |
 | `periphery/navigate/render/propose-widget.js` | the propose widget (Prompt 10): a judge enters a typed claim and reads the gate's receipt; calls the propose/read contract and renders, computing no grounding |
 | `periphery/navigate/render/rail.js` | the spine rail. The decomposition path from the root claim to the focused node, |
 | `periphery/navigate/render/styles/compose-gate.css` | stylesheet |
@@ -112,6 +111,11 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/styles/decompose.css` | stylesheet |
 | `periphery/navigate/render/styles/main.css` | stylesheet |
 | `periphery/navigate/render/visuals.js` | the view-side renderers for registered visual components. A node references a visual |
+| `periphery/navigate/shell/shell.js` | the presentation shell (Prompt 17): content-agnostic navigation frame, module registry, and cross-link machinery; composes registered modules, holds no content |
+| `periphery/navigate/shell/modules/prose.js` | prose modules: sections of the paper with claim-references that link into the live graph (Phase B weaves docs/judges-document.md) |
+| `periphery/navigate/shell/modules/cases.js` | case modules: each case's focus conclusion, its grounding and robustness read live through the contract, and what it rests on |
+| `periphery/navigate/shell/modules/demos.js` | demonstration modules: the compose-gate panel, the propose widget, and the robustness reading, registered on the shell |
+| `periphery/navigate/shell/styles/shell.css` | stylesheet |
 | `periphery/query/query.js` | the query surface: answer whether a claim is grounded and where it is weakest, by walking the graph through the read interface |
 | `periphery/redteam/redteam.js` | the red-team surface: attack the graph, propose objections, find thin grounding, submit refutations through the gate |
 
