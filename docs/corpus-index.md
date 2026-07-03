@@ -10,17 +10,13 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | file | role |
 |---|---|
 | `kernel/_nodes.js` | the kernel node manifest for the typed repository map (build/repo-map.schema.js) |
-| `kernel/analysis/assessment.js` | mechanical assessment: double-counted evidence, missing coverage, the blast radius if one claim falls; surfaced as open reads |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
-| `kernel/analysis/robustness.js` | the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval |
 | `kernel/analysis/robustness.mjs` | the v3 robustness reading (Prompt 13): single points of failure over the support and presupposition closures, robustness, fragility, and the correlated-evidence flag, by re-derivation |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
 | `kernel/gate/verify.mjs` | the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from |
-| `kernel/grounding/check.js` | the per-mode groundedness check: floor for formal, in-force for constitutive, faithful structure for forum |
-| `kernel/grounding/contamination.js` | effective grounding and the contamination rule. Folds a node's support subtree along |
 | `kernel/grounding/earned-grade.mjs` | the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports |
 | `kernel/grounding/profile.js` | the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where |
 | `kernel/grounding/resolve.js` | the one resolver. Every data and presentation lookup goes through resolve(id), |
@@ -30,21 +26,17 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/canonical.mjs` | the v3 canonical form and the one named hash (intake data model v3, Section 1). Turns a |
 | `kernel/schema/confidence.mjs` | the v3 confidence order (intake data model v3, Section 9). An enumerated lattice: the |
 | `kernel/schema/edges.js` | the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse) |
-| `kernel/schema/lattice.js` | the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary |
-| `kernel/schema/modes.js` | the three grounding modes: formal (evidence or proof), constitutive (declaration), forum (argument) |
 | `kernel/schema/records.mjs` | the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking |
 | `kernel/schema/sha256.mjs` | the one named hash (sha256), a vendored pure-JS implementation so the kernel hashes identically |
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
 | `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
-| `kernel/schema/terminals.js` | the terminal-type registry. One place that names the closures a claim can reach |
 | `kernel/store/apply.mjs` | the apply contract (intake data model v3, Section 14). Apply changes structure only: the |
 | `kernel/store/decay.mjs` | derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never |
 | `kernel/store/exclusion.js` | the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived |
 | `kernel/store/graph.js` | pure graph utilities over the node schema. Index, traversal, acyclicity |
 | `kernel/store/patch-ledger.js` | storage as a tamper-evident, append-only sequence of sealed canonical patches |
-| `kernel/store/reconciliation.js` | the reconciliation register: conflict between two grounded claims held as first-class disagreement with its crux |
 | `kernel/store/state.mjs` | the store-state record and the history chain (intake data model v3, Section 13). A store |
 
 ## api/ (the sole membrane: kernel-facing contract)
@@ -131,7 +123,6 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/bundle.js` | the deliverable build. Inlines the data + engine + view modules back into |
 | `build/check-gaps.mjs` | the gap detector's oracle. Tests each predicate in isolation on fixtures, then runs the |
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
-| `build/check-lattice.mjs` | the Stage 1 lattice demonstrator's oracle. Asserts modeOf is total over the seven |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |

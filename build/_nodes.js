@@ -24,10 +24,6 @@ module.exports = [
     "type": "build"
   },
   {
-    "path": "build/check-lattice.mjs",
-    "type": "build"
-  },
-  {
     "path": "build/check-client.mjs",
     "type": "build"
   },

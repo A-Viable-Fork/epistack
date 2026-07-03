@@ -2227,6 +2227,11 @@ if (typeof module !== "undefined" && module.exports) module.exports = { compare,
 <script>// Role: the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api-
 //   clients.md, "objective structure, subjective assessment"). A structural gap is an objective
 //   fact about the graph, detected mechanically, first-class like a claim. Pure, DOM-free.
+// LIVE (Prompt 16): kept while the Stage 1 lattice grounding was retired, because v3 does NOT cover
+//   this. The v3 gate computes grounding (earned grade over supports); it does not detect the
+//   OBJECTIVE structural gaps this finds over the trellis case graph, the un-authored stub, the
+//   deferred verification, the un-populated atlas, the dangling reference. It keeps check-gaps at
+//   zero and backs api.gaps. A v3 successor over the claim graph would supersede it; none exists yet.
 // Contract: detectGaps(sources) -> [gap]; gap = { kind, at, missing, discharge, sorry_ref?,
 //   ledger_ref? }. Per-predicate exports (groundingGaps/freshnessGaps/coverageGaps/danglingGaps)
 //   for isolation tests. Reads the schema for kinds/markers; reuses referencesOf for edges.
@@ -2596,249 +2601,6 @@ function perturb(resolveOrMap, flippedSet) {
 }
 
 if (typeof module !== "undefined" && module.exports) module.exports = { perturb };</script>
-<script>// Role: the terminal-type registry. One place that names the closures a claim can reach
-//   and the promotion condition each implies (design axiom T1-6: a registry, not a switch).
-// Contract: TERMINAL_REGISTRY (type -> {promotes}); promotionFor(type) -> string.
-// Invariant: DOM-free. Adding a terminal type for a new domain is an entry here plus an
-//   ontology entry in the data, never a switch buried in the engine.
-"use strict";
-
-// Mirrors the promotion semantics the artifact already encodes (view/app: promotionFor)
-// and docs/knowledge-system-how.md (the floors / terminal types). Kept here as the single registry.
-const TERMINAL_REGISTRY = {
-  measurement: { promotes: "promotes on engineering or domain-standard by independent confirmation" },
-  "irreducible-prior": { promotes: "does not promote; priced, not resolved" },
-  "withheld-record": { promotes: "does not promote while sealed; converts to measurement when the record opens" },
-  "question-set": { promotes: "promotes when a missing branch is named or the set is shown complete" },
-  constitutive: { promotes: "does not promote; closes by adopting or refusing a framework" },
-  derivation: { promotes: "promotes when a proof compiles (formal track)" },
-  "simulation-bound": { promotes: "promotes against a bounded simulation" },
-};
-
-function promotionFor(type) {
-  const e = TERMINAL_REGISTRY[type];
-  return e ? e.promotes : "terminal pending";
-}
-
-// The three grounding MODES (docs/knowledge-system-how.md, the lattice). The seven terminals
-// partition into three modes: formal (evidence or proof), constitutive (declaration), forum
-// (argument). modeOf is total over the seven registered terminals; unknown -> null.
-const MODES = ["formal", "constitutive", "forum"];
-const TERMINAL_MODE = {
-  measurement: "formal",
-  derivation: "formal",
-  "withheld-record": "formal",
-  "simulation-bound": "formal",
-  constitutive: "constitutive",
-  "irreducible-prior": "forum",
-  "question-set": "forum",
-};
-function modeOf(terminal_type) {
-  return TERMINAL_MODE[terminal_type] || null;
-}
-
-if (typeof module !== "undefined" && module.exports)
-  module.exports = { TERMINAL_REGISTRY, promotionFor, MODES, modeOf };</script>
-<script>// Role: the grounding lattice: the ordering every claim sits in, with meet (jointly-necessary
-//   minimum) and join (independently-sufficient maximum). untyped at the bottom; the forum tiers
-//   raw < attributed < structured; then the three floors proof, measurement, declaration, each
-//   above the forum tiers and MUTUALLY INCOMPARABLE (they collapse to one floor rank for the meet).
-// Contract: [1.1] Stage 1 demonstrator. Exports POSITIONS, floorRank(pos), meet(a,b), join(a,b),
-//   regionOf(pos), isFloor(pos). Pure, DOM-free; kernel imports only kernel.
-// Invariant: floorRank collapses the three floors to a single rank, so a node combining a
-//   proof-grounded and a measurement-grounded NECESSARY support stays at floor, while one forum
-//   necessary support pulls the meet down to that forum value (weakness flows downward).
-// Scope: the demonstrator exposes the ordering, the meet/join, and the floor-collapse. It does
-//   NOT add the reified edge taxonomy, the forum tiers as an authored progression on real content,
-//   the reconciliation register, or multiple independent support sets beyond one disjunction node.
-"use strict";
-
-(function (root) {
-  // the positions, low to high. The three floors and the collapsed "floor" sentinel share a rank.
-  const POSITIONS = ["untyped", "raw", "attributed", "structured", "proof", "measurement", "declaration", "floor", "top"];
-  const FLOORS = ["proof", "measurement", "declaration", "floor"];
-  // the collapsed rank of each position: the three floors (and the "floor" sentinel) all rank 4.
-  const RANK = { untyped: 0, raw: 1, attributed: 2, structured: 3, proof: 4, measurement: 4, declaration: 4, floor: 4, top: 5 };
-
-  function floorRank(pos) {
-    return Object.prototype.hasOwnProperty.call(RANK, pos) ? RANK[pos] : 0;
-  }
-  function isFloor(pos) {
-    return FLOORS.indexOf(pos) >= 0;
-  }
-  // the lattice region a position sits in: untyped (bottom), forum (a forum tier), or floor.
-  function regionOf(pos) {
-    const r = floorRank(pos);
-    if (r <= 0) return "untyped";
-    if (r >= 4) return "floor";
-    return "forum";
-  }
-
-  // meet: the jointly-necessary minimum (the weakest necessary support governs). When two
-  // positions share the floor rank but are different floors, the meet is the collapsed "floor".
-  function meet(a, b) {
-    const ra = floorRank(a), rb = floorRank(b);
-    if (ra < rb) return a;
-    if (rb < ra) return b;
-    if (isFloor(a) && isFloor(b) && a !== b) return "floor";
-    return a;
-  }
-  // join: the independently-sufficient maximum (the strongest sufficient path governs).
-  function join(a, b) {
-    const ra = floorRank(a), rb = floorRank(b);
-    if (ra > rb) return a;
-    if (rb > ra) return b;
-    if (isFloor(a) && isFloor(b) && a !== b) return "floor";
-    return a;
-  }
-
-  const out = { POSITIONS, FLOORS, floorRank, isFloor, regionOf, meet, join };
-  if (typeof module !== "undefined" && module.exports) module.exports = out;
-  else root.EpiStackLattice = out;
-})(typeof globalThis !== "undefined" ? globalThis : this);</script>
-<script>// Role: effective grounding and the contamination rule. Folds a node's support subtree along
-//   `children` edges only, combining by meet (conjunction/sequence, jointly necessary) or join
-//   (disjunction, independently sufficient), capped by the node's own declared terminal; then
-//   flags any node whose declared terminal is FORMAL but whose effective grounding folds into the
-//   forum region (weakness flowed down from a forum support into a claim that advertises a floor).
-// Contract: [1.4] Stage 1 demonstrator. Exports effectiveGrounding(nodeMap, id), ceilingOf(node),
-//   groundingOf(nodeMap, id) -> { mode, ceiling, effective, region }, and contaminationGaps(nodeMap)
-//   -> [{ kind, at, declared_floor, effective, forum_support, ... }]. Pure, DOM-free; kernel imports
-//   only kernel (lattice + terminals).
-// Invariant: the fold runs along support (children) edges ONLY, never presupposition/guard/input
-//   edges. A cited primitive, an observation, and a populated body-property leaf are floors; any
-//   other childless support is untyped, matching the current structural detector at the boolean
-//   level (kernel/analysis/gaps.js groundingGaps).
-// Scope: single-composition decomposition, the support structure the graph already has. It does
-//   NOT model the reified edge taxonomy, forum tiers as authored progression, the reconciliation
-//   register, or multiple independent support sets beyond one disjunction node (Stage 1 remainder).
-"use strict";
-
-(function (root) {
-  const NODE = typeof module !== "undefined" && module.exports;
-  const L = NODE ? require("../schema/lattice.js") : (typeof EpiStackLattice !== "undefined" ? EpiStackLattice : null);
-  const T = NODE ? require("../schema/terminals.js") : { modeOf: typeof modeOf !== "undefined" ? modeOf : null };
-  const modeOfFn = T.modeOf; // local binding; must not shadow the global `modeOf` (TDZ in browser)
-
-  // the floor position a declared terminal_type reaches, by its mode. Formal -> proof (derivation)
-  // or measurement (the other formal terminals); constitutive -> declaration; forum -> structured
-  // (the top forum tier, the ceiling of a forum claim). Unknown/absent -> null.
-  function floorFor(terminal_type) {
-    const m = modeOfFn ? modeOfFn(terminal_type) : null;
-    if (m === "formal") return terminal_type === "derivation" ? "proof" : "measurement";
-    if (m === "constitutive") return "declaration";
-    if (m === "forum") return "structured";
-    return null;
-  }
-
-  // a childless node that legitimately grounds (the floor): a cited primitive (incl. a flattened
-  // body-property leaf, which is kind primitive with a citation), or an observation. Matches
-  // kernel/analysis/gaps.js isGroundedLeaf exactly, so the boolean agrees by construction.
-  function isGroundedLeaf(n) {
-    if (!n) return false;
-    if (n.kind === "primitive") return !!n.citation;
-    if (n.kind === "observation") return true;
-    return false;
-  }
-
-  // the grounding of a CHILDLESS node reached as support.
-  function leafPosition(n) {
-    if (isGroundedLeaf(n)) {
-      if (n.kind === "observation") return "measurement"; // a world-fact closes a claim: a floor
-      return floorFor(n.terminal_type) || "proof"; // a cited primitive: its floor, math floor by default
-    }
-    // a childless forum-terminal leaf grounds by declaration at its forum tier; any other childless
-    // support (a formal terminal with no support drawn, or no terminal) bottoms out untyped.
-    if (n.terminal_type && modeOfFn && modeOfFn(n.terminal_type) === "forum") return floorFor(n.terminal_type);
-    return "untyped";
-  }
-
-  // the ceiling: the highest grounding a node's KIND could reach, from its declared terminal_type.
-  function ceilingOf(node) {
-    if (!node || !node.terminal_type) return "untyped";
-    return floorFor(node.terminal_type) || "untyped";
-  }
-
-  // effective grounding: fold the support subtree along `children` only. meet for conjunction/
-  // sequence, join for disjunction, then cap by the node's own declared terminal (a node never
-  // advertises more grounding than its terminal allows). Memoized; guarded against cycles.
-  function effectiveGrounding(nodeMap, id, memo, stack) {
-    if (!L) return "untyped";
-    memo = memo || Object.create(null);
-    stack = stack || new Set();
-    if (id in memo) return memo[id];
-    const n = nodeMap[id];
-    if (!n) return "untyped"; // a dangling child is a separate gap axis; treat as no support here
-    if (stack.has(id)) return "untyped"; // cycle guard (the linter forbids decomposition cycles)
-    const kids = Array.isArray(n.children) ? n.children : [];
-    let pos;
-    if (!kids.length) {
-      pos = leafPosition(n);
-    } else {
-      stack.add(id);
-      const disj = n.composition === "disjunction";
-      let combined = null;
-      for (const c of kids) {
-        const cp = effectiveGrounding(nodeMap, c, memo, stack);
-        combined = combined == null ? cp : (disj ? L.join(combined, cp) : L.meet(combined, cp));
-      }
-      stack.delete(id);
-      if (n.terminal_type) combined = L.meet(combined, ceilingOf(n)); // cap by own declared terminal
-      pos = combined;
-    }
-    memo[id] = pos;
-    return pos;
-  }
-
-  // the read surfaced alongside a node: its mode, ceiling, effective grounding, and lattice region.
-  function groundingOf(nodeMap, id) {
-    const n = nodeMap[id];
-    if (!n) return null;
-    const eff = effectiveGrounding(nodeMap, id);
-    return {
-      id,
-      mode: n.terminal_type && modeOfFn ? modeOfFn(n.terminal_type) : null,
-      ceiling: ceilingOf(n),
-      effective: eff,
-      region: L ? L.regionOf(eff) : null,
-    };
-  }
-
-  // the contamination check: a node whose declared terminal is FORMAL but whose effective grounding,
-  // folded from its supports, falls into the forum region. Reports the node, its declared floor, and
-  // the forum support that pulls it down. Objective and unranked, like every gap read.
-  function contaminationGaps(nodeMap) {
-    const out = [];
-    if (!L || !modeOfFn) return out;
-    const memo = Object.create(null);
-    for (const id of Object.keys(nodeMap)) {
-      const n = nodeMap[id];
-      if (!n || !n.terminal_type || modeOfFn(n.terminal_type) !== "formal") continue;
-      const eff = effectiveGrounding(nodeMap, id, memo);
-      if (L.regionOf(eff) !== "forum") continue;
-      const forumChild = (Array.isArray(n.children) ? n.children : []).find(
-        (c) => L.regionOf(effectiveGrounding(nodeMap, c, memo)) === "forum"
-      );
-      out.push({
-        kind: "contamination",
-        at: id,
-        declared_floor: ceilingOf(n),
-        effective: eff,
-        forum_support: forumChild || null,
-        missing:
-          "declares a formal floor (" + ceilingOf(n) + ", terminal '" + n.terminal_type +
-          "') but its support folds to the forum region (" + eff + ")" +
-          (forumChild ? ", pulled down by forum support '" + forumChild + "'" : ""),
-        discharge: "raise the forum support to a floor, or lower the declared terminal to match its support",
-      });
-    }
-    return out;
-  }
-
-  const out = { floorFor, isGroundedLeaf, leafPosition, ceilingOf, effectiveGrounding, groundingOf, contaminationGaps };
-  if (NODE) module.exports = out;
-  else root.EpiStackGrounding = out;
-})(typeof globalThis !== "undefined" ? globalThis : this);</script>
 <script>// Role: the engine's client-facing API. THE single door between clients and storage. Reads
 //   are open (resolve, decompose, compare, dependents, motions, kinds, entry); the one write
 //   is submit(claim), a gated submission, never a direct store mutation.
@@ -2866,10 +2628,6 @@ if (typeof module !== "undefined" && module.exports)
         detectGaps: require("../kernel/analysis/gaps.js").detectGaps,
         detectGapsAt: require("../kernel/analysis/gaps.js").detectGapsAt,
         flattenBodies: require("../kernel/analysis/gaps.js").flattenBodies,
-        collect: require("../kernel/analysis/gaps.js").collect,
-        subtreeIds: require("../kernel/analysis/gaps.js").subtreeIds,
-        groundingOf: require("../kernel/grounding/contamination.js").groundingOf,
-        contaminationGaps: require("../kernel/grounding/contamination.js").contaminationGaps,
         perturb: require("../kernel/motions/perturb.js").perturb,
         SCHEMA: require("../kernel/schema/schema.js"),
       }
@@ -2885,10 +2643,6 @@ if (typeof module !== "undefined" && module.exports)
         detectGaps: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGaps : null,
         detectGapsAt: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.detectGapsAt : null,
         flattenBodies: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.flattenBodies : null,
-        collect: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.collect : null,
-        subtreeIds: typeof EpiStackGaps !== "undefined" ? EpiStackGaps.subtreeIds : null,
-        groundingOf: typeof EpiStackGrounding !== "undefined" ? EpiStackGrounding.groundingOf : null,
-        contaminationGaps: typeof EpiStackGrounding !== "undefined" ? EpiStackGrounding.contaminationGaps : null,
         perturb: typeof perturb !== "undefined" ? perturb : null,
         SCHEMA: typeof SCHEMA !== "undefined" ? SCHEMA : null,
       };
@@ -2945,23 +2699,9 @@ if (typeof module !== "undefined" && module.exports)
         id == null
           ? E.detectGaps(sources)
           : E.detectGapsAt(sources, id),
-      // grounding: the Stage 1 lattice read alongside a node, its mode, ceiling, effective
-      // grounding, and lattice region, folded from the support subtree (kernel/grounding/
-      // contamination.js). Read-only; the fold runs along children support edges only.
-      grounding: (id) => {
-        if (!E.collect || !E.groundingOf) return null;
-        return E.groundingOf(E.collect(sources).nodeMap, id);
-      },
-      // contamination: nodes whose declared FORMAL terminal is undercut by a forum support (the
-      // contamination rule). contamination() over the whole graph, contamination(id) over a subtree.
-      contamination: (id) => {
-        if (!E.collect || !E.contaminationGaps) return [];
-        const nm = E.collect(sources).nodeMap;
-        const all = E.contaminationGaps(nm);
-        if (id == null) return all;
-        const sub = E.subtreeIds ? E.subtreeIds(nm, id) : new Set([id]);
-        return all.filter((g) => sub.has(g.at));
-      },
+      // grounding is now the v3 reading: the propose/read contract returns each claim's earned grade
+      // (api/client-api.mjs, api/providers/local-provider.mjs), and api.robustness reads fragility
+      // beside it. The Stage 1 lattice grounding read (contamination.js) was retired in Prompt 16.
       kinds: () => (E.SCHEMA ? E.SCHEMA.PRESENTATION_TYPES.slice() : []), // the closed kind set
       pipelineMembers: (rootId) => E.pipelineMembers(resolve, rootId),
       entry: () => entryId, // the case's learning-first entry id

@@ -5,11 +5,9 @@
 //   line 0 < 1 < 2 < 3 < settled with meet, join, and floor-collapse.
 // Contract: POSITIONS, modeOf, tierOf, collapse, collapsedRank, meet, join, leqWithinMode,
 //   comparableWithinMode. Pure, ESM; kernel imports only kernel.
-// Invariant: no numbers on the epistemic path here either, grades are named positions. Note: this
-//   is a DISTINCT order from the Stage 1 trellis lattice (kernel/schema/lattice.js), which speaks a
-//   different vocabulary (untyped/forum tiers/floors); they share the collapse-to-one-settled design
-//   and a constitutive mode but not their positions, so reusing one for the other would conflate two
-//   orders. This module is the v3 intake order alone.
+// Invariant: no numbers on the epistemic path here either, grades are named positions. This is the
+//   one canonical grounding order; the Stage 1 trellis lattice that once sat beside it (a different
+//   vocabulary of untyped/forum tiers/floors) was retired in Prompt 16, leaving this the sole order.
 "use strict";
 
 // each grade: its collapsed line rank (0..4), its tier, and its mode within the settled branch.

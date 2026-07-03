@@ -23,8 +23,6 @@ and returns resolved, read-only values. A read never mutates anything.
 | `api.classify(id)` | a node id | the structural class (transformation / primitive / given) |
 | `api.gaps()` | nothing | every objective structural gap in the graph, as typed objects (below) |
 | `api.gaps(id)` | a node id | the gaps at that node or anywhere in its decomposition subtree |
-| `api.grounding(id)` | a node id | the Stage 1 lattice read: `{ id, mode, ceiling, effective, region }`, effective grounding folded from the support subtree |
-| `api.contamination()` | nothing | every node whose declared formal terminal is undercut by a forum support (the contamination rule); `contamination(id)` scopes to a subtree |
 | `api.perturb(flipped)` | a set of assumption ids | the authored-consequence overlay `{ states, trails }` for those flips; a non-destructive what-if read (below) |
 | `api.kinds()` | nothing | the closed set of semantic node kinds (presentation types) |
 | `api.entry()` | nothing | the case's learning-first entry id |
