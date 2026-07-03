@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 107,
-  "edgeCount": 160,
+  "nodeCount": 110,
+  "edgeCount": 174,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -23,6 +23,20 @@
       "group": "analysis",
       "role": "the robustness reading over the support graph (intake data model v3). Grounding says how high a claim reaches; robustness says how much of that reach survives the loss of one support. The support graph is a reliability structure: jointly-necessary supports in a group are in series, independent groups are in parallel, a claim falling to the bottom of the order is a component failing. A single point of failure is a claim in the target's support closure whose removal lowers the target's earned grade; robustness is the earned grade after the worst single removal; fragility is the interval between the two. A distinct reading runs over the depends-on closure, where a single point of failure breaks well-formedness rather than lowering the grade.",
       "contract": "analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) -> reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing."
+    },
+    {
+      "path": "kernel/composition/records.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the composition-layer record types (composition spec, records 1 and 4; grows across the phases). A composite store holds these above the domain kernel: a cross-store citation names a domain claim and copies the grade the domain store held for it, and a composite claim owns a set of citations. Each builder validates the spec's fields, canonicalizes, and hashes, exactly as the domain records do, so a composition record is a v3-shaped record on the same canonical form.",
+      "contract": "citationRecord(raw), compositeClaimRecord(raw). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/transfer.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "grounding transfer across the store boundary (composition spec, record 2). The weakest-link rule that governs support inside a store governs it across the boundary: a composite claim is no more grounded than its weakest necessary cited claim. This module copies the domain store's grade into a citation (the composite never assigns a grade for a claim it does not own) and folds the necessary carried grades under one min, capped by the composite claim's ceiling.",
+      "contract": "domainGradeOf(state, id, tables), citeDomainClaim(domainStore, ref), compositeGrade({ ceiling, citations }), isStale(citation, sourceCurrentStateId). Pure, ESM; kernel imports kernel."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -564,6 +578,13 @@
       "contract": "`node build/check-characterized-gaps.mjs` exits non-zero on any failure. Imports the v3 kernel, the analysis module, and (for exposure) the client contract and the snapshot."
     },
     {
+      "path": "build/check-composition.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the composition-layer oracle (Prompt 19). Proves the composite store on synthetic fixtures: the cross-store citation copies the domain grade and never assigns it, the grounding transfer folds necessary carried grades under one min with the settled-collapse making it well defined, a forum-band citation carries the forum value through, and staleness is a read that leaves the citation intact. Grows across the phases; Phase A is sections 1 to 6.",
+      "contract": "`node build/check-composition.mjs` exits non-zero on any failure. Imports the v3 kernel and the composition layer only; no case data is touched (the corpus stays closed at zero gaps)."
+    },
+    {
       "path": "build/check-client.mjs",
       "type": "build",
       "group": null,
@@ -806,6 +827,41 @@
     {
       "from": "kernel/analysis/robustness.mjs",
       "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "kernel/composition/records.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1170,6 +1226,55 @@
     {
       "from": "build/check-client.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/transfer.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1744,6 +1849,16 @@
     {
       "from": "kernel/analysis/gaps.js",
       "to": "build/check-gaps.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/records.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/transfer.mjs",
+      "to": "build/check-composition.mjs",
       "type": "checked-by"
     },
     {

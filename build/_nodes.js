@@ -28,6 +28,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-composition.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-client.mjs",
     "type": "build"
   },
