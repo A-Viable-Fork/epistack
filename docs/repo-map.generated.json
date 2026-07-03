@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 110,
-  "edgeCount": 153,
+  "edgeCount": 156,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -1063,6 +1063,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/analysis/robustness.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/check-client.mjs",
       "to": "api/client-api.mjs",
       "type": "imports",
@@ -1397,6 +1404,20 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-translate.mjs",

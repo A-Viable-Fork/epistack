@@ -12,6 +12,8 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { analyzeRobustness, analyzePresupposition } from "../kernel/analysis/robustness.mjs";
 import { makeSourceTable, makeKindTable } from "../kernel/schema/tables.mjs";
+import { createClientApi } from "../api/client-api.mjs";
+import { createLocalProvider } from "../api/providers/local-provider.mjs";
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -107,7 +109,66 @@ console.log("\n[5] determinism: a re-run is byte-identical");
   ok(a === b, "two runs produce identical serialized readings");
 }
 
+// ======================================================================================
+// Phase B: the migrated cases, read through the graph, reported as concrete fragility.
+// ======================================================================================
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const snap = JSON.parse(readFileSync(join(ROOT, "vendor/gate/snapshot.json"), "utf8"));
+const caseGraph = { entries: snap.state.entries, links: snap.state.links, tables: { sourceTable: makeSourceTable(snap.sources), kindTable: makeKindTable(snap.kinds) } };
+const entryByPrefix = (p) => snap.state.entries.find((e) => e.statement.startsWith(p));
+const labelOf = (id) => { const e = snap.state.entries.find((x) => x.identity === id); return e ? e.statement.split(":")[0] : id.slice(0, 10); };
+
+console.log("\n" + H); console.log("CHECK-ROBUSTNESS (Phase B): the three migrated cases, top-conclusion fragility"); console.log(H);
+
+function caseRead(name, prefix) {
+  const e = entryByPrefix(prefix);
+  const r = analyzeRobustness(caseGraph, e.identity);
+  console.log(`\n### ${name}: "${e.statement.slice(0, 56)}"`);
+  console.log(`  grade ${r.grade} · robustness ${r.robustness} · ${r.fragility.empty ? "REDUNDANT (survives any single loss)" : "fragile"} · ${r.group_count} support group(s) · closure ${r.support_closure.length}`);
+  if (r.worst_removal) console.log(`  worst single point of failure: ${labelOf(r.worst_removal.identity)} (removal lowers to ${r.worst_removal.lowered_to}); ${r.single_points_of_failure.length} SPOFs in all`);
+  if (r.correlated_evidence_flag) console.log(`  correlated-evidence flag: ${r.correlated_evidence_flag.shared_points.map(labelOf).join(", ")}`);
+  return r;
+}
+
+console.log("\n[6] LHC: the survival argument, read concretely");
+{
+  // the conclusion "the hazard is bounded" rests on its own measurement basis: robust, no closure.
+  const claim = caseRead("LHC conclusion (hazard bounded)", "lhc.claim:");
+  ok(claim.fragility.empty && claim.support_closure.length === 0, "the conclusion is robust on its own measurement basis (no support to lose)");
+  // the antecedent is a conjunction: production AND stopping AND accretion, every conjunct load-bearing.
+  const ante = caseRead("LHC antecedent (production AND stopping AND accretion)", "lhc.antecedent:");
+  ok(!ante.fragility.empty && ante.single_points_of_failure.length > 0, "the conjunction is fragile throughout: every conjunct and sub-claim is a single point of failure (a series, no redundancy)");
+  const spofLabels = ante.single_points_of_failure.map((s) => labelOf(s.identity));
+  ok(["lhc.branch1", "lhc.branch3"].every((b) => spofLabels.includes(b)), "the production and accretion branches are named as single points of failure");
+  // the one genuinely redundant node in the cascade: the charged/neutral stopping disjunction.
+  const n22 = caseRead("LHC stopping mechanism (N2.2, charged OR neutral)", "lhc.N2.2:");
+  ok(n22.group_count === 2 && n22.fragility.empty, "N2.2 is genuinely redundant: two independent stopping mechanisms, either one suffices, robustness equals grade");
+}
+
+console.log("\n[7] COVID and eggs: the termination's dependence structure");
+{
+  const covid = caseRead("COVID termination (priced prior)", "covid.instance:");
+  ok(!covid.fragility.empty && covid.group_count === 1, "the priced prior rests on a single representativeness analysis: fragile, one group");
+  ok(covid.worst_removal && labelOf(covid.worst_removal.identity) === "prim.exchangeability", "its worst single point of failure is prim.exchangeability, the very condition whose violation prices the prior");
+  const eggsPop = caseRead("eggs population conclusion", "eggs.instance: eggs, individual dietary response (population");
+  ok(!eggsPop.fragility.empty, "the eggs population conclusion is fragile on the sound-prefix analysis");
+  const eggsInd = caseRead("eggs individual conclusion (refused)", "eggs.instance: eggs, individual dietary response (individual");
+  ok(eggsInd.fragility.empty && eggsInd.support_closure.length === 0, "the refused individual conclusion has no support to lose: no fragility structure, reported plainly");
+}
+
+console.log("\n[8] the API read: a client obtains robustness the same way it obtains grounding");
+{
+  const api = createClientApi(createLocalProvider(snap));
+  const claimId = entryByPrefix("lhc.claim:").identity;
+  const one = api.robustness({ identity: claimId });
+  ok(one.length === 1 && one[0].grade && one[0].robustness && "fragile" in one[0], "api.robustness({identity}) returns the reading for one claim, carrying grade, robustness, fragility");
+  const all = api.robustness({});
+  ok(all.length === snap.state.entries.length, `api.robustness({}) reads all ${all.length} claims, alongside api.read grounding`);
+  const grounding = api.read({ identity: claimId })[0];
+  ok(grounding.earned_grade === one[0].grade, "the grade on the robustness read agrees with the grounding read (same claim, same earned grade)");
+}
+
 console.log("\n" + H);
-console.log(fails === 0 ? "check-robustness (Phase A): OK" : `check-robustness: ${fails} FAILURE(S)`);
+console.log(fails === 0 ? "check-robustness: OK (fixtures + two closures + case readings + API read)" : `check-robustness: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

@@ -13,6 +13,7 @@ import { claimRecord, linkRecord } from "../../kernel/schema/records.mjs";
 import { makeSourceTable, makeKindTable } from "../../kernel/schema/tables.mjs";
 import { storeViewOf } from "../../kernel/store/decay.mjs";
 import { hashOf } from "../../kernel/schema/canonical.mjs";
+import { analyzeRobustness, analyzePresupposition } from "../../kernel/analysis/robustness.mjs";
 
 function slug(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
@@ -95,5 +96,28 @@ export function createLocalProvider(snapshot) {
     return receipt;
   }
 
-  return { kind: "local", propose, read };
+  // robustness(query): the fragility reading alongside grounding, obtained the same way `read` is.
+  //   query.identity restricts to one claim; otherwise every claim is read. Each reading carries the
+  //   grade, the robustness (grade after the worst single removal), whether it is fragile, its single
+  //   points of failure, the correlated-evidence flag, and the distinct presupposition reading.
+  const graph = { entries: state.entries || [], links: state.links || [], tables: baseTables };
+  function robustness(query) {
+    query = query || {};
+    let targets = (state.entries || []).map((e) => e.identity);
+    if (query.identity) targets = targets.filter((id) => id === query.identity);
+    return targets.map((id) => {
+      const rob = analyzeRobustness(graph, id);
+      const pre = analyzePresupposition(graph, id);
+      const e = claimByIdentity.get(id);
+      return {
+        identity: id, statement: e ? e.statement : "", grade: rob.grade, robustness: rob.robustness,
+        fragile: !rob.fragility.empty, single_points_of_failure: rob.single_points_of_failure,
+        worst_removal: rob.worst_removal, group_count: rob.group_count,
+        correlated_evidence_flag: rob.correlated_evidence_flag,
+        presupposition: { closure: pre.presupposition_closure, shared: pre.shared_presuppositions },
+      };
+    });
+  }
+
+  return { kind: "local", propose, read, robustness };
 }

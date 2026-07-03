@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 110. Import edges: 135. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -54,6 +54,7 @@ Nodes: 110. Import edges: 135. Runtime flow edges: 18. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/analysis/robustness.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/gate/gate.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/records.mjs`  *(api -> kernel)*
@@ -108,6 +109,8 @@ Nodes: 110. Import edges: 135. Runtime flow edges: 18. All import edges satisfy 
 - `build/check-migrate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-perturb.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
 - `build/check-perturb.mjs` -> `kernel/motions/perturb.js`  *(build -> kernel)*
+- `build/check-robustness.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-robustness.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-robustness.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/check-robustness.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*

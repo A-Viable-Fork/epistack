@@ -105,9 +105,16 @@ artifact is a client of (Prompt 10; `api/client-api.mjs`). The API is a contract
 createClientApi(provider) -> {
   propose(proposedClaim) -> receipt,   // the full data-model Section-11 receipt the gate produced
   read(query) -> [claim with grounding], // claims, each with its declared and derived-earned grade
+  robustness(query) -> [claim with fragility], // grade, robustness, single points of failure, flag
   providerKind() -> "local" | "remote",
 }
 ```
+
+`robustness` is obtained the same way grounding is (Prompt 13; `kernel/analysis/robustness.mjs`):
+each claim's grade, its robustness (the earned grade after the worst single removal from its support
+closure), whether it is fragile, its single points of failure, the correlated-evidence flag, and the
+distinct presupposition reading over the `depends-on` closure. It is derived on read like grounding,
+never stored, and reports structural fragility, not certified true independence (see the module head).
 
 Two providers satisfy the same contract, and a client swaps between them by changing one import:
 
