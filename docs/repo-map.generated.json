@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 114,
-  "edgeCount": 196,
+  "nodeCount": 117,
+  "edgeCount": 205,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -375,6 +375,20 @@
       "contract": "STUB: eggs.instance lives in corpora/population/population-pipeline.js (one file, both instances; splitting would refactor). This dir marks the case home."
     },
     {
+      "path": "corpora/eggs/tables.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the eggs case reference tables (trusted inputs, intake data model v3, Section 10). The source table carries a row per cited study or body, with its source class and full citation as provenance; the kind table gives the two ceilings the eggs domains use: a measurement floor and a forum band.",
+      "contract": "exports SOURCES (source-table rows) and KINDS (kind-table rows). Pure data; corpora imports nothing. Consumed by build/check-eggs.mjs, which builds the domain and composite stores."
+    },
+    {
+      "path": "corpora/eggs/nutrition.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the nutrition domain store for the eggs case (Prompt 20). The dietary-cholesterol and lipid claims and the responder-heterogeneity claims ground to the measurement floor; the guidelines claims rest in the forum; the cardiovascular block is authored as the contested structure it is: a population null and a population harm claim joined by a contradicts link, agreeing only in the diabetic subgroup, so the diabetic-interaction claim grounds while the population claims stay in tension. Each claim carries its provenance (source_id into corpora/eggs/tables.js).",
+      "contract": "exports NUTRITION = { store_id, claims:[spec], links:[spec] }; claim/link specs use local refs, resolved to identities by build/check-eggs.mjs. Pure data; corpora imports nothing."
+    },
+    {
       "path": "corpora/lhc/lhc-cascade.js",
       "type": "corpus",
       "group": null,
@@ -611,6 +625,13 @@
       "group": null,
       "role": "the composition-layer oracle (Prompt 19). Proves the composite store on synthetic fixtures: the cross-store citation copies the domain grade and never assigns it, the grounding transfer folds necessary carried grades under one min with the settled-collapse making it well defined, a forum-band citation carries the forum value through, and staleness is a read that leaves the citation intact. Grows across the phases; Phase A is sections 1 to 6.",
       "contract": "`node build/check-composition.mjs` exits non-zero on any failure. Imports the v3 kernel and the composition layer only; no case data is touched (the corpus stays closed at zero gaps)."
+    },
+    {
+      "path": "build/check-eggs.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the eggs-case oracle (Prompt 20). The eggs question, restructured into domain stores that ground to their own floors and an eggs composite that cites them across the boundary, run on real ingested research. It builds each domain store through the real v3 gate and the composite through the Prompt 19 composition layer, and verifies grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, and the denominator swap. Grows across the four phases; Phase A is the domain stores and the nutrition domain.",
+      "contract": "`node build/check-eggs.mjs` exits non-zero on any failure. Loads corpora/eggs (CommonJS) via createRequire; imports the v3 kernel and the composition layer only."
     },
     {
       "path": "build/check-client.mjs",
@@ -1429,6 +1450,69 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "corpora/eggs/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "corpora/eggs/nutrition.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

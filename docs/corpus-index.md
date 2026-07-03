@@ -76,6 +76,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/_shared/units.js` | the thin shared root: units and cross-kernel definitions so they translate across kernels (bodies and atlas sit alongside) |
 | `corpora/covid/covid.js` | the COVID-origin case. Its instance is authored in the shared two-stage pipeline corpus and is not split out |
 | `corpora/eggs/eggs.js` | the eggs case. Its instance is authored in the shared two-stage pipeline corpus and is not split out |
+| `corpora/eggs/tables.js` | the eggs case reference tables (Prompt 20): the source table (a row per cited study, with its citation as provenance) and the kind table (a measurement floor and a forum band) |
+| `corpora/eggs/nutrition.js` | the eggs nutrition domain store (Prompt 20): metabolic and responder claims to the measurement floor, guidelines in the forum, and the cardiovascular contradiction held as structure with the diabetic-interaction claim grounding where the lines agree |
 | `corpora/lhc/lhc-cascade.js` | the LHC-safety case-family, authored as data (docs/lhc-cascade.md, |
 | `corpora/population/population-pipeline.js` | the population-mismatch case-family, authored as data (docs/population-pipeline.md) |
 
@@ -136,6 +138,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-gate.mjs` | the v3 gate kernel's oracle (intake data model v3). Runs the acceptance suite phase by |
 | `build/check-characterized-gaps.mjs` | the characterized-gaps oracle (Prompt 18): the closing-condition record, the capping transfer, the gap category, the three-way distinction, determinism, and the contract exposure |
 | `build/check-composition.mjs` | the composition-layer oracle (Prompt 19): the citation copies the domain grade, the grounding transfer folds the min with the settled-collapse, a forum-band citation carries the forum value, and staleness leaves the record intact |
+| `build/check-eggs.mjs` | the eggs-case oracle (Prompt 20): the eggs question as domain stores and a composite on real ingested research; grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, and the denominator swap |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |

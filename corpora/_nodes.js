@@ -34,6 +34,14 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/eggs/tables.js",
+    "type": "corpus"
+  },
+  {
+    "path": "corpora/eggs/nutrition.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/lhc/lhc-cascade.js",
     "type": "corpus"
   },

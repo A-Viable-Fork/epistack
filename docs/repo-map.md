@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 117. Import edges: 180. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -111,6 +111,15 @@ Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `corpora/eggs/nutrition.js`  *(build -> corpus)*
+- `build/check-eggs.mjs` -> `corpora/eggs/tables.js`  *(build -> corpus)*
+- `build/check-eggs.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-gaps.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
