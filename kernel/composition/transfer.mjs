@@ -22,11 +22,11 @@ export function domainGradeOf(state, claimIdentity, tables) {
 
 // build a citation by COPYING the domain store's grade at its current state. This is the one place a
 // carried_grade is produced, and it is a copy of the domain's derivation, never an assignment.
-export function citeDomainClaim(domainStore, { citing_claim, cited_claim, role, made_at }) {
+export function citeDomainClaim(domainStore, { citing_claim, cited_claim, role, made_at, term_ref }) {
   const carried_grade = domainGradeOf(domainStore.state, cited_claim, domainStore.tables);
   return citationRecord({
     citing_claim, source_store: domainStore.store_id, cited_claim,
-    cited_state: domainStore.state.state_hash, carried_grade, role, made_at,
+    cited_state: domainStore.state.state_hash, carried_grade, role, made_at, term_ref,
   });
 }
 

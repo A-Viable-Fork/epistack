@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 110,
-  "edgeCount": 174,
+  "nodeCount": 111,
+  "edgeCount": 178,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -37,6 +37,13 @@
       "group": "composition",
       "role": "grounding transfer across the store boundary (composition spec, record 2). The weakest-link rule that governs support inside a store governs it across the boundary: a composite claim is no more grounded than its weakest necessary cited claim. This module copies the domain store's grade into a citation (the composite never assigns a grade for a claim it does not own) and folds the necessary carried grades under one min, capped by the composite claim's ceiling.",
       "contract": "domainGradeOf(state, id, tables), citeDomainClaim(domainStore, ref), compositeGrade({ ceiling, citations }), isStale(citation, sourceCurrentStateId). Pure, ESM; kernel imports kernel."
+    },
+    {
+      "path": "kernel/composition/vocabulary.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the shared vocabulary (composition spec, record 3, design decision B) and the ceiling selection (design decision A). Units and definitions that must mean the same thing in every store are declared once, here, and referenced by identity. Two claims agree on a quantity exactly when their term references share a term_id: identity at the layer is the proof, with no name-matching. A composite's ceiling follows from its cited quantities: the top of scale when they resolve to a single shared term, structured-forum when they weigh across distinct terms.",
+      "contract": "sharedTerm(raw), termReference(raw), sameQuantity(a, b), detectVersionSkew(citations), detectCacheDrift(term, cachedDefinition), requireTermReference(slot), ceilingForCitations(cits). Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -846,6 +853,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/composition/records.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/composition/transfer.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
@@ -862,6 +876,13 @@
     {
       "from": "kernel/composition/transfer.mjs",
       "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/vocabulary.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1275,6 +1296,13 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1858,6 +1886,11 @@
     },
     {
       "from": "kernel/composition/transfer.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/vocabulary.mjs",
       "to": "build/check-composition.mjs",
       "type": "checked-by"
     },

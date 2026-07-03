@@ -13,8 +13,9 @@ import { makeSourceTable, makeKindTable } from "../kernel/schema/tables.mjs";
 import { makeState, GENESIS_MARKER } from "../kernel/store/state.mjs";
 import { hashOf } from "../kernel/schema/canonical.mjs";
 import { leqWithinMode } from "../kernel/schema/confidence.mjs";
-import { citationRecord, compositeClaimRecord } from "../kernel/composition/records.mjs";
+import { citationRecord, compositeClaimRecord, crossDomainClaimRecord, weightingRecord } from "../kernel/composition/records.mjs";
 import { domainGradeOf, citeDomainClaim, compositeGrade, isStale } from "../kernel/composition/transfer.mjs";
+import { sharedTerm, termReference, sameQuantity, detectVersionSkew, detectCacheDrift, requireTermReference, ceilingForCitations } from "../kernel/composition/vocabulary.mjs";
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -135,6 +136,61 @@ function buildDigest() {
   });
 }
 ok(buildDigest() === buildDigest(), "two runs of the fixture build produce an identical digest");
+
+// ---- Phase B: the shared vocabulary and the cross-domain claim ----
+// two shared terms, declared once at the layer; a second settled economic claim under T-usd
+const T_qaly = sharedTerm({ term_id: "T-qaly", kind: "unit", name: "quality-adjusted life year", definition: "one year of life in full health", version: "3" });
+const T_usd = sharedTerm({ term_id: "T-usd", kind: "unit", name: "US dollar", definition: "one United States dollar, nominal", version: "1" });
+const D5 = claimRecord({ kind: "econ-measurement", statement: "the downstream saving is 3000 dollars per patient", source_id: "s-econ", contributor_id: "lab-e", declared_grade: "checked", checking_records: [chk("e2", "data-audit")] });
+const storeEconB = { store_id: "S-econ", state: makeState({ prior_state_hash: GENESIS_MARKER, entries: [D5] }), tables };
+const refUsd = (v) => ({ term_id: "T-usd", term_version: v });
+const refQaly = (v) => ({ term_id: "T-qaly", term_version: v });
+
+// =====================================================================================
+console.log("\n[7] the shared vocabulary: one declaration, provable same-reference");
+ok(T_qaly.record_type === "shared-term" && !!T_qaly.definition_hash, "a shared term is a hashed record carrying a definition digest");
+ok(sameQuantity(termReference(refUsd("1")), termReference(refUsd("1"))), "two references sharing a term_id are provably the same quantity");
+ok(!sameQuantity(termReference(refUsd("1")), termReference(refQaly("3"))), "references to distinct term_ids are distinct quantities, by identity not by name");
+
+// =====================================================================================
+console.log("\n[8] the cross-domain claim reaches structured-forum; the ceiling binds first");
+const cQaly = citeDomainClaim(storeHealth, { citing_claim: "CD-weigh", cited_claim: D1.identity, role: "necessary", made_at: MADE, term_ref: refQaly("3") });
+const cUsd = citeDomainClaim(storeEcon, { citing_claim: "CD-weigh", cited_claim: D2.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+ok(cQaly.carried_grade === "independently-rechecked" && cUsd.carried_grade === "checked", "the weighing cites a verified health claim and a recorded cost claim (both settled)");
+const ceilCross = ceilingForCitations([cQaly, cUsd]);
+ok(ceilCross === "corroborated", "distinct shared terms set the ceiling to structured-forum, from the terms alone, before any grade");
+const cross = crossDomainClaimRecord({
+  statement: "the intervention is worth funding, weighing health gained against cost",
+  support: [cQaly.citation_id, cUsd.citation_id],
+  weighting: { kind: "weights", weights: { [cQaly.citation_id]: "0.6", [cUsd.citation_id]: "0.4" }, rationale: "a stated value choice, not a measurement" },
+});
+ok(cross.region === "forum" && cross.weighting.value_choice === true, "the cross-domain claim lives in the forum and flags its weighting as a value choice");
+ok(compositeGrade({ ceiling: ceilCross, citations: [cQaly, cUsd] }) === "corroborated", "it reaches structured-forum: the ceiling caps below the settled floor its citations hold");
+ok(crossDomainClaimRecord({ statement: cross.statement, support: cross.support, weighting: cross.weighting }).hash === cross.hash, "the cross-domain record is deterministic");
+
+// =====================================================================================
+console.log("\n[9] the commensurable case reaches the floor band, taking the weakest citation");
+const cUsdA = citeDomainClaim(storeEcon, { citing_claim: "CD-comm", cited_claim: D2.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+const cUsdB = citeDomainClaim(storeEconB, { citing_claim: "CD-comm", cited_claim: D5.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+ok(ceilingForCitations([cUsdA, cUsdB]) === "settled", "two claims under one shared term take the top-of-scale ceiling");
+ok(compositeGrade({ ceiling: "settled", citations: [cUsdA, cUsdB] }) === "settled", "composing two settled claims under one term reaches the floor band");
+const cUsdForum = citeDomainClaim(storeEcon, { citing_claim: "CD-comm2", cited_claim: D4.identity, role: "necessary", made_at: MADE, term_ref: refUsd("1") });
+ok(compositeGrade({ ceiling: ceilingForCitations([cUsdA, cUsdForum]), citations: [cUsdA, cUsdForum] }) === "asserted", "a weaker necessary citation under the same term sets the grade: the weakest-link rule holds");
+
+// =====================================================================================
+console.log("\n[10] the three divergence detections, each with its checkpoint");
+// 1. version skew: same term_id, different term_version, across two composed citations
+const cUsdV2 = citeDomainClaim(storeEconB, { citing_claim: "CD-skew", cited_claim: D5.identity, role: "necessary", made_at: MADE, term_ref: refUsd("2") });
+ok(detectVersionSkew([cUsdA, cUsdV2]).length === 1, "version skew: T-usd at v1 and v2 in one weighing is detected at citation validation");
+ok(detectVersionSkew([cUsdA, cUsdB]).length === 0, "a consistent version set raises no skew");
+// 2. cache drift: recompute the definition hash of a local copy and compare
+ok(detectCacheDrift(T_usd, "one United States dollar, nominal").drift === false, "a faithful cached definition matches the layer's hash");
+ok(detectCacheDrift(T_usd, "one United States dollar, adjusted").drift === true, "a drifted cached definition is a detected corruption, not a silent one");
+// 3. schema violation: a local definition string where a term reference is required
+let threw = false;
+try { requireTermReference("one US dollar, defined locally"); } catch (_) { threw = true; }
+ok(threw, "schema violation: a local definition string where a term reference is required is rejected at intake");
+ok(requireTermReference(refUsd("1")).term_id === "T-usd", "a well-formed term reference is admitted");
 
 // =====================================================================================
 console.log("\n" + H);

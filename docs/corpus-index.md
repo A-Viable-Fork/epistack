@@ -15,6 +15,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/analysis/robustness.mjs` | the v3 robustness reading (Prompt 13): single points of failure over the support and presupposition closures, robustness, fragility, and the correlated-evidence flag, by re-derivation |
 | `kernel/composition/records.mjs` | the composition-layer records (Prompt 19): the cross-store citation and the composite claim, v3-shaped records that carry a copied domain grade across the store boundary |
 | `kernel/composition/transfer.mjs` | grounding transfer across the boundary (Prompt 19): copies the domain grade into a citation, folds necessary carried grades under the v3 min (settled-collapse), and detects staleness |
+| `kernel/composition/vocabulary.mjs` | the shared vocabulary (Prompt 19): shared terms declared once and referenced by identity, the ceiling selection (single term vs distinct terms), and the three divergence detections (version skew, cache drift, schema violation) |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |
 | `kernel/gate/immune.js` | the red-team immune system: super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing |
