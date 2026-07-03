@@ -16,17 +16,17 @@
 
   // the three cases, each named by the stable id of its focus conclusion and its lede.
   var CASES = [
-    { id: "case-lhc", title: "Case: the LHC survival argument", focus: "lhc.antecedent:",
+    { id: "case-lhc", title: "Case: the LHC survival argument", order: 100, focus: "lhc.antecedent:",
       lede: "A produced black hole is dangerous only if production AND stopping AND accretion all hold. The densest long-lived bodies survive, so by modus tollens a conjunct is false. The conjunction is read below, live." },
-    { id: "case-covid", title: "Case: the COVID origin", focus: "covid.instance:",
+    { id: "case-covid", title: "Case: the COVID origin", order: 101, focus: "covid.instance:",
       lede: "The early-case clustering returns a priced prior, not a measurement of origin, because the surveillance draw is non-exchangeable. The termination is read below, live." },
-    { id: "case-eggs", title: "Case: eggs, the population split", focus: "eggs.instance: eggs, individual dietary response (population",
+    { id: "case-eggs", title: "Case: eggs, the population split", order: 102, focus: "eggs.instance: eggs, individual dietary response (population",
       lede: "Stage 1 holds, so the population claim closes on a measurement; stage 2 fails, so the individual application does not follow. The population conclusion is read below, live." },
   ];
 
   CASES.forEach(function (spec) {
     window.EpiShell.register({
-      id: spec.id, title: spec.title, kind: "case",
+      id: spec.id, title: spec.title, kind: "case", order: spec.order,
       render: function (ctx) {
         var claims = ctx.api.read({});
         var focus = claims.filter(function (c) { return c.statement.indexOf(spec.focus) === 0; })[0];
@@ -40,7 +40,10 @@
         html += '<div class="shell-grades"><span>grade <b>' + esc(focus.earned_grade) + "</b></span>";
         html += "<span>robustness <b>" + esc(rob.robustness || "—") + "</b></span>";
         html += "<span>" + (rob.fragile ? "fragile" : "redundant") + "</span>";
-        html += "<span>" + ((rob.single_points_of_failure || []).length) + " single point(s) of failure</span></div>";
+        html += "<span>" + ((rob.single_points_of_failure || []).length) + " single point(s) of failure</span>";
+        // the gap count, read through the API (the corpus is closed, so this reads zero).
+        var openGaps = (ctx.api.gaps ? ctx.api.gaps({}) : []).length;
+        html += "<span>" + openGaps + " open gap(s) in the graph</span></div>";
         if (rob.correlated_evidence_flag) html += '<div class="shell-flag">correlated-evidence flag: ' + esc((rob.correlated_evidence_flag.shared_points || []).map(function (id) { return label(id, claims); }).join(", ")) + "</div>";
         html += "</div>";
 

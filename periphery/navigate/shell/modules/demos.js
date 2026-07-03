@@ -12,7 +12,7 @@
 
   // -- the compose-gate panel: uncoordinated contributions composed through the real gate --
   window.EpiShell.register({
-    id: "demo-compose", title: "Run the gate", kind: "demonstration", order: 20,
+    id: "demo-compose", title: "Run the gate", kind: "demonstration", order: 200,
     render: function (ctx) {
       var t = document.getElementById("tmpl-compose");
       if (t) ctx.mount.appendChild(t.content.cloneNode(true));
@@ -22,7 +22,7 @@
 
   // -- the propose widget: a judge proposes a typed claim and reads the gate's receipt --
   window.EpiShell.register({
-    id: "demo-propose", title: "Propose a claim", kind: "demonstration", order: 21,
+    id: "demo-propose", title: "Propose a claim", kind: "demonstration", order: 201,
     render: function (ctx) {
       var t = document.getElementById("tmpl-propose");
       if (t) ctx.mount.appendChild(t.content.cloneNode(true));
@@ -32,7 +32,7 @@
 
   // -- the robustness reading: the fragility of each case's top conclusion, read live --
   window.EpiShell.register({
-    id: "demo-robustness", title: "Robustness reading", kind: "demonstration", order: 22,
+    id: "demo-robustness", title: "Robustness reading", kind: "demonstration", order: 202,
     render: function (ctx) {
       var targets = [
         ["LHC, the survival argument", "lhc.antecedent:"],

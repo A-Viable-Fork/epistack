@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 105,
-  "edgeCount": 146,
+  "edgeCount": 147,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -490,8 +490,8 @@
       "path": "periphery/navigate/shell/modules/prose.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the prose modules (Prompt 17). A prose module is a section of the paper with claim-references marked so a reference links into the live graph. Phase A registers one framing module; Phase B weaves the judges document (docs/judges-document.md) as prose modules with cross-linking.",
-      "contract": "registers on window.EpiShell. A prose module's render builds its paragraphs and uses ctx.linkToNode(nodeKey, label) to mark a claim-reference, which resolves to the live node."
+      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/judges-document.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
+      "contract": "registers on window.EpiShell. A section becomes a module; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves to the live node reading."
     },
     {
       "path": "periphery/navigate/shell/modules/cases.js",
@@ -1009,6 +1009,13 @@
     {
       "from": "api/providers/local-provider.mjs",
       "to": "kernel/analysis/robustness.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
