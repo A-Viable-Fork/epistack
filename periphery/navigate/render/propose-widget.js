@@ -7,6 +7,9 @@
 // Invariant: the widget reaches the kernel only through the contract, and never learns which
 //   provider answers. Swapping local for remote is one line in the boot below; nothing else changes.
 (function () {
+  // init() wires the widget over the #pw DOM. Self-runs when the markup is already present (the
+  // classic submission); the shell injects the markup then calls window.EpiProposeWidget.init().
+  function init() {
   var root = document.getElementById("pw"); if (!root) return;
   if (!window.EpiClientApi) { var s0 = document.getElementById("pw-status"); if (s0) s0.textContent = "The client bundle did not load."; return; }
 
@@ -97,4 +100,7 @@
   elFilter.addEventListener("input", function () { renderSupports(elFilter.value); });
   elBtn.addEventListener("click", run);
   renderSupports("");
+  }
+  window.EpiProposeWidget = { init: init };
+  if (typeof document !== "undefined" && document.getElementById("pw")) init(); // classic page: DOM present at load
 })();

@@ -1,0 +1,43 @@
+/* The presentation shell (Prompt 17): the navigation frame and chrome only. Content styling for the
+   demos lives in their own stylesheets; this styles the frame, the module sections, and the links. */
+:root { --sh-bg:#0d1117; --sh-panel:rgba(255,255,255,0.02); --sh-rule:#2a3441; --sh-ink:#d4dbe2; --sh-faint:#8A96A0; --sh-lamp:#8fb0d0; }
+body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(--serif,Georgia,serif); line-height:1.6; }
+.shell-header { padding:1.4rem 1.6rem 0.8rem; border-bottom:1px solid var(--sh-rule); }
+.shell-header h1 { margin:0; font-size:1.5rem; }
+.shell-header .shell-tag { color:var(--sh-faint); font-size:.9rem; margin-top:.2rem; }
+.shell-wrap { display:flex; gap:1.4rem; align-items:flex-start; max-width:78ch; margin:0 auto; padding:1.2rem 1.2rem 4rem; }
+.shell-nav { position:sticky; top:1rem; flex:0 0 15rem; display:flex; flex-direction:column; gap:.15rem; font-family:var(--sans,system-ui,sans-serif); font-size:.82rem; }
+.shell-nav-link { color:var(--sh-faint); text-decoration:none; padding:.2rem .4rem; border-left:2px solid transparent; border-radius:0 4px 4px 0; }
+.shell-nav-link:hover { color:var(--sh-ink); background:rgba(255,255,255,0.03); }
+.shell-nav-prose { border-left-color:#6a8fae; }
+.shell-nav-case { border-left-color:#7fc8a0; }
+.shell-nav-demonstration { border-left-color:#d6b56a; }
+.shell-content { flex:1 1 auto; min-width:0; }
+.shell-module { margin:0 0 2.4rem; scroll-margin-top:1rem; }
+.shell-module-title { font-size:1.2rem; margin:0 0 .5rem; padding-bottom:.2rem; border-bottom:1px solid var(--sh-rule); }
+.shell-case .shell-module-title { color:#8fd3ac; }
+.shell-demonstration .shell-module-title { color:#e0c67f; }
+.shell-lede { color:var(--sh-ink); font-size:.98rem; }
+.shell-reading { margin:.6rem 0; padding:.7rem .9rem; border:1px solid var(--sh-rule); border-radius:8px; background:var(--sh-panel); }
+.shell-node-name { font-family:var(--mono,ui-monospace,monospace); font-size:.82rem; color:var(--sh-lamp); }
+.shell-grades { display:flex; flex-wrap:wrap; gap:1rem; margin-top:.35rem; font-size:.86rem; font-family:var(--sans,system-ui,sans-serif); }
+.shell-grades b { color:#8fd3ac; }
+.shell-flag { margin-top:.4rem; color:#d6b56a; font-size:.82rem; }
+.shell-closure { margin-top:.5rem; font-size:.84rem; }
+.shell-closure summary { cursor:pointer; color:var(--sh-faint); }
+.shell-closure ul { margin:.4rem 0 0; padding-left:1.2rem; columns:2; }
+.shell-closure code { color:var(--sh-lamp); }
+.shell-table { width:100%; border-collapse:collapse; font-size:.84rem; margin-top:.6rem; }
+.shell-table th { text-align:left; color:var(--sh-faint); font-weight:500; border-bottom:1px solid var(--sh-rule); padding:.25rem .4rem; }
+.shell-table td { padding:.28rem .4rem; border-bottom:1px solid rgba(42,52,65,0.5); }
+.shell-claimref { color:var(--sh-lamp); text-decoration:none; border-bottom:1px dotted var(--sh-lamp); cursor:pointer; }
+.shell-claimref:hover { background:rgba(143,176,208,0.12); }
+.shell-claimref-grade { color:#8fd3ac; font-size:.82em; font-family:var(--mono,ui-monospace,monospace); }
+.shell-claimref-unresolved { color:var(--sh-faint); border-bottom-style:none; cursor:default; }
+.shell-backlink { display:inline-block; margin-left:.6rem; font-size:.76rem; color:var(--sh-faint); text-decoration:none; font-family:var(--sans,system-ui,sans-serif); }
+.shell-backlink:hover { color:var(--sh-lamp); }
+.shell-node-flash { outline:2px solid var(--sh-lamp); outline-offset:3px; transition:outline .2s; }
+.shell-error { color:#e08a8a; font-size:.82rem; }
+.shell-prose p { font-size:.98rem; }
+.shell-prose h3 { font-size:1.02rem; margin:1.1rem 0 .3rem; color:var(--sh-ink); }
+@media (max-width:720px){ .shell-wrap{flex-direction:column;} .shell-nav{position:static;flex-basis:auto;flex-direction:row;flex-wrap:wrap;} .shell-closure ul{columns:1;} }

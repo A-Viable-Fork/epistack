@@ -354,7 +354,7 @@ const tracked = TRACK_DIRS.flatMap((d) => walk(path.join(ROOT, d)));
 tracked.push(path.join(ROOT, "linter.js"));
 for (const f of tracked) {
   const rel = path.relative(ROOT, f);
-  if (rel.endsWith("index.template.html")) continue; // the template is named via its includes
+  if (rel.endsWith(".template.html")) continue; // a build template is named via the includes it carries
   if (!indexText.includes(rel)) fail("rule9", `corpus-index.md does not list ${rel}`);
 }
 

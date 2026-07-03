@@ -20,6 +20,8 @@ export function createClientApi(provider) {
     read: (query) => provider.read(query || {}),
     // read claims with their robustness and fragility, obtained the same way grounding is (Prompt 13).
     robustness: (query) => (provider.robustness ? provider.robustness(query || {}) : []),
+    // read the open gaps in the graph (a claim whose declared grade is not covered by its earned grade).
+    gaps: (query) => (provider.gaps ? provider.gaps(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };

@@ -104,6 +104,7 @@ createClientApi(provider) -> {
   propose(proposedClaim) -> receipt,   // the full data-model Section-11 receipt the gate produced
   read(query) -> [claim with grounding], // claims, each with its declared and derived-earned grade
   robustness(query) -> [claim with fragility], // grade, robustness, single points of failure, flag
+  gaps(query) -> [open gap], // a claim in force whose earned grade does not cover its declared grade
   providerKind() -> "local" | "remote",
 }
 ```

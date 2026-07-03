@@ -14,6 +14,7 @@ import { makeSourceTable, makeKindTable } from "../../kernel/schema/tables.mjs";
 import { storeViewOf } from "../../kernel/store/decay.mjs";
 import { hashOf } from "../../kernel/schema/canonical.mjs";
 import { analyzeRobustness, analyzePresupposition } from "../../kernel/analysis/robustness.mjs";
+import { leqWithinMode } from "../../kernel/schema/confidence.mjs";
 
 function slug(s) {
   return String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
@@ -119,5 +120,21 @@ export function createLocalProvider(snapshot) {
     });
   }
 
-  return { kind: "local", propose, read, robustness };
+  // gaps(query): the open gaps in the graph, read the v3 way, a claim in force whose declared grade
+  //   is not covered by its derived earned grade (the decay reading). query.prefix scopes by the
+  //   node-id prefix of a claim's statement. The migrated corpus is closed, so this is empty.
+  function gaps(query) {
+    query = query || {};
+    var entries = (state.entries || []);
+    if (query.prefix) entries = entries.filter(function (e) { return e.statement.indexOf(query.prefix) === 0; });
+    var out = [];
+    entries.forEach(function (e) {
+      var g = baseView.earnedByIdentity.get(e.identity) || {};
+      var cmp = leqWithinMode(e.declared_grade, g.earned || "ungraded");
+      if (!cmp.comparable || !cmp.leq) out.push({ identity: e.identity, statement: e.statement, kind: "decay", declared_grade: e.declared_grade, earned_grade: g.earned || "ungraded" });
+    });
+    return out;
+  }
+
+  return { kind: "local", propose, read, robustness, gaps };
 }

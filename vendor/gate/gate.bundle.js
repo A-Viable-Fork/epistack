@@ -1339,6 +1339,7 @@ __M["local-provider"] = (function () {
   var { storeViewOf } = __M["decay"];
   var { hashOf } = __M["canonical"];
   var { analyzeRobustness, analyzePresupposition } = __M["robustness"];
+  var { leqWithinMode } = __M["confidence"];
 // Role: the local provider behind the propose/read contract (Prompt 10). Runs the REAL v3 gate over
 //   a frozen snapshot of the migrated corpus, in-process: propose builds the judge's claim and its
 //   supports, runs `decide` against the snapshot store view, and returns the full receipt; read walks
@@ -1454,7 +1455,23 @@ function createLocalProvider(snapshot) {
     });
   }
 
-  return { kind: "local", propose, read, robustness };
+  // gaps(query): the open gaps in the graph, read the v3 way, a claim in force whose declared grade
+  //   is not covered by its derived earned grade (the decay reading). query.prefix scopes by the
+  //   node-id prefix of a claim's statement. The migrated corpus is closed, so this is empty.
+  function gaps(query) {
+    query = query || {};
+    var entries = (state.entries || []);
+    if (query.prefix) entries = entries.filter(function (e) { return e.statement.indexOf(query.prefix) === 0; });
+    var out = [];
+    entries.forEach(function (e) {
+      var g = baseView.earnedByIdentity.get(e.identity) || {};
+      var cmp = leqWithinMode(e.declared_grade, g.earned || "ungraded");
+      if (!cmp.comparable || !cmp.leq) out.push({ identity: e.identity, statement: e.statement, kind: "decay", declared_grade: e.declared_grade, earned_grade: g.earned || "ungraded" });
+    });
+    return out;
+  }
+
+  return { kind: "local", propose, read, robustness, gaps };
 }
 
   return { createLocalProvider };
@@ -1508,6 +1525,7 @@ function createRemoteProvider(config) {
     robustness: () => [
       { identity: "remote-stub-identity", statement: "(the hosted map's robustness would be read from " + (cfg.endpoint || "the remote endpoint") + ")", grade: "supported", robustness: "supported", fragile: false, single_points_of_failure: [], correlated_evidence_flag: null, presupposition: { closure: [], shared: [] } },
     ],
+    gaps: () => [], // a hosted provider would return the server's gap reading; the stub reports none
     read: () => [
       { identity: "remote-stub-identity", kind: "claim", statement: "(the hosted map would be read from " + (cfg.endpoint || "the remote endpoint") + ")", source_id: "remote", declared_grade: "asserted", earned_grade: "supported", in_force: true },
     ],
@@ -1539,6 +1557,8 @@ function createClientApi(provider) {
     read: (query) => provider.read(query || {}),
     // read claims with their robustness and fragility, obtained the same way grounding is (Prompt 13).
     robustness: (query) => (provider.robustness ? provider.robustness(query || {}) : []),
+    // read the open gaps in the graph (a claim whose declared grade is not covered by its earned grade).
+    gaps: (query) => (provider.gaps ? provider.gaps(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };
