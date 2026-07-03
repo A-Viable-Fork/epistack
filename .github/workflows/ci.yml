@@ -39,7 +39,6 @@ jobs:
         run: |
           node build/check-gaps.mjs
           node build/check-perturb.mjs
-          node build/check-lattice.mjs
           node build/check-gate.mjs
           node build/check-translate.mjs
           node build/check-migrate.mjs

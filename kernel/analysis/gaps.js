@@ -1,6 +1,11 @@
 // Role: the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api-
 //   clients.md, "objective structure, subjective assessment"). A structural gap is an objective
 //   fact about the graph, detected mechanically, first-class like a claim. Pure, DOM-free.
+// LIVE (Prompt 16): kept while the Stage 1 lattice grounding was retired, because v3 does NOT cover
+//   this. The v3 gate computes grounding (earned grade over supports); it does not detect the
+//   OBJECTIVE structural gaps this finds over the trellis case graph, the un-authored stub, the
+//   deferred verification, the un-populated atlas, the dangling reference. It keeps check-gaps at
+//   zero and backs api.gaps. A v3 successor over the claim graph would supersede it; none exists yet.
 // Contract: detectGaps(sources) -> [gap]; gap = { kind, at, missing, discharge, sorry_ref?,
 //   ledger_ref? }. Per-predicate exports (groundingGaps/freshnessGaps/coverageGaps/danglingGaps)
 //   for isolation tests. Reads the schema for kinds/markers; reuses referencesOf for edges.

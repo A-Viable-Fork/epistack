@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 101. Import edges: 127. Runtime flow edges: 16. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -28,8 +28,6 @@ Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy 
 - `kernel/gate/verify.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
-- `kernel/grounding/contamination.js` -> `kernel/schema/lattice.js`  *(kernel -> kernel)*
-- `kernel/grounding/contamination.js` -> `kernel/schema/terminals.js`  *(kernel -> kernel)*
 - `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/canonical.mjs` -> `kernel/schema/sha256.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
@@ -47,7 +45,6 @@ Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy 
 ### api
 
 - `api/api.js` -> `kernel/analysis/gaps.js`  *(api -> kernel)*
-- `api/api.js` -> `kernel/grounding/contamination.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/grounding/resolve.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/motions/compare.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/motions/decompose.js`  *(api -> kernel)*
@@ -84,14 +81,6 @@ Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy 
 - `build/check-gate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/check-gate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-gate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
-- `build/check-lattice.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
-- `build/check-lattice.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
-- `build/check-lattice.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
-- `build/check-lattice.mjs` -> `kernel/analysis/gaps.js`  *(build -> kernel)*
-- `build/check-lattice.mjs` -> `kernel/grounding/contamination.js`  *(build -> kernel)*
-- `build/check-lattice.mjs` -> `kernel/schema/lattice.js`  *(build -> kernel)*
-- `build/check-lattice.mjs` -> `kernel/schema/schema.js`  *(build -> kernel)*
-- `build/check-lattice.mjs` -> `kernel/schema/terminals.js`  *(build -> kernel)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-migrate.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
@@ -163,9 +152,7 @@ Nodes: 110. Import edges: 138. Runtime flow edges: 18. All import edges satisfy 
 ## Runtime flows (declared, not static imports)
 
 - `kernel/analysis/gaps.js` **checked-by** `build/check-gaps.mjs`
-- `kernel/grounding/contamination.js` **checked-by** `build/check-lattice.mjs`
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
-- `kernel/schema/lattice.js` **checked-by** `build/check-lattice.mjs`
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`

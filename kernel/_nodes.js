@@ -6,11 +6,6 @@
 
 module.exports = [
   {
-    "path": "kernel/analysis/assessment.js",
-    "type": "kernel",
-    "group": "analysis"
-  },
-  {
     "path": "kernel/analysis/gaps.js",
     "type": "kernel",
     "group": "analysis",
@@ -20,11 +15,6 @@ module.exports = [
         "to": "build/check-gaps.mjs"
       }
     ]
-  },
-  {
-    "path": "kernel/analysis/robustness.js",
-    "type": "kernel",
-    "group": "analysis"
   },
   {
     "path": "kernel/analysis/robustness.mjs",
@@ -55,22 +45,6 @@ module.exports = [
     "path": "kernel/gate/verify.mjs",
     "type": "kernel",
     "group": "gate"
-  },
-  {
-    "path": "kernel/grounding/check.js",
-    "type": "kernel",
-    "group": "grounding"
-  },
-  {
-    "path": "kernel/grounding/contamination.js",
-    "type": "kernel",
-    "group": "grounding",
-    "flows": [
-      {
-        "type": "checked-by",
-        "to": "build/check-lattice.mjs"
-      }
-    ]
   },
   {
     "path": "kernel/grounding/earned-grade.mjs",
@@ -124,22 +98,6 @@ module.exports = [
     "group": "schema"
   },
   {
-    "path": "kernel/schema/lattice.js",
-    "type": "kernel",
-    "group": "schema",
-    "flows": [
-      {
-        "type": "checked-by",
-        "to": "build/check-lattice.mjs"
-      }
-    ]
-  },
-  {
-    "path": "kernel/schema/modes.js",
-    "type": "kernel",
-    "group": "schema"
-  },
-  {
     "path": "kernel/schema/records.mjs",
     "type": "kernel",
     "group": "schema"
@@ -170,11 +128,6 @@ module.exports = [
     "group": "schema"
   },
   {
-    "path": "kernel/schema/terminals.js",
-    "type": "kernel",
-    "group": "schema"
-  },
-  {
     "path": "kernel/store/apply.mjs",
     "type": "kernel",
     "group": "store"
@@ -196,11 +149,6 @@ module.exports = [
   },
   {
     "path": "kernel/store/patch-ledger.js",
-    "type": "kernel",
-    "group": "store"
-  },
-  {
-    "path": "kernel/store/reconciliation.js",
     "type": "kernel",
     "group": "store"
   },
