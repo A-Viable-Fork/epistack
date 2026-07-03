@@ -105,6 +105,7 @@ createClientApi(provider) -> {
   read(query) -> [claim with grounding], // claims, each with its declared and derived-earned grade
   robustness(query) -> [claim with fragility], // grade, robustness, single points of failure, flag
   gaps(query) -> [open gap], // a claim in force whose earned grade does not cover its declared grade
+  characterizedGaps(query) -> [gap], // an honest leap: a floor-ceiling open-line claim with a closing condition
   providerKind() -> "local" | "remote",
 }
 ```

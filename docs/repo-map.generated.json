@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 105,
-  "edgeCount": 147,
+  "nodeCount": 107,
+  "edgeCount": 160,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -9,6 +9,13 @@
       "group": "analysis",
       "role": "the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- clients.md, \"objective structure, subjective assessment\"). A structural gap is an objective fact about the graph, detected mechanically, first-class like a claim. Pure, DOM-free. LIVE (Prompt 16): kept while the Stage 1 lattice grounding was retired, because v3 does NOT cover this. The v3 gate computes grounding (earned grade over supports); it does not detect the OBJECTIVE structural gaps this finds over the trellis case graph, the un-authored stub, the deferred verification, the un-populated atlas, the dangling reference. It keeps check-gaps at zero and backs api.gaps. A v3 successor over the claim graph would supersede it; none exists yet.",
       "contract": "detectGaps(sources) -> [gap]; gap = { kind, at, missing, discharge, sorry_ref?, ledger_ref? }. Per-predicate exports (groundingGaps/freshnessGaps/coverageGaps/danglingGaps) for isolation tests. Reads the schema for kinds/markers; reuses referencesOf for edges."
+    },
+    {
+      "path": "kernel/analysis/characterized-gaps.mjs",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "the characterized-gap reading (Prompt 18). A characterized gap is the honest unit of progress made first-class: a claim in the open line whose ceiling is a floor, held at the grade its support delivers, carrying a closing condition that names the one measurement, proof, or direct study that would ground it. It is not a new mode; it is an ordinary open-line claim with a floor ceiling (a real debt) plus the sorry as a first-class field. This reading lists them as their own category and distinguishes three claims that look similar at low grade: a characterized gap (a debt with its closing condition), a bare assertion (low, nothing owed named), and a settled claim (at its ceiling, nothing owed).",
+      "contract": "characterizedGaps(graph) -> [gap]; characterization(graph, identity) -> one of \"characterized-gap\" | \"bare-assertion\" | \"settled\" | \"unknown\". graph = { entries, links, tables:{sourceTable, kindTable} }. Pure, deterministic; ESM, kernel imports only kernel."
     },
     {
       "path": "kernel/analysis/robustness.mjs",
@@ -550,6 +557,13 @@
       "contract": "`node build/check-gate.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
     },
     {
+      "path": "build/check-characterized-gaps.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the characterized-gaps oracle (Prompt 18). Proves the closing-condition record, the transfer as an ordinary capping support, the gap reading's new category, and the three-way distinction (characterized gap vs bare assertion vs settled), on synthetic fixtures, plus determinism, the gate acceptance of a leap, and the read-contract exposure.",
+      "contract": "`node build/check-characterized-gaps.mjs` exits non-zero on any failure. Imports the v3 kernel, the analysis module, and (for exposure) the client contract and the snapshot."
+    },
+    {
       "path": "build/check-client.mjs",
       "type": "build",
       "group": null,
@@ -740,6 +754,27 @@
     }
   ],
   "edges": [
+    {
+      "from": "kernel/analysis/characterized-gaps.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/characterized-gaps.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/characterized-gaps.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
     {
       "from": "kernel/analysis/gaps.js",
       "to": "kernel/grounding/resolve.js",
@@ -1015,10 +1050,80 @@
     },
     {
       "from": "api/providers/local-provider.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-characterized-gaps.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-client.mjs",

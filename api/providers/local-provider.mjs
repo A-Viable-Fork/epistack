@@ -14,6 +14,7 @@ import { makeSourceTable, makeKindTable } from "../../kernel/schema/tables.mjs";
 import { storeViewOf } from "../../kernel/store/decay.mjs";
 import { hashOf } from "../../kernel/schema/canonical.mjs";
 import { analyzeRobustness, analyzePresupposition } from "../../kernel/analysis/robustness.mjs";
+import { characterizedGaps as kernelCharacterizedGaps } from "../../kernel/analysis/characterized-gaps.mjs";
 import { leqWithinMode } from "../../kernel/schema/confidence.mjs";
 
 function slug(s) {
@@ -136,5 +137,16 @@ export function createLocalProvider(snapshot) {
     return out;
   }
 
-  return { kind: "local", propose, read, robustness, gaps };
+  // characterizedGaps(query): the claims held as characterized gaps, an open-line claim with a floor
+  //   ceiling, a grade its transfer delivers, and a closing condition naming what would ground it.
+  //   Each carries its closing condition and its transfer source. The migrated corpus carries none.
+  function characterizedGaps(query) {
+    var list = kernelCharacterizedGaps(graph);
+    query = query || {};
+    if (query.identity) list = list.filter(function (g) { return g.identity === query.identity; });
+    if (query.prefix) list = list.filter(function (g) { return g.statement.indexOf(query.prefix) === 0; });
+    return list;
+  }
+
+  return { kind: "local", propose, read, robustness, gaps, characterizedGaps };
 }
