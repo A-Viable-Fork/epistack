@@ -497,7 +497,7 @@
       "path": "periphery/navigate/shell/modules/prose.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/judges-document.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
+      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/what-stands-without-trust.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
       "contract": "registers on window.EpiShell. A section becomes a module; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves to the live node reading."
     },
     {
@@ -690,7 +690,7 @@
       "contract": null
     },
     {
-      "path": "docs/judges-document.md",
+      "path": "docs/what-stands-without-trust.md",
       "type": "doc",
       "group": null,
       "role": null,

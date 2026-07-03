@@ -113,7 +113,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/render/styles/main.css` | stylesheet |
 | `periphery/navigate/render/visuals.js` | the view-side renderers for registered visual components. A node references a visual |
 | `periphery/navigate/shell/shell.js` | the presentation shell (Prompt 17): content-agnostic navigation frame, module registry, and cross-link machinery; composes registered modules, holds no content |
-| `periphery/navigate/shell/modules/prose.js` | prose modules: sections of the paper with claim-references that link into the live graph (Phase B weaves docs/judges-document.md) |
+| `periphery/navigate/shell/modules/prose.js` | prose modules: sections of the paper with claim-references that link into the live graph (Phase B weaves docs/what-stands-without-trust.md) |
 | `periphery/navigate/shell/modules/cases.js` | case modules: each case's focus conclusion, its grounding and robustness read live through the contract, and what it rests on |
 | `periphery/navigate/shell/modules/demos.js` | demonstration modules: the compose-gate panel, the propose widget, and the robustness reading, registered on the shell |
 | `periphery/navigate/shell/styles/shell.css` | stylesheet |
