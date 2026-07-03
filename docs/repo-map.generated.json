@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 111,
-  "edgeCount": 178,
+  "nodeCount": 112,
+  "edgeCount": 181,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -44,6 +44,13 @@
       "group": "composition",
       "role": "the shared vocabulary (composition spec, record 3, design decision B) and the ceiling selection (design decision A). Units and definitions that must mean the same thing in every store are declared once, here, and referenced by identity. Two claims agree on a quantity exactly when their term references share a term_id: identity at the layer is the proof, with no name-matching. A composite's ceiling follows from its cited quantities: the top of scale when they resolve to a single shared term, structured-forum when they weigh across distinct terms.",
       "contract": "sharedTerm(raw), termReference(raw), sameQuantity(a, b), detectVersionSkew(citations), detectCacheDrift(term, cachedDefinition), requireTermReference(slot), ceilingForCitations(cits). Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/composition/framing.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the framing record and the presupposition edge (composition spec, record 5). This is the denominator seam: a domain claim presupposes a frame, a choice of comparison unit or baseline or relevant population, and that choice is made visible and swappable while the measurement stands. A framing record carries a status, not a grade; the presupposition edge is CHECKED (the frame is in-force), never GRADED. The edge enters no grade computation, so the domain claim keeps the grade its own floor gives it, whatever happens to the frame.",
+      "contract": "framingRecord(raw), presuppositionEdge(raw), checkPresupposition(edge, frame), frameOrphaned(edges, framesById), swapFrame(edge, successorFrame). Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -839,6 +846,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/composition/framing.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/composition/records.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -1303,6 +1317,13 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-composition.mjs",
+      "to": "kernel/composition/framing.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -1891,6 +1912,11 @@
     },
     {
       "from": "kernel/composition/vocabulary.mjs",
+      "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/framing.mjs",
       "to": "build/check-composition.mjs",
       "type": "checked-by"
     },

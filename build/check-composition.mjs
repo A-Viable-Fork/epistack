@@ -16,6 +16,7 @@ import { leqWithinMode } from "../kernel/schema/confidence.mjs";
 import { citationRecord, compositeClaimRecord, crossDomainClaimRecord, weightingRecord } from "../kernel/composition/records.mjs";
 import { domainGradeOf, citeDomainClaim, compositeGrade, isStale } from "../kernel/composition/transfer.mjs";
 import { sharedTerm, termReference, sameQuantity, detectVersionSkew, detectCacheDrift, requireTermReference, ceilingForCitations } from "../kernel/composition/vocabulary.mjs";
+import { framingRecord, presuppositionEdge, checkPresupposition, frameOrphaned, swapFrame } from "../kernel/composition/framing.mjs";
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -191,6 +192,43 @@ let threw = false;
 try { requireTermReference("one US dollar, defined locally"); } catch (_) { threw = true; }
 ok(threw, "schema violation: a local definition string where a term reference is required is rejected at intake");
 ok(requireTermReference(refUsd("1")).term_id === "T-usd", "a well-formed term reference is admitted");
+
+// ---- Phase C: the framing record and the presupposition edge (the denominator seam) ----
+// a per-unit domain measurement: a footprint measured per functional unit, grounded to its own floor
+const Dfunc = claimRecord({
+  kind: "econ-measurement", statement: "the process emits 2.3 kilograms CO2-equivalent per functional unit",
+  source_id: "s-econ", contributor_id: "lab-lca", declared_grade: "checked", checking_records: [chk("lca1", "direct-measurement")],
+});
+const storeLCA = { store_id: "S-lca", state: makeState({ prior_state_hash: GENESIS_MARKER, entries: [Dfunc] }), tables };
+const floorOf = () => domainGradeOf(storeLCA.state, Dfunc.identity, tables);
+// the frame the measurement presupposes: the functional unit is one kilogram of product, alternatives listed
+const frameKg = framingRecord({ framing_id: "F-unit-kg", statement: "the functional unit is one kilogram of product", alternatives: ["per dollar of product value", "per serving delivered"], status: "in-force" });
+const edge = presuppositionEdge({ from_store: "S-lca", from_claim: Dfunc.identity, to_framing: "F-unit-kg" });
+
+// =====================================================================================
+console.log("\n[11] a presupposition edge is checked, not graded: the measurement keeps its floor");
+ok(floorOf() === "checked", "the per-unit measurement grounds to its own floor (checked)");
+ok(edge.kind === "presupposition", "the edge is a presupposition edge, distinct from a support edge");
+const chkFrame = checkPresupposition(edge, frameKg);
+ok(chkFrame.in_force && !chkFrame.frame_orphaned, "the edge checks: the framing record is in-force");
+ok(floorOf() === "checked", "the edge changed no grade: the measurement's floor stands, the frame never entered the fold");
+
+// =====================================================================================
+console.log("\n[12] when the frame leaves force, the claim is frame-orphaned and its grade stands");
+const frameKgWithdrawn = framingRecord({ framing_id: "F-unit-kg", statement: frameKg.statement, alternatives: frameKg.alternatives, status: "withdrawn" });
+const chkFallen = checkPresupposition(edge, frameKgWithdrawn);
+ok(!chkFallen.in_force && chkFallen.frame_orphaned, "the check fails: the claim is flagged frame-orphaned");
+ok(frameOrphaned([edge], { "F-unit-kg": frameKgWithdrawn }).length === 1, "the orphan reading lists the newly frame-orphaned domain claim");
+ok(floorOf() === "checked", "its grade stands: a fallen frame breaks the frame, not the measurement");
+
+// =====================================================================================
+console.log("\n[13] swapping to a successor frame re-points the edge and leaves the grade untouched");
+const frameServing = framingRecord({ framing_id: "F-unit-serving", statement: "the functional unit is one serving delivered", alternatives: ["per kilogram of product", "per dollar of product value"], status: "in-force" });
+const edge2 = swapFrame(edge, frameServing);
+ok(edge2.to_framing === "F-unit-serving" && edge2.edge_id !== edge.edge_id, "the edge re-points to the successor frame (a new edge to the new target)");
+ok(checkPresupposition(edge2, frameServing).in_force, "the re-pointed edge checks against the successor frame");
+ok(frameOrphaned([edge2], { "F-unit-serving": frameServing }).length === 0, "with the successor in force, the claim is no longer orphaned");
+ok(floorOf() === "checked", "the functional-unit measurement survives the swap of the unit, its grade untouched");
 
 // =====================================================================================
 console.log("\n" + H);
