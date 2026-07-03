@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 118. Import edges: 182. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 120. Import edges: 190. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -111,11 +111,19 @@ Nodes: 118. Import edges: 182. Runtime flow edges: 25. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `corpora/eggs/composite.js`  *(build -> corpus)*
+- `build/check-eggs.mjs` -> `corpora/eggs/economics.js`  *(build -> corpus)*
 - `build/check-eggs.mjs` -> `corpora/eggs/environment.js`  *(build -> corpus)*
 - `build/check-eggs.mjs` -> `corpora/eggs/nutrition.js`  *(build -> corpus)*
 - `build/check-eggs.mjs` -> `corpora/eggs/tables.js`  *(build -> corpus)*
 - `build/check-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*

@@ -79,6 +79,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/eggs/tables.js` | the eggs case reference tables (Prompt 20): the source table (a row per cited study, with its citation as provenance) and the kind table (a measurement floor and a forum band) |
 | `corpora/eggs/nutrition.js` | the eggs nutrition domain store (Prompt 20): metabolic and responder claims to the measurement floor, guidelines in the forum, and the cardiovascular contradiction held as structure with the diabetic-interaction claim grounding where the lines agree |
 | `corpora/eggs/environment.js` | the eggs environment domain store (Prompt 20): per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil, biodiversity) to the measurement floor, trade-offs in the forum, and the regenerative soil-carbon claims as characterized gaps (a cross-system transfer caps each, a closing condition names the direct measurement that would ground it) |
+| `corpora/eggs/economics.js` | the eggs economics domain store (Prompt 20): feed conversion, energy demand, energy return, and production cost to the measurement floor; the discount rate and the objective-function choice in the forum |
+| `corpora/eggs/composite.js` | the eggs composite store (Prompt 20): citations across the boundary, the two cross-domain weighings (whether to eat eggs, which system is better) at the structured-forum ceiling, and the denominator framing (product-throughput vs net-capital) with its presupposition edges |
 | `corpora/lhc/lhc-cascade.js` | the LHC-safety case-family, authored as data (docs/lhc-cascade.md, |
 | `corpora/population/population-pipeline.js` | the population-mismatch case-family, authored as data (docs/population-pipeline.md) |
 

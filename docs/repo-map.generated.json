@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 118,
-  "edgeCount": 207,
+  "nodeCount": 120,
+  "edgeCount": 215,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -394,6 +394,20 @@
       "group": null,
       "role": "the environment domain store for the eggs case (Prompt 20), ingested from the farming and the regenerative documents. Per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil, biodiversity) ground to the measurement floor; cross-cutting trade-offs rest in the forum. The regenerative soil-carbon claims are authored as CHARACTERIZED GAPS: each is a transfer from a system that is not a regenerative laying-hen operation, so it earns only the grade its transfer support delivers and carries a closing condition naming the one measurement that would ground it.",
       "contract": "exports ENVIRONMENT = { store_id, claims:[spec], links:[spec] }. Pure data; imports nothing."
+    },
+    {
+      "path": "corpora/eggs/economics.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the small economics domain store for the eggs case (Prompt 20), ingested from the net-energy document. The cost-and-energy per-unit measurements (feed conversion, cumulative energy demand, energy return, production cost) ground to the measurement floor; the commensuration choices (the discount rate, the objective function) rest in the forum, since no measurement settles them.",
+      "contract": "exports ECONOMICS = { store_id, claims:[spec], links:[spec] }. Pure data; imports nothing."
+    },
+    {
+      "path": "corpora/eggs/composite.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the eggs composite store (Prompt 20). It cites domain claims across the boundary and carries the cross-domain weighings, whether to eat eggs and which farming system is better, each composing claims from more than one domain and therefore sitting at the structured-forum ceiling. The denominator framing record (product-throughput against net-capital) names the alternatives; each per-unit farming measurement carries a presupposition edge up to it, so the measurement keeps its floor grade while the unit choice becomes visible and swappable.",
+      "contract": "exports COMPOSITE = { store_id, terms, weighings, framing, successor, presupposes }. Citations are named by (store, claim ref, term); build/check-eggs.mjs resolves refs to identities, copies each domain grade across the boundary, and computes the composite grades. Pure data."
     },
     {
       "path": "corpora/lhc/lhc-cascade.js",
@@ -1484,6 +1498,20 @@
     },
     {
       "from": "build/check-eggs.mjs",
+      "to": "corpora/eggs/economics.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "corpora/eggs/composite.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-eggs.mjs",
       "to": "kernel/schema/records.mjs",
       "type": "imports",
       "fromLayer": "build",
@@ -1534,6 +1562,48 @@
     {
       "from": "build/check-eggs.mjs",
       "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-eggs.mjs",
+      "to": "kernel/composition/profiles.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

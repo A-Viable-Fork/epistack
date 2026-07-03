@@ -46,6 +46,14 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/eggs/economics.js",
+    "type": "corpus"
+  },
+  {
+    "path": "corpora/eggs/composite.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/lhc/lhc-cascade.js",
     "type": "corpus"
   },

@@ -19,11 +19,19 @@ import { storeViewOf } from "../kernel/store/decay.mjs";
 import { decide } from "../kernel/gate/gate.mjs";
 import { collapsedRank, tierOf } from "../kernel/schema/confidence.mjs";
 import { characterizedGaps, characterization } from "../kernel/analysis/characterized-gaps.mjs";
+import { hashOf } from "../kernel/schema/canonical.mjs";
+import { citeDomainClaim, compositeGrade } from "../kernel/composition/transfer.mjs";
+import { crossDomainClaimRecord } from "../kernel/composition/records.mjs";
+import { sharedTerm, ceilingForCitations } from "../kernel/composition/vocabulary.mjs";
+import { framingRecord, presuppositionEdge, checkPresupposition, swapFrame, frameOrphaned } from "../kernel/composition/framing.mjs";
+import { compositeProfile } from "../kernel/composition/profiles.mjs";
 
 const require = createRequire(import.meta.url);
 const { KINDS, SOURCES } = require("../corpora/eggs/tables.js");
 const { NUTRITION } = require("../corpora/eggs/nutrition.js");
 const { ENVIRONMENT } = require("../corpora/eggs/environment.js");
+const { ECONOMICS } = require("../corpora/eggs/economics.js");
+const { COMPOSITE } = require("../corpora/eggs/composite.js");
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -140,6 +148,76 @@ console.log("\n[B4] no regenerative claim inherits a floor grade; the transfer c
 ok(gradeRef(environment, "e.regen-soc") === "supported" && tierOf(gradeRef(environment, "e.regen-soc")) !== "settled", "the soil-carbon leap earns only supported, capped by its cross-system transfer, below the measurement floor");
 ok(gradeRef(environment, "e.pasture-soc-proxy") === "checked", "its transfer source is itself a floor measurement (checked) on a different system");
 ok(collapsedRank(gradeRef(environment, "e.regen-soc")) < collapsedRank(gradeRef(environment, "e.pasture-soc-proxy")), "the leap sits strictly below the measured proxy it transfers from: settledness is not inherited across the boundary");
+
+// ---- Phase C: the eggs composite, the weighings, and the denominator ----
+const economics = buildDomain(ECONOMICS);
+const domains = { "S-nutrition": nutrition, "S-environment": environment, "S-economics": economics };
+const idOf = (store, claim) => domains[store].refId.get(claim);
+const domGrade = (store, claim) => earnedOf(domains[store], idOf(store, claim));
+const MADE = "2026-07-03T00:00:00Z";
+
+// build each weighing: cite the domain claims across the boundary (copying the domain grade), record
+// the cross-domain claim, and compute its grade by the record-2 transfer under its structured-forum ceiling.
+const weighs = COMPOSITE.weighings.map((w) => {
+  const claim_id = hashOf({ statement: w.statement });
+  const cits = w.cites.map((c) => citeDomainClaim(domains[c.store], {
+    citing_claim: claim_id, cited_claim: idOf(c.store, c.claim), role: c.role, made_at: MADE,
+    term_ref: { term_id: c.term, term_version: "1" },
+  }));
+  const rec = crossDomainClaimRecord({ statement: w.statement, support: cits.map((x) => x.citation_id), weighting: w.weighting, frame_refs: [COMPOSITE.framing.framing_id] });
+  const ceiling = ceilingForCitations(cits);
+  const grade = compositeGrade({ ceiling, citations: cits });
+  return { spec: w, claim_id, cits, rec, ceiling, grade };
+});
+const weighByRef = Object.fromEntries(weighs.map((w) => [w.spec.ref, w]));
+
+// =====================================================================================
+console.log("\n[C1] the composite grounds by citation, no more than its weakest necessary citation");
+const wEat = weighByRef["w.eat"], wSys = weighByRef["w.system"];
+ok(wEat.cits.find((c) => c.cited_claim === idOf("S-nutrition", "n.cv-diabetic")).carried_grade === "corroborated", "a citation carries the domain grade across the boundary (cv-diabetic at corroborated)");
+ok(wEat.cits.find((c) => c.cited_claim === idOf("S-environment", "e.welfare")).carried_grade === "checked", "another carries its domain floor grade (welfare at checked)");
+// w.system leans on the regenerative characterized gap as a necessary citation, so it can be no better
+const weakest = wSys.cits.filter((c) => c.role === "necessary").reduce((a, b) => (collapsedRank(a.carried_grade) <= collapsedRank(b.carried_grade) ? a : b));
+ok(weakest.cited_claim === idOf("S-environment", "e.regen-soc") && weakest.carried_grade === "supported", "the weakest necessary citation of the system weighing is the regenerative characterized gap (supported)");
+ok(wSys.grade === "supported", "the system weighing is no more grounded than that weakest necessary citation (supported)");
+
+// =====================================================================================
+console.log("\n[C2] the cross-domain weighings reach structured-forum and no higher");
+ok(wEat.ceiling === "corroborated" && wSys.ceiling === "corroborated", "each weighing composes quantities under distinct shared terms, so its ceiling is structured-forum");
+ok(wEat.grade === "corroborated", "the eat weighing reaches structured-forum, capped there though it cites a settled (checked) welfare measurement");
+ok(collapsedRank(wEat.grade) <= 3 && collapsedRank(wSys.grade) <= 3, "neither weighing reaches a floor: a value choice never reads as a measurement");
+// the shared vocabulary is declared once and the weighing's terms are distinct
+const terms = COMPOSITE.terms.map((t) => sharedTerm(t));
+const eatTermIds = new Set(wEat.cits.filter((c) => c.role === "necessary").map((c) => c.term_ref.term_id));
+ok(terms.length === COMPOSITE.terms.length && eatTermIds.size > 1, "the weighed quantities are distinct shared terms, declared once at the layer");
+
+// =====================================================================================
+console.log("\n[C3] the denominator swap leaves per-unit measurements intact and reframes the weighings");
+const framing = framingRecord(COMPOSITE.framing);
+const edges = COMPOSITE.presupposes.map((p) => ({ p, edge: presuppositionEdge({ from_store: p.store, from_claim: idOf(p.store, p.claim), to_framing: framing.framing_id }) }));
+const before = COMPOSITE.presupposes.map((p) => domGrade(p.store, p.claim));
+ok(edges.every(({ edge }) => checkPresupposition(edge, framing).in_force), "each per-unit farming measurement carries a presupposition edge to the in-force denominator");
+const successor = framingRecord(COMPOSITE.successor);
+const throughputSuperseded = framingRecord({ ...COMPOSITE.framing, status: "superseded", successor: "F-netcapital" });
+const swapped = edges.map(({ edge }) => swapFrame(edge, successor));
+const after = COMPOSITE.presupposes.map((p) => domGrade(p.store, p.claim));
+ok(before.join(",") === after.join(",") && before.every((g) => g === "checked" || g === "supported"), "swapping product-throughput for net-capital leaves every cited measurement's grade intact");
+ok(swapped.every((e) => e.to_framing === "F-netcapital") && checkPresupposition(swapped[0], successor).in_force, "the edges re-point to the net-capital denominator, which checks in force");
+ok(frameOrphaned(edges.map((x) => x.edge), { "F-throughput": throughputSuperseded }).length === edges.length, "against the now-superseded product-throughput frame, the un-swapped edges read as frame-orphaned");
+// the weighings that name the frame are reframed: rebuild with the successor frame, grade unchanged
+const wEatReframed = crossDomainClaimRecord({ statement: wEat.spec.statement, support: wEat.cits.map((x) => x.citation_id), weighting: wEat.spec.weighting, frame_refs: [successor.framing_id] });
+ok(wEatReframed.frame_refs[0] === "F-netcapital" && compositeGrade({ ceiling: wEat.ceiling, citations: wEat.cits }) === wEat.grade, "the weighing is reframed to the new denominator while its grade is untouched");
+
+// =====================================================================================
+console.log("\n[C4] the composite grounding profile: inherited ground versus its own forum");
+const compStore = { store_id: "C-eggs", claims: weighs.map((w) => w.rec), citations: weighs.flatMap((w) => w.cits), edges: edges.map((x) => x.edge), frames: [framing] };
+const sourceStates = { "S-nutrition": nutrition.state.state_hash, "S-environment": environment.state.state_hash, "S-economics": economics.state.state_hash };
+const profile = compositeProfile(compStore, { sourceStates });
+ok(profile.record_type === "composite-grounding-profile", "the composite profile is a record");
+ok(profile.cited_grounding["corroborated"] === 1 && profile.cited_grounding["supported"] === 1, "cited grounding by inherited grade: one weighing at structured-forum, one held down by the characterized gap");
+ok(profile.forum_resident === 2, "forum-resident count: both cross-domain weighings live in the composite's own forum");
+ok(profile.citation_health.current === compStore.citations.length && profile.citation_health.dangling === 0, "citation health: every citation current against its source domain state");
+ok(profile.framing_in_force.in_force === 1, "the framing condition reports the denominator in force");
 
 // =====================================================================================
 console.log("\n" + H);
