@@ -50,7 +50,27 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-error { color:#e08a8a; font-size:.82rem; }
 .shell-prose p { font-size:.98rem; }
 .shell-prose h3 { font-size:1.02rem; margin:1.1rem 0 .3rem; color:var(--sh-ink); }
-@media (max-width:720px){ .shell-wrap{flex-direction:column;} .shell-nav{position:static;flex-basis:auto;flex-direction:row;flex-wrap:wrap;} .shell-closure ul{columns:1;} }</style>
+@media (max-width:720px){ .shell-wrap{flex-direction:column;} .shell-nav{position:static;flex-basis:auto;flex-direction:row;flex-wrap:wrap;} .shell-closure ul{columns:1;} }
+
+/* the restructured eggs case module (Prompt 20): domains, weighings, characterized gaps, denominator */
+.eggs-domain { margin: 0.6rem 0; }
+.eggs-domain h4 { margin: 0.3rem 0; }
+.eggs-domain h4 small { font-weight: normal; opacity: 0.7; }
+.eggs-claims { margin: 0.2rem 0 0.6rem 1rem; padding: 0; }
+.eggs-claims li { margin: 0.2rem 0; list-style: disc; }
+.eggs-src { display: block; font-size: 0.8em; opacity: 0.6; }
+.eggs-weighing, .eggs-gap, .eggs-frame { border: 1px solid rgba(128,128,128,0.3); border-radius: 6px; padding: 0.6rem 0.8rem; margin: 0.5rem 0; }
+.eggs-node-name { font-weight: 600; margin-bottom: 0.3rem; }
+.eggs-rationale { font-style: italic; opacity: 0.8; margin: 0.3rem 0; }
+.eggs-closing { margin: 0.3rem 0; }
+.eggs-transfer { font-size: 0.9em; opacity: 0.85; }
+.eggs-swap { margin: 0.4rem 0; padding: 0.3rem 0.7rem; cursor: pointer; border-radius: 5px; border: 1px solid rgba(128,128,128,0.5); background: transparent; color: inherit; }
+.eggs-swap:hover { background: rgba(128,128,128,0.15); }
+.eggs-frame-note { font-size: 0.85em; opacity: 0.75; margin: 0.3rem 0; }
+.eggs-measurements { margin: 0.3rem 0 0 1rem; padding: 0; }
+.eggs-measurements li { margin: 0.15rem 0; list-style: circle; }
+.eggs-crux { margin-top: 0.8rem; padding: 0.6rem 0.8rem; border-left: 3px solid rgba(200,140,0,0.7); background: rgba(200,140,0,0.08); font-size: 0.92em; }
+.shell-grade { font-weight: 600; padding: 0 0.3em; border-radius: 3px; }</style>
 <style>.cg-run{border:1px solid #ddd6c6;border-radius:10px;padding:1.15rem 1.25rem;margin:1.7rem 0;background:#faf8f2}
 .cg-run .cg-head{font-weight:600;font-size:1.05rem}
 .cg-run .cg-sub{font-weight:400;opacity:.55;font-size:.82rem;margin-left:.5rem;font-family:ui-monospace,Menlo,monospace}
@@ -445,6 +465,424 @@ In late June 2026, during the competition window, a new AI workbench for scienti
 ## Provenance
 
 This work began on June 22, 2026, and was developed in close collaboration with AI systems used as generators and verifiers under human direction. The collaboration is disclosed here under the same standard the method applies to every claim: state who did the work and how it was checked.</script>
+<!-- the restructured eggs case: domains, composite, characterized gaps, denominator, built by build/vendor-eggs.mjs -->
+<script type="application/json" id="eggs-reading">{
+  "generated_by": "build/vendor-eggs.mjs",
+  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
+  "domains": [
+    {
+      "store_id": "S-nutrition",
+      "floor_count": 10,
+      "forum_count": 6,
+      "claims": [
+        {
+          "statement": "each 100 mg/day of dietary cholesterol raises serum total cholesterol by about 2.2 mg/dL (",
+          "grade": "checked",
+          "source": "Weggemans, Zock & Katan (2001), Am J Clin Nutr 73(5):885-891"
+        },
+        {
+          "statement": "the dietary-cholesterol serum response is nonlinear with diminishing returns, little furth",
+          "grade": "checked",
+          "source": "Hopkins (1992), Am J Clin Nutr 55(6):1060-1070"
+        },
+        {
+          "statement": "the LDL-C rise from dietary cholesterol is partly offset by an HDL-C rise, so the LDL:HDL ",
+          "grade": "checked",
+          "source": "Berger et al. (2015), Am J Clin Nutr 102(2):276-294"
+        },
+        {
+          "statement": "in RCTs, whole eggs in metabolic-syndrome or type-2-diabetes populations do not raise LDL-",
+          "grade": "checked",
+          "source": "Blesso et al. (2013), J Clin Lipidol 7(5):463-471 (metabolic syndrome RCT)"
+        },
+        {
+          "statement": "one 50 g whole egg contains about 72 kcal, 6.3 g high-quality protein, 186 mg cholesterol,",
+          "grade": "checked",
+          "source": "USDA FoodData Central SR Legacy, FDC ID 171287 (egg, whole, raw)"
+        },
+        {
+          "statement": "the serum-cholesterol response to dietary cholesterol is continuous and unimodal, so hyper",
+          "grade": "checked",
+          "source": "Griffin et al. (2021), Proc Nutr Soc 80(2):142-149 (unimodal response)"
+        },
+        {
+          "statement": "the between-person SD of cholesterol responsiveness is about 0.29 mmol/L, roughly half the",
+          "grade": "checked",
+          "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "the LDL-C response to dietary cholesterol is moderately heritable (h2 about 0.59), with id",
+          "grade": "checked",
+          "source": "Williams et al. (2005), ATVB 25(7):1532 (twin heritability of response)"
+        },
+        {
+          "statement": "whether an individual's cholesterol response to eggs predicts their own CVD risk is unknow",
+          "grade": "asserted",
+          "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
+          "grade": "asserted",
+          "source": "Drouin-Chartier et al. (2020), BMJ 368:m513 (null egg-CVD, 28 cohorts)"
+        },
+        {
+          "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+          "grade": "asserted",
+          "source": "Tran et al. (2022), Circulation 145(20):e771 (dietary-cholesterol/CVD harm)"
+        },
+        {
+          "statement": "in the diabetic subgroup, egg consumption carries a CVD SRR of 1.22 (1.08 to 1.39) at one ",
+          "grade": "checked",
+          "source": "Godos et al. (2021), Eur J Nutr 60(4):1833-1848 (dose-response; diabetic subgroup)"
+        },
+        {
+          "statement": "in diabetics, the pooled CVD HR is 1.69 (1.09 to 2.62) for the highest versus lowest egg i",
+          "grade": "checked",
+          "source": "Shin et al. (2013), Atherosclerosis 229(2):524-530 (diabetic subgroup)"
+        },
+        {
+          "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+          "grade": "corroborated",
+          "source": "Godos et al. (2021), Eur J Nutr 60(4):1833-1848 (dose-response; diabetic subgroup)"
+        },
+        {
+          "statement": "the 2015-2020 US Dietary Guidelines removed the 300 mg/day dietary-cholesterol limit, whil",
+          "grade": "asserted",
+          "source": "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report"
+        },
+        {
+          "statement": "the AHA 2020 advisory allows up to one egg per day for healthy adults and two for older no",
+          "grade": "asserted",
+          "source": "Carson et al. (2020), AHA Science Advisory, Circulation 141(3):e39-e53"
+        }
+      ]
+    },
+    {
+      "store_id": "S-environment",
+      "floor_count": 10,
+      "forum_count": 6,
+      "claims": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked",
+          "source": "Leinonen et al. (2012), Poultry Science 91(1):8-25 (UK egg-system LCA)"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked",
+          "source": "WUR egg LCA factsheet; De Vries & De Boer (2010), Livestock Science (land per kg egg)"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "grade": "checked",
+          "source": "EFSA AHAW Panel (2023), EFSA Journal 21(2):e07789 (laying-hen welfare)"
+        },
+        {
+          "statement": "keel-bone fractures are ubiquitous across all commercial laying-hen housing (50 to 100 per",
+          "grade": "checked",
+          "source": "Thofner et al. (2021), PLOS ONE (keel-bone necropsy, 4,794 birds)"
+        },
+        {
+          "statement": "confined systems use more antibiotics and carry higher antimicrobial resistance than organ",
+          "grade": "checked",
+          "source": "Ager et al. (2023), Nature-family AMR meta-analysis (72 studies, 22 countries)"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked",
+          "source": "Panagos et al. (2024), Geoderma (soil-health survey, 6,000+ samples)"
+        },
+        {
+          "statement": "diverse pasture and organic systems support higher species richness per hectare than inten",
+          "grade": "checked",
+          "source": "Outhwaite et al. (2022), Nature 605:97-102 (biodiversity vs land-use intensity)"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked",
+          "source": "EPA (2011); Baram (2014) (manure-lagoon nitrate under confined systems)"
+        },
+        {
+          "statement": "the emissions-land-welfare trilemma has no dominant solution, intensive systems winning pe",
+          "grade": "asserted",
+          "source": "van Wagenberg et al. (2017), Animal Board Invited Review (179 articles)"
+        },
+        {
+          "statement": "whether the total water footprint favors confined or pasture systems depends on the water ",
+          "grade": "asserted",
+          "source": "Mekonnen & Hoekstra (2012), Ecosystems 15(3):401-415 (water footprint)"
+        },
+        {
+          "statement": "a farm-scale assessment may favor pasture while a global-scale assessment favors intensifi",
+          "grade": "asserted",
+          "source": "Leip et al. (2015), Environmental Research Letters 10:115004 (spatial scale)"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked",
+          "source": "Raposo (2025), Sustainability 17(3):1223 (improved-pasture SOC, IPCC Tier 1, 7,092 sites)"
+        },
+        {
+          "statement": "poultry-litter application to corn cropland retains about 41 percent of applied carbon, ad",
+          "grade": "checked",
+          "source": "Yang et al. (2019), J Cleaner Production (poultry-litter C retention on corn)"
+        },
+        {
+          "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+          "grade": "supported",
+          "source": "Congressional Research Service R48610; Newton et al. (2020) (regenerative axis definition)"
+        },
+        {
+          "statement": "integrating laying hens on pasture builds stable soil carbon at the litter-retention rate,",
+          "grade": "supported",
+          "source": "Soares et al. (2022) (no SOC increase from laying-hen integration; litter C:N 3.88)"
+        },
+        {
+          "statement": "regenerative grazing sequesters 2.5 to 9 t C/ha/yr, an advocacy figure 7 to 70 times the m",
+          "grade": "asserted",
+          "source": "Savory Institute / Teague advocacy claims (2.5-9 t C/ha/yr), per McGuire (2018) WSU critique"
+        }
+      ]
+    },
+    {
+      "store_id": "S-economics",
+      "floor_count": 4,
+      "forum_count": 2,
+      "claims": [
+        {
+          "statement": "feed conversion is about 1.95 to 2.20 kg feed/kg egg for caged systems against 2.5 to 5.3 ",
+          "grade": "checked",
+          "source": "Wiedemann & McGahan (2011), Australian egg-production LCA (FCR, CED)"
+        },
+        {
+          "statement": "cage non-renewable cumulative energy demand is about 10.7 to 16.9 MJ/kg egg against 20.3 t",
+          "grade": "checked",
+          "source": "Syc et al. (2022), Agriculture 12(3):355 (egg yield, battery vs organic)"
+        },
+        {
+          "statement": "both systems are net energy sinks, with an edible-to-input energy return of about 0.41 to ",
+          "grade": "checked",
+          "source": "Pelletier et al. (2016), Poultry Science (US egg-industry footprint, EROI)"
+        },
+        {
+          "statement": "free-range organic eggs cost about twice as much to produce as caged (about $1.32 against ",
+          "grade": "checked",
+          "source": "Elson (1985); Tserveni-Gousi et al. (organic vs caged egg production cost)"
+        },
+        {
+          "statement": "the intergenerational discount rate is a value choice, Stern's 1.4 percent against Nordhau",
+          "grade": "asserted",
+          "source": "Nordhaus (4.3%); Stern (2006, 1.4%); Weitzman (discount-rate disagreement)"
+        },
+        {
+          "statement": "which objective to maximize, energy return, economic welfare, biodiversity, or resilience,",
+          "grade": "asserted",
+          "source": "Franzese et al. (2009), Ecological Modelling (GER vs Emergy incommensurability)"
+        }
+      ]
+    }
+  ],
+  "cardiovascular": {
+    "null_claim": {
+      "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
+      "grade": "asserted"
+    },
+    "harm_claim": {
+      "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+      "grade": "asserted"
+    },
+    "diabetic_claim": {
+      "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+      "grade": "corroborated"
+    }
+  },
+  "characterized_gaps": [
+    {
+      "statement": "integrating laying hens on pasture builds stable soil carbon at the litter-retention rate,",
+      "ceiling": "checked",
+      "earned_grade": "supported",
+      "closing_condition": {
+        "condition_kind": "direct-study",
+        "target": "a direct soil-carbon study of laying-hen integration on pasture rather than litter applied to corn",
+        "system": "a pasture-integrated laying-hen operation"
+      },
+      "transfer_source": [
+        {
+          "statement": "poultry-litter application to corn cropland retains about 41 percent of applied carbon, ad",
+          "transfer_grade": "supported"
+        }
+      ]
+    },
+    {
+      "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+      "ceiling": "checked",
+      "earned_grade": "supported",
+      "closing_condition": {
+        "condition_kind": "measurement-on-the-system",
+        "target": "a direct multi-year soil-organic-carbon measurement under laying hens on pasture",
+        "system": "a regenerative laying-hen operation"
+      },
+      "transfer_source": [
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "transfer_grade": "supported"
+        }
+      ]
+    }
+  ],
+  "weighings": [
+    {
+      "statement": "whether to eat eggs, weighing the cardiovascular evidence against hen welfare and environm",
+      "ceiling": "corroborated",
+      "grade": "corroborated",
+      "rationale": "a stated value choice: personal health weighed first, then animal welfare, then climate; it measures nothing",
+      "cites": [
+        {
+          "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+          "domain": "S-nutrition",
+          "carried_grade": "corroborated",
+          "role": "necessary",
+          "term": "T-health"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-welfare"
+        },
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "corroborating",
+          "term": "T-co2"
+        }
+      ]
+    },
+    {
+      "statement": "which farming system is better, weighing emissions and land against welfare, cost, and reg",
+      "ceiling": "corroborated",
+      "grade": "supported",
+      "rationale": "a stated value choice weighing welfare and soil against per-kg emissions and cost; the ranking is the value, not a measurement",
+      "cites": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-co2"
+        },
+        {
+          "statement": "cage systems restrict foraging, dustbathing, and wing-flapping relative to cage-free syste",
+          "domain": "S-environment",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-welfare"
+        },
+        {
+          "statement": "free-range organic eggs cost about twice as much to produce as caged (about $1.32 against ",
+          "domain": "S-economics",
+          "carried_grade": "checked",
+          "role": "necessary",
+          "term": "T-dollar"
+        },
+        {
+          "statement": "a regenerative laying-hen pasture sequesters soil carbon at roughly 0.8 to 1.05 t C/ha/yr,",
+          "domain": "S-environment",
+          "carried_grade": "supported",
+          "role": "necessary",
+          "term": "T-soil"
+        }
+      ]
+    }
+  ],
+  "denominator": {
+    "throughput": {
+      "frame": "the denominator is product throughput: every impact is counted per kilogram of egg produced",
+      "alternatives": [
+        "net capital: impacts counted per unit of soil and ecosystem stock maintained",
+        "per hen housed",
+        "per hectare farmed"
+      ],
+      "measurements": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked"
+        }
+      ]
+    },
+    "netcapital": {
+      "frame": "the denominator is net capital: every impact is counted per unit of soil and ecosystem stock maintained",
+      "alternatives": [
+        "product throughput: impacts counted per kilogram of egg produced",
+        "per hen housed",
+        "per hectare farmed"
+      ],
+      "measurements": [
+        {
+          "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
+          "grade": "checked"
+        },
+        {
+          "statement": "pasture and organic egg systems require more land per kg than caged (organic 4.9 to 16.9 v",
+          "grade": "checked"
+        },
+        {
+          "statement": "concentrated confined manure drives nitrate leaching, groundwater under lagoons reaching 6",
+          "grade": "checked"
+        },
+        {
+          "statement": "perennial pasture outperforms annual feed cropland on soil-health metrics (aggregate stabi",
+          "grade": "checked"
+        },
+        {
+          "statement": "improved grazing and dairy pasture sequesters soil carbon at about 0.84 to 1.05 t C/ha/yr ",
+          "grade": "checked"
+        }
+      ]
+    }
+  },
+  "profile": {
+    "record_type": "composite-grounding-profile",
+    "store": "C-eggs",
+    "state": "current",
+    "cited_grounding": {
+      "corroborated": 1,
+      "supported": 1
+    },
+    "forum_resident": 2,
+    "citation_health": {
+      "current": 7,
+      "stale": 0,
+      "dangling": 0
+    },
+    "framing_in_force": {
+      "in_force": 1,
+      "frame_orphaned_dependents": 0
+    }
+  },
+  "cardiovascular_crux": {
+    "status": "specified",
+    "note": "The cardiovascular contradiction is held as structure: the population null and harm claims stay in tension, the diabetic-interaction claim grounds where they agree. Computing the crux of the contradiction (which single measurement would resolve it) is the one assessment piece still specified rather than built, so the tension is shown rather than resolved."
+  }
+}</script>
 
 <!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider / EpiRemoteProvider) -->
 <script>// GENERATED by build/vendor-gate-browser.mjs from the kernel .mjs modules. Do not edit.
@@ -2669,6 +3107,91 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
         ctx.registerNode(keyOf(focus.statement), document.getElementById("reading-" + spec.id), focus.identity, spec.id, spec.title);
       },
     });
+  });
+})();</script>
+<script>// Role: the restructured eggs case as a shell module (Prompt 20). Renders the eggs question as a
+//   composite over its domains: the three domain stores grounded to their floors, the two cross-domain
+//   weighings at structured-forum, the regenerative characterized gaps with their closing conditions,
+//   and the denominator swap (product-throughput vs net-capital), exercisable in the page. The reading
+//   is the vendored build artifact (vendor/eggs/reading.json), computed by the kernel and composition
+//   layer at build time (build/vendor-eggs.mjs); the module renders it and computes no grade.
+// Contract: registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON.
+// Invariant: periphery; it touches no truth field and no kernel. The denominator toggle switches
+//   between two precomputed framings whose measurement grades are identical, showing the swap leaves
+//   the measurements intact while the verdict is reframed. The cardiovascular crux is shown as
+//   specified-not-built: the tension is displayed, never resolved.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  var el = typeof document !== "undefined" && document.getElementById("eggs-reading");
+  if (!el) return;
+  var R; try { R = JSON.parse(el.textContent); } catch (e) { return; }
+
+  function grade(g) { return '<span class="shell-grade shell-grade-' + esc(g) + '">' + esc(g) + "</span>"; }
+
+  function domainsHtml() {
+    return R.domains.map(function (d) {
+      var rows = d.claims.map(function (c) {
+        return '<li><span class="eggs-claim">' + esc(c.statement) + "</span> " + grade(c.grade) + '<span class="eggs-src">' + esc(c.source) + "</span></li>";
+      }).join("");
+      return '<div class="eggs-domain"><h4>' + esc(d.store_id) + ' <small>' + d.floor_count + " at a floor, " + d.forum_count + " in the forum</small></h4><ul class=\"eggs-claims\">" + rows + "</ul></div>";
+    }).join("");
+  }
+
+  function weighingsHtml() {
+    return R.weighings.map(function (w) {
+      var cites = w.cites.map(function (c) {
+        return '<li>' + esc(c.statement) + " <small>(" + esc(c.domain) + ", " + esc(c.role) + ")</small> " + grade(c.carried_grade) + "</li>";
+      }).join("");
+      return '<div class="eggs-weighing"><div class="eggs-node-name">' + esc(w.statement) + "</div>" +
+        '<div class="shell-grades"><span>ceiling <b>structured-forum</b></span> <span>earned ' + grade(w.grade) + "</span></div>" +
+        '<div class="eggs-rationale">' + esc(w.rationale) + "</div>" +
+        '<details><summary>the domain claims it weighs</summary><ul>' + cites + "</ul></details></div>";
+    }).join("");
+  }
+
+  function gapsHtml() {
+    return R.characterized_gaps.map(function (g) {
+      var src = (g.transfer_source || []).map(function (t) { return esc(t.statement) + " " + grade(t.transfer_grade); }).join(", ");
+      var cc = g.closing_condition || {};
+      return '<div class="eggs-gap"><div class="eggs-claim">' + esc(g.statement) + "</div>" +
+        '<div class="shell-grades"><span>floor <b>' + esc(g.ceiling) + "</b></span> <span>earned " + grade(g.earned_grade) + "</span></div>" +
+        '<div class="eggs-closing"><b>closing condition</b> (' + esc(cc.condition_kind) + "): " + esc(cc.target) + (cc.system ? " <em>on " + esc(cc.system) + "</em>" : "") + "</div>" +
+        '<div class="eggs-transfer"><b>transfer from</b> ' + src + "</div></div>";
+    }).join("");
+  }
+
+  function denominatorHtml(which) {
+    var d = R.denominator[which];
+    var alt = which === "throughput" ? "netcapital" : "throughput";
+    var altLabel = which === "throughput" ? "net-capital" : "product-throughput";
+    var meas = d.measurements.map(function (m) { return "<li>" + esc(m.statement) + " " + grade(m.grade) + "</li>"; }).join("");
+    return '<div class="eggs-frame"><div><b>denominator in force:</b> ' + esc(d.frame) + "</div>" +
+      '<button class="eggs-swap" data-alt="' + alt + '">swap to ' + altLabel + "</button>" +
+      '<div class="eggs-frame-note">the weighings above are reframed to this denominator; the per-unit measurements below keep the grade their own floor gave them, unchanged by the swap</div>' +
+      '<ul class="eggs-measurements">' + meas + "</ul></div>";
+  }
+
+  window.EpiShell.register({
+    id: "case-eggs-composite", title: "Case: eggs, a composite over its domains", kind: "case", order: 103,
+    render: function (ctx) {
+      var frame = { which: "throughput" };
+      function paint() {
+        var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
+        html += "<h3>the domains, grounded to their own floors</h3>" + domainsHtml();
+        html += "<h3>the composite: cross-domain weighings at structured-forum</h3>" + weighingsHtml();
+        html += "<h3>the regenerative claims, as characterized gaps</h3>" + gapsHtml();
+        html += '<h3>the denominator, swappable</h3><div id="eggs-denominator">' + denominatorHtml(frame.which) + "</div>";
+        html += '<div class="eggs-crux"><b>held, not resolved:</b> ' + esc(R.cardiovascular_crux.note) + "</div>";
+        ctx.mount.innerHTML = html;
+        var btn = ctx.mount.querySelector(".eggs-swap");
+        if (btn) btn.addEventListener("click", function () { frame.which = btn.getAttribute("data-alt"); paint(); });
+      }
+      paint();
+      // register the meta-question as a cross-link anchor so the prose can navigate to it.
+      if (ctx.registerNode) ctx.registerNode("eggs, the composite question", ctx.mount, "case-eggs-composite", "case-eggs-composite", "Case: eggs, a composite over its domains");
+    },
   });
 })();</script>
 <script>// Role: the demonstration modules (Prompt 17). Three live interactive pieces registered on the

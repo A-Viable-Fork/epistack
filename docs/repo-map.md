@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 123. Import edges: 198. Runtime flow edges: 25. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -111,6 +111,13 @@ Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
+- `build/check-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-gaps.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
@@ -152,6 +159,23 @@ Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy 
 - `build/check-translate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `corpora/eggs/composite.js`  *(build -> corpus)*
+- `build/eggs-build.mjs` -> `corpora/eggs/economics.js`  *(build -> corpus)*
+- `build/eggs-build.mjs` -> `corpora/eggs/environment.js`  *(build -> corpus)*
+- `build/eggs-build.mjs` -> `corpora/eggs/nutrition.js`  *(build -> corpus)*
+- `build/eggs-build.mjs` -> `corpora/eggs/tables.js`  *(build -> corpus)*
+- `build/eggs-build.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/eggs-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/fork-demo.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/forks.js`  *(build -> corpus)*
@@ -169,6 +193,9 @@ Nodes: 114. Import edges: 171. Runtime flow edges: 25. All import edges satisfy 
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/vendor-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
+- `build/vendor-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
 - `build/vendor-snapshot.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/vendor-snapshot.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/vendor-snapshot.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
