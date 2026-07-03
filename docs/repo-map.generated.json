@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 108,
-  "edgeCount": 148,
+  "nodeCount": 110,
+  "edgeCount": 156,
   "nodes": [
     {
       "path": "kernel/analysis/assessment.js",
@@ -22,7 +22,14 @@
       "type": "kernel",
       "group": "analysis",
       "role": "the robustness analysis: the support graph as a fault tree, single points of failure as dominators, fragility as the interval.",
-      "contract": "STUB [2.1] Stage 2, specified not built. Flags correlated evidence presented as independent."
+      "contract": "SUPERSEDED. The v3 robustness reading is built in kernel/analysis/robustness.mjs (Prompt 13): support-closure and presupposition-closure single points of failure, robustness, fragility, and the correlated-evidence flag, over the v3 earned-grade. This Stage-1 stub is left as a marker."
+    },
+    {
+      "path": "kernel/analysis/robustness.mjs",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "the robustness reading over the support graph (intake data model v3). Grounding says how high a claim reaches; robustness says how much of that reach survives the loss of one support. The support graph is a reliability structure: jointly-necessary supports in a group are in series, independent groups are in parallel, a claim falling to the bottom of the order is a component failing. A single point of failure is a claim in the target's support closure whose removal lowers the target's earned grade; robustness is the earned grade after the worst single removal; fragility is the interval between the two. A distinct reading runs over the depends-on closure, where a single point of failure breaks well-formedness rather than lowering the grade.",
+      "contract": "analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) -> reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -592,6 +599,13 @@
       "contract": "`node build/check-map.mjs`. Exits 0 if everything holds, 1 with a named report. Writes the two generated artifacts each run; role and contract are parsed from module head comments."
     },
     {
+      "path": "build/check-robustness.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the robustness analysis oracle (Prompt 13). Phase A runs the four synthetic fixtures, the redundant target, the single-path bottleneck, the correlated-evidence case, and the shared presupposition, and asserts the readings; it also checks the two-closure separation and determinism. Phase B (build/check-robustness runs it too) reads the migrated cases.",
+      "contract": "`node build/check-robustness.mjs` exits non-zero on any failure. Imports the kernel analysis and table builders, and the snapshot for the case readings."
+    },
+    {
       "path": "build/check-translate.mjs",
       "type": "build",
       "group": null,
@@ -771,6 +785,27 @@
     {
       "from": "kernel/analysis/gaps.js",
       "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/robustness.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/robustness.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/robustness.mjs",
+      "to": "kernel/schema/tables.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1023,6 +1058,13 @@
     {
       "from": "api/providers/local-provider.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/analysis/robustness.mjs",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
@@ -1348,6 +1390,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "kernel/analysis/robustness.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-robustness.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-translate.mjs",

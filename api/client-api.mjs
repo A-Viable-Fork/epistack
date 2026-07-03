@@ -18,6 +18,8 @@ export function createClientApi(provider) {
     propose: (proposedClaim) => provider.propose(proposedClaim),
     // read claims with their grounding; query filters, {} or no argument returns all.
     read: (query) => provider.read(query || {}),
+    // read claims with their robustness and fragility, obtained the same way grounding is (Prompt 13).
+    robustness: (query) => (provider.robustness ? provider.robustness(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };

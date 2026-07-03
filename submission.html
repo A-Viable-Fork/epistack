@@ -1827,12 +1827,212 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
 
   return { restatementClosure, satisfiesReinstatement, decide };
 })();
+__M["robustness"] = (function () {
+  var { earnedGrade } = __M["earned-grade"];
+  var { POSITIONS } = __M["confidence"];
+  var { ceilingFor, footprintClosure } = __M["tables"];
+// Role: the robustness reading over the support graph (intake data model v3). Grounding says how high
+//   a claim reaches; robustness says how much of that reach survives the loss of one support. The
+//   support graph is a reliability structure: jointly-necessary supports in a group are in series,
+//   independent groups are in parallel, a claim falling to the bottom of the order is a component
+//   failing. A single point of failure is a claim in the target's support closure whose removal
+//   lowers the target's earned grade; robustness is the earned grade after the worst single removal;
+//   fragility is the interval between the two. A distinct reading runs over the depends-on closure,
+//   where a single point of failure breaks well-formedness rather than lowering the grade.
+// Contract: analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) ->
+//   reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and
+//   deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
+// Invariant: HONEST BOUND. Disjoint dependence WITHIN the graph certifies STRUCTURAL independence,
+//   not true independence: two claims can be correlated through a common cause that is not a node in
+//   the graph, and this analysis cannot see it. The remedy is the operation that exposes it, reifying
+//   the suspected common cause as a node both paths depend on, after which the analysis finds it as a
+//   shared point of failure. The reading is as good as the graph is complete and improves as more is
+//   represented; it reports structural fragility and never claims to certify true independence.
+"use strict";
+
+// a total order on positions for "lower" and "minimum": collapsed rank first, then, within the
+// settled empirical axis, the finer empirical rank. Unknown positions sort below everything.
+function totalRank(pos) {
+  const p = POSITIONS[pos];
+  return p ? p.collapsedRank * 10 + (p.empiricalRank || 0) : -1;
+}
+const isLower = (a, b) => totalRank(a) < totalRank(b);
+const minPos = (a, b) => (totalRank(a) <= totalRank(b) ? a : b);
+const byId = (a, b) => (a < b ? -1 : a > b ? 1 : 0);
+
+// index the graph once: claims by identity, supports and depends-on links grouped by their target.
+function indexGraph(graph) {
+  const entriesById = new Map((graph.entries || []).map((e) => [e.identity, e]));
+  const supportsInto = new Map();
+  const dependsInto = new Map();
+  for (const l of graph.links || []) {
+    const bucket = l.link_kind === "supports" ? supportsInto : l.link_kind === "depends-on" ? dependsInto : null;
+    if (!bucket) continue;
+    if (!bucket.has(l.to_identity)) bucket.set(l.to_identity, []);
+    bucket.get(l.to_identity).push(l);
+  }
+  return { entriesById, supportsInto, dependsInto, sourceTable: graph.tables.sourceTable, kindTable: graph.tables.kindTable };
+}
+
+// the earned grade of every claim, derived over the support links, with `removed` claims treated as
+// not in force (a removed claim delivers ungraded up its links). Returns the target's full earned
+// object { earned, mode, S, B }. One fresh memo per call, so each removal is a clean re-derivation.
+function computeEarned(idx, targetId, removed) {
+  const memo = new Map();
+  const active = new Set(); // cycle guard: a claim on the current path delivers asserted, not a loop
+  function eg(id) {
+    if (removed.has(id)) return { earned: "ungraded" };
+    if (memo.has(id)) return memo.get(id);
+    if (active.has(id)) return { earned: "asserted" };
+    active.add(id);
+    const entry = idx.entriesById.get(id);
+    if (!entry) { active.delete(id); const r = { earned: "ungraded" }; memo.set(id, r); return r; }
+    const supports = (idx.supportsInto.get(id) || []).map((l) => ({
+      group: l.support_group,
+      linkGrade: l.declared_grade,
+      supportEarned: eg(l.from_identity).earned,
+      footprint: footprintClosure(idx.sourceTable, [l.source_id]),
+      linkIdentity: l.identity,
+    }));
+    const ceil = ceilingFor(idx.kindTable, entry.kind);
+    const r = earnedGrade({
+      ceiling: ceil ? ceil.position : "asserted",
+      constitutive: !!(ceil && ceil.mode === "constitutive"),
+      checkingRecords: entry.checking_records,
+      supports,
+    });
+    active.delete(id);
+    memo.set(id, r);
+    return r;
+  }
+  return eg(targetId);
+}
+
+// every claim reachable from `startId` by following supports links downward (to -> from). `include`
+// controls whether startId itself is in the result.
+function supportClosure(idx, startId, include) {
+  const seen = new Set(), out = [];
+  const stack = [startId];
+  while (stack.length) {
+    const id = stack.pop();
+    if (seen.has(id)) continue;
+    seen.add(id);
+    if (id !== startId || include) out.push(id);
+    for (const l of idx.supportsInto.get(id) || []) if (!seen.has(l.from_identity)) stack.push(l.from_identity);
+  }
+  return out;
+}
+
+// the analysis over the support graph: grade, robustness, fragility, single points of failure, and
+// the correlated-evidence flag. Robustness is the minimum re-derived grade over each single removal
+// from the support closure; the definition is re-derivation, exactly as a support falling out.
+function analyzeRobustness(graph, targetId) {
+  const idx = indexGraph(graph);
+  const grade = computeEarned(idx, targetId, new Set()).earned;
+  const closure = supportClosure(idx, targetId, false).sort(byId);
+
+  let robustness = grade;
+  const spofs = [];
+  for (const c of closure) {
+    const e = computeEarned(idx, targetId, new Set([c])).earned;
+    if (isLower(e, grade)) spofs.push({ identity: c, lowered_to: e });
+    robustness = minPos(robustness, e);
+  }
+  const fragile = isLower(robustness, grade);
+  // the worst single removal, tie-broken by identity, for a concrete "this is the weak point".
+  let worst = null;
+  for (const s of spofs) if (!worst || isLower(s.lowered_to, worst.lowered_to) || (s.lowered_to === worst.lowered_to && s.identity < worst.identity)) worst = s;
+
+  // the target's direct support groups, and the support closure reachable through each group. A claim
+  // in two or more group closures sits across the apparent redundancy.
+  const directGroups = new Map();
+  for (const l of idx.supportsInto.get(targetId) || []) {
+    const g = l.support_group == null ? "g:" + l.from_identity : l.support_group;
+    if (!directGroups.has(g)) directGroups.set(g, new Set());
+    for (const id of supportClosure(idx, l.from_identity, true)) directGroups.get(g).add(id);
+  }
+  const groups = [...directGroups.keys()].sort(byId);
+  const groupsContaining = (id) => groups.filter((g) => directGroups.get(g).has(id));
+
+  // the correlated-evidence flag: apparent redundancy (>= 2 groups) whose robustness still falls
+  // because one claim sits across the groups. Name every such shared point of failure.
+  let correlated = null;
+  if (groups.length >= 2 && spofs.length) {
+    const shared = spofs.filter((s) => groupsContaining(s.identity).length >= 2).map((s) => s.identity).sort(byId);
+    if (shared.length) correlated = { shared_points: shared, group_count: groups.length };
+  }
+
+  return {
+    reading: "robustness",
+    target: targetId,
+    grade,
+    robustness,
+    fragility: { grade, robustness, empty: !fragile },
+    single_points_of_failure: spofs.slice().sort((a, b) => byId(a.identity, b.identity)),
+    worst_removal: worst,
+    group_count: groups.length,
+    correlated_evidence_flag: correlated,
+    support_closure: closure,
+  };
+}
+
+// claims reachable from the target by following depends-on links (to -> from), with the direct
+// dependents that reach each one, so a claim reached by two or more paths is a shared presupposition.
+function presuppositionReach(idx, targetId) {
+  const reachedVia = new Map(); // presupposed id -> Set of the target's direct depends-on claims it sits under
+  const directs = (idx.dependsInto.get(targetId) || []).map((l) => l.from_identity);
+  for (const d of directs) {
+    for (const id of supportClosureViaDepends(idx, d)) {
+      if (!reachedVia.has(id)) reachedVia.set(id, new Set());
+      reachedVia.get(id).add(d);
+    }
+  }
+  return reachedVia;
+}
+// every claim reachable from startId by depends-on links, including startId.
+function supportClosureViaDepends(idx, startId) {
+  const seen = new Set(), out = [];
+  const stack = [startId];
+  while (stack.length) {
+    const id = stack.pop();
+    if (seen.has(id)) continue;
+    seen.add(id); out.push(id);
+    for (const l of idx.dependsInto.get(id) || []) if (!seen.has(l.from_identity)) stack.push(l.from_identity);
+  }
+  return out;
+}
+
+// the analysis over the depends-on graph, kept separate from the grounding reading as the routing
+// table keeps the two link kinds separate. A single point of well-formedness failure is a presupposed
+// claim whose removal makes the target ill-formed (rather than merely lowering its grade); depends-on
+// does not deliver into the grade, so this fragility is distinct from the robustness fragility.
+function analyzePresupposition(graph, targetId) {
+  const idx = indexGraph(graph);
+  const reachedVia = presuppositionReach(idx, targetId);
+  const closure = [...reachedVia.keys()].sort(byId);
+  // removing any presupposed claim breaks the frame: each is a single point of well-formedness
+  // failure. A claim reached through two or more direct paths is a shared presupposition.
+  const spofs = closure.map((id) => ({ identity: id, shared: reachedVia.get(id).size >= 2 }));
+  const shared = spofs.filter((s) => s.shared).map((s) => s.identity);
+  return {
+    reading: "presupposition",
+    target: targetId,
+    well_formed: true, // well-formed as given: every presupposed claim is present in the graph
+    presupposition_closure: closure,
+    single_points_of_wellformedness_failure: spofs,
+    shared_presuppositions: shared,
+  };
+}
+
+  return { analyzeRobustness, analyzePresupposition };
+})();
 __M["local-provider"] = (function () {
   var { decide } = __M["gate"];
   var { claimRecord, linkRecord } = __M["records"];
   var { makeSourceTable, makeKindTable } = __M["tables"];
   var { storeViewOf } = __M["decay"];
   var { hashOf } = __M["canonical"];
+  var { analyzeRobustness, analyzePresupposition } = __M["robustness"];
 // Role: the local provider behind the propose/read contract (Prompt 10). Runs the REAL v3 gate over
 //   a frozen snapshot of the migrated corpus, in-process: propose builds the judge's claim and its
 //   supports, runs `decide` against the snapshot store view, and returns the full receipt; read walks
@@ -1925,7 +2125,30 @@ function createLocalProvider(snapshot) {
     return receipt;
   }
 
-  return { kind: "local", propose, read };
+  // robustness(query): the fragility reading alongside grounding, obtained the same way `read` is.
+  //   query.identity restricts to one claim; otherwise every claim is read. Each reading carries the
+  //   grade, the robustness (grade after the worst single removal), whether it is fragile, its single
+  //   points of failure, the correlated-evidence flag, and the distinct presupposition reading.
+  const graph = { entries: state.entries || [], links: state.links || [], tables: baseTables };
+  function robustness(query) {
+    query = query || {};
+    let targets = (state.entries || []).map((e) => e.identity);
+    if (query.identity) targets = targets.filter((id) => id === query.identity);
+    return targets.map((id) => {
+      const rob = analyzeRobustness(graph, id);
+      const pre = analyzePresupposition(graph, id);
+      const e = claimByIdentity.get(id);
+      return {
+        identity: id, statement: e ? e.statement : "", grade: rob.grade, robustness: rob.robustness,
+        fragile: !rob.fragility.empty, single_points_of_failure: rob.single_points_of_failure,
+        worst_removal: rob.worst_removal, group_count: rob.group_count,
+        correlated_evidence_flag: rob.correlated_evidence_flag,
+        presupposition: { closure: pre.presupposition_closure, shared: pre.shared_presuppositions },
+      };
+    });
+  }
+
+  return { kind: "local", propose, read, robustness };
 }
 
   return { createLocalProvider };
@@ -1975,6 +2198,10 @@ function createRemoteProvider(config) {
     // fixed one synchronously so the file:// artifact makes no network call.
     //   async propose(c){ const r = await fetch(cfg.endpoint, {method:"POST", body: JSON.stringify(c)}); return r.json(); }
     propose: (proposedClaim) => stubReceipt(proposedClaim),
+    // a hosted provider would return the server's robustness reading; the stub returns a fixed one.
+    robustness: () => [
+      { identity: "remote-stub-identity", statement: "(the hosted map's robustness would be read from " + (cfg.endpoint || "the remote endpoint") + ")", grade: "supported", robustness: "supported", fragile: false, single_points_of_failure: [], correlated_evidence_flag: null, presupposition: { closure: [], shared: [] } },
+    ],
     read: () => [
       { identity: "remote-stub-identity", kind: "claim", statement: "(the hosted map would be read from " + (cfg.endpoint || "the remote endpoint") + ")", source_id: "remote", declared_grade: "asserted", earned_grade: "supported", in_force: true },
     ],
@@ -2004,6 +2231,8 @@ function createClientApi(provider) {
     propose: (proposedClaim) => provider.propose(proposedClaim),
     // read claims with their grounding; query filters, {} or no argument returns all.
     read: (query) => provider.read(query || {}),
+    // read claims with their robustness and fragility, obtained the same way grounding is (Prompt 13).
+    robustness: (query) => (provider.robustness ? provider.robustness(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };

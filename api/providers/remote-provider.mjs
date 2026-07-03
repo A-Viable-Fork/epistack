@@ -42,6 +42,10 @@ export function createRemoteProvider(config) {
     // fixed one synchronously so the file:// artifact makes no network call.
     //   async propose(c){ const r = await fetch(cfg.endpoint, {method:"POST", body: JSON.stringify(c)}); return r.json(); }
     propose: (proposedClaim) => stubReceipt(proposedClaim),
+    // a hosted provider would return the server's robustness reading; the stub returns a fixed one.
+    robustness: () => [
+      { identity: "remote-stub-identity", statement: "(the hosted map's robustness would be read from " + (cfg.endpoint || "the remote endpoint") + ")", grade: "supported", robustness: "supported", fragile: false, single_points_of_failure: [], correlated_evidence_flag: null, presupposition: { closure: [], shared: [] } },
+    ],
     read: () => [
       { identity: "remote-stub-identity", kind: "claim", statement: "(the hosted map would be read from " + (cfg.endpoint || "the remote endpoint") + ")", source_id: "remote", declared_grade: "asserted", earned_grade: "supported", in_force: true },
     ],
