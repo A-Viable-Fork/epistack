@@ -54,6 +54,14 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/covid/tables.js",
+    "type": "corpus"
+  },
+  {
+    "path": "corpora/covid/covid-origins.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/lhc/lhc-cascade.js",
     "type": "corpus"
   },

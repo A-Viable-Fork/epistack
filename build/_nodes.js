@@ -40,6 +40,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/covid-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-covid.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },

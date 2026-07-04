@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 127,
-  "edgeCount": 234,
+  "nodeCount": 131,
+  "edgeCount": 245,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -417,6 +417,20 @@
       "contract": "exports COMPOSITE = { store_id, terms, weighings, framing, successor, presupposes }. Citations are named by (store, claim ref, term); build/check-eggs.mjs resolves refs to identities, copies each domain grade across the boundary, and computes the composite grades. Pure data."
     },
     {
+      "path": "corpora/covid/tables.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the covid-origins case reference tables (trusted inputs, intake data model v3, Section 10), for the densified covid case ingested from the Rootclaim-debate write-up (Prompt 23a). A source row per cited study/document carries its citation as provenance; the kind table gives the two ceilings the case uses: a measurement floor and a forum band.",
+      "contract": "exports SOURCES (source-table rows) and KINDS (kind-table rows). Pure data; imports nothing."
+    },
+    {
+      "path": "corpora/covid/covid-origins.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the densified covid-origins case (Prompt 23a), ingested from the Rootclaim-debate write-up. The evidence pieces ground to their floors; where the write-up separates an observation from its interpretation, the observation is a measurement and the interpretation a contested forum claim. The zoonosis and lab-leak conclusions are a contradicts-linked forum pair, each resting on the SAME shared evidence and on its own explicit prior claims, so the crux computation resolves the contradiction to the priors (the frontier where the two support cones diverge). The divergence meta-claim, the judges' ruling, and the method critique sit in the forum.",
+      "contract": "exports COVID = { store_id, claims:[spec], links:[spec] }; claim/link specs use local refs, resolved by build/covid-build.mjs. Pure data; corpora imports nothing."
+    },
+    {
       "path": "corpora/lhc/lhc-cascade.js",
       "type": "corpus",
       "group": null,
@@ -674,6 +688,20 @@
       "group": null,
       "role": "the reconciliation oracle (Prompt 22, Phase A). Exercises the within-domain crux on the real CVD contradiction from the eggs case (built through the shared eggs builder, not a fixture) and on two synthetic fixtures: a rich pair whose cones share a confounder and diverge below it (a meaningful frontier with a resolved sub-region), and a disjoint pair whose cones share nothing. The register holds the CVD pair with both sides and their grades. The crux is a candidate, not a verdict. Phase B adds the cross-domain crux and the routing.",
       "contract": "`node build/check-reconcile.mjs` exits non-zero on any failure. Imports the kernel and the shared eggs builder; the corpus is not touched."
+    },
+    {
+      "path": "build/covid-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the shared builder for the densified covid-origins case (Prompt 23a). Builds the covid v3 store through the real gate from the pure data in corpora/covid, so the oracle that verifies it (build/check-covid.mjs) and the generator that vendors it for the presentation build the same structure. One store: evidence, contested interpretations, the two conclusions and their priors, and the meta level.",
+      "contract": "buildCovid() -> { tables, claims, refId, state, view, receipt, graph }. Imports the kernel and corpora/covid; pure over the corpus, touching no truth field."
+    },
+    {
+      "path": "build/check-covid.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the covid-origins oracle (Prompt 23a). Verifies the densified covid case: the evidence grounds to its floors, the contested interpretations sit as forum claims, the zoonosis and lab-leak conclusions are a contradicts-linked forum pair each resting on the shared evidence and its own priors, the meta claims are typed forum, and mode disagreements are reported. Phase B runs the crux computation and confirms it resolves to the priors, not a shallow top-level split.",
+      "contract": "`node build/check-covid.mjs` exits non-zero on any failure. Imports the kernel, the reconciliation reading, and the shared covid builder; touches no truth field."
     },
     {
       "path": "build/eggs-build.mjs",
@@ -1539,6 +1567,27 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/check-covid.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-covid.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-covid.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-eggs.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
@@ -1919,6 +1968,62 @@
     {
       "from": "build/check-translate.mjs",
       "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "corpora/covid/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "corpora/covid/covid-origins.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "kernel/gate/gate.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
