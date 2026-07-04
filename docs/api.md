@@ -106,9 +106,18 @@ createClientApi(provider) -> {
   robustness(query) -> [claim with fragility], // grade, robustness, single points of failure, flag
   gaps(query) -> [open gap], // a claim in force whose earned grade does not cover its declared grade
   characterizedGaps(query) -> [gap], // an honest leap: a floor-ceiling open-line claim with a closing condition
+  reconciliations(query) -> [disagreement], // a contradicts-linked pair with its computed crux, a candidate
   providerKind() -> "local" | "remote",
 }
 ```
+
+`reconciliations` reads each contradicts-linked disagreement with the crux it turns on, computed on read
+like grounding and robustness (Prompt 22; `kernel/analysis/reconciliation.mjs`). The crux comes in two
+kinds and the reading routes by shape: a within-domain contradiction walks each side's support cone and
+returns the divergence frontier as the crux candidate set (with the resolved sub-region separately); a
+cross-domain weighing names the framing node it rests on. The crux is a candidate, never a verdict, and a
+shallow frontier is a finding, not a failure. The migrated snapshot carries no contradicts links, so the
+local provider reads none there; the eggs CVD contradiction is surfaced in its own reading.
 
 `robustness` is obtained the same way grounding is (Prompt 13; `kernel/analysis/robustness.mjs`):
 each claim's grade, its robustness (the earned grade after the worst single removal from its support

@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 127,
-  "edgeCount": 230,
+  "edgeCount": 234,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -1337,6 +1337,13 @@
     },
     {
       "from": "api/providers/local-provider.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-provider.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "api",
@@ -1827,6 +1834,20 @@
     },
     {
       "from": "build/check-reconcile.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
       "to": "build/eggs-build.mjs",
       "type": "imports",
       "fromLayer": "build",
@@ -2150,6 +2171,13 @@
     {
       "from": "build/vendor-eggs.mjs",
       "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-eggs.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

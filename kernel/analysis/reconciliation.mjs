@@ -127,3 +127,33 @@ export function disagreements(graph) {
   }
   return out.sort((x, y) => byId(x.side_a.identity + x.side_b.identity, y.side_a.identity + y.side_b.identity));
 }
+
+// the cross-domain crux: for a disagreement whose sides weigh claims across domains, the crux is not a
+// frontier inside any domain. It is the framing node the weighing depends on, the denominator and the
+// weights, read off the composite forum. Named, not computed from a cone; the weighing shares no unit.
+export function crossDomainCrux(weighing) {
+  const frames = (weighing.frame_refs || []).slice().sort(byId);
+  return {
+    reading: "cross-domain-crux", kind: "cross-domain",
+    framing_crux: frames,                    // the framing node(s) the weighing rests on: the crux
+    weighting: weighing.weighting || null,   // the weights are part of the crux, a stated value choice
+    candidate: true,
+    note: "the crux is the incommensurable weighing itself, the denominator and the weights read off the composite forum, not a divergence frontier inside any domain.",
+  };
+}
+
+// the two-kind router: a disagreement is EITHER a within-domain contradicts pair (both sides on one
+// domain floor) OR a cross-domain weighing (a composite-forum claim weighing across domains). The
+// router picks by the shape of the input so neither kind is run through the other's method. A
+// within-domain input carries { graph, a, b }; a cross-domain input carries { weighing }.
+export function reconcile(input) {
+  if (input && input.weighing) {
+    const w = input.weighing;
+    return {
+      record_type: "disagreement", kind: "cross-domain",
+      subject: w.claim_id || null, statement: w.statement || null,
+      crux: crossDomainCrux(w),
+    };
+  }
+  return disagreementRecord(input.graph, input.a, input.b, input.link_identity);
+}

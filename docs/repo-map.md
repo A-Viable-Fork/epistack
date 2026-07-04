@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 127. Import edges: 204. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 127. Import edges: 208. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -75,6 +75,7 @@ Nodes: 127. Import edges: 204. Runtime flow edges: 26. All import edges satisfy 
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/analysis/reconciliation.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/robustness.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/gate/gate.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
@@ -150,6 +151,8 @@ Nodes: 127. Import edges: 204. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-migrate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-perturb.mjs` -> `corpora/lhc/lhc-cascade.js`  *(build -> corpus)*
 - `build/check-perturb.mjs` -> `kernel/motions/perturb.js`  *(build -> kernel)*
+- `build/check-reconcile.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-reconcile.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-reconcile.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-reconcile.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/check-reconcile.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
@@ -201,6 +204,7 @@ Nodes: 127. Import edges: 204. Runtime flow edges: 26. All import edges satisfy 
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
 - `build/vendor-snapshot.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/vendor-snapshot.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*

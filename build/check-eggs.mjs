@@ -158,7 +158,9 @@ if (existsSync(readingPath)) {
   ok((R.characterized_gaps || []).length === 2 && R.characterized_gaps.every((g) => g.closing_condition), "the characterized-gap reading lists the regenerative claims and their closing conditions");
   ok((R.weighings || []).length === 2 && R.weighings.every((w) => w.ceiling === "corroborated"), "the weighings read at the structured-forum ceiling");
   ok(R.denominator && R.denominator.throughput && R.denominator.netcapital && JSON.stringify(R.denominator.throughput.measurements) === JSON.stringify(R.denominator.netcapital.measurements), "the denominator swap is present, and the measurement grades are identical across the swap");
-  ok(R.cardiovascular_crux && R.cardiovascular_crux.status === "specified", "the cardiovascular crux is noted as specified, not built: the tension is shown, not resolved");
+  ok(R.cardiovascular_crux && R.cardiovascular_crux.status === "computed-shallow", "the cardiovascular crux is now COMPUTED on read (Prompt 22): a shallow finding, the tension shown not resolved");
+  ok(R.reconciliation && R.reconciliation.within && R.reconciliation.within.shallow === true && R.reconciliation.within.kind === "within-domain", "the reading carries the computed within-domain CVD crux (a shallow frontier)");
+  ok(R.reconciliation && R.reconciliation.cross && R.reconciliation.cross.kind === "cross-domain" && (R.reconciliation.cross.framing_crux || []).length >= 1, "the reading carries the computed cross-domain crux: the which-system weighing's framing node");
 }
 
 // =====================================================================================

@@ -12,7 +12,12 @@
 import { claimRecord, linkRecord } from "../kernel/schema/records.mjs";
 import { makeSourceTable, makeKindTable } from "../kernel/schema/tables.mjs";
 import { hashOf } from "../kernel/schema/canonical.mjs";
-import { supportCone, withinDomainCrux, disagreements, disagreementRecord } from "../kernel/analysis/reconciliation.mjs";
+import { supportCone, withinDomainCrux, disagreements, disagreementRecord, reconcile, crossDomainCrux } from "../kernel/analysis/reconciliation.mjs";
+import { createClientApi } from "../api/client-api.mjs";
+import { createLocalProvider } from "../api/providers/local-provider.mjs";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { buildEggs } from "./eggs-build.mjs";
 
 let fails = 0;
@@ -104,7 +109,34 @@ ok(dc.resolved_sub_region.length === 0, "there is no resolved sub-region: the co
 console.log("\n[A5] pure and deterministic: a re-run is byte-identical");
 const digest = () => hashOf({ cvd: JSON.stringify(disagreements(graph)), rich: JSON.stringify(withinDomainCrux(richGraph, A.identity, B.identity)), dis: JSON.stringify(withinDomainCrux(disjointGraph, P.identity, Q.identity)) });
 ok(digest() === digest(), "two runs of the crux computation produce an identical digest");
-void supportCone; void disagreementRecord; // exported for reuse and Phase B routing
+void supportCone; void disagreementRecord;
+
+// =====================================================================================
+console.log("\n[B1] the two-kind routing: a within-domain pair walks the cone, a cross-domain weighing names the frame");
+// within-domain: the CVD contradicts pair routes to the cone-walk crux.
+const wRec = reconcile({ graph, a: id("n.cv-null"), b: id("n.cv-harm") });
+ok(wRec.kind === "within-domain" && wRec.crux.reading === "within-domain-crux", "a contradicts pair routes to the within-domain cone-walk crux");
+// cross-domain: the which-system weighing routes to the framing-node crux, never through the cone walk.
+const wSystem = E.weighs.find((w) => w.spec.ref === "w.system");
+const cRec = reconcile({ weighing: wSystem.rec });
+ok(cRec.kind === "cross-domain" && cRec.crux.reading === "cross-domain-crux", "a cross-domain weighing routes to the framing-node crux");
+ok((cRec.crux.framing_crux || []).length >= 1 && cRec.crux.framing_crux.includes("F-throughput"), "the cross-domain crux is the denominator framing node the weighing rests on");
+ok(cRec.crux.framing_crux !== undefined && wRec.crux.frontier_candidates !== undefined && cRec.crux.frontier_candidates === undefined, "neither kind is run through the other's method: no cone frontier on the cross-domain crux");
+ok(crossDomainCrux(wSystem.rec).candidate === true, "the cross-domain crux is a candidate: the incommensurable weighing, not a decided verdict");
+
+// =====================================================================================
+console.log("\n[B2] the read contract exposes a disagreement with its crux");
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+const snapshot = JSON.parse(readFileSync(join(ROOT, "vendor/gate/snapshot.json"), "utf8"));
+const api = createClientApi(createLocalProvider(snapshot));
+const overSnapshot = api.reconciliations({});
+ok(Array.isArray(overSnapshot), "reconciliations() is on the contract, obtained the way grounding and robustness are");
+ok(overSnapshot.length === 0, "over the closed migrated snapshot (no contradicts links) it honestly reads none");
+// the eggs CVD reconciliation is surfaced in the eggs reading (the composite is not in the snapshot).
+const reading = JSON.parse(readFileSync(join(ROOT, "vendor/eggs/reading.json"), "utf8"));
+ok(reading.reconciliation && reading.reconciliation.within.kind === "within-domain" && reading.reconciliation.within.shallow === true, "the presentation reading carries the CVD within-domain crux with its shallow finding");
+ok(reading.reconciliation.within.resolved_sub_region !== undefined && reading.reconciliation.within.frontier_candidates.length === 2, "it carries the frontier candidates and the resolved sub-region");
+ok(reading.reconciliation.cross.kind === "cross-domain" && (reading.reconciliation.cross.framing_crux || []).length >= 1, "and the cross-domain crux: the which-system weighing's framing node");
 
 // =====================================================================================
 console.log("\n" + H);

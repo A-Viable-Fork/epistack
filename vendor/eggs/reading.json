@@ -410,8 +410,40 @@
       "frame_orphaned_dependents": 0
     }
   },
+  "reconciliation": {
+    "within": {
+      "kind": "within-domain",
+      "side_a": {
+        "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+        "grade": "asserted"
+      },
+      "side_b": {
+        "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
+        "grade": "asserted"
+      },
+      "structurally_disjoint": true,
+      "shallow": true,
+      "frontier_candidates": [
+        "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+        "at up to one egg per day, egg consumption is not associated with incident cardiovascular d"
+      ],
+      "resolved_sub_region": [],
+      "candidate": true,
+      "note": "the two support cones are empty: the contradiction rests on bare claims. The frontier is at the top, and the confounder the disagreement turns on is not yet a node either side names. This is a finding: reify the confounder as an explicit claim both sides rest on before the crux computes meaningfully (the same bound robustness carries, the same remedy)."
+    },
+    "cross": {
+      "kind": "cross-domain",
+      "statement": "which farming system is better, weighing emissions and land against welfare, cost, and reg",
+      "framing_crux": [
+        "F-throughput"
+      ],
+      "weighting_rationale": "a stated value choice weighing welfare and soil against per-kg emissions and cost; the ranking is the value, not a measurement",
+      "candidate": true,
+      "note": "the crux is the incommensurable weighing itself, the denominator and the weights read off the composite forum, not a divergence frontier inside any domain."
+    }
+  },
   "cardiovascular_crux": {
-    "status": "specified",
-    "note": "The cardiovascular contradiction is held as structure: the population null and harm claims stay in tension, the diabetic-interaction claim grounds where they agree. Computing the crux of the contradiction (which single measurement would resolve it) is the one assessment piece still specified rather than built, so the tension is shown rather than resolved."
+    "status": "computed-shallow",
+    "note": "The cardiovascular crux is now COMPUTED on read (Prompt 22), not authored. On the contradiction as it stands the within-domain cone walk finds a shallow frontier: the population null and harm claims rest on bare assertions, so the crux sits at the top and the confounder the disagreement turns on is not yet an explicit node either side rests on. That is the honest finding, reported rather than forced; reifying the confounder is a content act for the eggs case, not the crux machinery. The tension is shown, not resolved."
   }
 }

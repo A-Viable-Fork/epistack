@@ -27,6 +27,7 @@ const MODULES = [
   "kernel/gate/gate.mjs",
   "kernel/analysis/robustness.mjs",
   "kernel/analysis/characterized-gaps.mjs",
+  "kernel/analysis/reconciliation.mjs",
   // the API layer: the local provider (the one api module that imports the kernel), the stub remote
   // provider (imports no kernel), and the contract. Bundled so the propose/read path runs client-
   // side and the provider swap is demonstrable; kernel imports resolve to __M.

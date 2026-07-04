@@ -48,6 +48,7 @@ export function createRemoteProvider(config) {
     ],
     gaps: () => [], // a hosted provider would return the server's gap reading; the stub reports none
     characterizedGaps: () => [], // likewise the characterized gaps; the stub reports none
+    reconciliations: () => [], // likewise the disagreements and their cruxes; the stub reports none
     read: () => [
       { identity: "remote-stub-identity", kind: "claim", statement: "(the hosted map would be read from " + (cfg.endpoint || "the remote endpoint") + ")", source_id: "remote", declared_grade: "asserted", earned_grade: "supported", in_force: true },
     ],
