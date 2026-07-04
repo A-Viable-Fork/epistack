@@ -371,15 +371,15 @@
       "path": "corpora/covid/covid.js",
       "type": "corpus",
       "group": null,
-      "role": "the COVID-origin case. Its instance is authored in the shared two-stage pipeline corpus and is not split out.",
-      "contract": "STUB: covid.instance lives in corpora/population/population-pipeline.js (one file, both instances; splitting would refactor). This dir marks the case home."
+      "role": "the COVID-origin case home. The CANONICAL covid case is the densified origins store, corpora/covid/covid-origins.js (Prompt 23a): the Rootclaim debate as evidence to floors, the zoonosis/lab-leak contradiction, and the priors as the computed crux.",
+      "contract": "covid-origins.js is the covid case. A SEPARATE population-mismatch pattern demonstration, covid.instance in corpora/population/population-pipeline.js, is kept by design (Prompt 24, Option B) as a distinct structural demo (the stage-1 break), not the canonical case; the two do not duplicate."
     },
     {
       "path": "corpora/eggs/eggs.js",
       "type": "corpus",
       "group": null,
-      "role": "the eggs case. Its instance is authored in the shared two-stage pipeline corpus and is not split out.",
-      "contract": "STUB: eggs.instance lives in corpora/population/population-pipeline.js (one file, both instances; splitting would refactor). This dir marks the case home."
+      "role": "the eggs case home. The CANONICAL eggs case is the domain stores and their composite, corpora/eggs/{nutrition,environment,economics,composite}.js (Prompt 20): a composite over three domains that ground to their own floors, with the regenerative claims as characterized gaps.",
+      "contract": "those modules are the eggs case. A SEPARATE population-mismatch pattern demonstration, eggs.instance in corpora/population/population-pipeline.js, is kept by design (Prompt 24, Option B) as a distinct structural demo (the stage-2 break), not the canonical case; the two do not duplicate."
     },
     {
       "path": "corpora/eggs/tables.js",
