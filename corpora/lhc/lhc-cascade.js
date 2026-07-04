@@ -359,6 +359,9 @@ const CASE = {
       label: "Time to destruction",
       value: "t_destroy(S, under the dangerous hypothesis)",
       produced_by: "lhc.branch3",
+      // the perturbation caption: as-argued the dangerous hypothesis is false and this prediction is
+      // idle; flipping lhc.assume.danger makes it sound (destruction time computes to t_destroy << tau).
+      note: "destruction time computes to t_destroy << tau_NS",
       // the integration ceiling: t_destroy integrates the accretion until the object has consumed
       // the body, so it reads the body's mass (corpora/_shared/bodies/bodies.js). The accretion RATE
       // is now authored to the floor at lhc.N3.1 (Giddings-Mangano), no longer a deferred regime.
@@ -379,7 +382,11 @@ const CASE = {
       label: "Predicted destruction time vs observed age",
       test: "t_destroy < tau_S",
       state: "consistent",
-      note: "as-argued the bodies survive (consistent); flipping lhc.assume.danger turns this contradicted",
+      // the support edge the comparison rests on: it tests the prediction. Making it structural (not
+      // only implied by the authored cascade) lets the perturbation rule reach the comparison from the
+      // flip through support edges alone (Prompt 21).
+      tests: "lhc.prediction",
+      note: "the cascade predicts the neutron star should already be gone",
       // tau_S is the body's measured age: the survival bound reads the dense bodies' ages
       // (data/bodies/bodies.js), the world-fact the prediction is tested against.
       body_refs: ["white-dwarf#age", "neutron-star#age"],

@@ -87,8 +87,9 @@
       dependents: (id) => E.dependents(registry, id), // the blast radius: who references id
       motions: (id) => E.motions(resolve(id), resolve), // { decompose, compare, perturb }
       // perturb: the ALONG motion as a non-destructive what-if read. Given a set of flipped
-      // assumption ids, return the authored-consequence overlay { states, trails }; never mutates.
-      perturb: (flippedSet) => E.perturb(resolve, flippedSet || []),
+      // assumption ids, compute the consequence overlay { states, trails } from the support graph
+      // (Prompt 21, T1-3 discharged); never mutates. Takes the registry (the id -> node map).
+      perturb: (flippedSet) => E.perturb(registry, flippedSet || []),
       classify: (id) => E.classify(resolve(id)), // structural class of a node
       // gaps: the substrate's own objective holes as first-class typed facts. gaps() over the
       // whole graph, gaps(id) over a node's subtree. Read-only; the detector ranks nothing.

@@ -1,40 +1,91 @@
-// Role: the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay, reading the
-//   authored consequence cascade each assumption carries and propagating it along the inference
-//   path to the comparison nodes. Authored data, not a computed rule (T1-3, exclusion reservoir).
-// Contract: perturb(resolveOrMap, flippedSet) -> overlay { states, trails }. resolveOrMap is the id
-//   resolver (or a node map); flippedSet is an iterable of assumption ids. Pure and DOM-free.
-// Invariant: the overlay is computed and returned, never a mutation of the graph (T0-3). A
-//   consequence is a recorded fact read from perturb.cascade, never derived by a propagation rule;
-//   the computed engine stays excluded until authored consequences for every case + a rule audit
-//   exist (T1-3, docs/exclusion-reservoir.md). This fills the authored-overlay application only.
+// Role: the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay by COMPUTING the
+//   consequence cascade from the support graph (Prompt 21, T1-3 discharged). Flipping an assumption
+//   removes the support it grounds and the collapse propagates along the support edges, the same
+//   inference edges the earned-grade fold reads: a prediction the flip reaches becomes sound, a
+//   comparison whose reached prediction became sound becomes contradicted. This is the same
+//   removal-and-recompute the robustness analysis runs for the worst single removal, aimed at a chosen
+//   flip instead. The rule is audited in build/check-perturb.mjs.
+// Contract: perturb(graph, flippedSet) -> overlay { states, trails }. graph is an id -> node map (a
+//   case node map or the registry); flippedSet is an iterable of assumption ids. Pure and DOM-free.
+// Invariant: the overlay is computed and returned, never a mutation of the graph (T0-3). Propagation
+//   runs along support edges only (inputs, children, produced_by, outputs, tests); a node changes
+//   state only when the flip reaches it through those edges, so no collapse is asserted that does not
+//   follow from a lost support. The authored perturb.cascade is retained only as the verification
+//   fixture the computed rule reproduces (docs/exclusion-reservoir.md, build/check-perturb.mjs).
 "use strict";
 
-// perturb: read each flipped assumption's authored cascade into an overlay.
+// the display state a node takes when the flip reaches it, by kind. Only these kinds carry a state in
+// the overlay: a prediction goes idle -> sound (it now asserts under the flipped hypothesis), and a
+// comparison that tests a now-sound prediction goes consistent -> contradicted (the sound prediction
+// contradicts the immutable observation). Any other reached node propagates the flip but shows no state.
+function flippedStateFor(kind) {
+  if (kind === "prediction") return "sound";
+  if (kind === "comparison") return "contradicted";
+  return null;
+}
+
+// the forward support adjacency (supporter -> dependents), inverted from the backward edges each node
+// carries. These are exactly the inference edges the grounding fold reads: an input, a decomposition
+// child, a producer, an output, and a comparison's tested prediction. No other edge propagates a flip.
+function forwardEdges(nodes) {
+  const forward = new Map();
+  const add = (from, to) => { if (!from || !to || !nodes[from] || !nodes[to]) return; if (!forward.has(from)) forward.set(from, new Set()); forward.get(from).add(to); };
+  for (const id of Object.keys(nodes)) {
+    const n = nodes[id];
+    if (!n || typeof n !== "object") continue;
+    for (const s of n.inputs || []) add(s, id);   // an input supports this node
+    for (const s of n.children || []) add(s, id); // a decomposition child supports its parent
+    if (n.produced_by) add(n.produced_by, id);    // a producer supports what it produces
+    for (const t of n.outputs || []) add(id, t);  // this node produces its outputs
+    if (n.tests) add(n.tests, id);                // a comparison tests a prediction: the prediction supports it
+  }
+  return forward;
+}
+
+// perturb: compute each flipped assumption's cascade over the support graph.
 //   states  - { [target]: new_state }, the as-flipped state of each consequence node.
 //   trails  - the ordered consequence chain per flip, [{ from, to, new_state, consequence }, ...],
-//             chained so a client can highlight the inference path (assumption -> ... -> comparison).
-//   perturb([]) -> { states: {}, trails: [] }: the as-argued graph, untouched.
-//   Deterministic: ids are sorted, and states is last-write-wins on that sorted traversal (the
-//   documented conflict rule; v1 has a single perturbable assumption, so it never triggers).
-function perturb(resolveOrMap, flippedSet) {
-  const resolve = typeof resolveOrMap === "function" ? resolveOrMap : (id) => (resolveOrMap || {})[id];
+//             chained through the support path so a client can highlight it (assumption -> ... -> comparison).
+//   perturb(graph, []) -> { states: {}, trails: [] }: the as-argued graph, untouched.
+//   Deterministic: flip ids sorted, neighbours expanded in sorted order, states last-write-wins.
+function perturb(graph, flippedSet) {
+  const nodes = graph && typeof graph === "object" ? graph : {};
+  const get = (id) => nodes[id];
+  const forward = forwardEdges(nodes);
   const ids = Array.from(flippedSet || []).filter((x) => typeof x === "string").sort();
   const states = {};
   const trails = [];
   for (const id of ids) {
-    const node = resolve(id);
+    const node = get(id);
     if (!node || node.kind !== "assumption") continue; // only an assumption flips
-    const p = node.perturb;
-    if (!p || !p.flips || !Array.isArray(p.cascade)) continue; // and only an authored, flipping one
-    let from = id; // the flip originates at the assumption; each link chains to the next target
-    for (const step of p.cascade) {
-      if (!step || typeof step.target !== "string") continue;
-      states[step.target] = step.new_state; // last-write-wins on the sorted traversal
-      trails.push({ from: from, to: step.target, new_state: step.new_state, consequence: step.consequence });
-      from = step.target;
+    // the flip's forward closure along support edges, with each node's parent on the path (for trails).
+    const parent = new Map([[id, null]]);
+    const order = [];
+    const queue = [id];
+    while (queue.length) {
+      const cur = queue.shift();
+      for (const dep of Array.from(forward.get(cur) || []).sort()) {
+        if (parent.has(dep)) continue;
+        parent.set(dep, cur);
+        order.push(dep);
+        queue.push(dep);
+      }
+    }
+    // a node changes state only if the flip reached it (it is in the closure) AND its kind carries a
+    // state. The trail chains it to the nearest state-bearing ancestor (or the flip origin), so the
+    // path skips the intermediate transformations that carry no display state.
+    for (const nid of order) {
+      const st = flippedStateFor((get(nid) || {}).kind);
+      if (!st) continue;
+      states[nid] = st; // last-write-wins over the sorted flip order
+      let from = parent.get(nid);
+      while (from && from !== id && !flippedStateFor((get(from) || {}).kind)) from = parent.get(from);
+      const n2 = get(nid);
+      const consequence = n2 && typeof n2.note === "string" && n2.note ? n2.note : ("the state becomes " + st);
+      trails.push({ from: from, to: nid, new_state: st, consequence: consequence });
     }
   }
   return { states: states, trails: trails };
 }
 
-if (typeof module !== "undefined" && module.exports) module.exports = { perturb };
+if (typeof module !== "undefined" && module.exports) module.exports = { perturb, forwardEdges };
