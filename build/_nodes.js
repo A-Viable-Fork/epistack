@@ -44,6 +44,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-covid.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-covid.mjs",
     "type": "build"
   },

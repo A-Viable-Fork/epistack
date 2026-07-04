@@ -1,0 +1,161 @@
+{
+  "generated_by": "build/vendor-covid.mjs",
+  "meta_question": "Where did SARS-CoV-2 come from? The same evidence, read by six analyses under different priors, spanned 23 orders of magnitude, so the answer is prior-driven.",
+  "evidence": [
+    {
+      "statement": "the 155 December-2019 cases with location data had a median distance of 4.28 km to the Huanan market (P<0.001) against 16.11 km fo",
+      "grade": "checked",
+      "source": "Worobey et al. (2022), Science 377(6609):951-959 (Huanan market epicenter)"
+    },
+    {
+      "statement": "of 923 environmental samples from the market, 74 (8.0%) were positive for SARS-CoV-2, and 87.5% (56/64) of inside-market positives",
+      "grade": "checked",
+      "source": "Liu et al. (2023), Nature 618:640-646 (environmental surveillance of the market)"
+    },
+    {
+      "statement": "all five positive environmental samples from one wildlife stall contained raccoon-dog, bamboo-rat, and civet DNA exceeding human D",
+      "grade": "checked",
+      "source": "Crits-Christoph et al. (2024), Cell 187(18):5318-5329 (market wildlife genetic tracing)"
+    },
+    {
+      "statement": "both SARS-CoV-2 lineages A and B are linked to the market: lineage B in market cases and samples, lineage A in a glove sample and ",
+      "grade": "checked",
+      "source": "Pekar et al. (2022), Science 377(6609):960-966 (two lineages; erratum 2023)"
+    },
+    {
+      "statement": "the SARS-CoV-2 polybasic furin cleavage site was created by a precise 12-nucleotide insertion (PRRA) at the S1/S2 junction, and it",
+      "grade": "checked",
+      "source": "Segreto & Deigin (2020), BioEssays 42(12):e2000240 (furin cleavage site structure)"
+    },
+    {
+      "statement": "the arginine codon CGG occurs at only 3-5% frequency in sarbecoviruses, so the CGG-CGG pair in the furin insertion is rare, and bo",
+      "grade": "checked",
+      "source": "Romeu (2023), BMC Genomic Data 24:57; Holmes et al. (2021), Cell 184(19):4848 (CGG codons)"
+    },
+    {
+      "statement": "the 2018 DEFUSE proposal to DARPA, by researchers including WIV collaborators, described inserting human-specific furin cleavage s",
+      "grade": "checked",
+      "source": "The Intercept (2021), DEFUSE leaked proposal; US House Oversight letter (2024)"
+    },
+    {
+      "statement": "no live raccoon dogs, civets, or porcupines were tested for SARS-CoV-2 at the market, the animals having been cleared before sampl",
+      "grade": "checked",
+      "source": "Liu et al. (2023), Nature 618:640-646 (environmental surveillance of the market)"
+    },
+    {
+      "statement": "about one million wild mammals on Hubei wildlife farms supplying the market were released, sold, or killed in early 2020 without S",
+      "grade": "checked",
+      "source": "Worobey et al. (2022), Science 377(6609):951-959 (Huanan market epicenter)"
+    }
+  ],
+  "interpretations": [
+    {
+      "statement": "that infected animals, not infected humans, deposited the market's viral RNA is argued from the wildlife-DNA samples, and is conte",
+      "grade": "supported",
+      "source": "Crits-Christoph et al. (2024), Cell 187(18):5318-5329 (market wildlife genetic tracing)"
+    },
+    {
+      "statement": "that the two lineages record two separate zoonotic spillovers is contested: the Pekar Bayes factor fell from ~60 to ~4.3 after thr",
+      "grade": "supported",
+      "source": "Weissman (2026), Econ Journal Watch 23(1); McCowan arXiv:2510.01484 (two-spillover reanalysis)"
+    },
+    {
+      "statement": "the furin site is functionally suboptimal and out-of-frame: natural-origin proponents read this as inconsistent with engineering, ",
+      "grade": "supported",
+      "source": "Holmes et al. (2021), Cell 184(19):4848-4856 (FCS suboptimality critical review)"
+    },
+    {
+      "statement": "that unlinked cases sat closer to the market than linked cases reveals proximity ascertainment bias, so the clustering may reflect",
+      "grade": "supported",
+      "source": "Weissman (2024), JRSS-A 187(3):720 (proximity ascertainment bias); Debarre/Worobey reply"
+    },
+    {
+      "statement": "a reanalysis found SARS-CoV-2 abundance correlated most with implausible hosts (fish, cow), so the market-wide metagenomic content",
+      "grade": "asserted",
+      "source": "Bloom (2023), Virus Evolution 9(2):vead050 (metagenomic reanalysis); Debarre rebuttal"
+    },
+    {
+      "statement": "that a centroid of early cases must be the origin is unproved and the Monte Carlo null was flawed, though under a corrected implem",
+      "grade": "asserted",
+      "source": "Stoyan & Chiu (2024), JRSS-A; Debarre & Worobey arXiv:2403.05859 (centroid critique)"
+    }
+  ],
+  "priors": [
+    {
+      "statement": "Miller's prior: a zoonotic pandemic starts in any given year with about 1% probability (one natural pandemic per century), a histo",
+      "grade": "asserted",
+      "source": "Shin Jie Yong (2024), Medium, 'My Friend Won the US$100,000 Debate' (Miller's priors)"
+    },
+    {
+      "statement": "Miller's prior: a lab-leak origin at about 1 in 588 (0.0005 that a lab made such a virus in 2019, times 0.05 that it leaked)",
+      "grade": "asserted",
+      "source": "Shin Jie Yong (2024), Medium, 'My Friend Won the US$100,000 Debate' (Miller's priors)"
+    },
+    {
+      "statement": "Rootclaim's prior: the market early cluster is only 2x evidence (near-neutral), since markets repeatedly form early COVID clusters",
+      "grade": "asserted",
+      "source": "Rootclaim Blog (2024), debate results and response to Scott Alexander (Rootclaim's priors)"
+    },
+    {
+      "statement": "Rootclaim's prior: a researcher working on a SARS-CoV-2-like virus under BSL-2 has about a 15% annual infection probability, and t",
+      "grade": "asserted",
+      "source": "Rootclaim Blog (2024), debate results and response to Scott Alexander (Rootclaim's priors)"
+    }
+  ],
+  "meta": [
+    {
+      "statement": "six independent Bayesian analyses of the same evidence spanned 23.4 orders of magnitude, from Miller's pro-zoonosis extreme to Roo",
+      "grade": "corroborated",
+      "source": "Scott Alexander (2024), Astral Codex Ten, 'Practically-A-Book-Review: Rootclaim Lab Leak Debate'"
+    },
+    {
+      "statement": "a confident origin verdict performs a settlement the evidence does not carry: with a 23-order spread across analysts, the conclusi",
+      "grade": "supported",
+      "source": "Scott Alexander (2024), Astral Codex Ten, 'Practically-A-Book-Review: Rootclaim Lab Leak Debate'"
+    },
+    {
+      "statement": "both judges ruled for zoonosis under their own priors (Van Treuren ~1 in 300, Stansifer ~1 in 3000) while treating the Bayesian ca",
+      "grade": "asserted",
+      "source": "Judge Will Van Treuren, written decision (Feb 2024): ~1 in 300 lab leak"
+    },
+    {
+      "statement": "the conclusion is highly sensitive to the ordering and independence of the evidence: heroic Bayesian analysis multiplies correlate",
+      "grade": "asserted",
+      "source": "Scott Alexander (2024), Astral Codex Ten, 'Practically-A-Book-Review: Rootclaim Lab Leak Debate'"
+    },
+    {
+      "statement": "as of 2025 the origin remains genuinely unresolved: no decisive ancestor virus, records, or engineering signature has emerged, and",
+      "grade": "asserted",
+      "source": "WHO SAGO report (2025); ODNI declassified assessment; Gelman (2025) (unresolved)"
+    }
+  ],
+  "contradiction": {
+    "zoonosis": {
+      "statement": "zoonotic spillover at the market is the more likely origin (Peter Miller's conclusion), resting on the shared evidence read under ",
+      "grade": "corroborated",
+      "source": "Scott Alexander (2024), Astral Codex Ten, 'Practically-A-Book-Review: Rootclaim Lab Leak Debate'"
+    },
+    "lableak": {
+      "statement": "a research-related lab leak is the more likely origin (Rootclaim's conclusion), resting on the same shared evidence read under its",
+      "grade": "corroborated",
+      "source": "Rootclaim Blog (2024), debate results and response to Scott Alexander (Rootclaim's priors)"
+    },
+    "crux": {
+      "candidate": true,
+      "shallow": false,
+      "frontier": [
+        "Rootclaim's prior: the market early cluster is only 2x evidence (near-neutral), since markets repeatedly form early COVID clusters",
+        "Miller's prior: a zoonotic pandemic starts in any given year with about 1% probability (one natural pandemic per century), a histo",
+        "Rootclaim's prior: a researcher working on a SARS-CoV-2-like virus under BSL-2 has about a 15% annual infection probability, and t",
+        "Miller's prior: a lab-leak origin at about 1 in 588 (0.0005 that a lab made such a virus in 2019, times 0.05 that it leaked)"
+      ],
+      "resolved": [
+        "both SARS-CoV-2 lineages A and B are linked to the market: lineage B in market cases and samples, lineage A in a glove sample and ",
+        "the SARS-CoV-2 polybasic furin cleavage site was created by a precise 12-nucleotide insertion (PRRA) at the S1/S2 junction, and it",
+        "of 923 environmental samples from the market, 74 (8.0%) were positive for SARS-CoV-2, and 87.5% (56/64) of inside-market positives",
+        "the 155 December-2019 cases with location data had a median distance of 4.28 km to the Huanan market (P<0.001) against 16.11 km fo"
+      ],
+      "note": "the frontier is the crux the structure points at, a candidate set, not a decided crux; which candidate is decisive is a judgment the record invites."
+    }
+  }
+}

@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 131. Import edges: 219. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 133. Import edges: 221. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -213,6 +213,8 @@ Nodes: 131. Import edges: 219. Runtime flow edges: 26. All import edges satisfy 
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
+- `build/vendor-covid.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*

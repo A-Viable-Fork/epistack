@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 131,
-  "edgeCount": 245,
+  "nodeCount": 133,
+  "edgeCount": 247,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -606,6 +606,13 @@
       "contract": "registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON."
     },
     {
+      "path": "periphery/navigate/shell/modules/covid-case.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the densified covid-origins case as a shell module (Prompt 23a). Renders the case as the dispute it is: the evidence grounded to its floors, the contested interpretations, the origin question in the forum with the zoonosis and lab-leak conclusions contradicts-linked, the priors named as the computed crux, and the 23-order divergence as the reason the question is prior-driven. The reading is the vendored build artifact (vendor/covid/reading.json), computed by the kernel at build time (build/vendor-covid.mjs); the module renders it and computes no grade.",
+      "contract": "registers on window.EpiShell as a case module. Reads the embedded #covid-reading JSON."
+    },
+    {
       "path": "periphery/navigate/shell/modules/cases.js",
       "type": "periphery",
       "group": "consumer",
@@ -695,6 +702,13 @@
       "group": null,
       "role": "the shared builder for the densified covid-origins case (Prompt 23a). Builds the covid v3 store through the real gate from the pure data in corpora/covid, so the oracle that verifies it (build/check-covid.mjs) and the generator that vendors it for the presentation build the same structure. One store: evidence, contested interpretations, the two conclusions and their priors, and the meta level.",
       "contract": "buildCovid() -> { tables, claims, refId, state, view, receipt, graph }. Imports the kernel and corpora/covid; pure over the corpus, touching no truth field."
+    },
+    {
+      "path": "build/vendor-covid.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the densified covid-origins case into one JSON reading the presentation shell renders in a file:// page, with no server and no live kernel in the browser (Prompt 23a). Built through the shared covid builder, the same one the oracle verifies, and written to vendor/covid/reading.json: the evidence grounded to its floors, the contested interpretations, the origins contradiction with its computed crux resolving to the priors, and the meta level with the 23-order divergence.",
+      "contract": "`node build/vendor-covid.mjs` writes the reading. No arguments. Deterministic."
     },
     {
       "path": "build/check-covid.mjs",
@@ -2265,6 +2279,20 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-covid.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-covid.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/vendor-eggs.mjs",
