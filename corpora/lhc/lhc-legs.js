@@ -81,6 +81,29 @@ const claims = [
   // ---- the conditionality meta-claim (framework-conditionality report, Phase B) ----
   { ref: "conditionality", kind: "forum", declared_grade: "asserted", source_id: "src:conditionality-report", contributor_id: "meta:conditionality",
     statement: P + "framework choice, not calculation, dominates: the choice of framework accounts for roughly 85-90% of the total safety-relevant uncertainty, against a 4-5 order within-framework spread; marked honestly, the multiplicity weighting behind the 85-90% figure is itself a forum judgment about prior probabilities, not derivable from first principles" },
+
+  // ---- the performed-settling finding (Phase C): the unconditional public claim held apart from
+  //      the conditional structure the within-framework calculations actually establish ----
+  { ref: "public.unconditional", kind: "forum", declared_grade: "asserted", source_id: "src:lsag-2008", contributor_id: "perform:lsag",
+    statement: P + "the LSAG public framing, 'there is no basis for any conceivable threat from the LHC', presents a conservative within-framework analysis as an unconditional, settled safety proof: it PERFORMS settledness by erasing the antecedent (the abstract omits the framework condition)" },
+  { ref: "conditional.structure", kind: "forum", declared_grade: "supported", source_id: "src:conditionality-report", contributor_id: "structure:conditional",
+    statement: P + "the actual claim is conditional: no threat IF the ADD framework holds AND Hawking radiation is absent or modified AND the accretion-and-cosmic-ray bound applies; the dropped antecedent is the ADD framework choice, and each conjunct is independently uncertain" },
+  { ref: "spc.threelevel", kind: "forum", declared_grade: "supported", source_id: "src:spc-2008", contributor_id: "evidence:spc",
+    statement: P + "the CERN SPC's own review acknowledged three increasingly unlikely conditions the argument requires (first, that the fundamental gravity scale lies in LHC range, possible only if extra dimensions with very peculiar properties exist), so the panel that endorsed the safety case recorded the antecedent the public framing drops", checking_records: chk("spc-text", "data-audit") },
+
+  // ---- the empirical-closure meta-claim (Phase C) ----
+  { ref: "closure.empirical", kind: "forum", declared_grade: "supported", source_id: "src:conditionality-report", contributor_id: "meta:closure",
+    statement: P + "the debate resolved by falsifying the antecedent (the frameworks that would produce dangerous black holes are empirically excluded), NOT by proving the consequent (that black holes are safe): this is empirical closure, not logical; a 100 TeV collider would reopen the window, and the one theoretical-closure route (Lake et al. dimensionally-dependent uncertainty relations, 2023) stays exploratory with few citations" },
+
+  // ---- the undercuts (survey Part B): each attaches to its named leg and lowers its confidence ----
+  { ref: "uc.plaga", kind: "forum", declared_grade: "asserted", source_id: "src:plaga-2008", contributor_id: "undercut:plaga",
+    statement: P + "Plaga's metastable-black-hole scenario undercuts Leg 3: within the Casadio-Harms microcanonical framework a metastable hole could accrete at the Eddington limit while self-limiting via radiation pressure, evading the cosmic-ray argument; the warping-scale upper limit allows M_c = 1.1e5 kg, above the 1e4 kg catastrophic threshold Casadio ruled out only below it. Credible: a credentialed critique, unrebutted past his v3 (discovery grade: contested)" },
+  { ref: "uc.transplanckian", kind: "forum", declared_grade: "asserted", source_id: "src:unruh-2014", contributor_id: "undercut:transplanckian",
+    statement: P + "the trans-Planckian problem undercuts Leg 2: Hawking's derivation traces outgoing modes back to trans-Planckian frequencies where effective field theory breaks down, and for a microscopic black hole there is no parametric separation of horizon and Planck scales, so quantum-gravity corrections are plausibly O(1) (discovery grade: established as a genuine problem)" },
+  { ref: "uc.vilkovisky", kind: "forum", declared_grade: "asserted", source_id: "src:vilkovisky", contributor_id: "undercut:vilkovisky",
+    statement: P + "Vilkovisky's partial-evaporation claim undercuts Leg 2: quantum back-reaction may halt evaporation at about half the mass, leaving a long-lived remnant that could survive to accrete; never refuted in the safety-review literature, only ignored (discovery grade: contested)" },
+  { ref: "uc.firewall", kind: "forum", declared_grade: "asserted", source_id: "src:amps-2013", contributor_id: "undercut:firewall",
+    statement: P + "the firewall paradox undercuts Leg 2: the AMPS argument shows unitarity, semiclassical effective field theory outside the horizon, and the equivalence principle are mutually inconsistent for an evaporating black hole, revealing a fundamental tension in the semiclassical framework Leg 2 assumes (discovery grade: established as a tension, contested as to resolution)" },
 ];
 
 // ---- support links: the disjunction, and each leg's computed grounding ----
@@ -124,6 +147,22 @@ const links = [
   dep("dep.add", "leg.astro", "B-shared"),
   dep("dep.semiclassical", "leg.prod", "B-shared"),
   dep("dep.semiclassical", "leg.astro", "B-shared"),
+
+  // Phase C: the performed-settling finding. The SPC three-level acknowledgment grounds the conditional
+  // structure, which names (depends-on) the ADD antecedent and contradicts the erasing public claim.
+  supp("spc.threelevel", "conditional.structure", "g:spc", "src:spc-2008", "supported"),
+  { link_kind: "contradicts", from: "conditional.structure", to: "public.unconditional", source_id: "src:conditionality-report", contributor_id: "wire", declared_grade: "asserted" },
+  dep("dep.add", "conditional.structure"),
+  // the empirical closure rests on the empirical exclusion of the dangerous branch.
+  supp("add.excluded", "closure.empirical", "g:closure", "src:cms-exo-24-028", "supported"),
+
+  // Phase C: the undercuts. An undercut attacks the leg's grounding; it enters no grade fold, and the
+  // undercut reading lowers the confidence the leg transmits. The link grade carries the discovery grade
+  // (established -> supported, contested -> asserted).
+  { link_kind: "undercut", from: "uc.plaga", to: "leg.astro", source_id: "src:plaga-2008", contributor_id: "wire", declared_grade: "supported" },
+  { link_kind: "undercut", from: "uc.transplanckian", to: "leg.hawking", source_id: "src:unruh-2014", contributor_id: "wire", declared_grade: "supported" },
+  { link_kind: "undercut", from: "uc.vilkovisky", to: "leg.hawking", source_id: "src:vilkovisky", contributor_id: "wire", declared_grade: "asserted" },
+  { link_kind: "undercut", from: "uc.firewall", to: "leg.hawking", source_id: "src:amps-2013", contributor_id: "wire", declared_grade: "asserted" },
 ];
 
 // ---- the framework-choice node read as a swappable frame (Phase B, the eggs-denominator seam) ----
@@ -151,4 +190,16 @@ const presupposes = [
 // the two reified shared dependencies (the depends-on nodes) and the reading targets, named for the oracle.
 const sharedDeps = ["dep.add", "dep.semiclassical"];
 
-module.exports = { LHC: { store_id: "S-lhc-cascade", claims, links, framing, successor, presupposes, sharedDeps } };
+// the undercuts and the legs they target, with the discovery grade the survey assigns each (Phase C).
+const undercuts = [
+  { ref: "uc.plaga", target: "leg.astro", discovery: "contested (credible, unrebutted past v3)" },
+  { ref: "uc.transplanckian", target: "leg.hawking", discovery: "established" },
+  { ref: "uc.vilkovisky", target: "leg.hawking", discovery: "contested" },
+  { ref: "uc.firewall", target: "leg.hawking", discovery: "established as a tension" },
+];
+
+// the performed-settling pair: the within-framework calculations read settled, the unconditional public
+// claim reads performed, and the antecedent it drops is named.
+const performedSettling = { settled: presupposes.map((p) => p.claim), performed: "public.unconditional", conditional: "conditional.structure", antecedent: "dep.add" };
+
+module.exports = { LHC: { store_id: "S-lhc-cascade", claims, links, framing, successor, presupposes, sharedDeps, undercuts, performedSettling } };

@@ -9,7 +9,7 @@
 //   proposed mode the disagreement is a finding, listed, not forced.
 "use strict";
 import { collapsedRank, tierOf } from "../kernel/schema/confidence.mjs";
-import { analyzePresupposition, analyzeRobustness } from "../kernel/analysis/robustness.mjs";
+import { analyzePresupposition, analyzeRobustness, analyzeUndercuts } from "../kernel/analysis/robustness.mjs";
 import { framingRecord, checkPresupposition, swapFrame, frameOrphaned } from "../kernel/composition/framing.mjs";
 import { buildLhc } from "./lhc-build.mjs";
 
@@ -122,7 +122,40 @@ console.log("\n[B4] the conditionality meta-claim is present and marked a forum 
 ok(specOf("conditionality").kind === "forum" && /85-90%/.test(specOf("conditionality").statement) && /4-5 order/.test(specOf("conditionality").statement), "the conditionality meta-claim carries the 85-90% framework-choice share against the 4-5 order within-framework spread");
 ok(/forum judgment|not derivable/.test(specOf("conditionality").statement) && tierOf(earned("conditionality")) !== "settled", "the multiplicity weighting is marked honestly as a forum judgment, not forced to a settled grade");
 
+// =====================================================================================
+console.log("\n[C1] the performed-settling finding: settled calculations held apart from the performed claim");
+// the engine holds the within-framework calculations (settled by construction) apart from the
+// unconditional threat-free claim (which performs a settledness it has not earned).
+const calcsSettled = C.LHC.presupposes.every((p) => earned(p.claim) === "constitutive");
+ok(calcsSettled, "the within-framework calculations read as settled (constitutive by construction)");
+ok(tierOf(earned("public.unconditional")) !== "settled" && earned("public.unconditional") === "asserted", `the unconditional public claim reads as performed, not settled (earned ${earned("public.unconditional")})`);
+// the conditional structure names the antecedent the public claim drops, and contradicts the erasure.
+ok(dependsOnOf("conditional.structure").includes(id("dep.add")), "the conditional structure names the dropped antecedent (the ADD framework choice) as a depends-on");
+const contradicts = C.graph.links.filter((l) => l.link_kind === "contradicts").some((l) => l.from_identity === id("conditional.structure") && l.to_identity === id("public.unconditional"));
+ok(contradicts, "the conditional structure contradicts the unconditional public claim: the erasure is registered, not silent");
+ok(supportsInto("conditional.structure").includes(id("spc.threelevel")) && /three increasingly unlikely conditions/.test(specOf("spc.threelevel").statement), "the SPC's three-level acknowledgment is the evidence that the antecedent was dropped");
+
+// =====================================================================================
+console.log("\n[C2] the undercuts attach to their named legs and lower the confidence those legs carry");
+const uAstro = analyzeUndercuts(C.graph, id("leg.astro"));
+const uHawk = analyzeUndercuts(C.graph, id("leg.hawking"));
+const uProd = analyzeUndercuts(C.graph, id("leg.prod"));
+console.log(`      Leg 3 (astro):   grounding ${uAstro.grade} -> confidence ${uAstro.confidence_after_undercuts} under ${uAstro.undercuts.length} undercut (Plaga)`);
+console.log(`      Leg 2 (Hawking): grounding ${uHawk.grade} -> confidence ${uHawk.confidence_after_undercuts} under ${uHawk.undercuts.length} undercuts (trans-Planckian, Vilkovisky, firewall)`);
+console.log(`      Leg 1 (production): grounding ${uProd.grade} -> confidence ${uProd.confidence_after_undercuts} under ${uProd.undercuts.length} undercuts`);
+ok(uAstro.undercuts.length === 1 && uAstro.lowered, "Plaga's undercut attaches to Leg 3 and lowers the confidence the backstop carries");
+ok(uHawk.undercuts.length === 3 && uHawk.lowered, "the three Leg-2 undercuts attach and lower Leg 2's confidence");
+ok(uProd.undercuts.length === 0 && !uProd.lowered, "Leg 1 carries no undercut and its confidence is unlowered (the reading is empty, correctly, not a miss)");
+// each undercut carries its provenance and discovery grade.
+for (const u of C.LHC.undercuts) ok(srcIds.has(specOf(u.ref).source_id) && /discovery grade/.test(specOf(u.ref).statement), `${u.ref} carries its provenance and discovery grade (${u.discovery})`);
+
+// =====================================================================================
+console.log("\n[C3] the empirical-closure meta-claim is present and marked empirical, not logical");
+ok(/empirical closure, not logical/.test(specOf("closure.empirical").statement) && /falsifying the antecedent/.test(specOf("closure.empirical").statement), "the closure meta-claim reads: resolved by falsifying the antecedent, not by proving black holes safe");
+ok(/100 TeV|reopen/.test(specOf("closure.empirical").statement) && /exploratory/.test(specOf("closure.empirical").statement), "the residual reopening is noted (a 100 TeV collider; the theoretical-closure route stays exploratory)");
+ok(supportsInto("closure.empirical").includes(id("add.excluded")), "the empirical closure rests on the empirical exclusion of the dangerous branch");
+
 console.log("\n" + H);
 if (fails) { console.log(`check-lhc: ${fails} FAILURE(S)`); process.exit(1); }
-console.log("check-lhc: OK (Phase B: the framework-choice node read two ways, robustness and framing)"); console.log(H);
+console.log("check-lhc: OK (Phase C: performed-settling, undercuts, and empirical closure)"); console.log(H);
 void analyzeRobustness;

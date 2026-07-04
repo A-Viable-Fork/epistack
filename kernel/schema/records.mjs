@@ -13,7 +13,10 @@
 import { canonicalize, normalizeString, hashOf, computeClaimIdentity, computeLinkIdentity } from "./canonical.mjs";
 import { isPosition } from "./confidence.mjs";
 
-const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement"];
+// undercut (edge taxonomy [1.5]): attacks a support edge's grounding rather than adding support. It
+// enters no grade fold in the gate (inert here, like contradicts routes to the register); a dedicated
+// undercut reading over the graph lowers the confidence the attacked leg transmits.
+const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement", "undercut"];
 const METHOD_CLASSES = ["replication", "derivation-audit", "data-audit", "direct-measurement"];
 const INDEPENDENCE = ["distinct-party", "self"];
 const BINDING_RESOLUTIONS = ["bound", "bound-superseded", "unresolved"];
