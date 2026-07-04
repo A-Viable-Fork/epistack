@@ -71,6 +71,16 @@ const claims = [
   { ref: "dep.semiclassical", kind: "forum", declared_grade: "asserted", source_id: "src:calmet-2008", contributor_id: "framework:semiclassical",
     statement: P + "LHC-produced black holes sit in the semiclassical regime (M_BH/M_* >~ 10) where the Hawking calculation and the classical hoop/Bondi analyses are valid; the report flags this doubtful, since LHC production is near threshold at M_BH/M_* ~ 2-5, below the E/M_* >~ 10 requirement, where the object is a non-thermal quantum black hole",
     closing_condition: { condition_kind: "proof", target: "a first-principles quantum-gravity calculation, or a measurement, placing LHC-scale black holes above the semiclassical threshold M_BH/M_* >~ 10", system: "the semiclassical regime at the LHC scale" } },
+
+  // ---- the dangerous branch of the framework choice, graded empirically excluded (Phase B) ----
+  // the closing condition on dep.add answered negatively: the measured M_D lies far above LHC reach,
+  // so the branch of ADD that would produce dangerous black holes is empirically closed.
+  { ref: "add.excluded", kind: "measurement", declared_grade: "checked", source_id: "src:cms-exo-24-028", contributor_id: "obs:exclusion",
+    statement: P + "the dangerous ADD branch, M_D ~ 1-3 TeV that would give copious LHC black-hole production, is empirically excluded by convergent independent bounds: direct collider M_D > 5.9-11.2 TeV, semiclassical black holes > 8.4-11.4 TeV, string balls > 9.0-10.7 TeV, astrophysics > 10 TeV; the accessible production window is closed", checking_records: chk("exclusion-audit", "data-audit") },
+
+  // ---- the conditionality meta-claim (framework-conditionality report, Phase B) ----
+  { ref: "conditionality", kind: "forum", declared_grade: "asserted", source_id: "src:conditionality-report", contributor_id: "meta:conditionality",
+    statement: P + "framework choice, not calculation, dominates: the choice of framework accounts for roughly 85-90% of the total safety-relevant uncertainty, against a 4-5 order within-framework spread; marked honestly, the multiplicity weighting behind the 85-90% figure is itself a forum judgment about prior probabilities, not derivable from first principles" },
 ];
 
 // ---- support links: the disjunction, and each leg's computed grounding ----
@@ -95,6 +105,8 @@ const links = [
   supp("hawking.lifetime", "leg.hawking", "g:hawk-life", "src:kanti-2004"),
   supp("astro.survival", "leg.astro", "g:astro-surv", "src:giddings-mangano-2008"),
   supp("astro.gm", "leg.astro", "g:astro-gm", "src:giddings-mangano-2008"),
+  // the empirical closure of the dangerous branch corroborates that no dangerous BH is produced.
+  supp("add.excluded", "leg.prod", "g:prod-excl", "src:cms-exo-24-028"),
 
   // Phase A: each leg's OWN framework premise as a characterized dependency (a depends-on edge).
   dep("dep.add", "leg.prod"),
@@ -114,4 +126,29 @@ const links = [
   dep("dep.semiclassical", "leg.astro", "B-shared"),
 ];
 
-module.exports = { LHC: { store_id: "S-lhc-cascade", claims, links } };
+// ---- the framework-choice node read as a swappable frame (Phase B, the eggs-denominator seam) ----
+// the within-framework calculations presuppose a framework the same way the eggs per-unit measurements
+// presuppose the denominator: a checked-not-graded edge. Swapping ADD for the standard model re-points
+// the edges and moots the safety analysis (no production under SM+GR), while every calculation keeps
+// the formal grade it earned within its regime.
+const framing = {
+  framing_id: "F-add", status: "in-force",
+  statement: "the framework is ADD large extra dimensions with M_D near a TeV: the fundamental scale is lowered, so the higher-dimensional Schwarzschild radius brings black-hole production into LHC reach and the three-leg safety cascade activates",
+  alternatives: ["the standard model plus 4D general relativity (no production)", "Randall-Sundrum warped geometry (marginal)", "universal extra dimensions or DGP (no production)"],
+};
+const successor = {
+  framing_id: "F-sm", status: "in-force",
+  statement: "the framework is the standard model plus 4D general relativity: the production threshold is ~10^19 GeV, fifteen orders above LHC energy, so no black hole is produced at the LHC and the entire safety analysis is moot, trivially answered",
+  alternatives: ["ADD large extra dimensions (production possible)", "Randall-Sundrum warped geometry (marginal)"],
+};
+// the within-framework calculations that presuppose the framework choice (each keeps its formal grade).
+const presupposes = [
+  { store: "S-lhc-cascade", claim: "prod.reach" },
+  { store: "S-lhc-cascade", claim: "hawking.temp" },
+  { store: "S-lhc-cascade", claim: "hawking.lifetime" },
+  { store: "S-lhc-cascade", claim: "astro.gm" },
+];
+// the two reified shared dependencies (the depends-on nodes) and the reading targets, named for the oracle.
+const sharedDeps = ["dep.add", "dep.semiclassical"];
+
+module.exports = { LHC: { store_id: "S-lhc-cascade", claims, links, framing, successor, presupposes, sharedDeps } };

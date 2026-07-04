@@ -10,6 +10,7 @@
 "use strict";
 import { collapsedRank, tierOf } from "../kernel/schema/confidence.mjs";
 import { analyzePresupposition, analyzeRobustness } from "../kernel/analysis/robustness.mjs";
+import { framingRecord, checkPresupposition, swapFrame, frameOrphaned } from "../kernel/composition/framing.mjs";
 import { buildLhc } from "./lhc-build.mjs";
 
 let fails = 0;
@@ -74,7 +75,54 @@ console.log("\n[A6] mode disagreements between a report and the gate are listed 
 for (const r of ["prod.xsec", "prod.threshold"]) console.log(`      FINDING report A's 'formal' mode for ${r} is contested: the gate grounds it to ${earned(r)}, not the settled floor`);
 ok(true, "the two formal-contested computed quantities are reported as mode-refinement findings");
 
+// =====================================================================================
+console.log("\n[B1] the framework choice and semiclassical gravity are reified, and ADD's dangerous branch reads excluded");
+for (const r of ["dep.add", "dep.semiclassical"]) ok(!!id(r) && specOf(r).kind === "forum", `${r} is a reified forum node (no experiment compels the framework choice)`);
+for (const leg of ["leg.prod", "leg.hawking", "leg.astro"]) {
+  const deps = dependsOnOf(leg);
+  ok(deps.includes(id("dep.add")) && deps.includes(id("dep.semiclassical")), `${leg} carries a dependency edge to BOTH the ADD framework choice and semiclassical gravity`);
+}
+ok(earned("add.excluded") === "checked" && /5\.9-11\.2 TeV/.test(specOf("add.excluded").statement) && /8\.4-11\.4 TeV/.test(specOf("add.excluded").statement), "ADD's dangerous branch (M_D ~ 1-3 TeV) reads as empirically excluded, with the convergent bounds attached");
+
+// =====================================================================================
+console.log("\n[B2] THE ROBUSTNESS READING: the shared dependency the leg count hides (before/after)");
+// the load-bearing claim: reifying the shared nodes changes the reading. Written to fail loudly.
+const after = analyzePresupposition(C.graph, id("robust"));
+const before = analyzePresupposition(C.graphWithout(), id("robust"));
+const nm = (i) => { for (const [k, v] of C.refId) if (v === i) return k; return String(i).slice(0, 8); };
+const afterShared = after.shared_presuppositions.map(nm).sort();
+const beforeShared = before.shared_presuppositions.map(nm).sort();
+console.log(`      BEFORE reifying: shared dependencies across the legs = [${beforeShared.join(", ")}] (the three legs look independent)`);
+console.log(`      AFTER  reifying: shared dependencies across the legs = [${afterShared.join(", ")}]`);
+ok(beforeShared.length === 0, "BEFORE reifying, the reading finds NO shared dependency: the naive three-leg count reads as independent");
+ok(afterShared.join(",") === "dep.add,dep.semiclassical", "AFTER reifying, the reading finds ADD and semiclassical gravity as shared dependencies across all three legs");
+ok(beforeShared.join(",") !== afterShared.join(","), "the reading CHANGED on reifying: the shared-dependency finding is evidence the edges are wired and the reading sees them");
+// each shared dependency is a single point of well-formedness failure across the legs.
+const wf = new Set(after.single_points_of_wellformedness_failure.filter((s) => s.shared).map((s) => nm(s.identity)));
+ok(wf.has("dep.add") && wf.has("dep.semiclassical"), "each is a shared single point of failure: lose it and all three legs lose their frame together");
+
+// =====================================================================================
+console.log("\n[B3] THE FRAMING READING: swap the framework, moot the analysis, keep the calculations");
+// the within-framework calculations presuppose the frame via a checked-not-graded edge (eggs seam).
+ok(C.frameEdges.length >= 4 && C.frameEdges.every(({ edge }) => checkPresupposition(edge, C.framing).in_force), "each within-framework calculation carries a presupposition edge to the in-force ADD frame");
+const gradeBefore = C.LHC.presupposes.map((p) => earned(p.claim));
+ok(gradeBefore.every((g) => g === "constitutive"), `the within-framework calculations keep their formal (constitutive) grade under the frame (${gradeBefore.join(",")})`);
+// swap ADD -> the standard model. Re-point the edges; the calculations are untouched.
+const swapped = C.frameEdges.map(({ edge }) => swapFrame(edge, C.successor));
+const gradeAfter = C.LHC.presupposes.map((p) => earned(p.claim));
+ok(gradeBefore.join(",") === gradeAfter.join(",") && gradeAfter.every((g) => g === "constitutive"), "swapping ADD for the standard model leaves every within-framework grade intact");
+ok(swapped.every((e) => e.to_framing === "F-sm") && checkPresupposition(swapped[0], C.successor).in_force, "the calculations re-point to the standard-model frame, which checks in force");
+// the analysis is mooted: under SM the frame says no production, so the safety cascade does not arise.
+const addSuperseded = framingRecord({ ...C.LHC.framing, status: "superseded", successor: "F-sm" });
+ok(frameOrphaned(C.frameEdges.map((x) => x.edge), { "F-add": addSuperseded }).length === C.frameEdges.length, "against the now-superseded ADD frame, the un-swapped calculations read as frame-orphaned (the frame moved out from under them)");
+ok(/no black hole is produced|moot/.test(C.successor.statement), "the standard-model frame moots the safety analysis: no production at LHC energies, the question trivially answered");
+
+// =====================================================================================
+console.log("\n[B4] the conditionality meta-claim is present and marked a forum judgment");
+ok(specOf("conditionality").kind === "forum" && /85-90%/.test(specOf("conditionality").statement) && /4-5 order/.test(specOf("conditionality").statement), "the conditionality meta-claim carries the 85-90% framework-choice share against the 4-5 order within-framework spread");
+ok(/forum judgment|not derivable/.test(specOf("conditionality").statement) && tierOf(earned("conditionality")) !== "settled", "the multiplicity weighting is marked honestly as a forum judgment, not forced to a settled grade");
+
 console.log("\n" + H);
 if (fails) { console.log(`check-lhc: ${fails} FAILURE(S)`); process.exit(1); }
-console.log("check-lhc: OK (Phase A: legs grounded, premises as characterized dependencies)"); console.log(H);
-void analyzePresupposition; void analyzeRobustness;
+console.log("check-lhc: OK (Phase B: the framework-choice node read two ways, robustness and framing)"); console.log(H);
+void analyzeRobustness;

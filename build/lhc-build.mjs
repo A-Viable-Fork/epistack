@@ -16,6 +16,7 @@ import { genesis } from "../kernel/store/state.mjs";
 import { apply } from "../kernel/store/apply.mjs";
 import { storeViewOf } from "../kernel/store/decay.mjs";
 import { decide } from "../kernel/gate/gate.mjs";
+import { framingRecord, presuppositionEdge } from "../kernel/composition/framing.mjs";
 
 const require = createRequire(import.meta.url);
 const { KINDS, SOURCES } = require("../corpora/lhc/lhc-tables.js");
@@ -41,5 +42,11 @@ export function buildLhc() {
   const taggedPairs = new Set((LHC.links || []).filter((l) => l.demo === "B-shared").map((l) => refId.get(l.from) + ">" + refId.get(l.to)));
   const graphWithout = () => ({ entries: state.entries, links: state.links.filter((l) => !(l.link_kind === "depends-on" && taggedPairs.has(l.from_identity + ">" + l.to_identity))), tables });
 
-  return { store_id: LHC.store_id, tables, claims, refId, state, view, receipt, graph, graphWithout, LHC };
+  // the framing seam: the ADD frame, its standard-model successor, and the presupposition edges from
+  // the within-framework calculations up to the frame (checked, never graded), for the framework swap.
+  const framing = LHC.framing ? framingRecord(LHC.framing) : null;
+  const successor = LHC.successor ? framingRecord(LHC.successor) : null;
+  const frameEdges = (LHC.presupposes || []).map((p) => ({ p, edge: presuppositionEdge({ from_store: p.store, from_claim: p.claim, to_framing: framing.framing_id }) }));
+
+  return { store_id: LHC.store_id, tables, claims, refId, state, view, receipt, graph, graphWithout, framing, successor, frameEdges, LHC };
 }
