@@ -1,6 +1,6 @@
 # Robustness Under Adversaries
 
-The argument in `what-stands-without-trust.md` answers what a claim is worth when its author cannot be trusted. That answer invites one objection, and this document answers it: a capable adversary games the gate, floods it with claims that pass, or captures the write path, and everything the system calls grounded is worthless.
+The argument in `docs/what-stands-without-trust.md` answers what a claim is worth when its author cannot be trusted. That answer invites one objection, and this document answers it: a capable adversary games the gate, floods it with claims that pass, or captures the write path, and everything the system calls grounded is worthless.
 
 The answer is not an ungameable gate. Against a determined adversary that is impossible, and claiming it would be the performed-settling the whole system exists to refuse. The answer is a gate that is expensive to game and recoverable when gamed. Cost and a damage cap, not a wall.
 
@@ -34,4 +34,4 @@ Two quantities stay open, and they are the sorries this document does not close.
 
 ## Maturity
 
-The honest split, since the whole point is to refuse performed-settling about the system itself. The damage cap is real: forkability's mechanism, the history chain and the re-derivation and the API membrane, runs today. The cost layer, the time-locked credential and the gated-write lifecycle and the challenge system, is specified, Stage 4, graded in `status-ledger.md`, with [S1] the open seam. So this document argues the solution type and demonstrates the recoverable half. It does not claim the cost half runs. The claim is the shape: expensive to game and recoverable when gamed, with the recoverable half built and the cost half specified in the open, which is the only claim the evidence supports and the only one worth making.
+The honest split, since the whole point is to refuse performed-settling about the system itself. The damage cap is real: forkability's mechanism, the history chain and the re-derivation and the API membrane, runs today. The cost layer, the time-locked credential and the gated-write lifecycle and the challenge system, is specified, Stage 4, graded in `docs/status-ledger.md`, with [S1] the open seam. So this document argues the solution type and demonstrates the recoverable half. It does not claim the cost half runs. The claim is the shape: expensive to game and recoverable when gamed, with the recoverable half built and the cost half specified in the open, which is the only claim the evidence supports and the only one worth making.
