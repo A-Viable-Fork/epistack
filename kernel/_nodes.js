@@ -27,6 +27,17 @@ module.exports = [
     "group": "analysis"
   },
   {
+    "path": "kernel/analysis/reconciliation.mjs",
+    "type": "kernel",
+    "group": "analysis",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-reconcile.mjs"
+      }
+    ]
+  },
+  {
     "path": "kernel/composition/records.mjs",
     "type": "kernel",
     "group": "composition",

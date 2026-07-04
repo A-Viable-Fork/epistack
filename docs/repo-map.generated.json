@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 125,
-  "edgeCount": 223,
+  "nodeCount": 127,
+  "edgeCount": 230,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -23,6 +23,13 @@
       "group": "analysis",
       "role": "the robustness reading over the support graph (intake data model v3). Grounding says how high a claim reaches; robustness says how much of that reach survives the loss of one support. The support graph is a reliability structure: jointly-necessary supports in a group are in series, independent groups are in parallel, a claim falling to the bottom of the order is a component failing. A single point of failure is a claim in the target's support closure whose removal lowers the target's earned grade; robustness is the earned grade after the worst single removal; fragility is the interval between the two. A distinct reading runs over the depends-on closure, where a single point of failure breaks well-formedness rather than lowering the grade.",
       "contract": "analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) -> reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing."
+    },
+    {
+      "path": "kernel/analysis/reconciliation.mjs",
+      "type": "kernel",
+      "group": "analysis",
+      "role": "the reconciliation reading (Prompt 22). Contradictions are held as structure; this computes what a disagreement turns on, its crux, and holds the pair as a first-class disagreement record. The crux comes in two kinds. A within-domain contradiction has both sides on one domain floor and its crux is empirical: walk each cone and the point where they stop sharing structure is the crux candidate set, the shared claims the resolved sub-region. A cross-domain disagreement's crux is the framing node (the denominator and weights), read off the composite forum (Phase B), not a cone.",
+      "contract": "supportCone(graph, id), withinDomainCrux(graph, aId, bId), disagreements(graph), disagreementRecord(...). graph = { entries, links, tables }. Pure, deterministic; kernel imports only kernel; mutates nothing. The crux is a CANDIDATE marked as such, not a verdict."
     },
     {
       "path": "kernel/composition/records.mjs",
@@ -662,6 +669,13 @@
       "contract": "`node build/check-eggs.mjs` exits non-zero on any failure. Imports buildEggs, the v3 kernel, the composition layer, and corpora/eggs (via the builder)."
     },
     {
+      "path": "build/check-reconcile.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the reconciliation oracle (Prompt 22, Phase A). Exercises the within-domain crux on the real CVD contradiction from the eggs case (built through the shared eggs builder, not a fixture) and on two synthetic fixtures: a rich pair whose cones share a confounder and diverge below it (a meaningful frontier with a resolved sub-region), and a disjoint pair whose cones share nothing. The register holds the CVD pair with both sides and their grades. The crux is a candidate, not a verdict. Phase B adds the cross-domain crux and the routing.",
+      "contract": "`node build/check-reconcile.mjs` exits non-zero on any failure. Imports the kernel and the shared eggs builder; the corpus is not touched."
+    },
+    {
       "path": "build/eggs-build.mjs",
       "type": "build",
       "group": null,
@@ -911,6 +925,13 @@
     {
       "from": "kernel/analysis/gaps.js",
       "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/analysis/reconciliation.mjs",
+      "to": "kernel/store/decay.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1777,6 +1798,41 @@
       "toLayer": "corpus"
     },
     {
+      "from": "build/check-reconcile.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-reconcile.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-robustness.mjs",
       "to": "kernel/analysis/robustness.mjs",
       "type": "imports",
@@ -2269,6 +2325,11 @@
     {
       "from": "kernel/analysis/gaps.js",
       "to": "build/check-gaps.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/analysis/reconciliation.mjs",
+      "to": "build/check-reconcile.mjs",
       "type": "checked-by"
     },
     {
