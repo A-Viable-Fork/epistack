@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 123,
+  "nodeCount": 125,
   "edgeCount": 223,
   "nodes": [
     {
@@ -140,8 +140,8 @@
       "path": "kernel/motions/perturb.js",
       "type": "kernel",
       "group": "motions",
-      "role": "the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay, reading the authored consequence cascade each assumption carries and propagating it along the inference path to the comparison nodes. Authored data, not a computed rule (T1-3, exclusion reservoir).",
-      "contract": "perturb(resolveOrMap, flippedSet) -> overlay { states, trails }. resolveOrMap is the id resolver (or a node map); flippedSet is an iterable of assumption ids. Pure and DOM-free."
+      "role": "the ALONG motion. Apply a flipped-assumption set as a NON-DESTRUCTIVE overlay by COMPUTING the consequence cascade from the support graph (Prompt 21, T1-3 discharged). Flipping an assumption removes the support it grounds and the collapse propagates along the support edges, the same inference edges the earned-grade fold reads: a prediction the flip reaches becomes sound, a comparison whose reached prediction became sound becomes contradicted. This is the same removal-and-recompute the robustness analysis runs for the worst single removal, aimed at a chosen flip instead. The rule is audited in build/check-perturb.mjs.",
+      "contract": "perturb(graph, flippedSet) -> overlay { states, trails }. graph is an id -> node map (a case node map or the registry); flippedSet is an iterable of assumption ids. Pure and DOM-free."
     },
     {
       "path": "kernel/schema/canonical.mjs",
@@ -714,8 +714,8 @@
       "path": "build/check-perturb.mjs",
       "type": "build",
       "group": null,
-      "role": "the perturbation overlay's oracle. Exercises kernel/motions/perturb.js on the LHC case: the empty overlay, the authored danger-flip cascade, a non-perturbable assumption, non-destructiveness, and determinism. The overlay is read from authored data, never computed by a rule (T1-3).",
-      "contract": "`node build/check-perturb.mjs`. Exits 0 if every assertion holds, 1 with a report."
+      "role": "the perturbation oracle (Prompt 21, T1-3 discharge). Exercises the COMPUTED rule in kernel/motions/perturb.js on the LHC case, verifies it REPRODUCES the authored consequence cascade the data still carries (the verification fixture the hold required), and states the rule audit: the propagation runs along support edges only, and no node collapses that the flip does not reach.",
+      "contract": "`node build/check-perturb.mjs`. Exits 0 if every assertion holds, 1 with a report. A mismatch between the computed cascade and an authored cascade STOPS and reports, because a mismatch is information: either the rule is wrong or the authored cascade was."
     },
     {
       "path": "build/fork-demo.mjs",
@@ -779,6 +779,20 @@
       "group": null,
       "role": "the design discipline made mechanical. Enforces the linter rules in docs/design-axioms.md against the data, the layer boundaries, and the corpus index.",
       "contract": "`node linter.js`. Exits 0 if clean, 1 with a report of violations otherwise."
+    },
+    {
+      "path": "docs/criteria-to-architecture-map.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/adversarial-robustness.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
     },
     {
       "path": "docs/knowledge-system-what.md",
