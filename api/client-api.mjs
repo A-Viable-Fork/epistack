@@ -24,6 +24,9 @@ export function createClientApi(provider) {
     gaps: (query) => (provider.gaps ? provider.gaps(query || {}) : []),
     // read the characterized gaps: honest leaps, each with the closing condition that would ground it.
     characterizedGaps: (query) => (provider.characterizedGaps ? provider.characterizedGaps(query || {}) : []),
+    // read the reconciliations: each contradicts-linked disagreement with its computed crux, obtained
+    // the same way grounding and robustness are (Prompt 22). The crux is a candidate, not a verdict.
+    reconciliations: (query) => (provider.reconciliations ? provider.reconciliations(query || {}) : []),
     // which world are we in: "local" or "remote". Diagnostic only; the client renders identically.
     providerKind: () => provider.kind || "unknown",
   };

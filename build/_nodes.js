@@ -36,6 +36,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-reconcile.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },

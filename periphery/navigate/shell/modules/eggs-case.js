@@ -7,8 +7,8 @@
 // Contract: registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON.
 // Invariant: periphery; it touches no truth field and no kernel. The denominator toggle switches
 //   between two precomputed framings whose measurement grades are identical, showing the swap leaves
-//   the measurements intact while the verdict is reframed. The cardiovascular crux is shown as
-//   specified-not-built: the tension is displayed, never resolved.
+//   the measurements intact while the verdict is reframed. The CVD crux is COMPUTED on read (Prompt 22)
+//   and shown as a candidate: on this contradiction a shallow finding, the tension displayed not resolved.
 (function () {
   "use strict";
   if (typeof window === "undefined" || !window.EpiShell) return;
@@ -51,6 +51,23 @@
     }).join("");
   }
 
+  function reconciliationHtml() {
+    var r = R.reconciliation || {};
+    var w = r.within || {}, c = r.cross || {};
+    var frontier = (w.frontier_candidates || []).map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
+    var resolved = (w.resolved_sub_region || []).length ? (w.resolved_sub_region || []).map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") : "<li><em>none yet: the agreement is not structural until the confounder is a node</em></li>";
+    var within = '<div class="eggs-recon"><div class="eggs-node-name">the CVD contradiction (within-domain)</div>' +
+      '<div>' + esc(w.side_a && w.side_a.statement) + " " + grade(w.side_a && w.side_a.grade) + ' <b>contradicts</b> ' + esc(w.side_b && w.side_b.statement) + " " + grade(w.side_b && w.side_b.grade) + "</div>" +
+      '<div class="eggs-crux-line"><b>crux candidate' + (w.shallow ? " (shallow finding)" : "") + ':</b> ' + (w.shallow ? "the frontier is at the top" : "the divergence frontier") + "</div>" +
+      '<ul class="eggs-frontier">' + frontier + "</ul>" +
+      '<div class="eggs-crux-line"><b>resolved sub-region:</b></div><ul class="eggs-resolved">' + resolved + "</ul>" +
+      '<div class="eggs-frame-note">' + esc(w.note) + "</div></div>";
+    var cross = '<div class="eggs-recon"><div class="eggs-node-name">which system is better (cross-domain)</div>' +
+      '<div class="eggs-crux-line"><b>crux:</b> the framing node the weighing rests on: ' + (c.framing_crux || []).map(esc).join(", ") + "</div>" +
+      '<div class="eggs-frame-note">' + esc(c.note) + "</div></div>";
+    return within + cross;
+  }
+
   function denominatorHtml(which) {
     var d = R.denominator[which];
     var alt = which === "throughput" ? "netcapital" : "throughput";
@@ -72,6 +89,7 @@
         html += "<h3>the composite: cross-domain weighings at structured-forum</h3>" + weighingsHtml();
         html += "<h3>the regenerative claims, as characterized gaps</h3>" + gapsHtml();
         html += '<h3>the denominator, swappable</h3><div id="eggs-denominator">' + denominatorHtml(frame.which) + "</div>";
+        html += "<h3>the disagreements, and what each turns on (computed crux)</h3>" + reconciliationHtml();
         html += '<div class="eggs-crux"><b>held, not resolved:</b> ' + esc(R.cardiovascular_crux.note) + "</div>";
         ctx.mount.innerHTML = html;
         var btn = ctx.mount.querySelector(".eggs-swap");

@@ -13,6 +13,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { characterizedGaps } from "../kernel/analysis/characterized-gaps.mjs";
 import { domainProfile } from "../kernel/composition/profiles.mjs";
+import { disagreements, reconcile } from "../kernel/analysis/reconciliation.mjs";
 import { buildEggs } from "./eggs-build.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -67,6 +68,33 @@ const denominator = {
   netcapital: { frame: E.successor.statement, alternatives: E.successor.alternatives, measurements },
 };
 
+// the reconciliation reading (Prompt 22): the CVD contradiction's computed within-domain crux, and the
+// which-system weighing's cross-domain framing crux. The crux is computed on read and marked a candidate.
+const nutGraph = { entries: nut.state.entries, links: nut.state.links, tables };
+const nutStmt = (id) => claimStmt("S-nutrition", id);
+const cvdRec = disagreements(nutGraph)[0];
+const within = {
+  kind: cvdRec.kind,
+  side_a: { statement: nutStmt(cvdRec.side_a.identity), grade: cvdRec.side_a.grade },
+  side_b: { statement: nutStmt(cvdRec.side_b.identity), grade: cvdRec.side_b.grade },
+  structurally_disjoint: cvdRec.crux.structurally_disjoint,
+  shallow: cvdRec.crux.shallow,
+  frontier_candidates: cvdRec.crux.frontier_candidates.map(nutStmt),
+  resolved_sub_region: cvdRec.crux.resolved_sub_region.map(nutStmt),
+  candidate: cvdRec.crux.candidate,
+  note: cvdRec.crux.note,
+};
+const wSystem = weighs.find((w) => w.spec.ref === "w.system");
+const crossRec = reconcile({ weighing: wSystem.rec });
+const cross = {
+  kind: crossRec.kind,
+  statement: key(wSystem.spec.statement),
+  framing_crux: crossRec.crux.framing_crux, // the denominator framing node(s) the weighing rests on
+  weighting_rationale: wSystem.spec.weighting.rationale,
+  candidate: crossRec.crux.candidate,
+  note: crossRec.crux.note,
+};
+
 const reading = {
   generated_by: "build/vendor-eggs.mjs",
   meta_question: "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
@@ -76,7 +104,8 @@ const reading = {
   weighings,
   denominator,
   profile: E.profile,
-  cardiovascular_crux: { status: "specified", note: "The cardiovascular contradiction is held as structure: the population null and harm claims stay in tension, the diabetic-interaction claim grounds where they agree. Computing the crux of the contradiction (which single measurement would resolve it) is the one assessment piece still specified rather than built, so the tension is shown rather than resolved." },
+  reconciliation: { within, cross },
+  cardiovascular_crux: { status: "computed-shallow", note: "The cardiovascular crux is now COMPUTED on read (Prompt 22), not authored. On the contradiction as it stands the within-domain cone walk finds a shallow frontier: the population null and harm claims rest on bare assertions, so the crux sits at the top and the confounder the disagreement turns on is not yet an explicit node either side rests on. That is the honest finding, reported rather than forced; reifying the confounder is a content act for the eggs case, not the crux machinery. The tension is shown, not resolved." },
 };
 
 mkdirSync(join(ROOT, "vendor/eggs"), { recursive: true });

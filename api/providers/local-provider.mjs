@@ -15,6 +15,7 @@ import { storeViewOf } from "../../kernel/store/decay.mjs";
 import { hashOf } from "../../kernel/schema/canonical.mjs";
 import { analyzeRobustness, analyzePresupposition } from "../../kernel/analysis/robustness.mjs";
 import { characterizedGaps as kernelCharacterizedGaps } from "../../kernel/analysis/characterized-gaps.mjs";
+import { disagreements as kernelDisagreements } from "../../kernel/analysis/reconciliation.mjs";
 import { leqWithinMode } from "../../kernel/schema/confidence.mjs";
 
 function slug(s) {
@@ -148,5 +149,15 @@ export function createLocalProvider(snapshot) {
     return list;
   }
 
-  return { kind: "local", propose, read, robustness, gaps, characterizedGaps };
+  // reconciliations(query): each contradicts-linked disagreement in the graph with its computed crux,
+  //   the within-domain divergence frontier from the cone walk. The migrated corpus carries no
+  //   contradicts links, so this reads none; the eggs CVD contradiction is surfaced in its own reading.
+  function reconciliations(query) {
+    var list = kernelDisagreements(graph);
+    query = query || {};
+    if (query.identity) list = list.filter(function (d) { return d.side_a.identity === query.identity || d.side_b.identity === query.identity; });
+    return list;
+  }
+
+  return { kind: "local", propose, read, robustness, gaps, characterizedGaps, reconciliations };
 }
