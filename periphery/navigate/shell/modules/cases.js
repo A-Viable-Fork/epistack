@@ -18,10 +18,10 @@
   var CASES = [
     { id: "case-lhc", title: "Case: the LHC survival argument", order: 100, focus: "lhc.antecedent:",
       lede: "A produced black hole is dangerous only if production AND stopping AND accretion all hold. The densest long-lived bodies survive, so by modus tollens a conjunct is false. The conjunction is read below, live." },
-    { id: "case-covid", title: "Case: the COVID origin", order: 101, focus: "covid.instance:",
-      lede: "The early-case clustering returns a priced prior, not a measurement of origin, because the surveillance draw is non-exchangeable. The termination is read below, live." },
-    { id: "case-eggs", title: "Case: eggs, the population split", order: 102, focus: "eggs.instance: eggs, individual dietary response (population",
-      lede: "Stage 1 holds, so the population claim closes on a measurement; stage 2 fails, so the individual application does not follow. The population conclusion is read below, live." },
+    { id: "case-covid", title: "Pattern: the population-mismatch stage-break (COVID)", order: 101, focus: "covid.instance:",
+      lede: "A population-mismatch pattern demonstration, not the canonical covid case (that is 'covid origins', below). The early-case clustering returns a priced prior, not a measurement of origin, because the surveillance draw is non-exchangeable. The stage-1 termination is read below, live." },
+    { id: "case-eggs", title: "Pattern: the population-mismatch stage-break (eggs)", order: 102, focus: "eggs.instance: eggs, individual dietary response (population",
+      lede: "The same population-mismatch pattern, breaking at a different stage, not the canonical eggs case (that is 'a composite over its domains', below). Stage 1 holds, so the population claim closes on a measurement; stage 2 fails, so the individual application does not follow. The stage-2 termination is read below, live." },
   ];
 
   CASES.forEach(function (spec) {

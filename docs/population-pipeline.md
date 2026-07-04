@@ -1,5 +1,7 @@
 # Population Pipeline, v0: The Family as a DAG
 
+> **Disambiguation (Prompt 24, Option B).** This pipeline is a **population-mismatch pattern demonstration**, kept by design as a distinct structural demo: one shared machinery whose failure localizes at different stages (`covid.instance` breaks at stage 1, `eggs.instance` at stage 2). It is **not** the canonical covid or eggs case. The canonical covid case is the densified origins store `corpora/covid/covid-origins.js` (Prompt 23a); the canonical eggs case is the domain stores and composite in `corpora/eggs/` (Prompt 20). The pipeline is retained because it is load-bearing for shipped demonstrations (the trellis-to-v3 migration reproduction, the fork demo, the atlas compare, the gap-detector and robustness readings) and because the pattern is worth showing in its own right; the two representations coexist by decision, not by accident.
+
 *The family-discrimination verdict, authored as the actual data the atlas stores and the UI renders. Revised schema throughout. This is the COVID-and-eggs half of the v0 test the stress test flagged; authoring it against the schema is what confirms S4 and turns the verdict from prose into structure. Case-specific numbers are flagged as deferred; the structure does not wait on them.*
 
 ---

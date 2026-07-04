@@ -36,9 +36,11 @@ kill or a discrepancy without a record is one you cannot revisit.
   three terminations, the divergence localized rather than repeated" (one shared structure with
   the failure localized at different terminations, not a repeated pattern). The overclaim no
   longer appears anywhere in the repository.
-- **G-C. The atlas/cases data model is migration-pending.** The Phase 2 artifact still loads
-  its graph from a DOM `<script id="kg-graph">` block (a typed claim graph in the v0.1 citation
-  schema), which predates the revised node schema in `docs/schema-revisions.md`. The seed data
-  modules in `data/cases/` are authored against the revised schema separately. Reconciling the
-  artifact's embedded graph onto the revised schema is the schema-migration step that follows
-  this checkpoint.
+- **G-C. The atlas/cases data model was migration-pending. CLOSED.** The reconciliation this line
+  named, getting the separately-authored case modules and the artifact's embedded v0.1 graph onto
+  one schema, is resolved. The cases are unified under the v3 model in `corpora/` (the pre-reorg
+  `data/cases/` path no longer exists), carried there by the trellis-to-v3 translator that
+  reproduces the grounding (`build/translate-trellis.mjs`, `build/check-migrate.mjs`,
+  `docs/schema-revisions.md`). The v0.1 embedded `<script id="kg-graph">` graph survives only in
+  the archived classic submission (`archive/`), which no build target ships, so the migration step
+  is done rather than pending.

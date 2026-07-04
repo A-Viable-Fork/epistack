@@ -75,8 +75,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/_shared/forks.js` | fork descriptors. A fork is a new id that names a parent and lists only its overrides |
 | `corpora/_shared/graph.json` | data (JSON) |
 | `corpora/_shared/units.js` | the thin shared root: units and cross-kernel definitions so they translate across kernels (bodies and atlas sit alongside) |
-| `corpora/covid/covid.js` | the COVID-origin case. Its instance is authored in the shared two-stage pipeline corpus and is not split out |
-| `corpora/eggs/eggs.js` | the eggs case. Its instance is authored in the shared two-stage pipeline corpus and is not split out |
+| `corpora/covid/covid.js` | the COVID-origin case home. The canonical covid case is corpora/covid/covid-origins.js (Prompt 23a); covid.instance in the population pipeline is a separate population-mismatch pattern demo kept by design (Prompt 24, Option B) |
+| `corpora/eggs/eggs.js` | the eggs case home. The canonical eggs case is the corpora/eggs domain stores and composite (Prompt 20); eggs.instance in the population pipeline is a separate population-mismatch pattern demo kept by design (Prompt 24, Option B) |
 | `corpora/covid/tables.js` | the covid-origins case reference tables (Prompt 23a): a source row per cited study/document with its citation as provenance, and the kind table (a measurement floor and a forum band) |
 | `corpora/covid/covid-origins.js` | the densified covid-origins store (Prompt 23a), ingested from the Rootclaim-debate write-up: evidence to floors, contested interpretations separate, the zoonosis and lab-leak conclusions a contradicts-linked forum pair each on the shared evidence and its explicit priors, the divergence/judges/method-critique meta level |
 | `corpora/eggs/tables.js` | the eggs case reference tables (Prompt 20): the source table (a row per cited study, with its citation as provenance) and the kind table (a measurement floor and a forum band) |
@@ -85,7 +85,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/eggs/economics.js` | the eggs economics domain store (Prompt 20): feed conversion, energy demand, energy return, and production cost to the measurement floor; the discount rate and the objective-function choice in the forum |
 | `corpora/eggs/composite.js` | the eggs composite store (Prompt 20): citations across the boundary, the two cross-domain weighings (whether to eat eggs, which system is better) at the structured-forum ceiling, and the denominator framing (product-throughput vs net-capital) with its presupposition edges |
 | `corpora/lhc/lhc-cascade.js` | the LHC-safety case-family, authored as data (docs/lhc-cascade.md, |
-| `corpora/population/population-pipeline.js` | the population-mismatch case-family, authored as data (docs/population-pipeline.md) |
+| `corpora/population/population-pipeline.js` | the population-mismatch pattern demonstration, authored as data (docs/population-pipeline.md). A distinct structural demo (same machinery, the failure localized at different stages), NOT the canonical covid or eggs case; kept by design (Prompt 24, Option B) |
 
 ## periphery/ (fallible; reaches the kernel only through api/)
 
