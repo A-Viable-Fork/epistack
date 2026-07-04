@@ -6,6 +6,14 @@
 
 module.exports = [
   {
+    "path": "docs/criteria-to-architecture-map.md",
+    "type": "doc"
+  },
+  {
+    "path": "docs/adversarial-robustness.md",
+    "type": "doc"
+  },
+  {
     "path": "docs/knowledge-system-what.md",
     "type": "doc"
   },

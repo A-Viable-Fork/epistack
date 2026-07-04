@@ -13,5 +13,7 @@ EpiStack builds up from there. It stores claims as a typed graph with the suppor
 From here:
 
 - **The full argument:** [What Stands Without Trust](docs/what-stands-without-trust.md)
+- **Where each criterion lives:** [the criteria-to-architecture map](docs/criteria-to-architecture-map.md), from the argument to where each criterion is answered in the tree
+- **Robustness under adversaries:** [the answer to the gamed-gate objection](docs/adversarial-robustness.md), the recoverable half that runs today and the cost half specified in the open
 - **The engine running:** the three cases, in [`corpora/`](corpora/)
 - **Run it yourself:** [`docs/quickstart.md`](docs/quickstart.md), clone, install, and the gate check completes in about two minutes

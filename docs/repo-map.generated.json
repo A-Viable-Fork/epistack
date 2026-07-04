@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 123,
+  "nodeCount": 125,
   "edgeCount": 223,
   "nodes": [
     {
@@ -779,6 +779,20 @@
       "group": null,
       "role": "the design discipline made mechanical. Enforces the linter rules in docs/design-axioms.md against the data, the layer boundaries, and the corpus index.",
       "contract": "`node linter.js`. Exits 0 if clean, 1 with a report of violations otherwise."
+    },
+    {
+      "path": "docs/criteria-to-architecture-map.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/adversarial-robustness.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
     },
     {
       "path": "docs/knowledge-system-what.md",
