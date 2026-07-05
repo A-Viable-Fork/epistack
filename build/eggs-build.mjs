@@ -67,9 +67,15 @@ export function buildEggs() {
   const successor = framingRecord(COMPOSITE.successor);
   const edges = COMPOSITE.presupposes.map((p) => ({ p, edge: presuppositionEdge({ from_store: p.store, from_claim: idOf(p.store, p.claim), to_framing: framing.framing_id }) }));
 
+  // the which-body framing node (Prompt 26): the in-force body frame, the swap-target bodies, and the
+  // subsystem-effect claims that presuppose the body through the same checked-not-graded edge.
+  const bodyFraming = COMPOSITE.bodyFraming ? framingRecord(COMPOSITE.bodyFraming) : null;
+  const bodies = (COMPOSITE.bodies || []).map(framingRecord);
+  const bodyEdges = (COMPOSITE.bodyPresupposes || []).map((p) => ({ p, edge: presuppositionEdge({ from_store: p.store, from_claim: idOf(p.store, p.claim), to_framing: bodyFraming.framing_id }) }));
+
   const compStore = { store_id: "C-eggs", claims: weighs.map((w) => w.rec), citations: weighs.flatMap((w) => w.cits), edges: edges.map((x) => x.edge), frames: [framing] };
   const sourceStates = Object.fromEntries(Object.values(domains).map((d) => [d.store_id, d.state.state_hash]));
   const profile = compositeProfile(compStore, { sourceStates });
 
-  return { tables, domains, idOf, weighs, framing, successor, edges, compStore, profile, COMPOSITE };
+  return { tables, domains, idOf, weighs, framing, successor, edges, bodyFraming, bodies, bodyEdges, compStore, profile, COMPOSITE };
 }

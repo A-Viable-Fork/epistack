@@ -68,4 +68,36 @@ const presupposes = [
   { store: "S-environment", claim: "e.pasture-soc-proxy" },
 ];
 
-module.exports = { COMPOSITE: { store_id: "C-eggs", terms, weighings, framing, successor, presupposes } };
+// ---- the which-body framing node (Prompt 26): the second framing node beside the denominator ----
+// the eggs analog of the LHC framework-choice node. A forum node naming the body assumed; the
+// subsystem-effect claims presuppose it through the same checked-not-graded edge the denominator uses,
+// so swapping the body reframes which effects dominate while every underlying measurement keeps its
+// grade. The average adult is the in-force frame; the diabetic, hyper-responder, and choline-deficient
+// pregnant woman are the swap targets.
+const bodyFraming = {
+  framing_id: "F-body-avgadult", status: "in-force",
+  statement: "the body is the average healthy adult: the cardiovascular effect reads contested-to-null and the choline benefit reads useful but not critical",
+  alternatives: ["the type-2 diabetic", "the hyper-responder (APOE E4)", "the choline-deficient pregnant woman"],
+};
+const bodies = [
+  { framing_id: "F-body-diabetic", status: "in-force",
+    statement: "the body is the type-2 diabetic: the cardiovascular effect reframes from contested to elevated-risk agreement (Hu 1999 HR 2.02, Shin 2013 pooled 1.69), because diabetic dyslipidemia makes the added cholesterol atherogenic",
+    alternatives: ["the average healthy adult", "the hyper-responder", "the choline-deficient pregnant woman"] },
+  { framing_id: "F-body-pregnant", status: "in-force",
+    statement: "the body is the choline-deficient pregnant woman: the choline benefit reframes from useful to load-bearing (fetal neurodevelopment and hepatic export), since about 90% of pregnant women fall below the choline Adequate Intake",
+    alternatives: ["the average healthy adult", "the type-2 diabetic", "the hyper-responder"] },
+  { framing_id: "F-body-hyperresp", status: "in-force",
+    statement: "the body is the hyper-responder (25-33%, APOE E4 carriers): the lipid magnitude is larger, though the LDL:HDL ratio still holds",
+    alternatives: ["the average healthy adult", "the type-2 diabetic", "the choline-deficient pregnant woman"] },
+];
+// the subsystem-effect claims whose dominance depends on the body (all in the nutrition domain).
+const bodyPresupposes = [
+  { store: "S-nutrition", claim: "n.cv-diabetic" },
+  { store: "S-nutrition", claim: "n.cv-harm" },
+  { store: "S-nutrition", claim: "chol.neurodev" },
+  { store: "S-nutrition", claim: "chol.hepatic" },
+  { store: "S-nutrition", claim: "lip.responder" },
+  { store: "S-nutrition", claim: "gly.hba1c" },
+];
+
+module.exports = { COMPOSITE: { store_id: "C-eggs", terms, weighings, framing, successor, presupposes, bodyFraming, bodies, bodyPresupposes } };

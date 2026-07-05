@@ -29,7 +29,7 @@ const H = "=".repeat(80);
 console.log(H); console.log("CHECK-EGGS (Prompt 20): the eggs case as domains and a composite, on real research"); console.log(H);
 
 const E = buildEggs();
-const { tables, domains, idOf, weighs, framing, successor, edges, compStore, profile, COMPOSITE } = E;
+const { tables, domains, idOf, weighs, framing, successor, edges, bodyFraming, bodies, bodyEdges, compStore, profile, COMPOSITE } = E;
 const nutrition = domains["S-nutrition"], environment = domains["S-environment"], economics = domains["S-economics"];
 const sourceIds = new Set(tables.sourceTable.byId.keys());
 
@@ -110,6 +110,28 @@ ok(frontier.has(byRef(nutrition, "adj.uscohort")) && frontier.has(byRef(nutritio
 const resolved = new Set(cvdCrux.resolved_sub_region);
 ok(resolved.has(byRef(nutrition, "n.cv-diabetic")), "the diabetic-subgroup claim sits in the resolved region (both camps agree)");
 ok(!frontier.has(byRef(nutrition, "n.cv-diabetic")), "the diabetic phenotype is not on the frontier: the split is the adjustment choice, not the diabetic agreement");
+
+// =====================================================================================
+console.log("\n[P26-C] the which-body framing node: swapping the body reframes the effects, grades hold");
+ok(!!bodyFraming && bodyFraming.framing_id === "F-body-avgadult" && bodyFraming.status === "in-force", "the which-body node exists at the composite level, the average adult in force");
+ok((bodyFraming.alternatives || []).length >= 3, "the which-body node names its alternatives (diabetic, hyper-responder, choline-deficient pregnant woman)");
+ok(bodyEdges.length === COMPOSITE.bodyPresupposes.length && bodyEdges.every(({ edge }) => checkPresupposition(edge, bodyFraming).in_force), "each subsystem-effect claim carries a presupposition edge to the in-force body node");
+// the effects keep their grade regardless of the body: record them before the swap.
+const bodyBefore = COMPOSITE.bodyPresupposes.map((p) => gradeRef(nutrition, p.claim));
+// swap the body: average adult -> diabetic. The edges re-point; no measurement is touched.
+const diabeticBody = bodies.find((b) => b.framing_id === "F-body-diabetic");
+const pregnantBody = bodies.find((b) => b.framing_id === "F-body-pregnant");
+const swappedToDiabetic = bodyEdges.map(({ edge }) => swapFrame(edge, diabeticBody));
+const bodyAfter = COMPOSITE.bodyPresupposes.map((p) => gradeRef(nutrition, p.claim));
+ok(bodyBefore.join(",") === bodyAfter.join(","), "swapping the average adult for the diabetic leaves every subsystem measurement's grade intact");
+ok(swappedToDiabetic.every((e) => e.to_framing === "F-body-diabetic") && checkPresupposition(swappedToDiabetic[0], diabeticBody).in_force, "the effect claims re-point to the diabetic body, which checks in force");
+// the reframe fires: the diabetic body makes the cardiovascular effect elevated-risk agreement.
+ok(/elevated-risk agreement/.test(diabeticBody.statement), "swapping to the diabetic reframes the cardiovascular effect from contested to elevated-risk agreement");
+// and the pregnant body makes the choline benefit load-bearing.
+ok(/load-bearing/.test(pregnantBody.statement) && checkPresupposition(swapFrame(bodyEdges[0].edge, pregnantBody), pregnantBody).in_force, "swapping to the choline-deficient pregnant woman reframes the choline benefit from useful to load-bearing");
+// against the now-superseded average-adult frame, the un-swapped edges read frame-orphaned.
+const avgSuperseded = framingRecord({ ...COMPOSITE.bodyFraming, status: "superseded", successor: "F-body-diabetic" });
+ok(frameOrphaned(bodyEdges.map((x) => x.edge), { "F-body-avgadult": avgSuperseded }).length === bodyEdges.length, "against the superseded average-adult frame, the un-swapped effect claims read frame-orphaned (the body moved out from under them)");
 
 // =====================================================================================
 console.log("\n[B1] the environment domain store admits, and no stated mode conflicts with the gate");
