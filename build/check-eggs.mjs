@@ -19,6 +19,8 @@ import { crossDomainClaimRecord } from "../kernel/composition/records.mjs";
 import { compositeGrade } from "../kernel/composition/transfer.mjs";
 import { sharedTerm, ceilingForCitations } from "../kernel/composition/vocabulary.mjs";
 import { framingRecord, checkPresupposition, swapFrame, frameOrphaned } from "../kernel/composition/framing.mjs";
+import { withinDomainCrux } from "../kernel/analysis/reconciliation.mjs";
+import { analyzeUndercuts } from "../kernel/analysis/robustness.mjs";
 import { buildEggs } from "./eggs-build.mjs";
 
 let fails = 0;
@@ -27,7 +29,7 @@ const H = "=".repeat(80);
 console.log(H); console.log("CHECK-EGGS (Prompt 20): the eggs case as domains and a composite, on real research"); console.log(H);
 
 const E = buildEggs();
-const { tables, domains, idOf, weighs, framing, successor, edges, compStore, profile, COMPOSITE } = E;
+const { tables, domains, idOf, weighs, framing, successor, edges, bodyFraming, bodies, bodyEdges, compStore, profile, COMPOSITE } = E;
 const nutrition = domains["S-nutrition"], environment = domains["S-environment"], economics = domains["S-economics"];
 const sourceIds = new Set(tables.sourceTable.byId.keys());
 
@@ -75,6 +77,61 @@ console.log("\n[A5] every claim carries its provenance");
 let missingProv = 0;
 for (const dom of Object.values(domains)) for (const { spec } of dom.claims) if (!sourceIds.has(spec.source_id)) { missingProv++; console.log(`      NO SOURCE ${spec.ref} -> ${spec.source_id}`); }
 ok(missingProv === 0, "every domain claim resolves to a source row (provenance stated in the document)");
+
+// =====================================================================================
+console.log("\n[P26-A] the three coupled subsystems ground to their floors; the refusal on the mechanistic floor");
+for (const r of ["chol.adequacy", "chol.hepatic", "chol.neurodev", "prot.diaas", "prot.leucine", "sat.hormone", "gly.load", "gly.hba1c", "lip.absorption", "lip.synthesis", "lip.responder"])
+  ok(gradeRef(nutrition, r) === "checked", `${r} grounds to its measurement floor (checked)`);
+ok(tierOf(gradeRef(nutrition, "sat.behavioral")) !== "settled", `the behavioral satiety layer stays the noisier forum (${gradeRef(nutrition, "sat.behavioral")}), not a floor`);
+const refusalSupp = new Set(nutrition.state.links.filter((l) => l.link_kind === "supports" && l.to_identity === byRef(nutrition, "n.individual-unknown")).map((l) => l.from_identity));
+ok(["lip.absorption", "lip.synthesis", "n.responder-var"].every((r) => refusalSupp.has(byRef(nutrition, r))), "the population-to-individual refusal rests on absorption, synthesis, and responder variance (the mechanistic floor)");
+ok(collapsedRank(gradeRef(nutrition, "n.individual-unknown")) >= 3, `the refusal earns above assertion on that floor (${gradeRef(nutrition, "n.individual-unknown")})`);
+
+// =====================================================================================
+console.log("\n[P26-B1] the choline fork: a split routed by the microbiome, the TMAO causal link held at association");
+const nutGraph = { entries: nutrition.state.entries, links: nutrition.state.links, tables };
+ok(gradeRef(nutrition, "tmao.assoc") === "checked", "the TMAO-MACE statistical association grounds to the floor (checked)");
+ok(gradeRef(nutrition, "tmao.causal") === "supported" && tierOf(gradeRef(nutrition, "tmao.causal")) !== "settled", `the TMAO CAUSAL link is held at the association grade, no floor (${gradeRef(nutrition, "tmao.causal")})`);
+console.log("      FINDING the report proposes settled risk for the TMAO association but the gate holds the CAUSAL leap at the association grade; settled association != settled causation");
+const uc = analyzeUndercuts(nutGraph, byRef(nutrition, "tmao.causal"));
+ok(uc.undercuts.length === 3 && uc.lowered, `the fish-paradox, renal, and Mendelian undercuts attach and lower the causal confidence (${uc.grade} -> ${uc.confidence_after_undercuts})`);
+const forkSupp = new Set(nutrition.state.links.filter((l) => l.link_kind === "supports" && l.to_identity === byRef(nutrition, "chol.fork")).map((l) => l.from_identity));
+ok(forkSupp.has(byRef(nutrition, "chol.neurodev")) && forkSupp.has(byRef(nutrition, "tmao.pathway")), "the choline fork is held as a split resting on BOTH the benefit routing and the TMAO routing, not averaged");
+// the benefit and the risk are NOT contradicts-linked: a fork is a routing, not a contradiction to resolve.
+const forkContradiction = (nutrition.receipt.contradiction_records || []).some((c) => new Set([c.identity_a, c.identity_b]).has(byRef(nutrition, "chol.neurodev")) && new Set([c.identity_a, c.identity_b]).has(byRef(nutrition, "tmao.causal")));
+ok(!forkContradiction, "the benefit and the risk are routed (a fork), not joined by a contradicts link");
+
+// =====================================================================================
+console.log("\n[P26-B2] the cardiovascular crux resolves to the confounding-adjustment choice and the diabetic phenotype");
+const cvdCrux = withinDomainCrux(nutGraph, byRef(nutrition, "n.cv-harm"), byRef(nutrition, "n.cv-null"));
+ok(cvdCrux.kind === "within-domain" && cvdCrux.shallow === false, "the CVD crux is NOT shallow: reifying the confounding-adjustment as an explicit node both cohorts share resolves it");
+const frontier = new Set(cvdCrux.frontier_candidates);
+ok(frontier.has(byRef(nutrition, "adj.uscohort")) && frontier.has(byRef(nutrition, "adj.global")), "the divergence frontier is the confounding-adjustment choice (the US-cohort vs the global/repeated-measures stance)");
+const resolved = new Set(cvdCrux.resolved_sub_region);
+ok(resolved.has(byRef(nutrition, "n.cv-diabetic")), "the diabetic-subgroup claim sits in the resolved region (both camps agree)");
+ok(!frontier.has(byRef(nutrition, "n.cv-diabetic")), "the diabetic phenotype is not on the frontier: the split is the adjustment choice, not the diabetic agreement");
+
+// =====================================================================================
+console.log("\n[P26-C] the which-body framing node: swapping the body reframes the effects, grades hold");
+ok(!!bodyFraming && bodyFraming.framing_id === "F-body-avgadult" && bodyFraming.status === "in-force", "the which-body node exists at the composite level, the average adult in force");
+ok((bodyFraming.alternatives || []).length >= 3, "the which-body node names its alternatives (diabetic, hyper-responder, choline-deficient pregnant woman)");
+ok(bodyEdges.length === COMPOSITE.bodyPresupposes.length && bodyEdges.every(({ edge }) => checkPresupposition(edge, bodyFraming).in_force), "each subsystem-effect claim carries a presupposition edge to the in-force body node");
+// the effects keep their grade regardless of the body: record them before the swap.
+const bodyBefore = COMPOSITE.bodyPresupposes.map((p) => gradeRef(nutrition, p.claim));
+// swap the body: average adult -> diabetic. The edges re-point; no measurement is touched.
+const diabeticBody = bodies.find((b) => b.framing_id === "F-body-diabetic");
+const pregnantBody = bodies.find((b) => b.framing_id === "F-body-pregnant");
+const swappedToDiabetic = bodyEdges.map(({ edge }) => swapFrame(edge, diabeticBody));
+const bodyAfter = COMPOSITE.bodyPresupposes.map((p) => gradeRef(nutrition, p.claim));
+ok(bodyBefore.join(",") === bodyAfter.join(","), "swapping the average adult for the diabetic leaves every subsystem measurement's grade intact");
+ok(swappedToDiabetic.every((e) => e.to_framing === "F-body-diabetic") && checkPresupposition(swappedToDiabetic[0], diabeticBody).in_force, "the effect claims re-point to the diabetic body, which checks in force");
+// the reframe fires: the diabetic body makes the cardiovascular effect elevated-risk agreement.
+ok(/elevated-risk agreement/.test(diabeticBody.statement), "swapping to the diabetic reframes the cardiovascular effect from contested to elevated-risk agreement");
+// and the pregnant body makes the choline benefit load-bearing.
+ok(/load-bearing/.test(pregnantBody.statement) && checkPresupposition(swapFrame(bodyEdges[0].edge, pregnantBody), pregnantBody).in_force, "swapping to the choline-deficient pregnant woman reframes the choline benefit from useful to load-bearing");
+// against the now-superseded average-adult frame, the un-swapped edges read frame-orphaned.
+const avgSuperseded = framingRecord({ ...COMPOSITE.bodyFraming, status: "superseded", successor: "F-body-diabetic" });
+ok(frameOrphaned(bodyEdges.map((x) => x.edge), { "F-body-avgadult": avgSuperseded }).length === bodyEdges.length, "against the superseded average-adult frame, the un-swapped effect claims read frame-orphaned (the body moved out from under them)");
 
 // =====================================================================================
 console.log("\n[B1] the environment domain store admits, and no stated mode conflicts with the gate");
@@ -158,8 +215,8 @@ if (existsSync(readingPath)) {
   ok((R.characterized_gaps || []).length === 2 && R.characterized_gaps.every((g) => g.closing_condition), "the characterized-gap reading lists the regenerative claims and their closing conditions");
   ok((R.weighings || []).length === 2 && R.weighings.every((w) => w.ceiling === "corroborated"), "the weighings read at the structured-forum ceiling");
   ok(R.denominator && R.denominator.throughput && R.denominator.netcapital && JSON.stringify(R.denominator.throughput.measurements) === JSON.stringify(R.denominator.netcapital.measurements), "the denominator swap is present, and the measurement grades are identical across the swap");
-  ok(R.cardiovascular_crux && R.cardiovascular_crux.status === "computed-shallow", "the cardiovascular crux is now COMPUTED on read (Prompt 22): a shallow finding, the tension shown not resolved");
-  ok(R.reconciliation && R.reconciliation.within && R.reconciliation.within.shallow === true && R.reconciliation.within.kind === "within-domain", "the reading carries the computed within-domain CVD crux (a shallow frontier)");
+  ok(R.cardiovascular_crux && R.cardiovascular_crux.status === "computed-resolved", "the cardiovascular crux is COMPUTED on read and now RESOLVES (Prompt 26): the confounding-adjustment reified, the tension explained not pooled");
+  ok(R.reconciliation && R.reconciliation.within && R.reconciliation.within.shallow === false && R.reconciliation.within.kind === "within-domain", "the reading carries the computed within-domain CVD crux, resolving to the confounding-adjustment frontier");
   ok(R.reconciliation && R.reconciliation.cross && R.reconciliation.cross.kind === "cross-domain" && (R.reconciliation.cross.framing_crux || []).length >= 1, "the reading carries the computed cross-domain crux: the which-system weighing's framing node");
 }
 
