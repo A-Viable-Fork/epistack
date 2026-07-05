@@ -478,12 +478,18 @@ This work began on June 22, 2026, and was developed in close collaboration with 
 <!-- the restructured eggs case: domains, composite, characterized gaps, denominator, built by build/vendor-eggs.mjs -->
 <script type="application/json" id="eggs-reading">{
   "generated_by": "build/vendor-eggs.mjs",
-  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
+  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain, now carrying four structural moves.",
+  "four_moves": [
+    "the denominator reframe on the environment side (product-throughput vs net-capital)",
+    "the choline good-versus-bad fork (one nutrient, two routings, held as a split)",
+    "the cardiovascular crux (harm vs null, resolving to the confounding-adjustment choice)",
+    "the which-body framing on the nutrition side (the assumed body, swappable)"
+  ],
   "domains": [
     {
       "store_id": "S-nutrition",
-      "floor_count": 10,
-      "forum_count": 6,
+      "floor_count": 24,
+      "forum_count": 15,
       "claims": [
         {
           "statement": "each 100 mg/day of dietary cholesterol raises serum total cholesterol by about 2.2 mg/dL (",
@@ -527,8 +533,123 @@ This work began on June 22, 2026, and was developed in close collaboration with 
         },
         {
           "statement": "whether an individual's cholesterol response to eggs predicts their own CVD risk is unknow",
-          "grade": "asserted",
+          "grade": "corroborated",
           "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "whole eggs are the densest common source of bioavailable phosphatidylcholine (one large eg",
+          "grade": "checked",
+          "source": "Wallace & Fulgoni (2016/2017), J Am Coll Nutr / Nutrients 9(8):839 (NHANES choline intake, adequacy)"
+        },
+        {
+          "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+          "grade": "checked",
+          "source": "Zeisel & da Costa (2006/2009); Corbin & Zeisel (2012) (choline, VLDL export, NAFLD depletion-repletion)"
+        },
+        {
+          "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+          "grade": "checked",
+          "source": "Caudill et al. (2018), FASEB J; Bahnfleth et al. (2022), FASEB J (maternal choline RCT, offspring cognition)"
+        },
+        {
+          "statement": "the whole egg's Digestible Indispensable Amino Acid Score (true ileal, growing-pig model) ",
+          "grade": "checked",
+          "source": "Fanelli, Martins & Stein (2024), J Nutr Sci (egg DIAAS >100, ileal-cannulated pigs; additivity)"
+        },
+        {
+          "statement": "a 50 g egg provides ~543 mg leucine (~8.6% of its protein), above the mTORC1 threshold tha",
+          "grade": "checked",
+          "source": "Layman (2003), J Nutr; USDA FoodData Central (leucine content, mTORC1)"
+        },
+        {
+          "statement": "an egg breakfast suppresses the orexigenic hormone ghrelin (lower AUC) and raises the anor",
+          "grade": "checked",
+          "source": "Ratliff et al. (2010), Nutr Res 30(2):96-103 (egg breakfast, ghrelin/PYY/insulin AUC)"
+        },
+        {
+          "statement": "the behavioral layer is noisier than the hormonal one: an egg breakfast cuts next-meal int",
+          "grade": "asserted",
+          "source": "Vander Wal et al. (2005), J Am Coll Nutr; Dhurandhar & Vander Wal (2008) (egg breakfast satiety, weight loss)"
+        },
+        {
+          "statement": "the egg carries ~0.36 g carbohydrate, so its glycemic index and load are effectively zero;",
+          "grade": "checked",
+          "source": "Maki et al. (2017), J Nutr; Pourafshar et al. (2018) (egg glycemic/insulin sensitivity, HOMA-IR)"
+        },
+        {
+          "statement": "a high-egg diet (>=12/week) does not worsen long-term glycemic control versus a low-egg di",
+          "grade": "checked",
+          "source": "Fuller et al. (2015), DIABEGG, Am J Clin Nutr 101(4):705-713 (T2D RCT)"
+        },
+        {
+          "statement": "fractional cholesterol absorption is highly individual (20-80%, mean ~55%), governed by th",
+          "grade": "checked",
+          "source": "Brown & Yu (2010); Lutjohann et al. (2022) (fractional cholesterol absorption, NPC1L1/ABCG5-8)"
+        },
+        {
+          "statement": "increased dietary cholesterol compensatorily downregulates endogenous synthesis via SCAP-S",
+          "grade": "checked",
+          "source": "Kratky et al. (2018); McNamara (2000); Kostner (2020) (compensatory synthesis downregulation, SCAP-SREBP2)"
+        },
+        {
+          "statement": "the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-",
+          "grade": "checked",
+          "source": "Herron et al. (2006); Beynen & Katan (1985) (hypo/hyper responder distribution, APOE E4)"
+        },
+        {
+          "statement": "unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic ",
+          "grade": "checked",
+          "source": "Wilcox et al. (2021), Am J Clin Nutr; Lemos et al. (2018) (whole eggs vs choline supplement, TMAO matrix effect)"
+        },
+        {
+          "statement": "fasting plasma TMAO is dose-dependently associated with major adverse cardiovascular event",
+          "grade": "checked",
+          "source": "Tang et al. (2013), NEJM 368:1575-1584; Sanchez-Gimenez meta (2022) (TMAO-MACE association)"
+        },
+        {
+          "statement": "that TMAO is the causal atherogenic agent driving that association (rather than a proxy) i",
+          "grade": "supported",
+          "source": "Tang et al. (2013), NEJM 368:1575-1584; Sanchez-Gimenez meta (2022) (TMAO-MACE association)"
+        },
+        {
+          "statement": "the same choline that grounds fetal neurodevelopment and hepatic fat export also feeds the",
+          "grade": "corroborated",
+          "source": "Wilcox et al. (2021), Am J Clin Nutr; Lemos et al. (2018) (whole eggs vs choline supplement, TMAO matrix effect)"
+        },
+        {
+          "statement": "oily fish and seafood raise circulating TMAO 46-62x more than eggs (Cho 2017), yet fish is",
+          "grade": "asserted",
+          "source": "Cho et al. (2017); Landfald et al. (2017) (fish raises TMAO 46-62x more than eggs; the fish paradox)"
+        },
+        {
+          "statement": "TMAO tracks inversely with eGFR, and the TMAO-MACE association is nullified after adjustin",
+          "grade": "asserted",
+          "source": "Sanchez-Gimenez et al. (2022), Front Cardiovasc Med (TMAO-MACE nullified by eGFR; renal confounding)"
+        },
+        {
+          "statement": "bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD,",
+          "grade": "asserted",
+          "source": "Jia et al. (2019); Sanna et al. (2019) (bidirectional Mendelian randomization; reverse causality)"
+        },
+        {
+          "statement": "the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) re",
+          "grade": "asserted",
+          "source": "Zhong et al. (2019), JAMA 321(11):1081-1095 (six US cohorts; egg/cholesterol CVD harm)"
+        },
+        {
+          "statement": "the global/updated cohorts (Drouin-Chartier BMJ 2020 pooled RR 0.98; PURE Dehghan 2020 HR ",
+          "grade": "asserted",
+          "source": "Dehghan et al. (2020), AJCN, PURE (177,000 across 50 countries; null egg-CVD)"
+        },
+        {
+          "statement": "the harm-null contradiction resolves not to the egg's biology but to the confounding-adjus",
+          "grade": "asserted",
+          "source": "Drouin-Chartier et al. (2020), BMJ 368:m513 (null egg-CVD, 28 cohorts)"
+        },
+        {
+          "statement": "in diabetic men, >=1 egg/day doubled coronary heart disease risk (Hu 1999, HR 2.02, 95% CI",
+          "grade": "checked",
+          "source": "Hu et al. (1999), JAMA 281(15):1387-1394 (diabetic subgroup CHD HR 2.02 men)"
         },
         {
           "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
@@ -705,6 +826,98 @@ This work began on June 22, 2026, and was developed in close collaboration with 
       "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
       "grade": "corroborated"
     }
+  },
+  "choline_fork": {
+    "fork": {
+      "statement": "the same choline that grounds fetal neurodevelopment and hepatic fat export also feeds the",
+      "grade": "corroborated"
+    },
+    "benefit": [
+      {
+        "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+        "grade": "checked"
+      },
+      {
+        "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+        "grade": "checked"
+      }
+    ],
+    "tmao_pathway": {
+      "statement": "unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic ",
+      "grade": "checked"
+    },
+    "tmao_association": {
+      "statement": "fasting plasma TMAO is dose-dependently associated with major adverse cardiovascular event",
+      "grade": "checked"
+    },
+    "tmao_causal": {
+      "statement": "that TMAO is the causal atherogenic agent driving that association (rather than a proxy) i",
+      "grounding": "supported",
+      "confidence_after_undercuts": "asserted",
+      "lowered": true
+    },
+    "undercuts": [
+      {
+        "statement": "oily fish and seafood raise circulating TMAO 46-62x more than eggs (Cho 2017), yet fish is"
+      },
+      {
+        "statement": "TMAO tracks inversely with eGFR, and the TMAO-MACE association is nullified after adjustin"
+      },
+      {
+        "statement": "bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD,"
+      }
+    ],
+    "finding": "the report proposes settled risk for the TMAO association, but the gate holds the causal leap at the association grade: settled association is not settled causation."
+  },
+  "body_framing": {
+    "in_force": {
+      "frame": "the body is the average healthy adult: the cardiovascular effect reads contested-to-null and the choline benefit reads useful but not critical",
+      "alternatives": [
+        "the type-2 diabetic",
+        "the hyper-responder (APOE E4)",
+        "the choline-deficient pregnant woman"
+      ]
+    },
+    "bodies": [
+      {
+        "framing_id": "F-body-diabetic",
+        "frame": "the body is the type-2 diabetic: the cardiovascular effect reframes from contested to elevated-risk agreement (Hu 1999 HR 2.02, Shin 2013 pooled 1.69), because diabetic dyslipidemia makes the added cholesterol atherogenic"
+      },
+      {
+        "framing_id": "F-body-pregnant",
+        "frame": "the body is the choline-deficient pregnant woman: the choline benefit reframes from useful to load-bearing (fetal neurodevelopment and hepatic export), since about 90% of pregnant women fall below the choline Adequate Intake"
+      },
+      {
+        "framing_id": "F-body-hyperresp",
+        "frame": "the body is the hyper-responder (25-33%, APOE E4 carriers): the lipid magnitude is larger, though the LDL:HDL ratio still holds"
+      }
+    ],
+    "measurements": [
+      {
+        "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+        "grade": "corroborated"
+      },
+      {
+        "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+        "grade": "asserted"
+      },
+      {
+        "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+        "grade": "checked"
+      },
+      {
+        "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+        "grade": "checked"
+      },
+      {
+        "statement": "the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-",
+        "grade": "checked"
+      },
+      {
+        "statement": "a high-egg diet (>=12/week) does not worsen long-term glycemic control versus a low-egg di",
+        "grade": "checked"
+      }
+    ]
   },
   "characterized_gaps": [
     {
@@ -899,15 +1112,21 @@ This work began on June 22, 2026, and was developed in close collaboration with 
         "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
         "grade": "asserted"
       },
-      "structurally_disjoint": true,
-      "shallow": true,
+      "structurally_disjoint": false,
+      "shallow": false,
       "frontier_candidates": [
-        "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
-        "at up to one egg per day, egg consumption is not associated with incident cardiovascular d"
+        "the global/updated cohorts (Drouin-Chartier BMJ 2020 pooled RR 0.98; PURE Dehghan 2020 HR ",
+        "the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) re"
       ],
-      "resolved_sub_region": [],
+      "resolved_sub_region": [
+        "in diabetics, the pooled CVD HR is 1.69 (1.09 to 2.62) for the highest versus lowest egg i",
+        "in the diabetic subgroup, egg consumption carries a CVD SRR of 1.22 (1.08 to 1.39) at one ",
+        "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+        "the LDL-C rise from dietary cholesterol is partly offset by an HDL-C rise, so the LDL:HDL ",
+        "in diabetic men, >=1 egg/day doubled coronary heart disease risk (Hu 1999, HR 2.02, 95% CI"
+      ],
       "candidate": true,
-      "note": "the two support cones are empty: the contradiction rests on bare claims. The frontier is at the top, and the confounder the disagreement turns on is not yet a node either side names. This is a finding: reify the confounder as an explicit claim both sides rest on before the crux computes meaningfully (the same bound robustness carries, the same remedy)."
+      "note": "the frontier is the crux the structure points at, a candidate set, not a decided crux; which candidate is decisive is a judgment the record invites."
     },
     "cross": {
       "kind": "cross-domain",
@@ -921,8 +1140,8 @@ This work began on June 22, 2026, and was developed in close collaboration with 
     }
   },
   "cardiovascular_crux": {
-    "status": "computed-shallow",
-    "note": "The cardiovascular crux is now COMPUTED on read (Prompt 22), not authored. On the contradiction as it stands the within-domain cone walk finds a shallow frontier: the population null and harm claims rest on bare assertions, so the crux sits at the top and the confounder the disagreement turns on is not yet an explicit node either side rests on. That is the honest finding, reported rather than forced; reifying the confounder is a content act for the eggs case, not the crux machinery. The tension is shown, not resolved."
+    "status": "computed-resolved",
+    "note": "The cardiovascular crux is COMPUTED on read. With Prompt 26 the confounding-adjustment is reified as an explicit node both cohorts rest on (the US-cohort single-FFQ stance versus the global repeated-measures stance), and the diabetic agreement and the mechanistic-floor parallel-rise are the shared support both camps accept. The within-domain cone walk now resolves: the divergence frontier is the confounding-adjustment choice, and the diabetic-subgroup claim sits in the resolved region. The disagreement is explained without pooling the hazard ratios into an average."
   }
 }</script>
 <script type="application/json" id="covid-reading">{
@@ -3692,10 +3911,11 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
 //   is the vendored build artifact (vendor/eggs/reading.json), computed by the kernel and composition
 //   layer at build time (build/vendor-eggs.mjs); the module renders it and computes no grade.
 // Contract: registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON.
-// Invariant: periphery; it touches no truth field and no kernel. The denominator toggle switches
-//   between two precomputed framings whose measurement grades are identical, showing the swap leaves
-//   the measurements intact while the verdict is reframed. The CVD crux is COMPUTED on read (Prompt 22)
-//   and shown as a candidate: on this contradiction a shallow finding, the tension displayed not resolved.
+// Invariant: periphery; it touches no truth field and no kernel. Four structural moves (Prompt 26):
+//   the denominator and the which-body toggles each switch between precomputed framings whose measurement
+//   grades are identical, so a swap leaves the measurements intact while the verdict is reframed; the
+//   choline fork is a split held not averaged; the CVD crux is COMPUTED on read and now resolves to the
+//   confounding-adjustment choice with the diabetic phenotype in the resolved region.
 (function () {
   "use strict";
   if (typeof window === "undefined" || !window.EpiShell) return;
@@ -3766,21 +3986,50 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       '<ul class="eggs-measurements">' + meas + "</ul></div>";
   }
 
+  function cholineForkHtml() {
+    var f = R.choline_fork; if (!f) return "";
+    var benefit = f.benefit.map(function (b) { return "<li>" + esc(b.statement) + " " + grade(b.grade) + "</li>"; }).join("");
+    var uc = f.undercuts.map(function (u) { return "<li>" + esc(u.statement) + "</li>"; }).join("");
+    return '<div class="eggs-recon"><div class="eggs-node-name">' + esc(f.fork.statement) + " " + grade(f.fork.grade) + "</div>" +
+      '<div class="eggs-crux-line"><b>benefit routing</b> (the settled side):</div><ul class="eggs-resolved">' + benefit + "</ul>" +
+      '<div class="eggs-crux-line"><b>TMAO routing</b> (routed by the microbiome): pathway ' + grade(f.tmao_pathway.grade) + ", association " + grade(f.tmao_association.grade) + "</div>" +
+      '<div>the causal leap: grounding ' + grade(f.tmao_causal.grounding) + " &rarr; confidence " + grade(f.tmao_causal.confidence_after_undercuts) + (f.tmao_causal.lowered ? " <b>(lowered by undercuts)</b>" : "") + "</div>" +
+      '<ul class="eggs-frontier">' + uc + "</ul>" +
+      '<div class="eggs-frame-note">' + esc(f.finding) + "</div></div>";
+  }
+
+  function bodyFramingHtml(which) {
+    var b = R.body_framing; if (!b) return "";
+    var inForce = which === "avgadult" ? b.in_force.frame : (b.bodies.filter(function (x) { return x.framing_id === "F-body-" + which; })[0] || {}).frame;
+    var meas = b.measurements.map(function (m) { return "<li>" + esc(m.statement) + " " + grade(m.grade) + "</li>"; }).join("");
+    var btns = [["avgadult", "the average adult"], ["diabetic", "the diabetic"], ["pregnant", "the choline-deficient pregnant woman"], ["hyperresp", "the hyper-responder"]]
+      .map(function (p) { return '<button class="eggs-bodyswap" data-body="' + p[0] + '"' + (p[0] === which ? " disabled" : "") + ">" + esc(p[1]) + "</button>"; }).join(" ");
+    return '<div class="eggs-frame"><div><b>body in force:</b> ' + esc(inForce) + "</div>" +
+      '<div class="eggs-bodyswaps">' + btns + "</div>" +
+      '<div class="eggs-frame-note">swapping the body reframes which effects dominate; the subsystem measurements below keep the grade their own floor gave them, unchanged by the swap</div>' +
+      '<ul class="eggs-measurements">' + meas + "</ul></div>";
+  }
+
   window.EpiShell.register({
     id: "case-eggs-composite", title: "Case: eggs, a composite over its domains", kind: "case", order: 103,
     render: function (ctx) {
-      var frame = { which: "throughput" };
+      var frame = { which: "throughput", body: "avgadult" };
       function paint() {
         var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
+        if (R.four_moves) html += '<ol class="eggs-moves">' + R.four_moves.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ol>";
         html += "<h3>the domains, grounded to their own floors</h3>" + domainsHtml();
         html += "<h3>the composite: cross-domain weighings at structured-forum</h3>" + weighingsHtml();
         html += "<h3>the regenerative claims, as characterized gaps</h3>" + gapsHtml();
-        html += '<h3>the denominator, swappable</h3><div id="eggs-denominator">' + denominatorHtml(frame.which) + "</div>";
-        html += "<h3>the disagreements, and what each turns on (computed crux)</h3>" + reconciliationHtml();
-        html += '<div class="eggs-crux"><b>held, not resolved:</b> ' + esc(R.cardiovascular_crux.note) + "</div>";
+        html += "<h3>move 1 &middot; the denominator, swappable (environment)</h3><div id=\"eggs-denominator\">" + denominatorHtml(frame.which) + "</div>";
+        html += "<h3>move 2 &middot; the choline good-versus-bad fork (one nutrient, two routings)</h3>" + cholineForkHtml();
+        html += "<h3>move 3 &middot; the cardiovascular crux, and what each disagreement turns on</h3>" + reconciliationHtml();
+        html += '<div class="eggs-crux"><b>' + (R.cardiovascular_crux.status === "computed-resolved" ? "resolved on read:" : "held, not resolved:") + "</b> " + esc(R.cardiovascular_crux.note) + "</div>";
+        html += "<h3>move 4 &middot; the which-body framing, swappable (nutrition)</h3><div id=\"eggs-body\">" + bodyFramingHtml(frame.body) + "</div>";
         ctx.mount.innerHTML = html;
         var btn = ctx.mount.querySelector(".eggs-swap");
         if (btn) btn.addEventListener("click", function () { frame.which = btn.getAttribute("data-alt"); paint(); });
+        var bbtns = ctx.mount.querySelectorAll(".eggs-bodyswap");
+        for (var i = 0; i < bbtns.length; i++) bbtns[i].addEventListener("click", function (e) { frame.body = e.target.getAttribute("data-body"); paint(); });
       }
       paint();
       // register the meta-question as a cross-link anchor so the prose can navigate to it.

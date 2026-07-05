@@ -14,6 +14,7 @@ import { dirname, join } from "node:path";
 import { characterizedGaps } from "../kernel/analysis/characterized-gaps.mjs";
 import { domainProfile } from "../kernel/composition/profiles.mjs";
 import { disagreements, reconcile } from "../kernel/analysis/reconciliation.mjs";
+import { analyzeUndercuts } from "../kernel/analysis/robustness.mjs";
 import { buildEggs } from "./eggs-build.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -95,11 +96,40 @@ const cross = {
   note: crossRec.crux.note,
 };
 
+// move 2, the choline fork: the same choline grounds the benefit and feeds the TMAO risk; the causal
+// leap is held at the association grade and lowered by its undercuts (fish paradox, renal, Mendelian).
+const uc = analyzeUndercuts(nutGraph, nut.refId.get("tmao.causal"));
+const choline_fork = {
+  fork: { statement: key(specByRef(nut, "chol.fork").rec.statement), grade: gradeRef(nut, "chol.fork") },
+  benefit: ["chol.neurodev", "chol.hepatic"].map((r) => ({ statement: key(specByRef(nut, r).rec.statement), grade: gradeRef(nut, r) })),
+  tmao_pathway: { statement: key(specByRef(nut, "tmao.pathway").rec.statement), grade: gradeRef(nut, "tmao.pathway") },
+  tmao_association: { statement: key(specByRef(nut, "tmao.assoc").rec.statement), grade: gradeRef(nut, "tmao.assoc") },
+  tmao_causal: { statement: key(specByRef(nut, "tmao.causal").rec.statement), grounding: uc.grade, confidence_after_undercuts: uc.confidence_after_undercuts, lowered: uc.lowered },
+  undercuts: ["uc.fishparadox", "uc.renal", "uc.mendelian"].map((r) => ({ statement: key(specByRef(nut, r).rec.statement) })),
+  finding: "the report proposes settled risk for the TMAO association, but the gate holds the causal leap at the association grade: settled association is not settled causation.",
+};
+
+// move 4, the which-body framing: the effects keep their grade across the body swap; the frame moves.
+const bodyMeasurements = E.COMPOSITE.bodyPresupposes.map((p) => ({ statement: claimStmt(p.store, idOf(p.store, p.claim)), grade: earnedOf(domains[p.store], idOf(p.store, p.claim)) }));
+const body_framing = {
+  in_force: { frame: E.bodyFraming.statement, alternatives: E.bodyFraming.alternatives },
+  bodies: E.bodies.map((b) => ({ framing_id: b.framing_id, frame: b.statement })),
+  measurements: bodyMeasurements, // identical whichever body is in force
+};
+
 const reading = {
   generated_by: "build/vendor-eggs.mjs",
-  meta_question: "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
+  meta_question: "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain, now carrying four structural moves.",
+  four_moves: [
+    "the denominator reframe on the environment side (product-throughput vs net-capital)",
+    "the choline good-versus-bad fork (one nutrient, two routings, held as a split)",
+    "the cardiovascular crux (harm vs null, resolving to the confounding-adjustment choice)",
+    "the which-body framing on the nutrition side (the assumed body, swappable)",
+  ],
   domains: domainReadings,
   cardiovascular,
+  choline_fork,
+  body_framing,
   characterized_gaps,
   weighings,
   denominator,

@@ -5,10 +5,11 @@
 //   is the vendored build artifact (vendor/eggs/reading.json), computed by the kernel and composition
 //   layer at build time (build/vendor-eggs.mjs); the module renders it and computes no grade.
 // Contract: registers on window.EpiShell as a case module. Reads the embedded #eggs-reading JSON.
-// Invariant: periphery; it touches no truth field and no kernel. The denominator toggle switches
-//   between two precomputed framings whose measurement grades are identical, showing the swap leaves
-//   the measurements intact while the verdict is reframed. The CVD crux is COMPUTED on read (Prompt 22)
-//   and shown as a candidate: on this contradiction a shallow finding, the tension displayed not resolved.
+// Invariant: periphery; it touches no truth field and no kernel. Four structural moves (Prompt 26):
+//   the denominator and the which-body toggles each switch between precomputed framings whose measurement
+//   grades are identical, so a swap leaves the measurements intact while the verdict is reframed; the
+//   choline fork is a split held not averaged; the CVD crux is COMPUTED on read and now resolves to the
+//   confounding-adjustment choice with the diabetic phenotype in the resolved region.
 (function () {
   "use strict";
   if (typeof window === "undefined" || !window.EpiShell) return;
@@ -79,21 +80,50 @@
       '<ul class="eggs-measurements">' + meas + "</ul></div>";
   }
 
+  function cholineForkHtml() {
+    var f = R.choline_fork; if (!f) return "";
+    var benefit = f.benefit.map(function (b) { return "<li>" + esc(b.statement) + " " + grade(b.grade) + "</li>"; }).join("");
+    var uc = f.undercuts.map(function (u) { return "<li>" + esc(u.statement) + "</li>"; }).join("");
+    return '<div class="eggs-recon"><div class="eggs-node-name">' + esc(f.fork.statement) + " " + grade(f.fork.grade) + "</div>" +
+      '<div class="eggs-crux-line"><b>benefit routing</b> (the settled side):</div><ul class="eggs-resolved">' + benefit + "</ul>" +
+      '<div class="eggs-crux-line"><b>TMAO routing</b> (routed by the microbiome): pathway ' + grade(f.tmao_pathway.grade) + ", association " + grade(f.tmao_association.grade) + "</div>" +
+      '<div>the causal leap: grounding ' + grade(f.tmao_causal.grounding) + " &rarr; confidence " + grade(f.tmao_causal.confidence_after_undercuts) + (f.tmao_causal.lowered ? " <b>(lowered by undercuts)</b>" : "") + "</div>" +
+      '<ul class="eggs-frontier">' + uc + "</ul>" +
+      '<div class="eggs-frame-note">' + esc(f.finding) + "</div></div>";
+  }
+
+  function bodyFramingHtml(which) {
+    var b = R.body_framing; if (!b) return "";
+    var inForce = which === "avgadult" ? b.in_force.frame : (b.bodies.filter(function (x) { return x.framing_id === "F-body-" + which; })[0] || {}).frame;
+    var meas = b.measurements.map(function (m) { return "<li>" + esc(m.statement) + " " + grade(m.grade) + "</li>"; }).join("");
+    var btns = [["avgadult", "the average adult"], ["diabetic", "the diabetic"], ["pregnant", "the choline-deficient pregnant woman"], ["hyperresp", "the hyper-responder"]]
+      .map(function (p) { return '<button class="eggs-bodyswap" data-body="' + p[0] + '"' + (p[0] === which ? " disabled" : "") + ">" + esc(p[1]) + "</button>"; }).join(" ");
+    return '<div class="eggs-frame"><div><b>body in force:</b> ' + esc(inForce) + "</div>" +
+      '<div class="eggs-bodyswaps">' + btns + "</div>" +
+      '<div class="eggs-frame-note">swapping the body reframes which effects dominate; the subsystem measurements below keep the grade their own floor gave them, unchanged by the swap</div>' +
+      '<ul class="eggs-measurements">' + meas + "</ul></div>";
+  }
+
   window.EpiShell.register({
     id: "case-eggs-composite", title: "Case: eggs, a composite over its domains", kind: "case", order: 103,
     render: function (ctx) {
-      var frame = { which: "throughput" };
+      var frame = { which: "throughput", body: "avgadult" };
       function paint() {
         var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
+        if (R.four_moves) html += '<ol class="eggs-moves">' + R.four_moves.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ol>";
         html += "<h3>the domains, grounded to their own floors</h3>" + domainsHtml();
         html += "<h3>the composite: cross-domain weighings at structured-forum</h3>" + weighingsHtml();
         html += "<h3>the regenerative claims, as characterized gaps</h3>" + gapsHtml();
-        html += '<h3>the denominator, swappable</h3><div id="eggs-denominator">' + denominatorHtml(frame.which) + "</div>";
-        html += "<h3>the disagreements, and what each turns on (computed crux)</h3>" + reconciliationHtml();
-        html += '<div class="eggs-crux"><b>held, not resolved:</b> ' + esc(R.cardiovascular_crux.note) + "</div>";
+        html += "<h3>move 1 &middot; the denominator, swappable (environment)</h3><div id=\"eggs-denominator\">" + denominatorHtml(frame.which) + "</div>";
+        html += "<h3>move 2 &middot; the choline good-versus-bad fork (one nutrient, two routings)</h3>" + cholineForkHtml();
+        html += "<h3>move 3 &middot; the cardiovascular crux, and what each disagreement turns on</h3>" + reconciliationHtml();
+        html += '<div class="eggs-crux"><b>' + (R.cardiovascular_crux.status === "computed-resolved" ? "resolved on read:" : "held, not resolved:") + "</b> " + esc(R.cardiovascular_crux.note) + "</div>";
+        html += "<h3>move 4 &middot; the which-body framing, swappable (nutrition)</h3><div id=\"eggs-body\">" + bodyFramingHtml(frame.body) + "</div>";
         ctx.mount.innerHTML = html;
         var btn = ctx.mount.querySelector(".eggs-swap");
         if (btn) btn.addEventListener("click", function () { frame.which = btn.getAttribute("data-alt"); paint(); });
+        var bbtns = ctx.mount.querySelectorAll(".eggs-bodyswap");
+        for (var i = 0; i < bbtns.length; i++) bbtns[i].addEventListener("click", function (e) { frame.body = e.target.getAttribute("data-body"); paint(); });
       }
       paint();
       // register the meta-question as a cross-link anchor so the prose can navigate to it.

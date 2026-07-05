@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 139. Import edges: 237. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 139. Import edges: 240. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -118,6 +118,8 @@ Nodes: 139. Import edges: 237. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-covid.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
+- `build/check-eggs.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
@@ -231,6 +233,7 @@ Nodes: 139. Import edges: 237. Runtime flow edges: 26. All import edges satisfy 
 - `build/vendor-eggs.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
+- `build/vendor-eggs.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
 - `build/vendor-lhc.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
 - `build/vendor-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*

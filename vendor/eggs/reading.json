@@ -1,6 +1,12 @@
 {
   "generated_by": "build/vendor-eggs.mjs",
-  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain.",
+  "meta_question": "Should you eat eggs, and which farming system is better? A composite over a nutrition, an environment, and an economics domain, now carrying four structural moves.",
+  "four_moves": [
+    "the denominator reframe on the environment side (product-throughput vs net-capital)",
+    "the choline good-versus-bad fork (one nutrient, two routings, held as a split)",
+    "the cardiovascular crux (harm vs null, resolving to the confounding-adjustment choice)",
+    "the which-body framing on the nutrition side (the assumed body, swappable)"
+  ],
   "domains": [
     {
       "store_id": "S-nutrition",
@@ -342,6 +348,98 @@
       "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
       "grade": "corroborated"
     }
+  },
+  "choline_fork": {
+    "fork": {
+      "statement": "the same choline that grounds fetal neurodevelopment and hepatic fat export also feeds the",
+      "grade": "corroborated"
+    },
+    "benefit": [
+      {
+        "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+        "grade": "checked"
+      },
+      {
+        "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+        "grade": "checked"
+      }
+    ],
+    "tmao_pathway": {
+      "statement": "unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic ",
+      "grade": "checked"
+    },
+    "tmao_association": {
+      "statement": "fasting plasma TMAO is dose-dependently associated with major adverse cardiovascular event",
+      "grade": "checked"
+    },
+    "tmao_causal": {
+      "statement": "that TMAO is the causal atherogenic agent driving that association (rather than a proxy) i",
+      "grounding": "supported",
+      "confidence_after_undercuts": "asserted",
+      "lowered": true
+    },
+    "undercuts": [
+      {
+        "statement": "oily fish and seafood raise circulating TMAO 46-62x more than eggs (Cho 2017), yet fish is"
+      },
+      {
+        "statement": "TMAO tracks inversely with eGFR, and the TMAO-MACE association is nullified after adjustin"
+      },
+      {
+        "statement": "bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD,"
+      }
+    ],
+    "finding": "the report proposes settled risk for the TMAO association, but the gate holds the causal leap at the association grade: settled association is not settled causation."
+  },
+  "body_framing": {
+    "in_force": {
+      "frame": "the body is the average healthy adult: the cardiovascular effect reads contested-to-null and the choline benefit reads useful but not critical",
+      "alternatives": [
+        "the type-2 diabetic",
+        "the hyper-responder (APOE E4)",
+        "the choline-deficient pregnant woman"
+      ]
+    },
+    "bodies": [
+      {
+        "framing_id": "F-body-diabetic",
+        "frame": "the body is the type-2 diabetic: the cardiovascular effect reframes from contested to elevated-risk agreement (Hu 1999 HR 2.02, Shin 2013 pooled 1.69), because diabetic dyslipidemia makes the added cholesterol atherogenic"
+      },
+      {
+        "framing_id": "F-body-pregnant",
+        "frame": "the body is the choline-deficient pregnant woman: the choline benefit reframes from useful to load-bearing (fetal neurodevelopment and hepatic export), since about 90% of pregnant women fall below the choline Adequate Intake"
+      },
+      {
+        "framing_id": "F-body-hyperresp",
+        "frame": "the body is the hyper-responder (25-33%, APOE E4 carriers): the lipid magnitude is larger, though the LDL:HDL ratio still holds"
+      }
+    ],
+    "measurements": [
+      {
+        "statement": "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+        "grade": "corroborated"
+      },
+      {
+        "statement": "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
+        "grade": "asserted"
+      },
+      {
+        "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+        "grade": "checked"
+      },
+      {
+        "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+        "grade": "checked"
+      },
+      {
+        "statement": "the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-",
+        "grade": "checked"
+      },
+      {
+        "statement": "a high-egg diet (>=12/week) does not worsen long-term glycemic control versus a low-egg di",
+        "grade": "checked"
+      }
+    ]
   },
   "characterized_gaps": [
     {
