@@ -4,8 +4,8 @@
   "domains": [
     {
       "store_id": "S-nutrition",
-      "floor_count": 10,
-      "forum_count": 6,
+      "floor_count": 24,
+      "forum_count": 15,
       "claims": [
         {
           "statement": "each 100 mg/day of dietary cholesterol raises serum total cholesterol by about 2.2 mg/dL (",
@@ -49,8 +49,123 @@
         },
         {
           "statement": "whether an individual's cholesterol response to eggs predicts their own CVD risk is unknow",
-          "grade": "asserted",
+          "grade": "corroborated",
           "source": "Katan et al. (1986), Am J Epidemiol 123(2):221-234 (responder variance)"
+        },
+        {
+          "statement": "whole eggs are the densest common source of bioavailable phosphatidylcholine (one large eg",
+          "grade": "checked",
+          "source": "Wallace & Fulgoni (2016/2017), J Am Coll Nutr / Nutrients 9(8):839 (NHANES choline intake, adequacy)"
+        },
+        {
+          "statement": "choline is an obligatory component of the VLDL envelope, so it is required to export hepat",
+          "grade": "checked",
+          "source": "Zeisel & da Costa (2006/2009); Corbin & Zeisel (2012) (choline, VLDL export, NAFLD depletion-repletion)"
+        },
+        {
+          "statement": "maternal choline supplementation in late pregnancy improves offspring sustained attention ",
+          "grade": "checked",
+          "source": "Caudill et al. (2018), FASEB J; Bahnfleth et al. (2022), FASEB J (maternal choline RCT, offspring cognition)"
+        },
+        {
+          "statement": "the whole egg's Digestible Indispensable Amino Acid Score (true ileal, growing-pig model) ",
+          "grade": "checked",
+          "source": "Fanelli, Martins & Stein (2024), J Nutr Sci (egg DIAAS >100, ileal-cannulated pigs; additivity)"
+        },
+        {
+          "statement": "a 50 g egg provides ~543 mg leucine (~8.6% of its protein), above the mTORC1 threshold tha",
+          "grade": "checked",
+          "source": "Layman (2003), J Nutr; USDA FoodData Central (leucine content, mTORC1)"
+        },
+        {
+          "statement": "an egg breakfast suppresses the orexigenic hormone ghrelin (lower AUC) and raises the anor",
+          "grade": "checked",
+          "source": "Ratliff et al. (2010), Nutr Res 30(2):96-103 (egg breakfast, ghrelin/PYY/insulin AUC)"
+        },
+        {
+          "statement": "the behavioral layer is noisier than the hormonal one: an egg breakfast cuts next-meal int",
+          "grade": "asserted",
+          "source": "Vander Wal et al. (2005), J Am Coll Nutr; Dhurandhar & Vander Wal (2008) (egg breakfast satiety, weight loss)"
+        },
+        {
+          "statement": "the egg carries ~0.36 g carbohydrate, so its glycemic index and load are effectively zero;",
+          "grade": "checked",
+          "source": "Maki et al. (2017), J Nutr; Pourafshar et al. (2018) (egg glycemic/insulin sensitivity, HOMA-IR)"
+        },
+        {
+          "statement": "a high-egg diet (>=12/week) does not worsen long-term glycemic control versus a low-egg di",
+          "grade": "checked",
+          "source": "Fuller et al. (2015), DIABEGG, Am J Clin Nutr 101(4):705-713 (T2D RCT)"
+        },
+        {
+          "statement": "fractional cholesterol absorption is highly individual (20-80%, mean ~55%), governed by th",
+          "grade": "checked",
+          "source": "Brown & Yu (2010); Lutjohann et al. (2022) (fractional cholesterol absorption, NPC1L1/ABCG5-8)"
+        },
+        {
+          "statement": "increased dietary cholesterol compensatorily downregulates endogenous synthesis via SCAP-S",
+          "grade": "checked",
+          "source": "Kratky et al. (2018); McNamara (2000); Kostner (2020) (compensatory synthesis downregulation, SCAP-SREBP2)"
+        },
+        {
+          "statement": "the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-",
+          "grade": "checked",
+          "source": "Herron et al. (2006); Beynen & Katan (1985) (hypo/hyper responder distribution, APOE E4)"
+        },
+        {
+          "statement": "unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic ",
+          "grade": "checked",
+          "source": "Wilcox et al. (2021), Am J Clin Nutr; Lemos et al. (2018) (whole eggs vs choline supplement, TMAO matrix effect)"
+        },
+        {
+          "statement": "fasting plasma TMAO is dose-dependently associated with major adverse cardiovascular event",
+          "grade": "checked",
+          "source": "Tang et al. (2013), NEJM 368:1575-1584; Sanchez-Gimenez meta (2022) (TMAO-MACE association)"
+        },
+        {
+          "statement": "that TMAO is the causal atherogenic agent driving that association (rather than a proxy) i",
+          "grade": "supported",
+          "source": "Tang et al. (2013), NEJM 368:1575-1584; Sanchez-Gimenez meta (2022) (TMAO-MACE association)"
+        },
+        {
+          "statement": "the same choline that grounds fetal neurodevelopment and hepatic fat export also feeds the",
+          "grade": "corroborated",
+          "source": "Wilcox et al. (2021), Am J Clin Nutr; Lemos et al. (2018) (whole eggs vs choline supplement, TMAO matrix effect)"
+        },
+        {
+          "statement": "oily fish and seafood raise circulating TMAO 46-62x more than eggs (Cho 2017), yet fish is",
+          "grade": "asserted",
+          "source": "Cho et al. (2017); Landfald et al. (2017) (fish raises TMAO 46-62x more than eggs; the fish paradox)"
+        },
+        {
+          "statement": "TMAO tracks inversely with eGFR, and the TMAO-MACE association is nullified after adjustin",
+          "grade": "asserted",
+          "source": "Sanchez-Gimenez et al. (2022), Front Cardiovasc Med (TMAO-MACE nullified by eGFR; renal confounding)"
+        },
+        {
+          "statement": "bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD,",
+          "grade": "asserted",
+          "source": "Jia et al. (2019); Sanna et al. (2019) (bidirectional Mendelian randomization; reverse causality)"
+        },
+        {
+          "statement": "the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) re",
+          "grade": "asserted",
+          "source": "Zhong et al. (2019), JAMA 321(11):1081-1095 (six US cohorts; egg/cholesterol CVD harm)"
+        },
+        {
+          "statement": "the global/updated cohorts (Drouin-Chartier BMJ 2020 pooled RR 0.98; PURE Dehghan 2020 HR ",
+          "grade": "asserted",
+          "source": "Dehghan et al. (2020), AJCN, PURE (177,000 across 50 countries; null egg-CVD)"
+        },
+        {
+          "statement": "the harm-null contradiction resolves not to the egg's biology but to the confounding-adjus",
+          "grade": "asserted",
+          "source": "Drouin-Chartier et al. (2020), BMJ 368:m513 (null egg-CVD, 28 cohorts)"
+        },
+        {
+          "statement": "in diabetic men, >=1 egg/day doubled coronary heart disease risk (Hu 1999, HR 2.02, 95% CI",
+          "grade": "checked",
+          "source": "Hu et al. (1999), JAMA 281(15):1387-1394 (diabetic subgroup CHD HR 2.02 men)"
         },
         {
           "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
@@ -421,15 +536,21 @@
         "statement": "at up to one egg per day, egg consumption is not associated with incident cardiovascular d",
         "grade": "asserted"
       },
-      "structurally_disjoint": true,
-      "shallow": true,
+      "structurally_disjoint": false,
+      "shallow": false,
       "frontier_candidates": [
-        "higher dietary cholesterol is associated with higher CVD mortality (HR 1.13 per +300 mg/da",
-        "at up to one egg per day, egg consumption is not associated with incident cardiovascular d"
+        "the global/updated cohorts (Drouin-Chartier BMJ 2020 pooled RR 0.98; PURE Dehghan 2020 HR ",
+        "the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) re"
       ],
-      "resolved_sub_region": [],
+      "resolved_sub_region": [
+        "in diabetics, the pooled CVD HR is 1.69 (1.09 to 2.62) for the highest versus lowest egg i",
+        "in the diabetic subgroup, egg consumption carries a CVD SRR of 1.22 (1.08 to 1.39) at one ",
+        "in diabetic individuals the egg-CVD association is inverted toward harm, the one place the",
+        "the LDL-C rise from dietary cholesterol is partly offset by an HDL-C rise, so the LDL:HDL ",
+        "in diabetic men, >=1 egg/day doubled coronary heart disease risk (Hu 1999, HR 2.02, 95% CI"
+      ],
       "candidate": true,
-      "note": "the two support cones are empty: the contradiction rests on bare claims. The frontier is at the top, and the confounder the disagreement turns on is not yet a node either side names. This is a finding: reify the confounder as an explicit claim both sides rest on before the crux computes meaningfully (the same bound robustness carries, the same remedy)."
+      "note": "the frontier is the crux the structure points at, a candidate set, not a decided crux; which candidate is decisive is a judgment the record invites."
     },
     "cross": {
       "kind": "cross-domain",
@@ -443,7 +564,7 @@
     }
   },
   "cardiovascular_crux": {
-    "status": "computed-shallow",
-    "note": "The cardiovascular crux is now COMPUTED on read (Prompt 22), not authored. On the contradiction as it stands the within-domain cone walk finds a shallow frontier: the population null and harm claims rest on bare assertions, so the crux sits at the top and the confounder the disagreement turns on is not yet an explicit node either side rests on. That is the honest finding, reported rather than forced; reifying the confounder is a content act for the eggs case, not the crux machinery. The tension is shown, not resolved."
+    "status": "computed-resolved",
+    "note": "The cardiovascular crux is COMPUTED on read. With Prompt 26 the confounding-adjustment is reified as an explicit node both cohorts rest on (the US-cohort single-FFQ stance versus the global repeated-measures stance), and the diabetic agreement and the mechanistic-floor parallel-rise are the shared support both camps accept. The within-domain cone walk now resolves: the divergence frontier is the confounding-adjustment choice, and the diabetic-subgroup claim sits in the resolved region. The disagreement is explained without pooling the hazard ratios into an average."
   }
 }

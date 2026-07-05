@@ -42,16 +42,16 @@ ok(cvd.side_a.grade === "asserted" && cvd.side_b.grade === "asserted", `the reco
 ok(cvd.record_type === "disagreement" && cvd.crux.candidate === true, "the record marks the crux a candidate, not a verdict");
 
 // =====================================================================================
-console.log("\n[A2] the CVD within-domain crux is a shallow finding, honestly reported");
+console.log("\n[A2] the CVD within-domain crux now resolves to the confounding-adjustment choice (Prompt 26)");
 const cx = cvd.crux;
 ok(cx.kind === "within-domain", "the CVD contradiction routes to the within-domain (cone-walk) crux");
-ok(cx.structurally_disjoint === true && cx.shallow === true, "the two cones are empty: structurally disjoint and shallow");
-ok(cx.frontier_candidates.length === 2 && cx.frontier_candidates.includes(id("n.cv-null")) && cx.frontier_candidates.includes(id("n.cv-harm")), "the frontier is at the top (the contradicting claims), not a false frontier");
-ok(/confounder/.test(cx.note) && /reify/.test(cx.note), "the finding is named: the confounder must be an explicit node before the crux computes meaningfully");
-// the diabetic-interaction claim is NOT on the frontier (it is not the crux): it is the settled,
-// uncontradicted convergence, correctly excluded from the crux candidate set.
+// Prompt 26 reified the confounding-adjustment as an explicit node both cohorts rest on, and gave
+// both the shared diabetic agreement and the mechanistic-floor parallel-rise, so the cones are no
+// longer empty and the crux resolves rather than sitting shallow at the top.
+ok(cx.structurally_disjoint === false && cx.shallow === false, "the cones now share structure: the crux resolves, no longer shallow");
+ok(cx.frontier_candidates.includes(id("adj.uscohort")) && cx.frontier_candidates.includes(id("adj.global")), "the divergence frontier is the confounding-adjustment choice (US-cohort vs global/repeated-measures)");
 ok(!cx.frontier_candidates.includes(id("n.cv-diabetic")), "the diabetic-interaction claim is not on the frontier: it is not the crux");
-ok(!cx.resolved_sub_region.includes(id("n.cv-diabetic")) && cx.resolved_sub_region.length === 0, "with empty cones the computed resolved sub-region is empty; the diabetic claim's agreement is not yet structural (the same finding)");
+ok(cx.resolved_sub_region.includes(id("n.cv-diabetic")), "the diabetic-interaction claim sits in the resolved sub-region: the agreement both camps share");
 
 // =====================================================================================
 console.log("\n[A3] a synthetic rich pair: a meaningful frontier and a resolved sub-region");
@@ -134,7 +134,7 @@ ok(Array.isArray(overSnapshot), "reconciliations() is on the contract, obtained 
 ok(overSnapshot.length === 0, "over the closed migrated snapshot (no contradicts links) it honestly reads none");
 // the eggs CVD reconciliation is surfaced in the eggs reading (the composite is not in the snapshot).
 const reading = JSON.parse(readFileSync(join(ROOT, "vendor/eggs/reading.json"), "utf8"));
-ok(reading.reconciliation && reading.reconciliation.within.kind === "within-domain" && reading.reconciliation.within.shallow === true, "the presentation reading carries the CVD within-domain crux with its shallow finding");
+ok(reading.reconciliation && reading.reconciliation.within.kind === "within-domain" && reading.reconciliation.within.shallow === false, "the presentation reading carries the CVD within-domain crux, now resolving to the confounding-adjustment frontier (Prompt 26)");
 ok(reading.reconciliation.within.resolved_sub_region !== undefined && reading.reconciliation.within.frontier_candidates.length === 2, "it carries the frontier candidates and the resolved sub-region");
 ok(reading.reconciliation.cross.kind === "cross-domain" && (reading.reconciliation.cross.framing_crux || []).length >= 1, "and the cross-domain crux: the which-system weighing's framing node");
 

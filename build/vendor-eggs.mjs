@@ -105,7 +105,7 @@ const reading = {
   denominator,
   profile: E.profile,
   reconciliation: { within, cross },
-  cardiovascular_crux: { status: "computed-shallow", note: "The cardiovascular crux is now COMPUTED on read (Prompt 22), not authored. On the contradiction as it stands the within-domain cone walk finds a shallow frontier: the population null and harm claims rest on bare assertions, so the crux sits at the top and the confounder the disagreement turns on is not yet an explicit node either side rests on. That is the honest finding, reported rather than forced; reifying the confounder is a content act for the eggs case, not the crux machinery. The tension is shown, not resolved." },
+  cardiovascular_crux: { status: within.shallow ? "computed-shallow" : "computed-resolved", note: "The cardiovascular crux is COMPUTED on read. With Prompt 26 the confounding-adjustment is reified as an explicit node both cohorts rest on (the US-cohort single-FFQ stance versus the global repeated-measures stance), and the diabetic agreement and the mechanistic-floor parallel-rise are the shared support both camps accept. The within-domain cone walk now resolves: the divergence frontier is the confounding-adjustment choice, and the diabetic-subgroup claim sits in the resolved region. The disagreement is explained without pooling the hazard ratios into an average." },
 };
 
 mkdirSync(join(ROOT, "vendor/eggs"), { recursive: true });

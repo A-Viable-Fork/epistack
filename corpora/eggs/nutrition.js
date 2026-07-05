@@ -68,6 +68,39 @@ const claims = [
   { ref: "lip.responder", kind: "measurement", declared_grade: "checked", source_id: "src:herron-2006", contributor_id: "pheno:herron",
     statement: "eggs.nutrition (lipid floor): the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-33% hyper-responders (>0.06 mmol/L), set by baseline synthesis, absorption efficiency, and APOE E4 (~13.7-20%); both keep the LDL:HDL ratio, so the variance is in magnitude, not ratio", checking_records: chk("responder-ward", "replication", "metabolic-ward responder classification") },
 
+  // ==== Prompt 26 Phase B, fork 1: the choline good-versus-bad split, routed by the microbiome ====
+  // the mechanism and matrix effect ground to the floor; whole eggs do not spike fasting TMAO.
+  { ref: "tmao.pathway", kind: "measurement", declared_grade: "checked", source_id: "src:wilcox-2021", contributor_id: "mech:tmao",
+    statement: "eggs.nutrition (TMAO): unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic FMO3; the magnitude is matrix-dictated, and four whole eggs/day did NOT raise fasting TMAO (Wilcox 2021, p=0.28) while an equivalent choline-bitartrate supplement did (p<0.0001)", checking_records: chk("wilcox-rct", "replication", "randomized clinical trial, n=82") },
+  // the association is settled; the CAUSAL link is held at the association grade, no higher (a finding).
+  { ref: "tmao.assoc", kind: "measurement", declared_grade: "checked", source_id: "src:tang-2013", contributor_id: "epi:tang",
+    statement: "eggs.nutrition (TMAO): fasting plasma TMAO is dose-dependently associated with major adverse cardiovascular events (Tang 2013, adjusted HR 2.54, 95% CI 1.96-3.28; meta HR 1.41), a settled statistical association in sick populations", checking_records: chk("tang-cohort", "data-audit", "4,007-patient cohort + meta-analysis") },
+  { ref: "tmao.causal", kind: "forum", declared_grade: "supported", source_id: "src:tang-2013", contributor_id: "causal:tmao",
+    statement: "eggs.nutrition (TMAO): that TMAO is the causal atherogenic agent driving that association (rather than a proxy) is a leap the gate holds at the association grade at most; the report proposes settled risk for the association but needs-refinement for causation, so the causal claim earns no floor" },
+  // the fork itself: the same choline grounds the benefits AND feeds TMAO; averaging destroys it.
+  { ref: "chol.fork", kind: "forum", declared_grade: "supported", source_id: "src:wilcox-2021", contributor_id: "fork:choline",
+    statement: "eggs.nutrition (fork): the same choline that grounds fetal neurodevelopment and hepatic fat export also feeds the TMAO pathway, so the net effect is a structural split dynamically routed by host microbiome and renal clearance, not a scalar to average; the food is constant, the host body is the router" },
+  // the undercuts to the TMAO causal claim (undercut edges, wired below): each lowers its confidence.
+  { ref: "uc.fishparadox", kind: "forum", declared_grade: "asserted", source_id: "src:cho-2017", contributor_id: "undercut:fish",
+    statement: "eggs.nutrition (undercut): oily fish and seafood raise circulating TMAO 46-62x more than eggs (Cho 2017), yet fish is cardioprotective, so TMAO cannot be a universal intrinsic cardiovascular toxin (discovery grade: confirmed the paradox shatters the causal assumption)" },
+  { ref: "uc.renal", kind: "forum", declared_grade: "asserted", source_id: "src:sanchez-2022", contributor_id: "undercut:renal",
+    statement: "eggs.nutrition (undercut): TMAO tracks inversely with eGFR, and the TMAO-MACE association is nullified after adjusting for renal function (Sanchez-Gimenez 2022, eGFR mediates 58%), so TMAO reads as a proxy for failing kidneys (discovery grade: confirmed)" },
+  { ref: "uc.mendelian", kind: "forum", declared_grade: "asserted", source_id: "src:jia-2019", contributor_id: "undercut:mr",
+    statement: "eggs.nutrition (undercut): bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD, MI, stroke, or T2DM; the reverse holds, T2DM and CKD causally raise TMAO (Jia 2019), reverse causality (discovery grade: confirmed)" },
+
+  // ==== Prompt 26 Phase B, fork 2: the cardiovascular crux, the confounding-adjustment choice ====
+  // the two adjustment stances the harm and null cohorts diverge on (the crux frontier).
+  { ref: "adj.uscohort", kind: "forum", declared_grade: "asserted", source_id: "src:zhong-2019", contributor_id: "adj:us",
+    statement: "eggs.nutrition (adjustment): the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) rest on a single baseline food-frequency questionnaire and do not adjust away the collinearity of heavy egg intake with the atherogenic Western pattern (higher BMI, smoking, processed red meat)" },
+  { ref: "adj.global", kind: "forum", declared_grade: "asserted", source_id: "src:dehghan-2020", contributor_id: "adj:global",
+    statement: "eggs.nutrition (adjustment): the global/updated cohorts (Drouin-Chartier BMJ 2020 pooled RR 0.98; PURE Dehghan 2020 HR 0.96 across 50 countries) use repeated dietary measures and substitution analysis, in which eggs are not a Western-pattern proxy, yielding a null" },
+  // the crux itself, named as an explicit node: the residual confounding / collinearity choice.
+  { ref: "cv.confounding", kind: "forum", declared_grade: "asserted", source_id: "src:drouin-2020", contributor_id: "crux:confounding",
+    statement: "eggs.nutrition (crux): the harm-null contradiction resolves not to the egg's biology but to the confounding-adjustment choice: substituting one egg/day with processed red meat raises CVD risk 15% (HR 1.15) while substituting with fish/poultry is null, so the US harm signal tracks the dietary matrix, not the egg" },
+  // Hu 1999 adds the male diabetic estimate to the diabetic-agreement region.
+  { ref: "n.cv-diab-hu", kind: "measurement", declared_grade: "checked", source_id: "src:hu-1999", contributor_id: "cohort:hu",
+    statement: "eggs.nutrition: in diabetic men, >=1 egg/day doubled coronary heart disease risk (Hu 1999, HR 2.02, 95% CI 1.05-3.87) while healthy men saw no association (HR 1.08), the effect-modification both camps agree on", checking_records: chk("hu-cohort", "data-audit", "Harvard cohort diabetic subgroup") },
+
   // ---- Topic 2: cardiovascular outcomes, the contested block ----
   // the population null and the population harm claim, in tension: both forum, neither at a floor.
   { ref: "n.cv-null", kind: "forum", declared_grade: "asserted", source_id: "src:drouin-2020", contributor_id: "cohort:drouin",
@@ -102,9 +135,35 @@ const links = [
 
   // the cardiovascular contradiction: the population null and the population harm stand in tension.
   { link_kind: "contradicts", from: "n.cv-null", to: "n.cv-harm", source_id: "src:drouin-2020", contributor_id: "cohort:drouin", declared_grade: "asserted" },
-  // the diabetic-interaction claim grounds on two disjoint observational subgroup analyses (independence lift).
+  // the diabetic-interaction claim grounds on disjoint observational subgroup analyses (independence lift).
   { link_kind: "supports", from: "n.cv-diab-godos", to: "n.cv-diabetic", support_group: "g:godos", source_id: "src:godos-2021", contributor_id: "meta:godos", declared_grade: "supported" },
   { link_kind: "supports", from: "n.cv-diab-shin", to: "n.cv-diabetic", support_group: "g:shin", source_id: "src:shin-2013", contributor_id: "meta:shin", declared_grade: "supported" },
+  { link_kind: "supports", from: "n.cv-diab-hu", to: "n.cv-diabetic", support_group: "g:hu", source_id: "src:hu-1999", contributor_id: "cohort:hu", declared_grade: "supported" },
+
+  // ---- Prompt 26 Phase B, fork 1: the choline split ----
+  // the TMAO causal claim rests only on the association, so it earns the association grade, no floor.
+  { link_kind: "supports", from: "tmao.assoc", to: "tmao.causal", support_group: "g:tmao-assoc", source_id: "src:tang-2013", contributor_id: "epi:tang", declared_grade: "supported" },
+  // the fork rests on both routings, the benefit and the risk, held as a split rather than averaged.
+  { link_kind: "supports", from: "chol.neurodev", to: "chol.fork", support_group: "g:benefit", source_id: "src:caudill-2018", contributor_id: "wire", declared_grade: "supported" },
+  { link_kind: "supports", from: "tmao.pathway", to: "chol.fork", support_group: "g:risk", source_id: "src:wilcox-2021", contributor_id: "wire", declared_grade: "supported" },
+  // the three undercuts on the TMAO causal claim (undercut edges lower the confidence it transmits).
+  { link_kind: "undercut", from: "uc.fishparadox", to: "tmao.causal", source_id: "src:cho-2017", contributor_id: "wire", declared_grade: "supported" },
+  { link_kind: "undercut", from: "uc.renal", to: "tmao.causal", source_id: "src:sanchez-2022", contributor_id: "wire", declared_grade: "supported" },
+  { link_kind: "undercut", from: "uc.mendelian", to: "tmao.causal", source_id: "src:jia-2019", contributor_id: "wire", declared_grade: "supported" },
+
+  // ---- Prompt 26 Phase B, fork 2: the cardiovascular crux ----
+  // each cohort rests on its own confounding-adjustment stance (the divergence frontier), at low link
+  // grade so the contested conclusions stay contested; the crux computation reads the edges, not grades.
+  { link_kind: "supports", from: "adj.uscohort", to: "n.cv-harm", support_group: "g:adj-us", source_id: "src:zhong-2019", contributor_id: "adj:us", declared_grade: "asserted" },
+  { link_kind: "supports", from: "adj.global", to: "n.cv-null", support_group: "g:adj-global", source_id: "src:dehghan-2020", contributor_id: "adj:global", declared_grade: "asserted" },
+  // both cohorts rest on the SHARED resolved region: the diabetic agreement and the mechanistic-floor
+  // parallel-rise both camps accept. This is what keeps the crux from coming back shallow.
+  { link_kind: "supports", from: "n.cv-diabetic", to: "n.cv-harm", support_group: "g:shared-diab-h", source_id: "src:godos-2021", contributor_id: "wire", declared_grade: "asserted" },
+  { link_kind: "supports", from: "n.cv-diabetic", to: "n.cv-null", support_group: "g:shared-diab-n", source_id: "src:godos-2021", contributor_id: "wire", declared_grade: "asserted" },
+  { link_kind: "supports", from: "n.ratio", to: "n.cv-harm", support_group: "g:shared-floor-h", source_id: "src:berger-2015", contributor_id: "wire", declared_grade: "asserted" },
+  { link_kind: "supports", from: "n.ratio", to: "n.cv-null", support_group: "g:shared-floor-n", source_id: "src:berger-2015", contributor_id: "wire", declared_grade: "asserted" },
+  // the crux is named as an explicit node: the confounding-adjustment choice, resting on the substitution.
+  { link_kind: "supports", from: "adj.global", to: "cv.confounding", support_group: "g:crux", source_id: "src:drouin-2020", contributor_id: "wire", declared_grade: "supported" },
 ];
 
 module.exports = { NUTRITION: { store_id: "S-nutrition", claims, links } };
