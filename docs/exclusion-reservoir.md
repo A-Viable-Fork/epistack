@@ -32,4 +32,20 @@ flip); the overlay stays non-destructive.
 | pattern | excluded because | reactivate when |
 |---|---|---|
 | Fixing the `TRACK_LABELS` bug during the Phase 2 migration | the migration is behavior-preserving; a fix is a behavior change and would hide what the original did (see sorry-ledger G-A) | the schema-migration phase, as a deliberate, separately-reviewed change |
-| Authoring LHC Branches 1 and 3 from the cascade sketch | the task floor is Branch 2 only; the others are stubbed so their absence is honest, not invented (sorry-ledger `lhc.branch1#sorry`, `lhc.branch3#sorry`) | the branches are authored to the floor with cited primitive leaves, Branch 3 after its accretion regime is verified against the source |
+| ~~Authoring LHC Branches 1 and 3 from the cascade sketch~~ **DISCHARGED (Prompt 28)** | the task floor was Branch 2 only; the others were stubbed so their absence was honest, not invented (the `lhc.branch1#sorry` and `lhc.branch3#sorry` markers are now retired and exist nowhere in the corpus) | ~~the branches authored to the floor with cited primitive leaves, Branch 3 after its accretion regime is verified against the source~~ condition met (see the note below) |
+
+The "Authoring LHC Branches 1 and 3 from the cascade sketch" row is **discharged** (Prompt 28). The
+reactivation condition is met, verified against the case rather than asserted. Branch 1 is authored to
+the floor: `lhc.N1.1` (Mandelstam center-of-mass energy) closes on `prim.mandelstam-s`, `lhc.N1.2`
+(collision count above threshold) on `prim.cosmic-ray-flux` and `prim.interaction-rate` plus the dense
+bodies' radius and age measurements, and `lhc.N1.3` (cross-section cancellation) on
+`prim.production-rate`. Branch 3 is authored to the floor from Giddings-Mangano (arXiv:0806.3381), not
+reconstructed from a generic Bondi form: `lhc.N3.1` is the regime-dependent accretion rate over its
+five G-M primitive leaves (`prim.gm-master-rate`, `prim.gm-em-capture`, `prim.gm-crossover-mass`,
+`prim.gm-bondi-ddim`, `prim.gm-geometric-rate`) with the dense bodies' densities and radii, and
+`lhc.N3.2` integrates it to the destroy-time exclusion over `prim.gm-destroy-integral`,
+`prim.gm-wd-destroytime`, `prim.gm-ns-destroytime`, and `prim.gm-exclusion`. No branch-1 or branch-3
+node carries a live `sorry` or `TODO_verify` marker, the two named references exist nowhere in the
+corpus, and the sorry-ledger's machine-checked table is empty (`build/check-gaps.mjs` reproduces it and
+finds no live marker). It was a real hold on a real stub, discharged because the stub is now
+floor-authored, not deleted.

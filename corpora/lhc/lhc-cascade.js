@@ -1,12 +1,12 @@
 // Role: the LHC-safety case-family, authored as data (docs/lhc-cascade.md,
 //   docs/schema-revisions.md). A self-contained data module (T0-4). All three branches are
 //   authored to the floor: production (Branch 1), stopping (Branch 2), and accretion (Branch 3,
-//   read from Giddings-Mangano arXiv:0806.3381, not reconstructed). Two Branch-2 verifications
-//   (N2.1, N2.2) remain deferred, ledgered as TODO_verify.
+//   read from Giddings-Mangano arXiv:0806.3381, not reconstructed). The two Branch-2 checks (N2.1,
+//   N2.2) are verified against Giddings-Mangano; each carries a `verified` field with its anchors.
 // Contract: exports a case object { id, title, atlas_refs, nodes } conforming to
 //   data/schema.js; children/atlas refs resolve against data/primitives + data/atlas.
-// Invariant: pure data. Every gap is marked and ledgered (docs/sorry-ledger.md). The accretion
-//   regime (N3.1) is authored from the source; the two remaining N2 verifications are not filled.
+// Invariant: pure data. No live gap marker remains (docs/sorry-ledger.md machine table is empty). The
+//   accretion regime (N3.1) is authored from the source, and the two N2 verifications are filled.
 "use strict";
 
 const CASE = {
