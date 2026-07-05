@@ -1,3 +1,6 @@
 // Role: the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse).
-// Contract: STUB [1.5] Stage 1, specified not built. Only support enters the grounding computation.
+// Contract: [1.5] partly built. support and depends-on enter the readings (grounding and presupposition);
+//   contradicts routes to the reconciliation register; undercut is built as a reading (Prompt 25):
+//   it enters no grade fold, and kernel/analysis/robustness.mjs analyzeUndercuts lowers the confidence
+//   an attacked leg transmits. rebut, specialization, and the discourse edges remain specified.
 // Invariant: pure logic, DOM-free; kernel imports only kernel.

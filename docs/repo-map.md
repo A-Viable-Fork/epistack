@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 133. Import edges: 221. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 139. Import edges: 237. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -137,6 +137,10 @@ Nodes: 133. Import edges: 221. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-gate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/check-gate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-gate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-lhc.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
+- `build/check-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
+- `build/check-lhc.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/check-lhc.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-migrate.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
@@ -211,6 +215,15 @@ Nodes: 133. Import edges: 221. Runtime flow edges: 26. All import edges satisfy 
 - `build/gate-demo.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/gate-demo.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `corpora/lhc/lhc-legs.js`  *(build -> corpus)*
+- `build/lhc-build.mjs` -> `corpora/lhc/lhc-tables.js`  *(build -> corpus)*
+- `build/lhc-build.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/lhc-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
@@ -219,6 +232,9 @@ Nodes: 133. Import edges: 221. Runtime flow edges: 26. All import edges satisfy 
 - `build/vendor-eggs.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
+- `build/vendor-lhc.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
+- `build/vendor-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
+- `build/vendor-lhc.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
 - `build/vendor-snapshot.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/vendor-snapshot.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/vendor-snapshot.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*

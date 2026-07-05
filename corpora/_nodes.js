@@ -66,6 +66,14 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/lhc/lhc-tables.js",
+    "type": "corpus"
+  },
+  {
+    "path": "corpora/lhc/lhc-legs.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/population/population-pipeline.js",
     "type": "corpus"
   },

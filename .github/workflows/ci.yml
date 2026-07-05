@@ -49,6 +49,7 @@ jobs:
           node build/check-eggs.mjs
           node build/check-reconcile.mjs
           node build/check-covid.mjs
+          node build/check-lhc.mjs
           node build/check-map.mjs
 
       - name: Verify the vendored browser gate bundle and snapshot are committed and current
@@ -60,7 +61,8 @@ jobs:
           node build/vendor-gate-browser.mjs
           node build/vendor-eggs.mjs
           node build/vendor-covid.mjs
-          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json vendor/eggs/reading.json vendor/covid/reading.json
+          node build/vendor-lhc.mjs
+          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json vendor/eggs/reading.json vendor/covid/reading.json vendor/lhc/reading.json
 
       - name: Verify the generated repo map is committed and current
         # check-map rewrites docs/repo-map.{md,generated.json}; a diff here means a

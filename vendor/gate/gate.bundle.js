@@ -389,7 +389,10 @@ __M["records"] = (function () {
 //   source of truth for what a claim rests on; the claim record carries no references field.
 "use strict";
 
-const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement"];
+// undercut (edge taxonomy [1.5]): attacks a support edge's grounding rather than adding support. It
+// enters no grade fold in the gate (inert here, like contradicts routes to the register); a dedicated
+// undercut reading over the graph lowers the confidence the attacked leg transmits.
+const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement", "undercut"];
 const METHOD_CLASSES = ["replication", "derivation-audit", "data-audit", "direct-measurement"];
 const INDEPENDENCE = ["distinct-party", "self"];
 const BINDING_RESOLUTIONS = ["bound", "bound-superseded", "unresolved"];
@@ -1153,19 +1156,17 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
 })();
 __M["robustness"] = (function () {
   var { earnedGrade } = __M["earned-grade"];
-  var { POSITIONS } = __M["confidence"];
+  var { POSITIONS, COLLAPSED, collapse, collapsedRank } = __M["confidence"];
   var { ceilingFor, footprintClosure } = __M["tables"];
 // Role: the robustness reading over the support graph (intake data model v3). Grounding says how high
-//   a claim reaches; robustness says how much of that reach survives the loss of one support. The
-//   support graph is a reliability structure: jointly-necessary supports in a group are in series,
-//   independent groups are in parallel, a claim falling to the bottom of the order is a component
-//   failing. A single point of failure is a claim in the target's support closure whose removal
-//   lowers the target's earned grade; robustness is the earned grade after the worst single removal;
-//   fragility is the interval between the two. A distinct reading runs over the depends-on closure,
-//   where a single point of failure breaks well-formedness rather than lowering the grade.
-// Contract: analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) ->
-//   reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and
-//   deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
+//   a claim reaches; robustness says how much survives the loss of one support (a single point of
+//   failure is a support-closure claim whose removal lowers the earned grade; robustness is the grade
+//   after the worst single removal). A distinct reading runs over the depends-on closure, where a
+//   single point of failure breaks well-formedness rather than lowering the grade; a third, over the
+//   undercut edges, lowers the confidence an attacked claim transmits without touching its grade.
+// Contract: analyzeRobustness / analyzePresupposition / analyzeUndercuts (graph, targetId) -> reading.
+//   graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure, deterministic
+//   (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
 // Invariant: HONEST BOUND. Disjoint dependence WITHIN the graph certifies STRUCTURAL independence,
 //   not true independence: two claims can be correlated through a common cause that is not a node in
 //   the graph, and this analysis cannot see it. The remedy is the operation that exposes it, reifying
@@ -1348,7 +1349,39 @@ function analyzePresupposition(graph, targetId) {
   };
 }
 
-  return { analyzeRobustness, analyzePresupposition };
+// one step down the collapsed line, floored at asserted (a leg carrying live objections is qualified,
+// never annihilated). settled positions collapse to the line first.
+function down(pos) {
+  const r = collapsedRank(pos);
+  return COLLAPSED[Math.max(1, r - 1)];
+}
+
+// the undercut reading (edge taxonomy [1.5], built as a reading, not a grade-fold change). An undercut
+// attacks a support edge's grounding rather than adding support: it enters no gate fold, so the target
+// keeps the grounding grade its support earned, and this reading reports the CONFIDENCE that survives
+// the attack. Each in-force undercut into the target lowers that confidence one step; the undercuts are
+// listed with the link grade they carry (their discovery grade), most-attacked first. A target with no
+// undercut carries confidence equal to its grade: the reading is empty, correctly, not a miss.
+function analyzeUndercuts(graph, targetId) {
+  const idx = indexGraph(graph);
+  const grade = collapse(computeEarned(idx, targetId, new Set()).earned);
+  const ucs = (graph.links || [])
+    .filter((l) => l.link_kind === "undercut" && l.to_identity === targetId && idx.entriesById.has(l.from_identity))
+    .map((l) => ({ identity: l.from_identity, link_grade: l.declared_grade }))
+    .sort((a, b) => byId(a.identity, b.identity));
+  let confidence = grade;
+  for (let i = 0; i < ucs.length; i++) confidence = down(confidence);
+  return {
+    reading: "undercut",
+    target: targetId,
+    grade,
+    confidence_after_undercuts: confidence,
+    lowered: collapsedRank(confidence) < collapsedRank(grade),
+    undercuts: ucs,
+  };
+}
+
+  return { analyzeRobustness, analyzePresupposition, analyzeUndercuts };
 })();
 __M["characterized-gaps"] = (function () {
   var { tierOf, collapsedRank } = __M["confidence"];

@@ -1,0 +1,161 @@
+{
+  "generated_by": "build/vendor-lhc.mjs",
+  "meta_question": "Is the LHC safe? The three-leg answer presents as robust, but one reified node, the ADD framework choice, carries three readings: the legs are not independent, swapping the framework moots the question while the calculations survive, and the public claim performs a settledness the conditional structure does not have.",
+  "top": {
+    "ref": "safe",
+    "statement": "the hazard is bounded: LHC collisions present no black-hole danger, argued as the disjunction of three legs (production, Hawking evaporation, and the astrophysical survival backstop)",
+    "grade": "corroborated",
+    "source": "Ellis, Giudice, Mangano, Tkachev & Wiedemann (LSAG, 2008), J. Phys. G 35:115004 ('no basis for any conceivable threat')"
+  },
+  "legs": [
+    {
+      "ref": "leg.prod",
+      "statement": "Leg 1 (production): no dangerous black hole is produced at the LHC; production requires a fundamental scale near a TeV, and the accessible window is closed",
+      "grounding": "corroborated",
+      "confidence": "corroborated",
+      "lowered": false,
+      "undercuts": []
+    },
+    {
+      "ref": "leg.hawking",
+      "statement": "Leg 2 (Hawking): any black hole produced at the LHC evaporates via Hawking radiation in ~10^-26 to 10^-27 s, far faster than it could accrete, so it is harmless",
+      "grounding": "corroborated",
+      "confidence": "asserted",
+      "lowered": true,
+      "undercuts": [
+        {
+          "statement": "the trans-Planckian problem undercuts Leg 2: Hawking's derivation traces outgoing modes back to trans-Planckian frequencies where effective field theory breaks down, and for a microscopic black hole there is no parametric separation of hori",
+          "discovery": "established",
+          "source": "Unruh (2014), Found. Phys. 44:532; Helfer (2003), Rep. Prog. Phys. 66:943 (trans-Planckian problem)"
+        },
+        {
+          "statement": "Vilkovisky's partial-evaporation claim undercuts Leg 2: quantum back-reaction may halt evaporation at about half the mass, leaving a long-lived remnant that could survive to accrete; never refuted in the safety-review literature, only ignor",
+          "discovery": "contested",
+          "source": "Vilkovisky, quantum back-reaction trilogy; Rovelli & Vidotto (2014), Phys. Rev. Lett. 111:091303 (partial evaporation, remnants)"
+        },
+        {
+          "statement": "the firewall paradox undercuts Leg 2: the AMPS argument shows unitarity, semiclassical effective field theory outside the horizon, and the equivalence principle are mutually inconsistent for an evaporating black hole, revealing a fundamenta",
+          "discovery": "established as a tension",
+          "source": "Almheiri, Marolf, Polchinski & Sully (2013), JHEP 02:062, arXiv:1207.3123 (firewall paradox)"
+        }
+      ]
+    },
+    {
+      "ref": "leg.astro",
+      "statement": "Leg 3 (astrophysical backstop): even a stable, non-evaporating black hole is harmless, because cosmic rays have produced such objects and dense stars (white dwarfs, neutron stars) survive to ages of order a gigayear",
+      "grounding": "corroborated",
+      "confidence": "supported",
+      "lowered": true,
+      "undercuts": [
+        {
+          "statement": "Plaga's metastable-black-hole scenario undercuts Leg 3: within the Casadio-Harms microcanonical framework a metastable hole could accrete at the Eddington limit while self-limiting via radiation pressure, evading the cosmic-ray argument; th",
+          "discovery": "contested (credible, unrebutted past v3)",
+          "source": "Plaga (2008, v3 2009), arXiv:0808.1415 (metastable quantum black holes; catastrophic-risk scenario)"
+        }
+      ]
+    }
+  ],
+  "robustness": {
+    "before": [],
+    "after": [
+      "dep.add",
+      "dep.semiclassical"
+    ],
+    "shared": [
+      {
+        "ref": "dep.semiclassical",
+        "statement": "LHC-produced black holes sit in the semiclassical regime (M_BH/M_* >~ 10) where the Hawking calculation and the classical hoop/Bondi analyses are valid; the report flags this doubtful, since LHC production is near threshold at M_BH/M_* ~ 2-"
+      },
+      {
+        "ref": "dep.add",
+        "statement": "TeV-scale gravity via the ADD large-extra-dimensions model (M_Pl^2 = (2 pi R)^n M_D^(n+2)) is realized at LHC energies; adopting ADD over the standard model plus 4D general relativity is a forum choice no experiment compels, motivated only "
+      }
+    ],
+    "legs_look_independent_before": true
+  },
+  "framing": {
+    "add_frame": "the framework is ADD large extra dimensions with M_D near a TeV: the fundamental scale is lowered, so the higher-dimensional Schwarzschild radius brings black-hole production into LHC reach and the three-leg safety cascade activates",
+    "sm_frame": "the framework is the standard model plus 4D general relativity: the production threshold is ~10^19 GeV, fifteen orders above LHC energy, so no black hole is produced at the LHC and the entire safety analysis is moot, trivially answered",
+    "calcs": [
+      {
+        "ref": "prod.reach",
+        "statement": "the higher-dimensional Schwarzschild radius r_S ~ (M_BH/M_D)^(1/(n+1))/M_D brings production within LHC reach only for M_D <~ sqrt(s)/(3-5) <~ 4.7 TeV; under the standard 4D Planck scale r_S ~ 10^-50 m and production is kinematically imposs",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "hawking.temp",
+        "statement": "the Hawking temperature of a (4+n)-dimensional Schwarzschild black hole is T_H = (n+1)/(4 pi r_H), from surface gravity kappa = (n+1)/(2 r_H); for M_BH = 5 TeV, M_* = 1 TeV it is ~179-553 GeV (n = 2-6), settled by construction within the se",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "hawking.lifetime",
+        "statement": "the evaporation lifetime is tau = C_n M_*^-1 (M_BH/M_*)^((n+3)/(n+1)) from the D-dimensional Stefan-Boltzmann law; for M_BH = 1-10 TeV, M_* = 1 TeV it is ~10^-26 to 10^-23 s (LSAG conservative bound <10^-27 s), settled within the semiclassi",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "astro.gm",
+        "statement": "Giddings-Mangano: a stopped black hole's destruction time integrates to << the body's observed age (a white dwarf consumed in <~ 80 Myr, a neutron star in <~ 50 yr for D <= 7), so survival excludes dangerous accretion above crossover radius",
+        "grade_under_add": "constitutive"
+      }
+    ],
+    "grade_survives": true,
+    "swap_in_force": true,
+    "excluded": {
+      "ref": "add.excluded",
+      "statement": "the dangerous ADD branch, M_D ~ 1-3 TeV that would give copious LHC black-hole production, is empirically excluded by convergent independent bounds: direct collider M_D > 5.9-11.2 TeV, semiclassical black holes > 8.4-11.4 TeV, string balls ",
+      "grade": "checked",
+      "source": "CMS Collaboration, CMS-EXO-24-028, arXiv:2604.10732 (2026) (semiclassical BH and string-ball exclusions, 138 fb-1)"
+    }
+  },
+  "performed": {
+    "settled": [
+      {
+        "statement": "the higher-dimensional Schwarzschild radius r_S ~ (M_BH/M_D)^(1/(n+1))/M_D brings production within LHC reach only for M_D <~ sqrt(s)/(3-5) <~ 4.7 TeV; under the standard 4D Planck scale r_S ~ 10^-50 m and production is kinematically imposs",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "the Hawking temperature of a (4+n)-dimensional Schwarzschild black hole is T_H = (n+1)/(4 pi r_H), from surface gravity kappa = (n+1)/(2 r_H); for M_BH = 5 TeV, M_* = 1 TeV it is ~179-553 GeV (n = 2-6), settled by construction within the se",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "the evaporation lifetime is tau = C_n M_*^-1 (M_BH/M_*)^((n+3)/(n+1)) from the D-dimensional Stefan-Boltzmann law; for M_BH = 1-10 TeV, M_* = 1 TeV it is ~10^-26 to 10^-23 s (LSAG conservative bound <10^-27 s), settled within the semiclassi",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "Giddings-Mangano: a stopped black hole's destruction time integrates to << the body's observed age (a white dwarf consumed in <~ 80 Myr, a neutron star in <~ 50 yr for D <= 7), so survival excludes dangerous accretion above crossover radius",
+        "grade": "constitutive"
+      }
+    ],
+    "performed_claim": {
+      "ref": "public.unconditional",
+      "statement": "the LSAG public framing, 'there is no basis for any conceivable threat from the LHC', presents a conservative within-framework analysis as an unconditional, settled safety proof: it PERFORMS settledness by erasing the antecedent (the abstra",
+      "grade": "asserted",
+      "source": "Ellis, Giudice, Mangano, Tkachev & Wiedemann (LSAG, 2008), J. Phys. G 35:115004 ('no basis for any conceivable threat')"
+    },
+    "conditional_structure": {
+      "ref": "conditional.structure",
+      "statement": "the actual claim is conditional: no threat IF the ADD framework holds AND Hawking radiation is absent or modified AND the accretion-and-cosmic-ray bound applies; the dropped antecedent is the ADD framework choice, and each conjunct is indep",
+      "grade": "supported",
+      "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+    },
+    "spc_evidence": {
+      "ref": "spc.threelevel",
+      "statement": "the CERN SPC's own review acknowledged three increasingly unlikely conditions the argument requires (first, that the fundamental gravity scale lies in LHC range, possible only if extra dimensions with very peculiar properties exist), so the",
+      "grade": "corroborated",
+      "source": "CERN SPC Report on the LSAG documents (2008), arXiv:0806.3414 (the three-level conditionality acknowledgment)"
+    },
+    "antecedent": "TeV-scale gravity via the ADD large-extra-dimensions model (M_Pl^2 = (2 pi R)^n M_D^(n+2)) is realized at LHC energies; adopting ADD over the standard model plus 4D general relativity is a forum choice no experiment compels, motivated only "
+  },
+  "conditionality": {
+    "ref": "conditionality",
+    "statement": "framework choice, not calculation, dominates: the choice of framework accounts for roughly 85-90% of the total safety-relevant uncertainty, against a 4-5 order within-framework spread; marked honestly, the multiplicity weighting behind the ",
+    "grade": "asserted",
+    "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+  },
+  "closure": {
+    "ref": "closure.empirical",
+    "statement": "the debate resolved by falsifying the antecedent (the frameworks that would produce dangerous black holes are empirically excluded), NOT by proving the consequent (that black holes are safe): this is empirical closure, not logical; a 100 Te",
+    "grade": "supported",
+    "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+  }
+}

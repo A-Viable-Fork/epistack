@@ -157,6 +157,11 @@ module.exports = [
     "group": "consumer"
   },
   {
+    "path": "periphery/navigate/shell/modules/lhc-case.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
     "path": "periphery/navigate/shell/modules/cases.js",
     "type": "periphery",
     "group": "consumer",

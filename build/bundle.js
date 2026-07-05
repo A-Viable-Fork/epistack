@@ -20,6 +20,8 @@ execFileSync("node", [path.join(__dirname, "vendor-gate-browser.mjs")], { stdio:
 // the restructured eggs case reading the shell renders (domains, composite, gaps, denominator).
 execFileSync("node", [path.join(__dirname, "vendor-eggs.mjs")], { stdio: "inherit" });
 execFileSync("node", [path.join(__dirname, "vendor-covid.mjs")], { stdio: "inherit" });
+// the densified LHC cascade reading the shell renders (three legs, the framework-choice node three ways).
+execFileSync("node", [path.join(__dirname, "vendor-lhc.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 
