@@ -52,6 +52,18 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/lhc-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/vendor-lhc.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-lhc.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },

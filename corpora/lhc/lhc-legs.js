@@ -1,17 +1,13 @@
-// Role: the densified LHC-safety cascade (Prompt 25), ingested from the production-leg report (A),
-//   the Hawking report (B), the omissions survey, and the framework-conditionality report. The safety
-//   claim is the disjunction of three legs; each leg's computed quantities ground to their floors
-//   within their regime (formal derivations settle by construction; the empirical bounds and the
-//   survival fact ground to measurement), and each leg's framework premise is a characterized
-//   dependency carried as a depends-on edge with the measurement that would close it. The one reified
-//   node, the ADD framework choice, is a forum claim (dep.add) all three legs depend on: as a shared
-//   dependency it makes the independence partial (the presupposition reading finds it), as the
-//   presupposed framework it is swappable (the framing records + presupposition edges below), and the
-//   gap between its unconditional public framing and its conditional structure is a settled/performed
-//   finding. Phase-B/C wiring is tagged `demo` so a reading can show the graph before and after.
-// Contract: exports LHC = { store_id, claims:[spec], links:[spec], framing, successor, presupposes,
-//   sharedDeps, undercuts }. claim/link specs use local refs, resolved by build/lhc-build.mjs. Pure
-//   data; corpora imports nothing.
+// Role: the densified LHC-safety cascade (Prompt 25), ingested from the production and Hawking reports,
+//   the omissions survey, and the framework-conditionality report. The safety claim is the disjunction
+//   of three legs whose computed quantities ground to their floors within their regime; each leg's
+//   framework premise is a characterized dependency (a depends-on edge with its closing condition). The
+//   one reified node, the ADD framework choice (dep.add) all three legs depend on, carries three
+//   readings: a shared dependency the robustness reading finds, a swappable frame (the framing records
+//   below), and the settled/performed gap on the erased antecedent. `demo`-tagged wiring lets a reading
+//   show the graph before and after reifying.
+// Contract: exports LHC = { store_id, claims, links, framing, successor, presupposes, sharedDeps,
+//   undercuts, performedSettling }; refs resolved by build/lhc-build.mjs. Pure data; imports nothing.
 // Invariant: a report is canonical for what the claims and sides are, never for the grade they earn;
 //   the gate computes the grade, and where it disagrees with a proposed mode that is a listed finding.
 "use strict";

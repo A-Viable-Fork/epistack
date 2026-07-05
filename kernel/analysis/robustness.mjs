@@ -1,15 +1,12 @@
 // Role: the robustness reading over the support graph (intake data model v3). Grounding says how high
-//   a claim reaches; robustness says how much of that reach survives the loss of one support. The
-//   support graph is a reliability structure: jointly-necessary supports in a group are in series,
-//   independent groups are in parallel, a claim falling to the bottom of the order is a component
-//   failing. A single point of failure is a claim in the target's support closure whose removal
-//   lowers the target's earned grade; robustness is the earned grade after the worst single removal;
-//   fragility is the interval between the two. A distinct reading runs over the depends-on closure,
-//   where a single point of failure breaks well-formedness rather than lowering the grade.
-// Contract: analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) ->
-//   reading; analyzeUndercuts(graph, targetId) -> reading. graph = { entries:[claim], links:[link],
-//   tables:{sourceTable, kindTable} }. Pure and deterministic (sorted, byte-identical re-run); ESM,
-//   kernel imports only kernel; mutates nothing.
+//   a claim reaches; robustness says how much survives the loss of one support (a single point of
+//   failure is a support-closure claim whose removal lowers the earned grade; robustness is the grade
+//   after the worst single removal). A distinct reading runs over the depends-on closure, where a
+//   single point of failure breaks well-formedness rather than lowering the grade; a third, over the
+//   undercut edges, lowers the confidence an attacked claim transmits without touching its grade.
+// Contract: analyzeRobustness / analyzePresupposition / analyzeUndercuts (graph, targetId) -> reading.
+//   graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure, deterministic
+//   (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
 // Invariant: HONEST BOUND. Disjoint dependence WITHIN the graph certifies STRUCTURAL independence,
 //   not true independence: two claims can be correlated through a common cause that is not a node in
 //   the graph, and this analysis cannot see it. The remedy is the operation that exposes it, reifying

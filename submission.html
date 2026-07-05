@@ -1086,6 +1086,168 @@ This work began on June 22, 2026, and was developed in close collaboration with 
     }
   }
 }</script>
+<!-- the densified LHC cascade: three legs, the one framework-choice node read three ways, built by build/vendor-lhc.mjs -->
+<script type="application/json" id="lhc-reading">{
+  "generated_by": "build/vendor-lhc.mjs",
+  "meta_question": "Is the LHC safe? The three-leg answer presents as robust, but one reified node, the ADD framework choice, carries three readings: the legs are not independent, swapping the framework moots the question while the calculations survive, and the public claim performs a settledness the conditional structure does not have.",
+  "top": {
+    "ref": "safe",
+    "statement": "the hazard is bounded: LHC collisions present no black-hole danger, argued as the disjunction of three legs (production, Hawking evaporation, and the astrophysical survival backstop)",
+    "grade": "corroborated",
+    "source": "Ellis, Giudice, Mangano, Tkachev & Wiedemann (LSAG, 2008), J. Phys. G 35:115004 ('no basis for any conceivable threat')"
+  },
+  "legs": [
+    {
+      "ref": "leg.prod",
+      "statement": "Leg 1 (production): no dangerous black hole is produced at the LHC; production requires a fundamental scale near a TeV, and the accessible window is closed",
+      "grounding": "corroborated",
+      "confidence": "corroborated",
+      "lowered": false,
+      "undercuts": []
+    },
+    {
+      "ref": "leg.hawking",
+      "statement": "Leg 2 (Hawking): any black hole produced at the LHC evaporates via Hawking radiation in ~10^-26 to 10^-27 s, far faster than it could accrete, so it is harmless",
+      "grounding": "corroborated",
+      "confidence": "asserted",
+      "lowered": true,
+      "undercuts": [
+        {
+          "statement": "the trans-Planckian problem undercuts Leg 2: Hawking's derivation traces outgoing modes back to trans-Planckian frequencies where effective field theory breaks down, and for a microscopic black hole there is no parametric separation of hori",
+          "discovery": "established",
+          "source": "Unruh (2014), Found. Phys. 44:532; Helfer (2003), Rep. Prog. Phys. 66:943 (trans-Planckian problem)"
+        },
+        {
+          "statement": "Vilkovisky's partial-evaporation claim undercuts Leg 2: quantum back-reaction may halt evaporation at about half the mass, leaving a long-lived remnant that could survive to accrete; never refuted in the safety-review literature, only ignor",
+          "discovery": "contested",
+          "source": "Vilkovisky, quantum back-reaction trilogy; Rovelli & Vidotto (2014), Phys. Rev. Lett. 111:091303 (partial evaporation, remnants)"
+        },
+        {
+          "statement": "the firewall paradox undercuts Leg 2: the AMPS argument shows unitarity, semiclassical effective field theory outside the horizon, and the equivalence principle are mutually inconsistent for an evaporating black hole, revealing a fundamenta",
+          "discovery": "established as a tension",
+          "source": "Almheiri, Marolf, Polchinski & Sully (2013), JHEP 02:062, arXiv:1207.3123 (firewall paradox)"
+        }
+      ]
+    },
+    {
+      "ref": "leg.astro",
+      "statement": "Leg 3 (astrophysical backstop): even a stable, non-evaporating black hole is harmless, because cosmic rays have produced such objects and dense stars (white dwarfs, neutron stars) survive to ages of order a gigayear",
+      "grounding": "corroborated",
+      "confidence": "supported",
+      "lowered": true,
+      "undercuts": [
+        {
+          "statement": "Plaga's metastable-black-hole scenario undercuts Leg 3: within the Casadio-Harms microcanonical framework a metastable hole could accrete at the Eddington limit while self-limiting via radiation pressure, evading the cosmic-ray argument; th",
+          "discovery": "contested (credible, unrebutted past v3)",
+          "source": "Plaga (2008, v3 2009), arXiv:0808.1415 (metastable quantum black holes; catastrophic-risk scenario)"
+        }
+      ]
+    }
+  ],
+  "robustness": {
+    "before": [],
+    "after": [
+      "dep.add",
+      "dep.semiclassical"
+    ],
+    "shared": [
+      {
+        "ref": "dep.semiclassical",
+        "statement": "LHC-produced black holes sit in the semiclassical regime (M_BH/M_* >~ 10) where the Hawking calculation and the classical hoop/Bondi analyses are valid; the report flags this doubtful, since LHC production is near threshold at M_BH/M_* ~ 2-"
+      },
+      {
+        "ref": "dep.add",
+        "statement": "TeV-scale gravity via the ADD large-extra-dimensions model (M_Pl^2 = (2 pi R)^n M_D^(n+2)) is realized at LHC energies; adopting ADD over the standard model plus 4D general relativity is a forum choice no experiment compels, motivated only "
+      }
+    ],
+    "legs_look_independent_before": true
+  },
+  "framing": {
+    "add_frame": "the framework is ADD large extra dimensions with M_D near a TeV: the fundamental scale is lowered, so the higher-dimensional Schwarzschild radius brings black-hole production into LHC reach and the three-leg safety cascade activates",
+    "sm_frame": "the framework is the standard model plus 4D general relativity: the production threshold is ~10^19 GeV, fifteen orders above LHC energy, so no black hole is produced at the LHC and the entire safety analysis is moot, trivially answered",
+    "calcs": [
+      {
+        "ref": "prod.reach",
+        "statement": "the higher-dimensional Schwarzschild radius r_S ~ (M_BH/M_D)^(1/(n+1))/M_D brings production within LHC reach only for M_D <~ sqrt(s)/(3-5) <~ 4.7 TeV; under the standard 4D Planck scale r_S ~ 10^-50 m and production is kinematically imposs",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "hawking.temp",
+        "statement": "the Hawking temperature of a (4+n)-dimensional Schwarzschild black hole is T_H = (n+1)/(4 pi r_H), from surface gravity kappa = (n+1)/(2 r_H); for M_BH = 5 TeV, M_* = 1 TeV it is ~179-553 GeV (n = 2-6), settled by construction within the se",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "hawking.lifetime",
+        "statement": "the evaporation lifetime is tau = C_n M_*^-1 (M_BH/M_*)^((n+3)/(n+1)) from the D-dimensional Stefan-Boltzmann law; for M_BH = 1-10 TeV, M_* = 1 TeV it is ~10^-26 to 10^-23 s (LSAG conservative bound <10^-27 s), settled within the semiclassi",
+        "grade_under_add": "constitutive"
+      },
+      {
+        "ref": "astro.gm",
+        "statement": "Giddings-Mangano: a stopped black hole's destruction time integrates to << the body's observed age (a white dwarf consumed in <~ 80 Myr, a neutron star in <~ 50 yr for D <= 7), so survival excludes dangerous accretion above crossover radius",
+        "grade_under_add": "constitutive"
+      }
+    ],
+    "grade_survives": true,
+    "swap_in_force": true,
+    "excluded": {
+      "ref": "add.excluded",
+      "statement": "the dangerous ADD branch, M_D ~ 1-3 TeV that would give copious LHC black-hole production, is empirically excluded by convergent independent bounds: direct collider M_D > 5.9-11.2 TeV, semiclassical black holes > 8.4-11.4 TeV, string balls ",
+      "grade": "checked",
+      "source": "CMS Collaboration, CMS-EXO-24-028, arXiv:2604.10732 (2026) (semiclassical BH and string-ball exclusions, 138 fb-1)"
+    }
+  },
+  "performed": {
+    "settled": [
+      {
+        "statement": "the higher-dimensional Schwarzschild radius r_S ~ (M_BH/M_D)^(1/(n+1))/M_D brings production within LHC reach only for M_D <~ sqrt(s)/(3-5) <~ 4.7 TeV; under the standard 4D Planck scale r_S ~ 10^-50 m and production is kinematically imposs",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "the Hawking temperature of a (4+n)-dimensional Schwarzschild black hole is T_H = (n+1)/(4 pi r_H), from surface gravity kappa = (n+1)/(2 r_H); for M_BH = 5 TeV, M_* = 1 TeV it is ~179-553 GeV (n = 2-6), settled by construction within the se",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "the evaporation lifetime is tau = C_n M_*^-1 (M_BH/M_*)^((n+3)/(n+1)) from the D-dimensional Stefan-Boltzmann law; for M_BH = 1-10 TeV, M_* = 1 TeV it is ~10^-26 to 10^-23 s (LSAG conservative bound <10^-27 s), settled within the semiclassi",
+        "grade": "constitutive"
+      },
+      {
+        "statement": "Giddings-Mangano: a stopped black hole's destruction time integrates to << the body's observed age (a white dwarf consumed in <~ 80 Myr, a neutron star in <~ 50 yr for D <= 7), so survival excludes dangerous accretion above crossover radius",
+        "grade": "constitutive"
+      }
+    ],
+    "performed_claim": {
+      "ref": "public.unconditional",
+      "statement": "the LSAG public framing, 'there is no basis for any conceivable threat from the LHC', presents a conservative within-framework analysis as an unconditional, settled safety proof: it PERFORMS settledness by erasing the antecedent (the abstra",
+      "grade": "asserted",
+      "source": "Ellis, Giudice, Mangano, Tkachev & Wiedemann (LSAG, 2008), J. Phys. G 35:115004 ('no basis for any conceivable threat')"
+    },
+    "conditional_structure": {
+      "ref": "conditional.structure",
+      "statement": "the actual claim is conditional: no threat IF the ADD framework holds AND Hawking radiation is absent or modified AND the accretion-and-cosmic-ray bound applies; the dropped antecedent is the ADD framework choice, and each conjunct is indep",
+      "grade": "supported",
+      "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+    },
+    "spc_evidence": {
+      "ref": "spc.threelevel",
+      "statement": "the CERN SPC's own review acknowledged three increasingly unlikely conditions the argument requires (first, that the fundamental gravity scale lies in LHC range, possible only if extra dimensions with very peculiar properties exist), so the",
+      "grade": "corroborated",
+      "source": "CERN SPC Report on the LSAG documents (2008), arXiv:0806.3414 (the three-level conditionality acknowledgment)"
+    },
+    "antecedent": "TeV-scale gravity via the ADD large-extra-dimensions model (M_Pl^2 = (2 pi R)^n M_D^(n+2)) is realized at LHC energies; adopting ADD over the standard model plus 4D general relativity is a forum choice no experiment compels, motivated only "
+  },
+  "conditionality": {
+    "ref": "conditionality",
+    "statement": "framework choice, not calculation, dominates: the choice of framework accounts for roughly 85-90% of the total safety-relevant uncertainty, against a 4-5 order within-framework spread; marked honestly, the multiplicity weighting behind the ",
+    "grade": "asserted",
+    "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+  },
+  "closure": {
+    "ref": "closure.empirical",
+    "statement": "the debate resolved by falsifying the antecedent (the frameworks that would produce dangerous black holes are empirically excluded), NOT by proving the consequent (that black holes are safe): this is empirical closure, not logical; a 100 Te",
+    "grade": "supported",
+    "source": "The LHC Safety Verdict as a Function of the Physics Framework (2026), mapping the framework-choice conditional"
+  }
+}</script>
 
 <!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider / EpiRemoteProvider) -->
 <script>// GENERATED by build/vendor-gate-browser.mjs from the kernel .mjs modules. Do not edit.
@@ -1479,7 +1641,10 @@ __M["records"] = (function () {
 //   source of truth for what a claim rests on; the claim record carries no references field.
 "use strict";
 
-const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement"];
+// undercut (edge taxonomy [1.5]): attacks a support edge's grounding rather than adding support. It
+// enters no grade fold in the gate (inert here, like contradicts routes to the register); a dedicated
+// undercut reading over the graph lowers the confidence the attacked leg transmits.
+const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement", "undercut"];
 const METHOD_CLASSES = ["replication", "derivation-audit", "data-audit", "direct-measurement"];
 const INDEPENDENCE = ["distinct-party", "self"];
 const BINDING_RESOLUTIONS = ["bound", "bound-superseded", "unresolved"];
@@ -2243,19 +2408,17 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
 })();
 __M["robustness"] = (function () {
   var { earnedGrade } = __M["earned-grade"];
-  var { POSITIONS } = __M["confidence"];
+  var { POSITIONS, COLLAPSED, collapse, collapsedRank } = __M["confidence"];
   var { ceilingFor, footprintClosure } = __M["tables"];
 // Role: the robustness reading over the support graph (intake data model v3). Grounding says how high
-//   a claim reaches; robustness says how much of that reach survives the loss of one support. The
-//   support graph is a reliability structure: jointly-necessary supports in a group are in series,
-//   independent groups are in parallel, a claim falling to the bottom of the order is a component
-//   failing. A single point of failure is a claim in the target's support closure whose removal
-//   lowers the target's earned grade; robustness is the earned grade after the worst single removal;
-//   fragility is the interval between the two. A distinct reading runs over the depends-on closure,
-//   where a single point of failure breaks well-formedness rather than lowering the grade.
-// Contract: analyzeRobustness(graph, targetId) -> reading; analyzePresupposition(graph, targetId) ->
-//   reading. graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure and
-//   deterministic (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
+//   a claim reaches; robustness says how much survives the loss of one support (a single point of
+//   failure is a support-closure claim whose removal lowers the earned grade; robustness is the grade
+//   after the worst single removal). A distinct reading runs over the depends-on closure, where a
+//   single point of failure breaks well-formedness rather than lowering the grade; a third, over the
+//   undercut edges, lowers the confidence an attacked claim transmits without touching its grade.
+// Contract: analyzeRobustness / analyzePresupposition / analyzeUndercuts (graph, targetId) -> reading.
+//   graph = { entries:[claim], links:[link], tables:{sourceTable, kindTable} }. Pure, deterministic
+//   (sorted, byte-identical re-run); ESM, kernel imports only kernel; mutates nothing.
 // Invariant: HONEST BOUND. Disjoint dependence WITHIN the graph certifies STRUCTURAL independence,
 //   not true independence: two claims can be correlated through a common cause that is not a node in
 //   the graph, and this analysis cannot see it. The remedy is the operation that exposes it, reifying
@@ -2438,7 +2601,39 @@ function analyzePresupposition(graph, targetId) {
   };
 }
 
-  return { analyzeRobustness, analyzePresupposition };
+// one step down the collapsed line, floored at asserted (a leg carrying live objections is qualified,
+// never annihilated). settled positions collapse to the line first.
+function down(pos) {
+  const r = collapsedRank(pos);
+  return COLLAPSED[Math.max(1, r - 1)];
+}
+
+// the undercut reading (edge taxonomy [1.5], built as a reading, not a grade-fold change). An undercut
+// attacks a support edge's grounding rather than adding support: it enters no gate fold, so the target
+// keeps the grounding grade its support earned, and this reading reports the CONFIDENCE that survives
+// the attack. Each in-force undercut into the target lowers that confidence one step; the undercuts are
+// listed with the link grade they carry (their discovery grade), most-attacked first. A target with no
+// undercut carries confidence equal to its grade: the reading is empty, correctly, not a miss.
+function analyzeUndercuts(graph, targetId) {
+  const idx = indexGraph(graph);
+  const grade = collapse(computeEarned(idx, targetId, new Set()).earned);
+  const ucs = (graph.links || [])
+    .filter((l) => l.link_kind === "undercut" && l.to_identity === targetId && idx.entriesById.has(l.from_identity))
+    .map((l) => ({ identity: l.from_identity, link_grade: l.declared_grade }))
+    .sort((a, b) => byId(a.identity, b.identity));
+  let confidence = grade;
+  for (let i = 0; i < ucs.length; i++) confidence = down(confidence);
+  return {
+    reading: "undercut",
+    target: targetId,
+    grade,
+    confidence_after_undercuts: confidence,
+    lowered: collapsedRank(confidence) < collapsedRank(grade),
+    undercuts: ucs,
+  };
+}
+
+  return { analyzeRobustness, analyzePresupposition, analyzeUndercuts };
 })();
 __M["characterized-gaps"] = (function () {
   var { tierOf, collapsedRank } = __M["confidence"];
@@ -3627,6 +3822,69 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       html += "<h3>why the question is prior-driven</h3><ul class=\"eggs-claims\">" + rows(R.meta) + "</ul>";
       ctx.mount.innerHTML = html;
       if (ctx.registerNode) ctx.registerNode("covid origins, the same evidence under different priors", ctx.mount, "case-covid-origins", "case-covid-origins", "Case: covid origins, the same evidence under different priors");
+    },
+  });
+})();</script>
+<script>// Role: the densified LHC cascade as a shell module (Prompt 25). Renders the case as the three
+//   capabilities of one reified node, the ADD framework choice: the robustness reading finding it as a
+//   shared dependency the leg count hides, the framework swap reframing the verdict while the
+//   calculations hold, and the settled-versus-performed gap on the erased antecedent. The three legs are
+//   shown with their grounding grade and their undercut-lowered confidence. The reading is the vendored
+//   build artifact (vendor/lhc/reading.json), computed by the kernel at build time (build/vendor-lhc.mjs);
+//   the module renders it and computes no grade.
+// Contract: registers on window.EpiShell as a case module. Reads the embedded #lhc-reading JSON.
+// Invariant: periphery; it touches no truth field and no kernel. The before/after robustness reading
+//   and the framework swap are the kernel's own computations, shown, not re-derived here.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  var el = typeof document !== "undefined" && document.getElementById("lhc-reading");
+  if (!el) return;
+  var R; try { R = JSON.parse(el.textContent); } catch (e) { return; }
+  function grade(g) { return '<span class="shell-grade shell-grade-' + esc(g) + '">' + esc(g) + "</span>"; }
+  function claimRows(list) { return list.map(function (r) { return '<li><span class="eggs-claim">' + esc(r.statement) + "</span> " + grade(r.grade) + (r.source ? '<span class="eggs-src">' + esc(r.source) + "</span>" : "") + "</li>"; }).join(""); }
+
+  window.EpiShell.register({
+    id: "case-lhc-cascade", title: "Case: the LHC three legs and the one framework-choice node", kind: "case", order: 105,
+    render: function (ctx) {
+      var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
+      html += '<div class="shell-reading"><div class="shell-node-name">' + esc(R.top.statement) + "</div><div class=\"shell-grades\"><span>top claim " + grade(R.top.grade) + "</span></div></div>";
+
+      // the three legs, each with grounding and undercut-lowered confidence.
+      html += "<h3>the three legs: grounding, and the confidence left after the undercuts</h3><ul class=\"eggs-claims\">";
+      R.legs.forEach(function (L) {
+        html += '<li><span class="eggs-claim">' + esc(L.statement) + "</span> grounding " + grade(L.grounding) + " &rarr; confidence " + grade(L.confidence) + (L.lowered ? " <b>(lowered by undercut)</b>" : "");
+        if (L.undercuts.length) html += '<ul class="eggs-frontier">' + L.undercuts.map(function (u) { return "<li>" + esc(u.statement) + ' <span class="eggs-src">discovery: ' + esc(u.discovery) + "</span></li>"; }).join("") + "</ul>";
+        html += "</li>";
+      });
+      html += "</ul>";
+
+      // Reading 1: the shared dependency the leg count hides.
+      html += "<h3>reading 1 &middot; robustness: the shared dependency the leg count hides</h3>";
+      html += '<div class="eggs-recon"><div>before reifying, shared dependencies across the legs: <b>[' + esc(R.robustness.before.join(", ") || "none") + "]</b> (the three legs look independent)</div>";
+      html += '<div class="eggs-crux-line">after reifying: <b>[' + esc(R.robustness.after.join(", ")) + "]</b>, found as single points of failure across all three legs</div>";
+      html += '<ul class="eggs-frontier">' + R.robustness.shared.map(function (s) { return "<li>" + esc(s.statement) + "</li>"; }).join("") + "</ul>";
+      html += '<div class="eggs-frame-note">the naive three-leg count read as independent; the reified nodes are correlated support the count hid.</div></div>';
+
+      // Reading 2: the framework swap.
+      html += "<h3>reading 2 &middot; framing: swap the framework, moot the analysis, keep the calculations</h3>";
+      html += '<div class="eggs-recon"><div><b>frame (ADD):</b> ' + esc(R.framing.add_frame) + "</div>";
+      html += '<div class="eggs-crux-line"><b>swap to the standard model:</b> ' + esc(R.framing.sm_frame) + "</div>";
+      html += "<div>the within-framework calculations keep their grade across the swap:</div><ul class=\"eggs-resolved\">";
+      html += R.framing.calcs.map(function (c) { return "<li>" + esc(c.statement) + " " + grade(c.grade_under_add) + "</li>"; }).join("");
+      html += "</ul><div class=\"eggs-frame-note\">grades survive (" + (R.framing.grade_survives ? "yes" : "no") + "), analysis mooted under the standard model. dangerous branch: " + esc(R.framing.excluded.statement) + " " + grade(R.framing.excluded.grade) + "</div></div>";
+
+      // Reading 3: the settled-versus-performed finding.
+      html += "<h3>reading 3 &middot; settled versus performed: the erased antecedent</h3>";
+      html += '<div class="eggs-recon"><div><b>performed (unconditional):</b> ' + esc(R.performed.performed_claim.statement) + " " + grade(R.performed.performed_claim.grade) + "</div>";
+      html += '<div class="eggs-crux-line"><b>conditional structure:</b> ' + esc(R.performed.conditional_structure.statement) + " " + grade(R.performed.conditional_structure.grade) + "</div>";
+      html += '<div>dropped antecedent: <b>' + esc(R.performed.antecedent) + "</b></div>";
+      html += '<div class="eggs-frame-note">' + esc(R.performed.spc_evidence.statement) + "</div></div>";
+
+      html += "<h3>the verdict</h3><ul class=\"eggs-claims\">" + claimRows([R.conditionality, R.closure]) + "</ul>";
+      ctx.mount.innerHTML = html;
+      if (ctx.registerNode) ctx.registerNode("the LHC three legs and the one framework-choice node", ctx.mount, "case-lhc-cascade", "case-lhc-cascade", "Case: the LHC three legs and the one framework-choice node");
     },
   });
 })();</script>
