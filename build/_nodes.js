@@ -64,6 +64,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-atlas.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },

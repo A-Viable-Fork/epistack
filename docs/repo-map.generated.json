@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 139,
-  "edgeCount": 266,
+  "nodeCount": 140,
+  "edgeCount": 270,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -343,8 +343,8 @@
       "path": "corpora/_shared/atlas/atlas.js",
       "type": "corpus",
       "group": null,
-      "role": "the atlas. Abstract transformation patterns (the index) that case nodes point into via atlas_ref. Each entry lists its clones with the departure that diverges them.",
-      "contract": "exports { id -> AtlasEntry }. An AtlasEntry has { id, role, signature, clones }. A clone is { case, node_id, departure }; departure is the coordinate of the diverging node in the shared decomposition, not a description of resemblance."
+      "role": "the atlas, the meta-index that shows the three cases are clones of reusable structure. Two registers with distinct admission tests: the transformation BASIS (coordinates of the decomposition basis, admitted solo on type-correctness) and the DISCRIMINATION patterns (cases held against each other, admitted in pairs on a real departure). ATLAS is the pre-existing discrimination map that case nodes point into via atlas_ref.",
+      "contract": "exports { ATLAS, BASIS, DISCRIMINATORS }. A BASIS entry is { id, terminal_type, signature, exemplar, admitted }; a DISCRIMINATORS entry is { id, pattern, clones:[{case,store,node,departure, status}], admitted }. A departure is a node-id in a case file, never a description. Node references are (store, node) into the built case stores; build/check-atlas.mjs enforces both admission tests."
     },
     {
       "path": "corpora/_shared/bodies/bodies.js",
@@ -758,6 +758,13 @@
       "group": null,
       "role": "the LHC-cascade oracle (Prompt 25). Verifies the densified three-leg case: the computed quantities ground to their floors within their regime and the gate admits them, each leg's premise is a characterized dependency carrying its closing condition, the backstop is reconciled as Leg 3, and the production-uncertainty meta-claim is present with provenance. Later phases add the framework swap, the shared-dependency reading, the undercuts, and the settled/performed finding.",
       "contract": "`node build/check-lhc.mjs` exits non-zero on any failure. Imports the kernel, the robustness readings, and the shared LHC builder; touches no truth field."
+    },
+    {
+      "path": "build/check-atlas.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the atlas oracle (Prompt 27). Enforces the two registers' distinct admission tests over the real case stores. The transformation basis is admitted solo on type-correctness: the terminal type is one of the real types and the signature is clean, with an existing exemplar node. The discrimination patterns are admitted in pairs on a real departure: at least two existing clones, each departure a node-id that resolves in its case store. A pending entry is defined, not admitted.",
+      "contract": "`node build/check-atlas.mjs` exits non-zero on any failure. Imports the kernel case builders and the atlas; touches no truth field. Resolves every (store, node) against the built cases."
     },
     {
       "path": "build/eggs-build.mjs",
@@ -1432,6 +1439,34 @@
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-atlas.mjs",
+      "to": "corpora/_shared/atlas/atlas.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-atlas.mjs",
+      "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-atlas.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-atlas.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/check-characterized-gaps.mjs",

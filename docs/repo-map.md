@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 139. Import edges: 240. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 140. Import edges: 244. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -86,6 +86,10 @@ Nodes: 139. Import edges: 240. Runtime flow edges: 26. All import edges satisfy 
 
 ### build
 
+- `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
+- `build/check-atlas.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
+- `build/check-atlas.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
+- `build/check-atlas.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-characterized-gaps.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-characterized-gaps.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-characterized-gaps.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*

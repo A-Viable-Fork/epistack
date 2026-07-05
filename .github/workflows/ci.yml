@@ -50,6 +50,7 @@ jobs:
           node build/check-reconcile.mjs
           node build/check-covid.mjs
           node build/check-lhc.mjs
+          node build/check-atlas.mjs
           node build/check-map.mjs
 
       - name: Verify the vendored browser gate bundle and snapshot are committed and current
