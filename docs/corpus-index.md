@@ -70,7 +70,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 |---|---|
 | `corpora/_nodes.js` | the corpora node manifest for the typed repository map (build/repo-map.schema.js) |
 | `corpora/_primitives/primitives.js` | the floor. Named standard transformations, the coordinate basis. Each is a leaf |
-| `corpora/_shared/atlas/atlas.js` | the atlas. Abstract transformation patterns (the index) that case nodes point into |
+| `corpora/_shared/atlas/atlas.js` | the atlas, the meta-index (Prompt 27): the pre-existing discrimination map (ATLAS) plus two seeded registers, the transformation BASIS (admitted solo on type-correctness) and the DISCRIMINATION patterns (admitted in pairs on a real departure node-id), each entry referencing exemplar/clone nodes in the case stores |
 | `corpora/_shared/bodies/bodies.js` | the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor) |
 | `corpora/_shared/forks.js` | fork descriptors. A fork is a new id that names a parent and lists only its overrides |
 | `corpora/_shared/graph.json` | data (JSON) |
@@ -147,6 +147,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-characterized-gaps.mjs` | the characterized-gaps oracle (Prompt 18): the closing-condition record, the capping transfer, the gap category, the three-way distinction, determinism, and the contract exposure |
 | `build/check-composition.mjs` | the composition-layer oracle (Prompt 19): the citation copies the domain grade, the grounding transfer folds the min with the settled-collapse, a forum-band citation carries the forum value, and staleness leaves the record intact |
 | `build/check-eggs.mjs` | the eggs-case oracle (Prompt 20): the eggs question as domain stores and a composite on real ingested research; grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, the denominator swap, and the vendored reading |
+| `build/check-atlas.mjs` | the atlas oracle (Prompt 27): the two registers' distinct admission tests over the real case stores, the transformation basis type-correct with existing exemplars, the discrimination patterns admitted on two existing clones with departure node-ids, the pending terminals named |
 | `build/check-reconcile.mjs` | the reconciliation oracle (Prompt 22): the CVD within-domain crux (a shallow finding honestly reported), a synthetic rich pair (a real frontier and resolved sub-region), a disjoint pair, and determinism |
 | `build/covid-build.mjs` | the shared builder for the densified covid case (Prompt 23a): builds the covid v3 store through the gate from corpora/covid |
 | `build/vendor-covid.mjs` | vendors the densified covid case into vendor/covid/reading.json (Prompt 23a): the reading the shell renders, evidence to floors, the contradiction, and the crux resolving to the priors |
@@ -173,6 +174,18 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/vendor-gate-browser.mjs` | vendor the v3 gate kernel (plus the propose/read contract and local provider) into vendor/gate/gate.bundle.js so the client runs the real gate offline |
 | `build/vendor-snapshot.mjs` | freeze the migrated corpus into vendor/gate/snapshot.json, the store state the local provider proposes against |
 | `build/vendor-katex.mjs` | vendor KaTeX into the repo so the deliverable opens from file:// with no network |
+
+## docs/trellises/ (the reasoning records the graph's claims compress)
+
+The trellises are the reasoning records behind each case: the located crux structure, the discharge
+ledger, and the exclusion reservoir the corpus nodes are the compressed output of. They sit beside the
+argument, not in the corpus (they carry no gate node), and their repo-path references resolve.
+
+| file | role |
+|---|---|
+| `docs/trellises/covid-origins-crux-trellis.md` | the COVID-origins dispute reconstructed and priced: the located cruxes, the withheld-record retype of the market-clustering crux, and the correlated-evidence collapse the reconciliation and shared-dependency readings now compute (`corpora/covid/covid-origins.js`, `kernel/analysis/reconciliation.mjs`) |
+| `docs/trellises/black-holes-reconstruction-trellis.md` | the LHC black-hole safety argument reconstructed around the framework-choice node: the empirical anchor, the shared dependencies the robustness reading finds, Plaga's undercut, and the performed-settling finding (`corpora/lhc`, Prompt 25) |
+| `docs/trellises/eggs-completeness-trellis.md` | the "should I eat eggs?" question-set completeness test: the four-word parse, the provenance sign-flip surfaced as the denominator node, and the coupled-subsystem deepening with its four structural moves (`corpora/eggs`, Prompts 20 and 26) |
 
 ## root tooling
 
