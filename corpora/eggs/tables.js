@@ -35,6 +35,20 @@ const SOURCES = [
   { source_id: "src:aha-2020", source_class: "institutional-report", description: "Carson et al. (2020), AHA Science Advisory, Circulation 141(3):e39-e53" },
   { source_id: "src:dga-2015", source_class: "institutional-report", description: "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report" },
 
+  // ---- nutrition, deepened (Prompt 26): choline, metabolic regulation, lipid mechanistic floor ----
+  { source_id: "src:wallace-2016", source_class: "peer-reviewed", description: "Wallace & Fulgoni (2016/2017), J Am Coll Nutr / Nutrients 9(8):839 (NHANES choline intake, adequacy)" },
+  { source_id: "src:zeisel-2006", source_class: "peer-reviewed", description: "Zeisel & da Costa (2006/2009); Corbin & Zeisel (2012) (choline, VLDL export, NAFLD depletion-repletion)" },
+  { source_id: "src:caudill-2018", source_class: "peer-reviewed", description: "Caudill et al. (2018), FASEB J; Bahnfleth et al. (2022), FASEB J (maternal choline RCT, offspring cognition)" },
+  { source_id: "src:fanelli-2024", source_class: "peer-reviewed", description: "Fanelli, Martins & Stein (2024), J Nutr Sci (egg DIAAS >100, ileal-cannulated pigs; additivity)" },
+  { source_id: "src:layman-2003", source_class: "peer-reviewed", description: "Layman (2003), J Nutr; USDA FoodData Central (leucine content, mTORC1)" },
+  { source_id: "src:ratliff-2010", source_class: "peer-reviewed", description: "Ratliff et al. (2010), Nutr Res 30(2):96-103 (egg breakfast, ghrelin/PYY/insulin AUC)" },
+  { source_id: "src:vanderwal-2005", source_class: "peer-reviewed", description: "Vander Wal et al. (2005), J Am Coll Nutr; Dhurandhar & Vander Wal (2008) (egg breakfast satiety, weight loss)" },
+  { source_id: "src:liu-2015", source_class: "peer-reviewed", description: "Liu et al. (2015), Nutrients; Bannon/Kral et al. (2015) (egg satiety, adolescent behavioral decoupling)" },
+  { source_id: "src:maki-2017", source_class: "peer-reviewed", description: "Maki et al. (2017), J Nutr; Pourafshar et al. (2018) (egg glycemic/insulin sensitivity, HOMA-IR)" },
+  { source_id: "src:brown-yu-2010", source_class: "peer-reviewed", description: "Brown & Yu (2010); Lutjohann et al. (2022) (fractional cholesterol absorption, NPC1L1/ABCG5-8)" },
+  { source_id: "src:kratky-2018", source_class: "peer-reviewed", description: "Kratky et al. (2018); McNamara (2000); Kostner (2020) (compensatory synthesis downregulation, SCAP-SREBP2)" },
+  { source_id: "src:herron-2006", source_class: "peer-reviewed", description: "Herron et al. (2006); Beynen & Katan (1985) (hypo/hyper responder distribution, APOE E4)" },
+
   // ---- environment (farming and regenerative documents) ----
   { source_id: "src:leinonen-2012", source_class: "peer-reviewed", description: "Leinonen et al. (2012), Poultry Science 91(1):8-25 (UK egg-system LCA)" },
   { source_id: "src:wur-eggs", source_class: "dataset", description: "WUR egg LCA factsheet; De Vries & De Boer (2010), Livestock Science (land per kg egg)" },
