@@ -76,6 +76,12 @@ const edges = [];
 const parseTargets = ["kernel", "api", "periphery", "corpora", "build"].flatMap((d) => walk(d)).concat(["linter.js"])
   .filter((f) => /\.(js|mjs)$/.test(f) && !f.endsWith("_nodes.js"));
 for (const f of parseTargets) {
+  // A referenced file that is not on disk (a broken clone, a stale checkout) must name itself,
+  // not throw an ENOENT stack trace. linter.js is concatenated by name, so its absence lands here.
+  if (!existsSync(join(ROOT, f))) {
+    fail(`missing file: ${f} is referenced but not present on disk; the trust-boundary check is incomplete without it`);
+    continue;
+  }
   const src = readFileSync(join(ROOT, f), "utf8");
   const fromType = S.typeForPath(f);
   const seen = new Set();
