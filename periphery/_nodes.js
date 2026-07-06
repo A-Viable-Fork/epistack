@@ -162,6 +162,11 @@ module.exports = [
     "group": "consumer"
   },
   {
+    "path": "periphery/navigate/shell/modules/guided-path.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
     "path": "periphery/navigate/shell/modules/cases.js",
     "type": "periphery",
     "group": "consumer",

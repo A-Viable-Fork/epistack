@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 140,
-  "edgeCount": 270,
+  "nodeCount": 143,
+  "edgeCount": 284,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -634,6 +634,13 @@
       "contract": "registers on window.EpiShell as a case module. Reads the embedded #lhc-reading JSON."
     },
     {
+      "path": "periphery/navigate/shell/modules/guided-path.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the guided path as a shell module (Prompt 29). Stages the three counterexamples in sequence, each a stop with four parts: the fluent reading a good synthesis would give, the protocol's counterexample, the reproducible receipt a judge runs to see it (recomputed by the kernel at build time), and a curated pointer into the exact case region where the counterexample lives. The reading is the vendored build artifact (vendor/demo/reading.json), computed by build/vendor-demo.mjs.",
+      "contract": "registers on window.EpiShell as the guided-path module. Reads the embedded #demo-reading JSON and renders it; each pointer names the case module and the node-ids the receipt lands on."
+    },
+    {
       "path": "periphery/navigate/shell/modules/cases.js",
       "type": "periphery",
       "group": "consumer",
@@ -765,6 +772,20 @@
       "group": null,
       "role": "the atlas oracle (Prompt 27). Enforces the two registers' distinct admission tests over the real case stores. The transformation basis is admitted solo on type-correctness: the terminal type is one of the real types and the signature is clean, with an existing exemplar node. The discrimination patterns are admitted in pairs on a real departure: at least two existing clones, each departure a node-id that resolves in its case store. A pending entry is defined, not admitted.",
       "contract": "`node build/check-atlas.mjs` exits non-zero on any failure. Imports the kernel case builders and the atlas; touches no truth field. Resolves every (store, node) against the built cases."
+    },
+    {
+      "path": "build/check-demo.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the three-counterexample oracle (Prompt 29). Runs the three flagship receipts on the dense content, each written to fail loudly: the LHC apparent-robustness collapse (before/after reifying the shared dependency), the covid crux resolving to the priors, and the eggs framing swaps leaving the measurements intact with the regenerative claims as characterized gaps. Each receipt's correct firing is its acceptance test; a shallow crux, a moved grade, or a top-level split is a finding.",
+      "contract": "`node build/check-demo.mjs` exits non-zero on any failure. Imports the kernel readings and the three shared case builders; touches no truth field. It reads the graph and asserts what fires."
+    },
+    {
+      "path": "build/vendor-demo.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the guided path into one JSON reading the presentation shell renders (Prompt 29). The three counterexamples, each a stop with four parts: the fluent reading a good synthesis would give, the protocol's counterexample, the reproducible receipt (recomputed here by the kernel readings, the same the check-demo oracle verifies), and a curated pointer into the exact case region. Built through the three shared case builders, written to vendor/demo/reading.json.",
+      "contract": "`node build/vendor-demo.mjs` writes the reading. No arguments. Deterministic."
     },
     {
       "path": "build/eggs-build.mjs",
@@ -1679,6 +1700,55 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-demo.mjs",
+      "to": "kernel/analysis/robustness.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-demo.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-eggs.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
@@ -2472,6 +2542,55 @@
     {
       "from": "build/vendor-covid.mjs",
       "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "kernel/analysis/robustness.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "kernel/analysis/reconciliation.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-demo.mjs",
+      "to": "build/eggs-build.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"

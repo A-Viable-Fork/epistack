@@ -22,6 +22,8 @@ execFileSync("node", [path.join(__dirname, "vendor-eggs.mjs")], { stdio: "inheri
 execFileSync("node", [path.join(__dirname, "vendor-covid.mjs")], { stdio: "inherit" });
 // the densified LHC cascade reading the shell renders (three legs, the framework-choice node three ways).
 execFileSync("node", [path.join(__dirname, "vendor-lhc.mjs")], { stdio: "inherit" });
+// the guided path: the three counterexamples staged as a walk (the on-screen critique-of-synthesis arc).
+execFileSync("node", [path.join(__dirname, "vendor-demo.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 

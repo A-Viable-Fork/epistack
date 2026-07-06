@@ -68,6 +68,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-demo.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/vendor-demo.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },
