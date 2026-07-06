@@ -1,0 +1,90 @@
+{
+  "generated_by": "build/vendor-demo.mjs",
+  "lede": "Three cases, three things a fluent synthesis buries, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
+  "stops": [
+    {
+      "case": "case-lhc-cascade",
+      "title": "the LHC apparent-robustness collapse",
+      "fluent": "The LHC safety argument looks robust: three independent legs (production, Hawking evaporation, the astrophysical backstop), so weakening any one leaves the others standing.",
+      "counterexample": "The three legs are not independent. They share a physical premise, ADD large extra dimensions and semiclassical gravity, so the apparent robustness is conditional on one framework choice the leg count hides.",
+      "receipt": {
+        "what": "run the presupposition reading over the independence claim twice: once without the shared-dependency nodes, once with ADD and semiclassical gravity reified as nodes the three legs depend on",
+        "before": [],
+        "after": [
+          "dep.add",
+          "dep.semiclassical"
+        ],
+        "fires": true,
+        "reads": "before, no shared dependency (the legs read independent); after, ADD and semiclassical gravity are found as a single point of failure across all three legs"
+      },
+      "pointer": {
+        "region": "the framework-choice node",
+        "nodes": [
+          "dep.add",
+          "dep.semiclassical"
+        ],
+        "oracle": "node build/check-demo.mjs (receipt 1)"
+      }
+    },
+    {
+      "case": "case-covid-origins",
+      "title": "the covid crux resolving to the priors",
+      "fluent": "The covid-origins evidence looks decisive: both camps work from the same evidence, so the origin should be readable off it.",
+      "counterexample": "The same evidence read through different priors gives a 23-order spread. The disagreement is not in the evidence but at the prior nodes, Miller's market ratio against Rootclaim's inversion, where the two support cones stop sharing.",
+      "receipt": {
+        "what": "run the reconciliation crux computation on the zoonosis-versus-lab-leak contradiction on the dense graph",
+        "frontier": [
+          "prior.miller-lableak",
+          "prior.miller-zoo",
+          "prior.rootclaim-bsl2",
+          "prior.rootclaim-hsm"
+        ],
+        "resolved_shared": [
+          "ev.clustering",
+          "ev.env-samples",
+          "ev.furin-site",
+          "ev.two-lineages"
+        ],
+        "shallow": false,
+        "fires": true,
+        "reads": "the frontier is the four prior nodes, the shared evidence sits in the resolved region, and the split is the priors rather than a shallow top-level split"
+      },
+      "pointer": {
+        "region": "the crux and its priors",
+        "nodes": [
+          "prior.miller-zoo",
+          "prior.miller-lableak",
+          "prior.rootclaim-hsm",
+          "prior.rootclaim-bsl2"
+        ],
+        "oracle": "node build/check-demo.mjs (receipt 2)"
+      }
+    },
+    {
+      "case": "case-eggs-composite",
+      "title": "the eggs framing swaps",
+      "fluent": "The egg verdict looks like a fact: is it healthy, is that farm better, settled by the measurements.",
+      "counterexample": "The verdict rides on two swappable frames. Swap the accounting denominator or the body being fed and which verdict dominates flips, while every underlying measurement keeps the grade it earned, because the frames are checked-not-graded presupposition edges.",
+      "receipt": {
+        "what": "swap the denominator (product-throughput to net-capital) and the which-body node (average adult to diabetic), then read the regenerative soil-carbon claims",
+        "denominator_grades_intact": true,
+        "denominator_reframed": true,
+        "body_grades_intact": true,
+        "body_reframed": true,
+        "regenerative_are_characterized_gaps": true,
+        "fires": true,
+        "reads": "each swap reframes the verdict while every measurement's grade holds, and the regenerative claims read as characterized gaps naming what would ground them"
+      },
+      "pointer": {
+        "region": "the two framing nodes and the regenerative leaps",
+        "nodes": [
+          "F-throughput",
+          "F-body-avgadult",
+          "e.regen-soc",
+          "e.regen-litter"
+        ],
+        "oracle": "node build/check-demo.mjs (receipt 3)"
+      }
+    }
+  ]
+}
