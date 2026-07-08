@@ -26,6 +26,10 @@ module.exports = [
     "type": "doc"
   },
   {
+    "path": "docs/parameters-register.md",
+    "type": "doc"
+  },
+  {
     "path": "docs/knowledge-system-what.md",
     "type": "doc"
   },
