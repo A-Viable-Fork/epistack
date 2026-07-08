@@ -22,4 +22,5 @@ From here:
 - **The criterion lookup:** [the criteria-to-architecture map](docs/criteria-to-architecture-map.md), from the argument to where each criterion is answered in the tree
 - **The design rationale:** [Reading the Brief](docs/reading-the-brief.md), the competition's own guidance quoted and the build choice that followed from each, for the judge who wants the choices argued in the competition's terms
 - **What is configurable, and what is invariant:** [The Parameters Register](docs/parameters-register.md), the free tier a community sets (time locks, standing, agent policy, type system) and the thin required tier every kernel must hold to stay composable, which is where agent policy lives as a free parameter
+- **The three layers, up close:** each carries its own README for a reader who has opened it, [`kernel/`](kernel/README.md) (the trusted core), [`api/`](api/README.md) (the boundary), and [`periphery/`](periphery/README.md) (the fallible producers and views)
 - **Run it:** [`docs/quickstart.md`](docs/quickstart.md), clone, install, and the gate check completes in about two minutes
