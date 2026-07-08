@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 146. Import edges: 258. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 146. Import edges: 260. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -118,6 +118,7 @@ Nodes: 146. Import edges: 258. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
+- `build/check-covid.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-demo.mjs` -> `build/covid-build.mjs`  *(build -> build)*
@@ -188,6 +189,7 @@ Nodes: 146. Import edges: 258. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-translate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/covid-build.mjs` -> `corpora/covid/covid-depth.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/covid-origins.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/tables.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*

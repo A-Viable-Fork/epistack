@@ -10,6 +10,7 @@
 "use strict";
 import { collapsedRank, tierOf } from "../kernel/schema/confidence.mjs";
 import { disagreements, withinDomainCrux } from "../kernel/analysis/reconciliation.mjs";
+import { characterizedGaps, characterization } from "../kernel/analysis/characterized-gaps.mjs";
 import { buildCovid } from "./covid-build.mjs";
 
 let fails = 0;
@@ -85,6 +86,86 @@ const priors = ["prior.miller-zoo", "prior.miller-lableak", "prior.rootclaim-hsm
 ok(priors.every((p) => frontier.has(id(p))), "the divergence frontier is exactly the four prior claims (the crux resolves to the priors)");
 ok(shared.every((e) => cx.resolved_sub_region.includes(id(e))), "the shared evidence sits in the resolved sub-region");
 ok(!shared.some((e) => frontier.has(id(e))), "no shared evidence is on the frontier: the split is the priors, not the evidence");
+
+// =====================================================================================
+// Prompt 34: the deep extraction. The six lines run several nodes deep, three careful readers weight
+// the same evidence, their divergences are first-class tension, and each line's sub-crux is wired,
+// several bottoming out in a withheld record.
+// =====================================================================================
+const specByRef = new Map(C.claims.map((c) => [c.spec.ref, c.spec]));
+const has = (ref) => C.refId.has(ref);
+const nm = (i) => { for (const [k, v] of C.refId) if (v === i) return k; return String(i).slice(0, 6); };
+
+console.log("\n[D1] the deep extraction deepens the case, it does not duplicate it");
+ok(new Set(C.claims.map((c) => c.rec.identity)).size === C.claims.length, `no claim is duplicated across the first pass and the deep extraction (${C.claims.length} unique)`);
+// every deep reading attaches under the existing spine (rests on a first-pass ev.* node), not a fresh copy
+const restsOn = (toRef) => new Set(C.graph.links.filter((l) => l.link_kind === "supports" && l.to_identity === C.refId.get(toRef)).map((l) => nm(l.from_identity)));
+const spineLines = { mkt: "ev.clustering", fcs: "ev.furin-site", lin: "ev.two-lineages", env: "ev.env-samples", def: "ev.defuse" };
+for (const [L, spine] of Object.entries(spineLines)) {
+  const zo = restsOn(L + ".zo"), ll = restsOn(L + ".ll");
+  ok(zo.has(spine) && ll.has(spine), `line ${L}: both readings attach under the existing spine node ${spine} (deepened, not duplicated)`);
+}
+
+console.log("\n[D2] the reader-weighting nodes: forum, attributed, carrying the ratio, stated vs reconstructed intact");
+const weightings = C.claims.filter((c) => c.spec.node_role === "reader-weighting");
+const readers = ["alexander", "vantreuren", "stansifer"];
+for (const rd of readers) ok(weightings.some((w) => w.spec.contributor_id === "reader:" + rd), `reader ${rd} has weighting nodes attributed to them`);
+ok(weightings.every((w) => w.spec.kind === "forum" && tierOf(earned(w.spec.ref)) !== "settled"), `every reader weighting is a forum claim, none settled (${weightings.length} weightings)`);
+ok(weightings.every((w) => w.spec.ratio && (w.spec.mark === "stated" || w.spec.mark === "reconstructed")), "every weighting carries its ratio/strength and a stated-or-reconstructed mark");
+// the likelihood ratios the document records are present as reader-weighting nodes
+const ratios = weightings.map((w) => w.spec.ratio).join(" | ");
+for (const r of ["20,000x", "10,000x", "500x", "20x", "1x"]) ok(ratios.includes(r), `the ${r} likelihood ratio is a reader-weighting node`);
+// stated versus reconstructed is preserved per the document (Eric's priors reconstructed; his market weighting stated)
+ok(specByRef.get("w.eric.prior-zo").mark === "reconstructed" && specByRef.get("w.eric.mkt").mark === "stated", "stated-versus-reconstructed is preserved (Eric's priors reconstructed, his market weighting stated)");
+
+console.log("\n[D3] reader divergences on shared evidence are wired as first-class tension (contradictions)");
+const wids = new Set(weightings.map((w) => w.rec.identity));
+const readerDivs = C.graph.links.filter((l) => l.link_kind === "contradicts" && wids.has(l.from_identity) && wids.has(l.to_identity));
+ok(readerDivs.length >= 2, `at least two reader-weighting divergences are held as tension (${readerDivs.length}: ${readerDivs.map((l) => nm(l.from_identity) + " vs " + nm(l.to_identity)).join(", ")})`);
+ok(has("w.eric.fcs") && has("w.will.fcs") && readerDivs.some((l) => new Set([nm(l.from_identity), nm(l.to_identity)]).has("w.eric.fcs")), "the FCS divergence (Eric 20x LL vs Will wash) is wired");
+ok(readerDivs.some((l) => new Set([nm(l.from_identity), nm(l.to_identity)]).has("w.eric.lin")), "the two-lineage divergence (Eric wash/weak-ZO vs Will moderate-LL) is wired");
+
+console.log("\n[D4] each line's sub-crux is wired; the sealed ones are typed withheld-record");
+const lines = ["mkt", "fcs", "lin", "tmp", "env", "def"];
+for (const L of lines) ok(has(L + ".subcrux") && has(L + ".term"), `line ${L}: the sub-crux and its terminal are wired`);
+const withheld = ["mkt.term", "fcs.term", "def.term"];
+for (const t of withheld) {
+  ok(specByRef.get(t).terminal_type === "withheld-record", `${t} is typed withheld-record (a sealed dataset a named source would resolve)`);
+  ok(characterization(C.graph, C.refId.get(t)) === "characterized-gap", `${t} is a characterized gap: it cannot ground because the record is sealed`);
+}
+// the other terminals bottom out in different types: empirical records that exist, and contested data
+ok(characterization(C.graph, C.refId.get("tmp.term")) === "settled" && characterization(C.graph, C.refId.get("env.term")) === "settled", "the temporal and environmental sub-cruxes bottom out in empirical records that exist and ground (not withheld)");
+ok(specByRef.get("lin.term").kind === "forum" && tierOf(earned("lin.term")) !== "settled", "the two-lineage sub-crux bottoms out in contested bioinformatics (a forum data-dispute, neither sealed nor settled)");
+
+console.log("\n[D5] the crux computation works at more than one depth, landing on different terminal types");
+const topCx = withinDomainCrux(C.graph, zId, llId);
+ok(!topCx.shallow && priors.every((p) => new Set(topCx.frontier_candidates).has(id(p))), "the TOP origin crux still resolves to the four priors (the debaters' divergence)");
+// the reader-and-weighting divergence is the same structure appearing between the assessors
+ok(readerDivs.length >= 2 && has("meta.reader-divergence"), "the top level also carries the reader divergence: the prior structure appearing between the assessors, not only the debaters");
+const mkt = withinDomainCrux(C.graph, id("mkt.zo"), id("mkt.ll"));
+ok(!mkt.shallow && !mkt.structurally_disjoint && mkt.resolved_sub_region.includes(id("ev.clustering")), "the MARKET line-level crux resolves below the top: shared evidence in the resolved region, the ascertainment-vs-epicenter reading on the frontier");
+ok(mkt.frontier_candidates.some((f) => nm(f).startsWith("mkt.ll")) && mkt.frontier_candidates.some((f) => nm(f).startsWith("mkt.zo")), "the market frontier holds both sides' readings (the sub-crux)");
+const tmp = withinDomainCrux(C.graph, id("tmp.zo"), id("tmp.ll"));
+ok(!tmp.shallow && !tmp.structurally_disjoint, "the TEMPORAL line-level crux also resolves below the top");
+// the market sub-crux bottoms out in a withheld gap, the temporal in an empirical record: different terminal types
+ok(characterization(C.graph, id("mkt.term")) === "characterized-gap" && characterization(C.graph, id("tmp.term")) === "settled", "the two resolving lines land on different terminal types: market on a withheld record, temporal on an empirical one");
+
+console.log("\n[D6] even-handedness: both origins are argued on every line, and any lean is reported, not silent");
+for (const L of lines) {
+  const zoRests = restsOn(L + ".zo").size, llRests = restsOn(L + ".ll").size;
+  ok(zoRests >= 1 && llRests >= 1, `line ${L}: both the ZO and LL readings rest on evidence (neither side empty: ZO ${zoRests}, LL ${llRests})`);
+}
+// the aggregate lean, reported and classified, not left silent
+let zoTot = 0, llTot = 0;
+for (const c of C.claims) { if (/\.zo(\.|$)/.test(c.spec.ref)) zoTot++; if (/\.ll(\.|$)/.test(c.spec.ref)) llTot++; }
+console.log(`      FINDING the deep argument set leans ZO (${zoTot} ZO-side nodes to ${llTot} LL-side): a real asymmetry in the sources, since all three readers conclude zoonosis and the extraction develops the ZO rebuttals more; the LL molecular pillar on the FCS line sits in the first-pass spine (ev.furin-site, ev.cgg-codons), so the deep count understates it. Reported, not balanced by invented LL nodes.`);
+ok(has("tmp.asymmetry"), "the temporal line's anecdote-versus-serology asymmetry is flagged as a first-class node (a real source asymmetry, not an ingestion gap)");
+
+console.log("\n[D7] the gap count rises as the case densifies, and every new gap is a real termination");
+const gaps = characterizedGaps(C.graph);
+ok(gaps.length === withheld.length, `the case now carries ${gaps.length} characterized gaps, up from none in the first pass (the deepening surfacing real terminations)`);
+ok(gaps.every((g) => specByRef.get(nm(g.identity)) && specByRef.get(nm(g.identity)).terminal_type === "withheld-record"), "every new gap is a withheld-record terminal: a real termination in a named sealed dataset, not a hole in the ingestion");
+ok(gaps.every((g) => g.closing_condition && g.closing_condition.target), "every gap names the sealed record that would close it (the closing condition)");
 
 // =====================================================================================
 console.log("\n" + H);
