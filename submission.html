@@ -424,6 +424,8 @@ The bottom-up meta kernel is the future work this artifact already enables, and 
 
 Two companion documents sit beside this argument. [Where Each Criterion Lives](criteria-to-architecture-map.md) maps the competition's evaluation criteria to the part of the architecture that answers each one and its location in the repository, so this argument can be checked against the tree. [Robustness Under Adversaries](adversarial-robustness.md) answers the one objection this argument invites, that a capable adversary games the gate or captures the write path, with the honest split between the recoverable half that runs today and the cost half specified in the open.
 
+Two supporting documents develop the argument's two hardest claims for the reader who wants them worked out; both sit below the core reading budget. On generalizability, the claim that the three cases show a general shape rather than a fitted one, [Epistemic Uplift](epistemic_uplift.md) argues the case on the competition's own list of strong examples and on the interfaces a checkable structure unlocks. On adversarial robustness, [Adversarial Walkthrough](adversarial_walkthrough.md) walks the solution type through five concrete attacks, so the worked scenarios sit beside the type they make concrete.
+
 ---
 
 ## Postscript: a dated note on scaling (late June 2026)
@@ -1537,6 +1539,18 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
         ],
         "oracle": "node build/check-demo.mjs (receipt 3)"
       }
+    }
+  ],
+  "handoffs": [
+    {
+      "title": "Epistemic Uplift",
+      "href": "docs/epistemic_uplift.md",
+      "what": "what the structure enables and generalizes to: the interfaces a checkable graph unlocks, and each of the competition's named strong examples mapped to a kernel capability"
+    },
+    {
+      "title": "Adversarial Walkthrough",
+      "href": "docs/adversarial_walkthrough.md",
+      "what": "how the defense holds under specific attacks: the robustness solution type walked through five concrete attacks, marking what runs today from what is Stage 4"
     }
   ]
 }</script>
@@ -3874,6 +3888,13 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
       var all = (R.stops || []).every(function (s) { return s.receipt && s.receipt.fires; });
       html += '<div class="demo-summary">' + (all ? "all three receipts fire on the dense content" : "a receipt did not fire") + "</div>";
+      if (R.handoffs && R.handoffs.length) {
+        html += '<div class="demo-handoffs"><h3>Where the walk hands off</h3>' +
+          "<p>Past the three cases, the same structure generalizes. These two supporting documents develop it:</p><ul>" +
+          R.handoffs.map(function (h) {
+            return '<li><a href="' + esc(h.href) + '"><b>' + esc(h.title) + "</b></a>: " + esc(h.what) + "</li>";
+          }).join("") + "</ul></div>";
+      }
       ctx.mount.innerHTML = html;
       // register the walk as a cross-link anchor so the prose can navigate to it.
       if (ctx.registerNode) ctx.registerNode("the guided path: three things a synthesis buries", ctx.mount, "guided-path", "guided-path", "Start here: three things a synthesis buries");

@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 143,
+  "nodeCount": 145,
   "edgeCount": 284,
   "nodes": [
     {
@@ -915,6 +915,20 @@
     },
     {
       "path": "docs/adversarial-robustness.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/adversarial_walkthrough.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/epistemic_uplift.md",
       "type": "doc",
       "group": null,
       "role": null,

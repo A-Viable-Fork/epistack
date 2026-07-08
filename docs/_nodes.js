@@ -14,6 +14,14 @@ module.exports = [
     "type": "doc"
   },
   {
+    "path": "docs/adversarial_walkthrough.md",
+    "type": "doc"
+  },
+  {
+    "path": "docs/epistemic_uplift.md",
+    "type": "doc"
+  },
+  {
     "path": "docs/knowledge-system-what.md",
     "type": "doc"
   },

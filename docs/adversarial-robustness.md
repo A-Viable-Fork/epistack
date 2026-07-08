@@ -4,6 +4,8 @@ The argument in `docs/what-stands-without-trust.md` answers what a claim is wort
 
 The answer is not an ungameable gate. Against a determined adversary that is impossible, and claiming it would be the performed-settling the whole system exists to refuse. The answer is a gate that is expensive to game and recoverable when gamed. Cost and a damage cap, not a wall.
 
+For the solution type below walked through five concrete attacks, see the worked examples in [Adversarial Walkthrough](adversarial_walkthrough.md); this document argues the type, the walkthrough makes it concrete.
+
 ## The shape
 
 Two mechanisms, aimed at two different quantities. Required work and time-locked standing set the cost of an attack. Forkability caps the damage of one. Together an attack costs a great deal and achieves little, because what it captures gets forked away, so honest participation is the cheaper path to a result that survives. Robustness here is that inequality, not a guarantee that the gate cannot be beaten.
