@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 146,
+  "nodeCount": 147,
   "edgeCount": 286,
   "nodes": [
     {
@@ -936,6 +936,13 @@
     },
     {
       "path": "docs/reading-the-brief.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/parameters-register.md",
       "type": "doc",
       "group": null,
       "role": null,
