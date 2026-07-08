@@ -47,6 +47,13 @@
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
       var all = (R.stops || []).every(function (s) { return s.receipt && s.receipt.fires; });
       html += '<div class="demo-summary">' + (all ? "all three receipts fire on the dense content" : "a receipt did not fire") + "</div>";
+      if (R.handoffs && R.handoffs.length) {
+        html += '<div class="demo-handoffs"><h3>Where the walk hands off</h3>' +
+          "<p>Past the three cases, the same structure generalizes. These two supporting documents develop it:</p><ul>" +
+          R.handoffs.map(function (h) {
+            return '<li><a href="' + esc(h.href) + '"><b>' + esc(h.title) + "</b></a>: " + esc(h.what) + "</li>";
+          }).join("") + "</ul></div>";
+      }
       ctx.mount.innerHTML = html;
       // register the walk as a cross-link anchor so the prose can navigate to it.
       if (ctx.registerNode) ctx.registerNode("the guided path: three things a synthesis buries", ctx.mount, "guided-path", "guided-path", "Start here: three things a synthesis buries");

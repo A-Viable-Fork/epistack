@@ -100,6 +100,12 @@ const reading = {
   generated_by: "build/vendor-demo.mjs",
   lede: "Three cases, three things a fluent synthesis buries, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
   stops: [stop_lhc, stop_covid, stop_eggs],
+  // where the walk hands off past the three cases: the two supporting documents that generalize it.
+  // effective regions in their own right, one for what the structure enables, one for how it holds under attack.
+  handoffs: [
+    { title: "Epistemic Uplift", href: "docs/epistemic_uplift.md", what: "what the structure enables and generalizes to: the interfaces a checkable graph unlocks, and each of the competition's named strong examples mapped to a kernel capability" },
+    { title: "Adversarial Walkthrough", href: "docs/adversarial_walkthrough.md", what: "how the defense holds under specific attacks: the robustness solution type walked through five concrete attacks, marking what runs today from what is Stage 4" },
+  ],
 };
 
 mkdirSync(join(ROOT, "vendor/demo"), { recursive: true });

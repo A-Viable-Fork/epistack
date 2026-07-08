@@ -86,5 +86,17 @@
         "oracle": "node build/check-demo.mjs (receipt 3)"
       }
     }
+  ],
+  "handoffs": [
+    {
+      "title": "Epistemic Uplift",
+      "href": "docs/epistemic_uplift.md",
+      "what": "what the structure enables and generalizes to: the interfaces a checkable graph unlocks, and each of the competition's named strong examples mapped to a kernel capability"
+    },
+    {
+      "title": "Adversarial Walkthrough",
+      "href": "docs/adversarial_walkthrough.md",
+      "what": "how the defense holds under specific attacks: the robustness solution type walked through five concrete attacks, marking what runs today from what is Stage 4"
+    }
   ]
 }

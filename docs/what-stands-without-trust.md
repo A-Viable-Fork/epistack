@@ -77,6 +77,8 @@ The bottom-up meta kernel is the future work this artifact already enables, and 
 
 Two companion documents sit beside this argument. [Where Each Criterion Lives](criteria-to-architecture-map.md) maps the competition's evaluation criteria to the part of the architecture that answers each one and its location in the repository, so this argument can be checked against the tree. [Robustness Under Adversaries](adversarial-robustness.md) answers the one objection this argument invites, that a capable adversary games the gate or captures the write path, with the honest split between the recoverable half that runs today and the cost half specified in the open.
 
+Two supporting documents develop the argument's two hardest claims for the reader who wants them worked out; both sit below the core reading budget. On generalizability, the claim that the three cases show a general shape rather than a fitted one, [Epistemic Uplift](epistemic_uplift.md) argues the case on the competition's own list of strong examples and on the interfaces a checkable structure unlocks. On adversarial robustness, [Adversarial Walkthrough](adversarial_walkthrough.md) walks the solution type through five concrete attacks, so the worked scenarios sit beside the type they make concrete.
+
 ---
 
 ## Postscript: a dated note on scaling (late June 2026)
