@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the population-mismatch pipeline demonstration, the record the trellis translator derives from.
+Depends on: docs/architecture-spec.md, docs/family-discrimination.md
+Depended on by: docs/trellis-to-v3.md
+---
+
 # Population Pipeline, v0: The Family as a DAG
 
 > **Disambiguation (Prompt 24, Option B).** This pipeline is a **population-mismatch pattern demonstration**, kept by design as a distinct structural demo: one shared machinery whose failure localizes at different stages (`covid.instance` breaks at stage 1, `eggs.instance` at stage 2). It is **not** the canonical covid or eggs case. The canonical covid case is the densified origins store `corpora/covid/covid-origins.js` (Prompt 23a); the canonical eggs case is the domain stores and composite in `corpora/eggs/` (Prompt 20). The pipeline is retained because it is load-bearing for shipped demonstrations (the trellis-to-v3 migration reproduction, the fork demo, the atlas compare, the gap-detector and robustness readings) and because the pattern is worth showing in its own right; the two representations coexist by decision, not by accident.

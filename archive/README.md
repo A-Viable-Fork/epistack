@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records what the archive directory holds and why it is kept out of the build.
+Depends on: nothing
+Depended on by: nothing
+---
+
 # archive/
 
 Kept for reference, not built by default, and outside the trust-boundary layers so the linter and

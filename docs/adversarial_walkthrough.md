@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: Walks the robustness solution type through five concrete attacks, as the worked companion to the robustness argument.
+Depends on: docs/adversarial-robustness.md, docs/parameters-register.md, docs/status-ledger.md
+Depended on by: nothing
+---
+
 # Adversarial Walkthrough
 
 The robustness argument states a solution type: a gate expensive to game and recoverable when gamed, cost from time-locked standing and required work, damage capped by forkability. This walks that type through five concrete attacks, so the mechanism is visible rather than asserted. Each scenario names the attack, follows what the mechanism does, and states the bound honestly. Where a mechanism is specified rather than built, it is marked, because the point is the shape of the defense, not a claim that all of it runs.

@@ -52,6 +52,7 @@ jobs:
           node build/check-lhc.mjs
           node build/check-atlas.mjs
           node build/check-demo.mjs
+          node build/check-docs.mjs
           node build/check-map.mjs
 
       - name: Verify the vendored browser gate bundle and snapshot are committed and current

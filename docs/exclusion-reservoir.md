@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records refuted and excluded claims with the reason each fell, so a killed claim meets its own obituary.
+Depends on: docs/design-axioms.md
+Depended on by: nothing
+---
+
 # Exclusion Reservoir
 
 Patterns rejected, each with the condition that would reactivate it. A kill without its

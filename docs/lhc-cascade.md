@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the LHC-cascade case reasoning, the record the black-holes trellis and the schema revisions derive from.
+Depends on: docs/knowledge-system-how.md
+Depended on by: docs/schema-revisions.md, docs/trellises/black-holes-reconstruction-trellis.md
+---
+
 # LHC Safety: The Math Cascade
 
 *First pass. The chain of transformations the LHC-safety derivation composes, laid out for decomposition. Confidence is flagged per node. Branch 3 (accretion) is the one that must be read from Giddings-Mangano (arXiv:0806.3381) rather than reconstructed; the rest is structurally settled.*

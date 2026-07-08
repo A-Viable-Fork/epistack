@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: States the code-level design commitments and the linter rules, as the reference the build discipline is held to.
+Depends on: docs/components-and-forking.md, docs/knowledge-system-how.md
+Depended on by: CLAUDE.md, docs/corpus-index.md, docs/exclusion-reservoir.md, docs/quickstart.md, docs/sorry-ledger.md, docs/status-ledger.md
+---
+
 # EpiStack Design Axioms
 
 *Design guidelines for the codebase, in the trellis tier form. The thesis: the code eats its own dog food. The system is about typed knowledge decomposed to a shared basis, with departures localized and gaps named, forkable so uncoordinated work can accrete. The codebase makes the same commitments about itself. Tier 0 is non-negotiable; violating it means the code has failed its own thesis. Tier 1 is a strong default that significant evidence can revise. Then the linter rules that enforce them, the patterns excluded with reactivation conditions, and the comment conventions.*

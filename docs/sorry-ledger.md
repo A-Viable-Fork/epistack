@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the open deferred-verification obligations, one line per marker, as the ledger the linter reproduces.
+Depends on: docs/design-axioms.md
+Depended on by: docs/status-ledger.md
+---
+
 # Sorry Ledger
 
 Every open obligation, named. This is a build artifact: the honest unit of progress is the

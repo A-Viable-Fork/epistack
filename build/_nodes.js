@@ -72,6 +72,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-docs.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },

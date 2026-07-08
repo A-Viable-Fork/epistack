@@ -1,3 +1,10 @@
+---
+Type: specification
+Purpose: Specifies the reference-not-inline discipline and the runtime fork mechanism, as the source the component and client documents derive from.
+Depends on: docs/knowledge-system-how.md
+Depended on by: CLAUDE.md, docs/architecture-spec.md, docs/clients.md, docs/design-axioms.md
+---
+
 # Components, References, and Forking
 
 *One mechanism for two things you want: change a module once and have it propagate everywhere, and let people fork a component without touching the rest. Both fall out of a single rule: everything is addressable by a stable id and referenced, never copied inline. Propagation is then free, because consumers hold references. Forking is then cheap, because a fork is a diff against a parent. This is the composition claim made operational, and it is departures-as-coordinates turned into a runtime.*

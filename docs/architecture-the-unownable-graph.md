@@ -1,3 +1,10 @@
+---
+Type: specification
+Purpose: Specifies the mature coordination design, the substrate, the patch history, and standing, as the source the adversarial and status documents derive from.
+Depends on: docs/knowledge-system-how.md
+Depended on by: docs/adversarial-robustness.md, docs/api.md, docs/status-ledger.md
+---
+
 # Architecture: The Unownable Graph
 
 *The complete design, current as of this writing. It supersedes the earlier storage-API-clients spec, which it folds in as one part. The thesis is simple to state and runs through everything below: the system does not defend a castle, it makes the castle unownable. The value lives in the substrate, the gate is a filter rather than a fortress, and capture of any single gate is capture of an empty shell, because the honest minority exits with the substrate intact. The design question is therefore not how to keep bad actors out. It is how to make honest participation the cheapest path to influence and capture the most expensive.*

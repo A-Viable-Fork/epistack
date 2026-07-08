@@ -1,3 +1,10 @@
+---
+Type: specification
+Purpose: Specifies the learning-first card layer over the architecture spec.
+Depends on: docs/architecture-spec.md
+Depended on by: nothing
+---
+
 # Making the Nodes Teach (v2 direction)
 
 *v1 implements the spec faithfully, and the spec wrote every node in one register: the terse functional spec. That register is correct for navigation, audit, and the composition machinery, and wrong for the stated goal, which is making the math accessible to anyone. The fix is a teaching layer that ladders a non-expert up to the precise claim, not a softening of the precise claim. Precision stays; it becomes the destination of every ladder and the inspect-layer of every card. The accessibility goal and the substrate goal become the same goal.*

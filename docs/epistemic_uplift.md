@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: Argues the epistemic-uplift and generalizability case, deriving the market of views from the trust-view cut.
+Depends on: docs/api.md, docs/parameters-register.md, docs/trust-and-view.md
+Depended on by: docs/reading-the-brief.md
+---
+
 # Epistemic Uplift
 
 Epistemic uplift is the competition's first criterion, and the honest question is not whether this structure helps on the three cases, which the guided path shows, but where the help comes from and whether it generalizes. It comes from a single equation. Uplift is trust composed with view: the kernel establishes trust once, computed and checkable, and a periphery supplies a view fitted to one reader, and the uplift is the composition of the two. A market is the space of all such compositions over one kernel.

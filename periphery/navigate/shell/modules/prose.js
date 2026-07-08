@@ -70,6 +70,7 @@
   var src = document.getElementById("judges-doc");
   if (!src) return;
   var md = src.textContent;
+  md = md.replace(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, ""); // strip the document header (style-guide front-matter): metadata, not prose
   var parts = md.split(/\n(?=##\s)/); // the preamble, then each "## ..." section
   parts.forEach(function (part, idx) {
     var headMatch = part.match(/^##\s+(.*)$/m);

@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the family-discrimination pattern, the record the population pipeline derives from.
+Depends on: docs/knowledge-system-how.md, docs/schema-revisions.md
+Depended on by: docs/population-pipeline.md
+---
+
 # The Family, Tested: It Is a Pipeline, Not a Transformation
 
 *The asserted-to-earned move, executed. Author the population-mismatch family across COVID and eggs against the revised schema, then run the discrimination: is there a real shared parent, or two failures wearing one sentence? The loose family dies. A more precise structure is earned in its place, and the tool that discriminates them is the decomposition we just specified. The case-specific COVID numbers still want the deferred verification; the structural result below does not.*

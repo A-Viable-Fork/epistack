@@ -1,3 +1,11 @@
+---
+Type: record
+Purpose: Records the retired storage-API-clients design, a stub superseded by the unownable-graph specification.
+Depends on: nothing
+Depended on by: nothing
+Superseded by: docs/architecture-the-unownable-graph.md
+---
+
 # Architecture: Storage, a Typed API, and Many Clients (superseded)
 
 **This doc is retired. It is folded into the full current architecture,

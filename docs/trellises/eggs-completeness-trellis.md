@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the eggs completeness question as a reasoning trellis, located as a region of the meta kernel.
+Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-how.md
+Depended on by: nothing
+---
+
 # Eggs Completeness Trellis
 
 ### Parent: Epistemic Stack Submission Trellis (node C-EGGS)
