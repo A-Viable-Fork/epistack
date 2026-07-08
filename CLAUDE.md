@@ -4,10 +4,14 @@ Guidance for working in this repo. Keep it short; a long file here is a smell.
 
 ## What this is
 
-A typed claim-graph epistemic engine. Every claim is a node carrying its kind, its
-verification state, and its provenance. The novel property is composition: one shared
-typed schema lets uncoordinated investigations accrete onto a single map. The deliverable
-is one standalone interactive artifact, `submission.html`, that a judge double-clicks to open.
+A typed claim-graph epistemic engine, a top-down meta kernel: one domain-agnostic grounding
+core whose single schema spans the cases as regions within it, not as separate kernels. Every
+claim is a node carrying its kind, its verification state, its provenance, and its history, the
+origin, crossings between regions, and forks that retyped it, so a standing is a traceable chain
+back to a floor rather than a bare verdict. The novel property is composition: one shared typed
+schema lets uncoordinated investigations accrete onto a single map (top-down, one schema by design,
+not a schema imposed on all subjects). The deliverable is one standalone interactive artifact,
+`submission.html`, that a judge double-clicks to open.
 
 The orientation for the whole goal is the three blueprints, `docs/knowledge-system-what.md`
 (the functions), `docs/knowledge-system-how.md` (the makeup), and `docs/knowledge-system-why.md`
@@ -22,7 +26,6 @@ Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on t
   call, no install a browser lacks. The compose-gate runs the v3 gate kernel in-page, vendored
   offline from the same modules the oracles check. Any dependency that breaks a double-click to
   open is out.
-- **No Constitutional Kernel**, by name or apparatus, in any judge-facing text.
 - **Gaps are first-class.** Every unverified node carries a `sorry` or `TODO_verify` marker,
   and every marker is listed in `docs/sorry-ledger.md`. Never fill, guess at, or quietly
   resolve a deferred-verification gap.
