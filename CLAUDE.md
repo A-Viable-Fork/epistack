@@ -26,7 +26,6 @@ Where the spec and the schema doc disagree, `docs/schema-revisions.md` wins on t
   call, no install a browser lacks. The compose-gate runs the v3 gate kernel in-page, vendored
   offline from the same modules the oracles check. Any dependency that breaks a double-click to
   open is out.
-- **No Constitutional Kernel**, by name or apparatus, in any judge-facing text.
 - **Gaps are first-class.** Every unverified node carries a `sorry` or `TODO_verify` marker,
   and every marker is listed in `docs/sorry-ledger.md`. Never fill, guess at, or quietly
   resolve a deferred-verification gap.
