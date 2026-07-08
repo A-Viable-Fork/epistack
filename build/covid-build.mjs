@@ -19,16 +19,21 @@ import { decide } from "../kernel/gate/gate.mjs";
 const require = createRequire(import.meta.url);
 const { KINDS, SOURCES } = require("../corpora/covid/tables.js");
 const { COVID } = require("../corpora/covid/covid-origins.js");
+const { COVID_DEPTH } = require("../corpora/covid/covid-depth.js");
 
 export function buildCovid() {
   const tables = { sourceTable: makeSourceTable(SOURCES), kindTable: makeKindTable(KINDS) };
   const refId = new Map();
-  const claims = COVID.claims.map((spec) => {
-    const rec = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records });
+  // the first-pass spine and the deep extraction are one store: the depth attaches under the spine by
+  // reference, so the two ingest together into a single covid representation, deepened not duplicated.
+  const allClaims = COVID.claims.concat(COVID_DEPTH.claims);
+  const allLinks = (COVID.links || []).concat(COVID_DEPTH.links || []);
+  const claims = allClaims.map((spec) => {
+    const rec = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records, closing_condition: spec.closing_condition });
     refId.set(spec.ref, rec.identity);
     return { rec, spec };
   });
-  const links = (COVID.links || []).map((l) => linkRecord({ link_kind: l.link_kind, from_identity: refId.get(l.from), to_identity: refId.get(l.to), support_group: l.support_group, source_id: l.source_id, contributor_id: l.contributor_id, declared_grade: l.declared_grade }));
+  const links = allLinks.map((l) => linkRecord({ link_kind: l.link_kind, from_identity: refId.get(l.from), to_identity: refId.get(l.to), support_group: l.support_group, source_id: l.source_id, contributor_id: l.contributor_id, declared_grade: l.declared_grade }));
   const entries = claims.map((c) => c.rec);
   const state = apply(genesis(), { entries, links, applied_contribution_hash: COVID.store_id, receipt_reference: COVID.store_id });
   const view = storeViewOf(state, tables);

@@ -33,6 +33,9 @@ const SOURCES = [
   { source_id: "src:vantreuren-2024", source_class: "institutional-report", description: "Judge Will Van Treuren, written decision (Feb 2024): ~1 in 300 lab leak" },
   { source_id: "src:stansifer-2024", source_class: "institutional-report", description: "Judge Eric Stansifer, final decision (Feb 17 2024): ~1 in 3000 lab leak" },
   { source_id: "src:who-sago-2025", source_class: "institutional-report", description: "WHO SAGO report (2025); ODNI declassified assessment; Gelman (2025) (unresolved)" },
+  // ---- the deep extraction (Prompt 34): the debate walked several nodes deep per line, and the
+  // weightings of three careful readers over the same evidence ----
+  { source_id: "src:deep-extraction", source_class: "institutional-report", description: "Extraction and Evaluation of the SARS-CoV-2 Origins Debate: A Comprehensive Synthesis (2024), the deep argument sets, nested cruxes, and reader weightings of Scott Alexander, Will Van Treuren, and Eric Stansifer over the Rootclaim debate" },
 ];
 
 module.exports = { KINDS, SOURCES };

@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 146,
-  "edgeCount": 284,
+  "edgeCount": 286,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -1715,6 +1715,13 @@
     },
     {
       "from": "build/check-covid.mjs",
+      "to": "kernel/analysis/characterized-gaps.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-covid.mjs",
       "to": "build/covid-build.mjs",
       "type": "imports",
       "fromLayer": "build",
@@ -2206,6 +2213,13 @@
     {
       "from": "build/covid-build.mjs",
       "to": "corpora/covid/covid-origins.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/covid-build.mjs",
+      "to": "corpora/covid/covid-depth.js",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
