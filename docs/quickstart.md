@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Tells a reader how to clone, install, and run the gate check, as the entry procedure.
+Depends on: docs/api.md, docs/design-axioms.md
+Depended on by: nothing
+---
+
 # Quickstart
 
 Clone, install, and watch the gate check run. The whole path completes in about two minutes on a

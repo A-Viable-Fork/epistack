@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Maps the competition's criteria to the part of the architecture that answers each, so the argument can be checked against the tree.
+Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-what.md, docs/status-ledger.md, docs/what-stands-without-trust.md
+Depended on by: nothing
+---
+
 # Where Each Criterion Lives
 
 A map from the competition's evaluation criteria to the part of the architecture that addresses each one and its location in the repository. This is a lookup, meant to be read after the argument in `docs/what-stands-without-trust.md`, to check that argument against the tree. Build maturity is graded in `docs/status-ledger.md`; where a criterion is served by a component that is specified rather than built, it is marked here.

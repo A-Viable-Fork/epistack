@@ -6,6 +6,22 @@
 
 module.exports = [
   {
+    "path": "docs/document-style-guide.md",
+    "type": "doc"
+  },
+  {
+    "path": "docs/trust-and-view.md",
+    "type": "doc"
+  },
+  {
+    "path": "docs/composition-spec.md",
+    "type": "doc"
+  },
+  {
+    "path": "docs/kernel-taxonomy.md",
+    "type": "doc"
+  },
+  {
     "path": "docs/criteria-to-architecture-map.md",
     "type": "doc"
   },

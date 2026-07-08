@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: Argues the answer to the gamed-gate objection, deriving the cost-and-forkability solution type.
+Depends on: docs/architecture-the-unownable-graph.md, docs/parameters-register.md, docs/status-ledger.md, docs/what-stands-without-trust.md
+Depended on by: docs/adversarial_walkthrough.md
+---
+
 # Robustness Under Adversaries
 
 The argument in `docs/what-stands-without-trust.md` answers what a claim is worth when its author cannot be trusted. That answer invites one objection, and this document answers it: a capable adversary games the gate, floods it with claims that pass, or captures the write path, and everything the system calls grounded is worthless.

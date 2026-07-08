@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Describes the two client tiers over the API, as the reference the thin-client kit derives from.
+Depends on: docs/api.md, docs/components-and-forking.md
+Depended on by: docs/thin-clients.md
+---
+
 # Writing a client
 
 A client is a forkable unit over the untouched store. It reads through the API

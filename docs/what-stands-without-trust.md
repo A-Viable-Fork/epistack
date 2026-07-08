@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: Argues the whole submission for a judge, as the furthest-derived leaf that compiles the sources and points at where the truth lives.
+Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md
+---
+
 # What Stands Without Trust
 ### A submission to the epistemic case study competition
 

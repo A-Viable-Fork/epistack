@@ -1,3 +1,10 @@
+---
+Type: specification
+Purpose: Specifies the read-and-propose contract between clients and the kernel, as the reference the client documents derive from.
+Depends on: docs/architecture-the-unownable-graph.md, docs/knowledge-system-how.md
+Depended on by: CLAUDE.md, docs/clients.md, docs/epistemic_uplift.md, docs/quickstart.md, docs/thin-clients.md
+---
+
 # The API
 
 The engine is a typed API over storage. `data/` is the canonical store; the API is the only

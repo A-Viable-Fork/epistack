@@ -1,3 +1,12 @@
+---
+Type: reference
+Purpose: Describes the trusted core layer for a reader who has opened kernel/, deferring the whole-system story upward.
+Depends on: nothing
+Depended on by: nothing
+Code depends on: nothing
+Code depended on by: api/README.md
+---
+
 # kernel/
 
 This is the trusted core: the domain-agnostic machinery that grounds claims. It is the schema that says what a well-formed claim and edge are, the gate that admits a contribution only when it holds together with what is already there, and the grounding rule that computes a claim's standing from what it rests on. This is the contribution the submission is built around; everything else exists to demonstrate it.

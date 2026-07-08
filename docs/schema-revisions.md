@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the schema revisions the cases forced, the data-model record that overrides the spec where the two disagree.
+Depends on: docs/architecture-spec.md, docs/lhc-cascade.md
+Depended on by: CLAUDE.md, docs/architecture-spec.md, docs/family-discrimination.md
+---
+
 # Schema Stress Test: Branch 2, and the Revisions It Forces
 
 *The v0 test, run on the stopping branch of the LHC cascade. Author every node against the schema, see where it bends. It survived, but it bent in six places, each forced by a real feature of the argument rather than an invented edge case. One of them corrects the central backbone of the spec.*

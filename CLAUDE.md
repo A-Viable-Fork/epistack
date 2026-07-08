@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Gives the repo-wide working orientation for an agent in the tree, as the procedural reference.
+Depends on: docs/api.md, docs/components-and-forking.md, docs/design-axioms.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/schema-revisions.md, docs/status-ledger.md
+Depended on by: nothing
+---
+
 # CLAUDE.md
 
 Guidance for working in this repo. Keep it short; a long file here is a smell.

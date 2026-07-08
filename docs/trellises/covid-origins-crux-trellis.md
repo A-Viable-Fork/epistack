@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the COVID-origins dispute as a reasoning trellis, located as a region of the meta kernel.
+Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-how.md
+Depended on by: nothing
+---
+
 # COVID-Origins Crux-Location Trellis
 
 ### Parent: Epistemic Stack Submission Trellis (node C-COVID)

@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Draws the line between the free tier a community configures and the required tier a kernel must hold, as the reference for what is local policy and what is a composition invariant.
+Depends on: docs/composition-spec.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
+Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
+---
+
 # The Parameters Register
 
 A kernel is configured by the community that runs it, and this register draws the line between what that community may set freely and what it must hold to remain composable with other kernels. The line is the composition contract. On one side are free parameters, local policy that nothing downstream depends on, which a community sets to its own situation and changes at will. On the other side are required invariants, the promises a kernel must keep for the untyped crossings and the shared grounding language to work, which a community cannot violate without leaving the protocol. A kernel that moves anything in the free tier still federates; a kernel that breaks a required invariant is no longer one of these kernels, because its claims can no longer cross into another kernel that relies on the guarantee it dropped.

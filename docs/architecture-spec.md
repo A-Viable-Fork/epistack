@@ -1,3 +1,10 @@
+---
+Type: specification
+Purpose: Specifies the interactive decompose-perturb-compare surface, as the source the teaching layer derives from.
+Depends on: docs/components-and-forking.md, docs/knowledge-system-how.md, docs/schema-revisions.md
+Depended on by: docs/population-pipeline.md, docs/schema-revisions.md, docs/teaching-layer.md
+---
+
 # Node Card and Architecture Spec
 
 *The interactive interior of a derivation segment: a node you can decompose down, perturb along, and compare sideways. This spec defines the data model, the card, the click semantics, the perturbation overlay, the UI mechanics, how it attaches to the existing artifact, and the build order.*

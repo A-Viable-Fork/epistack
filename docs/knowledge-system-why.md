@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: States the problem the architecture answers, generation outrunning verification, as the root the functional and grounding documents derive from.
+Depends on: nothing
+Depended on by: docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/what-stands-without-trust.md
+---
+
 # The Knowledge System: Why It Is This Way
 
 *This document argues. It states the problems the system exists to solve and why its major design choices are forced rather than arbitrary. It does not list the system's functions or specify how any part is built; those are companion documents. Where a longer argument already exists in prior work, this document points to it rather than repeating it. It assumes no prior knowledge.*

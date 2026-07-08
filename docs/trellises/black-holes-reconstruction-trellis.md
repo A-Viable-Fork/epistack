@@ -1,3 +1,10 @@
+---
+Type: record
+Purpose: Records the LHC black-hole safety argument as a reasoning trellis, located as a region of the meta kernel.
+Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/lhc-cascade.md
+Depended on by: nothing
+---
+
 # LHC Black-Holes Reconstruction Trellis
 
 ### Child of: Epistemic Stack Submission Trellis (node C-BLACKHOLES)

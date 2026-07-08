@@ -1,3 +1,10 @@
+---
+Type: argument
+Purpose: Introduces the submission and points a reader to the rest, distilling the judges document.
+Depends on: docs/kernel-taxonomy.md, docs/trust-and-view.md, docs/what-stands-without-trust.md
+Depended on by: nothing
+---
+
 # EpiStack
 
 EpiStack is a top-down meta kernel: one designed schema for claims and their grounding, demonstrably spanning three domains that share nothing, physics measurement, epidemiological contestation, normative weighing. To see why that sentence is the contribution, begin by clearing synthesis.

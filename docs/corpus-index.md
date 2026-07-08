@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Indexes every tracked module and data file with its role, as the manifest the linter checks completeness against.
+Depends on: docs/design-axioms.md
+Depended on by: nothing
+---
+
 # Corpus Index
 
 A manifest of every module and data file, organized by the trust-boundary layer it sits in. Linter rule 9 fails on any tracked file under `kernel/`, `api/`, `corpora/`, `periphery/`, or `build/` (plus `linter.js`) that is not listed here. Keep this current: a new file is a new row. `periphery/navigate/shell/shell.template.html` and `periphery/navigate/render/decompose.template.html` are named through the includes they carry, so they are exempt. (The classic `index.template.html` and its built snapshot now live in `archive/`, outside the tracked layers.)
@@ -153,6 +160,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-eggs.mjs` | the eggs-case oracle (Prompt 20): the eggs question as domain stores and a composite on real ingested research; grounding, the cardiovascular contradiction, the regenerative characterized gaps, the cross-domain weighings, the denominator swap, and the vendored reading |
 | `build/check-atlas.mjs` | the atlas oracle (Prompt 27): the two registers' distinct admission tests over the real case stores, the transformation basis type-correct with existing exemplars, the discrimination patterns admitted on two existing clones with departure node-ids, the pending terminals named |
 | `build/check-demo.mjs` | the three-counterexample oracle (Prompt 29): the LHC apparent-robustness collapse (before/after reifying the shared dependency), the covid crux resolving to the priors, and the eggs framing swaps leaving the measurements intact, each written to fail loudly |
+| `build/check-docs.mjs` | the documentation-graph oracle (Prompt 37): the argument chain checked for symmetry (every Depends-on has its Depended-on-by backlink, the dangling-citation check) and the code chain checked for agreement with the actual cross-directory imports |
 | `build/vendor-demo.mjs` | vendors the guided path into vendor/demo/reading.json (Prompt 29): the three counterexamples as stops, each recomputed by the kernel readings the check-demo oracle verifies |
 | `build/check-reconcile.mjs` | the reconciliation oracle (Prompt 22): the CVD within-domain crux (a shallow finding honestly reported), a synthetic rich pair (a real frontier and resolved sub-region), a disjoint pair, and determinism |
 | `build/covid-build.mjs` | the shared builder for the densified covid case (Prompt 23a): builds the covid v3 store through the gate from corpora/covid |

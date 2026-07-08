@@ -1,3 +1,10 @@
+---
+Type: reference
+Purpose: Describes the fallible producer-and-view layer for a reader who has opened periphery/, deferring the whole-system story upward.
+Depends on: nothing
+Depended on by: nothing
+---
+
 # periphery/
 
 This is where the fallible producers live, of any kind: the ingesters, authors, red-teamers, and every render surface. It is deliberately thin, a demonstration surface rather than a product, the smallest set of tools that shows what a checkable kernel enables. It is also where the market of views forms: many interfaces over one shared trust.
