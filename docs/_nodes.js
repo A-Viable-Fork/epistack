@@ -22,6 +22,10 @@ module.exports = [
     "type": "doc"
   },
   {
+    "path": "docs/reading-the-brief.md",
+    "type": "doc"
+  },
+  {
     "path": "docs/knowledge-system-what.md",
     "type": "doc"
   },

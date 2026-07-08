@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 145,
+  "nodeCount": 146,
   "edgeCount": 284,
   "nodes": [
     {
@@ -929,6 +929,13 @@
     },
     {
       "path": "docs/epistemic_uplift.md",
+      "type": "doc",
+      "group": null,
+      "role": null,
+      "contract": null
+    },
+    {
+      "path": "docs/reading-the-brief.md",
       "type": "doc",
       "group": null,
       "role": null,

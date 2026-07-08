@@ -20,4 +20,5 @@ From here:
 - **The cases, to walk them:** [`corpora/`](corpora/), LHC safety, COVID origins, egg nutrition, one machinery carrying each to its own termination
 - **The guided path:** open [`submission.html`](submission.html) and begin at the walk it opens on, the three counterexamples above staged in sequence, each stop carrying the fluent reading, the counterexample, the receipt to reproduce, and a pointer into the exact case region; the same receipts run headless with [`node build/check-demo.mjs`](build/check-demo.mjs)
 - **The criterion lookup:** [the criteria-to-architecture map](docs/criteria-to-architecture-map.md), from the argument to where each criterion is answered in the tree
+- **The design rationale:** [Reading the Brief](docs/reading-the-brief.md), the competition's own guidance quoted and the build choice that followed from each, for the judge who wants the choices argued in the competition's terms
 - **Run it:** [`docs/quickstart.md`](docs/quickstart.md), clone, install, and the gate check completes in about two minutes
