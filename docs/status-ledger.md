@@ -1,5 +1,13 @@
 # Status Ledger
 
+## In one read
+
+This ledger is the transparency criterion operationalized, not a list of gaps. It applies to the submission the same discipline the kernel applies to a claim: state plainly what is built and what is not, and let the boundary between them be a checkable fact rather than a rhetorical choice.
+
+Read the built-versus-specified split as a deliberate choice, not as unfinished business. Stage 0 is the working kernel and its checks: the schema, the gate, the grounding rule, the readings, the three cases, the presentation surface, all coded with oracles that pass. That built core is the contribution. Stages 3 and 4, the composition fabric at scale and the coordination layer (the time-locked credential, the gated-write lifecycle, the challenge system), are specified and deferred on purpose. Building them before the deadline would trade a clean, honestly bounded core for a rushed one, which is exactly the performed-settling the whole submission argues against, so they are named as deferrals with their open questions stated, [S1] chief among them.
+
+So a specified stage here is a named-on-purpose deferral, not a claim in flight. This summary states the split and its reason and stops: it does not claim or imply that any specified stage is nearly done or as good as built, and it does not soften what is unbuilt. Read what is built and load-bearing first; then read the specified stages as the mapped path they are, not as a shortfall.
+
 The single source of build truth. Every claim about what is and is not built lives here, graded on one scale, so prose elsewhere states a claim and points here instead of re-hedging in every paragraph. If a maturity claim appears anywhere else, it is wrong by construction: this file is the only place build status is asserted.
 
 ## How to read this ledger

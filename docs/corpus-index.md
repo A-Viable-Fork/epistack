@@ -9,6 +9,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `kernel/README.md` | the layer README (Prompt 36): what the trusted core is, its responsibilities, its interface up and down, its invariant (standing is a property of structure, producer-agnosticism at its source), and a map of the directory |
 | `kernel/_nodes.js` | the kernel node manifest for the typed repository map (build/repo-map.schema.js) |
 | `kernel/analysis/characterized-gaps.mjs` | the characterized-gap reading (Prompt 18): an open-line claim with a floor ceiling, a transfer support, and a closing condition; distinguishes gap / bare assertion / settled |
 | `kernel/analysis/gaps.js` | the gap taxonomy as typed predicates over the graph (docs/architecture-storage-api- |
@@ -51,6 +52,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `api/README.md` | the layer README (Prompt 36): what the boundary is, its responsibilities, its interface up and down, its discipline (read through the contract, propose through the gate, never touch the store), and a map of the directory |
 | `api/_nodes.js` | the api node manifest for the typed repository map (build/repo-map.schema.js) |
 | `api/api.js` | the engine's client-facing API. THE single door between clients and storage. Reads |
 | `api/client-api.mjs` | the propose/read contract (Prompt 10): a provider-agnostic seam, createClientApi(provider), that a client calls without learning which provider answers |
@@ -94,6 +96,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 
 | file | role |
 |---|---|
+| `periphery/README.md` | the layer README (Prompt 36): what the fallible layer is, its responsibilities, its interface up and down, its invariant (fallible-producers-not-fallible-AI at its source, never touch the store), and a map of the directory |
 | `periphery/_nodes.js` | the periphery node manifest for the typed repository map (build/repo-map.schema.js) |
 | `periphery/assess/assess.js` | the assessment agent: an AI consumer that produces interpretive assessments the kernel cannot compute, submitted back through the gate as claims |
 | `periphery/author/author.js` | the authoring and curation tools: add claims, propose groundings, discharge open questions, record refutations, AI-assisted |
