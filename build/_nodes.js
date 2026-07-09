@@ -80,6 +80,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/lineage-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-lineage.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },

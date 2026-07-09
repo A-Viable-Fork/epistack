@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 153,
-  "edgeCount": 291,
+  "nodeCount": 155,
+  "edgeCount": 301,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -793,6 +793,20 @@
       "group": null,
       "role": "the register drift oracle (register view, phase E). Verifies the structural properties the register-view design names, holding the two registers together so neither silently drifts: every precise section has an accessible counterpart and vice versa, every accessible section carries its source links and its register link and an explicit delta (null or text), every node link resolves to a real node through the read contract under both registers, and every precise_version hash matches its current precise section.",
       "contract": "`node build/check-registers.mjs`. Exits 0 if the structure holds, 1 with a named report. Reads docs/what-stands-without-trust.md (the precise register), corpora/registers/judges-accessible.js (the accessible register), and vendor/gate/snapshot.json through the real provider/contract."
+    },
+    {
+      "path": "build/lineage-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the shared builder for the lineage case (fourth case), modeled on build/covid-build.mjs. Builds the lineage v3 store through the real gate from the pure data in corpora/lineage, so the oracle that verifies it (build/check-lineage.mjs) builds the same structure. One store: the common-law and software parallels, the science/Wikipedia/journalism/accounting principle parallels, the neighborhood map's near-miss systems, and the novelty conjecture the five gaps ground.",
+      "contract": "buildLineage() -> { store_id, tables, claims, refId, state, view, receipt, graph }. Imports the kernel and corpora/lineage; pure over the corpus, touching no truth field."
+    },
+    {
+      "path": "build/check-lineage.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the lineage oracle (fourth case), modeled on build/check-covid.mjs. Verifies the STRUCTURE of the lineage case and REPORTS the gate's grading, because the demotions are the finding, not a failure to fix. It confirms every source resolves, the conjecture is a declaration resting on five independent near-miss gaps, the one replicated measurement (retraction non-acknowledgment) reaches checked, the institutional declarations self-warrant to the constitutive floor, and the gate priced the corpus producer-agnostically: exactly the claims declaring above what they earn are flagged as findings and none is forced through. It then prints how many demoted and to what, and which parallels ground weakly.",
+      "contract": "`node build/check-lineage.mjs` exits non-zero only on a STRUCTURAL failure. Imports the kernel and the shared lineage builder; touches no truth field."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -2015,6 +2029,20 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-lineage.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-lineage.mjs",
+      "to": "build/lineage-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-map.mjs",
       "to": "build/repo-map.schema.js",
       "type": "imports",
@@ -2612,6 +2640,62 @@
     {
       "from": "build/lhc-build.mjs",
       "to": "kernel/composition/framing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "corpora/lineage/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "corpora/lineage/lineage.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/lineage-build.mjs",
+      "to": "kernel/gate/gate.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
