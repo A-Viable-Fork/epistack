@@ -8,6 +8,18 @@ Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-method
 # What Stands Without Trust
 ### A submission to the epistemic case study competition
 
+### How to read this submission
+
+This submission is two of the shapes the brief names: a critique with counterexamples, and the protocol it forces.
+
+Start where the competition starts, with synthesis, what the best deep-research tools produce. The brief asks for work that compounds across teams, survives adversarial reading, and scales with more contributors. A synthesis does none of these: the next person has to trust it or redo it, it dissolves under a determined challenge, and two of them over one question do not combine. What the brief asks for rules out the thing everyone will build. The critique is what remains once the demands are taken seriously: knowledge has to be what stands when trust in the author is removed, because everything the brief wants is a property of claims that survive without their author. Three cases show synthesis failing exactly here, a reified dependency in physics, a hidden prior in epidemiology, a swappable frame in nutrition, each one it smooths flat.
+
+That forces the protocol. If knowledge is what stands when the author is removed, something has to do the removing, mechanically. The knowledge kernel is that machine: a fixed core that grounds claims and lints them in CI, with two markets over it, kernels to trust and surfaces to read and write through. It is where analyses compound instead of ending as prose to re-trust.
+
+The critique is complete, its argument made and its three cases worked and checked. The protocol is its answer under construction, a built core with a specified frontier, and it says which is which throughout. The same three cases are the critique's counterexamples and the protocol's demonstration at once, and a fourth exhibit, the lineage, shows the protocol's mechanisms already run by hand in mature institutions and that composing them is novel, evidence for the critique and the protocol at once.
+
+If you read one thing, read the critique and its three cases, because it is why the rest exists. If you then run one thing, run the protocol's oracles, each of which states the invariant it checked.
+
 Most submissions to this competition will produce impressive, readable syntheses of the three cases. I look forward to using them.
 
 Take the best version of one. It ingests the messy, contradictory record, papers and preprints and testimony and data, and pulls each claim from it tied to its source. It sees when two sources make one claim in different words and when they make two claims that only look alike, so it neither double counts nor flattens. It resolves which claims support which, separates a claim's rhetorical force from its evidential weight, surfaces the cruxes rather than settling them by fiat, and names what the record leaves out. It renders all of this so a reader takes in a tangled dispute in minutes. Give it the strongest available model and it does this across more sources than a person can hold, with an agent checking every citation and figure, and a session another researcher can fork and rerun. That tool would be excellent. I would use it.
