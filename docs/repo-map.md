@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 153. Import edges: 265. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -155,6 +155,8 @@ Nodes: 153. Import edges: 265. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/check-lhc.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
 - `build/check-lhc.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-lineage.mjs` -> `build/lineage-build.mjs`  *(build -> build)*
+- `build/check-lineage.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-migrate.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
@@ -241,6 +243,14 @@ Nodes: 153. Import edges: 265. Runtime flow edges: 26. All import edges satisfy 
 - `build/lhc-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/lhc-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/lhc-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `corpora/lineage/lineage.js`  *(build -> corpus)*
+- `build/lineage-build.mjs` -> `corpora/lineage/tables.js`  *(build -> corpus)*
+- `build/lineage-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/lineage-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
