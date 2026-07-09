@@ -136,7 +136,7 @@ The machinery that lets distributed parties write without anyone owning the resu
 
 Named risks in the coordination design, each with what would resolve it.
 
-**[S1] The time-lock survival inequality.** Whether synthetic labor survives a long sampling-and-revocation window more cheaply than the value of capture. Parameterized; closes with the inequality stated and computed.
+**[S1] The nonemptiness of the lever space.** The time-lock and standing are levers a community sets to price gaming above the value of capture while keeping the price of honest contribution bounded (the free tier, `docs/parameters-register.md`). The direction is an argument, not a pending computation: standing priced in elapsed time rises with the window while capture value is fixed, so a longer window raises the cost of gaming. What stays open is whether the window that beats capture for a given stake and adversary is also short enough that honest standing survives its own decay, so the usable interval is nonempty. This is conditional on the sampling the levers rely on being unfakeable, so [S1] rests on [S2] and [S4] rather than beside them. Closes with the interval shown nonempty for a stated stake and adversary, under a sampling-integrity result from [S2].
 
 **[S2] Synthetic versus genuine harmonic.** Whether manufactured cross-domain disagreement is distinguishable from genuine. The cost argument is plausible; closes with the distinguishability result.
 

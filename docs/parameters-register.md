@@ -2,7 +2,7 @@
 Type: reference
 Purpose: Draws the line between the free tier a community configures and the required tier a kernel must hold, as the reference for what is local policy and what is a composition invariant.
 Depends on: docs/composition-spec.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
-Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
+Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
 ---
 
 # The Parameters Register
@@ -15,7 +15,7 @@ The register is therefore not a list of settings. It is the definition of what i
 
 These are local choices with real internal consequences and no effect on whether another kernel can compose with this one, because they govern how a kernel grounds and governs inside itself, not the language it speaks at the border.
 
-The time-lock parameters. How much elapsed, sampled work standing costs, how fast it decays, and the length of the sampling-and-revocation window. A community facing higher stakes sets a longer window and a steeper cost; a low-stakes community sets them light. Neither choice changes what a claim means when it crosses out.
+The time-lock parameters, the levers that price gaming against contribution. How much elapsed, sampled work standing costs, how fast it decays, and the length of the sampling-and-revocation window: these set what it costs an adversary to game the gate against what it costs an honest producer to contribute, and a community tunes them to its own stakes, a longer window and a steeper cost where stakes are high, light where they are low. The property the lock holds across every setting is that standing accrues in elapsed time independent of the volume of work produced, so compute raises how much valid work a producer can emit without raising the standing that work earns; the attack this defends, and why it cannot be waived even where every claim is checkable, is worked in the adversarial walkthrough. Neither choice changes what a claim means when it crosses out.
 
 The standing and reputation rules. Who earns standing, how it is weighted for canonical writes and for fork-choice, and whether some producers are trusted more than others. A community may run flat or hierarchical, meritocratic or credentialed, and remain composable, because a crossing depends on the claim, not on how the source community distributed standing.
 
