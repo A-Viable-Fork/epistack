@@ -609,8 +609,8 @@
       "path": "periphery/navigate/shell/modules/prose.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the prose modules (Prompt 17). The judges document, rendered from its canonical source in docs/what-stands-without-trust.md (inlined at #judges-doc, not copied), section by section as prose modules. Where the paper speaks about a case, the phrase is marked as a claim-reference that links to the live graph node and carries that node's grounding and robustness; the case it names links back (the reverse link the shell adds). One framing module precedes the paper.",
-      "contract": "registers on window.EpiShell. A section becomes a module; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves to the live node reading."
+      "role": "the prose modules (Prompt 17; register view Prompt: register view, phase C). The judges document rendered in either register over the same grounded claims. The precise register is the canonical markdown (docs/what-stands-without-trust.md, inlined at #judges-doc, not copied); the accessible register is corpora/registers/judges-accessible.js (window.EpiRegisters). A toggle switches register for the reading and defaults to accessible. Where the paper names a case, the phrase is a claim-reference that links to the live node and carries that node's grade and robustness; the SAME node links render under both registers, so grounding is invariant across them.",
+      "contract": "registers on window.EpiShell. A section becomes a module rendering both registers; a claim-reference is made with ctx.linkToNode(nodeKey, phrase), which the shell resolves live."
     },
     {
       "path": "periphery/navigate/shell/modules/eggs-case.js",

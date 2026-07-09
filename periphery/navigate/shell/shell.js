@@ -45,9 +45,13 @@
     function nodeReading(nodeKey) {
       var anchor = nodeAnchors[nodeKey];
       var identity = anchor ? anchor.identity : nodeKey; // fall back to treating the key as an identity
-      var g = (api.read({ identity: identity }) || [])[0];
-      var r = (api.robustness && api.robustness({ identity: identity }) || [])[0];
+      var rows = api.read({ identity: identity }) || [];
+      // a human node key (e.g. "lhc.claim") is not a content-hash identity; the store carries it as the
+      // statement prefix, so resolve it through the contract by statement match. Still no grounding here.
+      if (!rows.length && nodeKey) rows = api.read({ contains: nodeKey }) || [];
+      var g = rows[0];
       if (!g) return null;
+      var r = (api.robustness && api.robustness({ identity: g.identity }) || [])[0];
       return { grade: g.earned_grade, declared: g.declared_grade, statement: g.statement,
                robustness: r ? r.robustness : null, fragile: r ? r.fragile : null,
                spofs: r ? (r.single_points_of_failure || []).length : null };

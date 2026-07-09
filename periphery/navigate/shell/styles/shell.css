@@ -67,3 +67,24 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .eggs-crux-line { margin: 0.35rem 0 0.15rem; }
 .eggs-frontier, .eggs-resolved { margin: 0.1rem 0 0.3rem 1rem; padding: 0; }
 .eggs-frontier li, .eggs-resolved li { margin: 0.12rem 0; list-style: disc; }
+
+/* register view (register view phase C): two registers over one grounding, a toggle between them */
+.reg-toggle-bar { display: flex; align-items: center; gap: 0.4rem; margin: 0.6rem 0 0.2rem; }
+.reg-toggle-label { font: 600 0.85rem/1 var(--sans); opacity: 0.7; }
+.reg-toggle { font: 600 0.85rem/1 var(--sans); padding: 0.3rem 0.7rem; border: 1px solid currentColor; border-radius: 999px; background: transparent; color: inherit; cursor: pointer; opacity: 0.55; }
+.reg-toggle.reg-on { opacity: 1; background: currentColor; }
+.reg-toggle.reg-on { color: inherit; }
+.reg-toggle.reg-on span, .reg-toggle.reg-on { }
+button.reg-toggle.reg-on { background: #1b3a5b; color: #fff; border-color: #1b3a5b; }
+/* default: accessible shown, precise hidden; .reg-precise on the content root inverts it */
+.register-precise { display: none; }
+#shell-content.reg-precise .register-accessible { display: none; }
+#shell-content.reg-precise .register-precise { display: block; }
+.reg-meta { margin: 0.5rem 0; padding: 0.4rem 0.7rem; border-left: 3px solid rgba(120,120,120,0.4); background: rgba(120,120,120,0.06); border-radius: 0 4px 4px 0; }
+.reg-delta { font: 0.85rem/1.5 var(--sans); margin: 0 0 0.3rem; }
+.reg-delta-key { font-weight: 600; opacity: 0.8; }
+.reg-sources { font: 0.8rem/1.4 var(--sans); margin: 0; opacity: 0.75; }
+.reg-sources code { font-family: var(--mono); font-size: 0.78rem; }
+.reg-grounding { margin: 0.5rem 0; font: 0.82rem/1.6 var(--sans); }
+.reg-grounding-label { font-weight: 600; opacity: 0.7; }
+.reg-tag { font: italic 0.8rem/1.4 var(--sans); opacity: 0.6; margin: 0.4rem 0 0; }
