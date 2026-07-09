@@ -162,6 +162,7 @@ for (const [name, caseGraph, caseId] of [["LHC", LHC, "lhc-cascade"], ["populati
 }
 
 console.log("\n" + H);
+if (fails === 0) console.log("verified: the three cases ground correctly under the schema, each claim earning at or below its declared grade, no divergence.");
 console.log(fails === 0 ? "check-migrate: OK  (grounding reproduced, no divergence, no new gap)" : `check-migrate: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

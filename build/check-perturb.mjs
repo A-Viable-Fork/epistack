@@ -96,5 +96,6 @@ if (fails.length) {
   for (const f of fails) console.error("  - " + f);
   process.exit(1);
 }
+console.log("verified: the perturbation cascade is computed from the support graph, reproduces the authored cascades, and is non-destructive and deterministic.");
 console.log("\nOK: perturbation is COMPUTED from the support graph, reproduces the authored cascades, passes the audit, and is non-destructive and deterministic.");
 process.exit(0);

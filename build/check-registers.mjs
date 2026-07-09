@@ -111,4 +111,5 @@ if (fails.length) {
   for (const m of fails) console.log("  - " + m);
   process.exit(1);
 }
+console.log(`verified: the two registers stay in correspondence and every case claim is grounded live under both; ${judgesAccessible.length} sections.`);
 console.log(`\ncheck-registers: OK (${judgesAccessible.length} sections, structure holds; ${verifyCount} authored-fidelity obligations remain, by design)`);

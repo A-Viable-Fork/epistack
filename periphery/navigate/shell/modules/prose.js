@@ -30,9 +30,10 @@
     id: "prose-frame", title: "How to read this surface", kind: "prose", order: 0,
     render: function (ctx) {
       var p = document.createElement("p"); p.className = "shell-lede";
-      p.textContent = REG
+      var orient = "Two ways in. Read the argument below and click any claim to land on its live grounding, the grade it earns and where it can fail, read from the graph rather than asserted in the text; and verify the protocol at the command line, where each oracle states the invariant it checked. ";
+      p.textContent = orient + (REG
         ? "One navigable surface, in two registers over the same grounded claims. The paper below defaults to the accessible register, a plainer reading; the toggle switches any section to the precise register, the canonical argument. Where a section simplifies it says so, in a delta note, and links to its precise counterpart. Where the paper names a case, the phrase links into the graph and carries that node's live grade and robustness, and it does so under both registers, because grounding is a property of the claim and not of how it is read. Every reading is read from the graph through the propose/read contract."
-        : "One navigable surface. The paper below is rendered from its canonical source; the three cases and the live demonstrations follow. Where the paper names a case, the phrase links into the graph and carries that node's live grade and robustness. Every reading is read from the graph through the propose/read contract.";
+        : "One navigable surface. The paper below is rendered from its canonical source; the three cases and the live demonstrations follow. Where the paper names a case, the phrase links into the graph and carries that node's live grade and robustness. Every reading is read from the graph through the propose/read contract.");
       ctx.mount.appendChild(p);
       if (REG) {
         var bar = document.createElement("div"); bar.className = "reg-toggle-bar";

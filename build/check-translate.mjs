@@ -111,6 +111,7 @@ console.log("\n[F] grounding: every declared grade is covered by the earned grad
 }
 
 console.log("\n" + H);
+if (fails === 0) console.log("verified: the trellis-to-schema translation is deterministic and grade-preserving; the same input yields byte-identical records and each node\u0027s earned grade reproduces its terminal floor.");
 console.log(fails === 0 ? "check-translate: OK" : `check-translate: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

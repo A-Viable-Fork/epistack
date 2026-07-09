@@ -170,5 +170,6 @@ ok(gaps.every((g) => g.closing_condition && g.closing_condition.target), "every 
 // =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-covid: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: the origins crux resolves to the four priors at more than one depth, terminating in withheld-record gaps carried as characterized leaps.");
 console.log("check-covid: OK"); console.log(H);
 void crux;

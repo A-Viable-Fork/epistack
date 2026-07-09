@@ -141,4 +141,5 @@ ok(reading.reconciliation.cross.kind === "cross-domain" && (reading.reconciliati
 // =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-reconcile: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: the reconciliation computation resolves each contradiction to the crux where its support cones diverge; the CVD crux resolves to the confounding-adjustment choice, the COVID origins crux to the four priors.");
 console.log("check-reconcile: OK"); console.log(H);

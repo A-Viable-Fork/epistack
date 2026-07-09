@@ -363,5 +363,6 @@ if (fails.length) {
   for (const f of fails) console.error("  - " + f);
   process.exit(1);
 }
+console.log("verified: the gate admits a claim only when its declared grade is covered by the grade it earns; Phases A through D, none admitted above what it earns.");
 console.log("OK: byte-exact canonical form, no float on the path, records match the spec's fields and allowed values, the confidence order holds.");
 process.exit(0);

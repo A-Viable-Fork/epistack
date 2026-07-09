@@ -106,6 +106,7 @@ console.log("\n[7] the provider seam");
 }
 
 console.log("\n" + H);
+if (fails === 0) console.log("verified: a client-side reading is byte-identical to a direct kernel run over the same contract.");
 console.log(fails === 0 ? "check-client: OK (real gate client-side, receipt identical to Node)" : `check-client: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

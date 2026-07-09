@@ -298,4 +298,5 @@ ok(cpDangling.citation_health.dangling === 2, "citation health reflects the boun
 // =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-composition: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: a cross-store crossing copies standing and never assigns it, and the untyped type grounds nothing.");
 console.log("check-composition: OK"); console.log(H);

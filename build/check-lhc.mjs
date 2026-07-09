@@ -157,5 +157,6 @@ ok(supportsInto("closure.empirical").includes(id("add.excluded")), "the empirica
 
 console.log("\n" + H);
 if (fails) { console.log(`check-lhc: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: reifying the dependency the legs share reprices the convergence; the three legs read independent before the shared node and share dep.add and dep.semiclassical after.");
 console.log("check-lhc: OK (Phase C: performed-settling, undercuts, and empirical closure)"); console.log(H);
 void analyzeRobustness;

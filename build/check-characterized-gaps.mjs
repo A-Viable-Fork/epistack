@@ -132,6 +132,7 @@ console.log("\n[7] the read contract exposes characterized gaps");
 }
 
 console.log("\n" + H);
+if (fails === 0) console.log("verified: every characterized leap is capped below the settled tier and carries a typed closing condition.");
 console.log(fails === 0 ? "check-characterized-gaps: OK" : `check-characterized-gaps: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);
