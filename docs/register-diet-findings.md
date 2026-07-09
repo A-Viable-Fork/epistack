@@ -33,26 +33,27 @@ which do work and are kept. The findings below are the residue, and they are mod
   synthesis foil) rather than asserting a checkable claim, but that work is real and on-thesis, so
   it is not decoration to cut. Recorded for completeness, not flagged.
 
-## Load-bearing but under-grounded (ground it, or accept the coarser node)
+## Load-bearing but under-grounded (resolved: the full-merge snapshot grounds them finely)
+
+Both grounding findings below are now **resolved**. The gate snapshot
+(`build/vendor-snapshot.mjs`) merges the two migrated cases with the three densified case stores
+(covid, the densified LHC legs, and the eggs domain stores), so the finer nodes the sentences name
+now resolve through the read contract. The `what-was-built` node_links were upgraded to the finer
+keys accordingly (`corpora/registers/judges-accessible.js`), and the register view grounds the
+reprice on the shared dependency node and the covid verdict on its named prior.
 
 - **`what-was-built` / `kernel-watched-at-work`, the reified shared dependency in the LHC case
   ("one assumption wearing several coats").** Load-bearing: the whole LHC counterexample is that
-  three lines read independent share one dependency. In the accessible and precise registers it
-  grounds to `lhc.claim` and its robustness read, which shows the reprice, but the shared
-  dependency node itself is not exposed as a distinct claim through the read contract (the gate
-  snapshot carries `lhc.antecedent` and the branch claims, not a reified `dep.*` node under all
-  three legs). The claim is grounded at the case level and under-grounded at the dependency level.
-  Decision for the human: wire the reified shared-dependency node into the snapshot so the
-  accessible reader can click the reprice to the exact shared node, or accept `lhc.claim` +
-  robustness as the honest grounding and leave the finer node an authored obligation.
+  three lines read independent share one dependency. **Resolved:** the densified LHC legs are in
+  the snapshot, so the shared dependency node ("framework choice") resolves through the read
+  contract and the accessible reader can click the reprice to the exact shared node, rather than
+  stopping at `lhc.claim` + robustness.
 
 - **`what-was-built`, the COVID priors ("the prior each verdict turns on").** Load-bearing: the
-  COVID counterexample is that the verdict turns on a named prior. The gate snapshot exposes only
-  the coarse `covid.instance` node, not the individual priors, so the accessible and precise
-  registers both ground the move to `covid.instance` rather than to the prior nodes the sentence
-  names. Decision for the human: merge the covid-origins composite (which carries the prior nodes)
-  into the gate snapshot so the priors resolve through the contract, or accept the coarse node and
-  keep the prior-level grounding an authored obligation (listed in the section's `verify`).
+  COVID counterexample is that the verdict turns on a named prior. **Resolved:** the covid-origins
+  store is in the snapshot, so the named prior ("Miller's prior") resolves through the contract and
+  the move grounds on the prior node the sentence names, rather than on the coarse `covid.instance`
+  node.
 
 ## What was checked and found sound
 
@@ -62,5 +63,6 @@ load-bearing and grounded, kept verbatim. The enacted commitments (the opening c
 dated postscript) are promoted to stated commitments, not dropped. No forced isomorphism and no
 homeless truth of the philosophical kind (a Spinoza-or-Deleuze resonance carrying no weight) was
 found, because the document does not lean on that kind of resonance. The diet is therefore short,
-and the two grounding findings above are the ones that would most improve the demonstration if a
-human chooses to act on them.
+and the two grounding findings above, the ones that would most improve the demonstration, have
+since been acted on: the full-merge snapshot grounds both the reprice and the covid verdict on
+their finer nodes.

@@ -128,10 +128,10 @@
       source_links: ["docs/kernel-taxonomy.md", "docs/knowledge-system-how.md"],
       node_links: [
         { phrase: "several independent lines of evidence, all converging on \"safe\"", node_key: "lhc.claim" },
-        { phrase: "the dependency those lines share", node_key: "lhc.antecedent" },
-        { phrase: "one assumption wearing several coats", node_key: "lhc.claim" },
+        { phrase: "the dependency those lines share", node_key: "framework choice" },
+        { phrase: "one assumption wearing several coats", node_key: "framework choice" },
         { phrase: "The COVID origins evidence looks decisive", node_key: "covid.instance" },
-        { phrase: "a single weighing, held in the open", node_key: "covid.instance" },
+        { phrase: "a single weighing, held in the open", node_key: "Miller's prior" },
         { phrase: "swap the frame it takes for granted", node_key: "eggs.comparison" },
         { phrase: "the verdict swaps with it", node_key: "eggs.prediction" },
         { phrase: "The egg nutrition verdict reads like a plain fact", node_key: "eggs.instance" }
@@ -139,7 +139,7 @@
       verify: [
         "type-first reframe: the opening now states the contribution is the knowledge kernel type and the top-down meta kernel is its fitted instance; confirm the accessible opening matches the reframed precise opening and holds the both-markets-unpopulated honesty",
         "earned case-figures kept verbatim and grounded (no delta): 'one assumption wearing several coats' -> lhc.claim robustness; confirm the reprice is the read the reader lands on",
-        "DEPARTURE: the COVID priors and the shared LHC dependency are finer than the nodes the gate snapshot exposes; covid.instance and lhc.antecedent carry the claim, and the finer prior/dependency grounding is an authored obligation until covid/lhc fine nodes are wired through the contract",
+        "the shared LHC dependency now grounds to the reified framework-choice node and the COVID move to a named prior, both resolved through the read contract after the full-merge snapshot; confirm 'framework choice' and \"Miller's prior\" are the faithful finer nodes",
         "eggs frame-swap mapped to eggs.comparison (mean vs individual) and eggs.prediction (mean applied to an individual); confirm these are the faithful framing nodes",
         "constitutive tail 'honestly terminates' -> 'honestly ends' + 'a public act of settling what healthy will mean'; delta names the floor as proper, not a shortfall",
         "enumeration kept whole: the closing 'three domains ... one schema' carries three grounding links, one per case"
