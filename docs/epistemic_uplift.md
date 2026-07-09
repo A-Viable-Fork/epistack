@@ -2,7 +2,7 @@
 Type: argument
 Purpose: Argues the epistemic-uplift and generalizability case, deriving the market of views from the trust-view cut.
 Depends on: docs/api.md, docs/parameters-register.md, docs/trust-and-view.md
-Depended on by: docs/criteria-to-architecture-map.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
+Depended on by: docs/criteria-to-architecture-map.md, docs/reading-the-brief.md, docs/register-view.md, docs/what-stands-without-trust.md
 ---
 
 # Epistemic Uplift
