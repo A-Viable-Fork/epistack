@@ -5,7 +5,7 @@
 // Contract: `node build/check-characterized-gaps.mjs` exits non-zero on any failure. Imports the v3
 //   kernel, the analysis module, and (for exposure) the client contract and the snapshot.
 // Invariant: the transfer reuses the support/contamination path; the reading computes no grade. A
-//   re-run is byte-identical. No case data changes; the migrated corpus carries no leaps.
+//   re-run is byte-identical. No case data changes; the full-merge snapshot carries the covid and eggs leaps.
 "use strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -128,7 +128,7 @@ console.log("\n[7] the read contract exposes characterized gaps");
   const api = createClientApi(createLocalProvider(snapshot));
   ok(typeof api.characterizedGaps === "function", "the contract exposes characterizedGaps, obtained like grounding and robustness");
   const got = api.characterizedGaps({});
-  ok(Array.isArray(got) && got.length === 0, `the migrated corpus carries no leaps: it reads zero characterized gaps (got ${got.length})`);
+  ok(Array.isArray(got) && got.length > 0, `the full-merge snapshot (all four cases) carries the covid and eggs characterized gaps, read through the contract (got ${got.length})`);
 }
 
 console.log("\n" + H);

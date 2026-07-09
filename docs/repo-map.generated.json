@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 153,
-  "edgeCount": 288,
+  "edgeCount": 291,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -903,7 +903,7 @@
       "path": "build/vendor-snapshot.mjs",
       "type": "build",
       "group": null,
-      "role": "freeze the migrated corpus into one store snapshot the local provider proposes against. Runs the trellis-to-v3 translator over the real cases, merges them into one store state, and writes vendor/gate/snapshot.json = { state, sources, kinds }. The provider (api/providers/local- provider.mjs) loads this and runs the real gate over it, in Node and in the browser alike.",
+      "role": "freeze the migrated corpus into one store snapshot the local provider proposes against. Runs the trellis-to-v3 translator over the two migrated cases and merges in the three densified case stores (covid, the densified LHC legs, and the eggs domain stores) so the propose widget spans all four cases and the register view can ground a case claim on its finer node (a covid prior, the reified LHC shared dependency) through the read contract. Writes vendor/gate/snapshot.json = { state, sources, kinds }. The provider (api/providers/local-provider.mjs) loads this and runs the real gate over it, in Node and in the browser alike.",
       "contract": "`node build/vendor-snapshot.mjs` writes the snapshot. No arguments."
     },
     {
@@ -2804,6 +2804,27 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-snapshot.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "linter.js",

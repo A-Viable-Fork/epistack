@@ -131,7 +131,7 @@ const snapshot = JSON.parse(readFileSync(join(ROOT, "vendor/gate/snapshot.json")
 const api = createClientApi(createLocalProvider(snapshot));
 const overSnapshot = api.reconciliations({});
 ok(Array.isArray(overSnapshot), "reconciliations() is on the contract, obtained the way grounding and robustness are");
-ok(overSnapshot.length === 0, "over the closed migrated snapshot (no contradicts links) it honestly reads none");
+ok(overSnapshot.length > 0, `over the full-merge snapshot (all four cases) it reads the covid-origins contradictions through the contract (${overSnapshot.length})`);
 // the eggs CVD reconciliation is surfaced in the eggs reading (the composite is not in the snapshot).
 const reading = JSON.parse(readFileSync(join(ROOT, "vendor/eggs/reading.json"), "utf8"));
 ok(reading.reconciliation && reading.reconciliation.within.kind === "within-domain" && reading.reconciliation.within.shallow === false, "the presentation reading carries the CVD within-domain crux, now resolving to the confounding-adjustment frontier (Prompt 26)");
