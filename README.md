@@ -7,6 +7,8 @@ Depended on by: nothing
 
 # EpiStack
 
+This submission is two of the shapes the brief names: a critique with counterexamples, and the protocol it forces. The critique is below, in the clearing of synthesis, that knowledge is what stands when trust in the author is removed and synthesis cannot remove it. The protocol is the kernel that clearing leaves standing, the machine that does the removing and lets the results compound. The critique is complete; the protocol is its answer under construction.
+
 EpiStack is a knowledge kernel, a type of epistemic infrastructure: a fixed core that declares grounding and lints it in CI, with two independent markets over it, a market of kernels to trust and a market of surfaces to read and write through. This submission builds one arrangement of that type, a top-down meta kernel, one designed schema for claims and their grounding, demonstrably spanning three domains that share nothing, physics measurement, epidemiological contestation, normative weighing. The top-down arrangement is the setting a sole author fits to a competition asking for one checkable analysis, not the contribution; the contribution is the type. To see why, begin by clearing synthesis.
 
 There are two ways into this submission: read the argument and click any claim to land on the grounding beneath it, its grade and where it can fail, computed from the graph rather than asserted in the text; or verify the protocol by running the oracles, each of which states the invariant it checked.
