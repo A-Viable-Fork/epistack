@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 152,
-  "edgeCount": 286,
+  "nodeCount": 153,
+  "edgeCount": 288,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -786,6 +786,13 @@
       "group": null,
       "role": "the documentation-graph oracle (Prompt 37). Verifies the two typed dependency chains the document-style-guide defines, by their two different truth conditions. The argument chain is authored and checked for SYMMETRY: every \"Depends on\" edge has its \"Depended on by\" backlink and vice versa (the dangling-citation check, the documentation analog of the contamination the kernel forbids). The code chain is derived and checked for AGREEMENT with the real imports: every declared code edge is a real cross-directory import and every such import is declared.",
       "contract": "`node build/check-docs.mjs`. Exits 0 if both graphs hold, 1 with a named report. Reads the front-matter header of every tracked .md document; the generated repo map (docs/repo-map.md) is excluded per the guide. Pure over the tree; imports nothing from the repo."
+    },
+    {
+      "path": "build/check-registers.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the register drift oracle (register view, phase E). Verifies the structural properties the register-view design names, holding the two registers together so neither silently drifts: every precise section has an accessible counterpart and vice versa, every accessible section carries its source links and its register link and an explicit delta (null or text), every node link resolves to a real node through the read contract under both registers, and every precise_version hash matches its current precise section.",
+      "contract": "`node build/check-registers.mjs`. Exits 0 if the structure holds, 1 with a named report. Reads docs/what-stands-without-trust.md (the precise register), corpora/registers/judges-accessible.js (the accessible register), and vendor/gate/snapshot.json through the real provider/contract."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -2174,6 +2181,20 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-registers.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-registers.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-robustness.mjs",

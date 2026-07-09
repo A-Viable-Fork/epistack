@@ -49,6 +49,7 @@ node build/check-client.mjs
 node build/check-robustness.mjs
 node build/check-characterized-gaps.mjs
 node build/check-composition.mjs
+node build/check-registers.mjs    # the two registers held together: counterpart, links, delta, grounding under both
 node build/check-map.mjs          # derives the import graph, enforces the trust boundary
 ```
 
