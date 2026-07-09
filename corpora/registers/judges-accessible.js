@@ -109,10 +109,11 @@
     },
     {
       section_id: "what-was-built",
-      precise_anchor: "What was built: a top-down meta kernel",
-      precise_version: "bc462ca7bc1e0589",
+      precise_anchor: "What was built: a knowledge kernel, arranged top-down",
+      precise_version: "4b02094ef905e2ac",
       register_link: "paper-4",
       accessible:
+        "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, which open two independent markets, one of kernels to trust and fork and one of surfaces to read and write through. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead. What follows is evidence the type works, shown on the arrangement this author fitted.\n\n" +
         "This submission is a top-down meta kernel, and that is its exact description: one designed schema, shown to span three domains that share nothing in subject matter, physics measurement, epidemiological contestation, normative weighing. \"Shown\" is the word doing the work: a schema for all things would be an unfalsifiable boast, a schema for these three, with the tree in the repository, is checkable.\n\n" +
         "The schema is small. Every claim sits at a position in one ordering, from the untyped type at the bottom, through the tiers of a still-contested claim, to three floors at the top: proof, measurement, and declaration. The ordering measures one thing, how much a downstream claim may lean on this one. Two positions ride on each claim, the highest its kind could ever reach and the grounding it actually reaches given what it rests on, and a claim is as settled as its kind allows exactly when the two meet. Each claim also carries its history, its origin and its crossings and the forks that retyped it, so its standing is a chain back to a floor that any reader can walk, not a bare verdict.\n\n" +
         "Grounding propagates by one rule. A claim that needs several parts is as grounded as its weakest necessary part; a claim with several sufficient paths takes its strongest; support that leans on a contested assumption carries the contest forward. The gate admits a contribution only when the grounding it declares is covered by the grounding it can show, so the graph never holds more standing than it earned. The floor is the only anchor, and every claim above it inherits its standing by this rule from what it rests on, never from who asserted it, and the rule that prices a physics assumption prices an epidemiological prior by the same arithmetic.\n\n" +
@@ -136,6 +137,7 @@
         { phrase: "The egg nutrition verdict reads like a plain fact", node_key: "eggs.instance" }
       ],
       verify: [
+        "type-first reframe: the opening now states the contribution is the knowledge kernel type and the top-down meta kernel is its fitted instance; confirm the accessible opening matches the reframed precise opening and holds the both-markets-unpopulated honesty",
         "earned case-figures kept verbatim and grounded (no delta): 'one assumption wearing several coats' -> lhc.claim robustness; confirm the reprice is the read the reader lands on",
         "DEPARTURE: the COVID priors and the shared LHC dependency are finer than the nodes the gate snapshot exposes; covid.instance and lhc.antecedent carry the claim, and the finer prior/dependency grounding is an authored obligation until covid/lhc fine nodes are wired through the contract",
         "eggs frame-swap mapped to eggs.comparison (mean vs individual) and eggs.prediction (mean applied to an individual); confirm these are the faithful framing nodes",
