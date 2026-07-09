@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 152. Import edges: 260. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 153. Import edges: 262. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -179,6 +179,8 @@ Nodes: 152. Import edges: 260. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-reconcile.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/check-reconcile.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-reconcile.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-registers.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-registers.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-robustness.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-robustness.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-robustness.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*

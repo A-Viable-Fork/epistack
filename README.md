@@ -24,6 +24,7 @@ The periphery around the kernel is thin by choice, the smallest surface that sho
 From here:
 
 - **The full argument:** [What Stands Without Trust](docs/what-stands-without-trust.md), the taxonomy in full, the schema, and the federation appendix
+- **The accessible way in:** open [`submission.html`](submission.html) and read the paper in the accessible register, a plainer reading of every section; the precise register is one toggle away, and both stand on the same grounded nodes, so a case claim carries its live grade in either reading. The design is [The Register View](docs/register-view.md)
 - **The cases, to walk them:** [`corpora/`](corpora/), LHC safety, COVID origins, egg nutrition, one machinery carrying each to its own termination
 - **The guided path:** open [`submission.html`](submission.html) and begin at the walk it opens on, the three counterexamples above staged in sequence, each stop carrying the fluent reading, the counterexample, the receipt to reproduce, and a pointer into the exact case region; the same receipts run headless with [`node build/check-demo.mjs`](build/check-demo.mjs)
 - **The criterion lookup:** [the criteria-to-architecture map](docs/criteria-to-architecture-map.md), from the argument to where each criterion is answered in the tree
