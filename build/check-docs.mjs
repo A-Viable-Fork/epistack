@@ -151,5 +151,6 @@ if (fails.length) {
   for (const f of fails) console.error("  - " + f);
   process.exit(1);
 }
+console.log(`verified: every Depends-on edge has its backlink; ${docs.length} documents, the argument graph symmetric.`);
 console.log(`check-docs: OK (${docs.length} documents, argument graph symmetric, code graph agrees with imports)`);
 console.log(H);

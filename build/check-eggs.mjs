@@ -223,4 +223,5 @@ if (existsSync(readingPath)) {
 // =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-eggs: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: swapping the framing node reframes the verdict while every per-unit measurement holds its floor grade.");
 console.log("check-eggs: OK"); console.log(H);

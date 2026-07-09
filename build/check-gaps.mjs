@@ -177,5 +177,6 @@ if (fails.length) {
   for (const f of fails) console.error("  - " + f);
   process.exit(1);
 }
+console.log("verified: the gap detector reproduces the sorry ledger exactly, adds no false gap, and ranks nothing.");
 console.log("\nOK: predicates pass in isolation; the detector reproduces the ledger and ranks nothing.");
 process.exit(0);

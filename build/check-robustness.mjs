@@ -169,6 +169,7 @@ console.log("\n[8] the API read: a client obtains robustness the same way it obt
 }
 
 console.log("\n" + H);
+if (fails === 0) console.log("verified: the fragility computation finds each claim\u0027s single points of failure by re-derivation, not by assertion.");
 console.log(fails === 0 ? "check-robustness: OK (fixtures + two closures + case readings + API read)" : `check-robustness: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

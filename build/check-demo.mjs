@@ -92,4 +92,5 @@ console.log("\n[RECEIPT 3] the eggs framing swaps: reframe the verdict, leave ev
 
 console.log("\n" + H);
 if (fails) { console.log(`check-demo: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: each of the three counterexamples fires on the dense content, recomputed from the graph rather than asserted.");
 console.log("check-demo: OK (three counterexamples, each fired on the dense content)"); console.log(H);

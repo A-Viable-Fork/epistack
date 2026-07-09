@@ -86,4 +86,5 @@ console.log("      the withheld-record and constitutive terminals are described 
 
 console.log("\n" + H);
 if (fails) { console.log(`check-atlas: ${fails} FAILURE(S)`); process.exit(1); }
+console.log("verified: every atlas pattern carries its typed preconditions and the coverage detector finds no gap on them; the two registered patterns, both admission tests.");
 console.log("check-atlas: OK (two registers, both admission tests, pending named)"); console.log(H);

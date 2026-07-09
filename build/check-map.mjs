@@ -160,6 +160,7 @@ if (fails.length) {
   for (const f of fails) console.error("  - " + f);
   process.exit(1);
 }
+console.log("verified: every periphery module reaches the graph only through the read and propose contract, never past it to the truth fields.");
 console.log("OK: coverage holds both ways, every import edge satisfies the trust boundary, every flow is supported.");
 console.log("wrote docs/repo-map.generated.json and docs/repo-map.md");
 process.exit(0);
