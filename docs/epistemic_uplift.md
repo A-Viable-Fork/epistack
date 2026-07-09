@@ -2,7 +2,7 @@
 Type: argument
 Purpose: Argues the epistemic-uplift and generalizability case, deriving the market of views from the trust-view cut.
 Depends on: docs/api.md, docs/parameters-register.md, docs/trust-and-view.md
-Depended on by: docs/reading-the-brief.md
+Depended on by: docs/criteria-to-architecture-map.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
 ---
 
 # Epistemic Uplift
@@ -24,6 +24,16 @@ That reframes the reader, and it is the actual uplift. In a market of views over
 Reader freedom is graduated, and naming the two markets keeps it honest. Within one kernel there is a market of peripheries, competing views over shared trust, and a reader moves among them freely. Across kernels there is a market of kernels, competing trust bases joined by the untyped bridges, which is the federation, and a reader moves among those at the untyped-crossing cost. Free within a trust base, costed across trust bases, which is top-down inside a kernel and bottom-up across them, the taxonomy seen from the reader's side.
 
 The market is enabled, not guaranteed, and the mechanism that enables it is the external contract. The three thin peripheries in the tree are a market of one author. The external contract is what lets peripheries built by others read grounded claims and propose new ones over the kernel, which is what turns the uplift from single-author to an actual market, so the external contract is not a side capability but the mechanism that makes the market claim real. Whether a market forms is an adoption question, the same honesty as minimal periphery: the architecture makes a market possible and the contract lowers the barrier to entry, and the claim is that the structure unlocks a market, not that one exists. And the market amplifies the kernel in both directions, since many good views over bad grounding is many views of garbage, but the grounding is checkable and a bad kernel is forkable, so the market is self-correcting through the fork rather than by trusting the kernel to be good.
+
+## Teaching is downstream of claim
+
+The competition's first criterion benchmarks uplift against off-the-shelf research and coding assistants, which deliver teaching uplift: they bring a reader up to speed, explain a topic, make an investigator faster. That is real and those tools do it well. The knowledge itself is a second thing, whether the claim as an object is checkable, composable, and able to stand when trust in its asserter is subtracted, and this is claim uplift. The two are not orthogonal. They are ordered, and the order is the trust-view cut seen once more.
+
+One direction is empty. A better synthesis teaches better and leaves the claim beneath it exactly as checkable as it was, which is not at all, because a synthesis fuses trust and view and a clearer fusion is still a fusion. There is no separable object that a better explanation made verifiable; extracting the claim into something a second party can check is a distinct act, performed by whoever builds the kernel, and the synthesis confers none of it. Teaching does not reach claim.
+
+The other direction carries, on two channels. The structure teaches the shape of a dispute, what is load-bearing, where the crux sits, what is measured and what is declared, what is settled and what merely performs settling, and it teaches exactly what a fluent synthesis buries, because a synthesis smooths the counterexample flat while the structure reifies it as a node a reader can inspect. This is not teaching a topic faster, which the structure does not especially do; it is teaching a thing a synthesis has no object to teach, and the guided path is where a reader meets it, walking the LHC reprice or the COVID crux and learning something true about the dispute that no synthesis taught. The market is the second channel: every view over the kernel is a teacher, an unbounded number stand over one trust base, and none re-charges the trust, whereas a synthesis that teaches well is its trust, fused, so it admits exactly one teacher. The trust base carries more teaching than any single synthesis can, and carries it because the trust was separated out.
+
+One mechanism runs under both channels. Teaching is a view, presentation fitted to a reader whose purpose is to understand, and a view stands on a trust-side object. A synthesis holds no such objects apart from its prose, so there is nothing for a second teaching-view to stand on and the reverse direction stays empty; the kernel makes the crux, the load-bearing node, the frame-dependence into objects, and once they are objects a view can teach them. Claim uplift teaches by creating the objects teaching stands on. The ordering is guaranteed rather than contingent because view forms over trust and trust does not need view, and teaching over claim is that same cut applied to uplift. The direct channel is modest and present, the market channel is enabled and not guaranteed, and both sit downstream of the one axis this submission builds.
 
 ## The exemplary efforts this structure would sharpen
 
