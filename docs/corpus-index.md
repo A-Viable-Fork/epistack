@@ -98,6 +98,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/lhc/lhc-tables.js` | the densified LHC-cascade reference tables (Prompt 25): a source row per cited report/study, and the kind table (a derivation floor/constitutive, a measurement floor/checked, a forum band/corroborated) |
 | `corpora/lhc/lhc-legs.js` | the densified LHC cascade (Prompt 25): the three legs and their computed quantities to their floors, the reified ADD framework-choice and semiclassical shared dependencies, the framework-swap framing records, the undercuts, the performed-settling pair, and the empirical-closure and conditionality meta-claims |
 | `corpora/population/population-pipeline.js` | the population-mismatch pattern demonstration, authored as data (docs/population-pipeline.md). A distinct structural demo (same machinery, the failure localized at different stages), NOT the canonical covid or eggs case; kept by design (Prompt 24, Option B) |
+| `corpora/registers/judges-accessible.js` | the accessible register of the judges document (register view, phase B): one section record per precise section of docs/what-stands-without-trust.md, carrying the accessible-register prose, its delta, its source and node links, and the authored-verification list; the precise register stays the canonical markdown. Grounding is invariant across registers, node_links resolve through the read contract |
 
 ## periphery/ (fallible; reaches the kernel only through api/)
 
