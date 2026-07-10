@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 170,
-  "edgeCount": 349,
+  "nodeCount": 174,
+  "edgeCount": 352,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -620,6 +620,13 @@
       "contract": "boots on load; #client=<name> selects the client, #node=<id> sets the entry node. Renders a gallery (every client, node-preserving, shareable by hash) and mounts into #app."
     },
     {
+      "path": "periphery/navigate/render/kernel-file.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the self-contained kernel file's own surface. It renders one generated kernel's claims and their grounding from the vendored snapshot through the real read contract, and wires the download-repo button that hands the whole kernel back as a detached repository (a store-only zip of the inlined bundle: the kernel's real files, the substrate vendored at a pin, the build imports rewritten). It reuses the propose widget for authoring; it computes no grade and stores no truth of its own.",
+      "contract": "reads #kernel-meta (id, pin), #pw-snapshot (the store), and #detached-bundle (the repo tree), and the vendored contract (window.EpiClientApi / EpiLocalProvider). Renders into #kernel-claims and binds #kernel-download. Periphery: reaches the kernel only through the contract."
+    },
+    {
       "path": "periphery/navigate/render/propose-widget.js",
       "type": "periphery",
       "group": "consumer",
@@ -912,6 +919,27 @@
       "group": null,
       "role": "build the standalone kernel-manager page. Runs build/vendor-management.mjs and build/vendor-gate-browser.mjs, then inlines the shell, the manager module, the vendored claim and management contracts, the claim snapshot, and the management snapshot into one file (manager-probe.html) that opens from file:// with no server. Separate from build/bundle.js on purpose: this slice ships its own page and does not rebuild submission.html.",
       "contract": "`node build/build-manager-probe.mjs` writes manager-probe.html at the repo root. No arguments."
+    },
+    {
+      "path": "build/vendor-kernel.mjs",
+      "type": "build",
+      "group": null,
+      "role": "freeze one generated kernel into the store snapshot the local provider proposes against, the generic analogue of build/vendor-snapshot.mjs but scoped to a single kernel. It runs the kernel's own builder (build/<id>-build.mjs), takes the already-gated state and the source and kind tables the builder produced, and serializes them as { state, sources, kinds }. The self-contained kernel file inlines this so the same real gate runs in-page over exactly the claims the kernel grounded.",
+      "contract": "`node build/vendor-kernel.mjs <id>` dynamic-imports ./<id>-build.mjs, calls buildKernel(), and writes vendor/<id>/kernel-snapshot.json. Build layer; imports the kernel schema tables only to read the shapes the builder returns. Returns nothing; the file is the artifact."
+    },
+    {
+      "path": "build/build-detached-kernel.mjs",
+      "type": "build",
+      "group": null,
+      "role": "assemble a generated kernel as a detached repository with its substrate pinned. It vendors the whole kernel (the substrate, self-contained, imports only itself) under substrate/kernel/, copies the generated kernel's corpora and build files, rewrites the build files' ../kernel imports to the substrate path, records a real content-hash pin of the substrate, and writes a README naming the live git-submodule fetch as the production form this vendored pin stands in for. The detached repo runs its check on unzip with no fetch step.",
+      "contract": "assembleDetached(id) -> { files: { relpath: content }, pin }. CLI: `node build/build-detached-kernel.mjs <id> <outdir>` writes the tree and prints where. Build layer, may reach any layer; imports node builtins for the pin hash and the filesystem walk."
+    },
+    {
+      "path": "build/build-kernel-file.mjs",
+      "type": "build",
+      "group": null,
+      "role": "build the self-contained kernel file for one generated kernel. It vendors the kernel's store snapshot (build/vendor-kernel.mjs), refreshes the browser contract bundle (build/vendor-gate-browser.mjs), assembles the detached repository (build/build-detached-kernel.mjs), stages all three as JSON the template inlines, and produces <id>.kernel.html: one file that IS the kernel, opens from file://, renders its claims and grounding, authors through the real gate, and carries the detached repo the download button hands back. It reuses the gate, the contract, the propose widget, and the receipt rendering; it reimplements none of them.",
+      "contract": "`node build/build-kernel-file.mjs <id> [outfile]` writes <id>.kernel.html (default at the repo root). Build layer; may reach any layer. The kernel's builder and corpora must already exist."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -1793,6 +1821,20 @@
     {
       "from": "build/bottomup-build.mjs",
       "to": "build/lineage-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/build-kernel-file.mjs",
+      "to": "build/vendor-kernel.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/build-kernel-file.mjs",
+      "to": "build/build-detached-kernel.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
@@ -3494,6 +3536,11 @@
     {
       "from": "periphery/navigate/render/host.js",
       "to": "api/api.js",
+      "type": "reads-through-api"
+    },
+    {
+      "from": "periphery/navigate/render/kernel-file.js",
+      "to": "api/client-api.mjs",
       "type": "reads-through-api"
     },
     {

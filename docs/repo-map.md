@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 170. Import edges: 318. Runtime flow edges: 31. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 174. Import edges: 320. Runtime flow edges: 32. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -107,6 +107,8 @@ Nodes: 170. Import edges: 318. Runtime flow edges: 31. All import edges satisfy 
 - `build/bottomup-build.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/bottomup-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/bottomup-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/build-kernel-file.mjs` -> `build/build-detached-kernel.mjs`  *(build -> build)*
+- `build/build-kernel-file.mjs` -> `build/vendor-kernel.mjs`  *(build -> build)*
 - `build/check-agreement.mjs` -> `build/adoption.mjs`  *(build -> build)*
 - `build/check-agreement.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
@@ -369,6 +371,7 @@ Nodes: 170. Import edges: 318. Runtime flow edges: 31. All import edges satisfy 
 - `periphery/navigate/fat/teaching.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/fat/thin.js` **reads-through-api** `api/api.js`
 - `periphery/navigate/render/host.js` **reads-through-api** `api/api.js`
+- `periphery/navigate/render/kernel-file.js` **reads-through-api** `api/client-api.mjs`
 - `periphery/navigate/render/propose-widget.js` **reads-through-api** `api/client-api.mjs`
 - `periphery/navigate/shell/modules/cases.js` **reads-through-api** `api/client-api.mjs`
 - `periphery/navigate/shell/modules/demos.js` **reads-through-api** `api/client-api.mjs`
