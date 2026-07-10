@@ -142,6 +142,11 @@ module.exports = [
     ]
   },
   {
+    "path": "periphery/navigate/shell/modules/manager.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
     "path": "periphery/navigate/shell/modules/prose.js",
     "type": "periphery",
     "group": "consumer"

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kernel manager (probe, slice one)</title>
+<!-- Standalone: no web fonts, no network. The manager module reads the federation view (real state from
+     build/bottomup-build and the adoption layer) and reads a live grade through the propose/read contract. -->
+<style>@@INCLUDE:periphery/navigate/shell/styles/shell.css@@</style>
+<style>
+.mgr-kernel{border:1px solid #ccc;border-radius:6px;padding:.7em .9em;margin:.6em 0;}
+.mgr-kernel-head{font-size:1.1em;}
+.mgr-kernel-id{font-weight:700;font-family:var(--mono,monospace);}
+.mgr-by{color:#666;font-style:italic;margin-left:.4em;}
+.mgr-prov{color:#777;font-size:.85em;margin:.2em 0 .5em;}
+.mgr-tier{margin:.3em 0;font-size:.92em;}
+.mgr-kind{display:inline-block;border-radius:4px;padding:.05em .45em;margin:.1em;font-family:var(--mono,monospace);font-size:.85em;}
+.mgr-kind-local{background:#e8dff5;border:1px solid #b79ce0;}
+.mgr-kind-shared{background:#dfeaf5;border:1px solid #9cbfe0;}
+.mgr-none{color:#999;font-style:italic;}
+.mgr-grade{font-size:.9em;}
+.mgr-crossings{list-style:none;padding:0;}
+.mgr-crossings li{border-left:3px solid #ddd;padding:.3em .7em;margin:.4em 0;}
+.mgr-cross{font-family:var(--mono,monospace);font-weight:600;}
+.mgr-cross-kind{color:#666;font-size:.85em;font-family:var(--mono,monospace);}
+.mgr-cross-note{color:#777;font-size:.82em;margin-top:.2em;}
+.mgr-status{display:inline-block;border-radius:4px;padding:.05em .5em;font-size:.82em;font-weight:600;}
+.mgr-status-native{background:#d8efd8;border:1px solid #7bc47b;}
+.mgr-status-untyped{background:#f2e2c8;border:1px solid #d8ad6a;}
+.mgr-adopt{border:1px solid #9cbfe0;border-radius:6px;padding:.8em 1em;background:#f6f9fc;}
+.mgr-adopt-head{font-weight:700;margin-bottom:.3em;}
+.mgr-adopt-state{margin:.5em 0;font-family:var(--mono,monospace);}
+.mgr-adopt-btn{padding:.4em .9em;border-radius:5px;border:1px solid #7ba;cursor:pointer;}
+.mgr-adopt-btn:disabled{opacity:.5;cursor:default;}
+.mgr-receipt{margin-top:.6em;padding:.5em .7em;border-left:3px solid #7bc47b;background:#eef7ee;font-size:.9em;}
+</style>
+</head>
+<body>
+<header class="shell-header">
+  <h1>Kernel manager <span style="font-weight:400;font-size:.6em;color:#777">probe, slice one</span></h1>
+  <div class="shell-tag">A surface over the real contract where kernels are operated, not just read. The list and crossings are real state from build/bottomup-build and the adoption layer; the live grade is read through the propose/read contract; the adopt is a real pin of a real type-hash. What driving a write from a surface taught is in docs/manager-probe-findings.md.</div>
+</header>
+<div class="shell-wrap">
+  <nav class="shell-nav" id="shell-nav" aria-label="contents"></nav>
+  <main class="shell-content" id="shell-content"></main>
+</div>
+
+<!-- the store snapshot the contract reads (the live grade side of the surface) -->
+<script type="application/json" id="pw-snapshot">@@INCLUDE:vendor/gate/snapshot.json@@</script>
+<!-- the federation view: members, tiers, crossings, and the adopt probe, from build/vendor-federation.mjs -->
+<script type="application/json" id="federation-view">@@INCLUDE:vendor/federation/federation-view.json@@</script>
+
+<!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider) -->
+<script>@@INCLUDE:vendor/gate/gate.bundle.js@@</script>
+<!-- the shell, then the manager module that registers on it -->
+<script>@@INCLUDE:periphery/navigate/shell/shell.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/manager.js@@</script>
+<!-- boot: bind the contract to the local provider and compose the registered module -->
+<script>
+(function () {
+  "use strict";
+  var snap = JSON.parse(document.getElementById("pw-snapshot").textContent);
+  var api = window.EpiClientApi.createClientApi(window.EpiLocalProvider.createLocalProvider(snap));
+  window.EpiShell.compose({ api: api, nav: document.getElementById("shell-nav"), content: document.getElementById("shell-content") });
+})();
+</script>
+</body>
+</html>

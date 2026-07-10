@@ -136,6 +136,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-federation.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/build-manager-probe.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },
