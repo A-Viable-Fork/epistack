@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kernel: @@KERNEL_ID@@</title>
+<!-- Standalone: no web fonts, no network, no server. This file IS the kernel: it inlines the kernel's
+     vendored snapshot, runs the real gate in-page over it, and carries the detached repository the
+     download button hands back. It opens from file:// with a double-click. -->
+<style>@@INCLUDE:periphery/navigate/shell/styles/shell.css@@</style>
+<style>@@INCLUDE:periphery/navigate/render/styles/propose-widget.css@@</style>
+<style>
+.kf-wrap{max-width:60em;margin:0 auto;padding:1em 1.2em 3em;}
+.kf-lede{color:#555;font-size:.95em;max-width:44em;}
+.kf-section{margin:1.6em 0;}
+.kf-section h2{font-size:1.15em;border-bottom:1px solid #ddd;padding-bottom:.2em;}
+.kf-claims{border-collapse:collapse;font-size:.88em;width:100%;}
+.kf-claims th,.kf-claims td{border:1px solid #ccc;padding:.3em .55em;text-align:left;vertical-align:top;}
+.kf-claims th{background:#f4f4f4;}
+.kf-claims .kf-stmt{max-width:24em;}
+.kf-claims code{font-size:.85em;}
+.kf-empty{background:#f6f9fc;border:1px solid #9cbfe0;border-radius:6px;padding:.8em 1em;}
+.kf-download{border:1px solid #7ba;border-radius:6px;padding:.9em 1.1em;background:#f3f9f6;}
+.kf-download-btn{padding:.5em 1.1em;border-radius:5px;border:1px solid #4a8f6f;background:#e4f3ec;cursor:pointer;font-size:.95em;}
+.kf-download-note{color:#555;font-size:.88em;margin:.5em 0;}
+.kf-download-status{font-size:.85em;color:#2a6f4a;margin-top:.4em;}
+.kf-pin{font-family:var(--mono,monospace);font-size:.82em;color:#666;word-break:break-all;}
+</style>
+</head>
+<body>
+<header class="shell-header">
+  <h1>Kernel <span class="kf-pin">@@KERNEL_ID@@</span></h1>
+  <div class="shell-tag">One self-contained knowledge kernel. It renders its own claims and their grounding through the real read contract, authors a claim through the real gate, and hands the whole kernel back as a detached repository pinned to its substrate. Standalone: opens from file://, no server, no network.</div>
+</header>
+
+<div class="kf-wrap">
+  <p class="kf-lede">This is one kernel, scoped to itself. Everything below runs in this page: the claims and grades are read through the contract, the propose form runs the same gate the oracles run, and the download hands you the kernel as files you can unzip and run.</p>
+
+  <section class="kf-section">
+    <h2>Claims and grounding</h2>
+    <div id="kernel-claims"></div>
+  </section>
+
+  <section class="kf-section">
+    <h2>Author a claim through the gate</h2>
+    <div class="pw-run" id="pw">
+      <p class="pw-intro">Enter a typed claim and read the gate's receipt: the grade it earns against what you declared, or the refusal with the failing check named. The form calls the contract and renders; it computes no grounding itself.</p>
+      <div class="pw-field"><label for="pw-statement">Statement</label><textarea id="pw-statement" placeholder="A single, checkable claim in one sentence."></textarea></div>
+      <div class="pw-row2">
+        <div class="pw-field"><label for="pw-kind">Kind</label><select id="pw-kind"></select></div>
+        <div class="pw-field"><label for="pw-declared">Claim a grade</label><select id="pw-declared"></select></div>
+      </div>
+      <div class="pw-field"><label for="pw-citation">Citation (optional)</label><input type="text" id="pw-citation" placeholder="e.g. Author 2020, Journal"></div>
+      <div class="pw-field">
+        <label for="pw-support-filter">Supports, chosen from this kernel's store</label>
+        <input type="text" id="pw-support-filter" placeholder="filter the store by text or kind…">
+        <div class="pw-supports" id="pw-supports"></div>
+      </div>
+      <div class="pw-providers">
+        <span>Provider:</span>
+        <label><input type="radio" name="pw-provider" value="local" checked> local (runs the gate here)</label>
+        <label><input type="radio" name="pw-provider" value="remote"> remote (stub, stands in for a hosted kernel)</label>
+      </div>
+      <button class="pw-btn" id="pw-run">Propose to the gate</button>
+      <div class="pw-status" id="pw-status"></div>
+      <div class="pw-out" id="pw-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="kf-section">
+    <h2>Take the kernel with you</h2>
+    <div class="kf-download">
+      <p class="kf-download-note">Download this kernel as a detached repository: its own files, plus the substrate vendored under <code>substrate/kernel/</code> at a pinned version, with the build imports rewritten to the substrate path. It runs its check on unzip with no fetch. The README names the live git-submodule fetch as the production form this vendored pin stands in for.</p>
+      <button class="kf-download-btn" id="kernel-download">Download detached repository (.zip)</button>
+      <div class="kf-download-status" id="kernel-download-status"></div>
+    </div>
+  </section>
+</div>
+
+<!-- the kernel's identity and substrate pin -->
+<script type="application/json" id="kernel-meta">@@INCLUDE:vendor/kernel-file/meta.json@@</script>
+<!-- the vendored store snapshot the contract reads and the gate runs over -->
+<script type="application/json" id="pw-snapshot">@@INCLUDE:vendor/kernel-file/snapshot.json@@</script>
+<!-- the detached repository, the exact file tree the download hands back -->
+<script type="application/json" id="detached-bundle">@@INCLUDE:vendor/kernel-file/detached-bundle.json@@</script>
+
+<!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider) -->
+<script>@@INCLUDE:vendor/gate/gate.bundle.js@@</script>
+<!-- the reused authoring surface (the propose widget) and this file's own surface -->
+<script>@@INCLUDE:periphery/navigate/render/propose-widget.js@@</script>
+<script>@@INCLUDE:periphery/navigate/render/kernel-file.js@@</script>
+</body>
+</html>

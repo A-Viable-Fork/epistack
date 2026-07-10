@@ -154,6 +154,18 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-kernel.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/build-detached-kernel.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/build-kernel-file.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },
