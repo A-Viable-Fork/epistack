@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 164,
-  "edgeCount": 339,
+  "nodeCount": 167,
+  "edgeCount": 342,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -627,6 +627,13 @@
       "contract": "window.EpiShell = { register(module), modules(), compose({api, nav, content}) }. A module is { id, title, kind: \"prose\"|\"case\"|\"demonstration\", order?, render(ctx) }. ctx carries the api (the contract), a mount element, and the cross-link helpers registerNode / linkToNode / proseDiscusses / navigate. Periphery; reaches the kernel only through ctx.api."
     },
     {
+      "path": "periphery/navigate/shell/modules/manager.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the kernel manager, slice one (the probe). A shell module that renders the bottom-up federation as a list of kernels operated, not just read: each member shown as a multi-author object (author and provenance, one author today but the marketplace shape from day one), its local kinds versus the shared type-hashes it pins, and its crossings to other members marked native or untyped. It performs one real management operation, fork-and-adopt: pinning a shared type-hash onto a member so a crossing that arrived untyped composes native, showing the real before and after.",
+      "contract": "registers on window.EpiShell as a case module. Reads the embedded #federation-view JSON (vendored by build/vendor-federation.mjs from the real buildBottomUp and adoption layer) and reads a member's live claim grade through ctx.api (the propose/read contract). Holds no grounding logic."
+    },
+    {
       "path": "periphery/navigate/shell/modules/prose.js",
       "type": "periphery",
       "group": "consumer",
@@ -870,6 +877,20 @@
       "group": null,
       "role": "the adversarial sovereignty test (the chain's iron). Proves the four cases federate as sovereign, independently-authored members joined at the untyped type, by TESTING sovereignty rather than asserting it: the members own separate schemas, standing crosses only through an owned fork (the try-to-cheat step), the shared-hash crossings compose native on real content, and the composite federates the whole. Also reports the transparency status, default on (F6).",
       "contract": "`node build/check-bottomup.mjs` exits non-zero on any failure. Imports the federation build, the confidence order, the composition transfer, the adoption layer, and the store decay read."
+    },
+    {
+      "path": "build/vendor-federation.mjs",
+      "type": "build",
+      "group": null,
+      "role": "freeze the bottom-up federation into one view the kernel-manager surface reads. Runs the real buildBottomUp() and the adoption layer and writes vendor/federation/federation-view.json: the four members (id, author, provenance, the local kinds versus the shared type-hashes each pins, and a representative claim identity), the crossings between them each marked native or untyped, and the one fork-and-adopt probe (the untyped crossing plus the real native status the adoption layer computes after the target forks the type). Every value is real state from the real machinery.",
+      "contract": "`node build/vendor-federation.mjs` writes the view. No arguments."
+    },
+    {
+      "path": "build/build-manager-probe.mjs",
+      "type": "build",
+      "group": null,
+      "role": "build the standalone kernel-manager probe page. Runs build/vendor-federation.mjs, then inlines the shell, the manager module, the vendored contract and snapshot, and the federation view into one file (manager-probe.html) that opens from file:// with no server. Separate from build/bundle.js on purpose: this slice ships its own probe page and does not rebuild submission.html.",
+      "contract": "`node build/build-manager-probe.mjs` writes manager-probe.html at the repo root. No arguments."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -3109,6 +3130,27 @@
     {
       "from": "build/vendor-eggs.mjs",
       "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-federation.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-federation.mjs",
+      "to": "build/bottomup-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-federation.mjs",
+      "to": "build/adoption.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"

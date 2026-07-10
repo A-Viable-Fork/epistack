@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 164. Import edges: 309. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 167. Import edges: 312. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -301,6 +301,9 @@ Nodes: 164. Import edges: 309. Runtime flow edges: 30. All import edges satisfy 
 - `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
+- `build/vendor-federation.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/vendor-federation.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
+- `build/vendor-federation.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/vendor-lhc.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
 - `build/vendor-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/vendor-lhc.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
