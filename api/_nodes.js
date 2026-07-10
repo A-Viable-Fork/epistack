@@ -20,6 +20,10 @@ module.exports = [
     "type": "api"
   },
   {
+    "path": "api/management-api.mjs",
+    "type": "api"
+  },
+  {
     "path": "api/compose.js",
     "type": "api"
   },

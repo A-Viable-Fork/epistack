@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 167,
-  "edgeCount": 342,
+  "nodeCount": 170,
+  "edgeCount": 350,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -277,6 +277,13 @@
       "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
     },
     {
+      "path": "api/management-api.mjs",
+      "type": "api",
+      "group": null,
+      "role": "the management contract, the sibling of the propose/read contract for kernel-level operations the manager probe proved missing. Where the claim contract is claim-shaped (propose a claim, read claims), this is kernel-shaped: list kernels, read a kernel's pins and crossings, and adopt, fork, and cross, each write returning a receipt the way propose returns a gate receipt. Like the claim contract it names a provider and delegates, so a local management provider (runs the federation and adoption layer in process) and a remote one are interchangeable behind one seam.",
+      "contract": "createManagementApi(provider) -> { listKernels, readKernel(id), readCrossings(id?), adopt(id, typeHash) -> receipt, fork(id, atPoint?) -> receipt, cross(originKernel, originClaim, targetKernel) -> receipt, providerKind() }. provider must implement all six operations. ESM; this contract touches no kernel, no federation, and no adoption layer directly."
+    },
+    {
       "path": "api/compose.js",
       "type": "api",
       "group": null,
@@ -301,8 +308,8 @@
       "path": "api/fork.js",
       "type": "api",
       "group": null,
-      "role": "the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal.",
-      "contract": "STUB [4.6] Stage 4, specified not built. A fork is a re-point over the patch history."
+      "role": "the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal. forkKernel is the built kernel-level fork: it derives a child kernel from a parent, inheriting the parent's pinned type-hashes so the child can then adopt more or retype, which is the schema-level fork the crossing and adoption machinery already supports. The DURABLE fork over the patch ledger (re-point across the patch history, [4.6]) stays Stage 4, specified not built.",
+      "contract": "forkKernel(parent, opts?) -> fork receipt { new_kernel_id, forked_from, at_point, inherited_pins, persisted, note }. parent = { id, pins }. Pure; api imports kernel and api, never the periphery. STUB remains for the durable patch-history fork."
     },
     {
       "path": "api/propose.js",
@@ -884,6 +891,20 @@
       "group": null,
       "role": "freeze the bottom-up federation into one view the kernel-manager surface reads. Runs the real buildBottomUp() and the adoption layer and writes vendor/federation/federation-view.json: the four members (id, author, provenance, the local kinds versus the shared type-hashes each pins, and a representative claim identity), the crossings between them each marked native or untyped, and the one fork-and-adopt probe (the untyped crossing plus the real native status the adoption layer computes after the target forks the type). Every value is real state from the real machinery.",
       "contract": "`node build/vendor-federation.mjs` writes the view. No arguments."
+    },
+    {
+      "path": "build/local-management-provider.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the local provider behind the management contract. Implements the kernel-level operations over the REAL federation and adoption layer, in process: listKernels/readKernel/readCrossings read the four members and their pins and crossings from buildBottomUp and the adoption layer; adopt pins a shared type-hash and recomputes the crossings it changed; fork derives a child kernel through api/fork.js; cross computes a crossing's native-or-untyped status through the crossing rule. This is the management sibling of api/providers/local-provider.mjs.",
+      "contract": "createLocalManagementProvider() -> { kind, listKernels, readKernel, readCrossings, adopt, fork, cross }. No arguments; it builds the federation itself."
+    },
+    {
+      "path": "build/check-management.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the acceptance oracle for the management contract and its local provider. Confirms the contract is a faithful membrane over the real machinery: listKernels/readKernel/readCrossings return exactly what buildBottomUp and the adoption layer compute directly, adopt changes a crossing from untyped to native and the receipt reflects it, cross returns untyped for an unadopted type and native for a shared one, and the contract's outputs equal the machinery's direct outputs, so the contract is proven to hold no adoption or crossing logic of its own.",
+      "contract": "`node build/check-management.mjs` exits non-zero on any failure. Imports the management contract, the local management provider, and (for the cross-check) the adoption layer directly."
     },
     {
       "path": "build/build-manager-probe.mjs",
@@ -2344,6 +2365,34 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-management.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-management.mjs",
+      "to": "api/management-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-management.mjs",
+      "to": "build/local-management-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-management.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-map.mjs",
       "to": "build/repo-map.schema.js",
       "type": "imports",
@@ -3021,6 +3070,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/local-management-provider.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/local-management-provider.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/local-management-provider.mjs",
+      "to": "build/bottomup-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/local-management-provider.mjs",
+      "to": "api/fork.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/translate-trellis.mjs",

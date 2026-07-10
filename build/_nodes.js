@@ -140,6 +140,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/local-management-provider.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-management.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/build-manager-probe.mjs",
     "type": "build"
   },
