@@ -1889,6 +1889,218 @@ function createClientApi(provider) {
 
   return { createClientApi };
 })();
+__M["type-hash"] = (function () {
+  var { canonicalize, hashOf } = __M["canonical"];
+// Role: content-address a shared type. A type bundle is a type plus the grounding apparatus that gives
+//   it meaning (a kind with its ceiling and rules, a floor with its rank, a source class with its
+//   footings); its hash is the type's identity, so two kernels that mean the same thing by a type pin
+//   the same hash and a kernel that means something subtly different pins a different one. This is the
+//   one primitive the three-tier crossing rests on: shared meaning is shared hash.
+// Contract: canonicalizeBundle(bundle) -> canonical node; hashTypeBundle(bundle) -> hex sha256 over it.
+//   Pure, ESM; kernel imports only kernel.
+// Invariant: DETERMINISM. Identical bundles hash identically (stable key order, no whitespace variance),
+//   and any change to a meaning-bearing field changes the hash. Reuses the v3 canonical form and the
+//   one named hash, so a type-hash is byte-identical headless and in a file:// page.
+// DEPARTURE: the prompt suggested node:crypto; the kernel is node-builtin-free by Tier 0 (it must load
+//   in a file:// page), so this reuses the vendored sha256 through canonical.mjs, the hash the gate
+//   already uses. Same digest, no new dependency; numeric bundle fields ride the canonical exact-decimal
+//   discipline (passed as strings), so a floor's rank never touches the float path.
+"use strict";
+
+// the canonical node for a type bundle: fields sorted by byte order, absent optionals omitted, no
+// whitespace variance. This is what the hash is taken over, exposed so a caller can inspect the bytes.
+function canonicalizeBundle(bundle) {
+  return canonicalize(bundle);
+}
+
+// the type-hash: the one named hash over the canonical bundle. Two identical bundles hash identically;
+// any change to a meaning-bearing field changes the hash.
+function hashTypeBundle(bundle) {
+  return hashOf(bundle);
+}
+
+  return { canonicalizeBundle, hashTypeBundle };
+})();
+__M["fork.js"] = (function () {
+// Role: the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal.
+//   forkKernel is the built kernel-level fork: it derives a child kernel from a parent, inheriting the
+//   parent's pinned type-hashes so the child can then adopt more or retype, which is the schema-level
+//   fork the crossing and adoption machinery already supports. The DURABLE fork over the patch ledger
+//   (re-point across the patch history, [4.6]) stays Stage 4, specified not built.
+// Contract: forkKernel(parent, opts?) -> fork receipt { new_kernel_id, forked_from, at_point,
+//   inherited_pins, persisted, note }. parent = { id, pins }. Pure; api imports kernel and api, never
+//   the periphery. STUB remains for the durable patch-history fork.
+// Invariant: the fork derives a new kernel object from the parent's real pins and asserts nothing about
+//   persistence; persisted is false until the patch ledger ([4.5], [4.6]) is built.
+"use strict";
+
+function forkKernel(parent, opts) {
+  if (!parent || !parent.id) throw new Error("forkKernel: parent must have an id");
+  const o = opts || {};
+  const at_point = o.atPoint || "head";
+  // the child inherits the parent's pinned type-hashes; from here it can adopt more or retype locally.
+  const inherited_pins = Object.assign({}, parent.pins || {});
+  return {
+    operation: "fork",
+    new_kernel_id: parent.id + "#fork",
+    forked_from: parent.id,
+    at_point,
+    inherited_pins,
+    persisted: false,
+    note: "the child inherits the parent's pins and can adopt or retype from here; durable persistence over the patch ledger is Stage 4, specified not built",
+  };
+}
+
+  return { forkKernel };
+})();
+__M["management-api"] = (function () {
+// Role: the management contract, the sibling of the propose/read contract for kernel-level operations
+//   the manager probe proved missing. Where the claim contract is claim-shaped (propose a claim, read
+//   claims), this is kernel-shaped: list kernels, read a kernel's pins and crossings, and adopt, fork,
+//   and cross, each write returning a receipt the way propose returns a gate receipt. Like the claim
+//   contract it names a provider and delegates, so a local management provider (runs the federation and
+//   adoption layer in process) and a remote one are interchangeable behind one seam.
+// Contract: createManagementApi(provider) -> { listKernels, readKernel(id), readCrossings(id?),
+//   adopt(id, typeHash) -> receipt, fork(id, atPoint?) -> receipt, cross(originKernel, originClaim,
+//   targetKernel) -> receipt, providerKind() }. provider must implement all six operations. ESM; this
+//   contract touches no kernel, no federation, and no adoption layer directly.
+// Invariant: this layer holds no adoption or crossing logic. It validates the shape of a call and
+//   forwards it; every kernel object, pin, crossing status, and receipt is produced by the provider's
+//   real machinery (the adoption layer and the crossing rule), never here.
+"use strict";
+
+const OPERATIONS = ["listKernels", "readKernel", "readCrossings", "adopt", "fork", "cross"];
+
+function createManagementApi(provider) {
+  if (!provider) throw new Error("createManagementApi: a provider is required");
+  for (const op of OPERATIONS)
+    if (typeof provider[op] !== "function") throw new Error(`createManagementApi: provider must implement ${op}`);
+  return {
+    // reads: real kernel state from the federation and adoption layer, never a vendored snapshot.
+    listKernels: () => provider.listKernels(),
+    readKernel: (kernelId) => provider.readKernel(kernelId),
+    readCrossings: (kernelId) => provider.readCrossings(kernelId),
+    // writes: each returns a receipt of what it did and the real resulting state, computed by the
+    // delegated machinery. adopt pins a shared type-hash; fork derives a child kernel; cross makes a
+    // crossing and reports whether it arrived native or untyped.
+    adopt: (kernelId, typeHash) => provider.adopt(kernelId, typeHash),
+    fork: (kernelId, atPoint) => provider.fork(kernelId, atPoint),
+    cross: (originKernel, originClaim, targetKernel) => provider.cross(originKernel, originClaim, targetKernel),
+    // which world are we in: "local" or "remote". Diagnostic only.
+    providerKind: () => provider.kind || "unknown",
+  };
+}
+
+  return { createManagementApi };
+})();
+__M["local-management-provider"] = (function () {
+  var { hashTypeBundle } = __M["type-hash"];
+  var { forkKernel } = __M["fork.js"];
+// Role: the local provider behind the management contract, the management sibling of
+//   api/providers/local-provider.mjs. Where the claim provider runs the real gate over a claim snapshot,
+//   this runs the real adoption logic over a management snapshot: it computes each member's pins live
+//   with the real content-addressed hashTypeBundle, decides every crossing native-or-untyped by the
+//   crossing rule (a type crosses native exactly when the target pins the source's hash), and adopts,
+//   forks, and crosses, each returning a receipt. This is the provider the manager and, later, the MCP
+//   producer connector both use.
+// Contract: createLocalManagementProvider(snapshot) -> { kind, listKernels, readKernel, readCrossings,
+//   adopt, fork, cross }. snapshot = { members:[{id,author,provenance,kinds:[{kind,ceiling}],
+//   claims:[{ref,kind}]}], crossings:[{id,from,to,kind,from_claim,note}], common_kinds:[...] }. ESM; api
+//   imports kernel (hashTypeBundle) and api (forkKernel), never build or the periphery.
+// Invariant: the content-addressing is the real one (kernel/schema/type-hash.mjs), so a pin computed
+//   here is byte-identical to what the adoption layer computes; the crossing rule and the bundle shape
+//   are the same trivial forms build/adoption.mjs uses, and build/check-management.mjs proves this
+//   provider's outputs equal build/adoption's direct outputs, so it is a faithful running of the real
+//   logic and not a divergent copy. It computes no grade; grades stay on the claim contract.
+"use strict";
+
+// the type bundle a kind row implies, the same shape build/adoption.mjs uses; the hash of it is the pin.
+function kindBundle(row) {
+  return { kind: row.kind, ceiling: row.ceiling, compatibility_rule_id: row.compatibility_rule_id != null ? row.compatibility_rule_id : null, atlas_refs: row.atlas_refs != null ? row.atlas_refs : [] };
+}
+// the crossing rule: a type crosses native exactly when the target pins the source's type-hash.
+function statusOf(sourceHash, targetPinValues) { return targetPinValues.indexOf(sourceHash) >= 0 ? "native" : "untyped"; }
+
+function createLocalManagementProvider(snapshot) {
+  const snap = snapshot || {};
+  const common = new Set(snap.common_kinds || []);
+  const members = {};
+  for (const m of snap.members || []) {
+    const pins = {};
+    for (const row of m.kinds || []) pins[row.kind] = hashTypeBundle(kindBundle(row));
+    const kindByRef = {};
+    for (const c of m.claims || []) kindByRef[c.ref] = c.kind;
+    members[m.id] = { id: m.id, author: m.author, provenance: m.provenance, kinds: m.kinds || [], pins, kindByRef };
+  }
+  const ids = (snap.members || []).map((m) => m.id);
+  const crossings = snap.crossings || [];
+
+  function kernelObject(id) {
+    const m = members[id];
+    if (!m) return null;
+    const local_kinds = m.kinds.filter((r) => !common.has(r.kind)).map((r) => ({ kind: r.kind, ceiling: r.ceiling }));
+    const shared_pins = m.kinds.filter((r) => common.has(r.kind)).map((r) => ({ kind: r.kind, hash: m.pins[r.kind] }));
+    return { id, author: m.author, provenance: m.provenance, local_kinds, shared_pins, pins: Object.assign({}, m.pins) };
+  }
+
+  function listKernels() {
+    return ids.map((id) => {
+      const k = kernelObject(id);
+      return { id: k.id, author: k.author, provenance: k.provenance, pins: { kinds: Object.keys(k.pins), count: Object.keys(k.pins).length } };
+    });
+  }
+  function readKernel(kernelId) { return kernelObject(kernelId); }
+
+  function crossingRow(cx) {
+    const from = members[cx.from], to = members[cx.to];
+    const status = from && to ? statusOf(from.pins[cx.kind], Object.values(to.pins)) : "untyped";
+    return { id: cx.id, origin: cx.from, target: cx.to, kind: cx.kind, status, note: cx.note };
+  }
+  function readCrossings(kernelId) {
+    let list = crossings.map(crossingRow);
+    if (kernelId) list = list.filter((c) => c.origin === kernelId || c.target === kernelId);
+    return list;
+  }
+
+  function adopt(kernelId, typeHash) {
+    const m = members[kernelId];
+    if (!m) return { operation: "adopt", error: `no such kernel: ${kernelId}` };
+    const before = crossings.map(crossingRow);
+    if (Object.values(m.pins).indexOf(typeHash) < 0) m.pins[`adopted:${typeHash.slice(0, 8)}`] = typeHash; // the real pin
+    const after = crossings.map(crossingRow);
+    const crossings_changed = after
+      .map((a, i) => ({ before: before[i], after: a }))
+      .filter((p) => p.before.status !== p.after.status)
+      .map((p) => ({ crossing: p.after.id, origin: p.after.origin, target: p.after.target, kind: p.after.kind, from: p.before.status, to: p.after.status }));
+    return { operation: "adopt", kernel: kernelId, pinned: typeHash, crossings_changed, now_pins: Object.keys(m.pins).length };
+  }
+
+  function fork(kernelId, atPoint) {
+    const m = members[kernelId];
+    if (!m) return { operation: "fork", error: `no such kernel: ${kernelId}` };
+    return forkKernel({ id: kernelId, pins: m.pins }, { atPoint });
+  }
+
+  function cross(originKernel, originClaim, targetKernel) {
+    const from = members[originKernel], to = members[targetKernel];
+    if (!from || !to) return { operation: "cross", error: "unknown origin or target kernel" };
+    const kind = from.kindByRef[originClaim];
+    if (!kind) return { operation: "cross", error: `origin kernel ${originKernel} has no claim ${originClaim}` };
+    const status = statusOf(from.pins[kind], Object.values(to.pins));
+    return {
+      operation: "cross", origin: originKernel, claim: originClaim, target: targetKernel, kind, status,
+      grounds: status === "native",
+      note: status === "native"
+        ? "composes native and lossless: both kernels pin the same type-hash for this kind"
+        : "arrives untyped and grounds nothing until the target adopts or forks the type",
+    };
+  }
+
+  return { kind: "local", listKernels, readKernel, readCrossings, adopt, fork, cross };
+}
+
+  return { createLocalManagementProvider };
+})();
 root.EpiGate = {
   claimRecord: __M["records"].claimRecord,
   linkRecord: __M["records"].linkRecord,
@@ -1908,5 +2120,11 @@ root.EpiLocalProvider = {
 };
 root.EpiRemoteProvider = {
   createRemoteProvider: __M["remote-provider"].createRemoteProvider
+};
+root.EpiManagementApi = {
+  createManagementApi: __M["management-api"].createManagementApi
+};
+root.EpiLocalManagementProvider = {
+  createLocalManagementProvider: __M["local-management-provider"].createLocalManagementProvider
 };
 })(typeof window !== "undefined" ? window : globalThis);

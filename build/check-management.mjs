@@ -1,22 +1,29 @@
 // Role: the acceptance oracle for the management contract and its local provider. Confirms the contract
-//   is a faithful membrane over the real machinery: listKernels/readKernel/readCrossings return exactly
-//   what buildBottomUp and the adoption layer compute directly, adopt changes a crossing from untyped to
-//   native and the receipt reflects it, cross returns untyped for an unadopted type and native for a
-//   shared one, and the contract's outputs equal the machinery's direct outputs, so the contract is
-//   proven to hold no adoption or crossing logic of its own.
+//   is a faithful membrane over the real machinery: the provider runs over the vendored management
+//   snapshot and its listKernels/readKernel/readCrossings equal what the adoption layer computes
+//   directly, adopt changes a crossing from untyped to native and the receipt reflects it, cross returns
+//   untyped for an unadopted type and native for a shared one, and the contract's outputs equal the
+//   provider's own, so the contract holds no adoption or crossing logic of its own and the provider is
+//   proven a faithful running of build/adoption, not a divergent copy.
 // Contract: `node build/check-management.mjs` exits non-zero on any failure. Imports the management
-//   contract, the local management provider, and (for the cross-check) the adoption layer directly.
-// Invariant: the adoption layer and the crossing rule are the real ones. A divergence between the
-//   contract's output and the machinery's direct output would fail here, which is what keeps the
-//   contract a membrane and not a second copy of the rules.
+//   contract, the api-layer local management provider, the vendored snapshot, and (for the cross-check)
+//   the adoption layer directly.
+// Invariant: the content-addressing (hashTypeBundle) and the crossing rule are the real ones. A
+//   divergence between the provider's output over the snapshot and the adoption layer's direct output
+//   would fail here, which is what proves the provider real and the snapshot current.
 "use strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
 import { createManagementApi } from "../api/management-api.mjs";
-import { createLocalManagementProvider } from "./local-management-provider.mjs";
+import { createLocalManagementProvider } from "../api/providers/local-management-provider.mjs";
 import { adoptionOf, crossingStatus, CASE_IDS } from "./adoption.mjs";
 
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const { COMMON_TYPE_HASHES } = require("../corpora/_shared/common-types.js");
+const snapshot = JSON.parse(readFileSync(join(ROOT, "vendor/management/management-snapshot.json"), "utf8"));
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
@@ -24,7 +31,7 @@ const H = "=".repeat(80);
 const sorted = (a) => a.slice().sort();
 console.log(H); console.log("CHECK-MANAGEMENT: the management contract as a faithful membrane"); console.log(H);
 
-const api = createManagementApi(createLocalManagementProvider());
+const api = createManagementApi(createLocalManagementProvider(snapshot));
 
 // --- 1. listKernels returns the four members with their pins, matching the adoption layer ---
 console.log("\n[1] listKernels returns the four members with their pins");
@@ -36,10 +43,10 @@ console.log("\n[1] listKernels returns the four members with their pins");
     const k = kernels.find((x) => x.id === id);
     return sorted(k.pins.kinds).join(",") === sorted(Object.keys(adoptionOf(id).pins)).join(",");
   });
-  ok(match, "each kernel's pins equal Object.keys(adoptionOf(id).pins), the adoption layer's direct output");
+  ok(match, "each kernel's pins over the snapshot equal Object.keys(adoptionOf(id).pins), the adoption layer's direct output");
 }
 
-// --- 2. readKernel returns the local-versus-shared tier through the adoption layer ---
+// --- 2. readKernel returns the local-versus-shared tier ---
 console.log("\n[2] readKernel returns the local-versus-shared tier");
 {
   const lhc = api.readKernel("lhc");
@@ -74,7 +81,7 @@ console.log("\n[4] cross returns untyped for an unadopted type and native for a 
 // --- 5. adopt changes a crossing from untyped to native, and the receipt reflects it ---
 console.log("\n[5] adopt changes an untyped crossing to native, reflected in the receipt");
 {
-  const fresh = createManagementApi(createLocalManagementProvider());
+  const fresh = createManagementApi(createLocalManagementProvider(snapshot));
   const before = fresh.readCrossings().find((r) => r.id === "x-untyped");
   ok(before.status === "untyped", "before adopt, lineage declaration into covid is untyped");
   const receipt = fresh.adopt("covid", COMMON_TYPE_HASHES.declaration);
@@ -98,7 +105,7 @@ console.log("\n[6] fork derives a child kernel, honest about persistence");
 // --- 7. the membrane holds no logic: the contract forwards the provider's output unchanged ---
 console.log("\n[7] the contract is a membrane: its output equals the provider's own output");
 {
-  const provider = createLocalManagementProvider();
+  const provider = createLocalManagementProvider(snapshot);
   const wrapped = createManagementApi(provider);
   ok(JSON.stringify(wrapped.listKernels()) === JSON.stringify(provider.listKernels()), "listKernels through the contract equals the provider's direct output");
   ok(JSON.stringify(wrapped.readCrossings()) === JSON.stringify(provider.readCrossings()), "readCrossings through the contract equals the provider's direct output");
@@ -108,7 +115,7 @@ console.log("\n[7] the contract is a membrane: its output equals the provider's 
 }
 
 console.log("\n" + H);
-if (fails === 0) console.log("verified: the management contract's reads and writes equal what the federation and adoption layer compute directly, so it is a faithful membrane over the real machinery, not a second copy of it.");
+if (fails === 0) console.log("verified: the management contract's reads and writes over the vendored snapshot equal what the adoption layer computes directly, so the provider is a faithful running of the real machinery and the contract a membrane over it, not a second copy.");
 console.log(fails === 0 ? "check-management: OK" : `check-management: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

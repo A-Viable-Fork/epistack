@@ -1,31 +1,24 @@
 {
-  "author": "A Viable Fork",
   "members": [
     {
       "id": "lhc",
       "author": "A Viable Fork",
       "provenance": "authored for the epistemic case study competition, 2026",
-      "local_kinds": [
+      "kinds": [
         {
           "kind": "derivation",
           "ceiling": "constitutive"
-        }
-      ],
-      "shared_pins": [
+        },
         {
           "kind": "measurement",
-          "hash": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621"
+          "ceiling": "checked"
         },
         {
           "kind": "forum",
-          "hash": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
+          "ceiling": "corroborated"
         }
       ],
-      "pins": {
-        "derivation": "c1a14d285066eb1ac32f8dddc56c209b2a2c183d12cb70dc14884d37408c844d",
-        "measurement": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621",
-        "forum": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
-      },
+      "claims": [],
       "sample": {
         "identity": "216d1fd89949341721e45178b2c3ec3779e229750d123956683877e7c0d6a575",
         "statement": "lhc.safety: the safety argument is robust because it rests on three independent legs, each an independent check that holds even if the others are weakened (the additive framing the SPC endorsed as 'further layers of safety')"
@@ -35,21 +28,17 @@
       "id": "covid",
       "author": "A Viable Fork",
       "provenance": "authored for the epistemic case study competition, 2026",
-      "local_kinds": [],
-      "shared_pins": [
+      "kinds": [
         {
           "kind": "measurement",
-          "hash": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621"
+          "ceiling": "checked"
         },
         {
           "kind": "forum",
-          "hash": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
+          "ceiling": "corroborated"
         }
       ],
-      "pins": {
-        "measurement": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621",
-        "forum": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
-      },
+      "claims": [],
       "sample": {
         "identity": "6137be8a439434696e8bf4528dd6a4199dc73004ac0d02dac33d9e0582dba81f",
         "statement": "covid.origins: that the two lineages record two separate zoonotic spillovers is contested: the Pekar Bayes factor fell from ~60 to ~4.3 after three coding errors, and a further correction may reverse it toward a single introduction"
@@ -59,21 +48,17 @@
       "id": "eggs",
       "author": "A Viable Fork",
       "provenance": "authored for the epistemic case study competition, 2026",
-      "local_kinds": [],
-      "shared_pins": [
+      "kinds": [
         {
           "kind": "measurement",
-          "hash": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621"
+          "ceiling": "checked"
         },
         {
           "kind": "forum",
-          "hash": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
+          "ceiling": "corroborated"
         }
       ],
-      "pins": {
-        "measurement": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621",
-        "forum": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
-      },
+      "claims": [],
       "sample": {
         "identity": "10a31f2239959d0b526db0eef2cf34be28468c81372595edcdef177cdbbf6fe8",
         "statement": "eggs.economics: the intergenerational discount rate is a value choice, Stern's 1.4 percent against Nordhaus's 4.3 percent giving present values that differ about seventeen-fold"
@@ -83,26 +68,30 @@
       "id": "lineage",
       "author": "A Viable Fork",
       "provenance": "authored for the epistemic case study competition, 2026",
-      "local_kinds": [],
-      "shared_pins": [
+      "kinds": [
         {
           "kind": "measurement",
-          "hash": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621"
+          "ceiling": "checked"
         },
         {
           "kind": "forum",
-          "hash": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1"
+          "ceiling": "corroborated"
         },
         {
           "kind": "declaration",
-          "hash": "354cba45e263a9788064fbf35d71d8506dd93ddf8c35b092ba606e5c2cc3b1bd"
+          "ceiling": "constitutive"
         }
       ],
-      "pins": {
-        "measurement": "2ed60a0154fef12d5d630f4a3f52d06686479c75aa57a44fd3b1488d581d3621",
-        "forum": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1",
-        "declaration": "354cba45e263a9788064fbf35d71d8506dd93ddf8c35b092ba606e5c2cc3b1bd"
-      },
+      "claims": [
+        {
+          "ref": "sci.fake-independence",
+          "kind": "forum"
+        },
+        {
+          "ref": "conj.novelty",
+          "kind": "declaration"
+        }
+      ],
       "sample": {
         "identity": "b82874d3d6221fc09b00b7119932bd355d5cfe049dd7f2ffd728effb7cb58cbc",
         "statement": "lineage: the replication crisis is a failure of graph independence: apparent convergence of hundreds of studies reifies to one shared flawed dependency (a contaminated cell line, a misapplied threshold), which is the LHC shared-dependency reprice seen in science"
@@ -115,8 +104,7 @@
       "from": "lineage",
       "to": "lhc",
       "kind": "forum",
-      "hash": "04c5a97678a1228065e6c36068b0b3dcc12ca52ad1285e6727f49754030007a1",
-      "status": "native",
+      "from_claim": "sci.fake-independence",
       "note": "lineage's reified-independence reading crosses into the lhc kernel it is literally about (the replication crisis is the LHC shared-dependency reprice seen in science); both members pin the common forum hash, so it composes native and lossless"
     },
     {
@@ -124,20 +112,13 @@
       "from": "lineage",
       "to": "covid",
       "kind": "declaration",
-      "hash": "354cba45e263a9788064fbf35d71d8506dd93ddf8c35b092ba606e5c2cc3b1bd",
-      "status": "untyped",
-      "note": "lineage's novelty declaration crosses into covid, which pins no declaration hash, so it arrives untyped and grounds nothing until covid forks it into a local kind",
-      "status_after_fork": "native"
+      "from_claim": "conj.novelty",
+      "note": "lineage's novelty declaration crosses into covid, which pins no declaration hash, so it arrives untyped and grounds nothing until covid forks it into a local kind"
     }
   ],
-  "adopt": {
-    "crossing_id": "x-untyped",
-    "from": "lineage",
-    "to": "covid",
-    "kind": "declaration",
-    "hash": "354cba45e263a9788064fbf35d71d8506dd93ddf8c35b092ba606e5c2cc3b1bd",
-    "status_before": "untyped",
-    "status_after": "native",
-    "note": "lineage's novelty declaration crosses into covid, which pins no declaration hash, so it arrives untyped and grounds nothing until covid forks it into a local kind"
-  }
+  "common_kinds": [
+    "measurement",
+    "forum",
+    "declaration"
+  ]
 }

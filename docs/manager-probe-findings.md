@@ -76,3 +76,17 @@ The reading shell reads claims through the contract and that generalizes to a ma
 management surface needs kernel operations and kernel reads the contract does not yet expose, so the
 write was driven through the adoption layer and reported here rather than worked around. That gap, at the
 contract's surface and not in the machinery beneath it, is what slice one exists to have found.
+
+## Slice two closed the finding
+
+The gap slice one found is closed. The management contract now exists (`api/management-api.mjs`,
+`build/check-management.mjs`) and its local provider (`api/providers/local-management-provider.mjs`) runs
+the real adoption logic over a management snapshot. Slice two rewired the manager
+(`periphery/navigate/shell/modules/manager.js`) to drive entirely through it: the kernel list, the tiers,
+and the crossings with their native-or-untyped status all come from `listKernels`, `readKernel`, and
+`readCrossings`, the live grade still comes from the claim contract, and all three writes are real
+operations through the contract with their receipts rendered, adopt turning an untyped crossing native,
+fork deriving a child kernel, and cross reporting native or untyped. The manager now drives through the
+real management contract rather than around it, vendors no answers (the management snapshot is the
+provider's raw input, the way the claim snapshot is the claim provider's), and is embeddable as-is. The
+central finding, that a management surface must reach around the contract, no longer holds.
