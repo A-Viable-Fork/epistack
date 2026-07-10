@@ -99,7 +99,7 @@ The whole system is the composition of all its kernels. They are not joined by m
 
 The shared layer is deliberately thin. It must be thick enough that separate kernels can actually compose across their boundaries, and thin enough that no central authority comes to own the content. Each kernel keeps authority over its own claims and its own floor; the shared layer only specifies how they meet. When one kernel cites another across this boundary, the citing kernel inherits the grounding of the cited claim under that other kernel's floor, and the strength of what it inherits is exactly the strength of that floor.
 
-This is what lets the system be many sovereign bodies of knowledge rather than one monolith, and it is what lets it grow by addition of whole new kernels rather than only by edits within one.
+This is what lets the system be many independent bodies of knowledge rather than one monolith, and it is what lets it grow by addition of whole new kernels rather than only by edits within one.
 
 ## 10. The same shape at every scale
 
