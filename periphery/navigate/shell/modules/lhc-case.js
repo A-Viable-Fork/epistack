@@ -19,7 +19,7 @@
   function claimRows(list) { return list.map(function (r) { return '<li><span class="eggs-claim">' + esc(r.statement) + "</span> " + grade(r.grade) + (r.source ? '<span class="eggs-src">' + esc(r.source) + "</span>" : "") + "</li>"; }).join(""); }
 
   window.EpiShell.register({
-    id: "case-lhc-cascade", title: "Case: the LHC three legs and the one framework-choice node", kind: "case", order: 105,
+    id: "case-lhc-cascade", title: "Case: the LHC three legs and the one framework-choice node", kind: "case", order: 105, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
       html += '<div class="shell-reading"><div class="shell-node-name">' + esc(R.top.statement) + "</div><div class=\"shell-grades\"><span>top claim " + grade(R.top.grade) + "</span></div></div>";

@@ -27,7 +27,7 @@
 
   // -- the framing module: how to read, plus the register toggle --
   window.EpiShell.register({
-    id: "prose-frame", title: "How to read this surface", kind: "prose", order: 0,
+    id: "prose-frame", title: "How to read this surface", kind: "prose", order: 0, spine: true,
     render: function (ctx) {
       var p = document.createElement("p"); p.className = "shell-lede";
       var orient = "Two ways in. Read the argument below and click any claim to land on its live grounding, the grade it earns and where it can fail, read from the graph rather than asserted in the text; and verify the protocol at the command line, where each oracle states the invariant it checked. ";

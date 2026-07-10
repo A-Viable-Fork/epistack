@@ -22,6 +22,15 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-nav-prose { border-left-color:#6a8fae; }
 .shell-nav-case { border-left-color:#7fc8a0; }
 .shell-nav-demonstration { border-left-color:#d6b56a; }
+/* the essential spine reads prominent; the depth reads available but secondary. */
+.shell-nav-grouphead { color:var(--sh-faint); font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; margin:.4rem 0 .1rem .2rem; }
+.shell-nav-grouphead-depth { margin-top:.8rem; padding-top:.5rem; border-top:1px solid var(--sh-rule); }
+.shell-nav-spine { color:var(--sh-ink); font-weight:600; }
+.shell-nav-spineitem { border-left:2px solid var(--sh-lamp); background:rgba(143,176,208,0.06); }
+.shell-nav-depth { padding-left:1rem; opacity:.8; font-size:.78rem; }
+.shell-nav-depth:hover { opacity:1; }
+/* a narrated turn in the spine (reading to operating, operating to destination). */
+.shell-turn { color:var(--sh-lamp); font-style:italic; border-left:3px solid var(--sh-lamp); padding-left:.8rem; margin:.2rem 0 1rem; }
 .shell-content { flex:1 1 auto; min-width:0; }
 .shell-module { margin:0 0 2.4rem; scroll-margin-top:1rem; }
 .shell-module-title { font-size:1.2rem; margin:0 0 .5rem; padding-bottom:.2rem; border-bottom:1px solid var(--sh-rule); }
@@ -4720,14 +4729,29 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       nodeReading: nodeReading,
     };
 
-    // pass 1: nav + render each module into its section.
+    // the essential spine: the sections a judge follows straight through for a complete submission,
+    // summarized at the top of the nav so the reading budget is answered structurally. The depth stays
+    // fully present below, marked as fork-in-by-choice rather than removed.
+    var spineMods = mods.filter(function (m) { return m.spine; });
+    if (spineMods.length) {
+      var sh = document.createElement("div"); sh.className = "shell-nav-grouphead"; sh.textContent = "The essential spine"; navEl.appendChild(sh);
+      spineMods.forEach(function (m) {
+        var a = document.createElement("a");
+        a.href = "#mod-" + m.id; a.className = "shell-nav-link shell-nav-spine shell-nav-spineitem";
+        a.textContent = m.title; navEl.appendChild(a);
+      });
+      var dh = document.createElement("div"); dh.className = "shell-nav-grouphead shell-nav-grouphead-depth"; dh.textContent = "All sections, depth to fork into"; navEl.appendChild(dh);
+    }
+
+    // pass 1: nav + render each module into its section. Spine sections read prominent; depth reads
+    // available but secondary, so the same list is a short spine and a reachable depth at a glance.
     mods.forEach(function (m) {
       var link = document.createElement("a");
-      link.href = "#mod-" + m.id; link.className = "shell-nav-link shell-nav-" + m.kind;
+      link.href = "#mod-" + m.id; link.className = "shell-nav-link shell-nav-" + m.kind + (m.spine ? " shell-nav-spine" : " shell-nav-depth");
       link.textContent = m.title; navEl.appendChild(link);
 
       var sec = document.createElement("section");
-      sec.id = "mod-" + m.id; sec.className = "shell-module shell-" + m.kind;
+      sec.id = "mod-" + m.id; sec.className = "shell-module shell-" + m.kind + (m.spine ? " shell-spine" : " shell-depth");
       var h = document.createElement("h2"); h.className = "shell-module-title"; h.textContent = m.title; sec.appendChild(h);
       var body = document.createElement("div"); body.className = "shell-body"; sec.appendChild(body);
       contentEl.appendChild(sec);
@@ -4807,7 +4831,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
   }
 
   window.EpiShell.register({
-    id: "guided-path", title: "Start here: three things a synthesis buries", kind: "path", order: 99,
+    id: "guided-path", title: "Start here: three things a synthesis buries", kind: "path", order: 99, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.lede) + "</p>";
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
@@ -4855,7 +4879,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
 
   // -- the framing module: how to read, plus the register toggle --
   window.EpiShell.register({
-    id: "prose-frame", title: "How to read this surface", kind: "prose", order: 0,
+    id: "prose-frame", title: "How to read this surface", kind: "prose", order: 0, spine: true,
     render: function (ctx) {
       var p = document.createElement("p"); p.className = "shell-lede";
       var orient = "Two ways in. Read the argument below and click any claim to land on its live grounding, the grade it earns and where it can fail, read from the graph rather than asserted in the text; and verify the protocol at the command line, where each oracle states the invariant it checked. ";
@@ -5254,7 +5278,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
   function claimRows(list) { return list.map(function (r) { return '<li><span class="eggs-claim">' + esc(r.statement) + "</span> " + grade(r.grade) + (r.source ? '<span class="eggs-src">' + esc(r.source) + "</span>" : "") + "</li>"; }).join(""); }
 
   window.EpiShell.register({
-    id: "case-lhc-cascade", title: "Case: the LHC three legs and the one framework-choice node", kind: "case", order: 105,
+    id: "case-lhc-cascade", title: "Case: the LHC three legs and the one framework-choice node", kind: "case", order: 105, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.meta_question) + "</p>";
       html += '<div class="shell-reading"><div class="shell-node-name">' + esc(R.top.statement) + "</div><div class=\"shell-grades\"><span>top claim " + grade(R.top.grade) + "</span></div></div>";
@@ -5432,7 +5456,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
   function shortHash(h) { return h ? h.slice(0, 12) : "?"; }
 
   window.EpiShell.register({
-    id: "kernel-manager", title: "Kernel manager", kind: "demonstration", order: 300,
+    id: "kernel-manager", title: "Kernel manager", kind: "demonstration", order: 300, spine: true,
     render: function (ctx) {
       var mgmt = window.EpiManagementApi.createManagementApi(window.EpiLocalManagementProvider.createLocalManagementProvider(SNAP));
       var receipts = { adopt: null, fork: null, cross: null };
@@ -5578,7 +5602,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       }
 
       // ---------- compose: the read/write halves in their own containers, so a write repaint keeps the form ----------
-      ctx.mount.innerHTML = '<p class="shell-lede">The bottom-up federation, operated and authored through the real contracts. The kernels, tiers, and crossings come from the management contract; the writes below run through it; and authoring at the bottom rides the claim contract, where the gate grades the claim you write. Nothing is vendored, so this rung is embeddable as-is.</p><div class="mgr-top"></div><div class="mgr-auth"></div>';
+      ctx.mount.innerHTML = '<p class="shell-turn">The argument and the cases made their point in prose. Here the reading turns to operation: the same kernels are operated and authored through the real contracts, so you stop reading about grounding and do it.</p><p class="shell-lede">The bottom-up federation, operated and authored through the real contracts. The kernels, tiers, and crossings come from the management contract; the writes below run through it; and authoring at the bottom rides the claim contract, where the gate grades the claim you write. Nothing is vendored, so this rung is embeddable as-is.</p><div class="mgr-top"></div><div class="mgr-auth"></div>';
       paintTop(ctx.mount.querySelector(".mgr-top"));
       mountAuthoring(ctx.mount.querySelector(".mgr-auth"));
     },
@@ -5648,7 +5672,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
   }
 
   window.EpiShell.register({
-    id: "vision-capstone", title: "Where this goes", kind: "prose", order: 500,
+    id: "vision-capstone", title: "Where this goes", kind: "prose", order: 500, spine: true,
     render: function (ctx) {
       var html = "", listOpen = false;
       MD.split(/\n{2,}/).forEach(function (block) {

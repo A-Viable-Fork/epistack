@@ -25,7 +25,7 @@
   }
 
   window.EpiShell.register({
-    id: "vision-capstone", title: "Where this goes", kind: "prose", order: 500,
+    id: "vision-capstone", title: "Where this goes", kind: "prose", order: 500, spine: true,
     render: function (ctx) {
       var html = "", listOpen = false;
       MD.split(/\n{2,}/).forEach(function (block) {

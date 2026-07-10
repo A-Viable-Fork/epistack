@@ -12,6 +12,15 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-nav-prose { border-left-color:#6a8fae; }
 .shell-nav-case { border-left-color:#7fc8a0; }
 .shell-nav-demonstration { border-left-color:#d6b56a; }
+/* the essential spine reads prominent; the depth reads available but secondary. */
+.shell-nav-grouphead { color:var(--sh-faint); font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; font-weight:700; margin:.4rem 0 .1rem .2rem; }
+.shell-nav-grouphead-depth { margin-top:.8rem; padding-top:.5rem; border-top:1px solid var(--sh-rule); }
+.shell-nav-spine { color:var(--sh-ink); font-weight:600; }
+.shell-nav-spineitem { border-left:2px solid var(--sh-lamp); background:rgba(143,176,208,0.06); }
+.shell-nav-depth { padding-left:1rem; opacity:.8; font-size:.78rem; }
+.shell-nav-depth:hover { opacity:1; }
+/* a narrated turn in the spine (reading to operating, operating to destination). */
+.shell-turn { color:var(--sh-lamp); font-style:italic; border-left:3px solid var(--sh-lamp); padding-left:.8rem; margin:.2rem 0 1rem; }
 .shell-content { flex:1 1 auto; min-width:0; }
 .shell-module { margin:0 0 2.4rem; scroll-margin-top:1rem; }
 .shell-module-title { font-size:1.2rem; margin:0 0 .5rem; padding-bottom:.2rem; border-bottom:1px solid var(--sh-rule); }
