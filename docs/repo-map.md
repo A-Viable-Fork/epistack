@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 160. Import edges: 291. Runtime flow edges: 28. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 161. Import edges: 293. Runtime flow edges: 29. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -93,6 +93,8 @@ Nodes: 160. Import edges: 291. Runtime flow edges: 28. All import edges satisfy 
 - `build/adoption.mjs` -> `corpora/lhc/lhc-tables.js`  *(build -> corpus)*
 - `build/adoption.mjs` -> `corpora/lineage/tables.js`  *(build -> corpus)*
 - `build/adoption.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/check-agreement.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-agreement.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -327,6 +329,7 @@ Nodes: 160. Import edges: 291. Runtime flow edges: 28. All import edges satisfy 
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
 - `build/adoption.mjs` **loads-corpus** `corpora/_shared/common-types.js`
+- `build/check-agreement.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`

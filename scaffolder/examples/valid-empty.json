@@ -1,0 +1,10 @@
+{
+  "kernel_id": "demo-empty",
+  "adopted_type_hashes": ["measurement", "forum"],
+  "local_kinds": [],
+  "sources": [
+    { "source_id": "src:demo-a", "source_class": "peer-reviewed", "description": "a demo peer-reviewed source" },
+    { "source_id": "src:demo-b", "source_class": "dataset", "description": "a demo dataset" }
+  ],
+  "time_lock": { "setting": "light" }
+}

@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 160,
-  "edgeCount": 319,
+  "nodeCount": 161,
+  "edgeCount": 322,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -844,6 +844,13 @@
       "contract": "`node build/check-crossing.mjs` exits non-zero on any failure. Imports the adoption layer, the composition transfer/records, the confidence order, and the covid and lhc case builders."
     },
     {
+      "path": "build/check-agreement.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the agreement gate (kernel config schema, F4). Before the scaffolder publishes the common kinds as a shared subtree, confirm all four cases mean the same thing by each common kind: for every common kind (measurement, forum, declaration), each kernel that uses it must imply the same type-hash from its own tables, and that hash must be the one in corpora/_shared/common-types.js.",
+      "contract": "`node build/check-agreement.mjs` exits 0 if the four agree, 1 with a named divergence report (which kernel, which kind, how the bundle differs). Imports the adoption layer and the shared common-types seed. A kernel that does not use a kind is absent from that kind's set."
+    },
+    {
       "path": "build/vendor-demo.mjs",
       "type": "build",
       "group": null,
@@ -1628,6 +1635,20 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-agreement.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-agreement.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/check-atlas.mjs",
@@ -3269,6 +3290,11 @@
     },
     {
       "from": "build/check-type-hash.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-agreement.mjs",
       "to": "corpora/_shared/common-types.js",
       "type": "loads-corpus"
     },

@@ -1,0 +1,7 @@
+{
+  "kernel_id": "demo-badclass",
+  "adopted_type_hashes": ["measurement"],
+  "sources": [
+    { "source_id": "src:x", "source_class": "hearsay", "description": "a source class outside the substrate menu" }
+  ]
+}

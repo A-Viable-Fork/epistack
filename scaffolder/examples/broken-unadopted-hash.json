@@ -1,0 +1,7 @@
+{
+  "kernel_id": "demo-badhash",
+  "adopted_type_hashes": ["measurement", "quantum-flux"],
+  "sources": [
+    { "source_id": "src:y", "source_class": "peer-reviewed", "description": "a valid source" }
+  ]
+}
