@@ -122,6 +122,20 @@ module.exports = [
     ]
   },
   {
+    "path": "build/bottomup-build.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/federation/federation.js"
+      }
+    ]
+  },
+  {
+    "path": "build/check-bottomup.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },

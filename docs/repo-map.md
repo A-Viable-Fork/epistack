@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 161. Import edges: 293. Runtime flow edges: 29. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 164. Import edges: 309. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -93,12 +93,28 @@ Nodes: 161. Import edges: 293. Runtime flow edges: 29. All import edges satisfy 
 - `build/adoption.mjs` -> `corpora/lhc/lhc-tables.js`  *(build -> corpus)*
 - `build/adoption.mjs` -> `corpora/lineage/tables.js`  *(build -> corpus)*
 - `build/adoption.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/bottomup-build.mjs` -> `build/covid-build.mjs`  *(build -> build)*
+- `build/bottomup-build.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
+- `build/bottomup-build.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
+- `build/bottomup-build.mjs` -> `build/lineage-build.mjs`  *(build -> build)*
+- `build/bottomup-build.mjs` -> `corpora/federation/federation.js`  *(build -> corpus)*
+- `build/bottomup-build.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/bottomup-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-agreement.mjs` -> `build/adoption.mjs`  *(build -> build)*
 - `build/check-agreement.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
+- `build/check-bottomup.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-bottomup.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
+- `build/check-bottomup.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/check-bottomup.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-characterized-gaps.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-characterized-gaps.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-characterized-gaps.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
@@ -329,6 +345,7 @@ Nodes: 161. Import edges: 293. Runtime flow edges: 29. All import edges satisfy 
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
 - `build/adoption.mjs` **loads-corpus** `corpora/_shared/common-types.js`
+- `build/bottomup-build.mjs` **loads-corpus** `corpora/federation/federation.js`
 - `build/check-agreement.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`

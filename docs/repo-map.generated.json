@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 161,
-  "edgeCount": 322,
+  "nodeCount": 164,
+  "edgeCount": 339,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -345,6 +345,13 @@
       "group": null,
       "role": "the floor. Named standard transformations, the coordinate basis. Each is a leaf that cites its proof and is never re-derived in the engine (T1-2). Shared across the DAG: a primitive has many parents, which is how branches \"share a basis\".",
       "contract": "exports { id -> primitive node } conforming to data/schema.js (kind primitive)."
+    },
+    {
+      "path": "corpora/federation/federation.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the bottom-up federation over the four sovereign members (lhc, covid, eggs, lineage), as pure data. It names the demonstration crossings on real cross-kernel content and the composite weighings that select among members and ground by citing across the untyped boundary. No member schema lives here; each member keeps its own kind table and pins its own type-hashes. This is the federation over the cases, never a merge of them.",
+      "contract": "exports FEDERATION = { store_id, crossings, weighings }. Pure data; imports nothing. crossings and weighings name member claims by their local ref; build/bottomup-build.mjs resolves each ref to an identity through that member's own refId."
     },
     {
       "path": "corpora/_shared/atlas/atlas.js",
@@ -849,6 +856,20 @@
       "group": null,
       "role": "the agreement gate (kernel config schema, F4). Before the scaffolder publishes the common kinds as a shared subtree, confirm all four cases mean the same thing by each common kind: for every common kind (measurement, forum, declaration), each kernel that uses it must imply the same type-hash from its own tables, and that hash must be the one in corpora/_shared/common-types.js.",
       "contract": "`node build/check-agreement.mjs` exits 0 if the four agree, 1 with a named divergence report (which kernel, which kind, how the bundle differs). Imports the adoption layer and the shared common-types seed. A kernel that does not use a kind is absent from that kind's set."
+    },
+    {
+      "path": "build/bottomup-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the bottom-up meta kernel. Assembles the four existing case stores (lhc, covid, eggs, lineage) as sovereign, independently-authored members of a federation joined at the untyped type, then builds a composite over them that crosses claims between kernels through the existing composition layer. Modeled on build/eggs-build.mjs, but pointed at four sovereign kernels instead of one composite's internal domains: the members keep four schemas, never merged, joined only by shared type-hashes.",
+      "contract": "buildBottomUp() -> { members, composite, crossings, receipts, transparency }. Imports the kernel, the composition layer, the adoption layer, the four case builders, and corpora/federation."
+    },
+    {
+      "path": "build/check-bottomup.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the adversarial sovereignty test (the chain's iron). Proves the four cases federate as sovereign, independently-authored members joined at the untyped type, by TESTING sovereignty rather than asserting it: the members own separate schemas, standing crosses only through an owned fork (the try-to-cheat step), the shared-hash crossings compose native on real content, and the composite federates the whole. Also reports the transparency status, default on (F6).",
+      "contract": "`node build/check-bottomup.mjs` exits non-zero on any failure. Imports the federation build, the confidence order, the composition transfer, the adoption layer, and the store decay read."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -1637,6 +1658,90 @@
       "toLayer": "kernel"
     },
     {
+      "from": "build/bottomup-build.mjs",
+      "to": "corpora/federation/federation.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "kernel/composition/vocabulary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "build/lineage-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-agreement.mjs",
       "to": "corpora/_shared/common-types.js",
       "type": "imports",
@@ -1674,6 +1779,34 @@
     {
       "from": "build/check-atlas.mjs",
       "to": "build/eggs-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-bottomup.mjs",
+      "to": "build/bottomup-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-bottomup.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-bottomup.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-bottomup.mjs",
+      "to": "build/adoption.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
@@ -3296,6 +3429,11 @@
     {
       "from": "build/check-agreement.mjs",
       "to": "corpora/_shared/common-types.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/bottomup-build.mjs",
+      "to": "corpora/federation/federation.js",
       "type": "loads-corpus"
     },
     {

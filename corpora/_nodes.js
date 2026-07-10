@@ -10,6 +10,10 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/federation/federation.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/_shared/atlas/atlas.js",
     "type": "corpus"
   },
