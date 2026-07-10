@@ -112,6 +112,16 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-agreement.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/_shared/common-types.js"
+      }
+    ]
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },
