@@ -26,7 +26,7 @@
   function shortHash(h) { return h ? h.slice(0, 12) : "?"; }
 
   window.EpiShell.register({
-    id: "kernel-manager", title: "Kernel manager", kind: "demonstration", order: 300,
+    id: "kernel-manager", title: "Kernel manager", kind: "demonstration", order: 300, spine: true,
     render: function (ctx) {
       var mgmt = window.EpiManagementApi.createManagementApi(window.EpiLocalManagementProvider.createLocalManagementProvider(SNAP));
       var receipts = { adopt: null, fork: null, cross: null };
@@ -172,7 +172,7 @@
       }
 
       // ---------- compose: the read/write halves in their own containers, so a write repaint keeps the form ----------
-      ctx.mount.innerHTML = '<p class="shell-lede">The bottom-up federation, operated and authored through the real contracts. The kernels, tiers, and crossings come from the management contract; the writes below run through it; and authoring at the bottom rides the claim contract, where the gate grades the claim you write. Nothing is vendored, so this rung is embeddable as-is.</p><div class="mgr-top"></div><div class="mgr-auth"></div>';
+      ctx.mount.innerHTML = '<p class="shell-turn">The argument and the cases made their point in prose. Here the reading turns to operation: the same kernels are operated and authored through the real contracts, so you stop reading about grounding and do it.</p><p class="shell-lede">The bottom-up federation, operated and authored through the real contracts. The kernels, tiers, and crossings come from the management contract; the writes below run through it; and authoring at the bottom rides the claim contract, where the gate grades the claim you write. Nothing is vendored, so this rung is embeddable as-is.</p><div class="mgr-top"></div><div class="mgr-auth"></div>';
       paintTop(ctx.mount.querySelector(".mgr-top"));
       mountAuthoring(ctx.mount.querySelector(".mgr-auth"));
     },

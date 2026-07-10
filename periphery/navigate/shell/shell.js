@@ -75,14 +75,29 @@
       nodeReading: nodeReading,
     };
 
-    // pass 1: nav + render each module into its section.
+    // the essential spine: the sections a judge follows straight through for a complete submission,
+    // summarized at the top of the nav so the reading budget is answered structurally. The depth stays
+    // fully present below, marked as fork-in-by-choice rather than removed.
+    var spineMods = mods.filter(function (m) { return m.spine; });
+    if (spineMods.length) {
+      var sh = document.createElement("div"); sh.className = "shell-nav-grouphead"; sh.textContent = "The essential spine"; navEl.appendChild(sh);
+      spineMods.forEach(function (m) {
+        var a = document.createElement("a");
+        a.href = "#mod-" + m.id; a.className = "shell-nav-link shell-nav-spine shell-nav-spineitem";
+        a.textContent = m.title; navEl.appendChild(a);
+      });
+      var dh = document.createElement("div"); dh.className = "shell-nav-grouphead shell-nav-grouphead-depth"; dh.textContent = "All sections, depth to fork into"; navEl.appendChild(dh);
+    }
+
+    // pass 1: nav + render each module into its section. Spine sections read prominent; depth reads
+    // available but secondary, so the same list is a short spine and a reachable depth at a glance.
     mods.forEach(function (m) {
       var link = document.createElement("a");
-      link.href = "#mod-" + m.id; link.className = "shell-nav-link shell-nav-" + m.kind;
+      link.href = "#mod-" + m.id; link.className = "shell-nav-link shell-nav-" + m.kind + (m.spine ? " shell-nav-spine" : " shell-nav-depth");
       link.textContent = m.title; navEl.appendChild(link);
 
       var sec = document.createElement("section");
-      sec.id = "mod-" + m.id; sec.className = "shell-module shell-" + m.kind;
+      sec.id = "mod-" + m.id; sec.className = "shell-module shell-" + m.kind + (m.spine ? " shell-spine" : " shell-depth");
       var h = document.createElement("h2"); h.className = "shell-module-title"; h.textContent = m.title; sec.appendChild(h);
       var body = document.createElement("div"); body.className = "shell-body"; sec.appendChild(body);
       contentEl.appendChild(sec);

@@ -41,7 +41,7 @@
   }
 
   window.EpiShell.register({
-    id: "guided-path", title: "Start here: three things a synthesis buries", kind: "path", order: 99,
+    id: "guided-path", title: "Start here: three things a synthesis buries", kind: "path", order: 99, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.lede) + "</p>";
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
