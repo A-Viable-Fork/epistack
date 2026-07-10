@@ -644,8 +644,8 @@
       "path": "periphery/navigate/shell/modules/manager.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the kernel manager, slice two. A shell module that renders the bottom-up federation as a list of kernels operated, not just read, driving entirely through the two contracts and vendoring no answers. The kernel list, each kernel's local-versus-shared tiers, and the crossings with their native-or- untyped status all come from the management contract (listKernels, readKernel, readCrossings); a member's live claim grade comes from the claim contract (ctx.api.read). It performs all three write operations, adopt, fork, and cross, through the management contract and renders their real receipts.",
-      "contract": "registers on window.EpiShell. Builds the management contract from window.EpiManagementApi and window.EpiLocalManagementProvider over the embedded #management-snapshot (the provider's raw input, the way the claim provider reads the claim snapshot); reads live grades through ctx.api. Holds no adoption, crossing, or grounding logic; the provider computes every pin, status, and receipt."
+      "role": "the kernel manager. Renders the bottom-up federation as kernels operated, not just read, driving through the management contract (list, read, adopt, fork, cross) and the claim contract (live grade), and authors into a kernel through the claim contract: a person writes a claim with a support, proposes it through the real gate, and reads the receipt, where the gate tells them what the claim earned versus what they declared. The gate is the only judge; the surface gathers fields and shows the result.",
+      "contract": "registers on window.EpiShell. Reads the management snapshot to build the management contract (window.EpiManagementApi / EpiLocalManagementProvider); reads and proposes through ctx.api (the claim contract). Holds no adoption, crossing, or grading logic."
     },
     {
       "path": "periphery/navigate/shell/modules/prose.js",

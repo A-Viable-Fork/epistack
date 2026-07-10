@@ -90,3 +90,16 @@ fork deriving a child kernel, and cross reporting native or untyped. The manager
 real management contract rather than around it, vendors no answers (the management snapshot is the
 provider's raw input, the way the claim snapshot is the claim provider's), and is embeddable as-is. The
 central finding, that a management surface must reach around the contract, no longer holds.
+
+## Authoring rides the propose contract
+
+The authoring slice adds the write half of what the manager reads: a person selects a target kernel,
+writes a claim, picks its kind from the kinds that kernel declares, points it at a support already in the
+store, and proposes it through `ctx.api.propose`, the same propose contract the claim reads run through.
+The surface constructs no grade; it gathers the fields and renders the receipt. The receipt is the
+payoff: it shows what the claim earned against what the author declared, and the gap between them is what
+teaches grounding. Declare corroborated with one support and the gate declines it, earned supported,
+because a single support cannot earn corroborated; add a second independent support and it reaches
+corroborated. That movement, the declared grade meeting the earned grade as the support changes, is the
+on-ramp's first grounded moment. Authoring into a kernel you keep and take away with you is the next
+step, the generator-to-download, specified and not built here.
