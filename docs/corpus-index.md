@@ -245,6 +245,12 @@ argument, not in the corpus (they carry no gate node), and their repo-path refer
 | `docs/trellises/black-holes-reconstruction-trellis.md` | the LHC black-hole safety argument reconstructed around the framework-choice node: the empirical anchor, the shared dependencies the robustness reading finds, Plaga's undercut, and the performed-settling finding (`corpora/lhc`, Prompt 25) |
 | `docs/trellises/eggs-completeness-trellis.md` | the "should I eat eggs?" question-set completeness test: the four-word parse, the provenance sign-flip surfaced as the denominator node, and the coupled-subsystem deepening with its four structural moves (`corpora/eggs`, Prompts 20 and 26) |
 
+## docs/ (the specified frontier)
+
+| file | role |
+|---|---|
+| `docs/coordination-layer-spec.md` | the coordination-layer specification: the frontier where many communities validate and build on each other's claims, designed as the built grade computation extended from claims to participants (standing is to participants what grade is to claims); it develops the parameters register's line into a function-and-contract vocabulary and the status ledger's Stage 4 into a worked design, and draws the built-versus-specified line sharply, the grade machinery built, the coordination layer specified |
+
 ## root tooling
 
 | file | role |
