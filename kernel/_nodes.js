@@ -205,6 +205,11 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/type-hash.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/tables.mjs",
     "type": "kernel",
     "group": "schema"

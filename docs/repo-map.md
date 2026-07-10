@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 160. Import edges: 291. Runtime flow edges: 28. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -56,6 +56,7 @@ Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy 
 - `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/store/state.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
@@ -86,6 +87,12 @@ Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy 
 
 ### build
 
+- `build/adoption.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/adoption.mjs` -> `corpora/covid/tables.js`  *(build -> corpus)*
+- `build/adoption.mjs` -> `corpora/eggs/tables.js`  *(build -> corpus)*
+- `build/adoption.mjs` -> `corpora/lhc/lhc-tables.js`  *(build -> corpus)*
+- `build/adoption.mjs` -> `corpora/lineage/tables.js`  *(build -> corpus)*
+- `build/adoption.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
 - `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -121,6 +128,12 @@ Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-covid.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-crossing.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-crossing.mjs` -> `build/covid-build.mjs`  *(build -> build)*
+- `build/check-crossing.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
+- `build/check-crossing.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
+- `build/check-crossing.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/check-crossing.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-demo.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-demo.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-demo.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -193,6 +206,9 @@ Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy 
 - `build/check-translate.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-type-hash.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/check-type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-type-hash.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
 - `build/covid-build.mjs` -> `corpora/covid/covid-depth.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/covid-origins.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/tables.js`  *(build -> corpus)*
@@ -310,10 +326,12 @@ Nodes: 155. Import edges: 275. Runtime flow edges: 26. All import edges satisfy 
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
+- `build/adoption.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/check-perturb.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
+- `build/check-type-hash.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/fork-demo.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/vendor-snapshot.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/vendor-snapshot.mjs` **loads-corpus** `corpora/population/population-pipeline.js`

@@ -88,6 +88,30 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/adoption.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/_shared/common-types.js"
+      }
+    ]
+  },
+  {
+    "path": "build/check-type-hash.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/_shared/common-types.js"
+      }
+    ]
+  },
+  {
+    "path": "build/check-crossing.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/vendor-demo.mjs",
     "type": "build"
   },

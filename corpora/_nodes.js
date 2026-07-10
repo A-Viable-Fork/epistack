@@ -18,6 +18,10 @@ module.exports = [
     "type": "corpus"
   },
   {
+    "path": "corpora/_shared/common-types.js",
+    "type": "corpus"
+  },
+  {
     "path": "corpora/_shared/forks.js",
     "type": "corpus"
   },

@@ -47,6 +47,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
 | `kernel/schema/schema.js` | the one node schema. Single source of truth (design axiom T0-1). Every node |
+| `kernel/schema/type-hash.mjs` | content-address a shared type. A type bundle (a kind with its ceiling and rules, a floor, a source class) hashes to its meaning, so two kernels that mean the same thing by a type pin the same hash; the one primitive the three-tier crossing rests on |
 | `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
 | `kernel/store/apply.mjs` | the apply contract (intake data model v3, Section 14). Apply changes structure only: the |
 | `kernel/store/decay.mjs` | derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never |
@@ -81,6 +82,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/_primitives/primitives.js` | the floor. Named standard transformations, the coordinate basis. Each is a leaf |
 | `corpora/_shared/atlas/atlas.js` | the atlas, the meta-index (Prompt 27): the pre-existing discrimination map (ATLAS) plus two seeded registers, the transformation BASIS (admitted solo on type-correctness) and the DISCRIMINATION patterns (admitted in pairs on a real departure node-id), each entry referencing exemplar/clone nodes in the case stores |
 | `corpora/_shared/bodies/bodies.js` | the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor) |
+| `corpora/_shared/common-types.js` | the seed of the shared type subtree: the type bundles for the kinds more than one kernel pins in common (measurement, forum, declaration) and their content-address type-hashes, so a case references the shared hash rather than minting its own meaning |
 | `corpora/_shared/forks.js` | fork descriptors. A fork is a new id that names a parent and lists only its overrides |
 | `corpora/_shared/graph.json` | data (JSON) |
 | `corpora/_shared/units.js` | the thin shared root: units and cross-kernel definitions so they translate across kernels (bodies and atlas sit alongside) |
@@ -166,6 +168,9 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-docs.mjs` | the documentation-graph oracle (Prompt 37): the argument chain checked for symmetry (every Depends-on has its Depended-on-by backlink, the dangling-citation check) and the code chain checked for agreement with the actual cross-directory imports |
 | `build/lineage-build.mjs` | the shared builder for the lineage case (fourth case), modeled on build/covid-build.mjs: drives every lineage claim through the real gate and reads the earned-grade view. Pure over the corpus |
 | `build/check-lineage.mjs` | the lineage oracle: verifies the case structure (provenance resolves, the conjecture rests on five independent gaps, the retraction reaches checked, the institutional declarations reach the constitutive floor) and reports the gate's grading, the demotions being the finding, without tuning the corpus green |
+| `build/adoption.mjs` | the thin adoption layer: reads the four cases' existing kind tables (no corpus edit) and computes each kernel's pinned type-hashes, a common kind resolving to the shared hash and a unique kind holding its own; decides from two kernels' pins whether a crossing is native or untyped |
+| `build/check-type-hash.mjs` | the type-hash oracle: identical bundles hash identically, every meaning-bearing field is load-bearing in the hash, and the authored common-type hash literals match hashTypeBundle |
+| `build/check-crossing.mjs` | the crossing oracle (the keystone): treats the four cases as four kernels and verifies same-hash crossing composes native and lossless, an unpinned crossing arrives untyped and grounds nothing, and a fork restores standing |
 | `build/check-registers.mjs` | the register drift oracle (register view, phase E): every precise section of the judges document has an accessible counterpart and the reverse, every accessible section carries its source and register links and an explicit delta, every node link resolves live through the read contract (grounding under both registers), and every precise_version hash is fresh. Verifies structure, not fidelity; the `verify` lists are the authored obligations it surfaces and does not discharge |
 | `build/vendor-demo.mjs` | vendors the guided path into vendor/demo/reading.json (Prompt 29): the three counterexamples as stops, each recomputed by the kernel readings the check-demo oracle verifies |
 | `build/check-reconcile.mjs` | the reconciliation oracle (Prompt 22): the CVD within-domain crux resolving to the confounding-adjustment choice (Prompt 26), a synthetic rich pair (a real frontier and resolved sub-region), a disjoint pair, and determinism |

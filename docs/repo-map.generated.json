@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 155,
-  "edgeCount": 301,
+  "nodeCount": 160,
+  "edgeCount": 319,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -207,6 +207,13 @@
       "contract": "exports the kind/terminal/enum vocabularies, REQUIRED_FIELDS per kind, and validateNode(node) -> [problem strings]. Pure data + pure functions, DOM-free."
     },
     {
+      "path": "kernel/schema/type-hash.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "content-address a shared type. A type bundle is a type plus the grounding apparatus that gives it meaning (a kind with its ceiling and rules, a floor with its rank, a source class with its footings); its hash is the type's identity, so two kernels that mean the same thing by a type pin the same hash and a kernel that means something subtly different pins a different one. This is the one primitive the three-tier crossing rests on: shared meaning is shared hash.",
+      "contract": "canonicalizeBundle(bundle) -> canonical node; hashTypeBundle(bundle) -> hex sha256 over it. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/tables.mjs",
       "type": "kernel",
       "group": "schema",
@@ -352,6 +359,13 @@
       "group": null,
       "role": "the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor). A body (Earth, the Sun, a white dwarf, a neutron star) is an entry whose populated properties are measurement-terminal leaves: each has value + unit + citation, and grounds because the world closed it, the way a math primitive grounds because a derivation legitimately stops.",
       "contract": "exports { BODIES }, body_id -> { id, name, properties }. A property has one of three shapes: a populated leaf { value, unit, citation, terminal_type: \"measurement\" }; a stub { sorry }; or a resolved cross-reference { regime_ref } to an authored node for a non-scalar property. The engine flattens ONLY populated properties into leaves `body.<body>.<property>`; a stub or a cross-reference never becomes a node, so it cannot accidentally ground."
+    },
+    {
+      "path": "corpora/_shared/common-types.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the seed of the shared type subtree. Holds the type bundles for the kinds more than one kernel pins in common (measurement, forum, declaration) and their content-address type-hashes, so a case that uses a common kind references the shared hash here rather than minting its own meaning for it. This is the data a kernel reads to declare which shared types it adopts.",
+      "contract": "exports COMMON_BUNDLES (kind -> bundle) and COMMON_TYPE_HASHES (kind -> hex hash). Pure data; imports nothing. The hashes are authored constants, verified against hashTypeBundle by build/check-type-hash.mjs, so a bundle change that is not reflected here is caught."
     },
     {
       "path": "corpora/_shared/forks.js",
@@ -807,6 +821,27 @@
       "group": null,
       "role": "the lineage oracle (fourth case), modeled on build/check-covid.mjs. Verifies the STRUCTURE of the lineage case and REPORTS the gate's grading, because the demotions are the finding, not a failure to fix. It confirms every source resolves, the conjecture is a declaration resting on five independent near-miss gaps, the one replicated measurement (retraction non-acknowledgment) reaches checked, the institutional declarations self-warrant to the constitutive floor, and the gate priced the corpus producer-agnostically: exactly the claims declaring above what they earn are flagged as findings and none is forced through. It then prints how many demoted and to what, and which parallels ground weakly.",
       "contract": "`node build/check-lineage.mjs` exits non-zero only on a STRUCTURAL failure. Imports the kernel and the shared lineage builder; touches no truth field."
+    },
+    {
+      "path": "build/adoption.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the thin adoption layer. Reads the four cases' existing kind tables (no corpus edit) and, for each, produces the type bundles its kinds imply and their hashes, so each kernel declares as data which type-hashes it pins. A common kind (measurement, forum, declaration) resolves to the shared hash in corpora/_shared/common-types.js; a kind unique to one kernel (lhc's derivation) holds its own hash no other kernel pins. Also decides, from two kernels' pins, whether a crossing is native.",
+      "contract": "kindBundle(row), adoptionOf(caseId) -> { caseId, pins, bundles, mismatches }, CASE_IDS, crossingStatus(originKind, originAdoption, targetAdoption) -> \"native\" | \"untyped\". ESM, build layer (may reach kernel and corpora); reuses kernel/schema/type-hash.mjs for the hash."
+    },
+    {
+      "path": "build/check-type-hash.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the type-hash oracle. Proves the one primitive the three-tier crossing rests on: a type bundle hashes deterministically, identical bundles hash identically, any change to a meaning-bearing field changes the hash, and the authored common-type hash literals match what hashTypeBundle computes.",
+      "contract": "`node build/check-type-hash.mjs` exits non-zero on any failure. Imports the kernel type-hash module and the shared common-types seed."
+    },
+    {
+      "path": "build/check-crossing.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the crossing oracle (the keystone). Treats the four existing cases as four independent kernels pinning type-hashes, and tests the two behaviors the three-tier design turns on, over the real composition machinery: a claim of a type both kernels pin crosses native and lossless; a claim of a type the target did not pin arrives untyped and grounds nothing, until the target forks it in.",
+      "contract": "`node build/check-crossing.mjs` exits non-zero on any failure. Imports the adoption layer, the composition transfer/records, the confidence order, and the covid and lhc case builders."
     },
     {
       "path": "build/vendor-demo.mjs",
@@ -1378,6 +1413,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/schema/type-hash.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/store/apply.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -1543,6 +1585,48 @@
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/lhc/lhc-tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/covid/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/eggs/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/lineage/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "build",
       "toLayer": "kernel"
     },
     {
@@ -1786,6 +1870,48 @@
     {
       "from": "build/check-covid.mjs",
       "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "kernel/composition/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-crossing.mjs",
+      "to": "build/lhc-build.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
@@ -2290,6 +2416,27 @@
     {
       "from": "build/check-translate.mjs",
       "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-type-hash.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-type-hash.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-type-hash.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -3113,6 +3260,16 @@
     {
       "from": "build/check-gaps.mjs",
       "to": "corpora/_shared/atlas/atlas.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/adoption.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-type-hash.mjs",
+      "to": "corpora/_shared/common-types.js",
       "type": "loads-corpus"
     },
     {
