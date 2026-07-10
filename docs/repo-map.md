@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 167. Import edges: 312. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -188,6 +188,10 @@ Nodes: 167. Import edges: 312. Runtime flow edges: 30. All import edges satisfy 
 - `build/check-lhc.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-lineage.mjs` -> `build/lineage-build.mjs`  *(build -> build)*
 - `build/check-lineage.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-management.mjs` -> `api/management-api.mjs`  *(build -> api)*
+- `build/check-management.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-management.mjs` -> `build/local-management-provider.mjs`  *(build -> build)*
+- `build/check-management.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-migrate.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
@@ -285,6 +289,10 @@ Nodes: 167. Import edges: 312. Runtime flow edges: 30. All import edges satisfy 
 - `build/lineage-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/lineage-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/lineage-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/local-management-provider.mjs` -> `api/fork.js`  *(build -> api)*
+- `build/local-management-provider.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/local-management-provider.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
+- `build/local-management-provider.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
