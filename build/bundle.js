@@ -24,6 +24,10 @@ execFileSync("node", [path.join(__dirname, "vendor-covid.mjs")], { stdio: "inher
 execFileSync("node", [path.join(__dirname, "vendor-lhc.mjs")], { stdio: "inherit" });
 // the guided path: the three counterexamples staged as a walk (the on-screen critique-of-synthesis arc).
 execFileSync("node", [path.join(__dirname, "vendor-demo.mjs")], { stdio: "inherit" });
+// the lineage case: the critique's fourth exhibit, the conjecture and its near-miss grounding.
+execFileSync("node", [path.join(__dirname, "vendor-lineage.mjs")], { stdio: "inherit" });
+// the management snapshot the kernel manager runs over (list, adopt, fork, cross client-side).
+execFileSync("node", [path.join(__dirname, "vendor-management.mjs")], { stdio: "inherit" });
 const TOKEN = /@@INCLUDE:([^@]+)@@/g;
 const MANIFEST_TOKEN = "@@CLIENT_MANIFESTS@@";
 

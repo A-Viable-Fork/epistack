@@ -214,6 +214,21 @@ module.exports = [
     "group": "consumer"
   },
   {
+    "path": "periphery/navigate/shell/modules/lineage-case.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
+    "path": "periphery/navigate/shell/modules/on-ramp.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
+    "path": "periphery/navigate/shell/modules/vision-capstone.js",
+    "type": "periphery",
+    "group": "consumer"
+  },
+  {
     "path": "periphery/navigate/shell/modules/guided-path.js",
     "type": "periphery",
     "group": "consumer"

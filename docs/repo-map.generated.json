@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 182,
-  "edgeCount": 369,
+  "nodeCount": 186,
+  "edgeCount": 371,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -725,6 +725,27 @@
       "contract": "registers on window.EpiShell as a case module. Reads the embedded #lhc-reading JSON."
     },
     {
+      "path": "periphery/navigate/shell/modules/lineage-case.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the lineage case as the critique's fourth exhibit, lighter than the three domain cases because it argues about the architecture, not about a domain. It leads with the novelty conjecture and its earned grade, shows the five independent near-miss gaps that ground it, and puts the institutions where the mechanisms already run by hand one click down. The reading is the vendored build artifact (vendor/lineage/reading.json), computed by the kernel at build time; the module renders it.",
+      "contract": "registers on window.EpiShell as a case module. Reads the embedded #lineage-reading JSON."
+    },
+    {
+      "path": "periphery/navigate/shell/modules/on-ramp.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the on-ramp reach, the reading's terminal turn from operating the existing kernels to making and taking your own. It presents, as built and reachable, the generator (a running empty kernel), the self-contained kernel file and the detached-repo download, and the two connectors (ingestion brings material, the producer connector lets an agent author through the gate). It names each artifact and its check honestly; it does not inline a second running kernel, which would bloat this one file, and says so plainly instead of mocking it.",
+      "contract": "registers on window.EpiShell as a closing section (order 400). Renders static prose over the built artifacts; reads no live data because the on-ramp's proof is its checks, named here."
+    },
+    {
+      "path": "periphery/navigate/shell/modules/vision-capstone.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the reading's capstone, the vision document rendered as the terminal section so the scroll ends where the work is going. It closes the spine: the argument, the cases, the lineage exhibit, operating the kernels, the on-ramp to make your own, and then the destination. The canonical source is docs/vision-and-continuation.md, inlined at #vision-doc and rendered here, never copied or edited.",
+      "contract": "registers on window.EpiShell as a closing prose section (order 500). Reads the embedded #vision-doc markdown and renders it with a light markdown pass (headings, paragraphs, lists, bold)."
+    },
+    {
       "path": "periphery/navigate/shell/modules/guided-path.js",
       "type": "periphery",
       "group": "consumer",
@@ -828,6 +849,13 @@
       "group": null,
       "role": "vendor the densified covid-origins case into one JSON reading the presentation shell renders in a file:// page, with no server and no live kernel in the browser (Prompt 23a). Built through the shared covid builder, the same one the oracle verifies, and written to vendor/covid/reading.json: the evidence grounded to its floors, the contested interpretations, the origins contradiction with its computed crux resolving to the priors, and the meta level with the 23-order divergence.",
       "contract": "`node build/vendor-covid.mjs` writes the reading. No arguments. Deterministic."
+    },
+    {
+      "path": "build/vendor-lineage.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the lineage case (the critique's fourth exhibit) into one JSON reading the presentation shell renders in a file:// page, with no live kernel in the browser. Built through the shared lineage builder, the same one the oracle verifies, and written to vendor/lineage/reading.json: the novelty conjecture and its earned grade, the five independent near-miss gaps that ground it, the institutions where the mechanisms already run by hand, and the demotions the gate priced, which are the finding.",
+      "contract": "`node build/vendor-lineage.mjs` writes the reading. No arguments. Deterministic."
     },
     {
       "path": "build/check-covid.mjs",
@@ -3424,6 +3452,20 @@
     {
       "from": "build/vendor-lhc.mjs",
       "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-lineage.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/vendor-lineage.mjs",
+      "to": "build/lineage-build.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"

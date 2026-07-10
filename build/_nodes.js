@@ -48,6 +48,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-lineage.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-covid.mjs",
     "type": "build"
   },

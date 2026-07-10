@@ -1,0 +1,163 @@
+{
+  "generated_by": "build/vendor-lineage.mjs",
+  "lede": "The fourth exhibit is an argument about the architecture, not a fourth domain. The kernel's mechanisms already run, informally and by hand, in mature institutions; the novelty is the composition. The conjecture is that no known system composes all five axes for empirical and contested knowledge.",
+  "axes": [
+    "typed floors",
+    "mechanical grounding",
+    "untyped-type federation",
+    "forkable exit",
+    "a community-set fixed-free line"
+  ],
+  "conjecture": {
+    "statement": "no known system composes all five axes, typed floors, mechanical grounding, untyped-type federation, forkable exit, and a community-set fixed-free line, for empirical and contested knowledge claims (the narrowing to empirical-and-contested…",
+    "grade": "asserted",
+    "source": "Falsification and Architectural Lineage synthesis: the five-axis neighborhood map across Lean, Ceramic, OriginTrail, Nanopublications, Augu…",
+    "closing": "a peer-reviewed demonstration or deployed instance of a protocol natively composing all five axes at once for empirical and contested knowledge claims, which would be wired here as a contradicts link and let the gate carry the contest"
+  },
+  "grounding": [
+    {
+      "system": "Lean / mathlib",
+      "statement": "Lean lacks untyped-type federation and cannot hold empirical or contested claims: its top-down regime demands strict integration into one schema with no lossy crossings, and its floor requires axiomatic certainty, so it grounds within form…",
+      "grade": "asserted",
+      "source": "The Lean Mathematical Library, arXiv:1910.09336; Lean proof assistant (dependent type theory, the compiler as grounding linter)"
+    },
+    {
+      "system": "nanopublications",
+      "statement": "Nanopublications lack a grounding linter: the network validates RDF structure but leaves epistemic weight to each consumer's heuristics, so a perfectly formatted but factually hollow assertion passes unchallenged",
+      "grade": "asserted",
+      "source": "Nanopublication Guidelines (nanopub.net) and The Anatomy of a Nanopublication (W3C): RDF quads segregating assertion, provenance, publicati…"
+    },
+    {
+      "system": "Ceramic",
+      "statement": "Ceramic lacks mechanical grounding and typed floors: a domain crossing transfers the data perfectly but zero epistemic standing, because the network verifies cryptographic provenance, not whether the document holds verified facts or fabric…",
+      "grade": "asserted",
+      "source": "Ceramic Network documentation and blog: ComposeDB data models and multi-homed IPFS federation"
+    },
+    {
+      "system": "Augur",
+      "statement": "Augur grounds economically, not structurally: a distrusting party verifies only the ledger of stakes and slashing, not the claim's factual accuracy, so a rich enough incentive to lie makes the mechanism validate falsehoods flawlessly",
+      "grade": "asserted",
+      "source": "Augur: a Decentralized Oracle and Prediction Market Platform, whitepaper arXiv:1501.01042 (REP dispute bonds and forking universes)"
+    },
+    {
+      "system": "Kialo",
+      "statement": "Kialo grounds pseudo-mechanically: its Impact-equals-Veracity-plus-Relevance rule aggregates votes mechanically, but the inputs are subjective human votes, so it computes community consensus rather than structurally recomputable truth",
+      "grade": "asserted",
+      "source": "Kialo voting documentation: Impact equals Veracity plus Relevance, mechanical aggregation of subjective votes"
+    }
+  ],
+  "institutions": [
+    {
+      "domain": "Common law",
+      "note": "grounding by dependency, its citator as the linter",
+      "claims": [
+        {
+          "statement": "common law runs grounding-by-dependency: under stare decisis a ruling's authority is inherited through an unbroken chain of cited precedent back to a statute or constitutional floor, a dependency graph built by hand",
+          "grade": "asserted",
+          "source": "US Supreme Court doctrine of stare decisis: precedent as a principle of judicial policy, not a mechanical formula (Kernel Lineage Research …"
+        },
+        {
+          "statement": "legal citators (Shepard's, KeyCite, BCite) are a semantic linter over the precedent graph: they flag whether an upstream precedent remains valid law, editorially maintained by human analysts rather than computed",
+          "grade": "asserted",
+          "source": "Hellyer, P. (2018), evaluation of Shepard's, KeyCite, and BCite negative-treatment accuracy, Law Library Journal (citator error rates)"
+        },
+        {
+          "statement": "contamination propagates only through active litigation, so overruled or legislatively superseded decisions persist as shadow precedents cited as live, controlling law for years, the legal analog of technical lag",
+          "grade": "asserted",
+          "source": "Widiss, D. (2015), 'Shadow Precedents and the Separation of Powers', on legislative-override shadow precedents"
+        }
+      ]
+    },
+    {
+      "domain": "Software dependency graphs",
+      "note": "the CI gate, the weakest-support rule, contamination on a bad floor",
+      "claims": [
+        {
+          "statement": "CI/CD pipelines are an admission gate, admit-only-if-checks-pass, but the check matrix is configured by hand and can only verify what a developer explicitly codified, so a zero-day or obfuscated payload passes",
+          "grade": "asserted",
+          "source": "GitHub Actions CI/CD documentation: admission gates configured by hand, admit-only-if-checks-pass"
+        },
+        {
+          "statement": "software runs the weakest-necessary-support rule: because every transitive dependency compiles into one runtime, an application is only as secure as its weakest dependency, a vulnerability five layers deep granting the same privileges as f…",
+          "grade": "asserted",
+          "source": "Kusari, transitive-dependency risk analysis (a build is as strong as its weakest transitive dependency)"
+        },
+        {
+          "statement": "the contamination rule runs live in software: a poisoned upstream node distributes automatically to all downstream dependents, attested across event-stream (2018), SolarWinds (2020), and Log4Shell (2021), and remediation is the same manual…",
+          "grade": "asserted",
+          "source": "Snyk and npm incident writeups, event-stream supply-chain compromise via maintainer handover (2018)"
+        }
+      ]
+    },
+    {
+      "domain": "Science",
+      "note": "convergence across independent lines, and the one replicated measurement",
+      "claims": [
+        {
+          "statement": "science runs the convergence warrant: a single paper is testimony, and only independent replication across distinct methods or populations composes it into knowledge no single measurer is load-bearing for",
+          "grade": "asserted",
+          "source": "Continued Use of Retracted Papers: Temporal Trends in Citations in Biomedicine, PubMed 36186715 (7,813 retracted papers, 13,252 post-retrac…"
+        },
+        {
+          "statement": "the exclusion record fails to propagate: of 13,252 post-retraction citation contexts (7,813 retracted papers, PubMed 1960-2020) only 5.4% acknowledged the retraction, so 94.6% treated the compromised finding as valid, independently atteste…",
+          "grade": "checked",
+          "source": "Continued Use of Retracted Papers: Temporal Trends in Citations in Biomedicine, PubMed 36186715 (7,813 retracted papers, 13,252 post-retrac…"
+        }
+      ]
+    },
+    {
+      "domain": "Wikipedia",
+      "note": "verifiability as a floor, the fork as the exit",
+      "claims": [
+        {
+          "statement": "Wikipedia's 'Verifiability, not truth' is the trust-view cut written as an editorial rule: it decouples the validity of the record from the truth of the claim by offloading the burden to reliable external sources",
+          "grade": "constitutive",
+          "source": "Wikipedia:Core content policies, 'Verifiability, not truth' (the trust-view cut as an editorial rule)"
+        },
+        {
+          "statement": "the fork is Wikipedia's canonical exit: the CC-BY-SA license encodes the right to fork the whole database, and the 2002 Spanish Fork forced the platform to abandon advertising while Citizendium (2006) forked to test an alternative trust mo…",
+          "grade": "asserted",
+          "source": "List of content forks of Wikipedia; the Spanish Fork (2002) and Citizendium (2006) as canonical exits"
+        }
+      ]
+    },
+    {
+      "domain": "Journalism and accounting",
+      "note": "two-source rule, verify-don't-trust, typed floors",
+      "claims": [
+        {
+          "statement": "the two-independent-sources rule is a convergence floor in miniature: one human source is testimony, and a contested claim is publishable only when corroborated through a strictly independent evidentiary pathway",
+          "grade": "constitutive",
+          "source": "SPJ Code of Ethics and NYT/WaPo two-independent-sources standard; circular reporting as fake independence"
+        },
+        {
+          "statement": "accounting encodes verify-don't-trust as segregation of duties: the preparer of a ledger cannot authorize the transactions or audit them, so no single actor holds both write access and verification access to the graph",
+          "grade": "asserted",
+          "source": "GAAP and IFRS as typed declaration floors; segregation of duties (preparer, authorizer, auditor) as verify-don't-trust"
+        },
+        {
+          "statement": "GAAP and IFRS are typed declaration floors: by forcing every financial claim into a typed standard for revenue, depreciation, and classification, they let an auditor mechanically verify a ledger across firms and jurisdictions",
+          "grade": "constitutive",
+          "source": "GAAP and IFRS as typed declaration floors; segregation of duties (preparer, authorizer, auditor) as verify-don't-trust"
+        }
+      ]
+    }
+  ],
+  "demotions": [
+    {
+      "statement": "contamination propagates only through active litigation, so overruled or legislatively superseded decisions persist as shadow precedents cited as live, control…",
+      "declared": "corroborated",
+      "earned": "asserted"
+    },
+    {
+      "statement": "the contamination rule runs live in software: a poisoned upstream node distributes automatically to all downstream dependents, attested across event-stream (20…",
+      "declared": "corroborated",
+      "earned": "asserted"
+    },
+    {
+      "statement": "no known system composes all five axes, typed floors, mechanical grounding, untyped-type federation, forkable exit, and a community-set fixed-free line, for em…",
+      "declared": "supported",
+      "earned": "asserted"
+    }
+  ]
+}
