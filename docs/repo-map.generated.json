@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 174,
-  "edgeCount": 352,
+  "nodeCount": 179,
+  "edgeCount": 362,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -529,6 +529,34 @@
       "contract": "STUB [2.3] Stage 2 producer, specified not built. Reaches the kernel only through api/."
     },
     {
+      "path": "periphery/ingest/rate-limit.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "a minimum-interval rate limiter for the ingestion connectors, enforced by construction. arXiv's terms require no more than one programmatic request every three seconds across all access; this limiter guarantees that spacing rather than approximating it. OpenAlex is more permissive but is given a smaller polite interval through the same limiter.",
+      "contract": "createRateLimiter({ minIntervalMs, now?, sleep? }) -> { acquire() -> Promise<scheduledMs> }. The clock (now) and the delay (sleep) are injectable so the spacing is testable against a virtual clock, not by waiting. Periphery: imports nothing but has no kernel or DOM dependency."
+    },
+    {
+      "path": "periphery/ingest/arxiv.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the arXiv metadata connector. Queries the arXiv Atom API (or replays a saved response fixture when the network is unavailable), parses the descriptive metadata deterministically, and returns normalized work objects. It reads descriptive metadata only (title, authors, abstract, date, identifiers) and records the link back to the arXiv page; it never downloads, stores, or redistributes the full-text e-print, which arXiv does not license for redistribution.",
+      "contract": "fetchArxiv({ query, maxResults?, fixture?, limiter?, fetchImpl? }) -> Promise<[work]>, where a work is { source:\"arxiv\", id, title, authors:[name], abstract, year, url, primary_class }. Pass `fixture` (Atom XML string) to parse offline; otherwise it fetches live through the rate limiter. Periphery: imports only periphery (the rate limiter); never the kernel."
+    },
+    {
+      "path": "periphery/ingest/openalex.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the OpenAlex metadata connector. Queries the OpenAlex works API (or replays a saved JSON response fixture when the network is unavailable), parses the descriptive metadata deterministically, and returns normalized work objects. It reads metadata only (title, authors, year, venue, DOI) and records a link back; it stores no full-text body.",
+      "contract": "fetchOpenAlex({ query, perPage?, fixture?, mailto?, limiter?, fetchImpl? }) -> Promise<[work]>, a work is { source:\"openalex\", id, title, authors:[name], year, doi, venue, url }. Pass `fixture` (JSON string or parsed object) to parse offline; otherwise it fetches live with a polite delay and identifies the client. Periphery: imports only periphery (the rate limiter); never the kernel."
+    },
+    {
+      "path": "periphery/ingest/to-sources.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "map normalized ingested works into kernel source rows, the source half of the pipeline. It produces the same row shape the cases' tables.js already hold, with an honest source-class mapping and a link back in every description. It authors no claims and assigns no grades; it brings in the material that claims will later cite through the gate.",
+      "contract": "worksToSources([work]) -> [{ source_id, source_class, description }], sorted by source_id and deduplicated. An arXiv work is a preprint; an OpenAlex work with a published venue is peer-reviewed, one without is a preprint. Pure and deterministic. Periphery: imports nothing; never the kernel."
+    },
+    {
       "path": "periphery/navigate/clients/clients.js",
       "type": "periphery",
       "group": "consumer",
@@ -968,6 +996,13 @@
       "group": null,
       "role": "the Phase A acceptance oracle for the propose/read contract and the local provider (Prompt 10). Confirms propose runs the REAL gate over the migrated snapshot and returns a full receipt, read returns claims with their grounding, and the receipt is byte-identical to a direct kernel run, so the artifact grades exactly as Node does.",
       "contract": "`node build/check-client.mjs` exits non-zero on any failure. Imports the contract, the local provider, and (for the cross-check) the kernel gate directly."
+    },
+    {
+      "path": "build/check-ingest.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the acceptance oracle for the ingestion connector. From saved arXiv and OpenAlex response fixtures it proves the connector produces valid kernel source rows (real class, real shape) that makeSourceTable accepts, that every row carries its link back and holds no full-text body (the legal boundary, asserted), that the rate limiter enforces the three-second interval by construction against a virtual clock, and that the two halves of the pipeline meet: one ingested source enters a kernel's source table and a claim citing it is authored through the real propose contract, receipt and all.",
+      "contract": "`node build/check-ingest.mjs` exits non-zero on any failure. Build layer: imports the periphery connector modules, the kernel source table, and the api propose contract for the demo."
     },
     {
       "path": "build/check-map.mjs",
@@ -1700,6 +1735,20 @@
       "toLayer": "kernel"
     },
     {
+      "from": "periphery/ingest/arxiv.mjs",
+      "to": "periphery/ingest/rate-limit.mjs",
+      "type": "imports",
+      "fromLayer": "periphery",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "periphery/ingest/openalex.mjs",
+      "to": "periphery/ingest/rate-limit.mjs",
+      "type": "imports",
+      "fromLayer": "periphery",
+      "toLayer": "periphery"
+    },
+    {
       "from": "build/adoption.mjs",
       "to": "corpora/_shared/common-types.js",
       "type": "imports",
@@ -2377,6 +2426,62 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "periphery/ingest/arxiv.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "periphery/ingest/openalex.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "periphery/ingest/to-sources.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "periphery/ingest/rate-limit.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-ingest.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-lhc.mjs",
