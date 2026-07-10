@@ -153,11 +153,62 @@ button.reg-toggle.reg-on { background: #1b3a5b; color: #fff; border-color: #1b3a
 .pw-grades td { padding: .25rem .3rem; }
 .pw-note { font-size: .78rem; color: var(--ink-faint, #8A96A0); margin-top: .4rem; font-style: italic; }
 .pw-prov { font-size: .78rem; color: var(--ink-faint, #8A96A0); margin-top: .3rem; }</style>
+<!-- the kernel manager's styles (it renders kernels, crossings, and the authoring receipt) -->
+<style>
+.mgr-kernel{border:1px solid #ccc;border-radius:6px;padding:.7em .9em;margin:.6em 0;}
+.mgr-kernel-head{font-size:1.1em;}
+.mgr-kernel-id{font-weight:700;font-family:var(--mono,monospace);}
+.mgr-by{color:#666;font-style:italic;margin-left:.4em;}
+.mgr-prov{color:#777;font-size:.85em;margin:.2em 0 .5em;}
+.mgr-tier{margin:.3em 0;font-size:.92em;}
+.mgr-kind{display:inline-block;border-radius:4px;padding:.05em .45em;margin:.1em;font-family:var(--mono,monospace);font-size:.85em;}
+.mgr-kind-local{background:#e8dff5;border:1px solid #b79ce0;}
+.mgr-kind-shared{background:#dfeaf5;border:1px solid #9cbfe0;}
+.mgr-none{color:#999;font-style:italic;}
+.mgr-grade{font-size:.9em;}
+.mgr-crossings{list-style:none;padding:0;}
+.mgr-crossings li{border-left:3px solid #ddd;padding:.3em .7em;margin:.4em 0;}
+.mgr-cross{font-family:var(--mono,monospace);font-weight:600;}
+.mgr-cross-kind{color:#666;font-size:.85em;font-family:var(--mono,monospace);}
+.mgr-cross-note{color:#777;font-size:.82em;margin-top:.2em;}
+.mgr-status{display:inline-block;border-radius:4px;padding:.05em .5em;font-size:.82em;font-weight:600;}
+.mgr-status-native{background:#d8efd8;border:1px solid #7bc47b;}
+.mgr-status-untyped{background:#f2e2c8;border:1px solid #d8ad6a;}
+.mgr-adopt{border:1px solid #9cbfe0;border-radius:6px;padding:.8em 1em;background:#f6f9fc;}
+.mgr-adopt-head{font-weight:700;margin-bottom:.3em;}
+.mgr-adopt-state{margin:.5em 0;font-family:var(--mono,monospace);}
+.mgr-adopt-btn{padding:.4em .9em;border-radius:5px;border:1px solid #7ba;cursor:pointer;}
+.mgr-adopt-btn:disabled{opacity:.5;cursor:default;}
+.mgr-receipt{margin-top:.6em;padding:.5em .7em;border-left:3px solid #7bc47b;background:#eef7ee;font-size:.9em;}
+.mgr-receipt-json{background:#f4f4f4;border:1px solid #ddd;border-radius:5px;padding:.5em .7em;font-size:.8em;overflow-x:auto;}
+.mgr-grade-tag{display:inline-block;border-radius:4px;padding:.05em .4em;background:#eee;font-family:var(--mono,monospace);font-size:.82em;}
+.mgr-auth-lede,.mgr-auth-note{color:#666;font-size:.9em;}
+.mgr-auth-form{display:flex;flex-direction:column;gap:.5em;max-width:44em;}
+.mgr-auth-form label{display:flex;flex-direction:column;gap:.2em;font-size:.9em;font-weight:600;}
+.mgr-auth-row{display:flex;gap:1em;}
+.mgr-auth-form textarea{min-height:3em;font-family:inherit;padding:.4em;}
+.mgr-auth-form input,.mgr-auth-form select{padding:.35em;font-family:inherit;}
+.mgr-auth-supports{max-height:14em;overflow-y:auto;border:1px solid #ddd;border-radius:5px;padding:.3em;}
+.mgr-auth-support{display:block;font-weight:400;font-size:.85em;padding:.15em 0;cursor:pointer;}
+.mgr-auth-sg{font-family:var(--mono,monospace);color:#556;}
+.mgr-auth-btn{align-self:flex-start;padding:.45em 1em;border-radius:5px;border:1px solid #7ba;cursor:pointer;}
+.mgr-auth-status{font-size:.85em;color:#666;}
+.mgr-auth-receipt{margin-top:.3em;}
+.mgr-verdict{font-weight:700;padding:.3em .6em;border-radius:5px;display:inline-block;}
+.mgr-accepted{background:#d8efd8;border:1px solid #7bc47b;}
+.mgr-declined{background:#f5d8d8;border:1px solid #d88;}
+.mgr-why{margin:.5em 0;font-size:.9em;}
+.mgr-grades-table{border-collapse:collapse;font-size:.85em;margin:.4em 0;}
+.mgr-grades-table th,.mgr-grades-table td{border:1px solid #ccc;padding:.25em .6em;text-align:left;}
+.lineage-more{margin:.8em 0;border:1px solid #ddd;border-radius:6px;padding:.4em .8em;background:#fafafa;}
+.lineage-more summary{cursor:pointer;font-weight:600;}
+.lineage-more h4{margin:.6em 0 .2em;}
+</style>
 </head>
 <body>
 <header class="shell-header">
   <h1>What Stands Without Trust</h1>
-  <div class="shell-tag">One navigable surface: the paper, the three cases, and the live demonstrations, composed from registered modules. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
+  <div class="shell-tag">One navigable surface, read straight through or forked at any subject: the argument, the three cases and the lineage exhibit, the live demonstrations, then the turn from reading to operating, the kernel manager where you author through the real gate, the on-ramp to make and take your own kernel, and the vision that closes it. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
 </header>
 <div class="shell-wrap">
   <nav class="shell-nav" id="shell-nav" aria-label="contents"></nav>
@@ -370,11 +421,23 @@ not take your word for independence: it prices it from the source table. Paste t
 Type: argument
 Purpose: Argues the whole submission for a judge, as the furthest-derived leaf that compiles the sources and points at where the truth lives.
 Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
-Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md, docs/vision-and-continuation.md
 ---
 
 # What Stands Without Trust
 ### A submission to the epistemic case study competition
+
+### How to read this submission
+
+This submission is two of the shapes the brief names: a critique with counterexamples, and the protocol it forces.
+
+Start where the competition starts, with synthesis, what the best deep-research tools produce. The brief asks for work that compounds across teams, survives adversarial reading, and scales with more contributors. A synthesis does none of these: the next person has to trust it or redo it, it dissolves under a determined challenge, and two of them over one question do not combine. What the brief asks for rules out the thing everyone will build. The critique is what remains once the demands are taken seriously: knowledge has to be what stands when trust in the author is removed, because everything the brief wants is a property of claims that survive without their author. Three cases show synthesis failing exactly here, a reified dependency in physics, a hidden prior in epidemiology, a swappable frame in nutrition, each one it smooths flat.
+
+That forces the protocol, and the protocol is a climb. If knowledge is what stands when the author is removed, something has to do the removing mechanically, and building it is where the critique leads. First the type: a knowledge kernel, a fixed core that grounds claims and lints them in CI, with two markets over it, kernels to trust and surfaces to read and write through. Then one instance, this submission's top-down meta kernel, one schema spanning the three domains, built and checked. Then the generator, which instantiates the type into a working kernel from a config, proven by regenerating the cases. Then the proof the generator makes real kernels: the same four cases federated bottom-up as standalone members, with a check that confirms standing crosses only through an owned fork, so no member's authority reaches another. Each link proves the one before it.
+
+The climb is built through the generator and its federation. Checks verify each step and print the invariant they hold. Above it sits the specified frontier: the coordination fabric, the standing and write-side rules a large federation needs, designed and marked as such. The same three cases run the whole way up. They are the critique's counterexamples, then the instance's demonstration, then the generator's output, then the federation's members. A fourth exhibit, the lineage, shows these mechanisms already run by hand in mature institutions, and that composing them is new.
+
+If you read one thing, read the critique and its three cases, because it is why the rest exists. If you then run one thing, run the protocol's oracles, each of which states the invariant it checked.
 
 Most submissions to this competition will produce impressive, readable syntheses of the three cases. I look forward to using them.
 
@@ -420,7 +483,7 @@ The taxonomy runs along one axis: the direction of authority over the schema.
 
 A **domain-specific kernel** is content over the core for a single subject, with its own schema and its own floors. It is the base unit; the other two types are ways of arranging several of them.
 
-A **bottom-up meta kernel** is assembled from pre-existing, independent domain kernels. Each keeps its own schema. They join at one shared type, and a composite selects which kernels to include for a given question. Standards emerge upward from use, and authority lives in the domain kernels: the composite proposes, the members dispose. The LHC analysis under this arrangement would be its own kernel with a physics schema, joined after the fact to an independently built epidemiology kernel, each sovereign over its own types.
+A **bottom-up meta kernel** is assembled from pre-existing, independent domain kernels. Each keeps its own schema. They join at one shared type, and a composite selects which kernels to include for a given question. Standards emerge upward from use, and authority lives in the domain kernels: the composite proposes, the members dispose. The LHC analysis under this arrangement would be its own kernel with a physics schema, joined after the fact to an independently built epidemiology kernel, each owning its own types.
 
 A **top-down meta kernel** starts from one schema designed to span the domains and instantiates them as regions within it. Authority lives in the single schema, and composition is native, because everything was one type system from the start. The LHC analysis under this arrangement is a region of a larger tree, and a claim in it composes with an epidemiological claim by the same rule that composes two physics claims, since to the kernel they were always the same kind of object.
 
@@ -432,7 +495,7 @@ The untyped type also shows why the axis is continuous. A top-down kernel is the
 
 ## What was built: a knowledge kernel, arranged top-down
 
-The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, which open two independent markets over the core, a market of kernels to trust and fork and a market of surfaces to read and write through. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, where one schema is affordable and native composition is worth its price, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead. So what follows is evidence that the type works, exhibited on the arrangement this author fitted. This submission is a top-down meta kernel, and that is its exact and stronger description: one designed schema, demonstrably spanning three domains that share nothing in their subject matter, physics measurement, epidemiological contestation, normative weighing. Demonstrably is the word doing the work. A schema for all things would be an imperial and unfalsifiable claim; a schema for these three, with the tree in the repository, is a checkable one.
+The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, which open two independent markets over the core, a market of kernels to trust and fork and a market of surfaces to read and write through. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, where one schema is affordable and native composition is worth its price, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead. So the type is shown to work three ways: built top-down as this submission's instance, instantiated by the generator from a config, and federated bottom-up as the four cases joined as standalone members, each stage checked by its own oracle. This submission is a top-down meta kernel, and that is its exact and stronger description: one designed schema, demonstrably spanning three domains that share nothing in their subject matter, physics measurement, epidemiological contestation, normative weighing. Demonstrably is the word doing the work. A schema for all things would be an imperial and unfalsifiable claim; a schema for these three, with the tree in the repository, is a checkable one.
 
 The schema is small. Every claim sits at a position in one ordering, from the untyped type at the bottom, through the tiers of a still-contested claim, to three floors at the top: proof, measurement, and declaration. The ordering measures a single quantity, how much a downstream claim may rely on this one. Two positions ride on each claim, the highest grounding its kind could ever reach and the grounding it actually achieves given what it rests on; a claim is as settled as its kind allows exactly when the two meet, and the distance between them is the work that remains. A claim also carries its history as part of what it holds: its origin, the crossings it has made between regions, and the forks that retyped it are recorded on the claim, so its standing is a traceable chain back to a floor rather than a bare verdict, and any reader can walk that chain.
 
@@ -452,9 +515,15 @@ Three domains, three floors, three counterexamples, one schema. That single sent
 
 The submission's second job follows from the first. A top-down kernel whose schema is public is a base schema others can fork: retail, per crossing, casting a single foreign claim into these types and owning the cast; wholesale, per category, extending the schema so a new kind of claim types natively. The untyped type already sits at the bottom of the ordering in this tree. The artifact demonstrates the top-down type and simultaneously ships the hinge the other direction needs.
 
+### The climb, built and checked
+
+The claim that the contribution is the type, not the instance, is a checked fact rather than an assertion, because the type is carried up four steps and each step has an oracle. The type is the knowledge kernel, built here as the top-down instance and demonstrated on the three cases above. The content-addressed crossing is next: a type is a bundle whose hash freezes its meaning, so two kernels that mean the same thing by a type pin the same hash, and `build/check-crossing.mjs` proves a same-hash crossing composes native and lossless while an unpinned crossing arrives untyped and grounds nothing until a fork restores standing. The four cases are then verified to agree four-way on the common kinds by `build/check-agreement.mjs`, which is what lets those kinds be published as a shared subtree. The generator, `scaffolder/new-kernel.mjs`, instantiates a kernel from a config and runs the real gate and the real check over its output, proven by regenerating a case's schema from config with the tables reproduced exactly. And the proof the generated kernels are real is the bottom-up federation: `build/check-bottomup.mjs` runs the same four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork so no member's authority reaches another, and that same-hash crossings compose native. The generator regenerating the cases and the cases federating as standalone members is what turns "the contribution is the type" from a sentence into a checked property. Above this built climb sits the specified frontier, the coordination fabric that governs writes to a federation at scale, named in the status ledger and marked as such.
+
 ## Where it points
 
-The bottom-up meta kernel is the future work this artifact already enables, and it is a design for a different regime, many authors who will never share a schema. Independent kernels, each sovereign over its own types, joining at the untyped type; composites selecting members per question; standing crossing only by owned forks; retail forks accumulating into wholesale ones, so a federation grows a shared vocabulary out of use, the way a path becomes a road because people kept walking it. The mechanics, the composite, the transfer semantics, and the standards-from-use dynamics are given in the appendix. What draws the line between what a community sets locally and what every kernel must hold to stay composable is [The Parameters Register](parameters-register.md): a free tier a community configures to its own situation, time locks, standing rules, agent policy, type system, and a thin required tier of composition invariants no kernel may break without leaving the protocol. Diversity in the free tier, unity in the required tier, is the same taxonomy seen as governance, and it is what makes the configurability concrete rather than gestured at. The submission built the right thing for one author spanning three domains, and it names, with its hinge already in the tree, the thing to build for many.
+The bottom-up meta kernel is built, the four cases federated as standalone members and verified, and it is the arrangement for a different regime, many authors who will never share a schema. Independent kernels, each owning its own types, join at the untyped type; composites select members per question; standing crosses only by owned forks; retail forks accumulate into wholesale ones, so a federation grows a shared vocabulary out of use, the way a path becomes a road because people kept walking it. `build/check-bottomup.mjs` runs the four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork, and that same-hash crossings compose native. The mechanics, the composite, the transfer semantics, and the standards-from-use dynamics are detailed in the appendix and run by the bottom-up build. What draws the line between what a community sets locally and what every kernel must hold to stay composable is [The Parameters Register](parameters-register.md): a free tier a community configures to its own situation, time locks, standing rules, agent policy, type system, and a thin required tier of composition invariants no kernel may break without leaving the protocol. Diversity in the free tier, unity in the required tier, is the same taxonomy seen as governance, and it is what makes the configurability concrete rather than gestured at. The submission built the right thing for one author spanning three domains, and it built and checked the federation for many, with the coordination fabric that governs writes at scale the specified frontier above it.
+
+Where this goes past the built work, the continuation and why the next phase is worth funding, is set out in [Where This Goes](vision-and-continuation.md): the destination, the roadmap that begins at a present problem, and why the commercial path aligns with the commons rather than capturing it.
 
 ## A note on evaluating an enabler
 
@@ -490,9 +559,9 @@ This work began on June 22, 2026, and was developed in close collaboration with 
 
 ## Appendix: the federation, and standards from use
 
-The main argument locates the bottom-up meta kernel as future work. This appendix specifies it far enough that a builder could start, and far enough that its trade-offs read as design rather than as deficiency.
+The main argument locates the bottom-up meta kernel as built, the four cases federated as standalone members and verified by `build/check-bottomup.mjs`. This appendix documents the federation the bottom-up build runs, and states its trade-offs as design rather than as deficiency.
 
-**The members.** A federation begins with domain kernels that already exist and were built without coordination: a physics kernel with proof and measurement floors, an epidemiology kernel whose floors are estimates with stated methods, a policy kernel whose floors are declarations. Each is sovereign. Its schema answers to its own authors, and nothing in the federation can change a member's types from outside. This sovereignty is the point of the arrangement; it is what lets a community adopt the protocol without first agreeing with anyone.
+**The members.** A federation begins with domain kernels that already exist and were built without coordination: a physics kernel with proof and measurement floors, an epidemiology kernel whose floors are estimates with stated methods, a policy kernel whose floors are declarations. Each is standalone. Its schema answers to its own authors, and nothing in the federation can change a member's types from outside. This independence is the point of the arrangement; it is what lets a community adopt the protocol without first agreeing with anyone.
 
 **The composite.** A composite is a selection, a named set of member kernels assembled for a question, together with the crossings its author has built between them. The composite is itself a kernel in the trust sense, its selection and crossings are typed records behind a gate, and it carries no authority over its members. Two composites over overlapping members can disagree about which crossings to make, and both stand; the disagreement is itself recorded structure.
 
@@ -504,7 +573,7 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
 
 **Convergence.** As wholesale forks accumulate, member schemas grow shared regions, and the federation drifts toward the top-down end of the axis, native composition over an ever larger common vocabulary. The drift can also run the other way; a region of a top-down kernel whose authors want different types forks away and rejoins the federation across an untyped bridge. The axis stays open in both directions, which is what makes it an axis.
 
-**The regime distinction, restated.** The top-down kernel this submission builds suits its regime: one author, one span of analysis, coherence and native composition worth the price of a single schema. The federation suits the other regime: many authors, no shared schema now or ever, adoption that must be incremental and sovereignty that must be respected, worth the price of lossy crossings and standing that transfers only when someone owns the transfer. Both are arrangements of domains over the same domain-agnostic kernel, and the untyped type, already present at the bottom of this submission's ordering, is the single piece of machinery the two arrangements share.</script>
+**The regime distinction, restated.** The top-down kernel this submission builds suits its regime: one author, one span of analysis, coherence and native composition worth the price of a single schema. The federation suits the other regime: many authors, no shared schema now or ever, adoption that must be incremental and independence that must be respected, worth the price of lossy crossings and standing that transfers only when someone owns the transfer. Both are arrangements of domains over the same domain-agnostic kernel, and the untyped type, already present at the bottom of this submission's ordering, is the single piece of machinery the two arrangements share.</script>
 <!-- the restructured eggs case: domains, composite, characterized gaps, denominator, built by build/vendor-eggs.mjs -->
 <script type="application/json" id="eggs-reading">{
   "generated_by": "build/vendor-eggs.mjs",
@@ -1600,6 +1669,346 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
     }
   ]
 }</script>
+<!-- the lineage case (fourth exhibit): the conjecture and its near-miss grounding, built by build/vendor-lineage.mjs -->
+<script type="application/json" id="lineage-reading">{
+  "generated_by": "build/vendor-lineage.mjs",
+  "lede": "The fourth exhibit is an argument about the architecture, not a fourth domain. The kernel's mechanisms already run, informally and by hand, in mature institutions; the novelty is the composition. The conjecture is that no known system composes all five axes for empirical and contested knowledge.",
+  "axes": [
+    "typed floors",
+    "mechanical grounding",
+    "untyped-type federation",
+    "forkable exit",
+    "a community-set fixed-free line"
+  ],
+  "conjecture": {
+    "statement": "no known system composes all five axes, typed floors, mechanical grounding, untyped-type federation, forkable exit, and a community-set fixed-free line, for empirical and contested knowledge claims (the narrowing to empirical-and-contested…",
+    "grade": "asserted",
+    "source": "Falsification and Architectural Lineage synthesis: the five-axis neighborhood map across Lean, Ceramic, OriginTrail, Nanopublications, Augu…",
+    "closing": "a peer-reviewed demonstration or deployed instance of a protocol natively composing all five axes at once for empirical and contested knowledge claims, which would be wired here as a contradicts link and let the gate carry the contest"
+  },
+  "grounding": [
+    {
+      "system": "Lean / mathlib",
+      "statement": "Lean lacks untyped-type federation and cannot hold empirical or contested claims: its top-down regime demands strict integration into one schema with no lossy crossings, and its floor requires axiomatic certainty, so it grounds within form…",
+      "grade": "asserted",
+      "source": "The Lean Mathematical Library, arXiv:1910.09336; Lean proof assistant (dependent type theory, the compiler as grounding linter)"
+    },
+    {
+      "system": "nanopublications",
+      "statement": "Nanopublications lack a grounding linter: the network validates RDF structure but leaves epistemic weight to each consumer's heuristics, so a perfectly formatted but factually hollow assertion passes unchallenged",
+      "grade": "asserted",
+      "source": "Nanopublication Guidelines (nanopub.net) and The Anatomy of a Nanopublication (W3C): RDF quads segregating assertion, provenance, publicati…"
+    },
+    {
+      "system": "Ceramic",
+      "statement": "Ceramic lacks mechanical grounding and typed floors: a domain crossing transfers the data perfectly but zero epistemic standing, because the network verifies cryptographic provenance, not whether the document holds verified facts or fabric…",
+      "grade": "asserted",
+      "source": "Ceramic Network documentation and blog: ComposeDB data models and multi-homed IPFS federation"
+    },
+    {
+      "system": "Augur",
+      "statement": "Augur grounds economically, not structurally: a distrusting party verifies only the ledger of stakes and slashing, not the claim's factual accuracy, so a rich enough incentive to lie makes the mechanism validate falsehoods flawlessly",
+      "grade": "asserted",
+      "source": "Augur: a Decentralized Oracle and Prediction Market Platform, whitepaper arXiv:1501.01042 (REP dispute bonds and forking universes)"
+    },
+    {
+      "system": "Kialo",
+      "statement": "Kialo grounds pseudo-mechanically: its Impact-equals-Veracity-plus-Relevance rule aggregates votes mechanically, but the inputs are subjective human votes, so it computes community consensus rather than structurally recomputable truth",
+      "grade": "asserted",
+      "source": "Kialo voting documentation: Impact equals Veracity plus Relevance, mechanical aggregation of subjective votes"
+    }
+  ],
+  "institutions": [
+    {
+      "domain": "Common law",
+      "note": "grounding by dependency, its citator as the linter",
+      "claims": [
+        {
+          "statement": "common law runs grounding-by-dependency: under stare decisis a ruling's authority is inherited through an unbroken chain of cited precedent back to a statute or constitutional floor, a dependency graph built by hand",
+          "grade": "asserted",
+          "source": "US Supreme Court doctrine of stare decisis: precedent as a principle of judicial policy, not a mechanical formula (Kernel Lineage Research …"
+        },
+        {
+          "statement": "legal citators (Shepard's, KeyCite, BCite) are a semantic linter over the precedent graph: they flag whether an upstream precedent remains valid law, editorially maintained by human analysts rather than computed",
+          "grade": "asserted",
+          "source": "Hellyer, P. (2018), evaluation of Shepard's, KeyCite, and BCite negative-treatment accuracy, Law Library Journal (citator error rates)"
+        },
+        {
+          "statement": "contamination propagates only through active litigation, so overruled or legislatively superseded decisions persist as shadow precedents cited as live, controlling law for years, the legal analog of technical lag",
+          "grade": "asserted",
+          "source": "Widiss, D. (2015), 'Shadow Precedents and the Separation of Powers', on legislative-override shadow precedents"
+        }
+      ]
+    },
+    {
+      "domain": "Software dependency graphs",
+      "note": "the CI gate, the weakest-support rule, contamination on a bad floor",
+      "claims": [
+        {
+          "statement": "CI/CD pipelines are an admission gate, admit-only-if-checks-pass, but the check matrix is configured by hand and can only verify what a developer explicitly codified, so a zero-day or obfuscated payload passes",
+          "grade": "asserted",
+          "source": "GitHub Actions CI/CD documentation: admission gates configured by hand, admit-only-if-checks-pass"
+        },
+        {
+          "statement": "software runs the weakest-necessary-support rule: because every transitive dependency compiles into one runtime, an application is only as secure as its weakest dependency, a vulnerability five layers deep granting the same privileges as f…",
+          "grade": "asserted",
+          "source": "Kusari, transitive-dependency risk analysis (a build is as strong as its weakest transitive dependency)"
+        },
+        {
+          "statement": "the contamination rule runs live in software: a poisoned upstream node distributes automatically to all downstream dependents, attested across event-stream (2018), SolarWinds (2020), and Log4Shell (2021), and remediation is the same manual…",
+          "grade": "asserted",
+          "source": "Snyk and npm incident writeups, event-stream supply-chain compromise via maintainer handover (2018)"
+        }
+      ]
+    },
+    {
+      "domain": "Science",
+      "note": "convergence across independent lines, and the one replicated measurement",
+      "claims": [
+        {
+          "statement": "science runs the convergence warrant: a single paper is testimony, and only independent replication across distinct methods or populations composes it into knowledge no single measurer is load-bearing for",
+          "grade": "asserted",
+          "source": "Continued Use of Retracted Papers: Temporal Trends in Citations in Biomedicine, PubMed 36186715 (7,813 retracted papers, 13,252 post-retrac…"
+        },
+        {
+          "statement": "the exclusion record fails to propagate: of 13,252 post-retraction citation contexts (7,813 retracted papers, PubMed 1960-2020) only 5.4% acknowledged the retraction, so 94.6% treated the compromised finding as valid, independently atteste…",
+          "grade": "checked",
+          "source": "Continued Use of Retracted Papers: Temporal Trends in Citations in Biomedicine, PubMed 36186715 (7,813 retracted papers, 13,252 post-retrac…"
+        }
+      ]
+    },
+    {
+      "domain": "Wikipedia",
+      "note": "verifiability as a floor, the fork as the exit",
+      "claims": [
+        {
+          "statement": "Wikipedia's 'Verifiability, not truth' is the trust-view cut written as an editorial rule: it decouples the validity of the record from the truth of the claim by offloading the burden to reliable external sources",
+          "grade": "constitutive",
+          "source": "Wikipedia:Core content policies, 'Verifiability, not truth' (the trust-view cut as an editorial rule)"
+        },
+        {
+          "statement": "the fork is Wikipedia's canonical exit: the CC-BY-SA license encodes the right to fork the whole database, and the 2002 Spanish Fork forced the platform to abandon advertising while Citizendium (2006) forked to test an alternative trust mo…",
+          "grade": "asserted",
+          "source": "List of content forks of Wikipedia; the Spanish Fork (2002) and Citizendium (2006) as canonical exits"
+        }
+      ]
+    },
+    {
+      "domain": "Journalism and accounting",
+      "note": "two-source rule, verify-don't-trust, typed floors",
+      "claims": [
+        {
+          "statement": "the two-independent-sources rule is a convergence floor in miniature: one human source is testimony, and a contested claim is publishable only when corroborated through a strictly independent evidentiary pathway",
+          "grade": "constitutive",
+          "source": "SPJ Code of Ethics and NYT/WaPo two-independent-sources standard; circular reporting as fake independence"
+        },
+        {
+          "statement": "accounting encodes verify-don't-trust as segregation of duties: the preparer of a ledger cannot authorize the transactions or audit them, so no single actor holds both write access and verification access to the graph",
+          "grade": "asserted",
+          "source": "GAAP and IFRS as typed declaration floors; segregation of duties (preparer, authorizer, auditor) as verify-don't-trust"
+        },
+        {
+          "statement": "GAAP and IFRS are typed declaration floors: by forcing every financial claim into a typed standard for revenue, depreciation, and classification, they let an auditor mechanically verify a ledger across firms and jurisdictions",
+          "grade": "constitutive",
+          "source": "GAAP and IFRS as typed declaration floors; segregation of duties (preparer, authorizer, auditor) as verify-don't-trust"
+        }
+      ]
+    }
+  ],
+  "demotions": [
+    {
+      "statement": "contamination propagates only through active litigation, so overruled or legislatively superseded decisions persist as shadow precedents cited as live, control…",
+      "declared": "corroborated",
+      "earned": "asserted"
+    },
+    {
+      "statement": "the contamination rule runs live in software: a poisoned upstream node distributes automatically to all downstream dependents, attested across event-stream (20…",
+      "declared": "corroborated",
+      "earned": "asserted"
+    },
+    {
+      "statement": "no known system composes all five axes, typed floors, mechanical grounding, untyped-type federation, forkable exit, and a community-set fixed-free line, for em…",
+      "declared": "supported",
+      "earned": "asserted"
+    }
+  ]
+}</script>
+<!-- the management snapshot the kernel manager runs list/adopt/fork/cross over, built by build/vendor-management.mjs -->
+<script type="application/json" id="management-snapshot">{
+  "members": [
+    {
+      "id": "lhc",
+      "author": "A Viable Fork",
+      "provenance": "authored for the epistemic case study competition, 2026",
+      "kinds": [
+        {
+          "kind": "derivation",
+          "ceiling": "constitutive"
+        },
+        {
+          "kind": "measurement",
+          "ceiling": "checked"
+        },
+        {
+          "kind": "forum",
+          "ceiling": "corroborated"
+        }
+      ],
+      "claims": [],
+      "sample": {
+        "identity": "216d1fd89949341721e45178b2c3ec3779e229750d123956683877e7c0d6a575",
+        "statement": "lhc.safety: the safety argument is robust because it rests on three independent legs, each an independent check that holds even if the others are weakened (the additive framing the SPC endorsed as 'further layers of safety')"
+      }
+    },
+    {
+      "id": "covid",
+      "author": "A Viable Fork",
+      "provenance": "authored for the epistemic case study competition, 2026",
+      "kinds": [
+        {
+          "kind": "measurement",
+          "ceiling": "checked"
+        },
+        {
+          "kind": "forum",
+          "ceiling": "corroborated"
+        }
+      ],
+      "claims": [],
+      "sample": {
+        "identity": "6137be8a439434696e8bf4528dd6a4199dc73004ac0d02dac33d9e0582dba81f",
+        "statement": "covid.origins: that the two lineages record two separate zoonotic spillovers is contested: the Pekar Bayes factor fell from ~60 to ~4.3 after three coding errors, and a further correction may reverse it toward a single introduction"
+      }
+    },
+    {
+      "id": "eggs",
+      "author": "A Viable Fork",
+      "provenance": "authored for the epistemic case study competition, 2026",
+      "kinds": [
+        {
+          "kind": "measurement",
+          "ceiling": "checked"
+        },
+        {
+          "kind": "forum",
+          "ceiling": "corroborated"
+        }
+      ],
+      "claims": [],
+      "sample": {
+        "identity": "10a31f2239959d0b526db0eef2cf34be28468c81372595edcdef177cdbbf6fe8",
+        "statement": "eggs.economics: the intergenerational discount rate is a value choice, Stern's 1.4 percent against Nordhaus's 4.3 percent giving present values that differ about seventeen-fold"
+      }
+    },
+    {
+      "id": "lineage",
+      "author": "A Viable Fork",
+      "provenance": "authored for the epistemic case study competition, 2026",
+      "kinds": [
+        {
+          "kind": "measurement",
+          "ceiling": "checked"
+        },
+        {
+          "kind": "forum",
+          "ceiling": "corroborated"
+        },
+        {
+          "kind": "declaration",
+          "ceiling": "constitutive"
+        }
+      ],
+      "claims": [
+        {
+          "ref": "sci.fake-independence",
+          "kind": "forum"
+        },
+        {
+          "ref": "conj.novelty",
+          "kind": "declaration"
+        }
+      ],
+      "sample": {
+        "identity": "b82874d3d6221fc09b00b7119932bd355d5cfe049dd7f2ffd728effb7cb58cbc",
+        "statement": "lineage: the replication crisis is a failure of graph independence: apparent convergence of hundreds of studies reifies to one shared flawed dependency (a contaminated cell line, a misapplied threshold), which is the LHC shared-dependency reprice seen in science"
+      }
+    }
+  ],
+  "crossings": [
+    {
+      "id": "x-native",
+      "from": "lineage",
+      "to": "lhc",
+      "kind": "forum",
+      "from_claim": "sci.fake-independence",
+      "note": "lineage's reified-independence reading crosses into the lhc kernel it is literally about (the replication crisis is the LHC shared-dependency reprice seen in science); both members pin the common forum hash, so it composes native and lossless"
+    },
+    {
+      "id": "x-untyped",
+      "from": "lineage",
+      "to": "covid",
+      "kind": "declaration",
+      "from_claim": "conj.novelty",
+      "note": "lineage's novelty declaration crosses into covid, which pins no declaration hash, so it arrives untyped and grounds nothing until covid forks it into a local kind"
+    }
+  ],
+  "common_kinds": [
+    "measurement",
+    "forum",
+    "declaration"
+  ]
+}</script>
+<!-- the vision document (the reading's capstone), rendered by the capstone module (not copied) -->
+<script type="text/markdown" id="vision-doc">---
+Type: argument
+Purpose: States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it.
+Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md
+Depended on by: nothing
+---
+
+# Where This Goes
+
+This document states the destination, the first working step already built, and the phase that funding would complete. It is written in the same register as the rest of the submission: what is real now is marked as real, what is not yet built is marked as specified, and the future is described as concretely as the present, without a projection the work does not support.
+
+## The destination
+
+The destination is an ecosystem of markets for the components of knowledge work. A market of kernels to trust and fork. A market of surfaces to read and write through. A market of types, of connectors that bring source material in, of agent-producers that author through a checking gate. Each component is independently forkable, so no single market owns the others, and the ecosystem is designed to outgrow any single participant, including its first one.
+
+This submission is the first market, the reference implementation, and possibly the first of many. The hedge is deliberate and it is the point: a commons built to be forkable cannot promise that its originator stays central, and a roadmap that promised otherwise would be describing a different, capturable thing. The destination is the ecosystem, whether or not any one participant remains at its center, and building it that way is what makes it worth building.
+
+## The first step is already the artifact
+
+The submission itself is the first working step toward that destination, not a description of it. It is a single surface a reader navigates the way an author navigates the commons: one canonical reading path, a fork to depth at every subject, the source of truth one click under every claim, and, at the end of the reading, the transition from reading to operating. Everything in it runs where the reader is, with no server and nothing installed, because the kernel, the contract, and the surfaces are all computed in place. An artifact that is at once a paper and a working system, forkable because it is a file, is the ecosystem's smallest complete instance.
+
+What is built to that shape today: the reading and its grounding, the cases in depth, the generator that instantiates a kernel from a config, and the federation of four standalone kernels operated through a real contract. What is specified is the completion of that surface into a full on-ramp, the point where a newcomer builds their own kernel and federates it. The artifact is the destination's first instance at the maturity the status ledger records, no more and no less.
+
+## The roadmap begins at a problem that exists now
+
+The next phase does not begin with the commons in the abstract. It begins with an institution in acute, present, public pain from the exact problem this work addresses.
+
+arXiv is being flooded with AI-generated submissions faster than its volunteer moderators can screen them. In October 2025 it restricted review and position papers in computer science, stating plainly that generative models had made such papers fast and easy to write and that the influx had become unmanageable for the moderators who are the preprint system's bedrock. By early 2026 it had introduced a one-year author ban for submissions carrying unchecked model output, after fabricated citations rose roughly twelvefold from 2023 to 2026. These are the actions of an institution everyone in this field respects, taken against a problem it has named openly, with tools that filter rather than ground because filtering is what it has.
+
+The problem is precisely the one the kernel's core mechanism addresses. What distinguishes real work from confident generation is whether a claim stands when its author is subtracted, and that is the exact cut the kernel computes. A screen that asks whether a paper looks machine-written is a proxy; a structure that asks whether each claim is grounded in evidence a second party can recompute is the thing the proxy is standing in for. The flood is a trust problem, and the kernel is a trust-subtracting instrument, so the match is not opportunistic, it is the same problem stated from both ends.
+
+So the funded phase runs in an order that solves a real pain first and builds the commons from the use it generates:
+
+First, the ingestion edge aimed at that pain: a connector that pulls scholarly metadata (the arXiv and OpenAlex interfaces support this cleanly and legally, storing metadata and linking back for full text), and the grounding that lets a kernel hold a claim as grounded or not rather than as machine-written or not. The near-term deliverable is modest and real: a kernel that ingests a body of literature and distinguishes what is grounded from what is asserted, aimed at the moderation problem as it actually stands.
+
+Second, the on-ramp completion: the manager and authoring surface that let a researcher build and populate a kernel without writing configuration by hand, so the first real users can act. The wedge is worthless without the tool that lets the people with the pain use it, so this follows the connector directly.
+
+Third, the coordination fabric: the standing, gated-write, and challenge machinery a multi-author commons needs, built against the real use the first two stages generate rather than designed in the abstract. This is deliberately last, because coordination for users who do not yet exist is the performed-settling the whole submission argues against; the honest order is to earn the users, then build the governance their use reveals it needs.
+
+Each stage produces something usable before the next is required, which is what makes the phase fundable rather than speculative: the money buys a working connector, then a working on-ramp, then a coordination layer shaped by real use, in that order, each de-risking the next.
+
+## Why the commercial path aligns with the commons
+
+The intended commercial path is stated plainly, because hiding it would be the less trustworthy choice, and because its shape is itself an argument for funding.
+
+The way this work earns a living is by being the most skilled builder and toolmaker in a commons it does not own: authoring good kernels for organizations that need them, and maintaining the tools that make kernel-building easy. It is not a platform that charges for access, not a marketplace that takes a cut of others' work, not a hosting service that holds the commons on its own servers. Every one of those requires a center the architecture forbids, and every one of them is a position that forking destroys, since the tool that makes a commons forkable is the tool that makes any captured center abandonable.
+
+That constraint is the alignment. The commercial path can only profit from a commons that thrives and stays open, because its income is the labor and the tools that a growing open commons demands, not the rent a closed one extracts. The incentive to keep the commons unowned and the incentive to earn from it are the same incentive, which is the opposite of the platform pattern where the two diverge the moment capture becomes possible. Funding this work funds the commons, because the work has no way to profit except by the commons succeeding on its own terms.
+
+That alignment is the reason the hedge in the first section is honest rather than modest. A participant whose living depends on an open, forkable commons has no reason to promise it will stay central and every reason to build the thing to outlast its own centrality. The destination is the ecosystem, the first step is the artifact you are reading, the next phase begins where the pain is real, and the way it pays for itself is the same as the way it stays open.</script>
 <!-- the accessible register of the judges document (window.EpiRegisters), read by the prose module -->
 <script>// Role: the accessible register of the judges document (Prompt: register view, phase B). Pure data,
 //   an ordered list of section records, one per precise section of docs/what-stands-without-trust.md.
@@ -1626,18 +2035,23 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
   var SECTIONS = [
     {
       section_id: "opening",
-      precise_anchor: "Most submissions to this competition will produce impressive, readable syntheses",
-      precise_version: "d70c8d2d4ab9acbd",
+      precise_anchor: "How to read this submission",
+      precise_version: "579c00da5778fa10",
       register_link: "paper-0",
       accessible:
+        "How to read this submission. It is two of the shapes the brief names: a critique with counterexamples, and the protocol it forces.\n\n" +
+        "Start where the competition starts, with synthesis, what the best deep-research tools produce. The brief asks for work that compounds across teams, survives adversarial reading, and grows with more contributors. A synthesis does none of these: the next person has to trust it or redo it, it dissolves under a determined challenge, and two of them over one question do not combine. What the brief asks for rules out the thing almost everyone will build. The critique is what is left once those demands are taken seriously: knowledge has to be what stands when trust in the author is removed, because everything the brief wants is a property of claims that survive without their author. Three cases show synthesis failing right here, a reified dependency in physics, a hidden prior in epidemiology, a swappable frame in nutrition, each one it would smooth flat.\n\n" +
+        "That forces the protocol, and the protocol is a climb. If knowledge is what stands once the author is removed, something has to do the removing mechanically, and building it is where the critique leads. First the type: a knowledge kernel, a fixed core that grounds claims and lints them in CI, with two markets over it, kernels to trust and surfaces to read and write through. Then one instance, this submission's top-down meta kernel, one schema over the three domains, built and checked. Then the generator, which builds a working kernel from a config, proven by regenerating the cases. Then the proof the generator makes real kernels: the same four cases federated bottom-up as standalone members, with a check that standing crosses only through an owned fork, so no member's authority reaches another. Each link proves the one before it.\n\n" +
+        "The climb is built through the generator and its federation, and checks verify each step. Above it sits the specified frontier, the coordination fabric a large federation needs to govern its writes, designed and marked as such. The critique is complete, its three cases worked and checked. The same three cases run the whole way up: the critique's counterexamples, then the instance's demonstration, then the generator's output, then the federation's members. A fourth exhibit, the lineage, shows these mechanisms already run by hand in mature institutions, and that composing them is new. If you read one thing, read the critique and its three cases. If you then run one thing, run the oracles, each of which states the invariant it checked.\n\n" +
         "Most submissions here will be excellent syntheses of the three cases, and I mean excellent without reservation: ingesting the messy record, tying each claim to its source, telling apart claims that differ from claims that only sound different, sorting which claims support which, separating force from evidence, surfacing the real disagreements, naming what is missing, and rendering all of it fast, across more sources than a person can hold, checkable and forkable. I would use a tool like that. The argument that follows depends on this strength being real, not on it being overstated.\n\n" +
         "A synthesis still falls short of knowledge, for a plain reason: the next person who wants to build on it has to trust it or redo it. Its judgments, this claim is solid, that one is just rhetoric, this is the crux, are the synthesizer's own conclusions, not a structure you can check and extend. The organization lives in the prose, which carries an argument by asking to be believed. Two syntheses of the same question do not combine into one; merging them puts a person back in the loop. And against someone who disputes a claim, a synthesis can offer only the synthesizer's authority, not a floor the disputant also has to stand on. When a plausible synthesis costs nothing to produce, the trust it asks for is the whole of what it offers, and that trust has nothing underneath it. So a synthesis is read, and then it ends.\n\n" +
         "Why the best synthesis stops short comes down to what \"knowledge\" has to mean once more than one reasoner is involved.",
       delta:
-        "The precise register enacts the concession through cadence and first-person address; this states the commitment plainly and loses the enacted sincerity, and it collapses the capability ramp to one list. It calls the second move \"the clearing\" and figures the lost trust as \"hanging on air\"; the plainer figure \"nothing underneath it\" keeps the image but drops \"clearing,\" which in the precise register also sets up the kernel as what fills the cleared ground.",
+        "The precise register opens with the how-to-read frame that names the submission as a critique with counterexamples and the protocol it forces; this keeps the frame and its honesty line (the critique complete, the protocol a built climb through the generator and its federation with the coordination fabric the specified frontier), preserves the brief's quoted shape-labels, and collapses only the frame's repetition. It enacts the concession through cadence and first-person address; this states the commitment plainly and loses the enacted sincerity, and it collapses the capability ramp to one list. It calls the second move \"the clearing\" and figures the lost trust as \"hanging on air\"; the plainer figure \"nothing underneath it\" keeps the image but drops \"clearing,\" which in the precise register also sets up the kernel as what fills the cleared ground.",
       source_links: ["docs/trust-and-view.md"],
       node_links: [],
       verify: [
+        "frame: the critique-and-protocol reading carries its honesty line (critique complete; protocol a built climb through the generator and its federation, coordination fabric specified); check built-versus-specified stays unblurred",
         "constitutive figure: 'the clearing' -> 'nothing underneath it'; check the delta names the right non-local loss (the kernel filling the cleared ground)",
         "enacted commitment promoted to a stated commitment ('the argument depends on this strength being real'); check it does not read glib about synthesis"
       ]
@@ -1694,7 +2108,7 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
     {
       section_id: "three-kernels",
       precise_anchor: "Three kernels",
-      precise_version: "43f5c928dde9fafe",
+      precise_version: "cc16745bf3050fd4",
       register_link: "paper-3",
       accessible:
         "The kinds of kernel line up on one axis: who holds authority over the schema.\n\n" +
@@ -1713,10 +2127,10 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
     {
       section_id: "what-was-built",
       precise_anchor: "What was built: a knowledge kernel, arranged top-down",
-      precise_version: "4b02094ef905e2ac",
+      precise_version: "c2d8e20226d3f305",
       register_link: "paper-4",
       accessible:
-        "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, which open two independent markets, one of kernels to trust and fork and one of surfaces to read and write through. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead. What follows is evidence the type works, shown on the arrangement this author fitted.\n\n" +
+        "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, which open two independent markets, one of kernels to trust and fork and one of surfaces to read and write through. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead. The type is shown to work three ways: built top-down as this instance, instantiated by the generator from a config, and federated bottom-up as the four cases joined as standalone members, each step checked by its own oracle.\n\n" +
         "This submission is a top-down meta kernel, and that is its exact description: one designed schema, shown to span three domains that share nothing in subject matter, physics measurement, epidemiological contestation, normative weighing. \"Shown\" is the word doing the work: a schema for all things would be an unfalsifiable boast, a schema for these three, with the tree in the repository, is checkable.\n\n" +
         "The schema is small. Every claim sits at a position in one ordering, from the untyped type at the bottom, through the tiers of a still-contested claim, to three floors at the top: proof, measurement, and declaration. The ordering measures one thing, how much a downstream claim may lean on this one. Two positions ride on each claim, the highest its kind could ever reach and the grounding it actually reaches given what it rests on, and a claim is as settled as its kind allows exactly when the two meet. Each claim also carries its history, its origin and its crossings and the forks that retyped it, so its standing is a chain back to a floor that any reader can walk, not a bare verdict.\n\n" +
         "Grounding propagates by one rule. A claim that needs several parts is as grounded as its weakest necessary part; a claim with several sufficient paths takes its strongest; support that leans on a contested assumption carries the contest forward. The gate admits a contribution only when the grounding it declares is covered by the grounding it can show, so the graph never holds more standing than it earned. The floor is the only anchor, and every claim above it inherits its standing by this rule from what it rests on, never from who asserted it, and the rule that prices a physics assumption prices an epidemiological prior by the same arithmetic.\n\n" +
@@ -1725,7 +2139,8 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
         "The COVID origins evidence looks decisive, in whichever direction the teller wants. It looks that way until the prior each verdict turns on is named as a claim in its own right, and the debate resolves into a disagreement over a single weighing, held in the open where a reader can reprice it. The engine traces the loudest statistical dispute to a method pushed past the range it was built for, prices what each side assumes, and leaves the verdict where it belongs, with the reader.\n\n" +
         "The egg nutrition verdict reads like a plain fact. It reads that way until you swap the frame it takes for granted, which population, which health outcome, which food the egg is replacing, and the verdict swaps with it. The engine splits the casual question into the several questions hiding inside it, answers the ones a measurement can settle, and follows the definitional one down to its floor: a declaration, a public act of settling what \"healthy\" will mean here, which is where a question about what counts as healthy honestly ends.\n\n" +
         "Three domains, three floors, three counterexamples, one schema. That sentence is the demonstration: the same grounding arithmetic exposed a reified dependency in physics, a hidden prior in epidemiology, and a swappable frame in nutrition, and it could do so because the kernel never knew the difference between them.\n\n" +
-        "The submission's second job follows from the first. A top-down kernel whose schema is public is a base schema others can fork, retail per crossing and wholesale per category, and the untyped type already sits at the bottom of the ordering, so the artifact demonstrates the top-down type and ships the hinge the other direction needs.",
+        "The submission's second job follows from the first. A top-down kernel whose schema is public is a base schema others can fork, retail per crossing and wholesale per category, and the untyped type already sits at the bottom of the ordering, so the artifact demonstrates the top-down type and ships the hinge the other direction needs.\n\n" +
+        "That the contribution is the type and not this instance is a checked fact, because the type is carried up four steps and each step has an oracle. The type is the kernel, built here and shown on the three cases. Then the content-addressed crossing: a type is a bundle whose hash freezes its meaning, so two kernels that mean the same thing by a type pin the same hash, and check-crossing proves a same-hash crossing composes native and lossless while an unpinned one arrives untyped and grounds nothing until a fork restores standing. Then check-agreement confirms the four cases agree on the common kinds, which lets those kinds be shared. Then the generator builds a kernel from a config and runs the real gate and real check over it, proven by regenerating a case's schema exactly. Then the proof the generated kernels are real: the four cases federated bottom-up as standalone members, and check-bottomup confirms each owns its schema and that standing crosses only through an owned fork. The generator regenerating the cases and the cases federating as standalone members is what turns \"the contribution is the type\" from a sentence into a checked property. Above this built climb sits the specified frontier, the coordination fabric that governs writes at scale.",
       delta:
         "The three case figures are kept verbatim and grounded, not translated: their precision lives in the nodes they point at, not in a plainer phrasing. \"One assumption wearing several coats,\" \"a method pushed past the range it was built for,\" and the frame-swap are compressions of claims the graph holds literally, so they stay and the link discharges them. The one constitutive tail, that a definitional claim \"honestly terminates\" at a declaration, is made plainer (\"a public act of settling what healthy will mean\") and the delta is that this floor is proper, not a shortfall, which the linked declaration node supplies. The schema and grounding-rule paragraphs are ramps trimmed to their payoffs.",
       source_links: ["docs/kernel-taxonomy.md", "docs/knowledge-system-how.md"],
@@ -1751,10 +2166,10 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
     {
       section_id: "where-it-points",
       precise_anchor: "Where it points",
-      precise_version: "9dba71be5a33496a",
+      precise_version: "a1be356e1017c6b9",
       register_link: "paper-5",
       accessible:
-        "The bottom-up meta kernel is the future work this artifact already enables, and it is a design for a different regime, many authors who will never share a schema. Independent kernels, each sovereign over its own types, join at the untyped type; composites pick members per question; standing crosses only by owned forks; and retail forks pile up into wholesale ones, so a federation grows a shared vocabulary out of use, the way a path becomes a road because people kept walking it. What a community sets for itself and what every kernel must hold to stay composable is drawn by the parameters register: a free tier a community configures, time locks, standing rules, agent policy, type system, and a thin required tier no kernel may break without leaving the protocol. Diversity in the free tier, unity in the required tier, is the same taxonomy read as governance. The submission built the right thing for one author over three domains, and it names, with its hinge already in the tree, the thing to build for many.",
+        "The bottom-up meta kernel is built, the four cases federated as standalone members and verified, and it is the arrangement for a different regime, many authors who will never share a schema. Independent kernels, each owning its own types, join at the untyped type; composites pick members per question; standing crosses only by owned forks; and retail forks pile up into wholesale ones, so a federation grows a shared vocabulary out of use, the way a path becomes a road because people kept walking it. check-bottomup runs the four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork, and that same-hash crossings compose native. What a community sets for itself and what every kernel must hold to stay composable is drawn by the parameters register: a free tier a community configures, time locks, standing rules, agent policy, type system, and a thin required tier no kernel may break without leaving the protocol. Diversity in the free tier, unity in the required tier, is the same taxonomy read as governance. The submission built the right thing for one author over three domains, and it built and checked the federation for many, with the coordination fabric that governs writes at scale the specified frontier above it.",
       delta: null,
       source_links: ["docs/parameters-register.md", "docs/kernel-taxonomy.md"],
       node_links: [],
@@ -1819,11 +2234,11 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
     {
       section_id: "appendix-federation",
       precise_anchor: "Appendix: the federation, and standards from use",
-      precise_version: "36d3b2bba6a888fe",
+      precise_version: "e2d403d3ac22ed89",
       register_link: "paper-10",
       accessible:
-        "The main argument places the bottom-up meta kernel as future work. This appendix specifies it far enough that a builder could start, and far enough that its trade-offs read as design, not deficiency.\n\n" +
-        "The members are domain kernels that already exist and were built without coordination, a physics kernel with proof and measurement floors, an epidemiology kernel whose floors are estimates with stated methods, a policy kernel whose floors are declarations. Each is sovereign; nothing in the federation can change a member's types from outside, and that sovereignty is the point, because it lets a community adopt the protocol without first agreeing with anyone.\n\n" +
+        "The main argument places the bottom-up meta kernel as built, the four cases federated as standalone members and verified by check-bottomup. This appendix documents the federation the bottom-up build runs, and states its trade-offs as design, not deficiency.\n\n" +
+        "The members are domain kernels that already exist and were built without coordination, a physics kernel with proof and measurement floors, an epidemiology kernel whose floors are estimates with stated methods, a policy kernel whose floors are declarations. Each is standalone; nothing in the federation can change a member's types from outside, and that independence is the point, because it lets a community adopt the protocol without first agreeing with anyone.\n\n" +
         "A composite is a named set of member kernels assembled for a question, plus the crossings its author built between them. It is itself a kernel in the trust sense, its selection and crossings are gated typed records, and it holds no authority over its members; two composites can disagree about which crossings to make and both stand.\n\n" +
         "A claim entering a composite from a member arrives as the untyped type. Nothing grounds through it, and everything resting on it is untyped in turn. This is the deliberately weak default, and its weakness is the honest price of federation: transferred standing starts at zero because the receiving schema has no basis for more. The alternative, automatic translation between schemas, would make the protocol understand every member's types, which puts back at the seam the trusted authority the kernel exists to remove.\n\n" +
         "A retail fork is one author casting one untyped claim into a local type and signing the cast, with their own standing behind it, gated and recorded like any claim. If the source changes in its home kernel, the fork points at a version and does not silently follow, so staleness is a checkable fact. A wholesale fork extends a schema so a category of crossings types natively; it is heavier, a schema change under the receiving kernel's own governance, and its justification is empirical, the accumulated retail forks. That is standards from use: the shared vocabulary of a federation is grown, crossing by crossing, out of the public record of what people actually needed to carry over.\n\n" +
@@ -1833,7 +2248,7 @@ The main argument locates the bottom-up meta kernel as future work. This appendi
       source_links: ["docs/kernel-taxonomy.md", "docs/parameters-register.md"],
       node_links: [],
       verify: [
-        "the federation is specified, not built; confirm the accessible reading keeps that built-versus-specified line and does not read as a running system"
+        "the federation is built and the coordination fabric that governs writes at scale is specified; confirm the accessible reading keeps that built-versus-specified line and reads the federation as run by check-bottomup"
       ]
     }
   ];
@@ -3735,6 +4150,218 @@ function createClientApi(provider) {
 
   return { createClientApi };
 })();
+__M["type-hash"] = (function () {
+  var { canonicalize, hashOf } = __M["canonical"];
+// Role: content-address a shared type. A type bundle is a type plus the grounding apparatus that gives
+//   it meaning (a kind with its ceiling and rules, a floor with its rank, a source class with its
+//   footings); its hash is the type's identity, so two kernels that mean the same thing by a type pin
+//   the same hash and a kernel that means something subtly different pins a different one. This is the
+//   one primitive the three-tier crossing rests on: shared meaning is shared hash.
+// Contract: canonicalizeBundle(bundle) -> canonical node; hashTypeBundle(bundle) -> hex sha256 over it.
+//   Pure, ESM; kernel imports only kernel.
+// Invariant: DETERMINISM. Identical bundles hash identically (stable key order, no whitespace variance),
+//   and any change to a meaning-bearing field changes the hash. Reuses the v3 canonical form and the
+//   one named hash, so a type-hash is byte-identical headless and in a file:// page.
+// DEPARTURE: the prompt suggested node:crypto; the kernel is node-builtin-free by Tier 0 (it must load
+//   in a file:// page), so this reuses the vendored sha256 through canonical.mjs, the hash the gate
+//   already uses. Same digest, no new dependency; numeric bundle fields ride the canonical exact-decimal
+//   discipline (passed as strings), so a floor's rank never touches the float path.
+"use strict";
+
+// the canonical node for a type bundle: fields sorted by byte order, absent optionals omitted, no
+// whitespace variance. This is what the hash is taken over, exposed so a caller can inspect the bytes.
+function canonicalizeBundle(bundle) {
+  return canonicalize(bundle);
+}
+
+// the type-hash: the one named hash over the canonical bundle. Two identical bundles hash identically;
+// any change to a meaning-bearing field changes the hash.
+function hashTypeBundle(bundle) {
+  return hashOf(bundle);
+}
+
+  return { canonicalizeBundle, hashTypeBundle };
+})();
+__M["fork.js"] = (function () {
+// Role: the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal.
+//   forkKernel is the built kernel-level fork: it derives a child kernel from a parent, inheriting the
+//   parent's pinned type-hashes so the child can then adopt more or retype, which is the schema-level
+//   fork the crossing and adoption machinery already supports. The DURABLE fork over the patch ledger
+//   (re-point across the patch history, [4.6]) stays Stage 4, specified not built.
+// Contract: forkKernel(parent, opts?) -> fork receipt { new_kernel_id, forked_from, at_point,
+//   inherited_pins, persisted, note }. parent = { id, pins }. Pure; api imports kernel and api, never
+//   the periphery. STUB remains for the durable patch-history fork.
+// Invariant: the fork derives a new kernel object from the parent's real pins and asserts nothing about
+//   persistence; persisted is false until the patch ledger ([4.5], [4.6]) is built.
+"use strict";
+
+function forkKernel(parent, opts) {
+  if (!parent || !parent.id) throw new Error("forkKernel: parent must have an id");
+  const o = opts || {};
+  const at_point = o.atPoint || "head";
+  // the child inherits the parent's pinned type-hashes; from here it can adopt more or retype locally.
+  const inherited_pins = Object.assign({}, parent.pins || {});
+  return {
+    operation: "fork",
+    new_kernel_id: parent.id + "#fork",
+    forked_from: parent.id,
+    at_point,
+    inherited_pins,
+    persisted: false,
+    note: "the child inherits the parent's pins and can adopt or retype from here; durable persistence over the patch ledger is Stage 4, specified not built",
+  };
+}
+
+  return { forkKernel };
+})();
+__M["management-api"] = (function () {
+// Role: the management contract, the sibling of the propose/read contract for kernel-level operations
+//   the manager probe proved missing. Where the claim contract is claim-shaped (propose a claim, read
+//   claims), this is kernel-shaped: list kernels, read a kernel's pins and crossings, and adopt, fork,
+//   and cross, each write returning a receipt the way propose returns a gate receipt. Like the claim
+//   contract it names a provider and delegates, so a local management provider (runs the federation and
+//   adoption layer in process) and a remote one are interchangeable behind one seam.
+// Contract: createManagementApi(provider) -> { listKernels, readKernel(id), readCrossings(id?),
+//   adopt(id, typeHash) -> receipt, fork(id, atPoint?) -> receipt, cross(originKernel, originClaim,
+//   targetKernel) -> receipt, providerKind() }. provider must implement all six operations. ESM; this
+//   contract touches no kernel, no federation, and no adoption layer directly.
+// Invariant: this layer holds no adoption or crossing logic. It validates the shape of a call and
+//   forwards it; every kernel object, pin, crossing status, and receipt is produced by the provider's
+//   real machinery (the adoption layer and the crossing rule), never here.
+"use strict";
+
+const OPERATIONS = ["listKernels", "readKernel", "readCrossings", "adopt", "fork", "cross"];
+
+function createManagementApi(provider) {
+  if (!provider) throw new Error("createManagementApi: a provider is required");
+  for (const op of OPERATIONS)
+    if (typeof provider[op] !== "function") throw new Error(`createManagementApi: provider must implement ${op}`);
+  return {
+    // reads: real kernel state from the federation and adoption layer, never a vendored snapshot.
+    listKernels: () => provider.listKernels(),
+    readKernel: (kernelId) => provider.readKernel(kernelId),
+    readCrossings: (kernelId) => provider.readCrossings(kernelId),
+    // writes: each returns a receipt of what it did and the real resulting state, computed by the
+    // delegated machinery. adopt pins a shared type-hash; fork derives a child kernel; cross makes a
+    // crossing and reports whether it arrived native or untyped.
+    adopt: (kernelId, typeHash) => provider.adopt(kernelId, typeHash),
+    fork: (kernelId, atPoint) => provider.fork(kernelId, atPoint),
+    cross: (originKernel, originClaim, targetKernel) => provider.cross(originKernel, originClaim, targetKernel),
+    // which world are we in: "local" or "remote". Diagnostic only.
+    providerKind: () => provider.kind || "unknown",
+  };
+}
+
+  return { createManagementApi };
+})();
+__M["local-management-provider"] = (function () {
+  var { hashTypeBundle } = __M["type-hash"];
+  var { forkKernel } = __M["fork.js"];
+// Role: the local provider behind the management contract, the management sibling of
+//   api/providers/local-provider.mjs. Where the claim provider runs the real gate over a claim snapshot,
+//   this runs the real adoption logic over a management snapshot: it computes each member's pins live
+//   with the real content-addressed hashTypeBundle, decides every crossing native-or-untyped by the
+//   crossing rule (a type crosses native exactly when the target pins the source's hash), and adopts,
+//   forks, and crosses, each returning a receipt. This is the provider the manager and, later, the MCP
+//   producer connector both use.
+// Contract: createLocalManagementProvider(snapshot) -> { kind, listKernels, readKernel, readCrossings,
+//   adopt, fork, cross }. snapshot = { members:[{id,author,provenance,kinds:[{kind,ceiling}],
+//   claims:[{ref,kind}]}], crossings:[{id,from,to,kind,from_claim,note}], common_kinds:[...] }. ESM; api
+//   imports kernel (hashTypeBundle) and api (forkKernel), never build or the periphery.
+// Invariant: the content-addressing is the real one (kernel/schema/type-hash.mjs), so a pin computed
+//   here is byte-identical to what the adoption layer computes; the crossing rule and the bundle shape
+//   are the same trivial forms build/adoption.mjs uses, and build/check-management.mjs proves this
+//   provider's outputs equal build/adoption's direct outputs, so it is a faithful running of the real
+//   logic and not a divergent copy. It computes no grade; grades stay on the claim contract.
+"use strict";
+
+// the type bundle a kind row implies, the same shape build/adoption.mjs uses; the hash of it is the pin.
+function kindBundle(row) {
+  return { kind: row.kind, ceiling: row.ceiling, compatibility_rule_id: row.compatibility_rule_id != null ? row.compatibility_rule_id : null, atlas_refs: row.atlas_refs != null ? row.atlas_refs : [] };
+}
+// the crossing rule: a type crosses native exactly when the target pins the source's type-hash.
+function statusOf(sourceHash, targetPinValues) { return targetPinValues.indexOf(sourceHash) >= 0 ? "native" : "untyped"; }
+
+function createLocalManagementProvider(snapshot) {
+  const snap = snapshot || {};
+  const common = new Set(snap.common_kinds || []);
+  const members = {};
+  for (const m of snap.members || []) {
+    const pins = {};
+    for (const row of m.kinds || []) pins[row.kind] = hashTypeBundle(kindBundle(row));
+    const kindByRef = {};
+    for (const c of m.claims || []) kindByRef[c.ref] = c.kind;
+    members[m.id] = { id: m.id, author: m.author, provenance: m.provenance, kinds: m.kinds || [], pins, kindByRef };
+  }
+  const ids = (snap.members || []).map((m) => m.id);
+  const crossings = snap.crossings || [];
+
+  function kernelObject(id) {
+    const m = members[id];
+    if (!m) return null;
+    const local_kinds = m.kinds.filter((r) => !common.has(r.kind)).map((r) => ({ kind: r.kind, ceiling: r.ceiling }));
+    const shared_pins = m.kinds.filter((r) => common.has(r.kind)).map((r) => ({ kind: r.kind, hash: m.pins[r.kind] }));
+    return { id, author: m.author, provenance: m.provenance, local_kinds, shared_pins, pins: Object.assign({}, m.pins) };
+  }
+
+  function listKernels() {
+    return ids.map((id) => {
+      const k = kernelObject(id);
+      return { id: k.id, author: k.author, provenance: k.provenance, pins: { kinds: Object.keys(k.pins), count: Object.keys(k.pins).length } };
+    });
+  }
+  function readKernel(kernelId) { return kernelObject(kernelId); }
+
+  function crossingRow(cx) {
+    const from = members[cx.from], to = members[cx.to];
+    const status = from && to ? statusOf(from.pins[cx.kind], Object.values(to.pins)) : "untyped";
+    return { id: cx.id, origin: cx.from, target: cx.to, kind: cx.kind, status, note: cx.note };
+  }
+  function readCrossings(kernelId) {
+    let list = crossings.map(crossingRow);
+    if (kernelId) list = list.filter((c) => c.origin === kernelId || c.target === kernelId);
+    return list;
+  }
+
+  function adopt(kernelId, typeHash) {
+    const m = members[kernelId];
+    if (!m) return { operation: "adopt", error: `no such kernel: ${kernelId}` };
+    const before = crossings.map(crossingRow);
+    if (Object.values(m.pins).indexOf(typeHash) < 0) m.pins[`adopted:${typeHash.slice(0, 8)}`] = typeHash; // the real pin
+    const after = crossings.map(crossingRow);
+    const crossings_changed = after
+      .map((a, i) => ({ before: before[i], after: a }))
+      .filter((p) => p.before.status !== p.after.status)
+      .map((p) => ({ crossing: p.after.id, origin: p.after.origin, target: p.after.target, kind: p.after.kind, from: p.before.status, to: p.after.status }));
+    return { operation: "adopt", kernel: kernelId, pinned: typeHash, crossings_changed, now_pins: Object.keys(m.pins).length };
+  }
+
+  function fork(kernelId, atPoint) {
+    const m = members[kernelId];
+    if (!m) return { operation: "fork", error: `no such kernel: ${kernelId}` };
+    return forkKernel({ id: kernelId, pins: m.pins }, { atPoint });
+  }
+
+  function cross(originKernel, originClaim, targetKernel) {
+    const from = members[originKernel], to = members[targetKernel];
+    if (!from || !to) return { operation: "cross", error: "unknown origin or target kernel" };
+    const kind = from.kindByRef[originClaim];
+    if (!kind) return { operation: "cross", error: `origin kernel ${originKernel} has no claim ${originClaim}` };
+    const status = statusOf(from.pins[kind], Object.values(to.pins));
+    return {
+      operation: "cross", origin: originKernel, claim: originClaim, target: targetKernel, kind, status,
+      grounds: status === "native",
+      note: status === "native"
+        ? "composes native and lossless: both kernels pin the same type-hash for this kind"
+        : "arrives untyped and grounds nothing until the target adopts or forks the type",
+    };
+  }
+
+  return { kind: "local", listKernels, readKernel, readCrossings, adopt, fork, cross };
+}
+
+  return { createLocalManagementProvider };
+})();
 root.EpiGate = {
   claimRecord: __M["records"].claimRecord,
   linkRecord: __M["records"].linkRecord,
@@ -3754,6 +4381,12 @@ root.EpiLocalProvider = {
 };
 root.EpiRemoteProvider = {
   createRemoteProvider: __M["remote-provider"].createRemoteProvider
+};
+root.EpiManagementApi = {
+  createManagementApi: __M["management-api"].createManagementApi
+};
+root.EpiLocalManagementProvider = {
+  createLocalManagementProvider: __M["local-management-provider"].createLocalManagementProvider
 };
 })(typeof window !== "undefined" ? window : globalThis);</script>
 <!-- the demonstrations' wiring (define init(); the shell calls it after cloning the markup) -->
@@ -4663,6 +5296,55 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
     },
   });
 })();</script>
+<script>// Role: the lineage case as the critique's fourth exhibit, lighter than the three domain cases because
+//   it argues about the architecture, not about a domain. It leads with the novelty conjecture and its
+//   earned grade, shows the five independent near-miss gaps that ground it, and puts the institutions
+//   where the mechanisms already run by hand one click down. The reading is the vendored build artifact
+//   (vendor/lineage/reading.json), computed by the kernel at build time; the module renders it.
+// Contract: registers on window.EpiShell as a case module. Reads the embedded #lineage-reading JSON.
+// Invariant: periphery; it touches no truth field and no kernel. The conjecture's grade is the gate's,
+//   and where it earns below what it declared the demotion is shown, not hidden: that is the finding.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  var el = typeof document !== "undefined" && document.getElementById("lineage-reading");
+  if (!el) return;
+  var R; try { R = JSON.parse(el.textContent); } catch (e) { return; }
+  function grade(g) { return '<span class="shell-grade shell-grade-' + esc(g) + '">' + esc(g) + "</span>"; }
+  function claimRows(list) { return list.map(function (r) { return '<li><span class="eggs-claim">' + esc(r.statement) + "</span> " + grade(r.grade) + (r.source ? '<span class="eggs-src">' + esc(r.source) + "</span>" : "") + "</li>"; }).join(""); }
+
+  window.EpiShell.register({
+    id: "case-lineage", title: "Fourth exhibit: the lineage, mechanisms already run by hand", kind: "case", order: 106,
+    render: function (ctx) {
+      var c = R.conjecture;
+      var html = '<p class="shell-lede">' + esc(R.lede) + "</p>";
+
+      html += "<h3>the conjecture</h3>";
+      html += '<div class="eggs-recon"><div class="eggs-claim">' + esc(c.statement) + " " + grade(c.grade) + "</div>";
+      if (c.grade !== "supported") html += '<div class="eggs-frame-note">The conjecture declared <b>supported</b> and the gate priced it <b>' + esc(c.grade) + "</b>: the near-miss gaps that ground it are each themselves only asserted architectural readings, so the gate does not lift the conjecture on their backs. The demotion is the finding, shown not hidden.</div>";
+      html += '<div class="eggs-crux-line"><b>the five axes it claims no system composes</b></div><ul class="eggs-frontier">' + R.axes.map(function (a) { return "<li>" + esc(a) + "</li>"; }).join("") + "</ul>";
+      html += '<div class="eggs-frame-note">closes on: ' + esc(c.closing) + "</div></div>";
+
+      html += "<h3>its grounding: five independent near-miss systems, each hitting some axes and missing the composition</h3>";
+      html += '<ul class="eggs-claims">' + R.grounding.map(function (g) { return '<li><b>' + esc(g.system) + ":</b> <span class=\"eggs-claim\">" + esc(g.statement) + "</span> " + grade(g.grade) + "</li>"; }).join("") + "</ul>";
+
+      html += "<details class=\"lineage-more\"><summary>The mechanisms already run by hand in mature institutions (one click down)</summary>";
+      R.institutions.forEach(function (inst) {
+        html += "<h4>" + esc(inst.domain) + ' <span class="eggs-src">' + esc(inst.note) + "</span></h4><ul class=\"eggs-claims\">" + claimRows(inst.claims) + "</ul>";
+      });
+      html += "</details>";
+
+      if (R.demotions && R.demotions.length) {
+        html += "<h3>what the gate demoted (the finding: which parallels are load-bearing, which were flattery)</h3>";
+        html += '<ul class="eggs-claims">' + R.demotions.map(function (d) { return "<li><span class=\"eggs-claim\">" + esc(d.statement) + '</span> declared ' + grade(d.declared) + " earned " + grade(d.earned) + "</li>"; }).join("") + "</ul>";
+      }
+
+      ctx.mount.innerHTML = html;
+      if (ctx.registerNode) ctx.registerNode("the lineage, mechanisms already run by hand", ctx.mount, "case-lineage", "case-lineage", "Fourth exhibit: the lineage");
+    },
+  });
+})();</script>
 <script>// Role: the demonstration modules (Prompt 17). Three live interactive pieces registered on the
 //   shell: the compose-gate panel, the propose widget, and the robustness reading. Each is a module
 //   with the standard interface; the shell composes them wherever they are registered.
@@ -4718,6 +5400,271 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
         '<p class="shell-lede">Grounding says how high a claim reaches; robustness says how much of that reach survives the loss of one support beneath it. This is read live from the graph through the API, not written here.</p>' +
         '<table class="shell-table"><thead><tr><th>conclusion</th><th>grade</th><th>robustness</th><th>fragility</th><th>worst single point of failure</th></tr></thead><tbody>' +
         rows + "</tbody></table>";
+    },
+  });
+})();</script>
+<!-- the operating turn: the kernel manager (management + claim contracts), then the on-ramp and the vision capstone -->
+<script>// Role: the kernel manager. Renders the bottom-up federation as kernels operated, not just read, driving
+//   through the management contract (list, read, adopt, fork, cross) and the claim contract (live grade),
+//   and authors into a kernel through the claim contract: a person writes a claim with a support, proposes
+//   it through the real gate, and reads the receipt, where the gate tells them what the claim earned
+//   versus what they declared. The gate is the only judge; the surface gathers fields and shows the result.
+// Contract: registers on window.EpiShell. Reads the management snapshot to build the management contract
+//   (window.EpiManagementApi / EpiLocalManagementProvider); reads and proposes through ctx.api (the claim
+//   contract). Holds no adoption, crossing, or grading logic.
+// Invariant: periphery; it touches no truth field and no kernel. Everything shown is real state through
+//   the two contracts, every write and every proposed claim is a real operation with a real receipt, and
+//   it vendors no answers, which is what keeps it embeddable. The authoring surface constructs no grade;
+//   the propose contract runs the real gate and returns the verdict.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  function short(s, n) { s = String(s == null ? "" : s); return s.length > n ? s.slice(0, n - 1) + "…" : s; }
+  var el = typeof document !== "undefined" && document.getElementById("management-snapshot");
+  if (!el || !window.EpiManagementApi || !window.EpiLocalManagementProvider) return;
+  var SNAP; try { SNAP = JSON.parse(el.textContent); } catch (e) { return; }
+  var sampleById = {}; (SNAP.members || []).forEach(function (m) { sampleById[m.id] = m.sample || null; });
+
+  function statusTag(s) { return '<span class="mgr-status mgr-status-' + esc(s) + '">' + esc(s) + "</span>"; }
+  function gradeTag(g) { return '<span class="mgr-grade-tag">' + esc(g) + "</span>"; }
+  function pre(o) { return '<pre class="mgr-receipt-json">' + esc(JSON.stringify(o, null, 2)) + "</pre>"; }
+  function shortHash(h) { return h ? h.slice(0, 12) : "?"; }
+
+  window.EpiShell.register({
+    id: "kernel-manager", title: "Kernel manager", kind: "demonstration", order: 300,
+    render: function (ctx) {
+      var mgmt = window.EpiManagementApi.createManagementApi(window.EpiLocalManagementProvider.createLocalManagementProvider(SNAP));
+      var receipts = { adopt: null, fork: null, cross: null };
+
+      function liveGrade(id) {
+        var s = sampleById[id];
+        if (!s || !ctx.api || !ctx.api.read) return null;
+        var rows = ctx.api.read({ identity: s.identity }) || [];
+        if (!rows.length && s.statement) rows = ctx.api.read({ contains: s.statement.slice(0, 24) }) || [];
+        return rows.length ? rows[0].earned_grade : "not carried in the contract's snapshot";
+      }
+
+      // ---------- the read half: kernels, crossings, and the management writes (slice two) ----------
+      function memberHtml(k) {
+        var detail = mgmt.readKernel(k.id);
+        var local = detail.local_kinds.length
+          ? detail.local_kinds.map(function (r) { return '<span class="mgr-kind mgr-kind-local">' + esc(r.kind) + " · " + esc(r.ceiling) + "</span>"; }).join(" ")
+          : '<span class="mgr-none">none (all kinds adopted from the shared subtree)</span>';
+        var shared = detail.shared_pins.map(function (p) { return '<span class="mgr-kind mgr-kind-shared" title="type-hash ' + esc(p.hash) + '">' + esc(p.kind) + " · " + shortHash(p.hash) + "</span>"; }).join(" ");
+        var grade = liveGrade(k.id);
+        var gradeHtml = grade ? '<div class="mgr-tier"><span class="mgr-grade">live grade of a sample claim (through the claim contract): <b>' + esc(grade) + "</b></span></div>" : "";
+        return '<div class="mgr-kernel"><div class="mgr-kernel-head"><span class="mgr-kernel-id">' + esc(k.id) + '</span> <span class="mgr-by">kernel by ' + esc(k.author) + "</span></div>" +
+          '<div class="mgr-prov">' + esc(k.provenance) + "</div>" +
+          '<div class="mgr-tier"><b>local kinds</b> (this kernel owns) &nbsp; ' + local + "</div>" +
+          '<div class="mgr-tier"><b>shared type-hashes pinned</b> (adopted) &nbsp; ' + shared + "</div>" + gradeHtml + "</div>";
+      }
+      function crossingsHtml() {
+        return mgmt.readCrossings().map(function (cx) {
+          return '<li><span class="mgr-cross">' + esc(cx.origin) + " → " + esc(cx.target) + '</span> <span class="mgr-cross-kind">on ' + esc(cx.kind) + "</span> " + statusTag(cx.status) +
+            '<div class="mgr-cross-note">' + esc(cx.note) + "</div></li>";
+        }).join("");
+      }
+      function untypedCrossing() { return mgmt.readCrossings().filter(function (c) { return c.status === "untyped"; })[0]; }
+      function nativeCrossing() { return mgmt.readCrossings().filter(function (c) { return c.status === "native"; })[0]; }
+      function hashFor(kernelId, kind) { var p = (mgmt.readKernel(kernelId).shared_pins || []).filter(function (x) { return x.kind === kind; })[0]; return p ? p.hash : null; }
+      function crossClaim(cx) { var rec = (SNAP.crossings || []).filter(function (c) { return c.id === cx.id; })[0]; return rec ? rec.from_claim : null; }
+      function writesHtml() {
+        var u = untypedCrossing(), n = nativeCrossing();
+        var adoptBtn = u ? '<button class="mgr-op-btn" data-op="adopt">adopt the ' + esc(u.kind) + " type into " + esc(u.target) + " (makes " + esc(u.origin) + " → " + esc(u.target) + " native)</button>" : '<span class="mgr-none">no untyped crossing remains to adopt</span>';
+        return '<div class="mgr-writes">' +
+          '<div class="mgr-op"><b>adopt</b> a shared type-hash so an untyped crossing composes native.<br>' + adoptBtn + (receipts.adopt ? pre(receipts.adopt) : "") + "</div>" +
+          '<div class="mgr-op"><b>fork</b> a kernel, deriving a child that inherits its pins.<br><button class="mgr-op-btn" data-op="fork">fork covid</button>' + (receipts.fork ? pre(receipts.fork) : "") + "</div>" +
+          '<div class="mgr-op"><b>cross</b> a claim from one kernel into another and read whether it arrived native or untyped.<br>' +
+          (n ? '<button class="mgr-op-btn" data-op="cross-native">cross a shared-kind claim (native)</button> ' : "") +
+          (u ? '<button class="mgr-op-btn" data-op="cross-untyped">cross an unadopted-kind claim (untyped)</button>' : "") +
+          (receipts.cross ? pre(receipts.cross) : "") + "</div></div>";
+      }
+      function paintTop(top) {
+        top.innerHTML = "<h3>the kernels (listKernels)</h3>" + mgmt.listKernels().map(memberHtml).join("") +
+          "<h3>crossings between kernels (readCrossings)</h3><ul class=\"mgr-crossings\">" + crossingsHtml() + "</ul>" +
+          "<h3>operations (adopt, fork, cross)</h3>" + writesHtml();
+        var btns = top.querySelectorAll(".mgr-op-btn");
+        for (var i = 0; i < btns.length; i++) top.querySelectorAll(".mgr-op-btn")[i].addEventListener("click", function (e) {
+          var op = e.target.getAttribute("data-op");
+          if (op === "adopt") { var u = untypedCrossing(); if (u) receipts.adopt = mgmt.adopt(u.target, hashFor(u.origin, u.kind)); }
+          else if (op === "fork") receipts.fork = mgmt.fork("covid");
+          else if (op === "cross-native") { var nn = nativeCrossing(); if (nn) receipts.cross = mgmt.cross(nn.origin, crossClaim(nn), nn.target); }
+          else if (op === "cross-untyped") { var uu = untypedCrossing(); if (uu) receipts.cross = mgmt.cross(uu.origin, crossClaim(uu), uu.target); }
+          paintTop(top);
+        });
+      }
+
+      // ---------- the write half: authoring into a kernel through the propose contract ----------
+      var GRADES = [["", "auto"], ["asserted", "asserted"], ["supported", "supported"], ["corroborated", "corroborated"], ["checked", "checked"], ["independently-rechecked", "independently-rechecked"]];
+      function kernelKinds(id) { var d = mgmt.readKernel(id); return d.local_kinds.map(function (r) { return r.kind; }).concat(d.shared_pins.map(function (p) { return p.kind; })); }
+
+      function mountAuthoring(auth) {
+        var kernelIds = mgmt.listKernels().map(function (k) { return k.id; });
+        auth.innerHTML =
+          '<h3>author a claim into a kernel (propose)</h3>' +
+          '<p class="mgr-auth-lede">Write a claim, point it at a support already in the store, and propose it. The gate grades it: usually the earned grade is below the grade you declared, and the receipt shows why. Each support lends at the supported level, so one support earns supported and two independent supports earn corroborated. Declare corroborated with one support and the gate declines it, earned supported; add a second support and propose again to watch it reach corroborated. The surface judges nothing; the gate is the only judge.</p>' +
+          '<div class="mgr-auth-form">' +
+          '<label>target kernel <select class="mgr-auth-kernel">' + kernelIds.map(function (id) { return '<option value="' + esc(id) + '">' + esc(id) + "</option>"; }).join("") + "</select></label>" +
+          '<label>statement <textarea class="mgr-auth-stmt" placeholder="A single, checkable claim in one sentence."></textarea></label>' +
+          '<div class="mgr-auth-row"><label>kind <select class="mgr-auth-kind"></select></label>' +
+          '<label>declared grade <select class="mgr-auth-declared">' + GRADES.map(function (g) { return '<option value="' + g[0] + '">' + esc(g[1]) + "</option>"; }).join("") + "</select></label></div>" +
+          '<label>citation (optional) <input type="text" class="mgr-auth-cite" placeholder="e.g. Author 2020, Journal"></label>' +
+          '<label>supports (choose at least one existing claim in the live store) <input type="text" class="mgr-auth-filter" placeholder="filter the claims by text or kind…"></label>' +
+          '<div class="mgr-auth-supports"></div>' +
+          '<button class="mgr-auth-btn">propose to the gate</button>' +
+          '<div class="mgr-auth-status"></div>' +
+          '<div class="mgr-auth-receipt"></div>' +
+          '<p class="mgr-auth-note">This authors against the live kernel through the real gate and returns the real receipt. Taking a kernel you have populated away with you, to keep and federate, is the on-ramp\'s next step (the generator-to-download), specified and not built here.</p>' +
+          "</div>";
+
+        var elKernel = auth.querySelector(".mgr-auth-kernel"), elKind = auth.querySelector(".mgr-auth-kind");
+        var elStmt = auth.querySelector(".mgr-auth-stmt"), elDeclared = auth.querySelector(".mgr-auth-declared");
+        var elCite = auth.querySelector(".mgr-auth-cite"), elFilter = auth.querySelector(".mgr-auth-filter");
+        var elSupports = auth.querySelector(".mgr-auth-supports"), elBtn = auth.querySelector(".mgr-auth-btn");
+        var elStatus = auth.querySelector(".mgr-auth-status"), elReceipt = auth.querySelector(".mgr-auth-receipt");
+
+        function fillKinds() { elKind.innerHTML = kernelKinds(elKernel.value).map(function (k) { return '<option value="' + esc(k) + '">' + esc(k) + "</option>"; }).join(""); }
+        function renderSupports() {
+          var claims = (ctx.api && ctx.api.read) ? ctx.api.read({}) : [];
+          var q = (elFilter.value || "").toLowerCase();
+          if (q) claims = claims.filter(function (c) { return c.statement.toLowerCase().indexOf(q) >= 0 || c.kind.indexOf(q) >= 0; });
+          if (!claims.length) { elSupports.innerHTML = '<div class="mgr-none">no claims match; the live store carries the covid, densified LHC, and eggs claims read through the contract</div>'; return; }
+          elSupports.innerHTML = claims.slice(0, 40).map(function (c) {
+            return '<label class="mgr-auth-support"><input type="checkbox" value="' + esc(c.identity) + '"> <span class="mgr-auth-sg">' + esc(c.kind) + " · " + esc(c.earned_grade) + "</span> " + esc(short(c.statement, 90)) + "</label>";
+          }).join("");
+        }
+        function selectedSupports() { return [].slice.call(elSupports.querySelectorAll("input:checked")).map(function (i) { return i.value; }); }
+
+        // the receipt is the payoff: declared versus earned, the gap, and the gate's reason.
+        function renderReceipt(r) {
+          if (r.error) { elReceipt.innerHTML = '<div class="mgr-verdict mgr-declined">refused before the gate: ' + esc(r.error) + "</div>"; return; }
+          var row = (r.grade_table || []).filter(function (g) { return g.identity === r.proposed_identity; })[0] || {};
+          var declared = row.declared_grade || "n/a", earned = row.earned_grade || "ungraded";
+          var accepted = String(r.decision).indexOf("accepted") === 0;
+          var gap = declared !== earned;
+          var head = accepted
+            ? '<div class="mgr-verdict mgr-accepted">accepted, earned <b>' + esc(earned) + "</b></div>"
+            : '<div class="mgr-verdict mgr-declined">declined</div>';
+          var why = "";
+          if (!accepted) why = '<div class="mgr-why">The gate admits a claim only at or below what it earns. You declared <b>' + esc(declared) + "</b>; the claim earned <b>" + esc(earned) + "</b> (basis <code>" + esc((r.decision_basis || []).join(", ")) + "</code>). Add or strengthen a support and propose again to raise the earned grade.</div>";
+          else if (gap) why = '<div class="mgr-why">Admitted, but below your declaration: you declared <b>' + esc(declared) + "</b> and it earned <b>" + esc(earned) + "</b>.</div>";
+          else why = '<div class="mgr-why">Admitted at the grade you declared; the support carried it.</div>';
+          elReceipt.innerHTML = head + why +
+            '<table class="mgr-grades-table"><tr><th>declared</th><th>earned</th><th>S (support)</th><th>B (own basis)</th></tr><tr><td>' +
+            esc(declared) + "</td><td><b>" + esc(earned) + "</b></td><td>" + esc(row.S || "n/a") + "</td><td>" + esc(row.B || "n/a") + "</td></tr></table>" +
+            '<div class="mgr-prov">graded client-side by the <b>' + esc(ctx.api.providerKind ? ctx.api.providerKind() : "local") + "</b> provider, the same gate the checks verify</div>";
+        }
+
+        function propose() {
+          var statement = (elStmt.value || "").trim();
+          if (!statement) { elStatus.textContent = "Enter a statement to propose."; return; }
+          var supports = selectedSupports();
+          if (!supports.length) { elStatus.textContent = "Choose at least one support: point the claim at an existing claim in the store."; return; }
+          // each chosen support lends at the supported level, so one support earns supported and two
+          // independent supports earn corroborated; the author sets the target with the declared grade,
+          // and the gate decides the rest. This is a contribution field, not a grade the surface computes.
+          var supportLinks = supports.map(function (id) { return { to_identity: id, declared_grade: "supported" }; });
+          var proposed = { statement: statement, kind: elKind.value, citation: (elCite.value || "").trim() || undefined, declared_grade: elDeclared.value || undefined, supports: supportLinks };
+          var r; try { r = ctx.api.propose(proposed); } catch (e) { elStatus.textContent = "propose error: " + (e && e.message ? e.message : e); return; }
+          renderReceipt(r);
+          elStatus.textContent = "proposed to the gate through the claim contract; the receipt below is the gate's verdict";
+        }
+
+        elKernel.addEventListener("change", fillKinds);
+        elFilter.addEventListener("input", renderSupports);
+        elBtn.addEventListener("click", propose);
+        fillKinds(); renderSupports();
+      }
+
+      // ---------- compose: the read/write halves in their own containers, so a write repaint keeps the form ----------
+      ctx.mount.innerHTML = '<p class="shell-lede">The bottom-up federation, operated and authored through the real contracts. The kernels, tiers, and crossings come from the management contract; the writes below run through it; and authoring at the bottom rides the claim contract, where the gate grades the claim you write. Nothing is vendored, so this rung is embeddable as-is.</p><div class="mgr-top"></div><div class="mgr-auth"></div>';
+      paintTop(ctx.mount.querySelector(".mgr-top"));
+      mountAuthoring(ctx.mount.querySelector(".mgr-auth"));
+    },
+  });
+})();</script>
+<script>// Role: the on-ramp reach, the reading's terminal turn from operating the existing kernels to making and
+//   taking your own. It presents, as built and reachable, the generator (a running empty kernel), the
+//   self-contained kernel file and the detached-repo download, and the two connectors (ingestion brings
+//   material, the producer connector lets an agent author through the gate). It names each artifact and
+//   its check honestly; it does not inline a second running kernel, which would bloat this one file, and
+//   says so plainly instead of mocking it.
+// Contract: registers on window.EpiShell as a closing section (order 400). Renders static prose over the
+//   built artifacts; reads no live data because the on-ramp's proof is its checks, named here.
+// Invariant: periphery; it claims only what is built. Every artifact and check named here exists and
+//   passes; the live agent session and a full second inlined kernel are named as the deferred forms.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+
+  window.EpiShell.register({
+    id: "on-ramp", title: "Make and take your own kernel", kind: "prose", order: 400,
+    render: function (ctx) {
+      var html = "";
+      html += '<p class="shell-lede">You have read the argument, walked the cases and the lineage, and operated the four kernels in the manager. The last reach is to make your own kernel and take it with you. This is built and reachable; it is not inlined into this file, because a second running kernel would double the artifact, so the reading reaches it as produced files whose checks pass.</p>';
+
+      html += "<h3>The generator produces a running kernel</h3>";
+      html += "<p>The scaffolder (<code>scaffolder/new-kernel.mjs</code>) generates an empty but coherent kernel from a config: its own kind table, its sources, an empty claim store, its builder and its check. The generated kernel passes its own check on creation, so what you get is a running floor, not a template. It is empty on purpose: a generated kernel starts with grounded sources and a live gate, and the first claim is the author's.</p>";
+
+      html += "<h3>The self-contained kernel file, and the detached repository</h3>";
+      html += "<p>One build (<code>build/build-kernel-file.mjs</code>) folds a generated kernel into a single <code>&lt;id&gt;.kernel.html</code> that opens from <code>file://</code>, renders its own claims and grounding through the read contract, and authors a claim through the real gate with a graded receipt: the same gate you ran above, scoped to one kernel. A button on that file downloads the kernel as a detached repository (<code>build/build-detached-kernel.mjs</code>): the kernel's own files, the substrate vendored under <code>substrate/kernel/</code> at a real content-hash pin, the build imports rewritten to that path. It runs its check on unzip with no network. The live git-submodule fetch is the production form the vendored pin stands in for, named in the bundle, not faked.</p>";
+
+      html += "<h3>The two connectors: the material half and the labor half</h3>";
+      html += '<div class="eggs-recon">';
+      html += "<div><b>Ingestion (the material)</b> &nbsp; <code>periphery/ingest/</code>, check <code>build/check-ingest.mjs</code>. It pulls scholarly metadata from arXiv and OpenAlex and maps each work into a kernel source row, honoring arXiv's one-request-per-three-seconds rate limit by construction and the metadata-only legal boundary: it stores metadata and a link back, never full text. An ingested source grounds a real claim through the gate in its check.</div>";
+      html += '<div class="eggs-crux-line"><b>The producer connector (the labor)</b> &nbsp; <code>periphery/produce/</code>, check <code>build/check-produce.mjs</code>. It exposes the propose contract as a strict schema-gated MCP tool, so an agent authors a claim through the same gate a human does. The proof shows an agent&#39;s well-formed claim graded identically to a human&#39;s, an over-declared one demoted by the gate, and an invalid one rejected at the schema. The kernel checks the claim, not the claimant.</div>';
+      html += "</div>";
+      html += '<p class="eggs-frame-note">Both connectors are built at minimum scale and pass their checks. A live agent session over MCP transport, and autonomous multi-claim orchestration, are the named deferred depth: grounding, not volume, is the point, so a more capable producer makes more grounded claims, not more claims.</p>';
+
+      ctx.mount.innerHTML = html;
+    },
+  });
+})();</script>
+<script>// Role: the reading's capstone, the vision document rendered as the terminal section so the scroll ends
+//   where the work is going. It closes the spine: the argument, the cases, the lineage exhibit, operating
+//   the kernels, the on-ramp to make your own, and then the destination. The canonical source is
+//   docs/vision-and-continuation.md, inlined at #vision-doc and rendered here, never copied or edited.
+// Contract: registers on window.EpiShell as a closing prose section (order 500). Reads the embedded
+//   #vision-doc markdown and renders it with a light markdown pass (headings, paragraphs, lists, bold).
+// Invariant: periphery; it renders the doc and asserts nothing of its own. The register is the doc's:
+//   what is real is marked real and what is specified is marked specified, unchanged from the source.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  var el = typeof document !== "undefined" && document.getElementById("vision-doc");
+  if (!el) return;
+  var MD = el.textContent || "";
+  // strip the front-matter header (between the first pair of --- lines).
+  MD = MD.replace(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
+
+  function inline(text) {
+    return esc(text)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1") // a doc link renders as its text; targets are other files
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
+  }
+
+  window.EpiShell.register({
+    id: "vision-capstone", title: "Where this goes", kind: "prose", order: 500,
+    render: function (ctx) {
+      var html = "", listOpen = false;
+      MD.split(/\n{2,}/).forEach(function (block) {
+        block = block.trim();
+        if (!block) return;
+        if (/^#\s+/.test(block)) return; // the doc's H1 duplicates the section title; skip it
+        if (/^###\s+/.test(block)) { if (listOpen) { html += "</ul>"; listOpen = false; } html += "<h4>" + inline(block.replace(/^###\s+/, "")) + "</h4>"; return; }
+        if (/^##\s+/.test(block)) { if (listOpen) { html += "</ul>"; listOpen = false; } html += "<h3>" + inline(block.replace(/^##\s+/, "")) + "</h3>"; return; }
+        if (/^[-*]\s+/.test(block)) {
+          html += "<ul class=\"eggs-claims\">" + block.split(/\n/).map(function (li) { return "<li>" + inline(li.replace(/^[-*]\s+/, "")) + "</li>"; }).join("") + "</ul>";
+          return;
+        }
+        html += "<p>" + inline(block.replace(/\n/g, " ")) + "</p>";
+      });
+      if (listOpen) html += "</ul>";
+      ctx.mount.innerHTML = html;
     },
   });
 })();</script>

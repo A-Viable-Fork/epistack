@@ -11,11 +11,62 @@
 <style>@@INCLUDE:periphery/navigate/shell/styles/shell.css@@</style>
 <style>@@INCLUDE:periphery/navigate/render/styles/compose-gate.css@@</style>
 <style>@@INCLUDE:periphery/navigate/render/styles/propose-widget.css@@</style>
+<!-- the kernel manager's styles (it renders kernels, crossings, and the authoring receipt) -->
+<style>
+.mgr-kernel{border:1px solid #ccc;border-radius:6px;padding:.7em .9em;margin:.6em 0;}
+.mgr-kernel-head{font-size:1.1em;}
+.mgr-kernel-id{font-weight:700;font-family:var(--mono,monospace);}
+.mgr-by{color:#666;font-style:italic;margin-left:.4em;}
+.mgr-prov{color:#777;font-size:.85em;margin:.2em 0 .5em;}
+.mgr-tier{margin:.3em 0;font-size:.92em;}
+.mgr-kind{display:inline-block;border-radius:4px;padding:.05em .45em;margin:.1em;font-family:var(--mono,monospace);font-size:.85em;}
+.mgr-kind-local{background:#e8dff5;border:1px solid #b79ce0;}
+.mgr-kind-shared{background:#dfeaf5;border:1px solid #9cbfe0;}
+.mgr-none{color:#999;font-style:italic;}
+.mgr-grade{font-size:.9em;}
+.mgr-crossings{list-style:none;padding:0;}
+.mgr-crossings li{border-left:3px solid #ddd;padding:.3em .7em;margin:.4em 0;}
+.mgr-cross{font-family:var(--mono,monospace);font-weight:600;}
+.mgr-cross-kind{color:#666;font-size:.85em;font-family:var(--mono,monospace);}
+.mgr-cross-note{color:#777;font-size:.82em;margin-top:.2em;}
+.mgr-status{display:inline-block;border-radius:4px;padding:.05em .5em;font-size:.82em;font-weight:600;}
+.mgr-status-native{background:#d8efd8;border:1px solid #7bc47b;}
+.mgr-status-untyped{background:#f2e2c8;border:1px solid #d8ad6a;}
+.mgr-adopt{border:1px solid #9cbfe0;border-radius:6px;padding:.8em 1em;background:#f6f9fc;}
+.mgr-adopt-head{font-weight:700;margin-bottom:.3em;}
+.mgr-adopt-state{margin:.5em 0;font-family:var(--mono,monospace);}
+.mgr-adopt-btn{padding:.4em .9em;border-radius:5px;border:1px solid #7ba;cursor:pointer;}
+.mgr-adopt-btn:disabled{opacity:.5;cursor:default;}
+.mgr-receipt{margin-top:.6em;padding:.5em .7em;border-left:3px solid #7bc47b;background:#eef7ee;font-size:.9em;}
+.mgr-receipt-json{background:#f4f4f4;border:1px solid #ddd;border-radius:5px;padding:.5em .7em;font-size:.8em;overflow-x:auto;}
+.mgr-grade-tag{display:inline-block;border-radius:4px;padding:.05em .4em;background:#eee;font-family:var(--mono,monospace);font-size:.82em;}
+.mgr-auth-lede,.mgr-auth-note{color:#666;font-size:.9em;}
+.mgr-auth-form{display:flex;flex-direction:column;gap:.5em;max-width:44em;}
+.mgr-auth-form label{display:flex;flex-direction:column;gap:.2em;font-size:.9em;font-weight:600;}
+.mgr-auth-row{display:flex;gap:1em;}
+.mgr-auth-form textarea{min-height:3em;font-family:inherit;padding:.4em;}
+.mgr-auth-form input,.mgr-auth-form select{padding:.35em;font-family:inherit;}
+.mgr-auth-supports{max-height:14em;overflow-y:auto;border:1px solid #ddd;border-radius:5px;padding:.3em;}
+.mgr-auth-support{display:block;font-weight:400;font-size:.85em;padding:.15em 0;cursor:pointer;}
+.mgr-auth-sg{font-family:var(--mono,monospace);color:#556;}
+.mgr-auth-btn{align-self:flex-start;padding:.45em 1em;border-radius:5px;border:1px solid #7ba;cursor:pointer;}
+.mgr-auth-status{font-size:.85em;color:#666;}
+.mgr-auth-receipt{margin-top:.3em;}
+.mgr-verdict{font-weight:700;padding:.3em .6em;border-radius:5px;display:inline-block;}
+.mgr-accepted{background:#d8efd8;border:1px solid #7bc47b;}
+.mgr-declined{background:#f5d8d8;border:1px solid #d88;}
+.mgr-why{margin:.5em 0;font-size:.9em;}
+.mgr-grades-table{border-collapse:collapse;font-size:.85em;margin:.4em 0;}
+.mgr-grades-table th,.mgr-grades-table td{border:1px solid #ccc;padding:.25em .6em;text-align:left;}
+.lineage-more{margin:.8em 0;border:1px solid #ddd;border-radius:6px;padding:.4em .8em;background:#fafafa;}
+.lineage-more summary{cursor:pointer;font-weight:600;}
+.lineage-more h4{margin:.6em 0 .2em;}
+</style>
 </head>
 <body>
 <header class="shell-header">
   <h1>What Stands Without Trust</h1>
-  <div class="shell-tag">One navigable surface: the paper, the three cases, and the live demonstrations, composed from registered modules. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
+  <div class="shell-tag">One navigable surface, read straight through or forked at any subject: the argument, the three cases and the lineage exhibit, the live demonstrations, then the turn from reading to operating, the kernel manager where you author through the real gate, the on-ramp to make and take your own kernel, and the vision that closes it. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
 </header>
 <div class="shell-wrap">
   <nav class="shell-nav" id="shell-nav" aria-label="contents"></nav>
@@ -98,6 +149,12 @@
 <script type="application/json" id="lhc-reading">@@INCLUDE:vendor/lhc/reading.json@@</script>
 <!-- the guided path: the three counterexamples staged as a walk, built by build/vendor-demo.mjs -->
 <script type="application/json" id="demo-reading">@@INCLUDE:vendor/demo/reading.json@@</script>
+<!-- the lineage case (fourth exhibit): the conjecture and its near-miss grounding, built by build/vendor-lineage.mjs -->
+<script type="application/json" id="lineage-reading">@@INCLUDE:vendor/lineage/reading.json@@</script>
+<!-- the management snapshot the kernel manager runs list/adopt/fork/cross over, built by build/vendor-management.mjs -->
+<script type="application/json" id="management-snapshot">@@INCLUDE:vendor/management/management-snapshot.json@@</script>
+<!-- the vision document (the reading's capstone), rendered by the capstone module (not copied) -->
+<script type="text/markdown" id="vision-doc">@@INCLUDE:docs/vision-and-continuation.md@@</script>
 <!-- the accessible register of the judges document (window.EpiRegisters), read by the prose module -->
 <script>@@INCLUDE:corpora/registers/judges-accessible.js@@</script>
 
@@ -115,7 +172,12 @@
 <script>@@INCLUDE:periphery/navigate/shell/modules/eggs-case.js@@</script>
 <script>@@INCLUDE:periphery/navigate/shell/modules/covid-case.js@@</script>
 <script>@@INCLUDE:periphery/navigate/shell/modules/lhc-case.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/lineage-case.js@@</script>
 <script>@@INCLUDE:periphery/navigate/shell/modules/demos.js@@</script>
+<!-- the operating turn: the kernel manager (management + claim contracts), then the on-ramp and the vision capstone -->
+<script>@@INCLUDE:periphery/navigate/shell/modules/manager.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/on-ramp.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/vision-capstone.js@@</script>
 <!-- boot: bind the contract to the local provider and compose the registered modules -->
 <script>
 (function () {
