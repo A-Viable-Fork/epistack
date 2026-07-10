@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 170. Import edges: 318. Runtime flow edges: 31. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -75,6 +75,8 @@ Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/providers/local-management-provider.mjs` -> `api/fork.js`  *(api -> api)*
+- `api/providers/local-management-provider.mjs` -> `kernel/schema/type-hash.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/reconciliation.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/robustness.mjs`  *(api -> kernel)*
@@ -189,8 +191,8 @@ Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy 
 - `build/check-lineage.mjs` -> `build/lineage-build.mjs`  *(build -> build)*
 - `build/check-lineage.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-management.mjs` -> `api/management-api.mjs`  *(build -> api)*
+- `build/check-management.mjs` -> `api/providers/local-management-provider.mjs`  *(build -> api)*
 - `build/check-management.mjs` -> `build/adoption.mjs`  *(build -> build)*
-- `build/check-management.mjs` -> `build/local-management-provider.mjs`  *(build -> build)*
 - `build/check-management.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
@@ -289,10 +291,6 @@ Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy 
 - `build/lineage-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/lineage-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/lineage-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
-- `build/local-management-provider.mjs` -> `api/fork.js`  *(build -> api)*
-- `build/local-management-provider.mjs` -> `build/adoption.mjs`  *(build -> build)*
-- `build/local-management-provider.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
-- `build/local-management-provider.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
@@ -309,12 +307,12 @@ Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy 
 - `build/vendor-eggs.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/vendor-eggs.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
-- `build/vendor-federation.mjs` -> `build/adoption.mjs`  *(build -> build)*
-- `build/vendor-federation.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
-- `build/vendor-federation.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/vendor-lhc.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
 - `build/vendor-lhc.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/vendor-lhc.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
+- `build/vendor-management.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/vendor-management.mjs` -> `build/bottomup-build.mjs`  *(build -> build)*
+- `build/vendor-management.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/vendor-snapshot.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/vendor-snapshot.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/vendor-snapshot.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -364,6 +362,7 @@ Nodes: 170. Import edges: 320. Runtime flow edges: 30. All import edges satisfy 
 - `build/check-perturb.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-type-hash.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/fork-demo.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
+- `build/vendor-management.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/vendor-snapshot.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/vendor-snapshot.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `periphery/navigate/fat/auditor.js` **reads-through-api** `api/api.js`

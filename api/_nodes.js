@@ -54,6 +54,10 @@ module.exports = [
     ]
   },
   {
+    "path": "api/providers/local-management-provider.mjs",
+    "type": "api"
+  },
+  {
     "path": "api/providers/remote-provider.mjs",
     "type": "api"
   },

@@ -2,7 +2,7 @@
 Type: reference
 Purpose: Defines the three kernel types and the authority axis, as the canonical source the other documents locate themselves on.
 Depends on: docs/knowledge-system-how.md
-Depended on by: CLAUDE.md, README.md, docs/composition-spec.md, docs/criteria-to-architecture-map.md, docs/extending-the-kernel.md, docs/parameters-register.md, docs/trellises/black-holes-reconstruction-trellis.md, docs/trellises/covid-origins-crux-trellis.md, docs/trellises/eggs-completeness-trellis.md, docs/what-stands-without-trust.md
+Depended on by: CLAUDE.md, README.md, docs/composition-spec.md, docs/criteria-to-architecture-map.md, docs/extending-the-kernel.md, docs/parameters-register.md, docs/trellises/black-holes-reconstruction-trellis.md, docs/trellises/covid-origins-crux-trellis.md, docs/trellises/eggs-completeness-trellis.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md
 ---
 
 # The Kernel Taxonomy

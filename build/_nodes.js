@@ -136,12 +136,14 @@ module.exports = [
     "type": "build"
   },
   {
-    "path": "build/vendor-federation.mjs",
-    "type": "build"
-  },
-  {
-    "path": "build/local-management-provider.mjs",
-    "type": "build"
+    "path": "build/vendor-management.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/_shared/common-types.js"
+      }
+    ]
   },
   {
     "path": "build/check-management.mjs",

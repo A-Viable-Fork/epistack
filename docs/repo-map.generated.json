@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 170,
-  "edgeCount": 350,
+  "edgeCount": 349,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -326,6 +326,13 @@
       "contract": "createLocalProvider(snapshot) -> { kind, propose(proposedClaim) -> receipt, read(query) -> [claim] }. snapshot = { state, sources, kinds }. ESM; api imports kernel (never the reverse)."
     },
     {
+      "path": "api/providers/local-management-provider.mjs",
+      "type": "api",
+      "group": null,
+      "role": "the local provider behind the management contract, the management sibling of api/providers/local-provider.mjs. Where the claim provider runs the real gate over a claim snapshot, this runs the real adoption logic over a management snapshot: it computes each member's pins live with the real content-addressed hashTypeBundle, decides every crossing native-or-untyped by the crossing rule (a type crosses native exactly when the target pins the source's hash), and adopts, forks, and crosses, each returning a receipt. This is the provider the manager and, later, the MCP producer connector both use.",
+      "contract": "createLocalManagementProvider(snapshot) -> { kind, listKernels, readKernel, readCrossings, adopt, fork, cross }. snapshot = { members:[{id,author,provenance,kinds:[{kind,ceiling}], claims:[{ref,kind}]}], crossings:[{id,from,to,kind,from_claim,note}], common_kinds:[...] }. ESM; api imports kernel (hashTypeBundle) and api (forkKernel), never build or the periphery."
+    },
+    {
       "path": "api/providers/remote-provider.mjs",
       "type": "api",
       "group": null,
@@ -637,8 +644,8 @@
       "path": "periphery/navigate/shell/modules/manager.js",
       "type": "periphery",
       "group": "consumer",
-      "role": "the kernel manager, slice one (the probe). A shell module that renders the bottom-up federation as a list of kernels operated, not just read: each member shown as a multi-author object (author and provenance, one author today but the marketplace shape from day one), its local kinds versus the shared type-hashes it pins, and its crossings to other members marked native or untyped. It performs one real management operation, fork-and-adopt: pinning a shared type-hash onto a member so a crossing that arrived untyped composes native, showing the real before and after.",
-      "contract": "registers on window.EpiShell as a case module. Reads the embedded #federation-view JSON (vendored by build/vendor-federation.mjs from the real buildBottomUp and adoption layer) and reads a member's live claim grade through ctx.api (the propose/read contract). Holds no grounding logic."
+      "role": "the kernel manager, slice two. A shell module that renders the bottom-up federation as a list of kernels operated, not just read, driving entirely through the two contracts and vendoring no answers. The kernel list, each kernel's local-versus-shared tiers, and the crossings with their native-or- untyped status all come from the management contract (listKernels, readKernel, readCrossings); a member's live claim grade comes from the claim contract (ctx.api.read). It performs all three write operations, adopt, fork, and cross, through the management contract and renders their real receipts.",
+      "contract": "registers on window.EpiShell. Builds the management contract from window.EpiManagementApi and window.EpiLocalManagementProvider over the embedded #management-snapshot (the provider's raw input, the way the claim provider reads the claim snapshot); reads live grades through ctx.api. Holds no adoption, crossing, or grounding logic; the provider computes every pin, status, and receipt."
     },
     {
       "path": "periphery/navigate/shell/modules/prose.js",
@@ -886,31 +893,24 @@
       "contract": "`node build/check-bottomup.mjs` exits non-zero on any failure. Imports the federation build, the confidence order, the composition transfer, the adoption layer, and the store decay read."
     },
     {
-      "path": "build/vendor-federation.mjs",
+      "path": "build/vendor-management.mjs",
       "type": "build",
       "group": null,
-      "role": "freeze the bottom-up federation into one view the kernel-manager surface reads. Runs the real buildBottomUp() and the adoption layer and writes vendor/federation/federation-view.json: the four members (id, author, provenance, the local kinds versus the shared type-hashes each pins, and a representative claim identity), the crossings between them each marked native or untyped, and the one fork-and-adopt probe (the untyped crossing plus the real native status the adoption layer computes after the target forks the type). Every value is real state from the real machinery.",
-      "contract": "`node build/vendor-federation.mjs` writes the view. No arguments."
-    },
-    {
-      "path": "build/local-management-provider.mjs",
-      "type": "build",
-      "group": null,
-      "role": "the local provider behind the management contract. Implements the kernel-level operations over the REAL federation and adoption layer, in process: listKernels/readKernel/readCrossings read the four members and their pins and crossings from buildBottomUp and the adoption layer; adopt pins a shared type-hash and recomputes the crossings it changed; fork derives a child kernel through api/fork.js; cross computes a crossing's native-or-untyped status through the crossing rule. This is the management sibling of api/providers/local-provider.mjs.",
-      "contract": "createLocalManagementProvider() -> { kind, listKernels, readKernel, readCrossings, adopt, fork, cross }. No arguments; it builds the federation itself."
+      "role": "freeze the raw federation facts the management provider runs over into one snapshot, the management sibling of vendor/gate/snapshot.json. It writes the kind rows each member declares, the crossings between members and the claim each crosses, and the common-kind names, all read from the real buildBottomUp and the adoption layer. It writes no computed pin or status: the provider computes those live with the real hashTypeBundle and the crossing rule, exactly as the claim provider computes grades live from the claim snapshot.",
+      "contract": "`node build/vendor-management.mjs` writes vendor/management/management-snapshot.json. No args."
     },
     {
       "path": "build/check-management.mjs",
       "type": "build",
       "group": null,
-      "role": "the acceptance oracle for the management contract and its local provider. Confirms the contract is a faithful membrane over the real machinery: listKernels/readKernel/readCrossings return exactly what buildBottomUp and the adoption layer compute directly, adopt changes a crossing from untyped to native and the receipt reflects it, cross returns untyped for an unadopted type and native for a shared one, and the contract's outputs equal the machinery's direct outputs, so the contract is proven to hold no adoption or crossing logic of its own.",
-      "contract": "`node build/check-management.mjs` exits non-zero on any failure. Imports the management contract, the local management provider, and (for the cross-check) the adoption layer directly."
+      "role": "the acceptance oracle for the management contract and its local provider. Confirms the contract is a faithful membrane over the real machinery: the provider runs over the vendored management snapshot and its listKernels/readKernel/readCrossings equal what the adoption layer computes directly, adopt changes a crossing from untyped to native and the receipt reflects it, cross returns untyped for an unadopted type and native for a shared one, and the contract's outputs equal the provider's own, so the contract holds no adoption or crossing logic of its own and the provider is proven a faithful running of build/adoption, not a divergent copy.",
+      "contract": "`node build/check-management.mjs` exits non-zero on any failure. Imports the management contract, the api-layer local management provider, the vendored snapshot, and (for the cross-check) the adoption layer directly."
     },
     {
       "path": "build/build-manager-probe.mjs",
       "type": "build",
       "group": null,
-      "role": "build the standalone kernel-manager probe page. Runs build/vendor-federation.mjs, then inlines the shell, the manager module, the vendored contract and snapshot, and the federation view into one file (manager-probe.html) that opens from file:// with no server. Separate from build/bundle.js on purpose: this slice ships its own probe page and does not rebuild submission.html.",
+      "role": "build the standalone kernel-manager page. Runs build/vendor-management.mjs and build/vendor-gate-browser.mjs, then inlines the shell, the manager module, the vendored claim and management contracts, the claim snapshot, and the management snapshot into one file (manager-probe.html) that opens from file:// with no server. Separate from build/bundle.js on purpose: this slice ships its own page and does not rebuild submission.html.",
       "contract": "`node build/build-manager-probe.mjs` writes manager-probe.html at the repo root. No arguments."
     },
     {
@@ -1593,6 +1593,20 @@
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-management-provider.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/providers/local-management-provider.mjs",
+      "to": "api/fork.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "api"
     },
     {
       "from": "api/providers/local-provider.mjs",
@@ -2380,10 +2394,10 @@
     },
     {
       "from": "build/check-management.mjs",
-      "to": "build/local-management-provider.mjs",
+      "to": "api/providers/local-management-provider.mjs",
       "type": "imports",
       "fromLayer": "build",
-      "toLayer": "build"
+      "toLayer": "api"
     },
     {
       "from": "build/check-management.mjs",
@@ -3072,34 +3086,6 @@
       "toLayer": "kernel"
     },
     {
-      "from": "build/local-management-provider.mjs",
-      "to": "corpora/_shared/common-types.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/local-management-provider.mjs",
-      "to": "build/adoption.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "build"
-    },
-    {
-      "from": "build/local-management-provider.mjs",
-      "to": "build/bottomup-build.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "build"
-    },
-    {
-      "from": "build/local-management-provider.mjs",
-      "to": "api/fork.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "api"
-    },
-    {
       "from": "build/translate-trellis.mjs",
       "to": "kernel/schema/records.mjs",
       "type": "imports",
@@ -3212,27 +3198,6 @@
       "toLayer": "build"
     },
     {
-      "from": "build/vendor-federation.mjs",
-      "to": "corpora/_shared/common-types.js",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "corpus"
-    },
-    {
-      "from": "build/vendor-federation.mjs",
-      "to": "build/bottomup-build.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "build"
-    },
-    {
-      "from": "build/vendor-federation.mjs",
-      "to": "build/adoption.mjs",
-      "type": "imports",
-      "fromLayer": "build",
-      "toLayer": "build"
-    },
-    {
       "from": "build/vendor-lhc.mjs",
       "to": "kernel/analysis/robustness.mjs",
       "type": "imports",
@@ -3249,6 +3214,27 @@
     {
       "from": "build/vendor-lhc.mjs",
       "to": "build/lhc-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-management.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/vendor-management.mjs",
+      "to": "build/bottomup-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/vendor-management.mjs",
+      "to": "build/adoption.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
@@ -3553,6 +3539,11 @@
     {
       "from": "build/bottomup-build.mjs",
       "to": "corpora/federation/federation.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/vendor-management.mjs",
+      "to": "corpora/_shared/common-types.js",
       "type": "loads-corpus"
     },
     {

@@ -34,6 +34,14 @@ const MODULES = [
   "api/providers/local-provider.mjs",
   "api/providers/remote-provider.mjs",
   "api/client-api.mjs",
+  // the management contract and its local provider, so the kernel manager drives kernel-level reads and
+  // writes (list, adopt, fork, cross) client-side over a management snapshot, the same way the claim
+  // contract drives propose/read over the claim snapshot. type-hash is the real content-addressing the
+  // provider computes pins with; fork.js is the kernel-level fork it delegates to.
+  "kernel/schema/type-hash.mjs",
+  "api/fork.js",
+  "api/management-api.mjs",
+  "api/providers/local-management-provider.mjs",
 ];
 // the surface the compose-gate panel consumes.
 const EXPOSE = ["claimRecord", "linkRecord", "makeSourceTable", "makeKindTable", "genesis", "apply", "storeViewOf", "decide", "hashOf"];
@@ -94,6 +102,10 @@ out += "root.EpiGate = " + exposeObj(EXPOSE) + ";\n";
 out += "root.EpiClientApi = " + exposeObj(["createClientApi"]) + ";\n";
 out += "root.EpiLocalProvider = " + exposeObj(["createLocalProvider"]) + ";\n";
 out += "root.EpiRemoteProvider = " + exposeObj(["createRemoteProvider"]) + ";\n";
+// EpiManagementApi / EpiLocalManagementProvider: the management contract and its local provider, so the
+// kernel manager drives list/read/adopt/fork/cross client-side over the management snapshot.
+out += "root.EpiManagementApi = " + exposeObj(["createManagementApi"]) + ";\n";
+out += "root.EpiLocalManagementProvider = " + exposeObj(["createLocalManagementProvider"]) + ";\n";
 out += "})(typeof window !== \"undefined\" ? window : globalThis);\n";
 
 const dest = join(ROOT, "vendor/gate/gate.bundle.js");

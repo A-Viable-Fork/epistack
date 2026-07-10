@@ -2,7 +2,7 @@
 Type: argument
 Purpose: Argues the whole submission for a judge, as the furthest-derived leaf that compiles the sources and points at where the truth lives.
 Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
-Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md, docs/vision-and-continuation.md
 ---
 
 # What Stands Without Trust
@@ -103,6 +103,8 @@ The claim that the contribution is the type, not the instance, is a checked fact
 ## Where it points
 
 The bottom-up meta kernel is built, the four cases federated as standalone members and verified, and it is the arrangement for a different regime, many authors who will never share a schema. Independent kernels, each owning its own types, join at the untyped type; composites select members per question; standing crosses only by owned forks; retail forks accumulate into wholesale ones, so a federation grows a shared vocabulary out of use, the way a path becomes a road because people kept walking it. `build/check-bottomup.mjs` runs the four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork, and that same-hash crossings compose native. The mechanics, the composite, the transfer semantics, and the standards-from-use dynamics are detailed in the appendix and run by the bottom-up build. What draws the line between what a community sets locally and what every kernel must hold to stay composable is [The Parameters Register](parameters-register.md): a free tier a community configures to its own situation, time locks, standing rules, agent policy, type system, and a thin required tier of composition invariants no kernel may break without leaving the protocol. Diversity in the free tier, unity in the required tier, is the same taxonomy seen as governance, and it is what makes the configurability concrete rather than gestured at. The submission built the right thing for one author spanning three domains, and it built and checked the federation for many, with the coordination fabric that governs writes at scale the specified frontier above it.
+
+Where this goes past the built work, the continuation and why the next phase is worth funding, is set out in [Where This Goes](vision-and-continuation.md): the destination, the roadmap that begins at a present problem, and why the commercial path aligns with the commons rather than capturing it.
 
 ## A note on evaluating an enabler
 

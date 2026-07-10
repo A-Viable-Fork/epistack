@@ -47,8 +47,9 @@
 
 <!-- the store snapshot the contract reads (the live grade side of the surface) -->
 <script type="application/json" id="pw-snapshot">@@INCLUDE:vendor/gate/snapshot.json@@</script>
-<!-- the federation view: members, tiers, crossings, and the adopt probe, from build/vendor-federation.mjs -->
-<script type="application/json" id="federation-view">@@INCLUDE:vendor/federation/federation-view.json@@</script>
+<!-- the management snapshot: the raw federation facts the management provider runs over, from
+     build/vendor-management.mjs. The provider computes pins and statuses live; nothing here is an answer. -->
+<script type="application/json" id="management-snapshot">@@INCLUDE:vendor/management/management-snapshot.json@@</script>
 
 <!-- the vendored propose/read contract and providers (window.EpiClientApi / EpiLocalProvider) -->
 <script>@@INCLUDE:vendor/gate/gate.bundle.js@@</script>
