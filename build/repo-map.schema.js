@@ -48,12 +48,12 @@ function typeForPath(rel) {
 }
 
 // the group of a path within its layer. Kernel: its sub-directory. Periphery: producer for the
-// producing surfaces (ingest, author, redteam), consumer for the rest. Open elsewhere.
+// producing surfaces (ingest, produce, author, redteam), consumer for the rest. Open elsewhere.
 function groupForPath(rel, type) {
   rel = rel.replace(/\\/g, "/").replace(/^\.\//, "");
   const parts = rel.split("/");
   if (type === "kernel") return parts[1] || null;
-  if (type === "periphery") return ["ingest", "author", "redteam"].includes(parts[1]) ? "producer" : "consumer";
+  if (type === "periphery") return ["ingest", "produce", "author", "redteam"].includes(parts[1]) ? "producer" : "consumer";
   return null; // open
 }
 

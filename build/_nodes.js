@@ -186,6 +186,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-produce.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-map.mjs",
     "type": "build"
   },
