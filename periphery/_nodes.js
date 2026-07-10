@@ -26,6 +26,26 @@ module.exports = [
     "group": "producer"
   },
   {
+    "path": "periphery/ingest/rate-limit.mjs",
+    "type": "periphery",
+    "group": "producer"
+  },
+  {
+    "path": "periphery/ingest/arxiv.mjs",
+    "type": "periphery",
+    "group": "producer"
+  },
+  {
+    "path": "periphery/ingest/openalex.mjs",
+    "type": "periphery",
+    "group": "producer"
+  },
+  {
+    "path": "periphery/ingest/to-sources.mjs",
+    "type": "periphery",
+    "group": "producer"
+  },
+  {
     "path": "periphery/navigate/clients/clients.js",
     "type": "periphery",
     "group": "consumer"

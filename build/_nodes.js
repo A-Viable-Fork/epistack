@@ -182,6 +182,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-ingest.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-map.mjs",
     "type": "build"
   },

@@ -116,6 +116,12 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/author/author.js` | the authoring and curation tools: add claims, propose groundings, discharge open questions, record refutations, AI-assisted |
 | `periphery/filter/filter.js` | the forum filter: reader-side tier selection over what the kernel keeps down to the raw tier; openness at the bottom, strictness at the floor |
 | `periphery/ingest/ingest.js` | the ingestion pipeline: read messy multi-source material, emit attributed candidate claims with proposed types and links, submit through the gate |
+| `periphery/ingest/rate-limit.mjs` | a minimum-interval rate limiter enforced by construction: guarantees arXiv's one-request-per-three-seconds spacing (and a polite OpenAlex interval) with an injectable clock so the spacing is testable without waiting |
+| `periphery/ingest/arxiv.mjs` | the arXiv metadata connector: queries the Atom API (or replays a saved fixture offline), parses descriptive metadata deterministically, and returns normalized works with the abstract-page link back; metadata only, never the full-text e-print |
+| `periphery/ingest/openalex.mjs` | the OpenAlex metadata connector: queries the works API (or replays a saved fixture offline) with a polite delay and client identification, parses metadata deterministically, and carries the venued-versus-not distinction for honest classing |
+| `periphery/ingest/to-sources.mjs` | maps normalized ingested works into kernel source rows in the real shape, with the honest class mapping (arXiv preprint; OpenAlex peer-reviewed when venued, else preprint) and a link back in every description; pure and deterministic |
+| `periphery/ingest/fixtures/arxiv-sample.xml` | a saved arXiv Atom response, the offline replay fixture the ingest check parses deterministically |
+| `periphery/ingest/fixtures/openalex-sample.json` | a saved OpenAlex works response, the offline replay fixture the ingest check parses deterministically |
 | `periphery/navigate/clients/blueprint.json` | data (JSON) |
 | `periphery/navigate/clients/clients.js` | the registered client descriptors. A client is a forkable unit over the untouched |
 | `periphery/navigate/clients/palette.js` | the thin-client palette and the manifest validator. A thin client is a single |
@@ -205,6 +211,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/shell/modules/guided-path.js` | the guided path as a shell module (Prompt 29): the three counterexamples staged in sequence, each stop carrying its fluent reading, its counterexample, its reproducible receipt, and a pointer into the case region; reads the vendored reading, computes no grade |
 | `periphery/navigate/shell/modules/eggs-case.js` | the restructured eggs case as a shell module (Prompt 20): renders the vendored reading, the domains grounded to their floors, the weighings at structured-forum, the characterized gaps with closing conditions, and the exercisable denominator swap |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
+| `build/check-ingest.mjs` | the ingestion connector's oracle: from saved arXiv and OpenAlex fixtures it proves valid source rows makeSourceTable accepts, the metadata-only legal boundary (link back in every row, no full text), the rate limiter's three-second interval on a virtual clock, and one ingested source grounding a real claim through the propose contract |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |

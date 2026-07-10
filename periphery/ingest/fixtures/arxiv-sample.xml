@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+  <title>ArXiv Query: search_query=all:metascience</title>
+  <entry>
+    <id>http://arxiv.org/abs/2401.01234v2</id>
+    <updated>2024-02-01T00:00:00Z</updated>
+    <published>2024-01-02T00:00:00Z</published>
+    <title>Reproducibility signals in large-scale preprint corpora</title>
+    <summary>We study descriptive signals of reproducibility across a large preprint corpus and report
+      aggregate patterns in reported effect sizes. This abstract is descriptive metadata only.</summary>
+    <author><name>A. Researcher</name></author>
+    <author><name>B. Collaborator</name></author>
+    <author><name>C. Third</name></author>
+    <arxiv:primary_category term="cs.DL" scheme="http://arxiv.org/schemas/atom"/>
+    <link href="http://arxiv.org/abs/2401.01234v2" rel="alternate" type="text/html"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2312.05678v1</id>
+    <updated>2023-12-11T00:00:00Z</updated>
+    <published>2023-12-10T00:00:00Z</published>
+    <title>A measurement note on citation half-lives &amp; decay</title>
+    <summary>A short measurement note on how citation attention decays over time in open repositories.</summary>
+    <author><name>D. Solo</name></author>
+    <arxiv:primary_category term="cs.DL" scheme="http://arxiv.org/schemas/atom"/>
+    <link href="http://arxiv.org/abs/2312.05678v1" rel="alternate" type="text/html"/>
+  </entry>
+</feed>
