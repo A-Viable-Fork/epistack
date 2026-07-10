@@ -46,6 +46,22 @@ module.exports = [
     "group": "producer"
   },
   {
+    "path": "periphery/produce/propose-tool.mjs",
+    "type": "periphery",
+    "group": "producer"
+  },
+  {
+    "path": "periphery/produce/mcp-server.mjs",
+    "type": "periphery",
+    "group": "producer",
+    "flows": [
+      {
+        "type": "reads-through-api",
+        "to": "api/client-api.mjs"
+      }
+    ]
+  },
+  {
     "path": "periphery/navigate/clients/clients.js",
     "type": "periphery",
     "group": "consumer"

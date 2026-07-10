@@ -4,7 +4,7 @@ Purpose: Describes the boundary layer for a reader who has opened api/, deferrin
 Depends on: nothing
 Depended on by: nothing
 Code depends on: kernel/README.md
-Code depended on by: nothing
+Code depended on by: periphery/README.md
 ---
 
 # api/

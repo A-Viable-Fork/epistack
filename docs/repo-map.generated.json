@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 179,
-  "edgeCount": 362,
+  "nodeCount": 182,
+  "edgeCount": 369,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -557,6 +557,20 @@
       "contract": "worksToSources([work]) -> [{ source_id, source_class, description }], sorted by source_id and deduplicated. An arXiv work is a preprint; an OpenAlex work with a published venue is peer-reviewed, one without is a preprint. Pure and deterministic. Periphery: imports nothing; never the kernel."
     },
     {
+      "path": "periphery/produce/propose-tool.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "the MCP tool definition for authoring a claim. Its inputSchema is the propose contract's proposedClaim shape as a JSON Schema, marked strict so the schema is a grammar the agent's output must satisfy: structural hallucination is eliminated by construction, the agent cannot emit a malformed claim. This is a pure definition; it gates the agent's structure and holds no grading.",
+      "contract": "proposeToolDefinition(kinds) -> an MCP tool { name, description, inputSchema, strict:true }, with kind constrained to the kernel's real kinds and declared_grade to the real grade values. GRADES and PROPOSE_TOOL_NAME are exported for the server and the check. Periphery: imports nothing."
+    },
+    {
+      "path": "periphery/produce/mcp-server.mjs",
+      "type": "periphery",
+      "group": "producer",
+      "role": "a minimal MCP server exposing the propose tool over the standard interface. tools/list returns the schema-gated propose tool; tools/call validates the agent's arguments against the tool's strict inputSchema at the boundary (structure enforced by the schema) and, only if they pass, drives them through the real propose contract (grounding enforced by the gate). It is the transport between an agent's tool call and the gate; it holds no grading logic.",
+      "contract": "createProduceServer({ provider, kinds }) -> { handle(request) -> response, tool }. handle speaks the MCP/JSON-RPC request shape { id, method, params }; methods tools/list and tools/call. Periphery: imports the api contract and the sibling tool definition; never the kernel."
+    },
+    {
       "path": "periphery/navigate/clients/clients.js",
       "type": "periphery",
       "group": "consumer",
@@ -1003,6 +1017,13 @@
       "group": null,
       "role": "the acceptance oracle for the ingestion connector. From saved arXiv and OpenAlex response fixtures it proves the connector produces valid kernel source rows (real class, real shape) that makeSourceTable accepts, that every row carries its link back and holds no full-text body (the legal boundary, asserted), that the rate limiter enforces the three-second interval by construction against a virtual clock, and that the two halves of the pipeline meet: one ingested source enters a kernel's source table and a claim citing it is authored through the real propose contract, receipt and all.",
       "contract": "`node build/check-ingest.mjs` exits non-zero on any failure. Build layer: imports the periphery connector modules, the kernel source table, and the api propose contract for the demo."
+    },
+    {
+      "path": "build/check-produce.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the acceptance oracle for the producer connector. It proves producer-agnosticism at the tool boundary: a claim authored through the schema-gated MCP tool is graded by the same gate as a human's, an over-declared claim is demoted by the gate, and a structurally invalid input is rejected by the schema before the gate is reached. The agent side is simulated deterministically (well-formed tool inputs, as a strict-tool-use agent would emit), so the proof runs offline with no live model.",
+      "contract": "`node build/check-produce.mjs` exits non-zero on any failure. Build layer: imports the periphery MCP server and tool, the api contract and local provider, and the vendored snapshot."
     },
     {
       "path": "build/check-map.mjs",
@@ -1744,6 +1765,20 @@
     {
       "from": "periphery/ingest/openalex.mjs",
       "to": "periphery/ingest/rate-limit.mjs",
+      "type": "imports",
+      "fromLayer": "periphery",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "periphery/produce/mcp-server.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "periphery",
+      "toLayer": "api"
+    },
+    {
+      "from": "periphery/produce/mcp-server.mjs",
+      "to": "periphery/produce/propose-tool.mjs",
       "type": "imports",
       "fromLayer": "periphery",
       "toLayer": "periphery"
@@ -2671,6 +2706,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-produce.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-produce.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-produce.mjs",
+      "to": "periphery/produce/mcp-server.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
+    },
+    {
+      "from": "build/check-produce.mjs",
+      "to": "periphery/produce/propose-tool.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "periphery"
     },
     {
       "from": "build/check-reconcile.mjs",
@@ -3622,6 +3685,11 @@
       "from": "api/providers/local-provider.mjs",
       "to": "kernel/gate/gate.mjs",
       "type": "gated-write"
+    },
+    {
+      "from": "periphery/produce/mcp-server.mjs",
+      "to": "api/client-api.mjs",
+      "type": "reads-through-api"
     },
     {
       "from": "periphery/navigate/fat/auditor.js",
