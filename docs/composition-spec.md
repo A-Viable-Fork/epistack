@@ -2,7 +2,7 @@
 Type: specification
 Purpose: Defines how kernels compose, the untyped type and the crossing, as the canonical source the composition code and the other documents cite.
 Depends on: docs/kernel-taxonomy.md, docs/knowledge-system-how.md
-Depended on by: docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/parameters-register.md, docs/status-ledger.md
+Depended on by: docs/coordination-layer-spec.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/parameters-register.md, docs/status-ledger.md
 ---
 
 # The Composition Specification

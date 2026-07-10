@@ -2,7 +2,7 @@
 Type: record
 Purpose: Records the single source of build truth, so every other document cites status here rather than re-asserting it.
 Depends on: docs/architecture-the-unownable-graph.md, docs/composition-spec.md, docs/design-axioms.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/sorry-ledger.md, docs/trellis-to-v3.md
-Depended on by: CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/criteria-to-architecture-map.md, docs/reading-the-brief.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md
+Depended on by: CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/coordination-layer-spec.md, docs/criteria-to-architecture-map.md, docs/reading-the-brief.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md
 ---
 
 # Status Ledger
@@ -122,15 +122,15 @@ Many standalone kernels composing through a thin shared layer, so whole bodies o
 
 ## Stage 4: The coordination fabric
 
-The machinery that lets distributed parties write without anyone owning the result, and that makes capture of the commons recoverable. This is the unownable-graph design.
+The machinery that lets distributed parties write without anyone owning the result, and that makes capture of the commons recoverable. This is the unownable-graph design. The fabric is now developed as a worked specification in `docs/coordination-layer-spec.md`, which designs each mechanism to the level of the function it must perform and the fixed properties any filling must hold, with the forms left free, and shows the layer growing from the built grade computation extended from claims to participants. It remains specified, not built: the spec makes the frontier legible without closing it, and every entry below keeps the status it holds here.
 
 **[4.1] Layered access.** A private personal layer, an open forum layer carrying no verification weight, and the gated canonical layer. Specified.
 
-**[4.2] Time-locked standing.** The non-transferable, decaying, domain-typed, revocable labor credential that gates the canonical write, earned by sampled verifiable work and priced in elapsed time so compute cannot front-load it. Specified.
+**[4.2] Time-locked standing.** The non-transferable, decaying, domain-typed, revocable labor credential that gates the canonical write, earned by sampled verifiable work and priced in elapsed time so compute cannot front-load it. Specified. `docs/coordination-layer-spec.md` develops the mechanism as standing-is-a-weighting-not-a-currency read from an active-tenure record, with the fixed property a concave threshold-free weighting that decays with inactivity; it leaves the curve's form and steepness free and names that steepness as a real openness-against-security tradeoff on its own frontier rather than resolving it.
 
 **[4.3] The Knowledge Game.** The gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh that flags sterile agreement, and stratified random verification with asymmetric quorum. Specified.
 
-**[4.4] The red-team immune system.** Super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing. Specified.
+**[4.4] The red-team immune system.** Super-stake challenges adjudicated by the standing population on rotation, bountied and anti-self-dealing. Specified. `docs/coordination-layer-spec.md` develops the mechanism as the opposed random draws on every claim, at least one random verifier and at least one random red-teamer, whose opposition is what removes collusion without trusting anyone to be fair; the fixed property is that there is at least one unsteerable draw of each opposed role, with how many beyond the minimum left to a community's contract.
 
 **[4.5] The patch ledger.** Storage as a tamper-evident, append-only sequence of sealed canonical patches, so a captured present cannot un-verify the past. Specified.
 
@@ -138,7 +138,7 @@ The machinery that lets distributed parties write without anyone owning the resu
 
 ### Open seams in Stage 4
 
-Named risks in the coordination design, each with what would resolve it.
+Named risks in the coordination design, each with what would resolve it. `docs/coordination-layer-spec.md` gives these seams a designed context rather than a closure: it treats standing as a weighting read from a record and freezes each community's parameterization as a governance-hash so standing composes across communities, and it names the same open questions as its own frontier, the joint stability of several floating parameters as a per-configuration property to be tested not claimed, the best form for each slot as unknown and left to the market of governance-hashes, the steepness of the concave weighting as a genuine tradeoff, the seed corpus as an honest genesis, and tradable stake as the line past which standing becomes a currency, held beyond scope. The seams stay open; the spec makes them legible.
 
 **[S1] The nonemptiness of the lever space.** The time-lock and standing are levers a community sets to price gaming above the value of capture while keeping the price of honest contribution bounded (the free tier, `docs/parameters-register.md`). The direction is an argument, not a pending computation: standing priced in elapsed time rises with the window while capture value is fixed, so a longer window raises the cost of gaming. What stays open is whether the window that beats capture for a given stake and adversary is also short enough that honest standing survives its own decay, so the usable interval is nonempty. This is conditional on the sampling the levers rely on being unfakeable, so [S1] rests on [S2] and [S4] rather than beside them. Closes with the interval shown nonempty for a stated stake and adversary, under a sampling-integrity result from [S2].
 

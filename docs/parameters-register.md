@@ -2,7 +2,7 @@
 Type: reference
 Purpose: Draws the line between the free tier a community configures and the required tier a kernel must hold, as the reference for what is local policy and what is a composition invariant.
 Depends on: docs/composition-spec.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
-Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
+Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/coordination-layer-spec.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
 ---
 
 # The Parameters Register
@@ -40,6 +40,14 @@ Claims carry their history. A claim carries the record of its origin, its crossi
 Standing is forkable and revocable. Captured or poisoned state can be forked away from, and misassigned standing can be revoked. A kernel whose captured state could not be forked would trap anyone who composed it, so forkability is a promise a kernel makes to those who build on it, not only a defense it keeps for itself.
 
 That is close to the whole required tier. Its smallness is the design: these are what a kernel must promise to be composable, and everything else is free.
+
+## Function and contract: the free tier has structure
+
+The two-tier line is sharp, but each tier has an internal shape the coordination layer names, and this register carries that vocabulary so the two documents speak as one. A required invariant is better understood as a function: a slot and the properties any filling of it must have. The function is fixed because it is exactly what must match for two kernels to compose, the shared meaning their standing and their claims translate across.
+
+A free parameter, seen from the same angle, is a community's contract filling a function, and a contract has two parts. Its form is its type, the specific choice that fills the slot. Its parameters are its values. Two contracts of the same form differ only in parameters and compose almost as one; two of different form are a cross-type difference that needs translation, which is the untyped-type move applied to the rules themselves rather than to the claims. The form is the part of a contract that does not float; the parameters are the part that can.
+
+A parameter is static or floating. A static parameter is set flat, a value the community chooses and leaves. A floating parameter is set as a function of the community's own local state, a governor rather than a number, and it floats on local state only, never on federation-global state, so a community stays sovereign in its economy. That static-or-floating distinction is the free tier's internal structure the original two-tier line did not name. This section formalizes the vocabulary; `docs/coordination-layer-spec.md` is its worked development, applying function, contract, form, and parameter to the coordination mechanisms and sorting them into a fixed, a free-static, and a free-floating tier.
 
 ## Why the two tiers answer the maintainability question
 
