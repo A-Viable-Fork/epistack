@@ -61,6 +61,10 @@
 .lineage-more{margin:.8em 0;border:1px solid #ddd;border-radius:6px;padding:.4em .8em;background:#fafafa;}
 .lineage-more summary{cursor:pointer;font-weight:600;}
 .lineage-more h4{margin:.6em 0 .2em;}
+.compost-entry{border-left:2px solid var(--sh-rule,#2a3441);padding:.2em 0 .2em .9em;margin:1em 0;}
+.compost-title{font-weight:700;margin-bottom:.2em;}
+.compost-body{margin:.2em 0;}
+.compost-react{font-size:.9em;color:var(--sh-faint,#8A96A0);font-style:italic;margin-top:.3em;}
 </style>
 </head>
 <body>
@@ -155,6 +159,8 @@
 <script type="application/json" id="management-snapshot">@@INCLUDE:vendor/management/management-snapshot.json@@</script>
 <!-- the vision document (the reading's capstone), rendered by the capstone module (not copied) -->
 <script type="text/markdown" id="vision-doc">@@INCLUDE:docs/vision-and-continuation.md@@</script>
+<!-- the compost ledger (the research record, a fork after the vision), rendered by its module (not copied) -->
+<script type="text/markdown" id="compost-doc">@@INCLUDE:docs/compost-ledger.md@@</script>
 <!-- the accessible register of the judges document (window.EpiRegisters), read by the prose module -->
 <script>@@INCLUDE:corpora/registers/judges-accessible.js@@</script>
 
@@ -178,6 +184,7 @@
 <script>@@INCLUDE:periphery/navigate/shell/modules/manager.js@@</script>
 <script>@@INCLUDE:periphery/navigate/shell/modules/on-ramp.js@@</script>
 <script>@@INCLUDE:periphery/navigate/shell/modules/vision-capstone.js@@</script>
+<script>@@INCLUDE:periphery/navigate/shell/modules/compost-ledger.js@@</script>
 <!-- boot: bind the contract to the local provider and compose the registered modules -->
 <script>
 (function () {
