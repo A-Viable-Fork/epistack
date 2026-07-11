@@ -214,6 +214,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `periphery/navigate/shell/modules/lineage-case.js` | the lineage as the critique's fourth exhibit, lighter than the domain cases: it leads with the novelty conjecture and its earned grade, shows the five near-miss gaps that ground it, and puts the institutions where the mechanisms already run by hand one click down; renders the vendored reading and shows the gate's demotions as the finding |
 | `periphery/navigate/shell/modules/on-ramp.js` | the on-ramp reach, the reading's turn from operating the kernels to making your own: it names as built and reachable the generator, the self-contained kernel file and detached-repo download, and the two connectors with their checks, without inlining a second running kernel |
 | `periphery/navigate/shell/modules/vision-capstone.js` | the reading's capstone: renders docs/vision-and-continuation.md as the terminal section so the scroll ends on the destination; a light markdown pass over the canonical source, edited nowhere |
+| `periphery/navigate/shell/modules/compost-ledger.js` | the compost ledger as a reading exhibit (order 501, a fork after the vision, not spine): renders docs/compost-ledger.md, the approaches killed while building, each with its kill and reactivation, so a judge audits the kills; renders the canonical source, edited nowhere |
 | `periphery/navigate/shell/modules/guided-path.js` | the guided path as a shell module (Prompt 29): the three counterexamples staged in sequence, each stop carrying its fluent reading, its counterexample, its reproducible receipt, and a pointer into the case region; reads the vendored reading, computes no grade |
 | `periphery/navigate/shell/modules/eggs-case.js` | the restructured eggs case as a shell module (Prompt 20): renders the vendored reading, the domains grounded to their floors, the weighings at structured-forum, the characterized gaps with closing conditions, and the exercisable denominator swap |
 | `build/check-client.mjs` | the propose/read contract's oracle (Prompt 10). Runs propose/read over the local provider and confirms the receipt is byte-identical to a direct kernel run |
@@ -245,11 +246,12 @@ argument, not in the corpus (they carry no gate node), and their repo-path refer
 | `docs/trellises/black-holes-reconstruction-trellis.md` | the LHC black-hole safety argument reconstructed around the framework-choice node: the empirical anchor, the shared dependencies the robustness reading finds, Plaga's undercut, and the performed-settling finding (`corpora/lhc`, Prompt 25) |
 | `docs/trellises/eggs-completeness-trellis.md` | the "should I eat eggs?" question-set completeness test: the four-word parse, the provenance sign-flip surfaced as the denominator node, and the coupled-subsystem deepening with its four structural moves (`corpora/eggs`, Prompts 20 and 26) |
 
-## docs/ (the specified frontier)
+## docs/ (the specified frontier and the record)
 
 | file | role |
 |---|---|
 | `docs/coordination-layer-spec.md` | the coordination-layer specification: the frontier where many communities validate and build on each other's claims, designed as the built grade computation extended from claims to participants (standing is to participants what grade is to claims); it develops the parameters register's line into a function-and-contract vocabulary and the status ledger's Stage 4 into a worked design, and draws the built-versus-specified line sharply, the grade machinery built, the coordination layer specified |
+| `docs/compost-ledger.md` | the compost ledger: the twenty-two approaches taken seriously while building EpiStack and then killed for a characterized reason, each with its kill and its reactivation condition, ordered by how much the kill shaped the final design, so a reader audits the kills rather than take the finished structure on trust |
 
 ## root tooling
 
