@@ -98,7 +98,7 @@ const stop_eggs = {
 
 const reading = {
   generated_by: "build/vendor-demo.mjs",
-  lede: "Three cases, three things a fluent synthesis buries, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
+  lede: "Three cases where a good synthesis gives the fluent reading and one viewpoint cannot surface the rest, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
   stops: [stop_lhc, stop_covid, stop_eggs],
   // where the walk hands off past the three cases: the two supporting documents that generalize it.
   // effective regions in their own right, one for what the structure enables, one for how it holds under attack.

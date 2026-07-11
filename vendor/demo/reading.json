@@ -1,6 +1,6 @@
 {
   "generated_by": "build/vendor-demo.mjs",
-  "lede": "Three cases, three things a fluent synthesis buries, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
+  "lede": "Three cases where a good synthesis gives the fluent reading and one viewpoint cannot surface the rest, each surfaced by the structure. Each stop is a reproducible receipt: run the oracle and the counterexample fires, or it is a wiring finding.",
   "stops": [
     {
       "case": "case-lhc-cascade",
