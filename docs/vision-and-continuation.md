@@ -21,6 +21,20 @@ The submission itself is the first working step toward that destination, not a d
 
 What is built to that shape today: the reading and its grounding, the cases in depth, the generator that instantiates a kernel from a config, and the federation of four standalone kernels operated through a real contract. What is specified is the completion of that surface into a full on-ramp, the point where a newcomer builds their own kernel and federates it. The artifact is the destination's first instance at the maturity the status ledger records, no more and no less.
 
+## What the substrate enables
+
+The checkable claim-graph makes surfaces possible that static prose cannot support. Each is graded here by how strongly the architecture enables it and how near it is, so this reads as grounded futures rather than a wishlist. A surface named near is mostly assembly over what already exists.
+
+Two are near and strongly enabled, and each is a case in the submission turned into a live tool.
+
+A disagreement resolver that shows the crux, not the argument. Given two positions, it walks their claim-graphs, finds where they diverge, and surfaces the single node the disagreement turns on, the prior, the frame, or the reified dependency. This is enabled specifically because the structure locates cruxes mechanically, which prose cannot do, and it is the COVID and eggs cases made operable: the crux resolution those cases already compute, offered as a surface. Near.
+
+A confidence-propagation view. Because every claim carries its provenance and its grade is derived on read, weakening or retracting a source re-grades every downstream claim live. This is the tool that would have caught the citations the lineage case found still treating a retracted finding as valid, so it is the lineage retraction finding made preventive. It is enabled by the provenance chain and is impossible over static prose. Near.
+
+These are not new capabilities. They are the epistemic work the cases already do, offered as surfaces. The uplift is on the claim axis, improving the knowledge object rather than teaching a reader faster, which is where the submission contributes.
+
+Three more are enabled but far, the ecosystem's horizon rather than its next step, named as ambition rather than promise. A what-would-change-my-mind surface that computes, for any claim, the evidence that would move its grade, read from its characterized gaps. A cross-domain resonance finder that matches a new claim to the atlas patterns it shares with unrelated domains, so a physics move surfaces its structural twin in nutrition. A live literature surface where papers enter as sources and the state of knowledge on a question is a computed current graph rather than a stale review. Each rests on machinery the submission has in kind and would take real building to reach; they mark the direction, not the next commit.
+
 ## The roadmap begins at a problem that exists now
 
 The next phase does not begin with the commons in the abstract. It begins with an institution in acute, present, public pain from the exact problem this work addresses.
