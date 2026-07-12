@@ -50,10 +50,11 @@ The submission has three layers. The kernel is the checkable core: the schema, t
 
 So read the periphery by its allocation rule: it is thick exactly where the protocol needs thickness to spread, and nowhere else. A guided walk exists so you can see the three counterexamples with reproducible receipts. A kernel manager exists so you can operate a federation of four kernels and author a claim through the real gate. A generator and an on-ramp exist so a stranger can stand up a kernel of their own from a config file. What is absent is product polish, and it is absent on purpose: polish is what the contract lets others add.
 
-Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method.
+Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method. The honest form of an answer to this problem is open rather than finished, and [On Transparency](on-transparency.md) says why.
 
 ## Go deeper
 
+- **Why the open form:** [On Transparency](on-transparency.md), why the honest answer to this problem is an open system rather than a finished one
 - **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
 - **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
 - **Feed a source in, ask a question out:** [The Workflow Atlas](workflow-atlas.md), how any producer feeds a source into the gate and any consumer queries the graph the gate protects

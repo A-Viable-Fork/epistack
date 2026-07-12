@@ -454,8 +454,8 @@ not take your word for independence: it prices it from the source table. Paste t
 <script type="text/markdown" id="judges-doc">---
 Type: argument
 Purpose: Argues the whole submission for a judge, as the furthest-derived leaf that compiles the sources and points at where the truth lives.
-Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
-Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md, docs/the-climb-of-synthesis.md, docs/vision-and-continuation.md
+Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/on-transparency.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/on-transparency.md, docs/reading-the-brief.md, docs/the-climb-of-synthesis.md, docs/vision-and-continuation.md
 ---
 
 # What Stands Without Trust
@@ -545,7 +545,7 @@ The submission's second job follows from the first. A top-down kernel whose sche
 
 ### The climb, built and checked
 
-The claim that the contribution is the type, not the instance, is a checked fact, because the type is carried up four steps and each step has an oracle. The type is the knowledge kernel, built here as the top-down instance and demonstrated on the three cases above. The content-addressed crossing is next: a type is a bundle whose hash freezes its meaning, so two kernels that mean the same thing by a type pin the same hash, and `build/check-crossing.mjs` proves a same-hash crossing composes native and lossless while an unpinned crossing arrives untyped and grounds nothing until a fork restores standing. `build/check-agreement.mjs` then verifies the four cases agree four-way on the common kinds, which is what lets those kinds be published as a shared subtree. The generator, `scaffolder/new-kernel.mjs`, instantiates a kernel from a config and runs the real gate and the real check over its output, proven by regenerating a case's schema from config with the tables reproduced exactly. And the proof the generated kernels are real is the bottom-up federation: `build/check-bottomup.mjs` runs the same four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork so no member's authority reaches another, and that same-hash crossings compose native. The generator regenerating the cases and the cases federating as standalone members is what turns "the contribution is the type" from a sentence into a checked property. Above this built climb sits the specified frontier, the coordination fabric that governs writes to a federation at scale, named in the status ledger and marked as such.
+The claim that the contribution is the type, not the instance, is a checked fact, because the type is carried up four steps and each step has an oracle. The type is the knowledge kernel, built here as the top-down instance and demonstrated on the three cases above. The content-addressed crossing is next: a type is a bundle whose hash freezes its meaning, so two kernels that mean the same thing by a type pin the same hash, and `build/check-crossing.mjs` proves a same-hash crossing composes native and lossless while an unpinned crossing arrives untyped and grounds nothing until a fork restores standing. `build/check-agreement.mjs` then verifies the four cases agree four-way on the common kinds, which is what lets those kinds be published as a shared subtree. The generator, `scaffolder/new-kernel.mjs`, instantiates a kernel from a config and runs the real gate and the real check over its output, proven by regenerating a case's schema from config with the tables reproduced exactly. And the proof the generated kernels are real is the bottom-up federation: `build/check-bottomup.mjs` runs the same four cases as standalone members and confirms adversarially that each owns its schema, that standing crosses only through an owned fork so no member's authority reaches another, and that same-hash crossings compose native. The generator regenerating the cases and the cases federating as standalone members is what turns "the contribution is the type" from a sentence into a checked property. Above this built climb sits the specified frontier, the coordination fabric that governs writes to a federation at scale, named in the status ledger and marked as such. That open form, a built core with a specified frontier named on purpose, is not incompleteness but the shape a moving target forces on a knowledge system whose subjects model it back, so the transparency mechanisms, the built-versus-specified line, the characterized gaps, the ledgers, are load-bearing structure rather than disclosure; the argument for why is `docs/on-transparency.md`.
 
 ## Where it points
 
@@ -1989,7 +1989,7 @@ The main argument locates the bottom-up meta kernel as built, the four cases fed
 Type: argument
 Purpose: States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it.
 Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md
-Depended on by: docs/kernel-at-training.md
+Depended on by: docs/kernel-at-training.md, docs/on-transparency.md
 ---
 
 # Where This Goes
@@ -2056,7 +2056,7 @@ One concrete pathway the substrate's provenance permits, stated as a possibility
 Type: reference
 Purpose: The record of approaches killed while building the submission, each with its kill-reason and reactivation condition, so a reader can audit the kills.
 Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md
-Depended on by: nothing
+Depended on by: docs/on-transparency.md
 ---
 
 # The Compost Ledger
@@ -2207,10 +2207,11 @@ The submission has three layers. The kernel is the checkable core: the schema, t
 
 So read the periphery by its allocation rule: it is thick exactly where the protocol needs thickness to spread, and nowhere else. A guided walk exists so you can see the three counterexamples with reproducible receipts. A kernel manager exists so you can operate a federation of four kernels and author a claim through the real gate. A generator and an on-ramp exist so a stranger can stand up a kernel of their own from a config file. What is absent is product polish, and it is absent on purpose: polish is what the contract lets others add.
 
-Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method.
+Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method. The honest form of an answer to this problem is open rather than finished, and [On Transparency](on-transparency.md) says why.
 
 ## Go deeper
 
+- **Why the open form:** [On Transparency](on-transparency.md), why the honest answer to this problem is an open system rather than a finished one
 - **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
 - **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
 - **Feed a source in, ask a question out:** [The Workflow Atlas](workflow-atlas.md), how any producer feeds a source into the gate and any consumer queries the graph the gate protects
@@ -2346,7 +2347,7 @@ Every part of what was built has an oracle: run the checks and each one states t
     {
       section_id: "what-was-built",
       precise_anchor: "What was built: a knowledge kernel, arranged top-down",
-      precise_version: "675dd02a67b0be04",
+      precise_version: "60809eb3f504d158",
       register_link: "paper-4",
       accessible:
         "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, opening the two markets named above. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead.\n\n" +
@@ -5026,6 +5027,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
     "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
     "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
     "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
+    "on-transparency.md": "docs/on-transparency.md",
     "workflow-atlas.md": "docs/workflow-atlas.md",
     "kernel-taxonomy.md": "docs/kernel-taxonomy.md",
     "status-ledger.md": "docs/status-ledger.md",
@@ -5065,6 +5067,9 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
         }
         html += "<p>" + inline(block.replace(/\n/g, " ")) + "</p>";
       });
+      // reading-order handoff: after the critique, before the protocol demonstration, route to the
+      // governing openness argument. A pointer, not the document's text.
+      html += '<p class="front-door-next">Read next, before the protocol demonstration: <a href="docs/on-transparency.md">On Transparency</a>, why this submission takes an open form.</p>';
       ctx.mount.innerHTML = html;
     },
   });
