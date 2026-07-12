@@ -79,7 +79,7 @@ Reactivation: none. Supply-side tolling is strictly better against the flood.
 
 **17. Standing as a currency.**
 Standing was first considered as something a participant spends, stakes, and accumulates. It died because a currency creates timing games, hoarding and dumping standing at strategic moments, invites a tradable reputation market, and makes staking dangerous. Standing became a weighting rather than a currency, a computed reading of a record that is never spent, transferred, or held.
-Reactivation: none. Weighting-not-currency dissolves the timing games by construction and keeps the commons from becoming a market.
+Reactivation: none. Weighting-not-currency removes the timing games by construction and keeps the commons from becoming a market.
 
 **18. The crossing-behavior field.**
 Custom types were first required to declare what a claim of that type lands as when it crosses the untyped boundary, a per-type authoring burden added to every custom kind and floor. It dissolved under one law: a type is untyped abroad unless it is shared, so there is no crossing rule to author, only the private, published, and adopted states, and a claim of an unadopted type simply arrives untyped and grounds nothing.

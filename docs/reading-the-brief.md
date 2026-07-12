@@ -25,7 +25,7 @@ This also places the first uplift criterion precisely. The criterion sets the ba
 
 ## On scope: a component, taken literally
 
-The brief says it is "excited by any submission that advances the state-of-the-art on a component," and "aren't asking you to build an entire, robust, fully-featured system." We took this literally. The component is the structure-and-grounding kernel: the typed graph and the mechanical rule that grounds a claim by what it rests on. Everything else in the submission, the three cases, the interfaces, the composition layer, exists to demonstrate that component rather than to be a product around it. This is why the periphery is deliberately thin. A thick periphery would be building the fully-featured system the brief explicitly does not ask for, and the honest demonstration of a component is the smallest surface that shows it works.
+The brief says it is "excited by any submission that advances the state-of-the-art on a component," and "aren't asking you to build an entire, robust, fully-featured system." We took this literally. The component is the structure-and-grounding kernel: the typed graph and the mechanical rule that grounds a claim by what it rests on. Everything else in the submission, the three cases, the interfaces, the composition layer, exists to demonstrate that component rather than to be a product around it. So the periphery thickens only where showing the component needs it: the smallest surface that shows it works, not the fully-featured system the brief explicitly does not ask for.
 
 ## On polish versus spec: the spec, and a surface that proves it runs
 
