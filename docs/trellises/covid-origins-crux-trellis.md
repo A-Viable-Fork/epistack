@@ -54,7 +54,7 @@ Cascaded from the submission hub, and through it from the Meta-Trellis. Non-nego
 
 ## LINTER
 
-**[LINTER MODE]** Empirical archetype: flag-primary with selective kill. Inherited hub rules apply, in particular False-Symmetry (kill-adjacent here), Unmapped Vocabulary, Naked Axioms, Metaphysical-James Overreach, and Rhetorical Inflation. Child-specific rules:
+**[LINTER MODE]** Empirical archetype: flag-primary with selective kill. Inherited hub rules apply, in particular False-Symmetry (kill-adjacent here), Naked Axioms, Metaphysical-James Overreach, and Rhetorical Inflation. Child-specific rules:
 
 **False Symmetry.** `[FLAG MODE, inherited, load-bearing]` *Test: does the structure hang zoonosis and lab-leak from equally weighted axioms and imply the question is a wash?* Remediation: carry the asymmetry. A branch here is exposed, not closed, and exposure prices each side. Drawing a genuine evidential imbalance as fake even-handedness is the COVID-specific form of performed settling. This fires hardest on the market-clustering crux, where the discount prices are not equal.
 
@@ -63,8 +63,6 @@ Cascaded from the submission hub, and through it from the Meta-Trellis. Non-nego
 **Motivated-Reasoning Wash.** `[KILL MODE]` *Test: does the politicization layer reduce to "both camps are politically produced, therefore it cancels"?* Remediation: this is False-Symmetry wearing Foucault, and it is also bad Foucault, whose power is asymmetric. Price the institutional positions: which trust allocation each formation makes, and what each costs. Symmetric formation is a finding to be earned per-crux, not a default.
 
 **Metaphysical Overreach (origins).** `[KILL MODE]` *Test: does the Layer 0 or Layer 1 material slide from "the channel and the subject are politically shaped" into "there is no fact of the matter about origins"?* Remediation: keep the politics about access and subject-formation, never about the existence of the fact. The virus had an origin. The microbiologist judge holds this, and relativism on it loses them.
-
-**Unmapped Vocabulary.** `[KILL MODE]` *Test: are trellis or imported-framework insider terms (Hodge sector, requisite variety, Damkohler, valence-as-contraction) used in the judge-facing layer without translation?* Remediation: translate at first use or strike. The earned isomorphisms (below) enter as plain structural claims, never as physics vocabulary.
 
 **False Isomorphism.** `[KILL MODE]` *Test: is a structural import from the ethics trellis asserted without independent content on both sides?* Remediation: demonstrate the leg or strike it. Two imports earned (the universal/channel-corruption class and requisite variety). Two killed (orthogonal-projection persistence, rotational incompossibility at the propositional level). See Exclusion Reservoir.
 
@@ -93,7 +91,7 @@ Seeded on entry with two design kills carried over from the parent-conversation 
 - **Justifiable Intent:** The positions are jointly unrealizable, which sounds like incompossibility.
 - **Killed By:** False-Isomorphism. Two contradictory propositions is logical exclusion, not the rotational sector's circulation structure (closed cycles no local incentive dissipates). No independent content on the COVID side.
 - **Block Scope:** Point Block at the propositional level. **Scope revised 2026-06-24:** the mapping is live one level down, at subject-production. The two camps fail to share a metric not because the propositions contradict but because they sit on different institutional formations. That is the rotational sector grounded in different harmonic sectors, and it earns as the Layer 0 "incompossible stack." See S-CV-LAYER0.
-- **Structural Residue:** The incompossible-stack reading at Layer 0 (formations constitute what counts as a credible source), carried translated, no Hodge vocabulary in the judge-facing layer.
+- **Structural Residue:** The incompossible-stack reading at Layer 0 (formations constitute what counts as a credible source).
 - **Reactivation Conditions:** Live at subject-production (S-CV-LAYER0). Dead at the propositional level.
 - **Trellis Version at Block:** v1.0
 - **Date:** 2026-06-24
@@ -120,7 +118,7 @@ Seeded on entry with two design kills carried over from the parent-conversation 
 - **Trellis Version at Block:** v1.2
 - **Date:** 2026-06-26
 
-Two structural imports survive the isomorphism audit and inform the construction. They enter the judge-facing layer as plain claims, never as imported vocabulary (Unmapped Vocabulary kill).
+Two structural imports survive the isomorphism audit and inform the construction.
 
 - **The universal class (valence-as-contraction plus detection-corruption).** The ethics structure: most valences are frame-relative, but a distinguished class (corruption of the channel everyone updates through) has frame-invariant valence, bad under every frame. Translated: a piece of evidence reads frame-relative under a chosen prior (Layer 2), but corruption of the shared evidence channel (Layer 1) is bad under every prior, because it degrades both camps' ability to update regardless of which way they lean. This is what makes the pricing rigorous rather than a wash: the two camps pay in different currencies, one partly auditable (channel corruption magnitude) and one not (reference-class prior). Honesty flag: the ethics side of this import is itself an open sorry there (the universal class nonempty), so this is a generative structural reading, not a borrowed proof.
 - **Requisite variety.** Translated: a camp drawing from a politically-sorted source pool has low variety relative to the question. The structural prediction the platitude does not give: the six analyses may share a narrow input pool (the same reporting, the same trust posture toward sealed data), so a 20-order-of-magnitude posterior spread over a low-variety input channel overstates the real evidential variety. The analyses amplify a narrow channel rather than independently sampling a rich one. This sharpens the Correlated-Independence rule with a second axis: shared sources, not only shared priors.
@@ -212,7 +210,7 @@ The pricing discipline (Motivated-Reasoning Wash kill): this is not "both are pr
 - **Floor-capacity valence (prior-independent).** Does a camp's prescription preserve the system's capacity to detect and regulate the next spillover (surveillance, honest records, not severing the channel)? Degrading that capacity is bad under every prior, the one prior-independent valence, and the real locus of the asymmetry.
 - **Floor-distribution valence (prior-dependent).** Which carrier eats the cost. Not adjudicable, belongs in the gradient sector, unadjudicated. Dressing a distributional preference as a capacity argument is the failure mode to guard (S-CV-LAYER0): "constrain gain-of-function" is capacity-relevant if it reduces manufacture-of-hazard and distribution-disguised if it is really defunding a rival institution. Which one it is is auditable by where the cut falls.
 
-This layer enters the submitted leaf only if leaf-weighting calls for it, and only translated: "the institutions controlling the evidence also shape who counts as credible, asymmetrically, and here is the price." No Foucault and no Hodge in the judge-facing prose; raw, it trips Unmapped Vocabulary.
+This layer enters the submitted leaf only if leaf-weighting calls for it: "the institutions controlling the evidence also shape who counts as credible, asymmetrically, and here is the price."
 
 ## INGESTION SAMPLE: CLAIM ATTRIBUTION (Session 1, epidemiology)
 
