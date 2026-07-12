@@ -174,6 +174,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/vendor-front-door.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/eggs-build.mjs",
     "type": "build"
   },
