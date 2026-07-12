@@ -23,6 +23,7 @@
     "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
     "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
     "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
+    "workflow-atlas.md": "docs/workflow-atlas.md",
     "kernel-taxonomy.md": "docs/kernel-taxonomy.md",
     "status-ledger.md": "docs/status-ledger.md",
     "compost-ledger.md": "docs/compost-ledger.md",
