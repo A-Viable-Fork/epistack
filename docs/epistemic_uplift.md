@@ -27,7 +27,7 @@ This is the interface market, one of two independent markets over the fixed core
 
 ## Teaching is downstream of claim
 
-The competition's first criterion benchmarks uplift against off-the-shelf research and coding assistants, which deliver teaching uplift: they bring a reader up to speed, explain a topic, make an investigator faster. That is real and those tools do it well. The knowledge itself is a second thing, whether the claim as an object is checkable, composable, and able to stand when trust in its asserter is subtracted, and this is claim uplift. The two are not orthogonal. They are ordered, and the order is the trust-view cut seen once more.
+The competition's first criterion benchmarks uplift against off-the-shelf research and coding assistants, which deliver teaching uplift: they bring a reader up to speed, explain a topic, make an investigator faster. That is real and those tools do it well. The knowledge itself is a second thing, whether the claim as an object is checkable, composable, and able to survive the attenuation of trust in its asserter, and this is claim uplift. The two are not orthogonal. They are ordered, and the order is the trust-view cut seen once more.
 
 One direction is empty. A better synthesis teaches better and leaves the claim beneath it exactly as checkable as it was, which is not at all, because a synthesis fuses trust and view and a clearer fusion is still a fusion. There is no separable object that a better explanation made verifiable; extracting the claim into something a second party can check is a distinct act, performed by whoever builds the kernel, and the synthesis confers none of it. Teaching does not reach claim.
 
