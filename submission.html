@@ -17,6 +17,8 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-header .shell-tag { color:var(--sh-faint); font-size:.9rem; margin-top:.2rem; }
 .shell-wrap { display:flex; gap:1.4rem; align-items:flex-start; max-width:78ch; margin:0 auto; padding:1.2rem 1.2rem 4rem; }
 .shell-nav { position:sticky; top:1rem; flex:0 0 15rem; display:flex; flex-direction:column; gap:.15rem; font-family:var(--sans,system-ui,sans-serif); font-size:.82rem; }
+/* the mobile contents control: inert on desktop (display:none, no layout effect), a bar at <=720px. */
+.shell-nav-toggle { display:none; }
 .shell-nav-link { color:var(--sh-faint); text-decoration:none; padding:.2rem .4rem; border-left:2px solid transparent; border-radius:0 4px 4px 0; }
 .shell-nav-link:hover { color:var(--sh-ink); background:rgba(255,255,255,0.03); }
 .shell-nav-prose { border-left-color:#6a8fae; }
@@ -59,7 +61,25 @@ body { margin:0; background:var(--sh-bg); color:var(--sh-ink); font-family:var(-
 .shell-error { color:#e08a8a; font-size:.82rem; }
 .shell-prose p { font-size:.98rem; }
 .shell-prose h3 { font-size:1.02rem; margin:1.1rem 0 .3rem; color:var(--sh-ink); }
-@media (max-width:720px){ .shell-wrap{flex-direction:column;} .shell-nav{position:static;flex-basis:auto;flex-direction:row;flex-wrap:wrap;} .shell-closure ul{columns:1;} }
+/* at phone width the reading leads: the content (front door first) sits directly under a compact
+   contents bar, and the section list collapses behind it. Pure-CSS disclosure via :target, so it
+   works from file:// with no script; a section link changes the hash away from #shell-nav, which
+   collapses the list on selection and returns the reader to the reading. */
+@media (max-width:720px){
+  .shell-wrap{ flex-direction:column; gap:0; }
+  .shell-nav-toggle{
+    display:block; align-self:stretch;
+    padding:.55rem .75rem; margin-bottom:1rem;
+    font-family:var(--sans,system-ui,sans-serif); font-size:.9rem; font-weight:600;
+    color:var(--sh-ink); text-decoration:none;
+    border:1px solid var(--sh-rule); border-radius:6px; background:var(--sh-panel);
+  }
+  .shell-nav-toggle::before{ content:"\2630\00a0"; color:var(--sh-lamp); }
+  .shell-nav{ display:none; position:static; flex-basis:auto; margin-bottom:1.4rem;
+    border:1px solid var(--sh-rule); border-radius:6px; padding:.5rem .6rem; }
+  .shell-nav:target{ display:flex; flex-direction:column; }
+  .shell-closure ul{ columns:1; }
+}
 
 /* the restructured eggs case module (Prompt 20): domains, weighings, characterized gaps, denominator */
 .eggs-domain { margin: 0.6rem 0; }
@@ -224,6 +244,7 @@ button.reg-toggle.reg-on { background: #1b3a5b; color: #fff; border-color: #1b3a
   <div class="shell-tag">One navigable surface, read straight through or forked at any subject: the argument, the three cases and the lineage exhibit, the live demonstrations, then the turn from reading to operating, the kernel manager where you author through the real gate, the on-ramp to make and take your own kernel, and the vision that closes it. Every grade, robustness reading, and gap is read live from the graph through the propose/read contract.</div>
 </header>
 <div class="shell-wrap">
+  <a class="shell-nav-toggle" href="#shell-nav">Contents</a>
   <nav class="shell-nav" id="shell-nav" aria-label="contents"></nav>
   <main class="shell-content" id="shell-content"></main>
 </div>
