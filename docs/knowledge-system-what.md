@@ -97,7 +97,7 @@ A grounding profile is not fixed by subject. It is the current shape of where a 
 
 The whole system is the composition of all its kernels. They are not joined by merging into one enormous map under one authority. They are joined through a thin shared layer that carries only what crossing between kernels requires: a way for a claim in one kernel to cite a claim in another, a common way to express units and definitions so they translate across kernels, and a way to resolve a dispute that lands on a boundary between kernels.
 
-The shared layer is deliberately thin. It must be thick enough that separate kernels can actually compose across their boundaries, and thin enough that no central authority comes to own the content. Each kernel keeps authority over its own claims and its own floor; the shared layer only specifies how they meet. When one kernel cites another across this boundary, the citing kernel inherits the grounding of the cited claim under that other kernel's floor, and the strength of what it inherits is exactly the strength of that floor.
+The shared layer is thin, thick enough that separate kernels can actually compose across their boundaries and thin enough that no central authority comes to own the content. Each kernel keeps authority over its own claims and its own floor; the shared layer only specifies how they meet. When one kernel cites another across this boundary, the citing kernel inherits the grounding of the cited claim under that other kernel's floor, and the strength of what it inherits is exactly the strength of that floor.
 
 This is what lets the system be many independent bodies of knowledge rather than one monolith, and it is what lets it grow by addition of whole new kernels rather than only by edits within one.
 
