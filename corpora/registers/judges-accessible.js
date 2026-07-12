@@ -78,7 +78,7 @@
     {
       section_id: "kernel-watched-at-work",
       precise_anchor: "The kernel, watched at work",
-      precise_version: "b437d35d74137709",
+      precise_version: "69172f3c3c18242f",
       register_link: "paper-2",
       accessible:
         "Take a real claim from the tree: that LHC collisions carry no black-hole catastrophe risk. In the graph it is a typed record. Its support runs down to the claim that nature has run higher-energy versions of the same collision for billions of years, which runs down through the measured flux of cosmic rays that strike the moon and the dense stars that survive them, and bottoms out in an astronomical measurement, a floor, a place where the claim's standing rests on something anyone can recheck. The engine computes how far the claim's support actually reaches toward that floor, from the graph alone, and someone who trusts none of the authors in the record recomputes the same answer, because the answer is a property of the structure and the structure is public.\n\n" +
@@ -124,7 +124,7 @@
     {
       section_id: "what-was-built",
       precise_anchor: "What was built: a knowledge kernel, arranged top-down",
-      precise_version: "60809eb3f504d158",
+      precise_version: "de30936b7d456a13",
       register_link: "paper-4",
       accessible:
         "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, opening the two markets named above. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead.\n\n" +

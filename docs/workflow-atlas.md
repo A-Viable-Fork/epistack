@@ -13,7 +13,7 @@ Depended on by: docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/wo
 
 The kernel is not a store you read. It is a boundary with two built faces, and the workflows in this atlas live on those two faces.
 
-One face is a write terminus. Any producer types a claim into it, and the gate admits the claim only if it grounds. The producer supplies the typing; the gate checks it and answers, admitted at this standing or held back for this reason. A person, a model, and an agent pipeline all land at the same terminus and are checked the same way, because the gate reads a claim's structure and never its author's nature.
+One face is a write terminus. Any producer types a claim into it, and the gate admits the claim only if it grounds. The producer supplies the typing; the gate checks it and answers, admitted at this standing or held back for this reason. A person, an organization, a model, or a pipeline of these all land at the same terminus and are checked the same way, because the gate reads a claim's structure and never its agent's nature.
 
 The other face is a read terminus. Any consumer queries it, and a read never mutates. The consumer asks what a conclusion rests on, where a disagreement turns, whether a graph would survive a motivated reader, and the terminus answers from public structure that anyone recomputes and everyone recomputes alike.
 
@@ -25,7 +25,7 @@ The shape of the atlas follows the shape of the boundary. Producers vary all the
 
 Two things in this atlas are built, and everything else is periphery over them.
 
-The write anchor is the MCP producer tool (`periphery/produce/propose-tool.mjs`, `periphery/produce/mcp-server.mjs`, oracle `build/check-produce.mjs`). It exposes `propose` as a strict schema-gated tool: a claim authored through it receives a receipt byte-identical to the one a human authoring surface produces for the same claim, so the gate grades the claim and not the claimant. Build status is graded in `docs/status-ledger.md`; a live agent session and autonomous multi-claim orchestration are named deferred depth, not built.
+The write anchor is the MCP producer tool (`periphery/produce/propose-tool.mjs`, `periphery/produce/mcp-server.mjs`, oracle `build/check-produce.mjs`). It exposes `propose` as a strict schema-gated tool: a claim authored through it receives a receipt byte-identical to the one a human authoring surface produces for the same claim, so the gate grades the claim and not the agent. Build status is graded in `docs/status-ledger.md`; a live agent session and autonomous multi-claim orchestration are named deferred depth, not built.
 
 The read anchor is the read contract (`createClientApi(provider)`, `api/client-api.mjs`), exposing `read`, `robustness`, `reconciliations`, `gaps`, and `characterizedGaps`, plus the trellis `api` reads `resolve`, `decompose`, `dependents`, and `perturb`. Each is derived on read, never stored, and reports structure rather than certified truth. The consumer workflows are assessment-layer clients over these reads.
 
@@ -61,6 +61,6 @@ Train-time holds three tiers, and they are never leveled. Exporting a kernel to 
 
 The bound is stated plainly and never crossed. Scope every claim to the kernel's domain. On questions the kernel covers, the model's standing is the kernel's standing. It is never that the kernel is the model's knowledge, and never that the model only knows what is in the kernel; a model knows vastly more than any kernel holds. The claim is only that within the covered domain the model defers to graded grounding over its own priors.
 
-The loop is the insight. An AI is a fine producer, because it types claims and stakes standing and the gate checks the typing and not the author, and a disciplined consumer, because it asserts only what grounds. So the kernel is the shared typed channel that lets AI systems produce and consume knowledge without trusting each other's syntheses. That loop is the stabilizing infrastructure the influx needs: producing AI types in, consuming AI reads out, and ungrounded synthesis never enters, because it arrives untyped and grounds nothing.
+The loop is the insight. An AI is a fine producer, because it types claims and stakes standing and the gate checks the typing and not the agent, and a disciplined consumer, because it asserts only what grounds. So the kernel is the shared typed channel that lets AI systems produce and consume knowledge without trusting each other's syntheses. That loop is the stabilizing infrastructure the influx needs: producing AI types in, consuming AI reads out, and ungrounded synthesis never enters, because it arrives untyped and grounds nothing.
 
 The depth under each grade: inference-time in `docs/kernel-at-inference.md`, train-time in `docs/kernel-at-training.md`.

@@ -11,7 +11,7 @@ The robustness argument states a solution type: a gate expensive to game and rec
 
 This is the worked-scenarios companion to [Robustness Under Adversaries](adversarial-robustness.md), which argues the solution type these five attacks make concrete.
 
-The threat model is producer-agnostic. An adversary here is anything that emits claims, a person, a model, or an agentic pipeline, and none of the five defenses turns on which it is: standing is priced and revoked, and captured state is forked, the same way whatever produced the attack. How strictly a community gates agents in particular is a free parameter it sets in [The Parameters Register](parameters-register.md), not an assumption baked into the threat model here.
+The threat model is producer-agnostic. An adversary here is anything that emits claims, a person, an organization, a model, or a pipeline of these, and none of the five defenses turns on which it is: standing is priced and revoked, and captured state is forked, the same way whatever produced the attack. How strictly a community gates agents in particular is a free parameter it sets in [The Parameters Register](parameters-register.md), not an assumption baked into the threat model here.
 
 ## One: flooding the claim layer
 
