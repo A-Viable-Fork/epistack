@@ -561,7 +561,7 @@ On the claim axis, the uplift has a present component, what the artifact does di
 
 The same allocation places automated ingestion, on the producer side of the market rather than the consumer side. The two layers the influx makes necessary are the gate that checks the typing of what arrives and the store that composes and keeps it, and both are built here; ingestion, the layer that reads a messy record and emits candidate claims, is the producer layer the market supplies and sharpens as generation improves, kept thin here on purpose because it is the layer the influx is already good at. So a strong automated-ingestion entry elsewhere in this competition is a producer this protocol would gate like any other, a complementary contribution it would compound rather than a gap in this one. This is the division of labor the gate defines and not a capability the kernel lacks: typing a claim is the claimant's work, so a thin ingestion connector is the correct allocation rather than a missing feature.
 
-The API boundary is open to any producer on the same terms. A synthesis-tool builder plugs in by emitting typed claims with their support through the one contract and receiving an accept-with-standing or the reason it was held back, never touching the store and never trusted about the grounding. So the submission is infrastructure the ecosystem's tools compose into rather than a competitor to any of them, and the better the producers that arrive, the more the channel holds.
+The API boundary is open to any producer on the same terms. A synthesis-tool builder plugs in by emitting typed claims with their support through the one contract and receiving an accept-with-standing or the reason it was held back, never touching the store and never trusted about the grounding. So the submission is infrastructure the ecosystem's tools compose into rather than a competitor to any of them, and the better the producers that arrive, the more the channel holds. The worked demonstration that the boundary is two-sided and general is the workflow atlas: producers of any source shape, a spoken debate, a live news page, a clean dataset, converge at the one built gate, consumers of any question shape diverge from the one built read contract, and an AI is one producer and one consumer among them (`docs/workflow-atlas.md`).
 
 The enabled component is where the scoping choice lives: evaluate the artifact alone, or the architecture as an enabler. A submission whose contribution is an enabler is, by the competition's own compounding and scaling criteria, meant to be evaluated on what it enables, so evaluating the artifact in isolation applies those criteria incompletely. The bound is the one the whole submission keeps: the market is enabled, not guaranteed, so the claim is to the enablement, which the external contract's feasibility demonstrates, not to the realized uplift of interfaces not yet built. Whether to credit enablement is the evaluator's to decide; naming it is a submission about making structure explicit making the structure of its own evaluation explicit too.
 
@@ -1989,7 +1989,7 @@ The main argument locates the bottom-up meta kernel as built, the four cases fed
 Type: argument
 Purpose: States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it.
 Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md
-Depended on by: nothing
+Depended on by: docs/kernel-at-training.md
 ---
 
 # Where This Goes
@@ -2048,7 +2048,9 @@ The way this work earns a living is by being the most skilled builder and toolma
 
 That constraint is the alignment. The commercial path can only profit from a commons that thrives and stays open, because its income is the labor and the tools that a growing open commons demands, not the rent a closed one extracts. The incentive to keep the commons unowned and the incentive to earn from it are the same incentive, which is the opposite of the platform pattern where the two diverge the moment capture becomes possible. Funding this work funds the commons, because the work has no way to profit except by the commons succeeding on its own terms.
 
-That alignment is the reason the hedge in the first section is honest rather than modest. A participant whose living depends on an open, forkable commons has no reason to promise it will stay central and every reason to build the thing to outlast its own centrality. The destination is the ecosystem, the first step is the artifact you are reading, the next phase begins where the pain is real, and the way it pays for itself is the same as the way it stays open.</script>
+That alignment is the reason the hedge in the first section is honest rather than modest. A participant whose living depends on an open, forkable commons has no reason to promise it will stay central and every reason to build the thing to outlast its own centrality. The destination is the ecosystem, the first step is the artifact you are reading, the next phase begins where the pain is real, and the way it pays for itself is the same as the way it stays open.
+
+One concrete pathway the substrate's provenance permits, stated as a possibility and not a plan: this repository is AGPL, whose network-copyleft many commercial operators avoid, so a kernel community could offer such operators an alternate commercial license and route the proceeds to the producers whose signed, hashed grounding the kernel records, paying against the attribution the graph already keeps. What such a license would sell is exemption from copyleft and not access to fact: the knowledge stays open and un-tolled, and what is funded is the labor of grounding rather than the ownership of truth. This is a possibility the provenance permits, not a mechanism this work runs, and no mechanism is designed here.</script>
 <!-- the compost ledger (the research record, a fork after the vision), rendered by its module (not copied) -->
 <script type="text/markdown" id="compost-doc">---
 Type: reference
@@ -2211,6 +2213,7 @@ Every part of what was built has an oracle: run the checks and each one states t
 
 - **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
 - **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
+- **Feed a source in, ask a question out:** [The Workflow Atlas](workflow-atlas.md), how any producer feeds a source into the gate and any consumer queries the graph the gate protects
 - **The three ways to arrange kernels, and why this one:** [The Kernel Taxonomy](kernel-taxonomy.md)
 - **Exactly what is built and what is specified:** [The Status Ledger](status-ledger.md)
 - **The approaches killed on the way here, with reasons:** [The Compost Ledger](compost-ledger.md)
@@ -2397,7 +2400,7 @@ Every part of what was built has an oracle: run the checks and each one states t
     {
       section_id: "evaluating-an-enabler",
       precise_anchor: "A note on evaluating an enabler",
-      precise_version: "fac8d79376685dbd",
+      precise_version: "003671f286cd7fd1",
       register_link: "paper-6",
       accessible:
         "There is a tension in judging this submission, and it is more honest to name it than to let it settle by default. Uplift runs on two ordered axes. One is teaching: bringing a reader up to speed, which strong synthesis tools do well. The other is claim: improving the knowledge itself as a checkable, composable object that survives the removal of trust. Teaching sits downstream of claim, because a reading stands on a trust-side object and only the claim axis makes such objects: a better synthesis teaches better and makes nothing more checkable, while a checkable claim teaches the shape a synthesis buries and seeds a market of teachers over one trust. This submission works the claim axis, the upstream one, and is deliberately modest on its own direct teaching, so a judge calibrated to teaching will miss that the contribution is what the teaching axis composes over.\n\n" +
@@ -5023,6 +5026,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
     "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
     "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
     "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
+    "workflow-atlas.md": "docs/workflow-atlas.md",
     "kernel-taxonomy.md": "docs/kernel-taxonomy.md",
     "status-ledger.md": "docs/status-ledger.md",
     "compost-ledger.md": "docs/compost-ledger.md",

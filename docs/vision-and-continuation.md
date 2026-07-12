@@ -2,7 +2,7 @@
 Type: argument
 Purpose: States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it.
 Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md
-Depended on by: nothing
+Depended on by: docs/kernel-at-training.md
 ---
 
 # Where This Goes
@@ -62,3 +62,5 @@ The way this work earns a living is by being the most skilled builder and toolma
 That constraint is the alignment. The commercial path can only profit from a commons that thrives and stays open, because its income is the labor and the tools that a growing open commons demands, not the rent a closed one extracts. The incentive to keep the commons unowned and the incentive to earn from it are the same incentive, which is the opposite of the platform pattern where the two diverge the moment capture becomes possible. Funding this work funds the commons, because the work has no way to profit except by the commons succeeding on its own terms.
 
 That alignment is the reason the hedge in the first section is honest rather than modest. A participant whose living depends on an open, forkable commons has no reason to promise it will stay central and every reason to build the thing to outlast its own centrality. The destination is the ecosystem, the first step is the artifact you are reading, the next phase begins where the pain is real, and the way it pays for itself is the same as the way it stays open.
+
+One concrete pathway the substrate's provenance permits, stated as a possibility and not a plan: this repository is AGPL, whose network-copyleft many commercial operators avoid, so a kernel community could offer such operators an alternate commercial license and route the proceeds to the producers whose signed, hashed grounding the kernel records, paying against the attribution the graph already keeps. What such a license would sell is exemption from copyleft and not access to fact: the knowledge stays open and un-tolled, and what is funded is the labor of grounding rather than the ownership of truth. This is a possibility the provenance permits, not a mechanism this work runs, and no mechanism is designed here.

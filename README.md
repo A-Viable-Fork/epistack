@@ -19,5 +19,6 @@ Two ways in: read the critique and click any claim through to its live grounding
 - **The full argument:** [What Stands Without Trust](docs/what-stands-without-trust.md), the taxonomy in full, the schema, and the federation appendix
 - **The assembled surface:** open [`submission.html`](submission.html), which opens on the front door, then the guided walk, the three cases, and the demonstrations, every case claim carrying its live grade
 - **The cases, to walk them:** [`corpora/`](corpora/), LHC safety, COVID origins, egg nutrition, one machinery carrying each to its own termination
+- **The workflows over the contract:** [The Workflow Atlas](docs/workflow-atlas.md), how any producer feeds a source into the gate and any consumer asks a question of the graph, worked over the built contract
 - **What is built and what is specified:** [The Status Ledger](docs/status-ledger.md), the single source of build truth
 - **Run it:** [`docs/quickstart.md`](docs/quickstart.md), clone, install, and the gate check completes in about two minutes

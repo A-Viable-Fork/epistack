@@ -56,6 +56,7 @@ Every part of what was built has an oracle: run the checks and each one states t
 
 - **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
 - **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
+- **Feed a source in, ask a question out:** [The Workflow Atlas](workflow-atlas.md), how any producer feeds a source into the gate and any consumer queries the graph the gate protects
 - **The three ways to arrange kernels, and why this one:** [The Kernel Taxonomy](kernel-taxonomy.md)
 - **Exactly what is built and what is specified:** [The Status Ledger](status-ledger.md)
 - **The approaches killed on the way here, with reasons:** [The Compost Ledger](compost-ledger.md)
