@@ -2,7 +2,7 @@
 Type: argument
 Purpose: States the architecture's foundational commitment, the separation of trust from view, as the source the argument documents derive from.
 Depends on: nothing
-Depended on by: README.md, docs/authoring-methodology.md, docs/composition-spec.md, docs/epistemic_uplift.md, docs/parameters-register.md, docs/reading-the-brief.md, docs/register-view.md, docs/what-stands-without-trust.md
+Depended on by: docs/authoring-methodology.md, docs/composition-spec.md, docs/epistemic_uplift.md, docs/parameters-register.md, docs/reading-the-brief.md, docs/register-view.md, docs/what-stands-without-trust.md
 ---
 
 # Trust and View

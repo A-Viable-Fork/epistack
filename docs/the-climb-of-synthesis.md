@@ -1,0 +1,62 @@
+---
+Type: argument
+Purpose: The front door: the critique, its three counterexamples, and the protocol they force, in two easy pages, distilling the judges document for a first read.
+Depends on: docs/what-stands-without-trust.md
+Depended on by: README.md
+---
+
+# The Climb of Synthesis
+
+*The critique, its three counterexamples, and the protocol they force. Two pages. Start here.*
+
+## The tool everyone will build, and where it stops
+
+Ask the best AI research tool a hard question and it produces a synthesis: it reads everything, ties each claim to its source, and writes one clean, integrated answer. This is genuinely good and it gets better every month. This competition will receive many excellent versions of it, and I look forward to using them.
+
+But a synthesis has one limit no improvement removes: it is one reader's view of the record. From inside a single view, however good, you cannot tell which parts are the world and which parts are the viewer, because the viewer is woven through every sentence. Everything follows from that. To check one step you must redo the whole thing. To combine two syntheses you need a person back in the loop. Challenged, a synthesis offers its author's judgment as the final word. So you read it, and then it ends. And as syntheses get better and cheaper, the point sharpens rather than softens: even the best is still one viewpoint, and the trust it asks for is the entire product.
+
+## What might knowledge be
+
+Two familiar facts show the alternative.
+
+A mathematical proof asks you to trust nothing about the prover. You check the steps. The prover could be anyone or no one; a single checked proof removes its author entirely.
+
+A measured constant asks you to trust no single lab. One lab's measurement is testimony you either believe or don't. What you trust is that many independent measurements agree, so the number survives any one lab being wrong. As measurements accumulate, trust in any particular measurer is turned down toward the measurements themselves.
+
+Here is the definition this submission runs on, stated once at full density: knowledge is the invariant left as the model is attenuated. Plainly: turn down your reliance on whoever is telling you, and knowledge is what does not move. The proof is the case where the attenuation completes, trust in the prover driven to zero because the steps carry the whole weight. The measurement is the case where it approaches a floor, trust in any one measurer turned down across many, what agrees being what remains. A synthesis can perform neither on itself: its author cannot be checked, and cannot be agreed out, because removing the author destroys the result. So a synthesis is a contribution to knowledge, one measurement's worth, and not knowledge. The missing layer is whatever performs the attenuation. That climb, from one viewpoint's reach to what stands without it, is what this submission builds.
+
+## The protocol: a knowledge kernel
+
+The layer that performs the attenuation has a type, and the type has three parts. A typed claim graph: claims labeled by what kind of thing they are (a proof, a measurement, an estimate, a definition, a still-contested judgment) and connected to what they rest on, with one rule doing all the work, a claim is as grounded as its weakest necessary support. A gate: the sole way in, admitting a contribution only if it holds together with what is already there, and rechecking every declared grade on every change. And shared pieces: types and subtrees another kernel adopts by pinning them or leaves by forking, so nothing is enrolled and no one owns the result. Call the whole a knowledge kernel. Any reader recomputes any claim's standing from the public structure, trusting no one, and gets the same answer as everyone else.
+
+This submission builds one instance of the type. Watch it work. In its tree sits the claim that LHC collisions pose no black hole catastrophe risk. Its support descends through the fact that nature has run higher-energy collisions for billions of years, down through the measured flux of cosmic rays striking the moon and surviving neutron stars, and terminates in astronomical measurement: something anyone can recheck. Now notice what the machine never knew. It has no idea the claim is about physics. Hand it a claim about disease origins and it runs the identical computation down to an epidemiological estimate; hand it a claim about diet and it runs it down to a public act of definition. And it has no idea who made the claim. It checks a claim's structure, never its author's identity or nature, so a person, a model, and an agent pipeline are checked exactly the same way. That is the whole trick: the attenuation of the author, done by a machine.
+
+## Three counterexamples
+
+The proof the machine does real epistemic work is that each case yields what a good synthesis would have smoothed flat.
+
+**The LHC.** The safety argument looks robust: several independent lines of evidence converging. It looks that way until the graph makes the assumption the lines share into an explicit node, and the convergence reprices as one assumption wearing several coats. In prose, that subtlety survives only as long as the author remembers to mention it. In the graph, it is a computed fact.
+
+**COVID origins.** The evidence looks decisive, in whichever direction the teller favors. It looks that way until the prior each verdict turns on is named as a claim of its own, and the debate resolves into one open weighing, held where a reader can reprice it instead of buried where a narrator settles it.
+
+**Eggs.** "Eggs are healthy" looks like a fact. It looks that way until the frame it presupposes, which population, which health outcome, replacing which other food, is swapped, and the verdict swaps with it while every measurement underneath keeps its grade.
+
+Three domains, three counterexamples, one machine that never knew the difference.
+
+## What you are evaluating: a protocol, with a working instance
+
+The submission has three layers. The kernel is the checkable core: the schema, the gate, the grounding rule. The API is one contract through which everything reads and writes. The periphery is the interfaces. The contribution is the kernel and the contract, because that is the part that stays fixed while surfaces come and go, and because once the grounding is a shared checkable object, anyone can build any interface over it without being trusted about the grounding. Interfaces are the part a market supplies.
+
+So read the periphery by its allocation rule: it is thick exactly where the protocol needs thickness to spread, and nowhere else. A guided walk exists so you can see the three counterexamples with reproducible receipts. A kernel manager exists so you can operate a federation of four kernels and author a claim through the real gate. A generator and an on-ramp exist so a stranger can stand up a kernel of their own from a config file. What is absent is product polish, and it is absent on purpose: polish is what the contract lets others add.
+
+Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method.
+
+## Go deeper
+
+- **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
+- **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
+- **The three ways to arrange kernels, and why this one:** [The Kernel Taxonomy](kernel-taxonomy.md)
+- **Exactly what is built and what is specified:** [The Status Ledger](status-ledger.md)
+- **The approaches killed on the way here, with reasons:** [The Compost Ledger](compost-ledger.md)
+- **Run it yourself:** [Quickstart](quickstart.md), clone to green checks in about two minutes
+- **Where this goes next:** [Vision and Continuation](vision-and-continuation.md)

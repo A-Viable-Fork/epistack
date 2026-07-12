@@ -41,7 +41,7 @@
   }
 
   window.EpiShell.register({
-    id: "guided-path", title: "Start here: three things one reading cannot surface alone", kind: "path", order: 99, spine: true,
+    id: "guided-path", title: "The guided walk: three things one reading cannot surface alone", kind: "path", order: 99, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.lede) + "</p>";
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
@@ -56,7 +56,7 @@
       }
       ctx.mount.innerHTML = html;
       // register the walk as a cross-link anchor so the prose can navigate to it.
-      if (ctx.registerNode) ctx.registerNode("the guided path: three things one reading cannot surface alone", ctx.mount, "guided-path", "guided-path", "Start here: three things one reading cannot surface alone");
+      if (ctx.registerNode) ctx.registerNode("the guided path: three things one reading cannot surface alone", ctx.mount, "guided-path", "guided-path", "The guided walk: three things one reading cannot surface alone");
     },
   });
 })();

@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 187,
+  "nodeCount": 189,
   "edgeCount": 371,
   "nodes": [
     {
@@ -753,6 +753,13 @@
       "contract": "registers on window.EpiShell as a closing prose section (order 501, after the vision at 500), not marked spine: it is depth, the audit trail, not the essential read. Reads the embedded #compost-doc."
     },
     {
+      "path": "periphery/navigate/shell/modules/front-door.js",
+      "type": "periphery",
+      "group": "consumer",
+      "role": "the front door (Prompt 40). Renders docs/the-climb-of-synthesis.md, the easy-register overview, as the opening section of the surface, before the guided path, so a first reader lands on the two-page distillation. The canonical source is the markdown doc, vendored to vendor/front-door/front-door.md by build/vendor-front-door.mjs and inlined at #front-door-doc; this module renders it and asserts nothing.",
+      "contract": "registers on window.EpiShell as the opening prose section (order -1, spine). Reads the embedded #front-door-doc markdown and renders it, realizing the Go-deeper pointers as live links: in-surface where the target is a module here, the repo path where it is not."
+    },
+    {
       "path": "periphery/navigate/shell/modules/guided-path.js",
       "type": "periphery",
       "group": "consumer",
@@ -1024,6 +1031,13 @@
       "group": null,
       "role": "vendor the guided path into one JSON reading the presentation shell renders (Prompt 29). The three counterexamples, each a stop with four parts: the fluent reading a good synthesis would give, the protocol's counterexample, the reproducible receipt (recomputed here by the kernel readings, the same the check-demo oracle verifies), and a curated pointer into the exact case region. Built through the three shared case builders, written to vendor/demo/reading.json.",
       "contract": "`node build/vendor-demo.mjs` writes the reading. No arguments. Deterministic."
+    },
+    {
+      "path": "build/vendor-front-door.mjs",
+      "type": "build",
+      "group": null,
+      "role": "vendor the front door (docs/the-climb-of-synthesis.md) into vendor/front-door/front-door.md so the presentation shell renders the easy-register overview as its opening section from a file:// page with no repo tree present. The canonical source stays the markdown doc; this copies its body (the front-matter header stripped) so the shell holds no content of its own.",
+      "contract": "`node build/vendor-front-door.mjs` writes vendor/front-door/front-door.md. No arguments. Deterministic."
     },
     {
       "path": "build/eggs-build.mjs",

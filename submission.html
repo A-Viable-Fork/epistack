@@ -434,7 +434,7 @@ not take your word for independence: it prices it from the source table. Paste t
 Type: argument
 Purpose: Argues the whole submission for a judge, as the furthest-derived leaf that compiles the sources and points at where the truth lives.
 Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/knowledge-system-why.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md
-Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md, docs/vision-and-continuation.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/criteria-to-architecture-map.md, docs/document-style-guide.md, docs/reading-the-brief.md, docs/the-climb-of-synthesis.md, docs/vision-and-continuation.md
 ---
 
 # What Stands Without Trust
@@ -2127,6 +2127,62 @@ Reactivation: none. The free tier is genuinely structured, and collapsing it bac
 **22. "Keeps the center out" as the framing.**
 The anti-capture invariants were first framed as keeping the center out, which is negation-first and adversarial, defined by the enemy it prevents. It was replaced by an affirmative statement of the same property, keeping authority distributed by keeping standing computed rather than granted.
 Reactivation: none. Affirmative framing is the standard the submission holds throughout.</script>
+<!-- the front door (the easy-register overview), vendored from docs/the-climb-of-synthesis.md, rendered by the front-door module (not copied) -->
+<script type="text/markdown" id="front-door-doc"># The Climb of Synthesis
+
+*The critique, its three counterexamples, and the protocol they force. Two pages. Start here.*
+
+## The tool everyone will build, and where it stops
+
+Ask the best AI research tool a hard question and it produces a synthesis: it reads everything, ties each claim to its source, and writes one clean, integrated answer. This is genuinely good and it gets better every month. This competition will receive many excellent versions of it, and I look forward to using them.
+
+But a synthesis has one limit no improvement removes: it is one reader's view of the record. From inside a single view, however good, you cannot tell which parts are the world and which parts are the viewer, because the viewer is woven through every sentence. Everything follows from that. To check one step you must redo the whole thing. To combine two syntheses you need a person back in the loop. Challenged, a synthesis offers its author's judgment as the final word. So you read it, and then it ends. And as syntheses get better and cheaper, the point sharpens rather than softens: even the best is still one viewpoint, and the trust it asks for is the entire product.
+
+## What might knowledge be
+
+Two familiar facts show the alternative.
+
+A mathematical proof asks you to trust nothing about the prover. You check the steps. The prover could be anyone or no one; a single checked proof removes its author entirely.
+
+A measured constant asks you to trust no single lab. One lab's measurement is testimony you either believe or don't. What you trust is that many independent measurements agree, so the number survives any one lab being wrong. As measurements accumulate, trust in any particular measurer is turned down toward the measurements themselves.
+
+Here is the definition this submission runs on, stated once at full density: knowledge is the invariant left as the model is attenuated. Plainly: turn down your reliance on whoever is telling you, and knowledge is what does not move. The proof is the case where the attenuation completes, trust in the prover driven to zero because the steps carry the whole weight. The measurement is the case where it approaches a floor, trust in any one measurer turned down across many, what agrees being what remains. A synthesis can perform neither on itself: its author cannot be checked, and cannot be agreed out, because removing the author destroys the result. So a synthesis is a contribution to knowledge, one measurement's worth, and not knowledge. The missing layer is whatever performs the attenuation. That climb, from one viewpoint's reach to what stands without it, is what this submission builds.
+
+## The protocol: a knowledge kernel
+
+The layer that performs the attenuation has a type, and the type has three parts. A typed claim graph: claims labeled by what kind of thing they are (a proof, a measurement, an estimate, a definition, a still-contested judgment) and connected to what they rest on, with one rule doing all the work, a claim is as grounded as its weakest necessary support. A gate: the sole way in, admitting a contribution only if it holds together with what is already there, and rechecking every declared grade on every change. And shared pieces: types and subtrees another kernel adopts by pinning them or leaves by forking, so nothing is enrolled and no one owns the result. Call the whole a knowledge kernel. Any reader recomputes any claim's standing from the public structure, trusting no one, and gets the same answer as everyone else.
+
+This submission builds one instance of the type. Watch it work. In its tree sits the claim that LHC collisions pose no black hole catastrophe risk. Its support descends through the fact that nature has run higher-energy collisions for billions of years, down through the measured flux of cosmic rays striking the moon and surviving neutron stars, and terminates in astronomical measurement: something anyone can recheck. Now notice what the machine never knew. It has no idea the claim is about physics. Hand it a claim about disease origins and it runs the identical computation down to an epidemiological estimate; hand it a claim about diet and it runs it down to a public act of definition. And it has no idea who made the claim. It checks a claim's structure, never its author's identity or nature, so a person, a model, and an agent pipeline are checked exactly the same way. That is the whole trick: the attenuation of the author, done by a machine.
+
+## Three counterexamples
+
+The proof the machine does real epistemic work is that each case yields what a good synthesis would have smoothed flat.
+
+**The LHC.** The safety argument looks robust: several independent lines of evidence converging. It looks that way until the graph makes the assumption the lines share into an explicit node, and the convergence reprices as one assumption wearing several coats. In prose, that subtlety survives only as long as the author remembers to mention it. In the graph, it is a computed fact.
+
+**COVID origins.** The evidence looks decisive, in whichever direction the teller favors. It looks that way until the prior each verdict turns on is named as a claim of its own, and the debate resolves into one open weighing, held where a reader can reprice it instead of buried where a narrator settles it.
+
+**Eggs.** "Eggs are healthy" looks like a fact. It looks that way until the frame it presupposes, which population, which health outcome, replacing which other food, is swapped, and the verdict swaps with it while every measurement underneath keeps its grade.
+
+Three domains, three counterexamples, one machine that never knew the difference.
+
+## What you are evaluating: a protocol, with a working instance
+
+The submission has three layers. The kernel is the checkable core: the schema, the gate, the grounding rule. The API is one contract through which everything reads and writes. The periphery is the interfaces. The contribution is the kernel and the contract, because that is the part that stays fixed while surfaces come and go, and because once the grounding is a shared checkable object, anyone can build any interface over it without being trusted about the grounding. Interfaces are the part a market supplies.
+
+So read the periphery by its allocation rule: it is thick exactly where the protocol needs thickness to spread, and nowhere else. A guided walk exists so you can see the three counterexamples with reproducible receipts. A kernel manager exists so you can operate a federation of four kernels and author a claim through the real gate. A generator and an on-ramp exist so a stranger can stand up a kernel of their own from a config file. What is absent is product polish, and it is absent on purpose: polish is what the contract lets others add.
+
+Every part of what was built has an oracle: run the checks and each one states the invariant it verified, in about two minutes. What is designed but not built, the coordination machinery a large federation of many writers would need, is marked specified in the status ledger, with its open problems named. The line between built and specified is kept sharp, because keeping such lines sharp is the entire method.
+
+## Go deeper
+
+- **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
+- **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
+- **The three ways to arrange kernels, and why this one:** [The Kernel Taxonomy](kernel-taxonomy.md)
+- **Exactly what is built and what is specified:** [The Status Ledger](status-ledger.md)
+- **The approaches killed on the way here, with reasons:** [The Compost Ledger](compost-ledger.md)
+- **Run it yourself:** [Quickstart](quickstart.md), clone to green checks in about two minutes
+- **Where this goes next:** [Vision and Continuation](vision-and-continuation.md)</script>
 <!-- the accessible register of the judges document (window.EpiRegisters), read by the prose module -->
 <script>// Role: the accessible register of the judges document (Prompt: register view, phase B). Pure data,
 //   an ordered list of section records, one per precise section of docs/what-stands-without-trust.md.
@@ -4909,6 +4965,73 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
 
   root.EpiShell = { register: register, unregister: unregister, modules: modules, compose: compose };
 })(typeof window !== "undefined" ? window : this);</script>
+<script>// Role: the front door (Prompt 40). Renders docs/the-climb-of-synthesis.md, the easy-register overview,
+//   as the opening section of the surface, before the guided path, so a first reader lands on the two-page
+//   distillation. The canonical source is the markdown doc, vendored to vendor/front-door/front-door.md by
+//   build/vendor-front-door.mjs and inlined at #front-door-doc; this module renders it and asserts nothing.
+// Contract: registers on window.EpiShell as the opening prose section (order -1, spine). Reads the embedded
+//   #front-door-doc markdown and renders it, realizing the Go-deeper pointers as live links: in-surface
+//   where the target is a module here, the repo path where it is not.
+// Invariant: periphery; it computes no grounding and touches no truth field. It is prose and links only,
+//   so it needs no contract read. Where a pointer resolves in-surface it navigates within the page; where
+//   it does not it opens the repo path. No dead links.
+(function () {
+  "use strict";
+  if (typeof window === "undefined" || !window.EpiShell) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }); }
+  var el = typeof document !== "undefined" && document.getElementById("front-door-doc");
+  if (!el) return;
+  var MD = el.textContent || "";
+  MD = MD.replace(/^\s*---\r?\n[\s\S]*?\r?\n---\r?\n/, ""); // strip front-matter if the vendored copy carries it
+
+  // resolve a doc-relative href to where it lives on this surface: an in-page module anchor where the
+  // target is a module here, else the repo path from submission.html at the tree root.
+  var TARGET = {
+    "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
+    "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
+    "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
+    "kernel-taxonomy.md": "docs/kernel-taxonomy.md",
+    "status-ledger.md": "docs/status-ledger.md",
+    "compost-ledger.md": "docs/compost-ledger.md",
+    "quickstart.md": "docs/quickstart.md",
+  };
+  function resolve(href) { return Object.prototype.hasOwnProperty.call(TARGET, href) ? TARGET[href] : href; }
+
+  // one inline run: escape, then splice in [text](href) links, then bold/italic/code. Link text here is
+  // plain, so escaping the whole string first is safe; the mapped href carries no markdown metacharacters.
+  function inline(text) {
+    return esc(text)
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (_m, label, href) {
+        return '<a href="' + esc(resolve(href)) + '">' + label + "</a>";
+      })
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*]+)\*/g, "<em>$1</em>")
+      .replace(/`([^`]+)`/g, "<code>$1</code>");
+  }
+
+  window.EpiShell.register({
+    id: "front-door", title: "The Climb of Synthesis", kind: "prose", order: -1, spine: true,
+    render: function (ctx) {
+      ctx.mount.classList.add("shell-prose");
+      var html = "";
+      MD.split(/\n{2,}/).forEach(function (block) {
+        block = block.trim();
+        if (!block) return;
+        if (/^#\s+/.test(block)) return; // the doc H1 duplicates the section title; skip it
+        if (/^###\s+/.test(block)) { html += "<h4>" + inline(block.replace(/^###\s+/, "")) + "</h4>"; return; }
+        if (/^##\s+/.test(block)) { html += "<h3>" + inline(block.replace(/^##\s+/, "")) + "</h3>"; return; }
+        if (/^[-*]\s+/.test(block)) {
+          html += "<ul class=\"front-door-list\">" + block.split(/\n/).map(function (li) {
+            return "<li>" + inline(li.replace(/^[-*]\s+/, "")) + "</li>";
+          }).join("") + "</ul>";
+          return;
+        }
+        html += "<p>" + inline(block.replace(/\n/g, " ")) + "</p>";
+      });
+      ctx.mount.innerHTML = html;
+    },
+  });
+})();</script>
 <script>// Role: the guided path as a shell module (Prompt 29). Stages the three counterexamples in sequence,
 //   each a stop with four parts: the fluent reading a good synthesis would give, the protocol's
 //   counterexample, the reproducible receipt a judge runs to see it (recomputed by the kernel at build
@@ -4952,7 +5075,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
   }
 
   window.EpiShell.register({
-    id: "guided-path", title: "Start here: three things one reading cannot surface alone", kind: "path", order: 99, spine: true,
+    id: "guided-path", title: "The guided walk: three things one reading cannot surface alone", kind: "path", order: 99, spine: true,
     render: function (ctx) {
       var html = '<p class="shell-lede">' + esc(R.lede) + "</p>";
       html += (R.stops || []).map(function (s, i) { return stopHtml(s, i + 1); }).join("");
@@ -4967,7 +5090,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       }
       ctx.mount.innerHTML = html;
       // register the walk as a cross-link anchor so the prose can navigate to it.
-      if (ctx.registerNode) ctx.registerNode("the guided path: three things one reading cannot surface alone", ctx.mount, "guided-path", "guided-path", "Start here: three things one reading cannot surface alone");
+      if (ctx.registerNode) ctx.registerNode("the guided path: three things one reading cannot surface alone", ctx.mount, "guided-path", "guided-path", "The guided walk: three things one reading cannot surface alone");
     },
   });
 })();</script>
