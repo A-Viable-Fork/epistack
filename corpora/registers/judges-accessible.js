@@ -124,7 +124,7 @@
     {
       section_id: "what-was-built",
       precise_anchor: "What was built: a knowledge kernel, arranged top-down",
-      precise_version: "675dd02a67b0be04",
+      precise_version: "60809eb3f504d158",
       register_link: "paper-4",
       accessible:
         "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, opening the two markets named above. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead.\n\n" +

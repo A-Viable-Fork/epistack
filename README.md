@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: Introduces the submission and funnels a reader to the front door and the rest, as the index.
-Depends on: docs/the-climb-of-synthesis.md, docs/what-stands-without-trust.md
+Depends on: docs/on-transparency.md, docs/the-climb-of-synthesis.md, docs/what-stands-without-trust.md
 Depended on by: nothing
 ---
 
@@ -17,6 +17,7 @@ Two ways in: read the critique and click any claim through to its live grounding
 
 - **Start here:** [The Climb of Synthesis](docs/the-climb-of-synthesis.md), the critique, its three counterexamples, and the protocol they force, in two pages
 - **The full argument:** [What Stands Without Trust](docs/what-stands-without-trust.md), the taxonomy in full, the schema, and the federation appendix
+- **Why the submission is shaped as an open system:** [On Transparency](docs/on-transparency.md), the account of why an open form is the one the problem forces
 - **The assembled surface:** open [`submission.html`](submission.html), which opens on the front door, then the guided walk, the three cases, and the demonstrations, every case claim carrying its live grade
 - **The cases, to walk them:** [`corpora/`](corpora/), LHC safety, COVID origins, egg nutrition, one machinery carrying each to its own termination
 - **The workflows over the contract:** [The Workflow Atlas](docs/workflow-atlas.md), how any producer feeds a source into the gate and any consumer asks a question of the graph, worked over the built contract

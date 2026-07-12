@@ -23,6 +23,7 @@
     "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
     "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
     "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
+    "on-transparency.md": "docs/on-transparency.md",
     "workflow-atlas.md": "docs/workflow-atlas.md",
     "kernel-taxonomy.md": "docs/kernel-taxonomy.md",
     "status-ledger.md": "docs/status-ledger.md",
@@ -62,6 +63,9 @@
         }
         html += "<p>" + inline(block.replace(/\n/g, " ")) + "</p>";
       });
+      // reading-order handoff: after the critique, before the protocol demonstration, route to the
+      // governing openness argument. A pointer, not the document's text.
+      html += '<p class="front-door-next">Read next, before the protocol demonstration: <a href="docs/on-transparency.md">On Transparency</a>, why this submission takes an open form.</p>';
       ctx.mount.innerHTML = html;
     },
   });
