@@ -54,7 +54,7 @@ Cascaded from the submission hub, and through it from the Meta-Trellis. Non-nego
 
 ## LINTER
 
-**[LINTER MODE]** Theory-building archetype: flag-primary with selective kill. Inherited hub rules apply, in particular Depth-as-Elaboration (load-bearing here), Unmapped Vocabulary, Naked Axioms, and Rhetorical Inflation. Child-specific rules:
+**[LINTER MODE]** Theory-building archetype: flag-primary with selective kill. Inherited hub rules apply, in particular Depth-as-Elaboration (load-bearing here), Naked Axioms, and Rhetorical Inflation. Child-specific rules:
 
 **Depth-as-Elaboration.** `[FLAG MODE, inherited, load-bearing]` *Test: does a channel or a descent add adjectives rather than a distinct way-of-knowing?* Remediation: a real channel answers the question through a different epistemic route (a guideline vs an n-of-1 test vs a thermodynamic accounting). Elaboration adds words. The completeness test fails the instant the list grows by elaboration instead of by inferential substructure.
 
@@ -184,7 +184,7 @@ ER-001's kill was specifically about the second wire: cutting the welfare channe
 | ID | Title | Section Relation | Date | Notes |
 |---|---|---|---|---|
 | EG-01 | This spec conversation | Four-word parse, lines of flight, the provenance channel | 2026-06-24 | Source of the word-by-word parse, the counterfactual-plate anchor, the cut-on-should, the regenerative sign-flip, and the game-bound-deontology structural use |
-| EG-02 | Ethics trellis (Ethics: The Topology and Dynamics of Variety) | Provenance channel, requisite-variety import, the floor reopening | Active | The imported structures (requisite variety, the floor, valence-as-contraction) used translated. The game-bound deontology thesis stays here, used not asserted |
+| EG-02 | Ethics trellis (Ethics: The Topology and Dynamics of Variety) | Provenance channel, requisite-variety import, the floor reopening | Active | The imported structures (requisite variety, the floor, valence-as-contraction) used. The game-bound deontology thesis stays here, used not asserted |
 | EG-03 | Dietary-cholesterol guideline reversal (object-level anchor) | Eggs channel | Pointer | Not fetched in this lean build. Anchors the intrinsic-properties channel; S-EG-ANCHORS |
 | EG-04 | Individual cholesterol response heterogeneity, hyper-responders (object-level anchor) | I channel | Pointer | Not fetched in this lean build. Anchors the indexical channel; S-EG-ANCHORS |
 | EG-05 | The product (knowledge-game.html), n-should worked module, the eggs-harm sufficiency run | Constitutive promotion, S-EG-CONSTITUTIVE, S-EG-ARTIFACT, S-EG-PROVENANCE-SURFACE | 2026-06-26 | The shipped parse module plus the runnable sufficiency check (four-terminal ontology undercovers the normative residue; six covers it; no framework adopted). Source of the constitutive promotion and the provenance-to-conjecture-depth relocation |

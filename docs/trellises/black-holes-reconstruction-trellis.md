@@ -51,7 +51,7 @@ Cascaded from the submission hub, and through it from the Meta-Trellis. Non-nego
 
 ## LINTER
 
-**[LINTER MODE]** Empirical archetype: flag-primary with selective kill. Inherited rules from the hub still apply, in particular Trellis-as-Hero, Rhetorical Inflation, Depth-as-Elaboration, and Unmapped Vocabulary. Child-specific rules:
+**[LINTER MODE]** Empirical archetype: flag-primary with selective kill. Inherited rules from the hub still apply, in particular Trellis-as-Hero, Rhetorical Inflation, and Depth-as-Elaboration. Child-specific rules:
 
 **Flat-List.** `[FLAG MODE]` *Test: are the safety arguments presented as a flat list of independent confirmations?* Remediation: draw the dependency edges, then check which arguments collapse onto a shared assumption. This is the central analytic move of the case.
 
