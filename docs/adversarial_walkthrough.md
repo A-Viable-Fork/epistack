@@ -9,7 +9,7 @@ Depended on by: nothing
 
 The robustness argument states a solution type: a gate expensive to game and recoverable when gamed, cost from time-locked standing and required work, damage capped by forkability. This walks that type through five concrete attacks, so the mechanism is visible rather than asserted. Each scenario names the attack, follows what the mechanism does, and states the bound honestly. Where a mechanism is specified rather than built, it is marked, because the point is the shape of the defense, not a claim that all of it runs.
 
-This is the worked-scenarios companion to [Robustness Under Adversaries](adversarial-robustness.md), which argues the solution type these five attacks make concrete.
+This is the worked-scenarios companion to [Robustness Under Adversaries](adversarial-robustness.md), which argues the solution type these five attacks make concrete. In the moves framing that companion sets out, each of the five is an attempted non-move: not a move the gate blocks but one it never recognizes as standing, so the defense is that gaming is not among the admissible moves rather than that it is detected and stopped.
 
 The threat model is producer-agnostic. An adversary here is anything that emits claims, a person, an organization, a model, or a pipeline of these, and none of the five defenses turns on which it is: standing is priced and revoked, and captured state is forked, the same way whatever produced the attack. How strictly a community gates agents in particular is a free parameter it sets in [The Parameters Register](parameters-register.md), not an assumption baked into the threat model here.
 
