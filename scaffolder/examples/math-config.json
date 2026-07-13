@@ -1,0 +1,35 @@
+{
+  "kernel_id": "math",
+  "adopted_type_hashes": [
+    "declaration",
+    "measurement"
+  ],
+  "local_kinds": [
+    { "kind": "theorem", "ceiling": "constitutive" }
+  ],
+  "sources": [
+    {
+      "source_id": "src:confidence-order",
+      "source_class": "institutional-report",
+      "description": "The EpiStack confidence order and protocol specification (kernel/schema/confidence.mjs, docs/protocol-spec.md Section 3): the grade set, its partial order, and the empirical/constitutive mode split, declared as this kernel's given primitives"
+    },
+    {
+      "source_id": "src:exhaustion",
+      "source_class": "primary-measurement",
+      "description": "PLACEHOLDER CLASS (source-class decision, case b): exhaustive enumeration of a finite operation over its whole domain, a proof by exhaustion. The substrate menu has no exhaustive-check class; primary-measurement is the closest honest existing class pending a maintainer decision on whether the substrate menu gains one"
+    },
+    {
+      "source_id": "src:differential-test",
+      "source_class": "primary-measurement",
+      "description": "PLACEHOLDER CLASS (source-class decision, case b): a differential-test harness that generates random graphs and confirms the extracted math is what the code computes. The substrate menu has no differential-testing class; primary-measurement is the closest honest existing class pending a maintainer decision"
+    },
+    {
+      "source_id": "src:formal-proof",
+      "source_class": "primary-measurement",
+      "description": "PLACEHOLDER CLASS (source-class decision, case b): a formal proof-assistant proof. The substrate menu has no formal-proof class; primary-measurement is the closest honest existing class pending a maintainer decision, and it is the least natural fit of the three placeholders"
+    }
+  ],
+  "time_lock": {
+    "setting": "light"
+  }
+}
