@@ -112,6 +112,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-math-embed.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/adoption.mjs",
     "type": "build",
     "flows": [
