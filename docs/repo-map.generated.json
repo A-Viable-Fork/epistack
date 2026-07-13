@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 195,
-  "edgeCount": 394,
+  "nodeCount": 196,
+  "edgeCount": 399,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -984,6 +984,13 @@
       "contract": "`node build/check-math-embed.mjs` exits non-zero on any failure, naming the offender. Reads corpora/math/{math-data,embed-manifest}.js and the kernel code files named in the manifest."
     },
     {
+      "path": "build/check-certificate.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the certificate-seal oracle (CERT-1). Confirms the defining property of the derived certificate hash: it is a function of the sealed bundle, changing if and only if a bundled part changes, and reproducing byte-for-byte for an identical certified assembly. This is the differential test for the seal, the pattern the math kernel uses. It also confirms the two design rules that protect the scaling: the seal is computed downstream of grounding (grounding is never read by it and never touched), and expiry is mark-stale by comparison, never an eager re-ground.",
+      "contract": "`node build/check-certificate.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
+    },
+    {
       "path": "build/adoption.mjs",
       "type": "build",
       "group": null,
@@ -1595,6 +1602,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/gate/verify.mjs",
       "to": "kernel/gate/gate.mjs",
       "type": "imports",
@@ -2083,6 +2097,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-certificate.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-certificate.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-certificate.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-certificate.mjs",
+      "to": "kernel/gate/verify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-characterized-gaps.mjs",

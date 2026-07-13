@@ -34,7 +34,15 @@ export function firstDivergence(a, b, path = "") {
   return { path: path || "(root)", a, b };
 }
 
-// Section 11: re-run one decision and compare every receipt field byte-exactly.
+// Section 11: re-run one decision and compare every receipt field byte-exactly. The certificate hash
+// (CERT-1) is one of those fields, so it is reproduced and compared like any other: it is the first-line
+// integrity check, a single comparison over the sealed bundle (the grades, the bindings, the checking
+// records, the state, and the ruleset that define the certification) that confirms the whole certified
+// assembly at once. The certificate hash does not replace verification, it seals it: correspondence,
+// that the grade follows from the grounding, is established by the gate's computation; the hash
+// guarantees the assembly is the exact one that was certified, and expires (fails to match) when any
+// bundled part changes. The field-by-field re-run remains the fallback that names exactly where a
+// mismatch lies, so a certificate hash that does not reproduce is a divergence named like any other.
 export function verifyDecision(receipt, contribution, storeView, versions = {}) {
   const rederived = decide(contribution, storeView, {
     rulesetVersion: receipt.ruleset_version, schemaVersion: receipt.schema_version, sourceVersion: versions.sourceVersion,
