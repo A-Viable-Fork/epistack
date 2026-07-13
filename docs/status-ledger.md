@@ -2,7 +2,7 @@
 Type: record
 Purpose: Records the single source of build truth, so every other document cites status here rather than re-asserting it.
 Depends on: docs/architecture-the-unownable-graph.md, docs/composition-spec.md, docs/design-axioms.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/sorry-ledger.md, docs/trellis-to-v3.md
-Depended on by: CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/coordination-layer-spec.md, docs/criteria-to-architecture-map.md, docs/on-transparency.md, docs/reading-the-brief.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md, docs/workflow-atlas.md
+Depended on by: CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/coordination-layer-spec.md, docs/criteria-to-architecture-map.md, docs/governing-trellis.md, docs/on-transparency.md, docs/reading-the-brief.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md, docs/workflow-atlas.md
 ---
 
 # Status Ledger
@@ -16,6 +16,8 @@ Read the built-versus-specified split as a deliberate choice, not as unfinished 
 So a specified stage here is a named-on-purpose deferral, not a claim in flight. This summary states the split and its reason and stops: it does not claim or imply that any specified stage is nearly done or as good as built, and it does not soften what is unbuilt. Read what is built and load-bearing first; then read the specified stages as the mapped path they are, not as a shortfall.
 
 The single source of build truth. Every claim about what is and is not built lives here, graded on one scale, so prose elsewhere states a claim and points here instead of re-hedging in every paragraph. If a maturity claim appears anywhere else, it is wrong by construction: this file is the only place build status is asserted.
+
+The repository holds its own governing constraints as a trellis, `docs/governing-trellis.md`, enforced by the same check suite, each constraint's enforcement status derived from the oracle that checks it.
 
 ## How to read this ledger
 
