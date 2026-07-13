@@ -51,3 +51,17 @@ kill or a discrepancy without a record is one you cannot revisit.
   `docs/schema-revisions.md`). The v0.1 embedded `<script id="kg-graph">` graph survives only in
   the archived classic submission (`archive/`), which no build target ships, so the migration step
   is done rather than pending.
+
+- **G-D. The math kernel's recurrence properties sit at checked, not proof-floor. OPEN.** The math
+  kernel (`corpora/math/`, the sixth exhibit) grounds its lattice laws at the constitutive proof-floor
+  by exhaustion (`build/check-math-exhaustion.mjs`, a complete proof over the finite grade domain). Its
+  recurrence, contamination, and crossing properties (`thm.earned-recurrence`, `thm.earned-linear`,
+  `thm.ungrouped-singleton`, `thm.cycle-guard`, `thm.settled-not-inherited`, `thm.determinism`,
+  `thm.contamination-monotone`, `thm.crossing-min`, `thm.untyped-floor`) are grounded at the checked
+  tier by differential testing (`build/check-math-differential.mjs`), the tier random-trial agreement
+  reaches. These properties are provable over their unbounded domain but are not yet proven here. The
+  closing condition is a formal proof-assistant proof of each recurrence property, which would let it
+  re-type from a checked measurement to a proof-floor theorem citing `src:formal-proof`. This is the
+  honest gap between the tier the evidence reaches (checked, by testing) and the tier the property
+  admits (proof-floor, by formal proof); it is not a node marker, so it is tracked here in prose rather
+  than in the machine-checked table above.

@@ -19,7 +19,7 @@ const { STORE } = require("../corpora/math/math-data.js");
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
 const H = "=".repeat(80);
-console.log(H); console.log("CHECK-MATH (sixth exhibit, in progress): the math kernel, stage two (bare)"); console.log(H);
+console.log(H); console.log("CHECK-MATH (sixth exhibit, in progress): the math kernel, stage three (grounded)"); console.log(H);
 
 console.log("\n[1] every adopted kind is in the shared subtree and its pinned hash matches");
 for (const name of ADOPTED) {
@@ -59,27 +59,33 @@ if (built) {
   }
 }
 
-console.log("\n[4] the stage-two foundational properties are bare, so the gate floors them by their kind's rule");
+console.log("\n[4] the stage-three grounding lifts each property by the gate's own computation");
 if (built) {
-  ok(STORE.links.length === 0, `no support links are attached yet (got ${STORE.links.length})`);
   const props = STORE.claims.filter((c) => c.ref.startsWith("thm."));
   const gradeByIdentity = new Map(built.receipt.grade_table.map((g) => [g.identity, g]));
   const theorems = props.filter((c) => c.kind === "theorem");
   const measurements = props.filter((c) => c.kind === "measurement");
-  ok(theorems.length === 9 && measurements.length === 9, `the 18 bare properties are entered (got ${theorems.length} theorem, ${measurements.length} measurement)`);
-  for (const c of props) {
+  ok(theorems.length === 9 && measurements.length === 9, `the 18 properties are entered (got ${theorems.length} theorem, ${measurements.length} measurement)`);
+  // the lattice theorems: grounded by the axioms (support risen to settled) and the exhaustion proof, at
+  // the constitutive proof-floor. the recurrence and crossing measurements: lifted from the asserted
+  // floor to the checked tier by the differential-test checking record. no grade is raised by hand; the
+  // gate computes each from the attached support and checking records.
+  for (const c of theorems) {
     const g = gradeByIdentity.get(built.refId.get(c.ref));
-    ok(!!g && g.S === "asserted", `${c.ref}: carries no support, so support delivery is bare (got ${g ? g.S : "absent"})`);
-    // the lattice-law theorems sit at the constitutive proof-floor their kind confers; the recurrence and
-    // crossing measurements floor at asserted, the low floor an unsupported empirical claim gets. Stage
-    // three attaches the exhaustion and differential-test grounding that earns or justifies each.
-    const floor = c.kind === "theorem" ? "constitutive" : "asserted";
-    ok(!!g && g.earned_grade === floor, `${c.ref}: floors at ${floor} (got ${g ? g.earned_grade : "absent"})`);
+    ok(!!g && g.earned_grade === "constitutive", `${c.ref}: the gate holds it at the constitutive proof-floor (got ${g ? g.earned_grade : "absent"})`);
+    ok(!!g && g.S === "settled", `${c.ref}: it now rests on the axioms, so support delivery is settled, not bare (got ${g ? g.S : "absent"})`);
+    ok((c.checking_records || []).some((r) => r.checker_id === "oracle:check-math-exhaustion"), `${c.ref}: cites the exhaustion oracle as its proof`);
   }
+  for (const c of measurements) {
+    const g = gradeByIdentity.get(built.refId.get(c.ref));
+    ok(!!g && g.earned_grade === "checked", `${c.ref}: the gate lifts it to the checked tier (got ${g ? g.earned_grade : "absent"})`);
+    ok((c.checking_records || []).some((r) => r.checker_id === "oracle:check-math-differential"), `${c.ref}: cites the differential-test harness as its check`);
+  }
+  ok(STORE.links.length === 19, `the lattice theorems rest on the axioms through ${STORE.links.length} support links`);
 }
 
 console.log("\n" + H);
-if (fails === 0) console.log("verified: the math kernel is coherent, its axioms sit at the constitutive floor, and its stage-two properties are bare, floored by the gate at their kind's rule with no support.");
+if (fails === 0) console.log("verified: the math kernel grounds its own mathematics. The lattice laws hold the constitutive proof-floor by exhaustion, the recurrence and crossing properties the checked tier by differential testing, each grade computed by the gate over real support.");
 console.log(fails === 0 ? "check-math: OK" : `check-math: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);

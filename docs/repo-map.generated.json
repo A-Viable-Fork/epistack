@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 192,
-  "edgeCount": 383,
+  "nodeCount": 194,
+  "edgeCount": 393,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -961,6 +961,20 @@
       "group": null,
       "role": "the math kernel oracle (sixth exhibit, in progress). Verifies the kernel is coherent (every adopted kind is in the shared subtree and its pinned hash matches, the tables build, the gate accepts the store) and, from stage zero, that the confidence-order axioms are present as declaration-claims earning the constitutive floor. The scaffolder holds no rules; this is the real enforcer, and it evolves with the kernel: each stage adds the assertions its state earns.",
       "contract": "`node build/check-math.mjs` exits non-zero on any failure."
+    },
+    {
+      "path": "build/check-math-exhaustion.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the math kernel's exhaustion oracle (stage three). Proves the grade-lattice laws by enumerating meet and join over the whole finite collapsed grade line, which is a complete proof because it covers the entire domain. This passing oracle is the support that grounds the lattice theorem claims at the constitutive proof-floor. It tests the real operations from confidence.mjs, never an idealized algebra.",
+      "contract": "`node build/check-math-exhaustion.mjs` exits non-zero on any law that fails over the full enumeration. Imports only kernel/schema/confidence.mjs."
+    },
+    {
+      "path": "build/check-math-differential.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the math kernel's differential-test harness (stage three). Grounds the earned-grade recurrence, contamination, and crossing properties over their unbounded domain by generating random support graphs and confirming the real code agrees with the extracted math (the claim statements) restated independently, over many trials. Agreement over random trials is the checked tier, honestly below a proof; this passing harness is the support that grounds the measurement claims at checked.",
+      "contract": "`node build/check-math-differential.mjs` exits non-zero on any disagreement, printing the failing graph. Deterministic: a seeded generator, so a re-run is byte-identical. Imports the real grounding, crossing, gate, and adoption code."
     },
     {
       "path": "build/adoption.mjs",
@@ -2664,6 +2678,76 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/composition/transfer.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-differential.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-exhaustion.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-math.mjs",

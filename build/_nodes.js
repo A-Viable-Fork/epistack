@@ -104,6 +104,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-math-exhaustion.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-math-differential.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/adoption.mjs",
     "type": "build",
     "flows": [
