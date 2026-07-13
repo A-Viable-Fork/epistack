@@ -65,7 +65,7 @@ if (built) {
   const gradeByIdentity = new Map(built.receipt.grade_table.map((g) => [g.identity, g]));
   const theorems = props.filter((c) => c.kind === "theorem");
   const measurements = props.filter((c) => c.kind === "measurement");
-  ok(theorems.length === 9 && measurements.length === 9, `the 18 properties are entered (got ${theorems.length} theorem, ${measurements.length} measurement)`);
+  ok(theorems.length === 9 && measurements.length === 10, `the 19 properties are entered (got ${theorems.length} theorem, ${measurements.length} measurement)`);
   // the lattice theorems: grounded by the axioms (support risen to settled) and the exhaustion proof, at
   // the constitutive proof-floor. the recurrence and crossing measurements: lifted from the asserted
   // floor to the checked tier by the differential-test checking record. no grade is raised by hand; the
@@ -79,7 +79,16 @@ if (built) {
   for (const c of measurements) {
     const g = gradeByIdentity.get(built.refId.get(c.ref));
     ok(!!g && g.earned_grade === "checked", `${c.ref}: the gate lifts it to the checked tier (got ${g ? g.earned_grade : "absent"})`);
-    ok((c.checking_records || []).some((r) => r.checker_id === "oracle:check-math-differential"), `${c.ref}: cites the differential-test harness as its check`);
+    const oracles = (c.checking_records || []).map((r) => r.checker_id);
+    ok(oracles.includes("oracle:check-math-differential") || oracles.includes("oracle:check-certificate"), `${c.ref}: cites a differential-style oracle as its check`);
+  }
+  // the certificate seal (CERT-2): a measurement grounded at the checked tier by the seal oracle, not the recurrence harness.
+  const cert = measurements.find((c) => c.ref === "thm.certificate-seals-bundle");
+  ok(!!cert, "the certificate-seal claim thm.certificate-seals-bundle is entered");
+  if (cert) {
+    const g = gradeByIdentity.get(built.refId.get(cert.ref));
+    ok(!!g && g.earned_grade === "checked", `thm.certificate-seals-bundle: the gate lifts it to the checked tier by computation (got ${g ? g.earned_grade : "absent"})`);
+    ok((cert.checking_records || []).some((r) => r.checker_id === "oracle:check-certificate"), "thm.certificate-seals-bundle: cites the seal oracle build/check-certificate.mjs as its evidence");
   }
   ok(STORE.links.length === 19, `the lattice theorems rest on the axioms through ${STORE.links.length} support links`);
 }

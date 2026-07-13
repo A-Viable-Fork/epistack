@@ -18,6 +18,7 @@
 // random graphs. Both are distinct-party: the oracle is not the claimant.
 const EXH = { checker_id: "oracle:check-math-exhaustion", method_class: "derivation-audit", method: "exhaustive enumeration of meet and join over the whole collapsed grade line", checked_at_state: "math@stage-three", outcome: "confirms", independence: "distinct-party" };
 const DIFF = { checker_id: "oracle:check-math-differential", method_class: "replication", method: "differential testing: the code versus the extracted recurrence over random support graphs", checked_at_state: "math@stage-three", outcome: "confirms", independence: "distinct-party" };
+const CERT = { checker_id: "oracle:check-certificate", method_class: "replication", method: "differential testing of the seal: perturb each bundled part and confirm the certificate hash moves, and confirm an identical certified assembly reproduces the hash", checked_at_state: "math@cert", outcome: "confirms", independence: "distinct-party" };
 
 const claims = [
   // ---- stage zero: the axioms, declarations at the constitutive floor (the given basis) ----
@@ -73,6 +74,10 @@ const claims = [
     statement: "PROPERTY (crossing min): a cross-kernel crossing grades a composite claim as min(ceiling, min over its necessary carried grades) under the meet (compositeGrade in kernel/composition/transfer.mjs), folding from the top of scale, so the cross-boundary grade is well-defined on the collapsed line even across settled grades incomparable within their modes; corroborating citations are visible but not folded." },
   { ref: "thm.untyped-floor", kind: "measurement", declared_grade: "checked", source_id: "src:differential-test", contributor_id: "author:epistack", checking_records: [DIFF],
     statement: "PROPERTY (untyped floor, fork restores): a crossing into a kernel that does not pin the same type-hash arrives untyped and grounds nothing until an owned fork adopts the type locally, which restores standing; a same-hash crossing composes native and lossless." },
+
+  // ---- the certificate seal: a measurement grounded at the checked tier by the seal oracle (CERT-2) ----
+  { ref: "thm.certificate-seals-bundle", kind: "measurement", declared_grade: "checked", source_id: "src:differential-test", contributor_id: "author:epistack", checking_records: [CERT],
+    statement: "PROPERTY (certificate seals the bundle): the gate receipt's certificate hash is a function of the sealed certificate bundle (the accepted claim identities and their grades, the binding table, the checking records in play, the store state verified against, and the ruleset version, schema version, and contribution hash), changing if and only if a bundled part changes and reproducing byte-for-byte for an identical certified assembly; the excluded volatile fields (findings, the decision label, the closures and matches) do not affect it. Computed downstream of grounding by certificateSeal in kernel/gate/gate.mjs, so it adds no cost to the earned-grade recurrence and its resolution stays linear." },
 ];
 
 // the support the exhaustion proof rests on: each lattice theorem is grounded by the axioms, one

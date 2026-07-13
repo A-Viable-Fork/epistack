@@ -111,8 +111,8 @@ ok(typeof baseHash === "string" && baseHash.length === 64, `[0] the receipt carr
 // --- [9] static: the sealed bundle includes exactly the certifying fields, no volatile ones ---
 {
   const gateSrc = readFileSync(join(ROOT, "kernel/gate/gate.mjs"), "utf8");
-  const m = gateSrc.match(/certificate_hash\s*=\s*hashOf\(\{([\s\S]*?)\}\);/);
-  ok(!!m, "[9] the certificate bundle literal is present in gate.mjs");
+  const m = gateSrc.match(/hashOf\(\{([\s\S]*?)\}\)/);
+  ok(!!m, "[9] the certificate bundle literal is present in gate.mjs (the certificateSeal function)");
   const bundle = m ? m[1] : "";
   for (const f of ["ruleset_version", "schema_version", "store_state", "contribution_hash", "grade_table", "binding_table", "checking_records"])
     ok(bundle.includes(f), `[9] the sealed bundle includes the certifying field ${f}`);
@@ -125,7 +125,7 @@ ok(typeof baseHash === "string" && baseHash.length === 64, `[0] the receipt carr
   const grounding = readFileSync(join(ROOT, "kernel/grounding/earned-grade.mjs"), "utf8");
   ok(!/certificate/i.test(grounding), "[10] grounding (earned-grade.mjs) never mentions the certificate: the seal is downstream of grounding, never an input to it");
   const gateSrc = readFileSync(join(ROOT, "kernel/gate/gate.mjs"), "utf8");
-  ok(gateSrc.indexOf("const gradeTable") < gateSrc.indexOf("certificate_hash = hashOf"),
+  ok(gateSrc.indexOf("const gradeTable") < gateSrc.indexOf("certificate_hash = certificateSeal"),
     "[10] the certificate is computed after the grade table is built, so it reads the grounding result and never feeds it");
 }
 
