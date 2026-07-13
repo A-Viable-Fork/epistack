@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 189,
+  "nodeCount": 190,
   "edgeCount": 371,
   "nodes": [
     {
@@ -940,6 +940,13 @@
       "group": null,
       "role": "the lineage oracle (fourth case), modeled on build/check-covid.mjs. Verifies the STRUCTURE of the lineage case and REPORTS the gate's grading, because the demotions are the finding, not a failure to fix. It confirms every source resolves, the conjecture is a declaration resting on five independent near-miss gaps, the one replicated measurement (retraction non-acknowledgment) reaches checked, the institutional declarations self-warrant to the constitutive floor, and the gate priced the corpus producer-agnostically: exactly the claims declaring above what they earn are flagged as findings and none is forced through. It then prints how many demoted and to what, and which parallels ground weakly.",
       "contract": "`node build/check-lineage.mjs` exits non-zero only on a STRUCTURAL failure. Imports the kernel and the shared lineage builder; touches no truth field."
+    },
+    {
+      "path": "build/check-vocabulary.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the vocabulary kernel oracle (Prompt 50, the fifth exhibit). Verifies the property that keeps the definitions kernel honest: every core term's cited home region actually contains the term, so a definition cannot drift from the document that grounds it, the register-fidelity failure made mechanical. Reference terms, grounding in an external citation, are checked for having a real source.",
+      "contract": "`node build/check-vocabulary.mjs` exits non-zero on any failure, listing the offending terms. Reads corpora/vocabulary/{vocabulary,tables}.js and the home documents under docs/. Deterministic."
     },
     {
       "path": "build/adoption.mjs",
