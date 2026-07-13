@@ -124,7 +124,7 @@ The canonical form is defined by these rules:
   `{` each `"key":value` in sorted key order joined by `,` `}`.
 
 The hash is **SHA-256** over the UTF-8 bytes of that canonical encoding, expressed as lowercase hex.
-It is the one named hash; nothing else hashes. Four uses follow from it:
+It is the one named hash; nothing else hashes. Five uses follow from it:
 
 - **Claim identity** is the hash of the canonical form of the object `{ kind, statement }` (those two
   fields only, so identity is not the record hash).
@@ -135,6 +135,18 @@ It is the one named hash; nothing else hashes. Four uses follow from it:
 - **The record content hash** is the hash of the canonical form of the whole record including its
   `extensions` object; there is no separate extensions hash, and the extensions area is hashed but
   read by no check.
+- **The certificate hash** is the hash of the canonical form of the certificate bundle, the object
+  containing exactly `ruleset_version`, `schema_version`, `store_state`, `contribution_hash`,
+  `grade_table`, `binding_table`, and `checking_records`, where `checking_records` is the array of
+  per-entry `{ identity, checking_records }` pairs (each entry's identity with its own checking
+  records). Volatile and presentation-only receipt fields (the findings, the decision label, the
+  restatement closures, the withdrawn matches, the corroboration findings, and the contradiction
+  records) are deliberately excluded, so the same certified assembly always seals identically
+  regardless of how the decision was narrated. The object and array sorting rules above make the seal
+  order-independent and byte-stable, headless or in a browser. The certificate hash MUST be a function
+  of the sealed bundle, changing if any sealed field changes and reproducing byte-for-byte for an
+  identical certified assembly. Its reference conformance check is `build/check-certificate.mjs`, and
+  it is carried in the receipt as `certificate_hash` (Section 5).
 
 ## 3. The grade ordering and floors
 
@@ -271,7 +283,19 @@ The decision is `declined` if any check declined, else `accepted-with-disagreeme
 contradiction record was produced, else `accepted`. The receipt MUST
 carry: `ruleset_version`, `schema_version`, `store_state`, `contribution_hash`, `findings`,
 `binding_table`, `grade_table`, `restatement_closures`, `withdrawn_matches`, `corroboration_findings`,
-`contradiction_records`, `decision`, and `decision_basis`.
+`contradiction_records`, `decision`, `decision_basis`, and `certificate_hash`.
+
+The `certificate_hash` seals the receipt's certifying content, the certificate bundle of Section 2.4,
+into one content-addressed value, so a verifier can confirm the whole certified assembly in a single
+comparison before the field-by-field reproduction. It is derived at decision time and reproduced by
+re-running the decision, never stored as mutable claim state. A conforming verifier MUST reproduce the
+certificate hash when re-running a decision, and a certificate hash that does not reproduce is a
+divergence like any other receipt field. The seal does not replace verification, it seals it:
+correspondence, that the grade follows from the grounding, is established by the gate's computation
+above, and the seal guarantees the assembly is the exact one certified. A certificate is valid against
+exactly the state and ruleset its bundle names, so a certificate whose named `store_state` or
+`ruleset_version` is no longer current is stale, detected by comparison, with re-earning on next access
+rather than any eager recomputation of dependents.
 
 ## 6. The untyped type and the crossing
 
