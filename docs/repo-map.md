@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 192. Import edges: 350. Runtime flow edges: 33. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 194. Import edges: 360. Runtime flow edges: 33. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -212,6 +212,16 @@ Nodes: 192. Import edges: 350. Runtime flow edges: 33. All import edges satisfy 
 - `build/check-management.mjs` -> `build/adoption.mjs`  *(build -> build)*
 - `build/check-management.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
+- `build/check-math-differential.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-math-differential.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/grounding/earned-grade.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-math-differential.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-math-exhaustion.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-math.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-math.mjs` -> `corpora/math/math-data.js`  *(build -> corpus)*
 - `build/check-math.mjs` -> `corpora/math/tables.js`  *(build -> corpus)*
