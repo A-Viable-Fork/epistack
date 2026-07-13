@@ -13,6 +13,7 @@ import { earnedGrade } from "../grounding/earned-grade.mjs";
 import { leqWithinMode, POSITIONS } from "../schema/confidence.mjs";
 import { footprintClosure, ceilingFor, sourceClass } from "../schema/tables.mjs";
 import { referenceBindingRow, wellFormednessFinding, contradictionRecord, corroborationFinding, coverageNote } from "../schema/records.mjs";
+import { hashOf } from "../schema/canonical.mjs";
 
 // union-find over restatement links: the closure treats joined identities as one claim.
 export function restatementClosure(restatementPairs) {
@@ -205,6 +206,23 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
   else if (contradictionRecords.length > 0) { decision = "accepted-with-disagreement"; decisionBasis.push("SEC-6-contradiction"); }
   else { decision = "accepted"; decisionBasis.push("all-checks-clean"); }
 
+  // ---- the certificate hash (CERT-1): a derived seal over the grounded-claim receipt ----
+  // Computed downstream of grounding, never an input to it: it reads the results the gate already
+  // produced and seals them, so earnedGrade and the earned-grade recurrence are untouched (design
+  // rule 1). It is derived, not stored: it lives with the receipt and reproduces by re-running the
+  // decision, the same discipline the earned grade follows (design rule 2). The bundle is exactly the
+  // certifying content, the claim identities and their grades, the bindings, the checking records in
+  // play, the state verified against, and the ruleset and schema and contribution it was decided under,
+  // so changing any certified part changes the seal; volatile and presentation-only fields (findings,
+  // the decision label, closures, matches) are excluded so the same certified assembly always seals
+  // identically. canonicalize sorts the sets, so the seal is order-independent and byte-stable.
+  const certificate_hash = hashOf({
+    ruleset_version: rulesetVersion, schema_version: schemaVersion,
+    store_state: storeView.stateHash, contribution_hash: contribution.hash,
+    grade_table: gradeTable, binding_table: bindingTable,
+    checking_records: entries.map((e) => ({ identity: e.identity, checking_records: e.checking_records || [] })),
+  });
+
   return {
     ruleset_version: rulesetVersion, schema_version: schemaVersion,
     store_state: storeView.stateHash, contribution_hash: contribution.hash,
@@ -212,5 +230,6 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
     restatement_closures: [...new Set(entries.map((e) => [...closureOf(e.identity)].sort().join(",")))].map((s) => s.split(",")),
     withdrawn_matches: withdrawnMatches, corroboration_findings: corroborationFindings,
     contradiction_records: contradictionRecords, decision, decision_basis: decisionBasis,
+    certificate_hash,
   };
 }

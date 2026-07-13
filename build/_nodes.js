@@ -116,6 +116,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-certificate.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/adoption.mjs",
     "type": "build",
     "flows": [
