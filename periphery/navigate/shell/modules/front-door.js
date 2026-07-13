@@ -21,6 +21,7 @@
   // target is a module here, else the repo path from submission.html at the tree root.
   var TARGET = {
     "what-stands-without-trust.md": "#mod-paper-0",   // the judges document, the prose (register) module
+    "protocol-spec.md": "docs/protocol-spec.md",      // the extractable spec, at its repo path
     "../submission.html": "#mod-guided-path",         // the walk, staged in-surface
     "vision-and-continuation.md": "#mod-vision-capstone", // the vision, in-surface as the capstone
     "on-transparency.md": "docs/on-transparency.md",

@@ -63,6 +63,7 @@ Every part of what was built has an oracle: run the checks and each one states t
 
 - **Why the open form:** [On Transparency](on-transparency.md), why the honest answer to this problem is an open system rather than a finished one
 - **The full argument, precisely:** [What Stands Without Trust](what-stands-without-trust.md)
+- **Implement the protocol without the argument:** [The Protocol Specification](protocol-spec.md), the record formats, the grounding computation, the gate, and the crossing, stated normatively and standalone
 - **Walk the counterexamples:** open [`submission.html`](../submission.html) and follow the guided path; the same receipts run headless with `node build/check-demo.mjs`
 - **Feed a source in, ask a question out:** [The Workflow Atlas](workflow-atlas.md), how any producer feeds a source into the gate and any consumer queries the graph the gate protects
 - **The three ways to arrange kernels, and why this one:** [The Kernel Taxonomy](kernel-taxonomy.md)
