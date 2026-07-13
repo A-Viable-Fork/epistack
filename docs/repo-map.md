@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 192. Import edges: 349. Runtime flow edges: 33. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 192. Import edges: 350. Runtime flow edges: 33. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -213,6 +213,7 @@ Nodes: 192. Import edges: 349. Runtime flow edges: 33. All import edges satisfy 
 - `build/check-management.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-map.mjs` -> `build/repo-map.schema.js`  *(build -> build)*
 - `build/check-math.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/check-math.mjs` -> `corpora/math/math-data.js`  *(build -> corpus)*
 - `build/check-math.mjs` -> `corpora/math/tables.js`  *(build -> corpus)*
 - `build/check-math.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
 - `build/check-migrate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
