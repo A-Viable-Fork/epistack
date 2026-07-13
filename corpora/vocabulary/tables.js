@@ -1,4 +1,4 @@
-// Role: the vocabulary kernel's reference tables (Prompt 50, the fifth exhibit). The kind table gives
+// Role: the vocabulary kernel's reference tables (the fifth exhibit). The kind table gives
 //   the one kind this kernel uses, declaration, whose ceiling is the constitutive floor: a definition
 //   grounds by a public act of adoption, exactly the eggs case's constitutive floor. The source table
 //   carries the external citations that reference terms ground in, the honest floor for a term the

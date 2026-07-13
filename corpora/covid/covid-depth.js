@@ -1,4 +1,4 @@
-// Role: the deep extraction of the covid-origins debate (Prompt 34). It DEEPENS the first-pass case
+// Role: the deep extraction of the covid-origins debate. It DEEPENS the first-pass case
 //   (covid-origins.js) under the existing spine, not replacing it: each line runs several nodes deep
 //   (the ZO reading, the LL counter, the counters to those); three careful readers (Alexander, Van
 //   Treuren, Stansifer) weight the same evidence as attributed forum nodes carrying the likelihood

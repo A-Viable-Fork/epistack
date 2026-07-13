@@ -1,4 +1,4 @@
-// Role: the small economics domain store for the eggs case (Prompt 20), ingested from the net-energy
+// Role: the small economics domain store for the eggs case, ingested from the net-energy
 //   document. The cost-and-energy per-unit measurements (feed conversion, cumulative energy demand,
 //   energy return, production cost) ground to the measurement floor; the commensuration choices (the
 //   discount rate, the objective function) rest in the forum, since no measurement settles them.

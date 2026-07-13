@@ -1,4 +1,4 @@
-// Role: the environment domain store for the eggs case (Prompt 20), ingested from the farming and the
+// Role: the environment domain store for the eggs case, ingested from the farming and the
 //   regenerative documents. Per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil,
 //   biodiversity) ground to the measurement floor; cross-cutting trade-offs rest in the forum. The
 //   regenerative soil-carbon claims are authored as CHARACTERIZED GAPS: each is a transfer from a

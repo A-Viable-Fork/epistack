@@ -8,7 +8,7 @@
 
 // the two kinds the eggs case grounds through: a measurement floor (ceiling checked) and a forum band
 // (ceiling corroborated). A characterized gap is a measurement-kind claim held below its floor by a
-// weak transfer support plus a closing condition (Prompt 18).
+// weak transfer support plus a closing condition.
 const KINDS = [
   { kind: "measurement", ceiling: "checked" },
   { kind: "forum", ceiling: "corroborated" },
@@ -35,7 +35,7 @@ const SOURCES = [
   { source_id: "src:aha-2020", source_class: "institutional-report", description: "Carson et al. (2020), AHA Science Advisory, Circulation 141(3):e39-e53" },
   { source_id: "src:dga-2015", source_class: "institutional-report", description: "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report" },
 
-  // ---- nutrition, deepened (Prompt 26): choline, metabolic regulation, lipid mechanistic floor ----
+  // ---- nutrition, deepened: choline, metabolic regulation, lipid mechanistic floor ----
   { source_id: "src:wallace-2016", source_class: "peer-reviewed", description: "Wallace & Fulgoni (2016/2017), J Am Coll Nutr / Nutrients 9(8):839 (NHANES choline intake, adequacy)" },
   { source_id: "src:zeisel-2006", source_class: "peer-reviewed", description: "Zeisel & da Costa (2006/2009); Corbin & Zeisel (2012) (choline, VLDL export, NAFLD depletion-repletion)" },
   { source_id: "src:caudill-2018", source_class: "peer-reviewed", description: "Caudill et al. (2018), FASEB J; Bahnfleth et al. (2022), FASEB J (maternal choline RCT, offspring cognition)" },
@@ -48,13 +48,13 @@ const SOURCES = [
   { source_id: "src:brown-yu-2010", source_class: "peer-reviewed", description: "Brown & Yu (2010); Lutjohann et al. (2022) (fractional cholesterol absorption, NPC1L1/ABCG5-8)" },
   { source_id: "src:kratky-2018", source_class: "peer-reviewed", description: "Kratky et al. (2018); McNamara (2000); Kostner (2020) (compensatory synthesis downregulation, SCAP-SREBP2)" },
   { source_id: "src:herron-2006", source_class: "peer-reviewed", description: "Herron et al. (2006); Beynen & Katan (1985) (hypo/hyper responder distribution, APOE E4)" },
-  // ---- the choline fork: TMAO pathway and its undercuts (Prompt 26 Phase B) ----
+  // ---- the choline fork: TMAO pathway and its undercuts ----
   { source_id: "src:wilcox-2021", source_class: "peer-reviewed", description: "Wilcox et al. (2021), Am J Clin Nutr; Lemos et al. (2018) (whole eggs vs choline supplement, TMAO matrix effect)" },
   { source_id: "src:tang-2013", source_class: "peer-reviewed", description: "Tang et al. (2013), NEJM 368:1575-1584; Sanchez-Gimenez meta (2022) (TMAO-MACE association)" },
   { source_id: "src:cho-2017", source_class: "peer-reviewed", description: "Cho et al. (2017); Landfald et al. (2017) (fish raises TMAO 46-62x more than eggs; the fish paradox)" },
   { source_id: "src:sanchez-2022", source_class: "peer-reviewed", description: "Sanchez-Gimenez et al. (2022), Front Cardiovasc Med (TMAO-MACE nullified by eGFR; renal confounding)" },
   { source_id: "src:jia-2019", source_class: "peer-reviewed", description: "Jia et al. (2019); Sanna et al. (2019) (bidirectional Mendelian randomization; reverse causality)" },
-  // ---- the cardiovascular crux: harm, null, confounding, diabetic (Prompt 26 Phase B) ----
+  // ---- the cardiovascular crux: harm, null, confounding, diabetic ----
   { source_id: "src:zhong-2019", source_class: "peer-reviewed", description: "Zhong et al. (2019), JAMA 321(11):1081-1095 (six US cohorts; egg/cholesterol CVD harm)" },
   { source_id: "src:dehghan-2020", source_class: "peer-reviewed", description: "Dehghan et al. (2020), AJCN, PURE (177,000 across 50 countries; null egg-CVD)" },
   { source_id: "src:hu-1999", source_class: "peer-reviewed", description: "Hu et al. (1999), JAMA 281(15):1387-1394 (diabetic subgroup CHD HR 2.02 men)" },

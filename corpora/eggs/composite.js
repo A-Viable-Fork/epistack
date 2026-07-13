@@ -1,4 +1,4 @@
-// Role: the eggs composite store (Prompt 20). It cites domain claims across the boundary and carries
+// Role: the eggs composite store. It cites domain claims across the boundary and carries
 //   the cross-domain weighings, whether to eat eggs and which farming system is better, each composing
 //   claims from more than one domain and therefore sitting at the structured-forum ceiling. The
 //   denominator framing record (product-throughput against net-capital) names the alternatives; each
@@ -68,7 +68,7 @@ const presupposes = [
   { store: "S-environment", claim: "e.pasture-soc-proxy" },
 ];
 
-// ---- the which-body framing node (Prompt 26): the second framing node beside the denominator ----
+// ---- the which-body framing node: the second framing node beside the denominator ----
 // the eggs analog of the LHC framework-choice node. A forum node naming the body assumed; the
 // subsystem-effect claims presuppose it through the same checked-not-graded edge the denominator uses,
 // so swapping the body reframes which effects dominate while every underlying measurement keeps its

@@ -1,6 +1,6 @@
 // Role: the densified LHC-safety case reference tables (intake data model v3, Section 10), for the
 //   three-leg cascade ingested from the production-leg report (A), the Hawking-evaporation report (B),
-//   the omissions survey, and the framework-conditionality report (Prompt 25). A source row per cited
+//   the omissions survey, and the framework-conditionality report. A source row per cited
 //   study/report carries its citation as provenance; the kind table gives the three ceilings the case
 //   uses: a derivation floor (constitutive, a formal result settled by construction within its regime),
 //   a measurement floor (checked, the empirical bounds and the survival fact), and the forum band

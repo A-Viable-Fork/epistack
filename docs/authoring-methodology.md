@@ -23,6 +23,8 @@ The verdicts are computed, not authored. The authoring supplies claims, sources,
 
 The proposed grade is checked, not trusted. The gate checks a claim's declared grade against what it earns, and a disagreement is logged as a finding. The COVID corpus states it as its own invariant at the top of the file: the source write-up is canonical for what the claims and sides are, never for the grade they earn.
 
+The cases were chosen to demonstrate the gate admitting well-grounded claims, so every checking record in them confirms. The gate's declining behavior, an over-declared grade held back, a superseded reference refused, an unearned crossing left untyped, is exercised separately: in the compose-gate demonstration and the gate oracle's decline cases (`build/check-gate.mjs`, `build/gate-demo.mjs`).
+
 So the producer, human or agent, chooses what to say and the kernel decides what it is worth. That division is the point of producer-agnosticism, and it holds against the human author as much as against the agents.
 
 ## Generation separated from verification, by distinct parties

@@ -406,15 +406,15 @@
       "path": "corpora/covid/covid.js",
       "type": "corpus",
       "group": null,
-      "role": "the COVID-origin case home. The CANONICAL covid case is the densified origins store, corpora/covid/covid-origins.js (Prompt 23a): the Rootclaim debate as evidence to floors, the zoonosis/lab-leak contradiction, and the priors as the computed crux.",
-      "contract": "covid-origins.js is the covid case. A SEPARATE population-mismatch pattern demonstration, covid.instance in corpora/population/population-pipeline.js, is kept by design (Prompt 24, Option B) as a distinct structural demo (the stage-1 break), not the canonical case; the two do not duplicate."
+      "role": "the COVID-origin case home. The CANONICAL covid case is the densified origins store, corpora/covid/covid-origins.js: the Rootclaim debate as evidence to floors, the zoonosis/lab-leak contradiction, and the priors as the computed crux.",
+      "contract": "covid-origins.js is the covid case. A SEPARATE population-mismatch pattern demonstration, covid.instance in corpora/population/population-pipeline.js, is kept by design (Option B) as a distinct structural demo (the stage-1 break), not the canonical case; the two do not duplicate."
     },
     {
       "path": "corpora/eggs/eggs.js",
       "type": "corpus",
       "group": null,
-      "role": "the eggs case home. The CANONICAL eggs case is the domain stores and their composite, corpora/eggs/{nutrition,environment,economics,composite}.js (Prompt 20): a composite over three domains that ground to their own floors, with the regenerative claims as characterized gaps.",
-      "contract": "those modules are the eggs case. A SEPARATE population-mismatch pattern demonstration, eggs.instance in corpora/population/population-pipeline.js, is kept by design (Prompt 24, Option B) as a distinct structural demo (the stage-2 break), not the canonical case; the two do not duplicate."
+      "role": "the eggs case home. The CANONICAL eggs case is the domain stores and their composite, corpora/eggs/{nutrition,environment,economics,composite}.js: a composite over three domains that ground to their own floors, with the regenerative claims as characterized gaps.",
+      "contract": "those modules are the eggs case. A SEPARATE population-mismatch pattern demonstration, eggs.instance in corpora/population/population-pipeline.js, is kept by design (Option B) as a distinct structural demo (the stage-2 break), not the canonical case; the two do not duplicate."
     },
     {
       "path": "corpora/eggs/tables.js",
@@ -427,42 +427,42 @@
       "path": "corpora/eggs/nutrition.js",
       "type": "corpus",
       "group": null,
-      "role": "the nutrition domain store for the eggs case (Prompt 20). The dietary-cholesterol and lipid claims and the responder-heterogeneity claims ground to the measurement floor; the guidelines claims rest in the forum; the cardiovascular block is authored as the contested structure it is: a population null and a population harm claim joined by a contradicts link, agreeing only in the diabetic subgroup, so the diabetic-interaction claim grounds while the population claims stay in tension. Each claim carries its provenance (source_id into corpora/eggs/tables.js).",
+      "role": "the nutrition domain store for the eggs case. The dietary-cholesterol and lipid claims and the responder-heterogeneity claims ground to the measurement floor; the guidelines claims rest in the forum; the cardiovascular block is authored as the contested structure it is: a population null and a population harm claim joined by a contradicts link, agreeing only in the diabetic subgroup, so the diabetic-interaction claim grounds while the population claims stay in tension. Each claim carries its provenance (source_id into corpora/eggs/tables.js).",
       "contract": "exports NUTRITION = { store_id, claims:[spec], links:[spec] }; claim/link specs use local refs, resolved to identities by build/check-eggs.mjs. Pure data; corpora imports nothing."
     },
     {
       "path": "corpora/eggs/environment.js",
       "type": "corpus",
       "group": null,
-      "role": "the environment domain store for the eggs case (Prompt 20), ingested from the farming and the regenerative documents. Per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil, biodiversity) ground to the measurement floor; cross-cutting trade-offs rest in the forum. The regenerative soil-carbon claims are authored as CHARACTERIZED GAPS: each is a transfer from a system that is not a regenerative laying-hen operation, so it earns only the grade its transfer support delivers and carries a closing condition naming the one measurement that would ground it.",
+      "role": "the environment domain store for the eggs case, ingested from the farming and the regenerative documents. Per-unit measurements (emissions, land, welfare, antibiotics, runoff, soil, biodiversity) ground to the measurement floor; cross-cutting trade-offs rest in the forum. The regenerative soil-carbon claims are authored as CHARACTERIZED GAPS: each is a transfer from a system that is not a regenerative laying-hen operation, so it earns only the grade its transfer support delivers and carries a closing condition naming the one measurement that would ground it.",
       "contract": "exports ENVIRONMENT = { store_id, claims:[spec], links:[spec] }. Pure data; imports nothing."
     },
     {
       "path": "corpora/eggs/economics.js",
       "type": "corpus",
       "group": null,
-      "role": "the small economics domain store for the eggs case (Prompt 20), ingested from the net-energy document. The cost-and-energy per-unit measurements (feed conversion, cumulative energy demand, energy return, production cost) ground to the measurement floor; the commensuration choices (the discount rate, the objective function) rest in the forum, since no measurement settles them.",
+      "role": "the small economics domain store for the eggs case, ingested from the net-energy document. The cost-and-energy per-unit measurements (feed conversion, cumulative energy demand, energy return, production cost) ground to the measurement floor; the commensuration choices (the discount rate, the objective function) rest in the forum, since no measurement settles them.",
       "contract": "exports ECONOMICS = { store_id, claims:[spec], links:[spec] }. Pure data; imports nothing."
     },
     {
       "path": "corpora/eggs/composite.js",
       "type": "corpus",
       "group": null,
-      "role": "the eggs composite store (Prompt 20). It cites domain claims across the boundary and carries the cross-domain weighings, whether to eat eggs and which farming system is better, each composing claims from more than one domain and therefore sitting at the structured-forum ceiling. The denominator framing record (product-throughput against net-capital) names the alternatives; each per-unit farming measurement carries a presupposition edge up to it, so the measurement keeps its floor grade while the unit choice becomes visible and swappable.",
+      "role": "the eggs composite store. It cites domain claims across the boundary and carries the cross-domain weighings, whether to eat eggs and which farming system is better, each composing claims from more than one domain and therefore sitting at the structured-forum ceiling. The denominator framing record (product-throughput against net-capital) names the alternatives; each per-unit farming measurement carries a presupposition edge up to it, so the measurement keeps its floor grade while the unit choice becomes visible and swappable.",
       "contract": "exports COMPOSITE = { store_id, terms, weighings, framing, successor, presupposes }. Citations are named by (store, claim ref, term); build/check-eggs.mjs resolves refs to identities, copies each domain grade across the boundary, and computes the composite grades. Pure data."
     },
     {
       "path": "corpora/covid/tables.js",
       "type": "corpus",
       "group": null,
-      "role": "the covid-origins case reference tables (trusted inputs, intake data model v3, Section 10), for the densified covid case ingested from the Rootclaim-debate write-up (Prompt 23a). A source row per cited study/document carries its citation as provenance; the kind table gives the two ceilings the case uses: a measurement floor and a forum band.",
+      "role": "the covid-origins case reference tables (trusted inputs, intake data model v3, Section 10), for the densified covid case ingested from the Rootclaim-debate write-up. A source row per cited study/document carries its citation as provenance; the kind table gives the two ceilings the case uses: a measurement floor and a forum band.",
       "contract": "exports SOURCES (source-table rows) and KINDS (kind-table rows). Pure data; imports nothing."
     },
     {
       "path": "corpora/covid/covid-origins.js",
       "type": "corpus",
       "group": null,
-      "role": "the densified covid-origins case (Prompt 23a), ingested from the Rootclaim-debate write-up. The evidence pieces ground to their floors; where the write-up separates an observation from its interpretation, the observation is a measurement and the interpretation a contested forum claim. The zoonosis and lab-leak conclusions are a contradicts-linked forum pair, each resting on the SAME shared evidence and on its own explicit prior claims, so the crux computation resolves the contradiction to the priors (the frontier where the two support cones diverge). The divergence meta-claim, the judges' ruling, and the method critique sit in the forum.",
+      "role": "the covid-origins case, from the Rootclaim-debate write-up. The evidence pieces ground to their floors; where the write-up separates an observation from its interpretation, the observation is a measurement and the interpretation a contested forum claim. The zoonosis and lab-leak conclusions are a contradicts-linked forum pair, each resting on the SAME shared evidence and on its own explicit prior claims, so the crux computation resolves the contradiction to the priors (the frontier where the two support cones diverge). The divergence meta-claim, the judges' ruling, and the method critique sit in the forum.",
       "contract": "exports COVID = { store_id, claims:[spec], links:[spec] }; claim/link specs use local refs, resolved by build/covid-build.mjs. Pure data; corpora imports nothing."
     },
     {
@@ -476,14 +476,14 @@
       "path": "corpora/lhc/lhc-tables.js",
       "type": "corpus",
       "group": null,
-      "role": "the densified LHC-safety case reference tables (intake data model v3, Section 10), for the three-leg cascade ingested from the production-leg report (A), the Hawking-evaporation report (B), the omissions survey, and the framework-conditionality report (Prompt 25). A source row per cited study/report carries its citation as provenance; the kind table gives the three ceilings the case uses: a derivation floor (constitutive, a formal result settled by construction within its regime), a measurement floor (checked, the empirical bounds and the survival fact), and the forum band (corroborated, the framework choices, the legs, and the meta-claims).",
+      "role": "the densified LHC-safety case reference tables (intake data model v3, Section 10), for the three-leg cascade ingested from the production-leg report (A), the Hawking-evaporation report (B), the omissions survey, and the framework-conditionality report. A source row per cited study/report carries its citation as provenance; the kind table gives the three ceilings the case uses: a derivation floor (constitutive, a formal result settled by construction within its regime), a measurement floor (checked, the empirical bounds and the survival fact), and the forum band (corroborated, the framework choices, the legs, and the meta-claims).",
       "contract": "exports SOURCES (source-table rows) and KINDS (kind-table rows). Pure data; imports nothing."
     },
     {
       "path": "corpora/lhc/lhc-legs.js",
       "type": "corpus",
       "group": null,
-      "role": "the densified LHC-safety cascade (Prompt 25), ingested from the production and Hawking reports, the omissions survey, and the framework-conditionality report. The safety claim is the disjunction of three legs whose computed quantities ground to their floors within their regime; each leg's framework premise is a characterized dependency (a depends-on edge with its closing condition). The one reified node, the ADD framework choice (dep.add) all three legs depend on, carries three readings: a shared dependency the robustness reading finds, a swappable frame (the framing records below), and the settled/performed gap on the erased antecedent. `demo`-tagged wiring lets a reading show the graph before and after reifying.",
+      "role": "the densified LHC-safety cascade, ingested from the production and Hawking reports, the omissions survey, and the framework-conditionality report. The safety claim is the disjunction of three legs whose computed quantities ground to their floors within their regime; each leg's framework premise is a characterized dependency (a depends-on edge with its closing condition). The one reified node, the ADD framework choice (dep.add) all three legs depend on, carries three readings: a shared dependency the robustness reading finds, a swappable frame (the framing records below), and the settled/performed gap on the erased antecedent. `demo`-tagged wiring lets a reading show the graph before and after reifying.",
       "contract": "exports LHC = { store_id, claims, links, framing, successor, presupposes, sharedDeps, undercuts, performedSettling }; refs resolved by build/lhc-build.mjs. Pure data; imports nothing."
     },
     {
