@@ -9,6 +9,10 @@
 //   cross-boundary min is well defined even across settled grades that are incomparable within their
 //   modes. The composite grade therefore lives on the collapsed working line (one floor rank), which
 //   is the reconciliation the composition layer rests on. Corroborating citations are excluded.
+// GROUNDED: the crossing properties (thm.crossing-min, thm.untyped-floor) are grounded in the math
+//   kernel at checked by differential testing (build/check-math-differential.mjs): the composite grade
+//   is min over the necessary carried grades capped by ceiling, and an unpinned crossing arrives
+//   untyped and grounds nothing until a fork restores standing.
 "use strict";
 import { COLLAPSED, collapse, meet, isPosition } from "../schema/confidence.mjs";
 import { derivedGrade } from "../store/decay.mjs";
@@ -47,9 +51,9 @@ export function compositeGrade({ ceiling, citations }) {
   let fold = TOP;
   for (const c of citations || []) {
     if (c.role !== "necessary") continue; // corroborating citations are visible but not computed
-    fold = meet(fold, c.carried_grade);
+    fold = meet(fold, c.carried_grade); // GROUNDED thm.crossing-min: min over the necessary carried grades
   }
-  return meet(collapsedCeiling(ceiling), fold);
+  return meet(collapsedCeiling(ceiling), fold); // capped by the ceiling, the cross-boundary min
 }
 
 // a citation is stale when the state it was made against trails the source store's current state.

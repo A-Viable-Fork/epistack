@@ -8,6 +8,9 @@
 // Invariant: no numbers on the epistemic path here either, grades are named positions. This is the
 //   one canonical grounding order; the Stage 1 trellis lattice that once sat beside it (a different
 //   vocabulary of untyped/forum tiers/floors) was retired in Prompt 16, leaving this the sole order.
+// GROUNDED: the lattice laws over the grade set (meet, join, capByCeiling) are grounded in the math
+//   kernel at proof-floor by exhaustion (corpora/math/: thm.meet-*, thm.join-*, thm.absorption,
+//   thm.lattice, thm.mode-incomparable-welldefined; proved by build/check-math-exhaustion.mjs).
 "use strict";
 
 // each grade: its collapsed line rank (0..4), its tier, and its mode within the settled branch.
@@ -49,9 +52,12 @@ export function collapsedRank(p) {
 // meet (weakest-of) and join (strongest-of) on the collapsed line; inputs and output are collapsed
 // positions (one of COLLAPSED). These are the only combinators the earned-grade fold uses.
 export function meet(a, b) {
+  // GROUNDED thm.meet-* / thm.absorption: the greatest lower bound on the collapsed line, proved
+  // commutative, associative, idempotent, and absorptive by exhaustion (check-math-exhaustion.mjs).
   return collapsedRank(a) <= collapsedRank(b) ? collapse(a) : collapse(b);
 }
 export function join(a, b) {
+  // GROUNDED thm.join-* / thm.absorption: the least upper bound on the collapsed line, the dual of meet.
   return collapsedRank(a) >= collapsedRank(b) ? collapse(a) : collapse(b);
 }
 

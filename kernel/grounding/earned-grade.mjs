@@ -9,6 +9,10 @@
 // Invariant: no numbers on the path; grades are named positions. Each support contributes
 //   min(collapse(support earned), collapse(link grade)); within a group weakest-of, across groups
 //   strongest-of; independence lifts delivery to corroborated and no further.
+// GROUNDED: the recurrence properties (thm.earned-recurrence, thm.earned-linear, thm.ungrouped-singleton,
+//   thm.settled-not-inherited, thm.determinism) are grounded in the math kernel at checked by differential
+//   testing (build/check-math-differential.mjs, code-versus-extracted agreement over random graphs). The
+//   lift to proof-floor by a formal proof is a characterized gap (docs/sorry-ledger.md, G-D).
 "use strict";
 import { collapse, collapsedRank, meet, join, capByCeiling, POSITIONS } from "../schema/confidence.mjs";
 
@@ -23,6 +27,8 @@ export function supportDelivery(supports) {
   if (!supports || supports.length === 0) return "asserted"; // support from nothing is nothing
   const groups = new Map();
   for (const s of supports) {
+    // GROUNDED thm.ungrouped-singleton: a support with no group is its own singleton, so ungrouped
+    // supports combine strongest-of (independent), not weakest-of. Pinned by the differential harness.
     const g = s.group == null ? s.linkIdentity || Symbol() : s.group;
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(s);
@@ -76,6 +82,9 @@ export function earnedGrade({ ceiling, constitutive, checkingRecords, supports }
   const Bsettled = B !== "none" && POSITIONS[B] && POSITIONS[B].tier === "settled";
   const noSupports = !supports || supports.length === 0;
   let earned;
+  // GROUNDED thm.settled-not-inherited: the ceiling cap is the load-bearing detail. A settled S from
+  // settled support becomes corroborated (below), so settledness is not inherited; only an own basis
+  // reaches the settled tier, capped by the kind ceiling. Pinned by the differential harness.
   if (Bsettled && (collapsedRank(S) >= 3 /* corroborated */ || noSupports)) {
     earned = capByCeiling(B, ceiling); // first row: the basis stands, supports permitting
   } else {
