@@ -86,21 +86,15 @@ This stage is now realized by the v3 intake data model, which is canonical (`ker
 
 ---
 
-## Stage 2: Assessment, robustness, and ingestion
+## Stage 2: Assessment and robustness
 
-The structural assessments the kernel computes mechanically, the interpretive assessments the periphery contributes, and the pipeline that turns messy sources into claims. This is the layer that makes the engine useful on a raw, multi-source dispute.
+The structural assessments the kernel computes mechanically, and the interpretive assessments the periphery contributes. This is the layer that makes the engine useful on a raw, multi-source dispute.
+
+**Outside the protocol: the periphery workflows.** Producing typed claims from messy sources is the claimant's work, performed in the periphery and converging at the one built gate; the producer workflows (video, web, structured data) are documented in the workflow atlas (`docs/workflow-atlas.md`), anchored by the built connectors (the ingestion connector and the producer MCP tool, [0.9], with their passing checks). The consumer workflows (the evidence finder, the crux locator, the adversarial auditor, and the AI reader) are assessment-layer clients over the built read contract, documented in the atlas and the AI-consumer documents; the store deliberately computes structure and defers interpretation to them. The protocol's contribution is the gate and the store, the two layers neither side of the boundary can supply for itself.
 
 **[2.1] The robustness analysis.** The reliability reading alongside grounding: the support graph read as a fault tree, a single point of failure found by re-derivation, robustness computed as the earned grade after the worst single removal, the fragility the interval between them. Run separately over support dependence and presupposition dependence for two distinct failure modes; the second finds a single point of well-formedness failure. Flags correlated evidence presented as independent, naming the shared claim. Built and verified (`kernel/analysis/robustness.mjs`, `build/check-robustness.mjs`): the four fixtures, the two-closure separation, and the three cases read concretely, the LHC antecedent a fragile conjunction with the N2.2 stopping mechanism the one genuinely redundant node, the COVID termination fragile at the exchangeability primitive. Exposed as an API read alongside grounding (`api/client-api.mjs` robustness). Derived on read, never stored; reports structural, not certified true, independence.
 
 **[2.2] Mechanical assessment.** The argument-quality measures decidable from structure: double-counted evidence, missing coverage, and the set of claims affected if one falls. In progress: double-counted evidence is built as the correlated-evidence flag and the blast radius as the support closure, both in the robustness pass ([2.1], `kernel/analysis/robustness.mjs`), and missing coverage is the gap detector ([0.3], `kernel/analysis/gaps.js`); a single assessment surface that composes them into open reads remains. The Stage 2 stub `kernel/analysis/assessment.js` was retired in Prompt 16, its content now covered by robustness and the gap detector.
-
-**[2.3] The ingestion pipeline.** The producer that reads messy multi-source material and emits attributed candidate claims with proposed types and links, then submits them through the gate. Extraction and first-pass typing live here; the gate makes them safe. This is the competition's ingestion layer. Specified.
-
-**[2.4] The assessment agent.** The consumer that reads through the API and produces the interpretive assessments the kernel does not compute mechanically, the decisive question in a dispute, where a move carries more rhetorical than evidential weight, what to examine next, its conclusions submitted back through the gate as claims. Specified.
-
-**[2.5] The query surface.** The discerning consumer's interface: whether a claim is grounded and where it is weakest, answered by walking the graph. Specified; thin layer over Stage 0 reads.
-
-**[2.6] The red-team surface.** The tools for attacking the graph, proposing objections, finding thin grounding, submitting refutations, which operationalizes survival under scrutiny. Specified.
 
 **[2.7] The forum filter.** The reader-side tier selection: the kernel keeps everything down to the raw tier, and the filter decides what a given reader sees, so openness at the bottom and strictness at the floor coexist. Specified.
 
