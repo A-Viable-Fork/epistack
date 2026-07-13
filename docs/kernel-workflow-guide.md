@@ -2,7 +2,7 @@
 Type: reference
 Purpose: The type-level workflow for a small kernel coming to know its own domain in six stages, reusable on any domain, with the math kernel as the worked instance; and the EpiStack community negative space as a separate, invited section.
 Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/parameters-register.md, docs/protocol-spec.md
-Depended on by: docs/substrate-map.md
+Depended on by: docs/community-invitation.md, docs/substrate-map.md, docs/workflow-atlas.md
 ---
 
 # The Kernel Workflow Guide
@@ -59,6 +59,8 @@ The honest form is not a demonstrated crossing, which would be the author playin
 - **The first act is constituting the community by setting the free parameters together.** A founder who set the parameters and invited claims would have made the community's most important decisions for it, contradicting the forkable, no-central-adjudicator design. The honest first act is joint parameter-setting, not claim submission.
 
 The register is a specification of how one would begin plus a genuine open door: here is what is fixed, here is what is open, here is how the open parts get decided, here is how to take part. The door being open and honestly specified is complete on its own; it does not need traffic to be valid. This is the coordination layer made tangible without claiming it operational: the invariants built and stated, the parameter-setting and the community that results specified and invited. The hard part of coordination is the legitimate constitution of shared rules, and the honest move is to fix the invariants, open the parameters, and invite, rather than to pre-decide.
+
+This section describes the negative space; the realized invitation is the standalone artifact `docs/community-invitation.md`, which states the fixed invariants, the free parameters, the first act, what exists to start from tiered honestly, and how to take part, as a document a would-be founder can read on its own.
 
 ## The prompt set as the on-ramp
 
@@ -131,3 +133,15 @@ The thirteen pointers found and confirmed: the lattice operations in `confidence
 **The reverse direction was skipped and noted.** The load-bearing guard is the forward direction, that every pointer resolves and every described operation's hash is fresh. The reverse (every claim about a code operation is pointed to from its file) was skipped: several claims describe a property of the whole resolution rather than one named function (`thm.contamination-monotone`, `thm.mode-incomparable-welldefined`), which would need a hand-maintained claim-to-region map to check, more than the small addition the prompt scopes it as. The forward guard already catches the drift that matters.
 
 No code file gained an import or changed behavior; the boundary check (`check-map`) stays green precisely because the embed is comments and the guard reads text. The guard passes on the current state, and `check-math`, `check-math-exhaustion`, and `check-math-differential` still pass unchanged.
+
+## Appendix: Prompt E, the community invitation and the reading-path wiring (capstone)
+
+The capstone turned the built kernel and this guide into a presented, reachable whole through three moves.
+
+**The community invitation shipped as a standalone artifact.** The negative space this guide describes was previously only a described section here; Prompt E made it a real, self-contained document, `docs/community-invitation.md`, framed as an invitation with nothing implied to exist. It states what it is (the negative space for an EpiStack community over the three subjects, an invitation to constitute one, not a community that exists), the fixed invariants that are not votable (the untyped-type crossing, monotone contamination, producer-agnostic grading, the grounding rule, the composability requirements, all inherited and built), the free parameters left open (the time-lock cost and decay, the standing rules, the grade policy beyond the ordering, the moderation), the honest first act (constituting the community by setting the free parameters together, not submitting claims, because a founder who set the parameters and invited claims would have made the community's most important decisions for it), what exists to start from tiered honestly from `docs/substrate-map.md` (a working individual kernel forks today; a small community needs a bounded hosted endpoint and ordinary deliberation tooling; the standing economy, the multi-producer lifecycle at scale, and cross-kernel discovery are the specified frontier the community is invited to help build), and how to take part (fork the substrate, run this workflow, join the deliberation on the free parameters), closing on the honest one-paragraph claim of what forks now, what completes soon, and what a market needs at scale.
+
+**The guide and invitation wired into the reading path and the atlas.** `docs/workflow-atlas.md` gained both as entries in a closing section: the kernel workflow guide as the deepest workflow, the full lifecycle rather than a single producer or consumer operation, and the community invitation as where the stage-five handoff and the coordination frontier become an open door, with the atlas's Depends-on edges and their backlinks made symmetric. The sixth-exhibit entry in `docs/status-ledger.md` was strengthened with a light pointer noting that the math kernel's grounding is not only embedded but checked by the embed guard, and pointing at the guide it instantiates and the invitation it opens onto. The README's from-here list gained the guide and the invitation as reading-path entries.
+
+**The guide finalized as a complete living document.** Its community negative-space section now points at `docs/community-invitation.md` as the realized invitation, the on-ramp section points correctly at the prompt set and the substrate map, and this appendix completes the instance record A through E. The instance record is now closed for submission: Prompt A configured and generated, Prompt B entered the bare claims, Prompt C forked and grounded, Prompt D embedded and wired the sixth exhibit, Prompt D2 added the embed guard, and Prompt E shipped the invitation and the wiring.
+
+**Posture held.** The single easiest place in the submission to slip into hype is an invitation, and it was kept honest throughout: the invitation is an invitation, not a launch or a recruitment pitch; nothing in it implies a community exists, has members, or expects traffic; the substrate repository is named as the post-submission extraction, existing or forthcoming on the maintainer's timeline, so the pointer is honest either way and no not-yet-live link is presented as live. The door being open and honestly specified is complete on its own.

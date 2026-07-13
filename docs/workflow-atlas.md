@@ -1,7 +1,7 @@
 ---
 Type: reference
 Purpose: The spine of the producer-and-consumer workflow atlas: states the two-sided-boundary thesis, guides the six workflow documents grouped producer and consumer, names the two built anchors, and holds the honest bound on register. The consumer capstone (an AI reading from the kernel) closes it.
-Depends on: docs/api.md, docs/clients.md, docs/the-climb-of-synthesis.md, docs/producer-connector-findings.md, docs/composition-spec.md, docs/status-ledger.md
+Depends on: docs/api.md, docs/clients.md, docs/the-climb-of-synthesis.md, docs/producer-connector-findings.md, docs/composition-spec.md, docs/status-ledger.md, docs/kernel-workflow-guide.md, docs/community-invitation.md
 Depended on by: docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md
 ---
 
@@ -64,3 +64,11 @@ The bound is stated plainly and never crossed. Scope every claim to the kernel's
 The loop is the insight. An AI is a fine producer, because it types claims and stakes standing and the gate checks the typing and not the agent, and a disciplined consumer, because it asserts only what grounds. So the kernel is the shared typed channel that lets AI systems produce and consume knowledge without trusting each other's syntheses. That loop is the stabilizing infrastructure the influx needs: producing AI types in, consuming AI reads out, and ungrounded synthesis never enters, because it arrives untyped and grounds nothing.
 
 The depth under each grade: inference-time in `docs/kernel-at-inference.md`, train-time in `docs/kernel-at-training.md`.
+
+## The deepest workflow, and the door it opens onto
+
+The six workflows above are single operations on the boundary: one producer feeding one source in, one consumer asking one question out. The atlas has one entry deeper than any of them, because it is not a single operation but the whole lifecycle a kernel lives through.
+
+`docs/kernel-workflow-guide.md` is the kernel workflow guide: the six stages a small kernel comes to know its own domain through, from before any structure exists to past its own boundary, stated at the type level so a reader can run it on any domain and carrying the math kernel as its worked instance. Where a producer workflow ends at the gate and a consumer workflow begins at the reads, the guide runs the full arc, framing, generating, entering bare claims, forking and grounding, embedding, and the community handoff, on machinery that is already built (the generator, the gate, the grounding computation, and the crossing). Its worked instance is checkable end to end: the math kernel's grounding is not only embedded in the code but verified, since the embed guard (`build/check-math-embed.mjs`) confirms each code-to-kernel pointer resolves at its stated tier and hash-pins the described code operation so drift is caught.
+
+`docs/community-invitation.md` is where the guide's stage-five handoff and the coordination frontier become an open door. The guide's final stage is the community handoff, which no single author can honestly complete alone; the invitation states the frame a community would form through, with the fixed invariants named and built, the free parameters named and left open, and the first act being the community constituting itself by setting those parameters together. It is an invitation, not a launch: nothing in it implies a community exists, has members, or expects traffic. It is the honest terminus of the atlas, the point where the built boundary opens onto the coordination layer a federation would build for itself.

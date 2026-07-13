@@ -24,5 +24,7 @@ Two doors, put another way: read the argument for why the protocol takes this sh
 - **The assembled surface:** open [`submission.html`](submission.html), which opens on the front door, then the guided walk, the three cases, and the demonstrations, every case claim carrying its live grade
 - **The cases, to walk them:** [`corpora/`](corpora/), LHC safety, COVID origins, egg nutrition, one machinery carrying each to its own termination
 - **The workflows over the contract:** [The Workflow Atlas](docs/workflow-atlas.md), how any producer feeds a source into the gate and any consumer asks a question of the graph, worked over the built contract
+- **Building a kernel of your own domain:** [The Kernel Workflow Guide](docs/kernel-workflow-guide.md), the six-stage lifecycle a small kernel comes to know its domain through, reusable on any domain, with the math kernel as the worked instance
+- **The open door onto a community:** [The Community Invitation](docs/community-invitation.md), the negative space for an EpiStack community over the three subjects, the fixed invariants and the free parameters and how to take part, an invitation with nothing implied to exist
 - **What is built and what is specified:** [The Status Ledger](docs/status-ledger.md), the single source of build truth
 - **Run it:** [`docs/quickstart.md`](docs/quickstart.md), clone, install, and the gate check completes in about two minutes
