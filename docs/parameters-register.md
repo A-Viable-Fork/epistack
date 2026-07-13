@@ -2,7 +2,7 @@
 Type: reference
 Purpose: Draws the line between the free tier a community configures and the required tier a kernel must hold, as the reference for what is local policy and what is a composition invariant.
 Depends on: docs/composition-spec.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
-Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/coordination-layer-spec.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
+Depended on by: docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/coordination-layer-spec.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/protocol-spec.md, docs/reading-the-brief.md, docs/what-stands-without-trust.md
 ---
 
 # The Parameters Register
