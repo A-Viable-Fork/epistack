@@ -54,6 +54,7 @@ const resolves = (ref) => expand(ref).length > 0;
 const ORACLE_FILE = {
   "oracle:check-math-exhaustion": "build/check-math-exhaustion.mjs",
   "oracle:check-math-differential": "build/check-math-differential.mjs",
+  "oracle:check-certificate": "build/check-certificate.mjs",
 };
 
 // read each code file once.

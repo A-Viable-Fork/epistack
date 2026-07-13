@@ -3490,6 +3490,26 @@ function satisfiesReinstatement(cond, ctx) {
   return { ok: false, field: "condition_kind" };
 }
 
+// The certificate seal (CERT-1): a derived hash over the grounded-claim certificate bundle. Computed
+// downstream of grounding, never an input to it, so earnedGrade and the earned-grade recurrence are
+// untouched (design rule 1); derived and reproducible, not stored (design rule 2). The bundle is
+// exactly the certifying content: the claim identities and their grades, the bindings, the checking
+// records in play, the state verified against, and the ruleset, schema, and contribution it was
+// decided under. Volatile and presentation-only fields (findings, the decision label, the closures and
+// matches) are excluded, so the same certified assembly always seals identically; canonicalize sorts
+// the sets, so the seal is order-independent and byte-stable, headless or in-browser.
+// GROUNDED thm.certificate-seals-bundle: the seal is a function of the bundle, changing if and only if a
+// bundled part changes and reproducing for an identical assembly, grounded in the math kernel at the
+// checked tier by the seal oracle (build/check-certificate.mjs).
+function certificateSeal({ rulesetVersion, schemaVersion, storeView, contribution, gradeTable, bindingTable, entries }) {
+  return hashOf({
+    ruleset_version: rulesetVersion, schema_version: schemaVersion,
+    store_state: storeView.stateHash, contribution_hash: contribution.hash,
+    grade_table: gradeTable, binding_table: bindingTable,
+    checking_records: entries.map((e) => ({ identity: e.identity, checking_records: e.checking_records || [] })),
+  });
+}
+
 function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion = "v3", sourceVersion = "v1" } = {}) {
   const entries = contribution.entries || [];
   const links = contribution.links || [];
@@ -3644,21 +3664,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
   else { decision = "accepted"; decisionBasis.push("all-checks-clean"); }
 
   // ---- the certificate hash (CERT-1): a derived seal over the grounded-claim receipt ----
-  // Computed downstream of grounding, never an input to it: it reads the results the gate already
-  // produced and seals them, so earnedGrade and the earned-grade recurrence are untouched (design
-  // rule 1). It is derived, not stored: it lives with the receipt and reproduces by re-running the
-  // decision, the same discipline the earned grade follows (design rule 2). The bundle is exactly the
-  // certifying content, the claim identities and their grades, the bindings, the checking records in
-  // play, the state verified against, and the ruleset and schema and contribution it was decided under,
-  // so changing any certified part changes the seal; volatile and presentation-only fields (findings,
-  // the decision label, closures, matches) are excluded so the same certified assembly always seals
-  // identically. canonicalize sorts the sets, so the seal is order-independent and byte-stable.
-  const certificate_hash = hashOf({
-    ruleset_version: rulesetVersion, schema_version: schemaVersion,
-    store_state: storeView.stateHash, contribution_hash: contribution.hash,
-    grade_table: gradeTable, binding_table: bindingTable,
-    checking_records: entries.map((e) => ({ identity: e.identity, checking_records: e.checking_records || [] })),
-  });
+  const certificate_hash = certificateSeal({ rulesetVersion, schemaVersion, storeView, contribution, gradeTable, bindingTable, entries });
 
   return {
     ruleset_version: rulesetVersion, schema_version: schemaVersion,
@@ -3671,7 +3677,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
   };
 }
 
-  return { restatementClosure, satisfiesReinstatement, decide };
+  return { restatementClosure, satisfiesReinstatement, certificateSeal, decide };
 })();
 __M["robustness"] = (function () {
   var { earnedGrade } = __M["earned-grade"];

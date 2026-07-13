@@ -17,6 +17,7 @@
 // the two oracles, by checker_id, matching the checking records in corpora/math/math-data.js.
 const EXH = "oracle:check-math-exhaustion";
 const DIFF = "oracle:check-math-differential";
+const CERTO = "oracle:check-certificate";
 
 const operations = [
   // ---- the grade-lattice operations: grounded at the constitutive proof-floor by exhaustion ----
@@ -54,6 +55,13 @@ const operations = [
     op: "compositeGrade", file: "kernel/composition/transfer.mjs", fn: "compositeGrade",
     claims: ["thm.crossing-min", "thm.untyped-floor"], tier: "checked", oracle: DIFF,
     hash: "ac5aa7f6152e5dd871fd2f1128066955aed06e69403c906fb6e65e4365b9fbe3",
+  },
+
+  // ---- the certificate seal: grounded at the checked tier by the seal oracle (CERT-2) ----
+  {
+    op: "certificateSeal", file: "kernel/gate/gate.mjs", fn: "certificateSeal",
+    claims: ["thm.certificate-seals-bundle"], tier: "checked", oracle: CERTO,
+    hash: "43b995b77af08dec8a1bf082a0530a1a4a968cf74927404506a2ae551ccac6de",
   },
 ];
 
