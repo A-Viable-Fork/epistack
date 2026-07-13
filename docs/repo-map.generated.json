@@ -519,7 +519,7 @@
       "type": "periphery",
       "group": "consumer",
       "role": "the forum filter: reader-side tier selection over what the kernel keeps down to the raw tier; openness at the bottom, strictness at the floor.",
-      "contract": "STUB [2.7] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+      "contract": "STUB assessment-layer client, outside the protocol: reader-side tier selection over the built reads, documented in docs/workflow-atlas.md; specified not built. Reaches the kernel only through api/."
     },
     {
       "path": "periphery/ingest/ingest.js",
