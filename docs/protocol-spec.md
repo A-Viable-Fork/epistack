@@ -8,11 +8,14 @@ Depended on by: nothing
 # The EpiStack Protocol Specification
 
 This document specifies the protocol normatively and standalone. It states the rules; it does not
-argue them. Where a rule has a rationale, the rationale lives in an argument document cited as
+argue them. Where a rule has a rationale, that rationale lives in an argument document, cited as
 informative in Section 9, and no argument document is required to implement the protocol.
 
-Ground truth is the built machinery. Every format and algorithm below is derived from the code in
-`kernel/` and `api/`, and where this prose and the code ever disagree, the code governs.
+This specification is authoritative for the protocol. It defines conformance, and where an
+implementation, including this repository's own code, diverges from what is stated here, that
+divergence is an implementation bug, not a spec ambiguity. The repository's code in `kernel/` and
+`api/` is a conforming reference implementation, and the check suite (`build/check-*.mjs`) is
+executable conformance; the direction of authority runs from the specification to the code.
 
 ## 1. Scope and conformance
 
@@ -30,9 +33,14 @@ RFC 2119.
 
 ## 2. The record formats
 
-Records are derived from `kernel/schema/records.mjs`. Undeclared top-level fields on any record are
-collected into a hashed `extensions` map that no check reads; a `field_path` MUST NOT point into it.
-Every record canonicalizes to a stable form and carries a content hash of that form.
+The reference implementation of these records is `kernel/schema/records.mjs`. Undeclared top-level
+fields on any record are collected into an `extensions` object, canonicalized and included in the
+record's content hash by the rules of Section 2.4, and read by no check. Every record canonicalizes
+to a stable form (Section 2.4) and carries a content hash of that form. A `field_path` is the dotted
+locator naming which field of a record a well-formedness finding is about (for example
+`declared_grade`, or the literal `absent` when the finding concerns the whole entry rather than one
+field); a `field_path` MUST NOT point into the `extensions` object, since findings never reference
+the unread extension area.
 
 ### 2.1 The claim record
 
@@ -85,9 +93,48 @@ The link kinds and their semantics, exactly as built:
 
 A checking record on a claim or link carries `checker_id` (MUST), `method_class` (MUST, one of
 `replication`, `derivation-audit`, `data-audit`, `direct-measurement`), `method`, `checked_at_state`
-(MUST), `outcome` (MUST, `confirms` or `confirms-with-noted-limits ...`), and `independence` (MUST,
-`distinct-party` or `self`). Only a `distinct-party` check contributes to a claim's own basis
-(Section 4).
+(MUST), `outcome` (MUST), and `independence` (MUST, `distinct-party` or `self`). The `outcome` MUST be
+either the exact string `confirms` or a string beginning `confirms-with-noted-limits` followed by the
+noted limits; those are the only two admitted forms, because a checking record records a confirmation
+and a check that does not confirm produces no checking record rather than one carrying a failing
+outcome. Only a `distinct-party` check contributes to a claim's own basis (Section 4).
+
+### 2.4 Canonicalization, identities, and hashes
+
+Identities and hashes MUST be reproducible from this specification alone; the reference
+implementation is `kernel/schema/canonical.mjs`, `type-hash.mjs`, and `sha256.mjs`. An implementation
+canonicalizes a value to a byte-exact form and then hashes that form, so that two records with the
+same content produce identical bytes and identical hashes.
+
+The canonical form is defined by these rules:
+
+- **Strings.** Normalize to Unicode NFC, convert every CR and CRLF to a single LF, and trim leading
+  and trailing whitespace (interior whitespace is preserved).
+- **Numbers.** Numbers are exact-decimal strings and MUST NOT be parsed to a floating-point value. A
+  decimal has no leading zeros (except a bare `0`), no trailing fractional zeros, no exponent, and is
+  finite; `-0` is not admitted. A decimal encodes as a bare token, distinct from a quoted string of
+  the same digits, so the measured value `1.5` and the text `"1.5"` hash differently.
+- **Objects.** Absent optional fields are omitted and no `null` appears in the canonical form. Keys
+  are sorted by byte order (equivalently Unicode code-point order, which UTF-8 byte order matches).
+- **Arrays.** A reference list is sorted by the canonical byte order of its elements and exact
+  duplicates are dropped; a plain array is sorted with duplicates kept; a sequence (an authored child
+  order) keeps its order.
+- **Encoding.** A boolean encodes as `true` or `false`; a decimal as its bare token; a string as its
+  JSON string form (deterministic escaping); an array as `[` elements joined by `,` `]`; an object as
+  `{` each `"key":value` in sorted key order joined by `,` `}`.
+
+The hash is **SHA-256** over the UTF-8 bytes of that canonical encoding, expressed as lowercase hex.
+It is the one named hash; nothing else hashes. Four uses follow from it:
+
+- **Claim identity** is the hash of the canonical form of the object `{ kind, statement }` (those two
+  fields only, so identity is not the record hash).
+- **Link identity** is the hash of the canonical form of `{ link_kind, from_identity, to_identity }`.
+- **The type-bundle hash** is the hash of the canonical form of the type bundle (its kind with its
+  ceiling and rules, its floor with its rank, its source class with its footings). Identical bundles
+  hash identically and any change to a meaning-bearing field changes the hash (Section 6).
+- **The record content hash** is the hash of the canonical form of the whole record including its
+  `extensions` object; there is no separate extensions hash, and the extensions area is hashed but
+  read by no check.
 
 ## 3. The grade ordering and floors
 
@@ -130,10 +177,15 @@ graph alone; conformance requires this determinism.
 Given a claim with its `supports` links (each carrying its own earned grade, its link's declared
 grade, and its source footprint), its checking records, and its kind's ceiling:
 
+Ranks are on the collapsed working line: `ungraded` 0, `asserted` 1, `supported` 2, `corroborated` 3,
+and every settled grade collapses to `settled` 4. `collapse(g)` maps a settled grade to `settled` and
+leaves the others unchanged. `min` and `max` (weakest-of, strongest-of) compare by that rank.
+
 ```
 support_delivery(supports):
   if no supports: return asserted            # support from nothing is nothing
-  group the supports by support_group
+  group the supports by support_group; a support with no support_group is its OWN
+    singleton group (an independent alternative), never collected with other ungrouped supports
   for each group: delivery = weakest-of over members of
                   min(collapse(member.support_earned), collapse(member.link_grade))
   S = strongest-of over the group deliveries
@@ -148,15 +200,27 @@ own_basis(claim):
   if >= 1 distinct: return checked
   return none
 
+cap_by_ceiling(pos, ceiling):
+  if rank(pos) < rank(ceiling): return pos
+  if rank(pos) > rank(ceiling): return ceiling
+  # equal collapsed rank: on the settled empirical axis the finer empirical rank decides
+  if pos and ceiling are both settled-empirical:
+      return the one with the lower empirical rank   # checked (1) below independently-rechecked (2)
+  return pos
+
 earned_grade(claim):
   S = support_delivery(claim.supports)
   B = own_basis(claim)
   if B is settled and (S >= corroborated or claim has no supports):
       earned = cap_by_ceiling(B, ceiling)    # the basis stands, supports permitting
   else:
-      earned = cap_by_ceiling(min(S, corroborated), ceiling)
+      earned = cap_by_ceiling(min(S, corroborated), ceiling)  # a settled S becomes corroborated here
   return earned
 ```
+
+If a claim's supports form a cycle, a node reached again while its own earned grade is still being
+computed resolves to `asserted` (the cycle guard), so the computation terminates deterministically and
+an implementation does not diverge on cyclic support.
 
 Two properties are load-bearing and MUST hold. First, settledness is not inherited: a claim resting
 on settled support delivers at most `corroborated`; only a claim's own basis, a distinct-party check
@@ -179,10 +243,13 @@ protocol; the gate's verdict is a function of structure alone.
 
 On submit the gate runs these checks and declines on any failure:
 
-- **Reference binding (Section 5 of the data model).** Every identity a link names binds at the grade
-  the STORE holds for the target, never a grade the contribution asserts for another party's entry. A
-  reference to a superseded entry declines (`WF-SUPERSEDED`, naming the successor); a reference to an
-  unresolvable identity declines (`WF-UNRESOLVED`).
+- **Reference binding.** Every identity a link names is resolved and recorded in a binding table. An
+  identity the store holds binds at the grade the STORE holds for that target (resolution `bound`, or
+  `bound-superseded` when the target is no longer in force), never a grade the contribution asserts for
+  another party's entry; an identity resolved only against a sibling in the same contribution, or not
+  resolved at all, is recorded `unresolved`. A reference to a superseded entry declines
+  (`WF-SUPERSEDED`, naming the successor); a reference that resolves to nothing declines
+  (`WF-UNRESOLVED`).
 - **Currency.** Each `depends-on` target MUST exist and be in force, else `WF-DEPENDS`.
 - **Grade-mode.** For each entry, `declared_grade` MUST be at or below the earned grade within a
   comparable mode. An incomparable mode declines (`GM-MODE`); a declared grade above earned declines
@@ -201,15 +268,16 @@ Two findings are recorded but do not by themselves decline:
   between the two sides' supports.
 
 The decision is `declined` if any check declined, else `accepted-with-disagreement` if any
-contradiction record was produced, else `accepted`. The receipt (Section 11 of the data model) MUST
+contradiction record was produced, else `accepted`. The receipt MUST
 carry: `ruleset_version`, `schema_version`, `store_state`, `contribution_hash`, `findings`,
 `binding_table`, `grade_table`, `restatement_closures`, `withdrawn_matches`, `corroboration_findings`,
 `contradiction_records`, `decision`, and `decision_basis`.
 
 ## 6. The untyped type and the crossing
 
-These invariants are derived from `docs/composition-spec.md` and `kernel/schema/type-hash.mjs` and are
-what make a kernel composable. Each is a MUST with its mechanical consequence.
+These invariants are what make a kernel composable, and this section states them in full. Their
+reference implementation is `kernel/schema/type-hash.mjs` and their rationale is
+`docs/composition-spec.md` (informative). Each is a MUST with its mechanical consequence.
 
 - Every schema MUST include the untyped type.
 - The untyped type is not a floor and grounds nothing: a claim typed untyped has no standing on its
@@ -235,7 +303,7 @@ only write is a gated submission. A client reaches the store through no other do
 The propose/read surface:
 
 ```
-propose(proposedClaim) -> receipt            # the Section-11 gate receipt (Section 5)
+propose(proposedClaim) -> receipt            # the gate receipt of Section 5
 read(query) -> [claim with grounding]        # each claim with its declared and earned grade
 robustness(query) -> [claim with fragility]  # grade, robustness after the worst single removal,
                                              #   single points of failure, correlated-evidence flag
@@ -250,12 +318,18 @@ The write is `propose`, which returns the gate's receipt; it does not insert a r
 `gaps`, `characterizedGaps`, and `reconciliations` are derived on read from the same structure the
 grade is, never stored. A crux is a candidate, never a verdict.
 
-The trellis read surface (`docs/api.md`) exposes `resolve(id)`, `has(id)`, `decompose(id)`,
-`compare(idOrAtlas)`, `dependents(id)` (the blast radius), `motions(id)`, `classify(id)`, `gaps()` and
-`gaps(id)`, `perturb(flipped)` (a non-destructive what-if overlay), `kinds()`, `entry()`,
-`compareTargetFor(id)`, and `pipelineMembers(rootId)`. Every one is an open read that MUST NOT mutate.
-The one write is `submit(claim)`, which passes to the gate; there is no setter, no store handle, no
-resolver a client can build.
+Each read returns resolved, read-only values and reports the gate's verdict on the receipt rather than
+computing one client-side: `propose` returns a receipt whose `decision` is `accepted`,
+`accepted-with-disagreement`, or `declined`, with `decision_basis` naming the rule (Section 5), which
+is the sole error channel; the client raises no verdict of its own.
+
+The trellis read surface exposes `resolve(id)`, `has(id)`, `decompose(id)`, `compare(idOrAtlas)`,
+`dependents(id)` (the blast radius), `motions(id)`, `classify(id)`, `gaps()` and `gaps(id)`,
+`perturb(flipped)` (a non-destructive what-if overlay), `kinds()`, `entry()`, `compareTargetFor(id)`,
+and `pipelineMembers(rootId)`. Every one is an open read that MUST NOT mutate. The one write is
+`submit(claim)`, which passes to the gate; there is no setter, no store handle, no resolver a client
+can build. For the full input and output shape of each read in this surface, `docs/api.md` is a
+normative companion to this specification, not optional background.
 
 ## 8. Required invariants versus local policy
 
@@ -280,10 +354,17 @@ An implementation MAY set locally, with no effect on composability:
   beyond the shared ordering).
 - The forum and weighing conventions.
 
-## 9. Informative references
+## 9. Companion documents
 
-None of these is required to implement the protocol. Each states rationale the sections above do not.
+**Normative companion.** `docs/api.md` is a normative part of this specification for the client
+contract: Section 7 states the propose/read core and its error channel, and `docs/api.md` states the
+full input and output shape of each read in the trellis read surface. An implementation of the client
+contract MUST hold to it.
 
+**Informative references.** None of these is required to implement the protocol; each states rationale
+the sections above do not, and the normative rules they concern are stated in full above.
+
+- `docs/composition-spec.md`: the rationale for the crossing and untyped-type rules; Section 6 states
+  those rules normatively and is self-contained.
 - `docs/the-climb-of-synthesis.md`: why the protocol takes this shape.
 - `docs/what-stands-without-trust.md`: the full argument and the federation appendix.
-- `docs/composition-spec.md`: the rationale for the crossing and untyped-type rules in Section 6.
