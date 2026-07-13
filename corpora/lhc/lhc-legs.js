@@ -1,4 +1,4 @@
-// Role: the densified LHC-safety cascade (Prompt 25), ingested from the production and Hawking reports,
+// Role: the densified LHC-safety cascade, ingested from the production and Hawking reports,
 //   the omissions survey, and the framework-conditionality report. The safety claim is the disjunction
 //   of three legs whose computed quantities ground to their floors within their regime; each leg's
 //   framework premise is a characterized dependency (a depends-on edge with its closing condition). The

@@ -1,4 +1,4 @@
-// Role: the densified covid-origins case (Prompt 23a), ingested from the Rootclaim-debate write-up.
+// Role: the covid-origins case, from the Rootclaim-debate write-up.
 //   The evidence pieces ground to their floors; where the write-up separates an observation from its
 //   interpretation, the observation is a measurement and the interpretation a contested forum claim.
 //   The zoonosis and lab-leak conclusions are a contradicts-linked forum pair, each resting on the

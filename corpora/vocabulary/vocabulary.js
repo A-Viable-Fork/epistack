@@ -1,4 +1,4 @@
-// Role: the vocabulary kernel (Prompt 50, the fifth exhibit). The submission's own terms as declaration
+// Role: the vocabulary kernel (the fifth exhibit). The submission's own terms as declaration
 //   claims, each grounding by adoption in the document that defines it. Core terms are the vocabulary a
 //   reader must hold to follow the argument and ground in their home region inside the submission;
 //   reference terms are used but not owned and ground in an external citation, the honest floor for a

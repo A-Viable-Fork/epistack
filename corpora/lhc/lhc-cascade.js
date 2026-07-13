@@ -384,7 +384,7 @@ const CASE = {
       state: "consistent",
       // the support edge the comparison rests on: it tests the prediction. Making it structural (not
       // only implied by the authored cascade) lets the perturbation rule reach the comparison from the
-      // flip through support edges alone (Prompt 21).
+      // flip through support edges alone.
       tests: "lhc.prediction",
       note: "the cascade predicts the neutron star should already be gone",
       // tau_S is the body's measured age: the survival bound reads the dense bodies' ages

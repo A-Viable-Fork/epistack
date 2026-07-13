@@ -1,4 +1,4 @@
-// Role: the nutrition domain store for the eggs case (Prompt 20). The dietary-cholesterol and lipid
+// Role: the nutrition domain store for the eggs case. The dietary-cholesterol and lipid
 //   claims and the responder-heterogeneity claims ground to the measurement floor; the guidelines
 //   claims rest in the forum; the cardiovascular block is authored as the contested structure it is:
 //   a population null and a population harm claim joined by a contradicts link, agreeing only in the
@@ -37,7 +37,7 @@ const claims = [
   { ref: "n.individual-unknown", kind: "forum", declared_grade: "supported", source_id: "src:katan-1986", contributor_id: "inference:individual",
     statement: "eggs.nutrition: whether an individual's cholesterol response to eggs predicts their own CVD risk is unknown, an inference from population variance, never directly tested; the population mean does not transfer because the transfer bottoms out in absorption kinetics, synthesis feedback, and responder variance, not in a single effect size" },
 
-  // ==== Prompt 26: the three coupled subsystems, each grounding to its floor ====
+  // ==== the three coupled subsystems, each grounding to its floor ====
   // ---- Cluster 1: choline and one-carbon metabolism (the settled benefit routing) ----
   { ref: "chol.adequacy", kind: "measurement", declared_grade: "checked", source_id: "src:wallace-2016", contributor_id: "nhanes:wallace",
     statement: "eggs.nutrition (choline): whole eggs are the densest common source of bioavailable phosphatidylcholine (one large egg ~147-169 mg), yet only ~10.8% of the US population meets the Adequate Intake (550 mg/day men, 425 women), so the AI is hard to reach without eggs", checking_records: chk("wallace-nhanes", "data-audit", "NHANES 2009-2014, n=16,809") },
@@ -68,7 +68,7 @@ const claims = [
   { ref: "lip.responder", kind: "measurement", declared_grade: "checked", source_id: "src:herron-2006", contributor_id: "pheno:herron",
     statement: "eggs.nutrition (lipid floor): the population splits into ~66-75% hypo-responders (<0.05 mmol/L rise per 100 mg) and ~25-33% hyper-responders (>0.06 mmol/L), set by baseline synthesis, absorption efficiency, and APOE E4 (~13.7-20%); both keep the LDL:HDL ratio, so the variance is in magnitude, not ratio", checking_records: chk("responder-ward", "replication", "metabolic-ward responder classification") },
 
-  // ==== Prompt 26 Phase B, fork 1: the choline good-versus-bad split, routed by the microbiome ====
+  // ==== fork 1: the choline good-versus-bad split, routed by the microbiome ====
   // the mechanism and matrix effect ground to the floor; whole eggs do not spike fasting TMAO.
   { ref: "tmao.pathway", kind: "measurement", declared_grade: "checked", source_id: "src:wilcox-2021", contributor_id: "mech:tmao",
     statement: "eggs.nutrition (TMAO): unabsorbed choline is cleaved to TMA by gut cutC bacteria and oxidized to TMAO by hepatic FMO3; the magnitude is matrix-dictated, and four whole eggs/day did NOT raise fasting TMAO (Wilcox 2021, p=0.28) while an equivalent choline-bitartrate supplement did (p<0.0001)", checking_records: chk("wilcox-rct", "replication", "randomized clinical trial, n=82") },
@@ -88,7 +88,7 @@ const claims = [
   { ref: "uc.mendelian", kind: "forum", declared_grade: "asserted", source_id: "src:jia-2019", contributor_id: "undercut:mr",
     statement: "eggs.nutrition (undercut): bidirectional Mendelian randomization finds genetically predicted TMAO does NOT cause CAD, MI, stroke, or T2DM; the reverse holds, T2DM and CKD causally raise TMAO (Jia 2019), reverse causality (discovery grade: confirmed)" },
 
-  // ==== Prompt 26 Phase B, fork 2: the cardiovascular crux, the confounding-adjustment choice ====
+  // ==== fork 2: the cardiovascular crux, the confounding-adjustment choice ====
   // the two adjustment stances the harm and null cohorts diverge on (the crux frontier).
   { ref: "adj.uscohort", kind: "forum", declared_grade: "asserted", source_id: "src:zhong-2019", contributor_id: "adj:us",
     statement: "eggs.nutrition (adjustment): the US harm cohorts (Zhong 2019, +0.5 egg/day HR 1.06 CVD; +300 mg cholesterol HR 1.17) rest on a single baseline food-frequency questionnaire and do not adjust away the collinearity of heavy egg intake with the atherogenic Western pattern (higher BMI, smoking, processed red meat)" },
@@ -123,7 +123,7 @@ const claims = [
 ];
 
 const links = [
-  // Prompt 26: the population-to-individual refusal rests on the mechanistic floor, not a single
+  // the population-to-individual refusal rests on the mechanistic floor, not a single
   // effect size: absorption kinetics, synthesis feedback, and responder variance each ground it.
   // Three disjoint-source support groups, so the refusal earns corroborated by independence lift.
   { link_kind: "supports", from: "lip.absorption", to: "n.individual-unknown", support_group: "g:absorb", source_id: "src:brown-yu-2010", contributor_id: "wire", declared_grade: "supported" },
@@ -140,7 +140,7 @@ const links = [
   { link_kind: "supports", from: "n.cv-diab-shin", to: "n.cv-diabetic", support_group: "g:shin", source_id: "src:shin-2013", contributor_id: "meta:shin", declared_grade: "supported" },
   { link_kind: "supports", from: "n.cv-diab-hu", to: "n.cv-diabetic", support_group: "g:hu", source_id: "src:hu-1999", contributor_id: "cohort:hu", declared_grade: "supported" },
 
-  // ---- Prompt 26 Phase B, fork 1: the choline split ----
+  // ---- fork 1: the choline split ----
   // the TMAO causal claim rests only on the association, so it earns the association grade, no floor.
   { link_kind: "supports", from: "tmao.assoc", to: "tmao.causal", support_group: "g:tmao-assoc", source_id: "src:tang-2013", contributor_id: "epi:tang", declared_grade: "supported" },
   // the fork rests on both routings, the benefit and the risk, held as a split rather than averaged.
@@ -151,7 +151,7 @@ const links = [
   { link_kind: "undercut", from: "uc.renal", to: "tmao.causal", source_id: "src:sanchez-2022", contributor_id: "wire", declared_grade: "supported" },
   { link_kind: "undercut", from: "uc.mendelian", to: "tmao.causal", source_id: "src:jia-2019", contributor_id: "wire", declared_grade: "supported" },
 
-  // ---- Prompt 26 Phase B, fork 2: the cardiovascular crux ----
+  // ---- fork 2: the cardiovascular crux ----
   // each cohort rests on its own confounding-adjustment stance (the divergence frontier), at low link
   // grade so the contested conclusions stay contested; the crux computation reads the edges, not grades.
   { link_kind: "supports", from: "adj.uscohort", to: "n.cv-harm", support_group: "g:adj-us", source_id: "src:zhong-2019", contributor_id: "adj:us", declared_grade: "asserted" },

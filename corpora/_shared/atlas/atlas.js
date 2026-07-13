@@ -137,7 +137,7 @@ const BASIS = {
 // TEST: two existing clones with a real departure coordinate (a node-id in the case file). A pattern
 // short of two existing clones is defined with its clones marked existing/pending and held. All four
 // below carry two or more existing clones (the eggs which-body, the CVD crux, and the regenerative
-// leaps all landed in Prompt 26), so all four admit.
+// leaps all landed), so all four admit.
 const DISCRIMINATORS = {
   "atlas.discriminator.framing-presupposition": {
     id: "atlas.discriminator.framing-presupposition",
