@@ -19,7 +19,7 @@ const { STORE } = require("../corpora/math/math-data.js");
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
 const H = "=".repeat(80);
-console.log(H); console.log("CHECK-MATH (sixth exhibit, in progress): the math kernel, stage zero"); console.log(H);
+console.log(H); console.log("CHECK-MATH (sixth exhibit, in progress): the math kernel, stage two (bare)"); console.log(H);
 
 console.log("\n[1] every adopted kind is in the shared subtree and its pinned hash matches");
 for (const name of ADOPTED) {
@@ -59,8 +59,27 @@ if (built) {
   }
 }
 
+console.log("\n[4] the stage-two foundational properties are bare, so the gate floors them by their kind's rule");
+if (built) {
+  ok(STORE.links.length === 0, `no support links are attached yet (got ${STORE.links.length})`);
+  const props = STORE.claims.filter((c) => c.ref.startsWith("thm."));
+  const gradeByIdentity = new Map(built.receipt.grade_table.map((g) => [g.identity, g]));
+  const theorems = props.filter((c) => c.kind === "theorem");
+  const measurements = props.filter((c) => c.kind === "measurement");
+  ok(theorems.length === 9 && measurements.length === 9, `the 18 bare properties are entered (got ${theorems.length} theorem, ${measurements.length} measurement)`);
+  for (const c of props) {
+    const g = gradeByIdentity.get(built.refId.get(c.ref));
+    ok(!!g && g.S === "asserted", `${c.ref}: carries no support, so support delivery is bare (got ${g ? g.S : "absent"})`);
+    // the lattice-law theorems sit at the constitutive proof-floor their kind confers; the recurrence and
+    // crossing measurements floor at asserted, the low floor an unsupported empirical claim gets. Stage
+    // three attaches the exhaustion and differential-test grounding that earns or justifies each.
+    const floor = c.kind === "theorem" ? "constitutive" : "asserted";
+    ok(!!g && g.earned_grade === floor, `${c.ref}: floors at ${floor} (got ${g ? g.earned_grade : "absent"})`);
+  }
+}
+
 console.log("\n" + H);
-if (fails === 0) console.log("verified: the math kernel is coherent, and its confidence-order axioms sit at the constitutive floor as the given basis, by the gate.");
+if (fails === 0) console.log("verified: the math kernel is coherent, its axioms sit at the constitutive floor, and its stage-two properties are bare, floored by the gate at their kind's rule with no support.");
 console.log(fails === 0 ? "check-math: OK" : `check-math: ${fails} FAILURE(S)`);
 console.log(H);
 process.exit(fails === 0 ? 0 : 1);
