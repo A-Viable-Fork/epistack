@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 194,
-  "edgeCount": 393,
+  "nodeCount": 195,
+  "edgeCount": 394,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -975,6 +975,13 @@
       "group": null,
       "role": "the math kernel's differential-test harness (stage three). Grounds the earned-grade recurrence, contamination, and crossing properties over their unbounded domain by generating random support graphs and confirming the real code agrees with the extracted math (the claim statements) restated independently, over many trials. Agreement over random trials is the checked tier, honestly below a proof; this passing harness is the support that grounds the measurement claims at checked.",
       "contract": "`node build/check-math-differential.mjs` exits non-zero on any disagreement, printing the failing graph. Deterministic: a seeded generator, so a re-run is byte-identical. Imports the real grounding, crossing, gate, and adoption code."
+    },
+    {
+      "path": "build/check-math-embed.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the embed guard for the math kernel (sixth exhibit, stage four). Makes the GROUNDED code-to-kernel pointers mechanical: it reads the kernel code files as text and, for every pointer, verifies the referenced claim resolves in the store, the pointer's stated tier matches the tier the gate grades that claim at, the cited oracle exists and covers the claim, and the described code operation is unchanged since it was grounded (a content hash). It is the drift guard in two directions: a renamed or removed claim breaks the pointer, a changed operation breaks the hash. It never imports the graded operations into its check path; it reads them as text, so the differential independence the grounding rests on is untouched.",
+      "contract": "`node build/check-math-embed.mjs` exits non-zero on any failure, naming the offender. Reads corpora/math/{math-data,embed-manifest}.js and the kernel code files named in the manifest."
     },
     {
       "path": "build/adoption.mjs",
@@ -2738,6 +2745,13 @@
     {
       "from": "build/check-math-differential.mjs",
       "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-math-embed.mjs",
+      "to": "kernel/schema/sha256.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
