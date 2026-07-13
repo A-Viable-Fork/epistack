@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 190,
-  "edgeCount": 371,
+  "nodeCount": 192,
+  "edgeCount": 382,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -947,6 +947,20 @@
       "group": null,
       "role": "the vocabulary kernel oracle (Prompt 50, the fifth exhibit). Verifies the property that keeps the definitions kernel honest: every core term's cited home region actually contains the term, so a definition cannot drift from the document that grounds it, the register-fidelity failure made mechanical. Reference terms, grounding in an external citation, are checked for having a real source.",
       "contract": "`node build/check-vocabulary.mjs` exits non-zero on any failure, listing the offending terms. Reads corpora/vocabulary/{vocabulary,tables}.js and the home documents under docs/. Deterministic."
+    },
+    {
+      "path": "build/math-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the generated builder for the math kernel: builds its v3 store through the real gate from the pure data in corpora/math, exactly as build/covid-build.mjs builds covid.",
+      "contract": "buildKernel() -> { store_id, tables, claims, refId, state, view, receipt }. Imports the kernel and corpora/math; pure over the corpus."
+    },
+    {
+      "path": "build/check-math.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the generated oracle for the math kernel. Verifies the config produced a coherent empty kernel: every adopted kind is in the shared subtree and its pinned hash matches, the source table and kind table build (the real kernel throws on a bad source class or ceiling), and the gate accepts the empty store. The scaffolder holds no rules; this check is the real enforcer.",
+      "contract": "`node build/check-math.mjs` exits non-zero on any failure."
     },
     {
       "path": "build/adoption.mjs",
@@ -2652,6 +2666,27 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-math.mjs",
+      "to": "corpora/math/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-math.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-math.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/check-migrate.mjs",
       "to": "kernel/analysis/gaps.js",
       "type": "imports",
@@ -3346,6 +3381,62 @@
     },
     {
       "from": "build/lineage-build.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "corpora/math/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "corpora/math/math-data.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/math-build.mjs",
       "to": "kernel/gate/gate.mjs",
       "type": "imports",
       "fromLayer": "build",

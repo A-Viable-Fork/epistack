@@ -96,6 +96,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/math-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-math.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/adoption.mjs",
     "type": "build",
     "flows": [
