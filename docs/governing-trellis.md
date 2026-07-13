@@ -2,7 +2,7 @@
 Type: reference
 Purpose: The repository's governing trellis: the constraint hierarchy any state of the repo must hold, each with its real enforcement status derived from the check suite, as the parent the design axioms are the code-layer instance of.
 Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/sorry-ledger.md, docs/status-ledger.md
-Depended on by: docs/submission-trellis.md
+Depended on by: nothing
 ---
 
 # The Governing Trellis
@@ -60,6 +60,6 @@ The governing trellis holds its own open obligations, the same discipline it enf
 | SG-1 | The built-versus-specified standing rule (G1-2) is enforced by discipline, not machinery: no oracle asserts that a maturity claim lives only in the status ledger. Prose-specified; a linter pass that flagged a maturity verb outside the ledger would move it to Checked. | Open |
 | SG-2 | The capture-recovery and revocation half of forkability (G1-3) is specified in the coordination layer and not built. | Deferred to `docs/coordination-layer-spec.md` |
 
-## Relationship to the design axioms and the submission trellis
+## Relationship to the design axioms
 
-`docs/design-axioms.md` is this trellis at the code tier: T0-1 through T0-6 and the linter rules are the module-and-import instances of the constraints above, and this document points to them rather than restating them. `docs/submission-trellis.md` is the sibling project trellis: it governs producing the competition entry, carries a completion date at submission, and holds the compost of killed submission-design decisions. The two share the method and inherit the meta-trellis; they differ in object. Governing invariants of the repository live here; submission-production constraints live there.
+`docs/design-axioms.md` is this trellis at the code tier: T0-1 through T0-6 and the linter rules are the module-and-import instances of the constraints above, and this document points to them rather than restating them. The governing trellis is their parent, stating the whole governing constraint set at the grain of the repository; the axioms state its code tier at the grain of modules and imports.
