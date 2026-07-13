@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
   "nodeCount": 192,
-  "edgeCount": 382,
+  "edgeCount": 383,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -959,7 +959,7 @@
       "path": "build/check-math.mjs",
       "type": "build",
       "group": null,
-      "role": "the generated oracle for the math kernel. Verifies the config produced a coherent empty kernel: every adopted kind is in the shared subtree and its pinned hash matches, the source table and kind table build (the real kernel throws on a bad source class or ceiling), and the gate accepts the empty store. The scaffolder holds no rules; this check is the real enforcer.",
+      "role": "the math kernel oracle (sixth exhibit, in progress). Verifies the kernel is coherent (every adopted kind is in the shared subtree and its pinned hash matches, the tables build, the gate accepts the store) and, from stage zero, that the confidence-order axioms are present as declaration-claims earning the constitutive floor. The scaffolder holds no rules; this is the real enforcer, and it evolves with the kernel: each stage adds the assertions its state earns.",
       "contract": "`node build/check-math.mjs` exits non-zero on any failure."
     },
     {
@@ -2675,6 +2675,13 @@
     {
       "from": "build/check-math.mjs",
       "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-math.mjs",
+      "to": "corpora/math/math-data.js",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "corpus"
