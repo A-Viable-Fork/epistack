@@ -505,7 +505,7 @@
       "type": "periphery",
       "group": "consumer",
       "role": "the assessment agent: an AI consumer that produces interpretive assessments the kernel cannot compute, submitted back through the gate as claims.",
-      "contract": "STUB [2.4] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+      "contract": "STUB assessment-layer client, outside the protocol: interpretation the store defers to the periphery, documented in docs/workflow-atlas.md; specified not built. Reaches the kernel only through api/."
     },
     {
       "path": "periphery/author/author.js",
@@ -526,7 +526,7 @@
       "type": "periphery",
       "group": "producer",
       "role": "the ingestion pipeline: read messy multi-source material, emit attributed candidate claims with proposed types and links, submit through the gate.",
-      "contract": "STUB [2.3] Stage 2 producer, specified not built. Reaches the kernel only through api/."
+      "contract": "STUB producer workflow, outside the protocol: the claimant's work of typing messy sources, documented in docs/workflow-atlas.md; specified not built. Reaches the kernel only through api/."
     },
     {
       "path": "periphery/ingest/rate-limit.mjs",
@@ -792,14 +792,14 @@
       "type": "periphery",
       "group": "consumer",
       "role": "the query surface: answer whether a claim is grounded and where it is weakest, by walking the graph through the read interface.",
-      "contract": "STUB [2.5] Stage 2 consumer, specified not built. Reaches the kernel only through api/."
+      "contract": "STUB assessment-layer client, outside the protocol: the evidence finder over the built reads, documented in docs/workflow-atlas.md; specified not built. Reaches the kernel only through api/."
     },
     {
       "path": "periphery/redteam/redteam.js",
       "type": "periphery",
       "group": "producer",
       "role": "the red-team surface: attack the graph, propose objections, find thin grounding, submit refutations through the gate.",
-      "contract": "STUB [2.6] Stage 2 producer, specified not built. Reaches the kernel only through api/."
+      "contract": "STUB assessment-layer client, outside the protocol: the adversarial auditor over the built reads, documented in docs/workflow-atlas.md; specified not built. Reaches the kernel only through api/."
     },
     {
       "path": "build/bundle.js",
