@@ -94,6 +94,9 @@ __M["confidence"] = (function () {
 // Invariant: no numbers on the epistemic path here either, grades are named positions. This is the
 //   one canonical grounding order; the Stage 1 trellis lattice that once sat beside it (a different
 //   vocabulary of untyped/forum tiers/floors) was retired in Prompt 16, leaving this the sole order.
+// GROUNDED: the lattice laws over the grade set (meet, join, capByCeiling) are grounded in the math
+//   kernel at proof-floor by exhaustion (corpora/math/: thm.meet-*, thm.join-*, thm.absorption,
+//   thm.lattice, thm.mode-incomparable-welldefined; proved by build/check-math-exhaustion.mjs).
 "use strict";
 
 // each grade: its collapsed line rank (0..4), its tier, and its mode within the settled branch.
@@ -135,9 +138,12 @@ function collapsedRank(p) {
 // meet (weakest-of) and join (strongest-of) on the collapsed line; inputs and output are collapsed
 // positions (one of COLLAPSED). These are the only combinators the earned-grade fold uses.
 function meet(a, b) {
+  // GROUNDED thm.meet-* / thm.absorption: the greatest lower bound on the collapsed line, proved
+  // commutative, associative, idempotent, and absorptive by exhaustion (check-math-exhaustion.mjs).
   return collapsedRank(a) <= collapsedRank(b) ? collapse(a) : collapse(b);
 }
 function join(a, b) {
+  // GROUNDED thm.join-* / thm.absorption: the least upper bound on the collapsed line, the dual of meet.
   return collapsedRank(a) >= collapsedRank(b) ? collapse(a) : collapse(b);
 }
 
@@ -650,6 +656,10 @@ __M["earned-grade"] = (function () {
 // Invariant: no numbers on the path; grades are named positions. Each support contributes
 //   min(collapse(support earned), collapse(link grade)); within a group weakest-of, across groups
 //   strongest-of; independence lifts delivery to corroborated and no further.
+// GROUNDED: the recurrence properties (thm.earned-recurrence, thm.earned-linear, thm.ungrouped-singleton,
+//   thm.settled-not-inherited, thm.determinism) are grounded in the math kernel at checked by differential
+//   testing (build/check-math-differential.mjs, code-versus-extracted agreement over random graphs). The
+//   lift to proof-floor by a formal proof is a characterized gap (docs/sorry-ledger.md, G-D).
 "use strict";
 
 // footprints are Sets of source ids; two are disjoint when their intersection is empty.
@@ -663,6 +673,8 @@ function supportDelivery(supports) {
   if (!supports || supports.length === 0) return "asserted"; // support from nothing is nothing
   const groups = new Map();
   for (const s of supports) {
+    // GROUNDED thm.ungrouped-singleton: a support with no group is its own singleton, so ungrouped
+    // supports combine strongest-of (independent), not weakest-of. Pinned by the differential harness.
     const g = s.group == null ? s.linkIdentity || Symbol() : s.group;
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(s);
@@ -716,6 +728,9 @@ function earnedGrade({ ceiling, constitutive, checkingRecords, supports }) {
   const Bsettled = B !== "none" && POSITIONS[B] && POSITIONS[B].tier === "settled";
   const noSupports = !supports || supports.length === 0;
   let earned;
+  // GROUNDED thm.settled-not-inherited: the ceiling cap is the load-bearing detail. A settled S from
+  // settled support becomes corroborated (below), so settledness is not inherited; only an own basis
+  // reaches the settled tier, capped by the kind ceiling. Pinned by the differential harness.
   if (Bsettled && (collapsedRank(S) >= 3 /* corroborated */ || noSupports)) {
     earned = capByCeiling(B, ceiling); // first row: the basis stands, supports permitting
   } else {
@@ -1020,7 +1035,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
     if (storeView.earnedByIdentity.has(id)) { const g = storeView.earnedByIdentity.get(id).earned; cache.set(id, g); return g; }
     const e = cEntry.get(id);
     if (!e) { cache.set(id, "ungraded"); return "ungraded"; }
-    cache.set(id, "asserted"); // cycle guard
+    cache.set(id, "asserted"); // cycle guard. GROUNDED thm.cycle-guard: an in-cycle node resolves to asserted so the resolution terminates (build/check-math-differential.mjs)
     const members = closureOf(id);
     const supports = links.filter((l) => l.link_kind === "supports" && members.has(l.to_identity)).map((l) => ({
       group: l.support_group, linkGrade: l.declared_grade, supportEarned: earnedOf(l.from_identity),

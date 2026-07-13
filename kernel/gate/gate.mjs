@@ -83,7 +83,7 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
     if (storeView.earnedByIdentity.has(id)) { const g = storeView.earnedByIdentity.get(id).earned; cache.set(id, g); return g; }
     const e = cEntry.get(id);
     if (!e) { cache.set(id, "ungraded"); return "ungraded"; }
-    cache.set(id, "asserted"); // cycle guard
+    cache.set(id, "asserted"); // cycle guard. GROUNDED thm.cycle-guard: an in-cycle node resolves to asserted so the resolution terminates (build/check-math-differential.mjs)
     const members = closureOf(id);
     const supports = links.filter((l) => l.link_kind === "supports" && members.has(l.to_identity)).map((l) => ({
       group: l.support_group, linkGrade: l.declared_grade, supportEarned: earnedOf(l.from_identity),
