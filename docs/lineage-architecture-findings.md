@@ -9,10 +9,16 @@ Depended on by: nothing
 
 The lineage case (fourth case, `corpora/lineage/`) is authored from four deep-research reports on how
 the kernel's mechanisms already run, informally and by hand, in mature institutions. Most of what the
-reports found is case content, priced by the gate in `build/check-lineage.mjs`. Two results from the
-game-modding report are different: they bear on the kernel's own design rather than on the lineage
-claim, so they are recorded here as findings, not authored as case claims. Each names its source and
-the open question it poses; neither is resolved here.
+reports found is case content, priced by the gate in `build/check-lineage.mjs`. The game-modding report
+is authored as its own branch there (the `mod.*` claims), and it is the distinctive branch of the
+lineage: where the other branches exhibit the kernel's patterns socially, run by analysts and by hand,
+the modding communities built and deployed working mechanical tools for them, a topological linter with
+cycle detection (LOOT), a conflict-visualization compiler (xEdit), mechanical composition where
+composition is possible (Wrye Bash), and hash-verified patching (BPS), and have run them at ecosystem
+scale for two decades. It is the one branch that mechanized its coordination. Two further results from
+that report are different again: they bear on the kernel's own design rather than on the lineage claim,
+so they are recorded here as findings, not authored as case claims. Each names its source and the open
+question it poses; neither is resolved here.
 
 ## Finding 1: the unmergeable-overlap result
 
