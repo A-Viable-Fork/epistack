@@ -1,17 +1,14 @@
 // Role: the lineage case (fourth case), authored from deep-research reports. The claim is that the
-//   kernel's mechanisms already run, informally and by hand, in mature institutions (common law and
-//   software dependency graphs; science, Wikipedia, journalism, accounting), and mechanically in the
-//   game-modding ecosystems (the one branch that built working tools for the patterns rather than
-//   running them socially), and that no known system composes all five axes for empirical and contested
-//   knowledge. Architectural readings are forum
-//   claims capped at corroborated; quantified findings with a distinct-party replication are
-//   measurements; stated institutional principles and the novelty conjecture are declarations. The
-//   conjecture rests on the independent near-miss gaps of the neighborhood systems, each its own group.
+//   kernel's mechanisms already run by hand in mature institutions (common law and software dependency
+//   graphs; science, Wikipedia, journalism, accounting), mechanically in the game-modding ecosystems
+//   (the one branch that built working tools), and under adversarial attack in decentralized finance
+//   (near-misses and measured failures), and that no known system composes all five axes for empirical
+//   and contested knowledge. Architectural readings are forum claims; quantified findings with a
+//   distinct-party replication are measurements; principles and the novelty conjecture are declarations.
 // Contract: exports LINEAGE = { store_id, claims:[spec], links:[spec] }; refs are resolved by
 //   build/lineage-build.mjs. Pure data; corpora imports nothing.
 // Invariant: the reports are canonical for what the claims and sources are, never for the grade. The
-//   gate prices every claim; where a parallel declares above what it earns, the demotion is the finding,
-//   the case honestly reporting which parallels are load-bearing and which were flattery.
+//   gate prices every claim; where a parallel declares above what it earns, the demotion is the finding.
 "use strict";
 
 // a checking record: only where a genuinely distinct party attests the same quantified finding.
@@ -113,6 +110,26 @@ const claims = [
     statement: P + "the ecosystems discovered empirically where mechanical composition ends: overlapping spatial records cannot be averaged (a doorway cannot be half-placed, an AI path cannot be half-severed), so tools compose the reconcilable overlaps and human-authored patches resolve the genuine conflicts, the reconcilable-versus-irreconcilable line this design draws between automatic crossing and forking, found by a community through hard failure rather than by design" },
   { ref: "mod.xedit-visibility", kind: "forum", declared_grade: "asserted", source_id: "src:mod-xedit-conflict", contributor_id: "read:mod-xedit",
     statement: P + "xEdit renders the entire composition stack as a color-coded conflict matrix, every override, every silent loser, the final winning value, making the engine's invisible resolution legible to the operator; the gap it fills, that composition semantics executing silently need a visibility surface, is the same gap a reconciliation and standing view fills over a claim graph, noted as a candidate community tool" },
+
+  // ================= decentralized finance: the adjacent field tested under sustained adversarial attack at scale =================
+  { ref: "defi.pos-slashing", kind: "forum", declared_grade: "asserted", source_id: "src:defi-slashing", contributor_id: "read:defi-slashing",
+    statement: P + "proof-of-stake slashing anticipated event-triggered standing loss: a mechanically verifiable fault, provable equivocation such as double-signing, triggers an automatic penalty, with the field's own hard lesson that slashing on judgment rather than on provable fault becomes a political weapon; it stopped short by coupling the consequence to a transferable token, so the deterrent was financial loss rather than loss of epistemic weight and credibility stayed purchasable, and this design takes the provable-fault trigger and refuses the token" },
+  { ref: "defi.light-client", kind: "forum", declared_grade: "asserted", source_id: "src:defi-light-client", contributor_id: "read:defi-light-client",
+    statement: P + "light-client verification anticipated the compact passport: a distrusting party verifies a system's state from a state root plus a Merkle inclusion path without running the system; it stopped short at value transfer, verifying balances and transactions rather than grounded claims with grades, and the mechanism generalizes to any content-addressed store, which this kernel is" },
+  { ref: "defi.gov-timelock", kind: "forum", declared_grade: "asserted", source_id: "src:defi-timelock", contributor_id: "read:defi-timelock",
+    statement: P + "governance time-locks anticipated the dual-purpose lock: queued changes defeat instantaneously assembled voting power (the flash-loan governance attack) and give dissenters an exit window before a change applies; they stopped short by locking token power rather than earned standing, so the lock guarded a purchasable quantity" },
+  { ref: "defi.commit-reveal", kind: "forum", declared_grade: "asserted", source_id: "src:defi-commit-reveal", contributor_id: "read:defi-commit-reveal",
+    statement: P + "commit-reveal schemes anticipated attribution protection: a submitter timestamps priority with a hash before revealing content, defeating front-running of a pending submission; they stopped short at transaction ordering, and the same move protects claim attribution in any hash-addressed submission path" },
+  { ref: "defi.ipc-handshake", kind: "forum", declared_grade: "asserted", source_id: "src:defi-ipc", contributor_id: "read:defi-ipc",
+    statement: P + "inter-chain communication protocols anticipated the federation handshake: mutual verification before any traffic, timeout semantics for staleness, and versioned channel upgrades; they stopped short at moving assets between chains rather than standing between communities, and at trusting validator sets rather than recomputable grounding" },
+
+  // demonstrations: deployed failures under real attack, read as measurements that confirm choices made here.
+  { ref: "defi.bridge-custody", kind: "measurement", declared_grade: "asserted", source_id: "src:defi-bridge-hacks", contributor_id: "incident:defi-bridge",
+    statement: P + "bridge custody failures are a measured demonstration: the field's largest losses concentrated where systems pooled trust at a boundary, a custodian, a multisig, or a trusted relayer, so trust pooled at a boundary is the failure point; this is the component the untyped-floor crossing refuses, since same-hash composes and everything else arrives untyped and re-earns locally, with no bridge operator to capture (single-class incident measurement, no independent replication)" },
+  { ref: "defi.restaking-contagion", kind: "measurement", declared_grade: "asserted", source_id: "src:defi-restaking", contributor_id: "incident:defi-restaking",
+    statement: P + "restaking contagion is a measured demonstration: the same collateral securing many systems turns one failure into a correlated cascade across all of them, confirming the up-hill cap, that weight transferring across boundaries at full strength is a contagion channel and capping it is the firewall this design chooses in advance (single-class measurement, no independent replication)" },
+  { ref: "defi.oracle-problem", kind: "forum", declared_grade: "asserted", source_id: "src:defi-oracle", contributor_id: "read:defi-oracle",
+    statement: P + "the oracle problem is a decade of mechanism design on getting off-system facts attested into a trustless system, unresolved and converging on multiple independent attestors, outlier rejection, and staked attestation; it confirms that the attestation seam, where the gate checks structure and the leaves touch the world, is a known hard frontier with real prior art, which is exactly where this design's coordination layer honestly stands" },
 
   // ================= the Rootclaim note: lineage-of-the-example, NOT an independent attestation =================
   { ref: "note.rootclaim", kind: "forum", declared_grade: "asserted", source_id: "src:rootclaim-nber", contributor_id: "note:rootclaim",

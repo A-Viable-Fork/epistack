@@ -15,8 +15,12 @@ lineage: where the other branches exhibit the kernel's patterns socially, run by
 the modding communities built and deployed working mechanical tools for them, a topological linter with
 cycle detection (LOOT), a conflict-visualization compiler (xEdit), mechanical composition where
 composition is possible (Wrye Bash), and hash-verified patching (BPS), and have run them at ecosystem
-scale for two decades. It is the one branch that mechanized its coordination. Two further results from
-that report are different again: they bear on the kernel's own design rather than on the lineage claim,
+scale for two decades. It is the one branch that mechanized its coordination. The decentralized-finance branch (the `defi.*`
+claims) is the lineage's most adversarially tested: its coordination mechanisms ran under sustained,
+financially motivated attack at scale, so its near-misses (slashing, light clients, governance
+time-locks, commit-reveal, inter-chain handshakes) are prior art and its failures (bridge custody,
+restaking contagion) are measured demonstrations, not speculation. Two further results from
+the game-modding report are different again: they bear on the kernel's own design rather than on the lineage claim,
 so they are recorded here as findings, not authored as case claims. Each names its source and the open
 question it poses; neither is resolved here.
 
