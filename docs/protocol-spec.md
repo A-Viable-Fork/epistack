@@ -24,6 +24,11 @@ the grounding computation (Section 4), the intake gate (Section 5), the untyped 
 crossing (Section 6), and the client contract (Section 7). Section 8 draws the line between the
 invariants an implementation MUST hold and the parameters a deployment MAY set locally.
 
+The protocol specifies structural attenuation: the recomputable grading of a claim from its cited
+support, which drives out trust in the producer. Semantic attenuation, the verification that the cited
+support is true of the world (that a measurement happened, that a named checker exists, that claimed
+independence is real), is out of scope here and is a community-level function.
+
 An implementation conforms if it satisfies the invariants stated below. The repository's check suite
 (`build/check-*.mjs`) is the reference conformance suite: each check is an executable statement of one
 or more of these invariants, and an implementation conforms exactly when it would pass them.

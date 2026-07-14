@@ -25,7 +25,7 @@ Receive a contribution from any producer, run the real gate, append on admission
 
 ### 3. Verification access
 
-Anyone recomputes standing without trust. Contract: the public repository plus the check suite; clone, run, and compare certificates. Tier: **built**.
+Anyone recomputes standing without trust. Contract: the public repository plus the check suite; clone, run, and compare certificates. Recomputing the grade is structural attenuation, open to anyone; the semantic attenuation, re-performing the checks a record attests, contesting a sock puppet's claimed independence, and recording an exposed forgery in the compost, is the community's work, carried by functions 5, 9, and 10. Tier: **built**.
 
 ### 4. Read surface
 

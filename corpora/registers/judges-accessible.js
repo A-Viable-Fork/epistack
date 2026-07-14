@@ -53,7 +53,7 @@
     {
       section_id: "what-knowledge-is",
       precise_anchor: "What knowledge is, among reasoners who model each other",
-      precise_version: "984dc21126160c1a",
+      precise_version: "2b8a1775eb988ff1",
       register_link: "paper-1",
       accessible:
         "The definition this submission runs on: knowledge is what is left of a claim as trust in whoever produced it is turned down. For a single claim, that remainder is the floor the kernel measures against. Taken all the way, it says how the turning-down is actually done: trust in the knower is replaced by a warrant that does not need the knower, and giving a claim a type is how. To type a claim as a measurement is to put it through the measurement's turning-down, driving how much the claim depends on its author toward the measurement floor. The type sets the form this takes, and there are two forms, split by whether the type can secure itself.\n\n" +
@@ -178,7 +178,7 @@
     {
       section_id: "evaluating-an-enabler",
       precise_anchor: "A note on evaluating an enabler",
-      precise_version: "5e8aebff7368c460",
+      precise_version: "9607a724c71110f6",
       register_link: "paper-6",
       accessible:
         "There is a tension in judging this submission, and it is more honest to name it than to let it settle by default. Uplift runs on two ordered axes. One is teaching: bringing a reader up to speed, which strong synthesis tools do well. The other is claim: improving the knowledge itself as a checkable, composable object that survives the removal of trust. Teaching sits downstream of claim, because a reading stands on a trust-side object and only the claim axis makes such objects: a better synthesis teaches better and makes nothing more checkable, while a checkable claim teaches the shape a synthesis buries and seeds a market of teachers over one trust. This submission works the claim axis, the upstream one, and is deliberately modest on its own direct teaching, because the contribution is the trust object the teaching axis composes over.\n\n" +
