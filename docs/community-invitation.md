@@ -2,7 +2,7 @@
 Type: reference
 Purpose: The community invitation as a standalone artifact: the negative space for an EpiStack community over the three subjects, stated as an invitation to constitute one, with the fixed invariants, the free parameters, the honest first act, what exists to start from tiered honestly, and how to take part. Nothing here implies a community exists.
 Depends on: docs/coordination-layer-spec.md, docs/kernel-workflow-guide.md, docs/parameters-register.md, docs/substrate-map.md
-Depended on by: docs/workflow-atlas.md
+Depended on by: docs/community-backend.md, docs/workflow-atlas.md
 ---
 
 # The Community Invitation
@@ -49,6 +49,8 @@ Drawn from `docs/substrate-map.md`, which marks every piece built, to-genericize
 - **Scale without trust is the specified frontier the invitation opens onto.** The automated standing economy, the multi-producer lifecycle at scale, and cross-kernel discovery are specified in `docs/coordination-layer-spec.md`, not built. They are what a large trustless federation needs, and they are exactly what a community is invited to help build. Naming them as frontier is the honest posture: a small community does not need them to begin, and a large one cannot do without them.
 
 The through-line is forkability. The substrate forks whole, so no instance is hosted by a center that could be captured, and the ultimate check on any instance's rules is that dissenters fork the entire apparatus, not merely the claims.
+
+The operating design for the backend that hosts these functions is carved in `docs/community-backend.md`, one section per function with the best current contract for filling it at its honest tier. Ten of the eleven functions have a contract available today from commodity parts; the standing economy is the one function still on the frontier. That document also lists the open projects a contributor can pick up.
 
 ## How to take part
 
