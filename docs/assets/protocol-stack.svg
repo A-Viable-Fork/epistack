@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" font-family="ui-monospace, monospace">
+<rect x="0" y="0" width="1100" height="640" fill="#EDF0F2"/>
+<text x="550" y="46" text-anchor="middle" font-size="20" fill="#1A2024" letter-spacing="1">The EpiStack protocol stack</text>
+<text x="18" y="319" text-anchor="middle" font-size="13" fill="#8A949B" transform="rotate(-90 18 319)">trust in producer</text>
+<text x="47" y="82" text-anchor="middle" font-size="11" fill="#8A949B">full</text>
+<text x="47" y="566" text-anchor="middle" font-size="11" fill="#8A949B">none</text>
+<line x1="386" y1="96" x2="386" y2="540" stroke="#D5DCE0" stroke-width="1.5"/><path d="M386 548 l-5 -12 h10 z" fill="#D5DCE0"/>
+<text x="386" y="82" text-anchor="middle" font-size="11" fill="#8A949B">descent</text>
+<line x1="778" y1="544" x2="778" y2="100" stroke="#D5DCE0" stroke-width="1.5"/><path d="M778 92 l-5 12 h10 z" fill="#D5DCE0"/>
+<text x="778" y="566" text-anchor="middle" font-size="11" fill="#8A949B">ascent</text>
+<rect x="34" y="90" width="26" height="82" fill="none" stroke="#D5DCE0" stroke-width="1.5"/>
+<rect x="34" y="90" width="26" height="82" fill="#1A2024" opacity="0.72"/>
+<rect x="112" y="115" width="26" height="32" rx="2" fill="#ffffff" stroke="#1A2024" stroke-width="1.5"/>
+<line x1="118" y1="123" x2="132" y2="123" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="130" x2="132" y2="130" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="137" x2="128" y2="137" stroke="#8A949B" stroke-width="1.2"/>
+<text x="178" y="136" font-size="14" fill="#5A646B">a claim enters</text>
+<rect x="400" y="90" width="360" height="82" rx="4" fill="#FBFCFD" stroke="#5A646B" stroke-width="2"/>
+<text x="580" y="139" text-anchor="middle" font-size="23" fill="#1A2024" letter-spacing="3">PRODUCER</text>
+<text x="800" y="136" font-size="14" fill="#8A949B">(no producer needed)</text>
+<rect x="34" y="184" width="26" height="82" fill="none" stroke="#D5DCE0" stroke-width="1.5"/>
+<rect x="34" y="184" width="26" height="62" fill="#1A2024" opacity="0.72"/>
+<rect x="107" y="204" width="36" height="42" rx="3" fill="none" stroke="#2E6F95" stroke-width="1.5"/>
+<rect x="112" y="209" width="26" height="32" rx="2" fill="#ffffff" stroke="#1A2024" stroke-width="1.5"/>
+<line x1="118" y1="217" x2="132" y2="217" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="224" x2="132" y2="224" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="231" x2="128" y2="231" stroke="#8A949B" stroke-width="1.2"/>
+<text x="178" y="230" font-size="14" fill="#5A646B">+ hash(kind, statement)</text>
+<rect x="400" y="184" width="360" height="82" rx="4" fill="#FBFCFD" stroke="#2E6F95" stroke-width="2"/>
+<text x="580" y="233" text-anchor="middle" font-size="23" fill="#1A2024" letter-spacing="3">TYPING</text>
+<path d="M800 223 l6 7 l12 -15" fill="none" stroke="#3E7D5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="828" y="230" font-size="14" fill="#5A646B">recompute identity</text>
+<rect x="34" y="278" width="26" height="82" fill="none" stroke="#D5DCE0" stroke-width="1.5"/>
+<rect x="34" y="278" width="26" height="41" fill="#1A2024" opacity="0.72"/>
+<rect x="102" y="293" width="46" height="52" rx="3" fill="none" stroke="#3E7D5A" stroke-width="1.5"/>
+<rect x="107" y="298" width="36" height="42" rx="3" fill="none" stroke="#2E6F95" stroke-width="1.5"/>
+<rect x="112" y="303" width="26" height="32" rx="2" fill="#ffffff" stroke="#1A2024" stroke-width="1.5"/>
+<line x1="118" y1="311" x2="132" y2="311" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="318" x2="132" y2="318" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="325" x2="128" y2="325" stroke="#8A949B" stroke-width="1.2"/>
+<text x="178" y="324" font-size="14" fill="#5A646B">+ receipt</text>
+<rect x="400" y="278" width="360" height="82" rx="4" fill="#FBFCFD" stroke="#3E7D5A" stroke-width="2"/>
+<text x="580" y="327" text-anchor="middle" font-size="23" fill="#1A2024" letter-spacing="3">GATE</text>
+<path d="M800 317 l6 7 l12 -15" fill="none" stroke="#3E7D5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="828" y="324" font-size="14" fill="#5A646B">reproduce receipt</text>
+<rect x="34" y="372" width="26" height="82" fill="none" stroke="#D5DCE0" stroke-width="1.5"/>
+<rect x="34" y="372" width="26" height="21" fill="#1A2024" opacity="0.72"/>
+<rect x="97" y="382" width="56" height="62" rx="3" fill="none" stroke="#C46A1E" stroke-width="1.5"/>
+<rect x="102" y="387" width="46" height="52" rx="3" fill="none" stroke="#3E7D5A" stroke-width="1.5"/>
+<rect x="107" y="392" width="36" height="42" rx="3" fill="none" stroke="#2E6F95" stroke-width="1.5"/>
+<rect x="112" y="397" width="26" height="32" rx="2" fill="#ffffff" stroke="#1A2024" stroke-width="1.5"/>
+<line x1="118" y1="405" x2="132" y2="405" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="412" x2="132" y2="412" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="419" x2="128" y2="419" stroke="#8A949B" stroke-width="1.2"/>
+<text x="178" y="418" font-size="14" fill="#5A646B">+ state_hash</text>
+<rect x="400" y="372" width="360" height="82" rx="4" fill="#FBFCFD" stroke="#C46A1E" stroke-width="2"/>
+<text x="580" y="421" text-anchor="middle" font-size="23" fill="#1A2024" letter-spacing="3">STORE</text>
+<path d="M800 411 l6 7 l12 -15" fill="none" stroke="#3E7D5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="828" y="418" font-size="14" fill="#5A646B">verify chain</text>
+<rect x="34" y="466" width="26" height="82" fill="none" stroke="#D5DCE0" stroke-width="1.5"/>
+<rect x="92" y="471" width="66" height="72" rx="3" fill="none" stroke="#6A5A8C" stroke-width="1.5"/>
+<rect x="97" y="476" width="56" height="62" rx="3" fill="none" stroke="#C46A1E" stroke-width="1.5"/>
+<rect x="102" y="481" width="46" height="52" rx="3" fill="none" stroke="#3E7D5A" stroke-width="1.5"/>
+<rect x="107" y="486" width="36" height="42" rx="3" fill="none" stroke="#2E6F95" stroke-width="1.5"/>
+<rect x="112" y="491" width="26" height="32" rx="2" fill="#ffffff" stroke="#1A2024" stroke-width="1.5"/>
+<line x1="118" y1="499" x2="132" y2="499" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="506" x2="132" y2="506" stroke="#8A949B" stroke-width="1.2"/><line x1="118" y1="513" x2="128" y2="513" stroke="#8A949B" stroke-width="1.2"/>
+<text x="178" y="512" font-size="14" fill="#5A646B">+ certificate_hash</text>
+<rect x="400" y="466" width="360" height="82" rx="4" fill="#FBFCFD" stroke="#6A5A8C" stroke-width="2"/>
+<text x="580" y="515" text-anchor="middle" font-size="23" fill="#1A2024" letter-spacing="3">COMMUNITY</text>
+<path d="M800 505 l6 7 l12 -15" fill="none" stroke="#3E7D5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="828" y="512" font-size="14" fill="#5A646B">compare certificate</text>
+<text x="550" y="600" text-anchor="middle" font-size="15" fill="#5A646B">The descent needs the producer; the ascent needs no one.</text>
+</svg>
