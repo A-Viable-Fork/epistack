@@ -11,6 +11,10 @@ This guide is an example workflow: a small kernel grounding its own domain, from
 
 The workflow runs on machinery that is already built: the generator (`scaffolder/new-kernel.mjs`), the gate (`kernel/gate/`), the grounding computation (`kernel/grounding/`), and the crossing (`kernel/composition/`). Stages zero through four run on that machinery; stage five is the community handoff, which is specified in `docs/coordination-layer-spec.md` and not built. The math kernel sits at exactly the tier its own evidence reaches at each stage, and the gate computes it.
 
+The stack at a glance: a claim descends through the layers (producer, typing, gate, store, community), gaining a checkable wrapper at each, while trust in the producer attenuates to none and a verifier recomputes every wrapper on the way back up.
+
+![The protocol stack: a claim descends through producer, typing, gate, store, and community, gaining the identity hash, the receipt, the state chain, and the certificate as wrappers while trust in the producer attenuates to none, and a verifier recomputes each wrapper on the ascent without the producer.](assets/protocol-stack.svg)
+
 **This is a living document.** The worked prompts that instantiate the math kernel (Prompt A through Prompt E) are appended here as they run, so the guide accumulates the real instance record as the build happens. Prompt A, the config-and-generate step, is the inline worked example below; Prompt B through Prompt E are appendices, added as each runs.
 
 ## Two entry points

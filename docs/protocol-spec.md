@@ -31,6 +31,50 @@ or more of these invariants, and an implementation conforms exactly when it woul
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY are to be interpreted as described in
 RFC 2119.
 
+## The protocol stack (informative)
+
+The figures below summarize the layering the rest of this specification defines. They are
+informative: the record definitions in Section 2 and the algorithms that follow govern, and the
+figures only orient a first-time reader. A precise SVG of the same stack is at
+`docs/assets/protocol-stack.svg`.
+
+The descent: a claim gains a checkable wrapper at each layer, and trust in the producer (the bar at
+left) attenuates from full to none.
+
+```
+     trust
+  in producer
+    +-----+ +-----------------------------+
+    |#####| |          PRODUCER           |  a claim enters
+    +-----+ +-----------------------------+
+    |#### | |           TYPING            |  + hash(kind, statement)
+    +-----+ +-----------------------------+
+    |###  | |            GATE             |  + receipt
+    +-----+ +-----------------------------+
+    |##   | |            STORE            |  + state_hash
+    +-----+ +-----------------------------+
+    |     | |          COMMUNITY          |  + certificate_hash
+    +-----+ +-----------------------------+
+```
+
+The ascent: a verifier unwraps and recomputes each wrapper without the producer, one check per layer.
+
+```
+    +-----------------------------+
+    |          PRODUCER           |  (no recomputation: no producer)
+    +-----------------------------+
+    |           TYPING            |  recompute identity  [ok]
+    +-----------------------------+
+    |            GATE             |  reproduce receipt   [ok]
+    +-----------------------------+
+    |            STORE            |  verify chain        [ok]
+    +-----------------------------+
+    |          COMMUNITY          |  compare certificate [ok]
+    +-----------------------------+
+```
+
+The descent needs the producer; the ascent needs no one.
+
 ## 2. The record formats
 
 The reference implementation of these records is `kernel/schema/records.mjs`. Undeclared top-level
