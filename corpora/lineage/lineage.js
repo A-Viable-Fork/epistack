@@ -1,7 +1,9 @@
-// Role: the lineage case (fourth case), authored from four deep-research reports. The claim is that the
+// Role: the lineage case (fourth case), authored from deep-research reports. The claim is that the
 //   kernel's mechanisms already run, informally and by hand, in mature institutions (common law and
-//   software dependency graphs; science, Wikipedia, journalism, accounting), and that no known system
-//   composes all five axes for empirical and contested knowledge. Architectural readings are forum
+//   software dependency graphs; science, Wikipedia, journalism, accounting), and mechanically in the
+//   game-modding ecosystems (the one branch that built working tools for the patterns rather than
+//   running them socially), and that no known system composes all five axes for empirical and contested
+//   knowledge. Architectural readings are forum
 //   claims capped at corroborated; quantified findings with a distinct-party replication are
 //   measurements; stated institutional principles and the novelty conjecture are declarations. The
 //   conjecture rests on the independent near-miss gaps of the neighborhood systems, each its own group.
@@ -85,6 +87,32 @@ const claims = [
     statement: P + "accounting encodes verify-don't-trust as segregation of duties: the preparer of a ledger cannot authorize the transactions or audit them, so no single actor holds both write access and verification access to the graph" },
   { ref: "acct.typed-floors", kind: "declaration", declared_grade: "supported", source_id: "src:accounting-standards", contributor_id: "decl:gaap",
     statement: P + "GAAP and IFRS are typed declaration floors: by forcing every financial claim into a typed standard for revenue, depreciation, and classification, they let an auditor mechanically verify a ledger across firms and jurisdictions" },
+
+  // ================= game modding: the branch that mechanized its coordination (built tools, not just social patterns) =================
+  { ref: "mod.mast-edges", kind: "forum", declared_grade: "asserted", source_id: "src:mod-mast", contributor_id: "read:mod-mast",
+    statement: P + "Creation Engine plugins declare dependencies in MAST subrecords, explicit support edges hardcoded in the plugin header, with a DATA subrecord pinning the master's byte size against version mismatch, and a severed edge (a declared master absent at initialization) fails hard with an immediate crash rather than degrading silently" },
+  { ref: "mod.loot-linter", kind: "forum", declared_grade: "asserted", source_id: "src:mod-loot", contributor_id: "read:mod-loot",
+    statement: P + "LOOT is a deployed topological linter over the plugin dependency graph: it builds a vertex per installed plugin, derives edges from MAST records and a crowdsourced masterlist maintained on GitHub, aborts on a detected cycle by depth-first search, and emits a deterministic topological sort, a community-maintained mechanical check with a cycle guard running at ecosystem scale for years" },
+  { ref: "mod.bps-hash", kind: "forum", declared_grade: "asserted", source_id: "src:mod-bps", contributor_id: "read:mod-bps",
+    statement: P + "BPS patches are delta-encoding over a hash-verified base: the patch carries checksums, verifies the exact required fixed tier is present, and aborts against a wrong base, content-addressed crossing discipline in miniature, the change meaningful only against the named hash and refused elsewhere" },
+  { ref: "mod.wrye-compose", kind: "forum", declared_grade: "asserted", source_id: "src:mod-wrye", contributor_id: "read:mod-wrye",
+    statement: P + "Wrye Bash performs mechanical composition where composition is well-defined: overlapping leveled lists carry Delev and Relev metadata tags and the tool synthesizes a unified array in a generated Bashed Patch, composition semantics for the reconcilable case executed by a tool rather than an author" },
+  { ref: "mod.archive-not-delete", kind: "forum", declared_grade: "asserted", source_id: "src:mod-nexus-archive", contributor_id: "read:mod-archive",
+    statement: P + "the Nexus 2021 ruling resolved the Cathedral-versus-Parlor dispute in favor of the dependency graph: authors may archive but not delete, because a deleted file severs every MAST edge that names it, the append-only store discipline reached as a community's constitutional decision, the graph's survival outranking the author's right of withdrawal" },
+  { ref: "mod.state-pinning", kind: "forum", declared_grade: "asserted", source_id: "src:mod-downgrade", contributor_id: "read:mod-pinning",
+    statement: P + "when a vendor update broke the extended architecture (the Anniversary Edition breaking SKSE and every dependent library), the community's answer was the downgrade patcher, mechanically reverting the binary to the known version 1.5.97, staying at the hash that verifies when the upstream moves, staleness answered by pinning rather than by trusting the update" },
+  { ref: "mod.fixed-free-lifecycle", kind: "forum", declared_grade: "asserted", source_id: "src:mod-skse", contributor_id: "read:mod-lifecycle",
+    statement: P + "the ecosystems ran the fixed-free line's whole lifecycle: the vendor's fixed tier (the executable and the record parser), renegotiation from below (SKSE injecting .dll hooks to expose functions the vendor never compiled, becoming a new de facto fixed tier others depend on), and wholesale fork of the fixed tier itself (Enderal replacing the worldspace with isolated infrastructure; pokeemerald-expansion decompiling the vendor binary into C source that becomes the new base, with changes made by cloning and compiling rather than patching)" },
+  { ref: "mod.third-party-patches", kind: "forum", declared_grade: "asserted", source_id: "src:mod-compat-patch", contributor_id: "read:mod-thirdparty",
+    statement: P + "the compatibility-patch convention: unaffiliated third parties assume ownership of the integration layer between two modules, permissionless, published independently, with the source modules held as unedited hard dependencies, an accumulating market of translation artifacts at the boundaries maintained by whoever needs the boundary to work" },
+
+  // validations by contrast: the ecosystems' measured costs confirming choices made here, stated as costs, not gloating.
+  { ref: "mod.last-writer-wins", kind: "forum", declared_grade: "asserted", source_id: "src:mod-xedit-conflict", contributor_id: "read:mod-lastwriter",
+    statement: P + "the Creation Engine composes conflicting records by load position alone, last writer wins, silently discarding the loser, so composition is order-dependent, and the ecosystem's tooling burden (the sorting infrastructure, the manual patch positioning, the whole conflict-resolution economy) is the standing cost of that order-dependence, paid in community labor for two decades; this kernel's grade composition is order-independent by the lattice algebra, attested by its own determinism property, so that entire order-management economy is the measured cost of the property the algebra removes" },
+  { ref: "mod.hard-conflict-fork-line", kind: "forum", declared_grade: "asserted", source_id: "src:mod-xedit-conflict", contributor_id: "read:mod-hardconflict",
+    statement: P + "the ecosystems discovered empirically where mechanical composition ends: overlapping spatial records cannot be averaged (a doorway cannot be half-placed, an AI path cannot be half-severed), so tools compose the reconcilable overlaps and human-authored patches resolve the genuine conflicts, the reconcilable-versus-irreconcilable line this design draws between automatic crossing and forking, found by a community through hard failure rather than by design" },
+  { ref: "mod.xedit-visibility", kind: "forum", declared_grade: "asserted", source_id: "src:mod-xedit-conflict", contributor_id: "read:mod-xedit",
+    statement: P + "xEdit renders the entire composition stack as a color-coded conflict matrix, every override, every silent loser, the final winning value, making the engine's invisible resolution legible to the operator; the gap it fills, that composition semantics executing silently need a visibility surface, is the same gap a reconciliation and standing view fills over a claim graph, noted as a candidate community tool" },
 
   // ================= the Rootclaim note: lineage-of-the-example, NOT an independent attestation =================
   { ref: "note.rootclaim", kind: "forum", declared_grade: "asserted", source_id: "src:rootclaim-nber", contributor_id: "note:rootclaim",
