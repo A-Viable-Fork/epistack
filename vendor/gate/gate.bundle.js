@@ -398,7 +398,13 @@ __M["records"] = (function () {
 // undercut (edge taxonomy [1.5]): attacks a support edge's grounding rather than adding support. It
 // enters no grade fold in the gate (inert here, like contradicts routes to the register); a dedicated
 // undercut reading over the graph lowers the confidence the attacked leg transmits.
-const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement", "undercut"];
+// comments-on / replies-to (the comment kind): discussion links, never a support role by construction.
+// A comment attaches to any record via comments-on, and to another comment via replies-to; neither
+// enters the gate's support fold (only link_kind "supports" ever does), so a thread travels with the
+// graph and moves no grade. The dedicated check is kernel/gate/comment-guard.mjs, gate-adjacent
+// because the schema here has no rules field to carry a per-kind link-role restriction (see its
+// own header note and docs/sorry-ledger.md, the rules-vocabulary seam).
+const LINK_KINDS = ["supports", "depends-on", "contradicts", "refines", "restatement", "undercut", "comments-on", "replies-to"];
 const METHOD_CLASSES = ["replication", "derivation-audit", "data-audit", "direct-measurement"];
 const INDEPENDENCE = ["distinct-party", "self"];
 const BINDING_RESOLUTIONS = ["bound", "bound-superseded", "unresolved"];
@@ -1675,6 +1681,7 @@ __M["local-provider"] = (function () {
   var { characterizedGaps: kernelCharacterizedGaps } = __M["characterized-gaps"];
   var { disagreements: kernelDisagreements } = __M["reconciliation"];
   var { leqWithinMode } = __M["confidence"];
+  var { rejectCommentSupport } = __M["comment-guard"];
 // Role: the local provider behind the propose/read contract (Prompt 10). Runs the REAL v3 gate over
 //   a frozen snapshot of the migrated corpus, in-process: propose builds the judge's claim and its
 //   supports, runs `decide` against the snapshot store view, and returns the full receipt; read walks
@@ -1762,7 +1769,13 @@ function createLocalProvider(snapshot) {
     // sources are unchanged (adding a row leaves every existing claim's derivation identical).
     const tables = { kindTable, sourceTable: makeSourceTable([...snapshot.sources, { source_id, source_class, rests_on: [] }]) };
     const contribution = { hash: claim.hash, entries: [claim], links };
-    const receipt = decide(contribution, storeViewOf(state, tables), {});
+    const view = storeViewOf(state, tables);
+    try {
+      rejectCommentSupport(contribution, view);
+    } catch (e) {
+      return { decision: "declined", error: e.message, findings: [], grade_table: [] };
+    }
+    const receipt = decide(contribution, view, {});
     receipt.proposed_identity = claim.identity; // so the client can find its row in the grade table
     return receipt;
   }
