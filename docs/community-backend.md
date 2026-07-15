@@ -2,7 +2,7 @@
 Type: reference
 Purpose: The operational design for a kernel community's backend, carved into eleven functions by the coordination layer's function-and-contract split, each function marked built, assembly-available, or frontier, with the Stage 4 finding that this repository already runs the admission contract in embryo through its own CI.
 Depends on: docs/community-invitation.md, docs/coordination-layer-spec.md, docs/parameters-register.md, docs/substrate-map.md
-Depended on by: nothing
+Depended on by: docs/ecosystem-guide.md
 ---
 
 # The Community Backend
