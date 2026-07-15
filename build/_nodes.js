@@ -144,6 +144,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-fork-contest.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-agreement.mjs",
     "type": "build",
     "flows": [

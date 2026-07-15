@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 196,
-  "edgeCount": 399,
+  "nodeCount": 198,
+  "edgeCount": 414,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -308,8 +308,15 @@
       "path": "api/fork.js",
       "type": "api",
       "group": null,
-      "role": "the provenance and fork interface: carry signed contributions, retrieve history, fork a kernel, open a merge proposal. forkKernel is the built kernel-level fork: it derives a child kernel from a parent, inheriting the parent's pinned type-hashes so the child can then adopt more or retype, which is the schema-level fork the crossing and adoption machinery already supports. The DURABLE fork over the patch ledger (re-point across the patch history, [4.6]) stays Stage 4, specified not built.",
-      "contract": "forkKernel(parent, opts?) -> fork receipt { new_kernel_id, forked_from, at_point, inherited_pins, persisted, note }. parent = { id, pins }. Pure; api imports kernel and api, never the periphery. STUB remains for the durable patch-history fork."
+      "role": "the provenance and fork interface. forkKernel forks a kernel; forkType forks a type bundle, the crossing's fork brought down to type granularity, a new type-hash whose receipt names its parent and its departure. The DURABLE fork over the patch ledger ([4.6]) stays Stage 4, specified.",
+      "contract": "forkKernel(parent, opts?) -> { new_kernel_id, forked_from, ... }; forkType(parentBundle, overrides, opts?) -> { operation, parent_hash, new_hash, departure, bundle, persisted, note }. Pure; api imports kernel and api, never the periphery. STUB remains for the durable patch fork."
+    },
+    {
+      "path": "api/contest.js",
+      "type": "api",
+      "group": null,
+      "role": "the type-contest interface. contestType constructs a gate-admissible claim whose subject is a type-hash. A type is a community's semantic policy frozen into checkable structure; contesting it is a semantic act, so the kernel records the contest and adjudicates nothing.",
+      "contract": "contestType(typeHash, contest) -> { claim, links, contribution, receipt }. The claim is a forum-kind claim (its ceiling is what a policy judgment can honestly earn); the subject type-hash is bound in the record's extension area, hashed and read by no check. Pure; api imports kernel and api, never the periphery. The caller runs the contribution through the ordinary gate, no bypass."
     },
     {
       "path": "api/propose.js",
@@ -1010,6 +1017,13 @@
       "group": null,
       "role": "the crossing oracle (the keystone). Treats the four existing cases as four independent kernels pinning type-hashes, and tests the two behaviors the three-tier design turns on, over the real composition machinery: a claim of a type both kernels pin crosses native and lossless; a claim of a type the target did not pin arrives untyped and grounds nothing, until the target forks it in.",
       "contract": "`node build/check-crossing.mjs` exits non-zero on any failure. Imports the adoption layer, the composition transfer/records, the confidence order, and the covid and lhc case builders."
+    },
+    {
+      "path": "build/check-fork-contest.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the type-fork and type-contest oracle. Verifies the two type-level tools are additive over the primitives that already exist: forkType is a snapshot fork of a type bundle whose receipt names its parent and departure, and contestType is a gate-admissible claim whose subject is a type-hash. The load-bearing check is the no-grade-motion theorem: admitting a contest changes no existing grade.",
+      "contract": "`node build/check-fork-contest.mjs` exits non-zero on any failure, with named causes. Imports the api tools (forkType, contestType), the crossing adoption layer, and the kernel store and gate, driving the existing machinery rather than reimplementing it."
     },
     {
       "path": "build/check-agreement.mjs",
@@ -1784,6 +1798,41 @@
       "toLayer": "kernel"
     },
     {
+      "from": "api/contest.js",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/contest.js",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/contest.js",
+      "to": "api/fork.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "api"
+    },
+    {
+      "from": "api/fork.js",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/fork.js",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
       "from": "api/providers/local-management-provider.mjs",
       "to": "kernel/schema/type-hash.mjs",
       "type": "imports",
@@ -2496,6 +2545,76 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "api/fork.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "api/contest.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-fork-contest.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-gaps.mjs",
