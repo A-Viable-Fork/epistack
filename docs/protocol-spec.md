@@ -2,7 +2,7 @@
 Type: specification
 Purpose: The extractable, normative protocol specification: the record formats, the grounding computation, the gate, the crossing, and the client contract, stated so a team can implement a conforming kernel without reading the argument.
 Depends on: docs/api.md, docs/composition-spec.md, docs/parameters-register.md
-Depended on by: docs/kernel-workflow-guide.md, docs/speedbumps-of-scaling.md, docs/the-asymmetric-weapon.md
+Depended on by: docs/ecosystem-guide.md, docs/kernel-workflow-guide.md, docs/speedbumps-of-scaling.md, docs/the-asymmetric-weapon.md
 ---
 
 # The EpiStack Protocol Specification
@@ -23,6 +23,11 @@ The protocol covers: the typed claim and link records (Section 2), the grade ord
 the grounding computation (Section 4), the intake gate (Section 5), the untyped type and the
 crossing (Section 6), and the client contract (Section 7). Section 8 draws the line between the
 invariants an implementation MUST hold and the parameters a deployment MAY set locally.
+
+The protocol specifies structural attenuation: the recomputable grading of a claim from its cited
+support, which drives out trust in the producer. Semantic attenuation, the verification that the cited
+support is true of the world (that a measurement happened, that a named checker exists, that claimed
+independence is real), is out of scope here and is a community-level function.
 
 An implementation conforms if it satisfies the invariants stated below. The repository's check suite
 (`build/check-*.mjs`) is the reference conformance suite: each check is an executable statement of one
