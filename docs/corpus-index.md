@@ -272,6 +272,7 @@ argument, not in the corpus (they carry no gate node), and their repo-path refer
 |---|---|
 | `docs/coordination-layer-spec.md` | the coordination-layer specification: the frontier where many communities validate and build on each other's claims, designed as the built grade computation extended from claims to participants (standing is to participants what grade is to claims); it develops the parameters register's line into a function-and-contract vocabulary and the status ledger's Stage 4 into a worked design, and draws the built-versus-specified line sharply, the grade machinery built, the coordination layer specified |
 | `docs/compost-ledger.md` | the compost ledger: the twenty-two approaches taken seriously while building EpiStack and then killed for a characterized reason, each with its kill and its reactivation condition, ordered by how much the kill shaped the final design, so a reader audits the kills rather than take the finished structure on trust |
+| `docs/ecosystem-guide.md` | the one document a builder opens first: the ecosystem's fixed invariants and each role's contract (community founder, client author, contributor, agent, deployment maintainer, directory operator), community sharing by community card, identity as a graded claim, and the deliberate absences stated as design; integrates by pointer, the protocol spec governing where they diverge |
 
 ## root tooling
 
