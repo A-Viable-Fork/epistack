@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 198,
-  "edgeCount": 414,
+  "nodeCount": 201,
+  "edgeCount": 427,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -317,6 +317,13 @@
       "group": null,
       "role": "the type-contest interface. contestType constructs a gate-admissible claim whose subject is a type-hash. A type is a community's semantic policy frozen into checkable structure; contesting it is a semantic act, so the kernel records the contest and adjudicates nothing.",
       "contract": "contestType(typeHash, contest) -> { claim, links, contribution, receipt }. The claim is a forum-kind claim (its ceiling is what a policy judgment can honestly earn); the subject type-hash is bound in the record's extension area, hashed and read by no check. Pure; api imports kernel and api, never the periphery. The caller runs the contribution through the ordinary gate, no bypass."
+    },
+    {
+      "path": "api/contribution.js",
+      "type": "api",
+      "group": null,
+      "role": "the contribution export. Packages a proposed contribution (claims plus links), once the gate has decided it, as a portable bundle: the canonical patch, a content-derived contribution id, the gate receipt, and admission instructions. This is the durable contribution path's middle steps (immutable patch identity, export, external admission) without the patch ledger, because identity is not history: the id is the one named hash over the canonical form, and the append-only ledger ([4.5]) stays Stage 4, specified not built.",
+      "contract": "exportContribution(proposal, receipt, origin) -> bundle; contributionId(proposal) -> hex; importContribution(bundle) -> proposal. Pure, node-builtin-free (browser-importable); api imports kernel and api, never the periphery. Reuses the existing canonical form and the one named hash; no second canonicalization and no second hash."
     },
     {
       "path": "api/propose.js",
@@ -1024,6 +1031,20 @@
       "group": null,
       "role": "the type-fork and type-contest oracle. Verifies the two type-level tools are additive over the primitives that already exist: forkType is a snapshot fork of a type bundle whose receipt names its parent and departure, and contestType is a gate-admissible claim whose subject is a type-hash. The load-bearing check is the no-grade-motion theorem: admitting a contest changes no existing grade.",
       "contract": "`node build/check-fork-contest.mjs` exits non-zero on any failure, with named causes. Imports the api tools (forkType, contestType), the crossing adoption layer, and the kernel store and gate, driving the existing machinery rather than reimplementing it."
+    },
+    {
+      "path": "build/emit-snapshot.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the standalone snapshot emit. Writes the kernel snapshot { state, sources, kinds } that vendor-kernel.mjs already stages for inlining as a fetchable <id>.snapshot.json, so a fat client loads a community's kernel from static hosting and runs the REAL gate on device through createLocalProvider. This exposes what the build already computes; it touches no gate, grounding, or crossing, and reimplements no staging.",
+      "contract": "`node build/emit-snapshot.mjs <id> [outfile]` writes <id>.snapshot.json (or outfile): { kernel_id, snapshot_hash, state, sources, kinds }. Build layer (may use node builtins); reuses vendorKernel for the staged object and the one named hash for snapshot_hash. emitSnapshot(id) is exported for the oracle. Returns { dest, snapshot, kernel_id, snapshot_hash }."
+    },
+    {
+      "path": "build/check-contribution.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the contribution-export and standalone-snapshot oracle. Verifies the two thin additions the first deployment consumes: a gate-decided proposal packages as a portable bundle with a content-derived id that catches tampering, and the kernel snapshot emits as a static JSON a fat client loads and runs the real gate over. Neither touches the gate, grounding, or crossing.",
+      "contract": "`node build/check-contribution.mjs` exits non-zero on any failure, with named causes. Imports the api export tools, the snapshot emit, and the local provider and client contract."
     },
     {
       "path": "build/check-agreement.mjs",
@@ -1819,6 +1840,20 @@
       "toLayer": "api"
     },
     {
+      "from": "api/contribution.js",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/contribution.js",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
       "from": "api/fork.js",
       "to": "kernel/schema/type-hash.mjs",
       "type": "imports",
@@ -2360,6 +2395,69 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "api/contribution.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "build/emit-snapshot.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-contribution.mjs",
+      "to": "kernel/store/state.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -3424,6 +3522,20 @@
     {
       "from": "build/eggs-build.mjs",
       "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/emit-snapshot.mjs",
+      "to": "build/vendor-kernel.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/emit-snapshot.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
