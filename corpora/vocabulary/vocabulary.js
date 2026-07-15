@@ -59,6 +59,7 @@ const terms = [
   t("vt.producer", "producer", "producer: anything that emits claims into the kernel, whether a person, an organization, a model, or a pipeline of these.", "docs/what-stands-without-trust.md", "c", { departure: "large" }),
   t("vt.consumer", "consumer", "consumer: any entity that queries the kernel's read terminus, reading what stands and recomputing it.", "docs/workflow-atlas.md", "c", { departure: "large" }),
   t("vt.llm", "LLM", "LLM: a language model, a machine-learning system considered as an agent, a producer or consumer of claims, checked by the gate like any other agent.", "docs/compost-ledger.md", "s"),
+  t("vt.presentation", "presentation", "presentation: a predicate over an agent's attestation graph, chosen per act and proven without disclosing more than the predicate, ranging from a verified individual down to the empty predicate, a fresh key at the floor.", "docs/ecosystem-guide.md", "s"),
   t("vt.periphery", "periphery", "periphery: the interface layer around the kernel, views and teaching walks and inspection consoles, reading through one contract.", "docs/the-climb-of-synthesis.md", "c", { departure: "large" }),
   t("vt.contract", "contract", "contract: the typed interface boundary that separates the kernel from the periphery, and the crossing protocol between kernels, not a legal agreement.", "docs/the-climb-of-synthesis.md", "c", { departure: "large" }),
   t("vt.trust-boundary", "trust boundary", "trust boundary: the one-way flow across a single gate separating the trusted core from the fallible periphery, purity surviving as the direction of dependency.", "docs/knowledge-system-how.md", "c"),
@@ -75,6 +76,7 @@ const terms = [
   t("vt.constitutive-position", "constitutive position", "constitutive position: the branch of the settled tier for declarations and definitions, incomparable to the empirical axis because it grounds by public act.", "docs/status-ledger.md", "s"),
   t("vt.forum", "forum", "forum: the contested region of the ordering, tiered from raw through structured, where claims are weighed rather than verified.", "docs/knowledge-system-how.md", "c", { departure: "large" }),
   t("vt.forum-grades", "forum grades", "forum grades: the grades carried by the open line, for contested claims that have not reached the settled tier.", "docs/status-ledger.md", "s"),
+  t("vt.comment", "comment", "comment: a floor-ceiling record for discussion, never citable as support, grounding-inert by construction.", "corpora/_shared/common-types.js", "s"),
 
   // ===================== federation and crossing =====================
   t("vt.federation", "federation", "federation: a composition of independent kernels that keep their own schemas, joined at the untyped type, so they compose without first agreeing.", "docs/what-stands-without-trust.md", "c", { departure: "small" }),

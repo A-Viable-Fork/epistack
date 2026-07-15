@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 201,
-  "edgeCount": 427,
+  "nodeCount": 203,
+  "edgeCount": 440,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -86,6 +86,13 @@
       "group": "gate",
       "role": "the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by the link-kind routing table, computes earned grades, decides the contribution against a store state, and writes the receipt. This is the sole canonical write path, absorbing the role the retired Python compose-gate held: it composes independent typed contributions with no model in the loop, and the decision is a deterministic function of content and the store state.",
       "contract": "decide(contribution, storeView, versions) -> receipt (Section 11). restatementClosure, satisfiesReinstatement exported for tests. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/gate/comment-guard.mjs",
+      "type": "kernel",
+      "group": "gate",
+      "role": "the comment-support guard. No record of kind \"comment\" may occupy a support role in any link: admitting one into an existing support group would meet that group down to the floor (a comment-bomb), since supportDelivery's within-group rule is weakest-of and a comment's earned grade is always ungraded (capByCeiling pins it there). This closes the one adversarial seam the floor-ceiling algebra alone leaves open.",
+      "contract": "rejectCommentSupport(contribution, storeView) -> void; throws naming the rule (\"comment-support-barred\") and the offending link's identity if any link with link_kind \"supports\" resolves its from_identity to kind \"comment\". Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/gate/immune.js",
@@ -399,7 +406,7 @@
       "path": "corpora/_shared/common-types.js",
       "type": "corpus",
       "group": null,
-      "role": "the seed of the shared type subtree. Holds the type bundles for the kinds more than one kernel pins in common (measurement, forum, declaration) and their content-address type-hashes, so a case that uses a common kind references the shared hash here rather than minting its own meaning for it. This is the data a kernel reads to declare which shared types it adopts.",
+      "role": "the seed of the shared type subtree. Holds the type bundles for the kinds more than one kernel pins in common (measurement, forum, declaration, comment) and their content-address type-hashes, so a case that uses a common kind references the shared hash here rather than minting its own meaning for it. This is the data a kernel reads to declare which shared types it adopts.",
       "contract": "exports COMMON_BUNDLES (kind -> bundle) and COMMON_TYPE_HASHES (kind -> hex hash). Pure data; imports nothing. The hashes are authored constants, verified against hashTypeBundle by build/check-type-hash.mjs, so a bundle change that is not reflected here is caught."
     },
     {
@@ -1003,6 +1010,13 @@
       "group": null,
       "role": "the certificate-seal oracle (CERT-1). Confirms the defining property of the derived certificate hash: it is a function of the sealed bundle, changing if and only if a bundled part changes, and reproducing byte-for-byte for an identical certified assembly. This is the differential test for the seal, the pattern the math kernel uses. It also confirms the two design rules that protect the scaling: the seal is computed downstream of grounding (grounding is never read by it and never touched), and expiry is mark-stale by comparison, never an eager re-ground.",
       "contract": "`node build/check-certificate.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
+    },
+    {
+      "path": "build/check-comment.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the comment kind's oracle (the comment kind and identity presentation prompt). Confirms the grounding-inertness the floor ceiling promises (a comment thread, added or withdrawn, moves no existing grade or certificate), that the comment-support guard actually stops a comment-bomb (naming the rule, not decorative), that comments-on/replies-to resolve exactly the way every other link resolves (so a reply to a nonexistent comment fails the ordinary reference-resolution rule), and that no construction lifts a comment's earned grade off the lattice floor.",
+      "contract": "`node build/check-comment.mjs`. Exits 0 if every assertion holds, 1 with a report. Imports only kernel v3 modules and Node's standard library."
     },
     {
       "path": "build/adoption.mjs",
@@ -1945,6 +1959,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "api/providers/local-provider.mjs",
+      "to": "kernel/gate/comment-guard.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
       "from": "periphery/ingest/arxiv.mjs",
       "to": "periphery/ingest/rate-limit.mjs",
       "type": "imports",
@@ -2318,6 +2339,76 @@
     {
       "from": "build/check-client.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/gate/verify.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "kernel/gate/comment-guard.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
@@ -4211,6 +4302,11 @@
       "type": "checked-by"
     },
     {
+      "from": "kernel/gate/comment-guard.mjs",
+      "to": "build/check-comment.mjs",
+      "type": "checked-by"
+    },
+    {
       "from": "kernel/motions/perturb.js",
       "to": "build/check-perturb.mjs",
       "type": "checked-by"
@@ -4278,6 +4374,11 @@
     {
       "from": "build/check-gaps.mjs",
       "to": "corpora/_shared/atlas/atlas.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/check-comment.mjs",
+      "to": "corpora/_shared/common-types.js",
       "type": "loads-corpus"
     },
     {
