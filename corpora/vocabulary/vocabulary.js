@@ -147,6 +147,7 @@ const terms = [
   t("vt.sleeper-resistance", "sleeper-resistance", "sleeper-resistance: the defense against a participant who ages a dormant identity and activates it, by decay that bleeds standing away with inactivity.", "docs/coordination-layer-spec.md", "s"),
   t("vt.self-scaling-scrutiny", "self-scaling scrutiny", "self-scaling scrutiny: the function that the supply of validation scale with the supply of claims without an authority assigning validators.", "docs/coordination-layer-spec.md", "s"),
   t("vt.up-hill-cap", "up-hill cap", "up-hill cap: the limit on standing flowing from a looser standard to a stricter one, requiring re-earning under accepted contracts before full grounding transfers.", "docs/coordination-layer-spec.md", "s"),
+  t("vt.governance-hash", "governance-hash", "governance-hash: the content-addressed hash over a community's full parameterization, certifying the contracts a community runs so a claim's standing composes across communities under a frozen, inspectable meaning.", "docs/coordination-layer-spec.md", "s"),
   t("vt.damage-cap", "damage cap", "damage cap: the limit on harm from a gamed or captured gate, achieved by forkability so an honest minority exits with the substrate intact.", "docs/adversarial-robustness.md", "s"),
 
   // ===================== move vocabulary (adversarial only) =====================

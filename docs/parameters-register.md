@@ -25,6 +25,8 @@ The type system. What floors this kernel recognizes and what a claim may be type
 
 The forum and weighing conventions. How this community handles cross-domain weighings, what it treats as a settled question, and how it prices incommensurable trade-offs. These are governance choices about the community's own deliberation, not properties of what it exports.
 
+The corpus content license. The terms a community declares its claims carry, gift, attribution-required, share-alike, non-commercial, or a named commercial term, enforced legally and normatively rather than mechanically, carried in the parameter record and therefore inside the governance-hash so it travels visibly with every fork. This never touches composition because a crossing depends on a claim's type and grounding, never on what its source community charges or requires downstream, so the license is exactly as free as the standing rules it sits beside.
+
 ## The required tier: what a kernel must hold
 
 These are thin by necessity, because each one constrains everyone who composes with this kernel, and the federation is possible only because the set is small. Each is here because a crossing genuinely depends on it, and that is the sole test for admission to this tier.
