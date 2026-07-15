@@ -148,6 +148,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/emit-snapshot.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-contribution.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-agreement.mjs",
     "type": "build",
     "flows": [
