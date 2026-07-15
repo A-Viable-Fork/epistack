@@ -2,7 +2,7 @@
 Type: argument
 Purpose: The one document a builder opens first: the ecosystem's fixed invariants, the contract each role holds, community sharing and discovery, identity as a graded claim, and the deliberate absences stated as design. Integrates by pointer; the protocol specification governs where they diverge.
 Depends on: docs/protocol-spec.md, docs/parameters-register.md, docs/composition-spec.md, docs/community-backend.md, docs/community-invitation.md, docs/substrate-map.md, docs/clients.md, docs/coordination-layer-spec.md, docs/the-asymmetric-weapon.md, docs/trust-and-view.md
-Depended on by: nothing
+Depended on by: docs/knowledge-kernels-and-crypto.md
 ---
 
 # The Ecosystem Guide
