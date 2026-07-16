@@ -2,7 +2,7 @@
 Type: argument
 Purpose: Argues the protocol functions as an asymmetric weapon in Scott Alexander's sense, structurally stronger for grounded claims than ungrounded ones regardless of who wields it, with every asymmetry tied to a built and checkable mechanism and the one seam (grounding, not truth) stated as the strength it is.
 Depends on: docs/composition-spec.md, docs/coordination-layer-spec.md, docs/on-transparency.md, docs/protocol-spec.md
-Depended on by: docs/ecosystem-guide.md
+Depended on by: docs/ecosystem-guide.md, docs/knowledge-kernels-and-crypto.md
 ---
 
 # The Asymmetric Weapon
