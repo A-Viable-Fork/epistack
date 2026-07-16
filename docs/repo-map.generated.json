@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 206,
-  "edgeCount": 448,
+  "nodeCount": 208,
+  "edgeCount": 457,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -72,6 +72,13 @@
       "group": "composition",
       "role": "the grounding profiles (composition spec, record 7). A read, never a mutation: input is a store at a state, output is a profile record. The two shapes differ deliberately. A domain store answers \"what floors am I standing on\": its floor distribution (the settled tier, where v3 records the measurement/proof/declaration floors as its settled positions) and its forum distribution. A composite store answers \"how much of me is inherited ground and how much is my own forum\": its cited grounding by inherited grade, its forum residents, the health of its citations, and the condition of its frame layer.",
       "contract": "domainProfile(store), compositeProfile(store, ctx). Pure, ESM; kernel imports kernel."
+    },
+    {
+      "path": "kernel/composition/algebra.mjs",
+      "type": "kernel",
+      "group": "composition",
+      "role": "the kernel algebra (composition spec, \"The kernel algebra\"). Kernels are the objects and the operations take kernels and return kernels, so they chain. compose is the crossing (transfer.mjs) as the algebra's product: B's claims cross into A untyped at the floor, grounding nothing. project restricts a kernel to a predicate's subgraph, its grades recomputed over the restriction and never lifted. diff reads the structured difference of two kernels over the shared claim skeleton and returns a diff-kernel. overlay, merge, subtract are specified (composition spec), not built here.",
+      "contract": "asKernel(store) -> kernel; recomputeGrade(kernel, id) -> position; compose(A, B), project( kernel, predicate), diff(A, B) -> kernel. A kernel is { store_id, state, tables, native, grades }. Pure, ESM; kernel imports only kernel. No operation writes; each returns a new store."
     },
     {
       "path": "kernel/gate/clean-json.js",
@@ -865,6 +872,13 @@
       "contract": "`node build/check-composition.mjs` exits non-zero on any failure. Imports the v3 kernel and the composition layer only; no case data is touched (the corpus stays closed at zero gaps)."
     },
     {
+      "path": "build/check-algebra.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the kernel-algebra oracle (composition spec, \"The kernel algebra\"). Proves the four claims the algebra rests on: closure (each op's output is a kernel an op accepts again), the governing law (no op raises a grade above what recomputation in its output confirms; compose floors every crossed claim; project never lifts; diff asserts nothing it did not read), the two structural laws (compose associative up to hash; project distributes over compose on intrinsic predicates, with the grade-band boundary characterized), and diff correctness on a constructed pair. Closes with the eggs exhibit: the composite-versus-join diff, the layer's reason to exist.",
+      "contract": "`node build/check-algebra.mjs` exits non-zero on any failure. Imports the kernel algebra and the v3 kernel only, plus build/eggs-build.mjs for the exhibit (build may reach any layer)."
+    },
+    {
       "path": "build/check-eggs.mjs",
       "type": "build",
       "group": null,
@@ -1506,6 +1520,27 @@
     {
       "from": "kernel/analysis/robustness.mjs",
       "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/algebra.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/algebra.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/composition/algebra.mjs",
+      "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -2164,6 +2199,41 @@
     {
       "from": "build/check-agreement.mjs",
       "to": "build/adoption.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-algebra.mjs",
+      "to": "kernel/composition/algebra.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-algebra.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-algebra.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-algebra.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-algebra.mjs",
+      "to": "build/eggs-build.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
@@ -4369,6 +4439,11 @@
     {
       "from": "kernel/composition/profiles.mjs",
       "to": "build/check-composition.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/composition/algebra.mjs",
+      "to": "build/check-algebra.mjs",
       "type": "checked-by"
     },
     {
