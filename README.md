@@ -11,6 +11,8 @@ EpiStack is a knowledge kernel: a typed claim graph whose gate admits a claim on
 
 Some of the system's parameters are required for composition, and breaking them means kernels can no longer compose; the rest are free, a community's to set in its own context. Separating the two is what the transparency in this repository is for. [The Parameters Register](docs/parameters-register.md) draws the line parameter by parameter, and [On Transparency](docs/on-transparency.md) says why the open form is the one the problem forces. A reader deciding what they may change and still compose starts there.
 
+**A competition judge starts here:** [Submission Overview](docs/submission-overview.md), one page on what this submission is and why each piece exists, the fastest orientation before the reading paths below.
+
 Three reading paths share these destinations but not their order:
 
 - **For a person: start with the critique.** [The Climb of Synthesis](docs/the-climb-of-synthesis.md), two pages: the tool everyone will build, where it stops, the three counterexamples, and the protocol they force, and everything else in the repository is that protocol, actualized.
