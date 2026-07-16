@@ -88,5 +88,9 @@ module.exports = [
   {
     "path": "corpora/_shared/graph.json",
     "type": "corpus"
+  },
+  {
+    "path": "corpora/submission-decomposition/decomposition.js",
+    "type": "corpus"
   }
 ];

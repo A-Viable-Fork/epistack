@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 203,
-  "edgeCount": 440,
+  "nodeCount": 206,
+  "edgeCount": 448,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -520,6 +520,13 @@
       "group": null,
       "role": null,
       "contract": null
+    },
+    {
+      "path": "corpora/submission-decomposition/decomposition.js",
+      "type": "corpus",
+      "group": null,
+      "role": "the decomposition of the judge-facing spine into typed claims of the competition community. Each entry names a verbatim span of a scoped document and the assertion it carries, typed by register: mechanical (what the repositories do, evidence a named check), evaluative (about the world and the argument, bare at the floor), or constitutive (a definition, referenced to an existing vocabulary claim, never re-authored). Dependence links carry each claim's use of a defined term to that term's vocabulary claim, so a definition's blast radius is computable.",
+      "contract": "exports DOCS (id -> repo-relative path) and CLAIMS (the decomposition rows). Pure data; imports nothing. build/decomposition-build.mjs computes offsets, hashes, records, bundles, and anchor maps from this plus the documents; build/check-decomposition.mjs verifies the whole."
     },
     {
       "path": "periphery/assess/assess.js",
@@ -1059,6 +1066,20 @@
       "group": null,
       "role": "the contribution-export and standalone-snapshot oracle. Verifies the two thin additions the first deployment consumes: a gate-decided proposal packages as a portable bundle with a content-derived id that catches tampering, and the kernel snapshot emits as a static JSON a fat client loads and runs the real gate over. Neither touches the gate, grounding, or crossing.",
       "contract": "`node build/check-contribution.mjs` exits non-zero on any failure, with named causes. Imports the api export tools, the snapshot emit, and the local provider and client contract."
+    },
+    {
+      "path": "build/decomposition-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "build the submission-decomposition contribution set from corpora/submission-decomposition/ decomposition.js and the scoped documents. Computes each document's content hash, resolves every span to an offset and quote key, resolves constitutive spans and dependence links to existing vocabulary-kernel claims, builds gate-valid claim and dependence-link records, gate-checks the whole against the competition community's own parameters, and emits per-document contribution bundles and anchor maps. It mints no constitutive claim (definitions are referenced, never re-authored) and asserts nothing durable; the bundles are gate-passed proposals, not admissions.",
+      "contract": "buildDecomposition() -> { docs, mechanical, evaluative, constitutive, links, receipt, gradeByIdentity, vocabByRef, bundles, anchors }. `node build/decomposition-build.mjs` also writes the bundles and anchor maps under corpora/submission-decomposition/. Build layer; reuses the kernel records, gate, and tables and the api contribution export. Pure over the corpus."
+    },
+    {
+      "path": "build/check-decomposition.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the submission-decomposition oracle. Verifies the bidirectional anchoring and the honest typing of the judge-facing spine's claims: every anchor resolves in its document at the recorded content hash, every claimed span exists in the emitted records or the vocabulary kernel, every mechanical claim's evidence names an epistack check that exists and runs green, every constitutive span and every dependence link resolves to a vocabulary claim, no two claims share a span, and evidence attached implies the mechanical register. Register counts are reported.",
+      "contract": "`node build/check-decomposition.mjs` exits non-zero on any failure, naming the document and claim. Reuses build/decomposition-build.mjs and reads the emitted bundles and anchor maps on disk."
     },
     {
       "path": "build/check-agreement.mjs",
@@ -2624,6 +2645,20 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-decomposition.mjs",
+      "to": "build/decomposition-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-decomposition.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
       "from": "build/check-demo.mjs",
       "to": "kernel/analysis/robustness.mjs",
       "type": "imports",
@@ -3497,6 +3532,41 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "api/contribution.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/eggs-build.mjs",
@@ -4389,6 +4459,11 @@
     {
       "from": "build/check-type-hash.mjs",
       "to": "corpora/_shared/common-types.js",
+      "type": "loads-corpus"
+    },
+    {
+      "from": "build/decomposition-build.mjs",
+      "to": "corpora/submission-decomposition/decomposition.js",
       "type": "loads-corpus"
     },
     {

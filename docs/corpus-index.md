@@ -114,6 +114,19 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `corpora/vocabulary/vocabulary.js` | the vocabulary kernel: the submission's own terms as declaration claims grounding by adoption, core terms in their home region inside the submission and reference terms in an external citation, overloaded terms one entry per sense with its own home |
 | `corpora/registers/judges-accessible.js` | the accessible register of the judges document (register view, phase B): one section record per precise section of docs/what-stands-without-trust.md, carrying the accessible-register prose, its delta, its source and node links, and the authored-verification list; the precise register stays the canonical markdown. Grounding is invariant across registers, node_links resolve through the read contract |
 
+### corpora/submission-decomposition/ (the judge-facing spine decomposed into competition-community claims, staged as a contribution set)
+
+| file | role |
+|---|---|
+| `corpora/submission-decomposition/decomposition.js` | the decomposition as data: one row per claimed span of the judge-facing spine (verbatim span, its assertion, register, evidence or vocabulary reference, dependence links); the reviewable source of truth |
+| `corpora/submission-decomposition/README.md` | the contribution set's README: what is staged, the registers, and the operator's one merge step on the Knowledge-Game side (this session cannot write there) |
+| `corpora/submission-decomposition/bundles/submission-overview.bundle.json` | gate-passed contribution bundle for docs/submission-overview.md (claim and dependence-link records, receipt, gate-passed-not-admitted status) |
+| `corpora/submission-decomposition/bundles/the-climb-of-synthesis.bundle.json` | gate-passed contribution bundle for docs/the-climb-of-synthesis.md |
+| `corpora/submission-decomposition/bundles/the-asymmetric-weapon.bundle.json` | gate-passed contribution bundle for the seam section of docs/the-asymmetric-weapon.md |
+| `corpora/submission-decomposition/anchors/submission-overview.anchors.json` | anchor map for docs/submission-overview.md: content hash plus each span's offset, quote key, and claim identity, the interface contract for rendering the document live |
+| `corpora/submission-decomposition/anchors/the-climb-of-synthesis.anchors.json` | anchor map for docs/the-climb-of-synthesis.md |
+| `corpora/submission-decomposition/anchors/the-asymmetric-weapon.anchors.json` | anchor map for the seam section of docs/the-asymmetric-weapon.md |
+
 ## periphery/ (fallible; reaches the kernel only through api/)
 
 | file | role |
@@ -201,6 +214,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-crossing.mjs` | the crossing oracle (the keystone): treats the four cases as four kernels and verifies same-hash crossing composes native and lossless, an unpinned crossing arrives untyped and grounds nothing, and a fork restores standing |
 | `build/check-fork-contest.mjs` | the type-fork and type-contest oracle: verifies forkType is a deterministic snapshot fork naming its parent and departure, the forked type crosses non-native against the parent, and admitting a contest against a type in use moves no pre-existing grade or certificate (the no-grade-motion theorem) |
 | `build/emit-snapshot.mjs` | the standalone snapshot emit: writes the kernel snapshot { state, sources, kinds } vendor-kernel stages as a fetchable <id>.snapshot.json with a snapshot_hash over the canonical content, so a fat client loads a community's kernel from static hosting and runs the real gate on device |
+| `build/decomposition-build.mjs` | builds the submission-decomposition contribution set: computes document content hashes and span anchors, resolves constitutive spans and dependence links to vocabulary claims, builds gate-valid claim and depends-on records, gate-checks against the competition community's parameters, and emits per-document bundles and anchor maps |
+| `build/check-decomposition.mjs` | the submission-decomposition oracle: every anchor resolves at the recorded hash, every claim exists in the records or the vocabulary, every mechanical claim's evidence names a green epistack check, constitutive spans and dependence links resolve to vocabulary claims, no span repeats, and evidence attached implies the mechanical register |
 | `build/check-contribution.mjs` | the contribution-export and snapshot oracle: verifies id determinism and order-independence, export/import round-trip, loud tamper rejection, status honesty (gate-passed, not admitted), the static-JSON-to-live-provider-to-receipt end to end, and snapshot hash verification |
 | `build/check-agreement.mjs` | the agreement gate (F4): confirms all four cases imply the same type-hash for each common kind they use, matching the shared subtree, so the scaffolder may publish the common kinds as shared; a divergence is reported and stops the gate |
 | `corpora/federation/federation.js` | the bottom-up federation over the four standalone members: the demonstration crossings on real cross-kernel content (a native forum crossing, an untyped-then-forked declaration crossing) and the composite weighings that select among members and ground by citing across the boundary; pure data, no member schema |
