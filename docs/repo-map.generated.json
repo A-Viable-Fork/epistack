@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 208,
-  "edgeCount": 457,
+  "nodeCount": 210,
+  "edgeCount": 473,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -996,6 +996,20 @@
       "group": null,
       "role": "the generated builder for the math kernel: builds its v3 store through the real gate from the pure data in corpora/math, exactly as build/covid-build.mjs builds covid.",
       "contract": "buildKernel() -> { store_id, tables, claims, refId, state, view, receipt }. Imports the kernel and corpora/math; pure over the corpus."
+    },
+    {
+      "path": "build/self-build.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the builder for the self-kernel: builds its v3 store through the real gate from the pure data in corpora/self, exactly as build/math-build.mjs builds the math kernel. The gate computes every grade; this adds no rule of its own.",
+      "contract": "buildKernel() -> { store_id, tables, claims, refId, state, view, receipt }. Imports the kernel and corpora/self; pure over the corpus."
+    },
+    {
+      "path": "build/check-self.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the self-kernel oracle. Builds S-self through the real gate and verifies epistack's claims about itself ground honestly: every invariant claim's cited math theorem exists in the math kernel and grounds, every cited check exists, every constitutive claim adopts a real vocabulary term, and the gate's computed grade matches the register (invariant grounded to checked or floored with a ledger gap, constitutive to the constitutive floor, evaluative to the forum floor). It fails on a dangling citation, an overclaim (a grade the cited evidence does not support), or a definitional constitutive claim with no vocabulary entry, and it keeps the entrance-surfaced door from overclaiming.",
+      "contract": "`node build/check-self.mjs` exits non-zero on any failure, naming the offender."
     },
     {
       "path": "build/check-math.mjs",
@@ -3478,6 +3492,62 @@
       "toLayer": "api"
     },
     {
+      "from": "build/check-self.mjs",
+      "to": "corpora/self/self-data.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "corpora/self/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "corpora/math/math-data.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "corpora/vocabulary/vocabulary.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "kernel/schema/type-hash.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "build/self-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-self.mjs",
+      "to": "build/math-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-translate.mjs",
       "to": "build/translate-trellis.mjs",
       "type": "imports",
@@ -4046,6 +4116,62 @@
     },
     {
       "from": "build/math-build.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "corpora/self/tables.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "corpora/self/self-data.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/self-build.mjs",
       "to": "kernel/gate/gate.mjs",
       "type": "imports",
       "fromLayer": "build",

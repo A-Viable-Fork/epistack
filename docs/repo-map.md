@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 208. Import edges: 420. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 210. Import edges: 436. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -312,6 +312,14 @@ Nodes: 208. Import edges: 420. Runtime flow edges: 37. All import edges satisfy 
 - `build/check-robustness.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-robustness.mjs` -> `kernel/analysis/robustness.mjs`  *(build -> kernel)*
 - `build/check-robustness.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-self.mjs` -> `build/math-build.mjs`  *(build -> build)*
+- `build/check-self.mjs` -> `build/self-build.mjs`  *(build -> build)*
+- `build/check-self.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/check-self.mjs` -> `corpora/math/math-data.js`  *(build -> corpus)*
+- `build/check-self.mjs` -> `corpora/self/self-data.js`  *(build -> corpus)*
+- `build/check-self.mjs` -> `corpora/self/tables.js`  *(build -> corpus)*
+- `build/check-self.mjs` -> `corpora/vocabulary/vocabulary.js`  *(build -> corpus)*
+- `build/check-self.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-translate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
@@ -394,6 +402,14 @@ Nodes: 208. Import edges: 420. Runtime flow edges: 37. All import edges satisfy 
 - `build/math-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/math-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/math-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `corpora/self/self-data.js`  *(build -> corpus)*
+- `build/self-build.mjs` -> `corpora/self/tables.js`  *(build -> corpus)*
+- `build/self-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/self-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*

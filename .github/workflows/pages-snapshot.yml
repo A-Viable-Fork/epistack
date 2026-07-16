@@ -1,0 +1,58 @@
+# Publishes the self-kernel's governance snapshot to epistack's GitHub Pages, so the org-root entrance
+# can fetch it. The self-kernel (corpora/self/) is epistack's grounded claims about itself; its snapshot
+# is the static form the org-root renderer reads to render epistack's door from the app's own claims.
+# The snapshot is emitted from the build (build/emit-snapshot.mjs self), never hand-written, so it
+# cannot drift from the corpus. Pages source must be GitHub Actions for this to deploy.
+name: pages-snapshot
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# least privilege for a Pages deploy from Actions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one in-flight deploy at a time; a newer push supersedes an older run.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Emit the self-kernel snapshot to the site root
+        # the snapshot is { kernel_id, snapshot_hash, state, sources, kinds }, the static form a fat
+        # client and the org-root entrance load; emit-snapshot verifies the hash over the canonical
+        # content, so a mutated snapshot fails rather than serving silently.
+        run: |
+          mkdir -p _site
+          node build/emit-snapshot.mjs self _site/self.snapshot.json
+
+      - name: Upload the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
