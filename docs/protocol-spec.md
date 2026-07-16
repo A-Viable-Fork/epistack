@@ -2,7 +2,7 @@
 Type: specification
 Purpose: The extractable, normative protocol specification: the record formats, the grounding computation, the gate, the crossing, and the client contract, stated so a team can implement a conforming kernel without reading the argument.
 Depends on: docs/api.md, docs/composition-spec.md, docs/parameters-register.md
-Depended on by: docs/ecosystem-guide.md, docs/kernel-workflow-guide.md, docs/knowledge-kernels-and-crypto.md, docs/speedbumps-of-scaling.md, docs/the-asymmetric-weapon.md
+Depended on by: docs/ecosystem-guide.md, docs/for-the-institutional-adopter.md, docs/kernel-workflow-guide.md, docs/knowledge-kernels-and-crypto.md, docs/speedbumps-of-scaling.md, docs/the-asymmetric-weapon.md
 ---
 
 # The EpiStack Protocol Specification

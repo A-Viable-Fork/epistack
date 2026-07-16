@@ -11,12 +11,13 @@ EpiStack is a knowledge kernel: a typed claim graph whose gate admits a claim on
 
 Some of the system's parameters are required for composition, and breaking them means kernels can no longer compose; the rest are free, a community's to set in its own context. Separating the two is what the transparency in this repository is for. [The Parameters Register](docs/parameters-register.md) draws the line parameter by parameter, and [On Transparency](docs/on-transparency.md) says why the open form is the one the problem forces. A reader deciding what they may change and still compose starts there.
 
-Two reading paths share these destinations but not their order:
+Three reading paths share these destinations but not their order:
 
 - **For a person: start with the critique.** [The Climb of Synthesis](docs/the-climb-of-synthesis.md), two pages: the tool everyone will build, where it stops, the three counterexamples, and the protocol they force, and everything else in the repository is that protocol, actualized.
 - **By machine: point a synthesizer at [`llms.txt`](llms.txt).** Its order is the vocabulary kernel, then the math kernel, then the status ledger, then the specification and the rest.
+- **For an institution: start with the entrance.** [For the Institutional Adopter](docs/for-the-institutional-adopter.md), what a public typed claim graph offers an organization that must make defensible decisions in contested domains; an institution deciding whether this infrastructure serves defensible decision-making starts here.
 
-Each path leads with what its reader loses without it: a person without the argument loses why the mechanism matters, and a synthesizer without the types loses the distinctions the mechanism draws.
+Each path leads with what its reader loses without it: a person without the argument loses why the mechanism matters, a synthesizer without the types loses the distinctions the mechanism draws, and an institution without the entrance loses the account of what a decision routed through the graph can defend.
 
 ## The map
 
