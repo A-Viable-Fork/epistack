@@ -80,3 +80,18 @@ kill or a discrepancy without a record is one you cannot revisit.
   bundle and `makeKindTable`, a per-kind link-role restriction the gate reads and enforces natively,
   at which point this guard retires into bundle data and the gate needs no comment-specific code at
   all.
+
+- **G-F. The self-kernel asserts claims carry their full history, which no oracle yet grounds. OPEN.**
+  The self-kernel (`corpora/self/`, the reflexive exhibit) grounds eleven structural invariants at the
+  checked tier over cited math theorems and checks, but its twelfth invariant, `self.history` (every
+  admitted claim carries its full history, its origin, the borders it crossed, and the forks that
+  retyped it, so any crossing is auditable end to end), grounds nothing and floors to asserted, because
+  the v3 record (`kernel/schema/records.mjs`) carries no first-class history or provenance field and no
+  oracle verifies a complete traceable chain. Composition and provenance are asserted in the design
+  (`docs/composition-spec.md`, "Claims carry their history"), but the running system does not yet make
+  the property mechanical. The claim is entered at the floor with no citation rather than lifted by a
+  citation that does not support it; the gap is the honest output. The closing condition is a
+  first-class history/provenance field in the v3 record plus an oracle that verifies every admitted
+  claim carries a complete, traceable history chain of its origin, its crossings, and the forks that
+  retyped it, end to end, at which point `self.history` re-types from a floored assertion to a checked
+  measurement citing that oracle. This is not a node marker, so it is tracked here in prose.

@@ -104,6 +104,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/self-build.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-self.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-math.mjs",
     "type": "build"
   },
