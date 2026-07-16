@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 203. Import edges: 405. Runtime flow edges: 35. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 206. Import edges: 412. Runtime flow edges: 36. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -195,6 +195,8 @@ Nodes: 203. Import edges: 405. Runtime flow edges: 35. All import edges satisfy 
 - `build/check-crossing.mjs` -> `kernel/composition/records.mjs`  *(build -> kernel)*
 - `build/check-crossing.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
 - `build/check-crossing.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-decomposition.mjs` -> `build/decomposition-build.mjs`  *(build -> build)*
+- `build/check-decomposition.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/check-demo.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-demo.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-demo.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -320,6 +322,11 @@ Nodes: 203. Import edges: 405. Runtime flow edges: 35. All import edges satisfy 
 - `build/covid-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/covid-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/covid-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/decomposition-build.mjs` -> `api/contribution.js`  *(build -> api)*
+- `build/decomposition-build.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/decomposition-build.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/decomposition-build.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/decomposition-build.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/eggs-build.mjs` -> `corpora/eggs/composite.js`  *(build -> corpus)*
 - `build/eggs-build.mjs` -> `corpora/eggs/economics.js`  *(build -> corpus)*
 - `build/eggs-build.mjs` -> `corpora/eggs/environment.js`  *(build -> corpus)*
@@ -453,6 +460,7 @@ Nodes: 203. Import edges: 405. Runtime flow edges: 35. All import edges satisfy 
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/check-perturb.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-type-hash.mjs` **loads-corpus** `corpora/_shared/common-types.js`
+- `build/decomposition-build.mjs` **loads-corpus** `corpora/submission-decomposition/decomposition.js`
 - `build/fork-demo.mjs` **loads-corpus** `corpora/population/population-pipeline.js`
 - `build/vendor-management.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/vendor-snapshot.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`

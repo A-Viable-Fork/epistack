@@ -166,6 +166,20 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/decomposition-build.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/submission-decomposition/decomposition.js"
+      }
+    ]
+  },
+  {
+    "path": "build/check-decomposition.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-agreement.mjs",
     "type": "build",
     "flows": [

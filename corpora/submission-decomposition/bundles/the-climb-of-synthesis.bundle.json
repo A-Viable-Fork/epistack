@@ -1,0 +1,1300 @@
+{
+  "contribution_id": "67dd45efac1984291153a53a3e7e7996f50e0a0051997f3ea45ae99315575b07",
+  "proposal": {
+    "entries": [
+      {
+        "record_type": "claim",
+        "identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "kind": "measurement",
+        "statement": "The gate admits a contribution only if it holds together with what is already there, and rechecks every declared grade on every change.",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "supported",
+        "checking_records": [
+          {
+            "checker_id": "build/check-gate.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-gate.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "0549f329526b7df6a1374e469b39cade36d16b009fb1a43f437f88f204d16276"
+          }
+        ],
+        "canonical": {
+          "identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+          "kind": "measurement",
+          "statement": "The gate admits a contribution only if it holds together with what is already there, and rechecks every declared grade on every change.",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "supported",
+          "checking_records": [
+            {
+              "checker_id": "build/check-gate.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            }
+          ]
+        },
+        "hash": "2cbe17ad177ecc2ef784fcc7e23c53e35d89ab2962dd9a999054557ae394b42c"
+      },
+      {
+        "record_type": "claim",
+        "identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "kind": "measurement",
+        "statement": "Input that arrives untyped is admitted and sits at the floor, grounding nothing, until someone types it and owns the typing.",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "supported",
+        "checking_records": [
+          {
+            "checker_id": "build/check-crossing.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-crossing.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "dd3ebb8afebb5de883de878de0637b18951c8e0bf5d18f308a93ccd28c878067"
+          }
+        ],
+        "canonical": {
+          "identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+          "kind": "measurement",
+          "statement": "Input that arrives untyped is admitted and sits at the floor, grounding nothing, until someone types it and owns the typing.",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "supported",
+          "checking_records": [
+            {
+              "checker_id": "build/check-crossing.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            }
+          ]
+        },
+        "hash": "155818ae9d7c8854241e4be35b9a4c0c7763c9b84282dfa9177596c6e40f2f9a"
+      },
+      {
+        "record_type": "claim",
+        "identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "kind": "measurement",
+        "statement": "The gate checks a claim's structure, never its agent's identity or nature, so a person, an organization, a model, or a pipeline are checked exactly the same way.",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "supported",
+        "checking_records": [
+          {
+            "checker_id": "build/check-gate.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-gate.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "0549f329526b7df6a1374e469b39cade36d16b009fb1a43f437f88f204d16276"
+          }
+        ],
+        "canonical": {
+          "identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+          "kind": "measurement",
+          "statement": "The gate checks a claim's structure, never its agent's identity or nature, so a person, an organization, a model, or a pipeline are checked exactly the same way.",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "supported",
+          "checking_records": [
+            {
+              "checker_id": "build/check-gate.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            }
+          ]
+        },
+        "hash": "af588f6ddd32018372ce83fc129968a4eaee2cd3f8955f1f5e9cf2718f02de7b"
+      },
+      {
+        "record_type": "claim",
+        "identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+        "kind": "measurement",
+        "statement": "In the LHC case, making the shared assumption an explicit node reprices the apparent convergence as one assumption wearing several coats.",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "supported",
+        "checking_records": [
+          {
+            "checker_id": "build/check-lhc.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-lhc.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "538133ce42296eb9c40efe5d9fc21b075d7cee10cf6d4c4a5ee9558e13f1553d"
+          },
+          {
+            "checker_id": "build/check-demo.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-demo.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "38d12ed5c3ece229c9c685c2a77bd8b76da6e4aeea13bfd36c09484261eef4fc"
+          }
+        ],
+        "canonical": {
+          "identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+          "kind": "measurement",
+          "statement": "In the LHC case, making the shared assumption an explicit node reprices the apparent convergence as one assumption wearing several coats.",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "supported",
+          "checking_records": [
+            {
+              "checker_id": "build/check-demo.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            {
+              "checker_id": "build/check-lhc.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            }
+          ]
+        },
+        "hash": "15fa523451633d1b2a6da062051dd6e4e212b3136430054dc7613459d9668b09"
+      },
+      {
+        "record_type": "claim",
+        "identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+        "kind": "measurement",
+        "statement": "In the eggs case, swapping the presupposed frame swaps the verdict while every measurement underneath keeps its grade.",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "supported",
+        "checking_records": [
+          {
+            "checker_id": "build/check-eggs.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-eggs.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "36a4158966a4357112bf3e3c5adaa11b500b34323957008e839caec1219213c5"
+          },
+          {
+            "checker_id": "build/check-demo.mjs",
+            "method_class": "direct-measurement",
+            "method": "test-execution evidence: the named oracle runs green in this repository",
+            "checked_at_state": "ST0",
+            "outcome": "confirms",
+            "independence": "distinct-party",
+            "canonical": {
+              "checker_id": "build/check-demo.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            "hash": "38d12ed5c3ece229c9c685c2a77bd8b76da6e4aeea13bfd36c09484261eef4fc"
+          }
+        ],
+        "canonical": {
+          "identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+          "kind": "measurement",
+          "statement": "In the eggs case, swapping the presupposed frame swaps the verdict while every measurement underneath keeps its grade.",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "supported",
+          "checking_records": [
+            {
+              "checker_id": "build/check-demo.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            },
+            {
+              "checker_id": "build/check-eggs.mjs",
+              "method_class": "direct-measurement",
+              "method": "test-execution evidence: the named oracle runs green in this repository",
+              "checked_at_state": "ST0",
+              "outcome": "confirms",
+              "independence": "distinct-party"
+            }
+          ]
+        },
+        "hash": "17281402ab88583686119298cf7652d105a5b18fb15b10005883f1898b348e81"
+      },
+      {
+        "record_type": "claim",
+        "identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "kind": "forum",
+        "statement": "From inside a single synthesis you cannot tell which parts are the world and which are the viewer, because the viewer is woven through every sentence.",
+        "source_id": "S-epistack-submission-argument",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+          "kind": "forum",
+          "statement": "From inside a single synthesis you cannot tell which parts are the world and which are the viewer, because the viewer is woven through every sentence.",
+          "source_id": "S-epistack-submission-argument",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "70019c7e7ba6eca8d0ab632f9ae1f59de44275213e21217f18172bf56eed1bfc"
+      }
+    ],
+    "links": [
+      {
+        "record_type": "link",
+        "identity": "a08a45e1ff3b16f4aa6d706664744921bbfc01743f5db0918de965cfbff84f3e",
+        "link_kind": "depends-on",
+        "from_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "to_identity": "9c787b5067dba80364ee52f88099ca60257e8213fb1dcc3b54a6bb941d0c198b",
+        "source_id": "S-epistack-submission-argument",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "a08a45e1ff3b16f4aa6d706664744921bbfc01743f5db0918de965cfbff84f3e",
+          "link_kind": "depends-on",
+          "from_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+          "to_identity": "9c787b5067dba80364ee52f88099ca60257e8213fb1dcc3b54a6bb941d0c198b",
+          "source_id": "S-epistack-submission-argument",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "72f936900536c925ec17d030876210cc1dca915459774d17a7af007efb984247"
+      },
+      {
+        "record_type": "link",
+        "identity": "780331cd1b9bcc9d174eae3d0733f5b0c62d8a8284ebf763945ec6911251d2fc",
+        "link_kind": "depends-on",
+        "from_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "to_identity": "d5cdad6ce0f2d0185a9516cf43c00a5c5b5b0708b175f8c22eebc6b0f6e52e3e",
+        "source_id": "S-epistack-submission-argument",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "780331cd1b9bcc9d174eae3d0733f5b0c62d8a8284ebf763945ec6911251d2fc",
+          "link_kind": "depends-on",
+          "from_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+          "to_identity": "d5cdad6ce0f2d0185a9516cf43c00a5c5b5b0708b175f8c22eebc6b0f6e52e3e",
+          "source_id": "S-epistack-submission-argument",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "402598121c370f24080a0be9920a21f6c2ec8709a53f7ddafaf4b744b92c86c1"
+      },
+      {
+        "record_type": "link",
+        "identity": "25062634b260e047cc2931863e423fd89e6922c67c5c9d1e05a756d2b2393d16",
+        "link_kind": "depends-on",
+        "from_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "to_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "25062634b260e047cc2931863e423fd89e6922c67c5c9d1e05a756d2b2393d16",
+          "link_kind": "depends-on",
+          "from_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+          "to_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "f7437daf0a5d4ef5962cb4a1dbc6e407d5b55540e27fb3255f662dd39f6fc02e"
+      },
+      {
+        "record_type": "link",
+        "identity": "70ad35198973ceaff0ca8146ac57582c4805d4d44d463afe4552cea22af7e09e",
+        "link_kind": "depends-on",
+        "from_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "to_identity": "ea39417abe4b2269539deb1815c4bc34fbf70b2e641a4805dbea3ca021fcf859",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "70ad35198973ceaff0ca8146ac57582c4805d4d44d463afe4552cea22af7e09e",
+          "link_kind": "depends-on",
+          "from_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+          "to_identity": "ea39417abe4b2269539deb1815c4bc34fbf70b2e641a4805dbea3ca021fcf859",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "4c596fab0239352fa3a3df2452f7567e96d11db567aa7aa8457615885be1b162"
+      },
+      {
+        "record_type": "link",
+        "identity": "3f07ce0fb7f01d024835e7f60954636956442a420ecf6ce4462ef58b61799fac",
+        "link_kind": "depends-on",
+        "from_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "to_identity": "d819c23e5366531c01d9ab71a7db9282c603c064b2201228fad2a8da666d5af5",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "3f07ce0fb7f01d024835e7f60954636956442a420ecf6ce4462ef58b61799fac",
+          "link_kind": "depends-on",
+          "from_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+          "to_identity": "d819c23e5366531c01d9ab71a7db9282c603c064b2201228fad2a8da666d5af5",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "b654ec50e39ea7271365dce527b1e61ac9023eab00ea2a0ea0362ceb445ee8ba"
+      },
+      {
+        "record_type": "link",
+        "identity": "f97f86d5d78e2578a8839128e406acff3faf2a1bde71c5df160c44cb4e32b70d",
+        "link_kind": "depends-on",
+        "from_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "to_identity": "a7dae436c1127551110f8d7dc668d281eefaedb87f652de3413671bb56959c5b",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "f97f86d5d78e2578a8839128e406acff3faf2a1bde71c5df160c44cb4e32b70d",
+          "link_kind": "depends-on",
+          "from_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+          "to_identity": "a7dae436c1127551110f8d7dc668d281eefaedb87f652de3413671bb56959c5b",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "ef95f7a503ea693c4d72de4d932b44c1e9b8a010b6898c57b87b53777f4b1c61"
+      },
+      {
+        "record_type": "link",
+        "identity": "ad377fe0408c98e83bcc2d12cbeb38bb838a7299964fa410ec4a140f5e0dc158",
+        "link_kind": "depends-on",
+        "from_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "to_identity": "9824d1a6efc615a166d458e134590737ad758e81c6e71374d619f8dc28a95ab0",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "ad377fe0408c98e83bcc2d12cbeb38bb838a7299964fa410ec4a140f5e0dc158",
+          "link_kind": "depends-on",
+          "from_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+          "to_identity": "9824d1a6efc615a166d458e134590737ad758e81c6e71374d619f8dc28a95ab0",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "a2cfbf311ec5d3aa27621bf2e66c51338bc9da551e2341f5fe96be80d24f1af2"
+      },
+      {
+        "record_type": "link",
+        "identity": "43c8901e5c4fcc3435de4139e74cc1dd101b59134423fcfb6c5ec578feead9be",
+        "link_kind": "depends-on",
+        "from_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "to_identity": "27ac8344e37f281dac924cf046eae5a24757171ddc96ac8a552c4e50c05a6ee8",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "43c8901e5c4fcc3435de4139e74cc1dd101b59134423fcfb6c5ec578feead9be",
+          "link_kind": "depends-on",
+          "from_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+          "to_identity": "27ac8344e37f281dac924cf046eae5a24757171ddc96ac8a552c4e50c05a6ee8",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "098ccbf0b4b9d956919d7529b27e2b08f79597adedb33ffa3be657f9312115ee"
+      },
+      {
+        "record_type": "link",
+        "identity": "2d1bbda2d56acadf012714dbfe4cb9a74029c7255e6a8e1ea7d34867355ff075",
+        "link_kind": "depends-on",
+        "from_identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+        "to_identity": "934e17fdd9af4fec2f9367c240a2abf914c439830ed324229094f3feb90a488a",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "2d1bbda2d56acadf012714dbfe4cb9a74029c7255e6a8e1ea7d34867355ff075",
+          "link_kind": "depends-on",
+          "from_identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+          "to_identity": "934e17fdd9af4fec2f9367c240a2abf914c439830ed324229094f3feb90a488a",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "10f65121053e5f8592544186aa72b8496de50d5f3e29c2eef5774fa48603b64d"
+      },
+      {
+        "record_type": "link",
+        "identity": "09c8b5ea4cddcd8194500794520d8a4a8a6e47a6e4ce1373b90f266a7ce442ce",
+        "link_kind": "depends-on",
+        "from_identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+        "to_identity": "ef4035e2d492e2822342203272338d3e4b2b5ef741b2ed19d6861c3635bb2ece",
+        "source_id": "S-epistack-protocol-spec",
+        "contributor_id": "P-submission-transcription",
+        "declared_grade": "asserted",
+        "checking_records": [],
+        "canonical": {
+          "identity": "09c8b5ea4cddcd8194500794520d8a4a8a6e47a6e4ce1373b90f266a7ce442ce",
+          "link_kind": "depends-on",
+          "from_identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+          "to_identity": "ef4035e2d492e2822342203272338d3e4b2b5ef741b2ed19d6861c3635bb2ece",
+          "source_id": "S-epistack-protocol-spec",
+          "contributor_id": "P-submission-transcription",
+          "declared_grade": "asserted"
+        },
+        "hash": "8f7470698a2d45100e91ed231e71d4b932431677a3078ab506ea6321d2197027"
+      }
+    ]
+  },
+  "receipt": {
+    "ruleset_version": "v3",
+    "schema_version": "v3",
+    "store_state": "ST-epistack-competition",
+    "contribution_hash": "a653eda4e954b41a206b365e0bc44dd965013ec5fd99d6925867b223e5d565c1",
+    "findings": [],
+    "binding_table": [
+      {
+        "finding_type": "binding",
+        "reference_locator": "4a22b5a90d64f959d833a0d6558e094fb5d3b1fd71953f8add44d41895be96f8#from_identity",
+        "target_identity": "30df50345de93e56a982416279b77ca1d03e016667efd92aed9f48e8c3f96fd0",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "4a22b5a90d64f959d833a0d6558e094fb5d3b1fd71953f8add44d41895be96f8#to_identity",
+        "target_identity": "9c787b5067dba80364ee52f88099ca60257e8213fb1dcc3b54a6bb941d0c198b",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "b6602eaa4fc5036c2940e3e1f894cfe79d06d8804d3933349db82a7ed17c511f#from_identity",
+        "target_identity": "2f996857519b33d89c21ea463f88869564599edafbcd250b20bea44cef8881a2",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "b6602eaa4fc5036c2940e3e1f894cfe79d06d8804d3933349db82a7ed17c511f#to_identity",
+        "target_identity": "9b065e4b4a0739923dc7c71e1719878ad2807544094b12a9fb940cbe502347b6",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "d16e232f86a745cd2aa60a7c94cf34c2852868cbdf5dcbf7409d5a0019a4ee50#from_identity",
+        "target_identity": "2f996857519b33d89c21ea463f88869564599edafbcd250b20bea44cef8881a2",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "d16e232f86a745cd2aa60a7c94cf34c2852868cbdf5dcbf7409d5a0019a4ee50#to_identity",
+        "target_identity": "98b92f5e537781d81f0e390e6aae5de7b57acd734955aa90d8957289630a2702",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "57975523faeacc35c4c0d201e823f023a1dc30f88d56f68c4da099135b73e7bf#from_identity",
+        "target_identity": "86c34b97d7275aa870b0a3b02ef8bca1dfe8dd099c1664dfe2a4fb06bb39ec59",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "57975523faeacc35c4c0d201e823f023a1dc30f88d56f68c4da099135b73e7bf#to_identity",
+        "target_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8000e9c55cba06ed41af9d637a8893f23f398b9318bfa95751e82c34da04b141#from_identity",
+        "target_identity": "86c34b97d7275aa870b0a3b02ef8bca1dfe8dd099c1664dfe2a4fb06bb39ec59",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8000e9c55cba06ed41af9d637a8893f23f398b9318bfa95751e82c34da04b141#to_identity",
+        "target_identity": "ef4035e2d492e2822342203272338d3e4b2b5ef741b2ed19d6861c3635bb2ece",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8456cf5dab7f14b258e2efe0b27f7ebd2483b1f49d5c3ba835f0a437e12b89bd#from_identity",
+        "target_identity": "86c34b97d7275aa870b0a3b02ef8bca1dfe8dd099c1664dfe2a4fb06bb39ec59",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8456cf5dab7f14b258e2efe0b27f7ebd2483b1f49d5c3ba835f0a437e12b89bd#to_identity",
+        "target_identity": "43b9fced901035c40775b24e45b1b935bd239de1edd7af50601d637ade290bc4",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "30e2b73b77e60747fc458874e85335ada42a3779814b5235aa0bf8722ccea264#from_identity",
+        "target_identity": "a153eacb13921c3ac75f172788371845e78a6fa74bbca4e2146a2fad418dc928",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "30e2b73b77e60747fc458874e85335ada42a3779814b5235aa0bf8722ccea264#to_identity",
+        "target_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "947c218a077972986cc1b91ad5a18f3e50e14274d10d6b6ba372d04d1a3bb6a7#from_identity",
+        "target_identity": "a153eacb13921c3ac75f172788371845e78a6fa74bbca4e2146a2fad418dc928",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "947c218a077972986cc1b91ad5a18f3e50e14274d10d6b6ba372d04d1a3bb6a7#to_identity",
+        "target_identity": "ef0814a06dfd0dca43c06d5ee0643deb323b648fc1498258fec8ecb7221da6fe",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a3eea8dbd83f63b7f956b1f053dbe25cf79d35c02370bf3f54f40136150e95d0#from_identity",
+        "target_identity": "a153eacb13921c3ac75f172788371845e78a6fa74bbca4e2146a2fad418dc928",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a3eea8dbd83f63b7f956b1f053dbe25cf79d35c02370bf3f54f40136150e95d0#to_identity",
+        "target_identity": "9824d1a6efc615a166d458e134590737ad758e81c6e71374d619f8dc28a95ab0",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "9ce92b2a693bc48b4ee10c462ee1d43845027cf760686dba073ee2ecf67e9616#from_identity",
+        "target_identity": "a216292247261772a265dc6340a689e7cf07e9a8adef67ef4fbf50106d005732",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "9ce92b2a693bc48b4ee10c462ee1d43845027cf760686dba073ee2ecf67e9616#to_identity",
+        "target_identity": "e989a5ee85adab7aea093b14d945e47d7844a54d060858cbf316196b2b89730b",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "7ffa6924995a99e05ed037ace4a6f2be45b5f23fde348bf24efc7b1302ec3ad4#from_identity",
+        "target_identity": "a216292247261772a265dc6340a689e7cf07e9a8adef67ef4fbf50106d005732",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "7ffa6924995a99e05ed037ace4a6f2be45b5f23fde348bf24efc7b1302ec3ad4#to_identity",
+        "target_identity": "d819c23e5366531c01d9ab71a7db9282c603c064b2201228fad2a8da666d5af5",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "c3e94f628dbba85d390d108603e3837b9a64e338fb8843f786d449ee63dcaabd#from_identity",
+        "target_identity": "a216292247261772a265dc6340a689e7cf07e9a8adef67ef4fbf50106d005732",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "c3e94f628dbba85d390d108603e3837b9a64e338fb8843f786d449ee63dcaabd#to_identity",
+        "target_identity": "d298d53fcc3e67ab55cef3abf1507fcacba83bbfd5c7106d16b57fee58b2a886",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a5e8fe43a9d0b62cd44334a8721a1d2bc39495111138194c389c78c0ea8515a0#from_identity",
+        "target_identity": "68a16b883ea3c23e1dd7339a09ea75b2346c07e1ab64acb14d327d5f96e710de",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a5e8fe43a9d0b62cd44334a8721a1d2bc39495111138194c389c78c0ea8515a0#to_identity",
+        "target_identity": "52436db606048577b7aad6144aa9c2e0d88e5b012cd80353b7971b8727c835ca",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "e5637b0aa9b97afa32a5f69da3c79902a4cd736471efefb9d3b06ee34d72febb#from_identity",
+        "target_identity": "fd883eb15619101b1725148c026f087cdacb9bf567b6b9ba4b4f116bb26f7fbd",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "e5637b0aa9b97afa32a5f69da3c79902a4cd736471efefb9d3b06ee34d72febb#to_identity",
+        "target_identity": "ef0814a06dfd0dca43c06d5ee0643deb323b648fc1498258fec8ecb7221da6fe",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "e344e780829a79418731eb085780f07cf98fc7562b4d9abc55650345bacb33db#from_identity",
+        "target_identity": "fd883eb15619101b1725148c026f087cdacb9bf567b6b9ba4b4f116bb26f7fbd",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "e344e780829a79418731eb085780f07cf98fc7562b4d9abc55650345bacb33db#to_identity",
+        "target_identity": "a7dae436c1127551110f8d7dc668d281eefaedb87f652de3413671bb56959c5b",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8a45c7691bf517a98621335a4297bfc759d59307984e94e4664af728e3e04b82#from_identity",
+        "target_identity": "48f21e9751f9a3b6601b50a8c0ea758bdf53c7a0c87864a1dddda7e2e95a4f98",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "8a45c7691bf517a98621335a4297bfc759d59307984e94e4664af728e3e04b82#to_identity",
+        "target_identity": "ef0814a06dfd0dca43c06d5ee0643deb323b648fc1498258fec8ecb7221da6fe",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a08a45e1ff3b16f4aa6d706664744921bbfc01743f5db0918de965cfbff84f3e#from_identity",
+        "target_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a08a45e1ff3b16f4aa6d706664744921bbfc01743f5db0918de965cfbff84f3e#to_identity",
+        "target_identity": "9c787b5067dba80364ee52f88099ca60257e8213fb1dcc3b54a6bb941d0c198b",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "780331cd1b9bcc9d174eae3d0733f5b0c62d8a8284ebf763945ec6911251d2fc#from_identity",
+        "target_identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "780331cd1b9bcc9d174eae3d0733f5b0c62d8a8284ebf763945ec6911251d2fc#to_identity",
+        "target_identity": "d5cdad6ce0f2d0185a9516cf43c00a5c5b5b0708b175f8c22eebc6b0f6e52e3e",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "25062634b260e047cc2931863e423fd89e6922c67c5c9d1e05a756d2b2393d16#from_identity",
+        "target_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "25062634b260e047cc2931863e423fd89e6922c67c5c9d1e05a756d2b2393d16#to_identity",
+        "target_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "70ad35198973ceaff0ca8146ac57582c4805d4d44d463afe4552cea22af7e09e#from_identity",
+        "target_identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "70ad35198973ceaff0ca8146ac57582c4805d4d44d463afe4552cea22af7e09e#to_identity",
+        "target_identity": "ea39417abe4b2269539deb1815c4bc34fbf70b2e641a4805dbea3ca021fcf859",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "3f07ce0fb7f01d024835e7f60954636956442a420ecf6ce4462ef58b61799fac#from_identity",
+        "target_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "3f07ce0fb7f01d024835e7f60954636956442a420ecf6ce4462ef58b61799fac#to_identity",
+        "target_identity": "d819c23e5366531c01d9ab71a7db9282c603c064b2201228fad2a8da666d5af5",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "f97f86d5d78e2578a8839128e406acff3faf2a1bde71c5df160c44cb4e32b70d#from_identity",
+        "target_identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "f97f86d5d78e2578a8839128e406acff3faf2a1bde71c5df160c44cb4e32b70d#to_identity",
+        "target_identity": "a7dae436c1127551110f8d7dc668d281eefaedb87f652de3413671bb56959c5b",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "ad377fe0408c98e83bcc2d12cbeb38bb838a7299964fa410ec4a140f5e0dc158#from_identity",
+        "target_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "ad377fe0408c98e83bcc2d12cbeb38bb838a7299964fa410ec4a140f5e0dc158#to_identity",
+        "target_identity": "9824d1a6efc615a166d458e134590737ad758e81c6e71374d619f8dc28a95ab0",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "43c8901e5c4fcc3435de4139e74cc1dd101b59134423fcfb6c5ec578feead9be#from_identity",
+        "target_identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "43c8901e5c4fcc3435de4139e74cc1dd101b59134423fcfb6c5ec578feead9be#to_identity",
+        "target_identity": "27ac8344e37f281dac924cf046eae5a24757171ddc96ac8a552c4e50c05a6ee8",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "2d1bbda2d56acadf012714dbfe4cb9a74029c7255e6a8e1ea7d34867355ff075#from_identity",
+        "target_identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "2d1bbda2d56acadf012714dbfe4cb9a74029c7255e6a8e1ea7d34867355ff075#to_identity",
+        "target_identity": "934e17fdd9af4fec2f9367c240a2abf914c439830ed324229094f3feb90a488a",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "09c8b5ea4cddcd8194500794520d8a4a8a6e47a6e4ce1373b90f266a7ce442ce#from_identity",
+        "target_identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "09c8b5ea4cddcd8194500794520d8a4a8a6e47a6e4ce1373b90f266a7ce442ce#to_identity",
+        "target_identity": "ef4035e2d492e2822342203272338d3e4b2b5ef741b2ed19d6861c3635bb2ece",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "94972d1c305a823e6af579abde544608ecd87cb2bc92773a29a45171a90e8ccc#from_identity",
+        "target_identity": "c0a3ccada538d2a3a37db3e47fb72aae27300805c690f9c776ffd99154f501d7",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "94972d1c305a823e6af579abde544608ecd87cb2bc92773a29a45171a90e8ccc#to_identity",
+        "target_identity": "958062c0dd0482b42e2402b23d243c4a1eb2456e0ac772913cd2368ccf5a3310",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "9b3fa9faf74c2aaa98e800f5071ad76d9767365daad074f0317c371a2e2f339a#from_identity",
+        "target_identity": "c0a3ccada538d2a3a37db3e47fb72aae27300805c690f9c776ffd99154f501d7",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "9b3fa9faf74c2aaa98e800f5071ad76d9767365daad074f0317c371a2e2f339a#to_identity",
+        "target_identity": "ea39417abe4b2269539deb1815c4bc34fbf70b2e641a4805dbea3ca021fcf859",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "1c9fa43ac15304fd320816ac25104b14e69c443c56143019792130be00f0ebda#from_identity",
+        "target_identity": "c0a3ccada538d2a3a37db3e47fb72aae27300805c690f9c776ffd99154f501d7",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "1c9fa43ac15304fd320816ac25104b14e69c443c56143019792130be00f0ebda#to_identity",
+        "target_identity": "f92058269676b1c0b660c88666ddc231877beffb30ec3df4543b08fb04a95e5a",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a3a6a5a55beacaa55d001324d522b3c68c26aeeeccf708cfd5ab5989937b0299#from_identity",
+        "target_identity": "a6408a5e36ecd9a73ef7b92c7fbbd9c2137c673df9d3f1da17bfac028c577a2b",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "a3a6a5a55beacaa55d001324d522b3c68c26aeeeccf708cfd5ab5989937b0299#to_identity",
+        "target_identity": "473b8ad6d57e0975d4e9c4417d7daa556651fec6e9ea124f9fa0688df2b892c4",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "d2d3f0f7da8410380c98eb7c1b0bbbf2d800fc78ab4e668265b2743efe4739e1#from_identity",
+        "target_identity": "a6408a5e36ecd9a73ef7b92c7fbbd9c2137c673df9d3f1da17bfac028c577a2b",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "d2d3f0f7da8410380c98eb7c1b0bbbf2d800fc78ab4e668265b2743efe4739e1#to_identity",
+        "target_identity": "c50e2932d549b3fcfe9e9232e64660d44ed6a4bd9ce3a3356f18851711042d7f",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "34792a97827c6741a6575ff1fa8a924d6f3bdb5aa63ee97293a98a40c330118e#from_identity",
+        "target_identity": "9d4b0d62ad9346844ddbb1c4de996749e5af0d623b6c88634b8055c71c5675c7",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "34792a97827c6741a6575ff1fa8a924d6f3bdb5aa63ee97293a98a40c330118e#to_identity",
+        "target_identity": "c50e2932d549b3fcfe9e9232e64660d44ed6a4bd9ce3a3356f18851711042d7f",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "c4638be22fde79efa33d3b465cad8e99d98eb79752e100c576c27db6fc9b91bb#from_identity",
+        "target_identity": "9d4b0d62ad9346844ddbb1c4de996749e5af0d623b6c88634b8055c71c5675c7",
+        "resolution": "unresolved",
+        "asserted_grade": "absent"
+      },
+      {
+        "finding_type": "binding",
+        "reference_locator": "c4638be22fde79efa33d3b465cad8e99d98eb79752e100c576c27db6fc9b91bb#to_identity",
+        "target_identity": "473b8ad6d57e0975d4e9c4417d7daa556651fec6e9ea124f9fa0688df2b892c4",
+        "resolution": "bound",
+        "asserted_grade": "absent",
+        "bound_state": "ST-epistack-competition",
+        "stored_grade": "constitutive"
+      }
+    ],
+    "grade_table": [
+      {
+        "identity": "2f996857519b33d89c21ea463f88869564599edafbcd250b20bea44cef8881a2",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "86c34b97d7275aa870b0a3b02ef8bca1dfe8dd099c1664dfe2a4fb06bb39ec59",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "a153eacb13921c3ac75f172788371845e78a6fa74bbca4e2146a2fad418dc928",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "a216292247261772a265dc6340a689e7cf07e9a8adef67ef4fbf50106d005732",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "independently-rechecked"
+      },
+      {
+        "identity": "68a16b883ea3c23e1dd7339a09ea75b2346c07e1ab64acb14d327d5f96e710de",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "independently-rechecked"
+      },
+      {
+        "identity": "fd883eb15619101b1725148c026f087cdacb9bf567b6b9ba4b4f116bb26f7fbd",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "independently-rechecked"
+      },
+      {
+        "identity": "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "independently-rechecked"
+      },
+      {
+        "identity": "c0a3ccada538d2a3a37db3e47fb72aae27300805c690f9c776ffd99154f501d7",
+        "ceiling": "checked",
+        "ceiling_mode": "empirical",
+        "declared_grade": "supported",
+        "earned_grade": "checked",
+        "earned_mode": "empirical",
+        "S": "asserted",
+        "B": "checked"
+      },
+      {
+        "identity": "30df50345de93e56a982416279b77ca1d03e016667efd92aed9f48e8c3f96fd0",
+        "ceiling": "corroborated",
+        "ceiling_mode": null,
+        "declared_grade": "asserted",
+        "earned_grade": "asserted",
+        "earned_mode": null,
+        "S": "asserted",
+        "B": "none"
+      },
+      {
+        "identity": "48f21e9751f9a3b6601b50a8c0ea758bdf53c7a0c87864a1dddda7e2e95a4f98",
+        "ceiling": "corroborated",
+        "ceiling_mode": null,
+        "declared_grade": "asserted",
+        "earned_grade": "asserted",
+        "earned_mode": null,
+        "S": "asserted",
+        "B": "none"
+      },
+      {
+        "identity": "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc",
+        "ceiling": "corroborated",
+        "ceiling_mode": null,
+        "declared_grade": "asserted",
+        "earned_grade": "asserted",
+        "earned_mode": null,
+        "S": "asserted",
+        "B": "none"
+      },
+      {
+        "identity": "a6408a5e36ecd9a73ef7b92c7fbbd9c2137c673df9d3f1da17bfac028c577a2b",
+        "ceiling": "corroborated",
+        "ceiling_mode": null,
+        "declared_grade": "asserted",
+        "earned_grade": "asserted",
+        "earned_mode": null,
+        "S": "asserted",
+        "B": "none"
+      },
+      {
+        "identity": "9d4b0d62ad9346844ddbb1c4de996749e5af0d623b6c88634b8055c71c5675c7",
+        "ceiling": "corroborated",
+        "ceiling_mode": null,
+        "declared_grade": "asserted",
+        "earned_grade": "asserted",
+        "earned_mode": null,
+        "S": "asserted",
+        "B": "none"
+      }
+    ],
+    "restatement_closures": [
+      [
+        "2f996857519b33d89c21ea463f88869564599edafbcd250b20bea44cef8881a2"
+      ],
+      [
+        "86c34b97d7275aa870b0a3b02ef8bca1dfe8dd099c1664dfe2a4fb06bb39ec59"
+      ],
+      [
+        "a153eacb13921c3ac75f172788371845e78a6fa74bbca4e2146a2fad418dc928"
+      ],
+      [
+        "a216292247261772a265dc6340a689e7cf07e9a8adef67ef4fbf50106d005732"
+      ],
+      [
+        "68a16b883ea3c23e1dd7339a09ea75b2346c07e1ab64acb14d327d5f96e710de"
+      ],
+      [
+        "fd883eb15619101b1725148c026f087cdacb9bf567b6b9ba4b4f116bb26f7fbd"
+      ],
+      [
+        "021e3ef4046f08102efb1eaef7548a31710b2b4b1d665ce650cd0219b8c97051"
+      ],
+      [
+        "69abefbec044c0ef4a251f7ddd12ed5048ee2ba3b50f1410054d4dbd6d421cb6"
+      ],
+      [
+        "e67e22abe94aa54a9d466a549902011ce7494a44fb99a777ccf99bfb10829a2d"
+      ],
+      [
+        "d47f51dfb5172e7402006fb2201804cf5fa2b2f306d84a5eaeed011bba345cc2"
+      ],
+      [
+        "aabc69a0d4de7b296f672fc4de40e232ebf74e401270eac5de62fd2c1d5dcce6"
+      ],
+      [
+        "c0a3ccada538d2a3a37db3e47fb72aae27300805c690f9c776ffd99154f501d7"
+      ],
+      [
+        "30df50345de93e56a982416279b77ca1d03e016667efd92aed9f48e8c3f96fd0"
+      ],
+      [
+        "48f21e9751f9a3b6601b50a8c0ea758bdf53c7a0c87864a1dddda7e2e95a4f98"
+      ],
+      [
+        "11914d9f901d7234275f4378cc9ad11c4d208e5b7405fe507373dd0603d9b0bc"
+      ],
+      [
+        "a6408a5e36ecd9a73ef7b92c7fbbd9c2137c673df9d3f1da17bfac028c577a2b"
+      ],
+      [
+        "9d4b0d62ad9346844ddbb1c4de996749e5af0d623b6c88634b8055c71c5675c7"
+      ]
+    ],
+    "withdrawn_matches": [],
+    "corroboration_findings": [],
+    "contradiction_records": [],
+    "decision": "accepted",
+    "decision_basis": [
+      "all-checks-clean"
+    ],
+    "certificate_hash": "0e39f107cdcad214c6e0fdf86edc77e656d5510a01be062212a96e9b55bb29a4"
+  },
+  "origin": {
+    "kernel_id": "epistack-competition",
+    "state_id": "ST-epistack-competition"
+  },
+  "protocol": "v3",
+  "status": "gate-passed, not admitted",
+  "instructions": "This bundle is a proposal that passed the origin kernel's gate structurally; it is not admitted anywhere. To submit it, open a pull request carrying the bundle to a target kernel: the target's own suite re-runs the gate over the patch, admission is the target's act, and semantic judgement of whether the cited support holds of the world is its community's, never asserted here."
+}
