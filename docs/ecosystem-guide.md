@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: The one document a builder opens first: the ecosystem's fixed invariants, the contract each role holds, community sharing and discovery, identity as a graded claim, and the deliberate absences stated as design. Integrates by pointer; the protocol specification governs where they diverge.
-Depends on: docs/protocol-spec.md, docs/parameters-register.md, docs/composition-spec.md, docs/community-backend.md, docs/community-invitation.md, docs/substrate-map.md, docs/clients.md, docs/coordination-layer-spec.md, docs/the-asymmetric-weapon.md, docs/trust-and-view.md
+Depends on: docs/protocol-spec.md, docs/parameters-register.md, docs/composition-spec.md, docs/community-backend.md, docs/community-invitation.md, docs/components-and-forking.md, docs/substrate-map.md, docs/clients.md, docs/coordination-layer-spec.md, docs/the-asymmetric-weapon.md, docs/trust-and-view.md
 Depended on by: docs/for-the-institutional-adopter.md, docs/knowledge-kernels-and-crypto.md
 ---
 
@@ -72,9 +72,17 @@ Key rotation and loss are succession claims, key K2 succeeds K1 signed by K1, ke
 
 A deployment that ships the protocol carries its own accounting: a pinned, attributable substrate with an integrity lock, a governance kernel whose claims describe the deployment's own behavior, and checks that ground those claims, ranking cannot move standing, private data cannot enter a public patch, no undeclared egress, entered bare and grounded by real checks rather than asserted. [The Substrate Map](substrate-map.md) places the individual deployment as the N=1 case of the community kernel. The first deployment's requirements enter as claims, at their honest floor, awaiting the verification that only a community performs.
 
-## For a directory operator
+What deployments share and what they may vary is one line. What every deployment shares byte-identical is the kernel, pinned and hash-checked, one canonical schema, the gate, the grounding rule, and the crossing, adopted and never reimplemented, which is the monism. Everything peripheral, components, skins, and tools, is copied with its provenance and adapted freely, which is the federation, and it flows sideways between deployments through registries, never upward into the protocol. The enforcement already exists: the pin-and-lock discipline with its substrate check is the monism working, and [Components, References, and Forking](components-and-forking.md)'s departures-as-coordinates is the federation working.
 
-A directory is a kernel whose domain is other communities: claims of the shape "kernel X, snapshot hash Y, pins Z, fetchable at W," graded, contestable, and forkable like anything else. Anyone can run one; they compete as views over shared structure, and a directory that misdescribes a community is contradicted by the community's own hash. What the ecosystem deliberately lacks is the registry, the single list that could delist. Discovery is plural by construction. Specified as a convention; it requires no machinery the substrate lacks.
+## For a registry operator
+
+A registry is a kernel whose domain is artifacts: extensions, skins, components, clients, communities. Its claims have the shape "artifact A, kind K, hash H, from source S, capability manifest M, conformance status C," graded, contestable, and forkable like anything else, and a community directory (kernel X, snapshot hash Y, pins Z, fetchable at W) is one instance of the shape rather than a separate mechanism.
+
+Its types are contracts. A registry type bundle is an interface contract hashed, with its conformance oracle hashed beside it, and its ceiling states exactly what passing warrants: conformance under that oracle, never quality and never safety, which stay semantic judgments no kernel makes. The evidence is conformance-run records, and anyone re-runs the named oracle against the named artifact and recomputes the grade, so a registry cannot assert a conformance it cannot show. The oracles this points at are built in the Knowledge-Game deployment: the ranking-separation fuzz (`check-ranking-separation`), the skin contract check (`check-skins`), and the client conformance pair (`check-conformance-read` and `check-conformance-write`). The convention that types them is specified, and no registry exists yet.
+
+Shared meaning is shared contract. Registries that pin the same contract hash compose their conformance claims, exactly as kernels that pin the same type hash compose their grades. Changing an interface is forking its type, its departures the coordinates of the change, and a foreign artifact certified under a contract this registry does not pin arrives untyped and re-certifies locally. Versioning is the crossing.
+
+Registries are plural, forkable, and unownable like everything above standing: no gatekeeper, no delisting authority, curation carried as competing views over shared structure rather than a single list, and a registry that misdescribes an artifact is contradicted by the artifact's own hash. A client browses registries the way it browses any community, and an honest client lists its own competitors, its own entry graded among them under the same contract. What the ecosystem lacks is not registries, which are many, but the single authoritative one that could delist; discovery is plural by construction.
 
 ## The deliberate absences
 
