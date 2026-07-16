@@ -8,5 +8,6 @@ A knowledge kernel: a typed claim graph whose gate admits a claim only if it gro
 - docs/protocol-spec.md : authoritative for the protocol; where prose and spec diverge, the spec governs.
 - docs/parameters-register.md : fixed versus free.
 - docs/the-climb-of-synthesis.md : the argument.
+- docs/for-the-institutional-adopter.md : the institutional entrance, what the graph offers an organization that must make defensible decisions in contested domains; an argument that marks its specified frontier.
 - docs/on-transparency.md : why the open form.
 - build/ : the executable verification; every grade and certificate recomputes from the public graph, in about two minutes.

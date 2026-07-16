@@ -2,7 +2,7 @@
 Type: argument
 Purpose: The DOs and DON'Ts of connecting knowledge kernels to on-chain finance: what composes with the protocol's invariants, what is a community's own choice, and what is structurally excluded. Written for builders of market layers over claim graphs.
 Depends on: docs/protocol-spec.md, docs/ecosystem-guide.md, docs/trust-and-view.md, docs/the-asymmetric-weapon.md, docs/coordination-layer-spec.md, corpora/lineage/lineage.js
-Depended on by: nothing
+Depended on by: docs/for-the-institutional-adopter.md
 ---
 
 # Knowledge Kernels and Crypto: the DOs and DON'Ts
