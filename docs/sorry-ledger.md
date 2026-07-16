@@ -65,3 +65,18 @@ kill or a discrepancy without a record is one you cannot revisit.
   honest gap between the tier the evidence reaches (checked, by testing) and the tier the property
   admits (proof-floor, by formal proof); it is not a node marker, so it is tracked here in prose rather
   than in the machine-checked table above.
+
+- **G-E. The comment kind's never-citable rule has no rules-vocabulary home. OPEN.** The comment
+  kind (`corpora/_shared/common-types.js`) needs one further rule beyond kind and ceiling: no record
+  of kind `comment` may occupy a support role in any link. The discipline that added it preferred
+  expressing this as bundle data, a link-role restriction carried in the bundle's rules field, so it
+  would be community policy structuralized with zero core touch. `kernel/schema/tables.mjs`'s kind
+  table carries no rules field at all (`makeKindTable` reads only `kind`, `ceiling`, and
+  `compatibility_rule_id`; the word "rules" appears nowhere live in the kernel, only as unenforced
+  prose in `kernel/schema/type-hash.mjs`'s header). So the rule is enforced instead by a named,
+  gate-adjacent validation (`kernel/gate/comment-guard.mjs`'s `rejectCommentSupport`, called before
+  `decide` on the local provider's write path, `api/providers/local-provider.mjs`), checked by
+  `build/check-comment.mjs`. The closing condition is a rules-vocabulary extension to the kind
+  bundle and `makeKindTable`, a per-kind link-role restriction the gate reads and enforces natively,
+  at which point this guard retires into bundle data and the gate needs no comment-specific code at
+  all.

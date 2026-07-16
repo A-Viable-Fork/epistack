@@ -2,7 +2,7 @@
 Type: reference
 Purpose: The map of the minimum viable substrate a fork starts from, the annotated tree with its built/genericize/build/frontier marks, the tiered gaps, and what a post-submission extraction strips from this repository to make the forkable substrate.
 Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/kernel-workflow-guide.md, docs/parameters-register.md
-Depended on by: docs/community-invitation.md
+Depended on by: docs/community-backend.md, docs/community-invitation.md, docs/ecosystem-guide.md
 ---
 
 # The Substrate Map
@@ -27,6 +27,8 @@ Add the trivial and moderate `*` pieces and you have a **working small community
 Add the `**` frontier and you have a **large trustless community and a real market of kernels**: automated standing, multi-producer lifecycle at scale, and cross-kernel discovery. This is the invited frontier, not a blocker to starting.
 
 The through-line is forkability: the substrate forks whole, so no instance is hosted by a center that could be captured. The ultimate check on any instance's rules is that dissenters fork the entire apparatus, not only the claims.
+
+The per-function contract detail behind these tiers is `docs/community-backend.md`, which carves the backend into eleven functions and names the best current contract for each at its tier, so the assembly and frontier marks here resolve to a concrete parts list.
 
 ## The repository map
 

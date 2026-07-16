@@ -1,0 +1,12 @@
+# EpiStack
+
+A knowledge kernel: a typed claim graph whose gate admits a claim only if it grounds. Read in this order; every grade and certificate recomputes from the public graph.
+
+- corpora/vocabulary/ : the typed term source; every load-bearing term resolves here (verified by build/check-vocabulary.mjs).
+- corpora/math/ : the kernel's own mathematics as grounded claims, the grade lattice, the earned-grade recurrence, contamination, and the crossing, each carrying its computed grade and its oracle (build/check-math.mjs and companions).
+- docs/status-ledger.md : built versus specified, per item; the maturity line a faithful synthesis preserves.
+- docs/protocol-spec.md : authoritative for the protocol; where prose and spec diverge, the spec governs.
+- docs/parameters-register.md : fixed versus free.
+- docs/the-climb-of-synthesis.md : the argument.
+- docs/on-transparency.md : why the open form.
+- build/ : the executable verification; every grade and certificate recomputes from the public graph, in about two minutes.
