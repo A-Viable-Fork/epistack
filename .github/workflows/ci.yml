@@ -48,6 +48,7 @@ jobs:
           node build/check-composition.mjs
           node build/check-algebra.mjs
           node build/check-self.mjs
+          node build/check-boundary.mjs
           node build/check-eggs.mjs
           node build/check-reconcile.mjs
           node build/check-covid.mjs

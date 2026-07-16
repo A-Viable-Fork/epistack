@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: The institutional entrance: what this repository offers an organization that must make defensible decisions in contested domains. Accountability routing, adoption as parameters, exit by fork, and the three cases walked as an adopter would walk them.
-Depends on: docs/protocol-spec.md, docs/ecosystem-guide.md, docs/trust-and-view.md, docs/the-asymmetric-weapon.md, docs/knowledge-kernels-and-crypto.md, docs/community-invitation.md
+Depends on: docs/protocol-spec.md, docs/ecosystem-guide.md, docs/trust-and-view.md, docs/the-asymmetric-weapon.md, docs/knowledge-kernels-and-crypto.md, docs/community-invitation.md, docs/contract-register.md
 Depended on by: nothing
 ---
 
@@ -17,7 +17,7 @@ This repository is infrastructure for the alternative: decisions grounded in a p
 
 **The gate is the containment.** Nothing enters a kernel without grounding against it, no declared grade exceeds what support earns, and a claim arriving from elsewhere without a shared type sits at the floor, grounding nothing, until it re-earns locally. The gate cannot be argued with, lobbied, or embarrassed; it recomputes.
 
-**Adoption is parameters, never conclusions.** An institution does not "trust" a community's kernel. It adopts the community's parameterization, the types, ceilings, floors, and typing policy frozen in that community's governance-hash, and recomputes the grades itself. What the institution is accountable for is the parameter choice, which is explicit, one hash, auditable, and defensible as a choice among published alternatives. What it is not accountable for is every claim inside, each of which is held by whoever typed and grounded it, attributably. "We adopted these parameters and recomputed; here is the hash; run it yourself" is a sentence an institution can say under oath. "We trusted the report" is not.
+**Adoption is parameters, never conclusions.** An institution does not "trust" a community's kernel. It adopts the community's parameterization, the types, ceilings, floors, and typing policy frozen in that community's governance-hash, and recomputes the grades itself. What the institution is accountable for is the parameter choice, which is explicit, one hash, auditable, and defensible as a choice among published alternatives. What it is not accountable for is every claim inside, each of which is held by whoever typed and grounded it, attributably. <!-- boundary: PR-typesystem --> "We adopted these parameters and recomputed; here is the hash; run it yourself" is a sentence an institution can say under oath. "We trusted the report" is not.
 
 **The fork is the exit right.** When a synthesis provider is captured, by incentive, by ideology, by drift, the commissioning institution has no recourse except starting over. When a community kernel is captured, an adopter forks it: the provenance chain comes along whole, the governance parameters are replaced, the divergence is a new hash, and the capture itself is visible in the public graph for everyone else to price. Exit costs a typing decision, not the accumulated knowledge.
 

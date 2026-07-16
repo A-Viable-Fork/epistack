@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: The one document a builder opens first: the ecosystem's fixed invariants, the contract each role holds, community sharing and discovery, identity as a graded claim, and the deliberate absences stated as design. Integrates by pointer; the protocol specification governs where they diverge.
-Depends on: docs/protocol-spec.md, docs/parameters-register.md, docs/composition-spec.md, docs/community-backend.md, docs/community-invitation.md, docs/components-and-forking.md, docs/substrate-map.md, docs/clients.md, docs/coordination-layer-spec.md, docs/the-asymmetric-weapon.md, docs/trust-and-view.md
+Depends on: docs/protocol-spec.md, docs/parameters-register.md, docs/composition-spec.md, docs/community-backend.md, docs/community-invitation.md, docs/components-and-forking.md, docs/substrate-map.md, docs/clients.md, docs/coordination-layer-spec.md, docs/the-asymmetric-weapon.md, docs/trust-and-view.md, docs/contract-register.md
 Depended on by: docs/for-the-institutional-adopter.md, docs/knowledge-kernels-and-crypto.md
 ---
 
@@ -17,12 +17,12 @@ Everything below stands on one small fixed core: the record formats and the cano
 
 These hold across the whole ecosystem. Each follows from the substrate; none is a policy choice.
 
-1. **Shared meaning is shared hash.** Two parties mean the same thing by a type exactly when they pin the same type bundle hash; a subtly different meaning is a different hash. This is the primitive federation rests on ([the Composition Specification](composition-spec.md)). Built.
-2. **Trust is unownable; views compete.** Standing recomputes from the public graph by anyone, so no host, platform, or client owns what holds. Everything above standing, ordering, rendering, teaching, ranking, is view, and views are a market ([Trust and View](trust-and-view.md)). Built for standing; the market is whoever shows up.
-3. **No participant holds authority the gate lacks.** A client, a host, a directory, a backend: each is untrusted infrastructure. Anything any of them asserts about the graph is recomputable against the graph ([The Community Backend](community-backend.md)). Built.
-4. **Standing moves only through typing acts.** Admission through the gate, a fork adopted, a pin changed. Reading, ranking, viewing, and contesting move nothing: a contest is recorded at its own standing and changes no grade, mechanically checked (build/check-fork-contest.mjs). Built.
-5. **Every function is owned by one side of the attenuation line.** Structural attenuation, recomputing what a claim rests on, belongs to the kernel and is mechanical. Semantic attenuation, judging whether the floors are true of the world, belongs to a community and is attributable. A function that cannot say which side it lives on is misdesigned ([Trust and View](trust-and-view.md)).
-6. **Reading requires nothing, ever.** No account, no credential, no permission. Every graph, every grade, every receipt is open to any reader. Identity begins where writing begins, and nowhere earlier.
+1. **Shared meaning is shared hash.** Two parties mean the same thing by a type exactly when they pin the same type bundle hash; a subtly different meaning is a different hash. This is the primitive federation rests on ([the Composition Specification](composition-spec.md)). Built. <!-- boundary: CR-shared-hash -->
+2. **Trust is unownable; views compete.** Standing recomputes from the public graph by anyone, so no host, platform, or client owns what holds. Everything above standing, ordering, rendering, teaching, ranking, is view, and views are a market ([Trust and View](trust-and-view.md)). Built for standing; the market is whoever shows up. <!-- boundary: CR-recomputable -->
+3. **No participant holds authority the gate lacks.** A client, a host, a directory, a backend: each is untrusted infrastructure. Anything any of them asserts about the graph is recomputable against the graph ([The Community Backend](community-backend.md)). Built. <!-- boundary: CR-gate-authority -->
+4. **Standing moves only through typing acts.** Admission through the gate, a fork adopted, a pin changed. Reading, ranking, viewing, and contesting move nothing: a contest is recorded at its own standing and changes no grade, mechanically checked (build/check-fork-contest.mjs). Built. <!-- boundary: CR-typing-acts -->
+5. **Every function is owned by one side of the attenuation line.** Structural attenuation, recomputing what a claim rests on, belongs to the kernel and is mechanical. Semantic attenuation, judging whether the floors are true of the world, belongs to a community and is attributable. A function that cannot say which side it lives on is misdesigned ([Trust and View](trust-and-view.md)). <!-- boundary: CR-attenuation-line -->
+6. **Reading requires nothing, ever.** No account, no credential, no permission. Every graph, every grade, every receipt is open to any reader. Identity begins where writing begins, and nowhere earlier. <!-- boundary: CR-reading-open -->
 
 ## For a community founder
 
