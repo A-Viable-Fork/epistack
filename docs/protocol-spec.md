@@ -2,7 +2,7 @@
 Type: specification
 Purpose: The extractable, normative protocol specification: the record formats, the grounding computation, the gate, the crossing, and the client contract, stated so a team can implement a conforming kernel without reading the argument.
 Depends on: docs/api.md, docs/composition-spec.md, docs/parameters-register.md
-Depended on by: docs/kernel-workflow-guide.md
+Depended on by: docs/ecosystem-guide.md, docs/kernel-workflow-guide.md, docs/speedbumps-of-scaling.md, docs/the-asymmetric-weapon.md
 ---
 
 # The EpiStack Protocol Specification
@@ -24,12 +24,61 @@ the grounding computation (Section 4), the intake gate (Section 5), the untyped 
 crossing (Section 6), and the client contract (Section 7). Section 8 draws the line between the
 invariants an implementation MUST hold and the parameters a deployment MAY set locally.
 
+The protocol specifies structural attenuation: the recomputable grading of a claim from its cited
+support, which drives out trust in the producer. Semantic attenuation, the verification that the cited
+support is true of the world (that a measurement happened, that a named checker exists, that claimed
+independence is real), is out of scope here and is a community-level function.
+
 An implementation conforms if it satisfies the invariants stated below. The repository's check suite
 (`build/check-*.mjs`) is the reference conformance suite: each check is an executable statement of one
 or more of these invariants, and an implementation conforms exactly when it would pass them.
 
 The key words MUST, MUST NOT, SHOULD, SHOULD NOT, and MAY are to be interpreted as described in
 RFC 2119.
+
+## The protocol stack (informative)
+
+The figures below summarize the layering the rest of this specification defines. They are
+informative: the record definitions in Section 2 and the algorithms that follow govern, and the
+figures only orient a first-time reader. A precise SVG of the same stack is at
+`docs/assets/protocol-stack.svg`.
+
+The descent: a claim gains a checkable wrapper at each layer, and trust in the producer (the bar at
+left) attenuates from full to none.
+
+```
+     trust
+  in producer
+    +-----+ +-----------------------------+
+    |#####| |          PRODUCER           |  a claim enters
+    +-----+ +-----------------------------+
+    |#### | |           TYPING            |  + hash(kind, statement)
+    +-----+ +-----------------------------+
+    |###  | |            GATE             |  + receipt
+    +-----+ +-----------------------------+
+    |##   | |            STORE            |  + state_hash
+    +-----+ +-----------------------------+
+    |     | |          COMMUNITY          |  + certificate_hash
+    +-----+ +-----------------------------+
+```
+
+The ascent: a verifier unwraps and recomputes each wrapper without the producer, one check per layer.
+
+```
+    +-----------------------------+
+    |          PRODUCER           |  (no recomputation: no producer)
+    +-----------------------------+
+    |           TYPING            |  recompute identity  [ok]
+    +-----------------------------+
+    |            GATE             |  reproduce receipt   [ok]
+    +-----------------------------+
+    |            STORE            |  verify chain        [ok]
+    +-----------------------------+
+    |          COMMUNITY          |  compare certificate [ok]
+    +-----------------------------+
+```
+
+The descent needs the producer; the ascent needs no one.
 
 ## 2. The record formats
 

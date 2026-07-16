@@ -145,6 +145,45 @@ The client (the propose widget, `periphery/navigate/render/propose-widget.js`) c
 `read` and never learns which provider answered, so the remote provider drops in with no change to
 the widget. The client computes no grade, price, or refusal: every verdict comes back on the receipt.
 
+## The contribution export and the standalone snapshot
+
+Two thin additions let a proposal travel and a kernel be hosted statically. Neither touches the gate,
+the grounding, or the crossing: the export packages what the gate already decided, and the snapshot
+exposes what the build already computes.
+
+The **contribution export** (`api/contribution.js`) packages a gate-decided proposal, a claim plus its
+links in record form, as a portable bundle:
+
+```
+exportContribution(proposal, receipt, origin) -> {
+  contribution_id,  // the one named hash over the canonical form of the proposal
+  proposal,         // the claims and links, in record form
+  receipt,          // what the gate returned (its Section-11 receipt)
+  origin,           // { kernel_id, state_id }: where it was decided
+  protocol,         // the schema identity a target re-runs the gate under
+  status: "gate-passed, not admitted",
+  instructions,     // how a target admits it: re-run the gate over the patch
+}
+```
+
+The `contribution_id` is the one named hash over the canonical form of the proposal, with records
+ordered by their own hash so the id is order-independent: the same proposal has the same id however it
+was constructed. There is no second canonicalization and no second hash; identity is not history, so
+this is the immutable patch identity today while the append-only patch ledger ([4.5]) stays specified.
+`importContribution(bundle)` rebuilds each record from its declared inputs and recomputes the id; a
+bundle whose id does not match its content is rejected loudly, never repaired, so a hand-edit to any
+field of any record is caught. The status is load-bearing: a bundle asserts structural gate passage,
+never admission. Admission is the target kernel's act (its suite re-runs the gate over the patch) and
+semantic acceptance is its community's; no field, filename, or instruction implies otherwise.
+
+The **standalone snapshot** (`node build/emit-snapshot.mjs <id>`) writes `<id>.snapshot.json`, exactly
+the `{ state, sources, kinds }` object the build already stages for inlining (`build/vendor-kernel.mjs`),
+plus a `snapshot_hash` over the canonical content and a `kernel_id`. This is the static-hosting form of
+a kernel: a fat client fetches the JSON from any host, hands it to `createLocalProvider`, and runs the
+real gate on device, reading and proposing against a community's kernel with no server. The snapshot
+hash verifies against its content, so a mutated snapshot is detectable. Both are checked end to end by
+`build/check-contribution.mjs`.
+
 ## Why this is the whole door
 
 The `api` object exposes reads and `submit` and nothing else. There is no setter, no store

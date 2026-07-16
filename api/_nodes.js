@@ -40,6 +40,14 @@ module.exports = [
     "type": "api"
   },
   {
+    "path": "api/contest.js",
+    "type": "api"
+  },
+  {
+    "path": "api/contribution.js",
+    "type": "api"
+  },
+  {
     "path": "api/propose.js",
     "type": "api"
   },

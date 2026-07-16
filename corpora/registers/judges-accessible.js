@@ -53,7 +53,7 @@
     {
       section_id: "what-knowledge-is",
       precise_anchor: "What knowledge is, among reasoners who model each other",
-      precise_version: "984dc21126160c1a",
+      precise_version: "2b8a1775eb988ff1",
       register_link: "paper-1",
       accessible:
         "The definition this submission runs on: knowledge is what is left of a claim as trust in whoever produced it is turned down. For a single claim, that remainder is the floor the kernel measures against. Taken all the way, it says how the turning-down is actually done: trust in the knower is replaced by a warrant that does not need the knower, and giving a claim a type is how. To type a claim as a measurement is to put it through the measurement's turning-down, driving how much the claim depends on its author toward the measurement floor. The type sets the form this takes, and there are two forms, split by whether the type can secure itself.\n\n" +
@@ -104,7 +104,7 @@
     {
       section_id: "three-kernels",
       precise_anchor: "Three kernels",
-      precise_version: "d81b8455486bd2a0",
+      precise_version: "e893b8c6ee22cdd1",
       register_link: "paper-3",
       accessible:
         "The kinds of kernel line up on one axis: who holds authority over the schema.\n\n" +
@@ -124,7 +124,7 @@
     {
       section_id: "what-was-built",
       precise_anchor: "What was built: a knowledge kernel, arranged top-down",
-      precise_version: "8f631cf3a20cb4df",
+      precise_version: "87504a0f8965113f",
       register_link: "paper-4",
       accessible:
         "The contribution is the knowledge kernel type: a fixed core that declares grounding, a linter that checks the declared grades on every change, and shared subtrees others opt into, opening the two markets named above. The top-down meta kernel is the instance built here, chosen for a stated reason: a sole author spanning three domains under a competition asking for one checkable analysis fits the top-down setting, and the same type arranged bottom-up is what a different entrant, many labs federating knowledge bases they already keep, would build instead.\n\n" +
@@ -178,7 +178,7 @@
     {
       section_id: "evaluating-an-enabler",
       precise_anchor: "A note on evaluating an enabler",
-      precise_version: "c540c42301ba26dd",
+      precise_version: "9607a724c71110f6",
       register_link: "paper-6",
       accessible:
         "There is a tension in judging this submission, and it is more honest to name it than to let it settle by default. Uplift runs on two ordered axes. One is teaching: bringing a reader up to speed, which strong synthesis tools do well. The other is claim: improving the knowledge itself as a checkable, composable object that survives the removal of trust. Teaching sits downstream of claim, because a reading stands on a trust-side object and only the claim axis makes such objects: a better synthesis teaches better and makes nothing more checkable, while a checkable claim teaches the shape a synthesis buries and seeds a market of teachers over one trust. This submission works the claim axis, the upstream one, and is deliberately modest on its own direct teaching, because the contribution is the trust object the teaching axis composes over.\n\n" +
@@ -195,7 +195,7 @@
     {
       section_id: "reading-on",
       precise_anchor: "Reading on from here",
-      precise_version: "35e212b5975be4cd",
+      precise_version: "e46377e00040cedf",
       register_link: "paper-7",
       accessible:
         "Two companion documents sit beside this argument, and three supporting ones behind it, all below the core reading budget. Where Each Criterion Lives maps each evaluation criterion to the part of the architecture that answers it and its place in the repository. Robustness Under Adversaries answers the one objection this argument invites, a capable adversary gaming the gate or capturing the write path, with the honest split between the recoverable half that runs today and the cost half specified in the open. Epistemic Uplift argues generalizability, that the three cases show a general shape rather than a fitted one, on the competition's own list of strong examples and on the market of views a checkable structure unlocks. The Adversarial Walkthrough runs the solution type through five concrete attacks. And Reading the Brief quotes the competition's guidance and shows the decision that followed from each, marking where a choice came first and the guidance merely confirmed it.",
@@ -234,7 +234,7 @@
     {
       section_id: "appendix-federation",
       precise_anchor: "Appendix: the federation, and standards from use",
-      precise_version: "65ed6e203b9216b2",
+      precise_version: "4b65e812af25c42d",
       register_link: "paper-10",
       accessible:
         "The main argument places the bottom-up meta kernel as built, the four cases federated as standalone members and verified by check-bottomup. This appendix documents the federation the bottom-up build runs, and states its trade-offs as design, not deficiency.\n\n" +

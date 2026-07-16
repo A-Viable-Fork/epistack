@@ -120,6 +120,16 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-comment.mjs",
+    "type": "build",
+    "flows": [
+      {
+        "type": "loads-corpus",
+        "to": "corpora/_shared/common-types.js"
+      }
+    ]
+  },
+  {
     "path": "build/adoption.mjs",
     "type": "build",
     "flows": [
@@ -141,6 +151,18 @@ module.exports = [
   },
   {
     "path": "build/check-crossing.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-fork-contest.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/emit-snapshot.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-contribution.mjs",
     "type": "build"
   },
   {
