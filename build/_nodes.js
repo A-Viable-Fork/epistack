@@ -112,6 +112,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-boundary.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-math.mjs",
     "type": "build"
   },

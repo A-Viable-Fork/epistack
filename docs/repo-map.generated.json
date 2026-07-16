@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 210,
+  "nodeCount": 211,
   "edgeCount": 473,
   "nodes": [
     {
@@ -1010,6 +1010,13 @@
       "group": null,
       "role": "the self-kernel oracle. Builds S-self through the real gate and verifies epistack's claims about itself ground honestly: every invariant claim's cited math theorem exists in the math kernel and grounds, every cited check exists, every constitutive claim adopts a real vocabulary term, and the gate's computed grade matches the register (invariant grounded to checked or floored with a ledger gap, constitutive to the constitutive floor, evaluative to the forum floor). It fails on a dangling citation, an overclaim (a grade the cited evidence does not support), or a definitional constitutive claim with no vocabulary entry, and it keeps the entrance-surfaced door from overclaiming.",
       "contract": "`node build/check-self.mjs` exits non-zero on any failure, naming the offender."
+    },
+    {
+      "path": "build/check-boundary.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the boundary linter. Makes the fixed/free line a checkable object: it holds the contract register (the required tier) and the parameters register (the free tier) together, proving their entry sets disjoint, that no marked claim's text asserts the wrong modality (a free parameter phrased as an invariant, or a contract phrased as a choice), that every enumerable source of the contract (the composition spec's composability list, the ecosystem guide's invariants) resolves to a contract entry, and that every marker and cross-kernel reference resolves. The masquerade prior sessions caught by hand becomes a check that runs in CI.",
+      "contract": "`node build/check-boundary.mjs` exits non-zero on any failure, naming the offender. Reads the two registers, the two source documents, the tagged front documents, the self-kernel, and the decomposition; imports nothing from the kernel (it is a doc/data linter)."
     },
     {
       "path": "build/check-math.mjs",

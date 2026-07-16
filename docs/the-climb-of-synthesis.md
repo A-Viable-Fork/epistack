@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: The front door: the critique, its three counterexamples, and the protocol they force, in two easy pages, distilling the judges document for a first read.
-Depends on: docs/what-stands-without-trust.md
+Depends on: docs/what-stands-without-trust.md, docs/contract-register.md
 Depended on by: README.md, docs/workflow-atlas.md
 ---
 

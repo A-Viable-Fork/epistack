@@ -2,7 +2,7 @@
 Type: specification
 Purpose: Defines how kernels compose, the untyped type and the crossing, as the canonical source the composition code and the other documents cite.
 Depends on: docs/components-and-forking.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
-Depended on by: docs/coordination-layer-spec.md, docs/ecosystem-guide.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/parameters-register.md, docs/protocol-spec.md, docs/status-ledger.md, docs/the-asymmetric-weapon.md, docs/workflow-atlas.md, docs/workflow-producer-video.md
+Depended on by: docs/coordination-layer-spec.md, docs/ecosystem-guide.md, docs/extending-the-kernel.md, docs/lineage-architecture-findings.md, docs/parameters-register.md, docs/protocol-spec.md, docs/status-ledger.md, docs/the-asymmetric-weapon.md, docs/workflow-atlas.md, docs/workflow-producer-video.md, docs/contract-register.md
 ---
 
 # The Composition Specification
@@ -110,6 +110,16 @@ The frontier is worth naming precisely so it is not mistaken for the only way to
 ## The composability invariants
 
 For a kernel to be composable, it must hold the invariants the crossing depends on, which are the required tier of the parameters register: claims are typed, including as untyped; grounding is monotone in the contamination sense; the untyped type grounds nothing; claims carry their history; and standing is forkable and revocable. A kernel that violates any of these cannot be safely composed with, because the guarantee the crossing relies on no longer holds. The register is the canonical statement of that tier; this document is why each invariant is required.
+
+These required-tier invariants are enumerated as checkable entries in the contract register (`docs/contract-register.md`), the fixed-side complement of the parameters register, one entry per invariant here:
+
+- `CR-typed` claims are typed, including as untyped
+- `CR-monotone` grounding is monotone in the contamination sense
+- `CR-untyped-floor` the untyped type grounds nothing
+- `CR-history` claims carry their history
+- `CR-forkable` standing is forkable and revocable
+
+The boundary linter (`build/check-boundary.mjs`) reads this list and the ecosystem guide's invariants as the enumerable sources of the contract, so every item here must resolve to a contract-register entry or the totality check fails naming the orphan.
 
 ## Composition and the taxonomy
 
