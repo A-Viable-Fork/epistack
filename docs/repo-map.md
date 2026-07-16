@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 206. Import edges: 412. Runtime flow edges: 36. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 208. Import edges: 420. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -24,6 +24,9 @@ Nodes: 206. Import edges: 412. Runtime flow edges: 36. All import edges satisfy 
 - `kernel/analysis/robustness.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/analysis/robustness.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/analysis/robustness.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
+- `kernel/composition/algebra.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/composition/algebra.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/composition/algebra.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
 - `kernel/composition/framing.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/composition/notify.mjs` -> `kernel/composition/framing.mjs`  *(kernel -> kernel)*
 - `kernel/composition/notify.mjs` -> `kernel/composition/records.mjs`  *(kernel -> kernel)*
@@ -127,6 +130,11 @@ Nodes: 206. Import edges: 412. Runtime flow edges: 36. All import edges satisfy 
 - `build/build-kernel-file.mjs` -> `build/vendor-kernel.mjs`  *(build -> build)*
 - `build/check-agreement.mjs` -> `build/adoption.mjs`  *(build -> build)*
 - `build/check-agreement.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/check-algebra.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
+- `build/check-algebra.mjs` -> `kernel/composition/algebra.mjs`  *(build -> kernel)*
+- `build/check-algebra.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-algebra.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-algebra.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-atlas.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/eggs-build.mjs`  *(build -> build)*
 - `build/check-atlas.mjs` -> `build/lhc-build.mjs`  *(build -> build)*
@@ -441,6 +449,7 @@ Nodes: 206. Import edges: 412. Runtime flow edges: 36. All import edges satisfy 
 
 - `kernel/analysis/gaps.js` **checked-by** `build/check-gaps.mjs`
 - `kernel/analysis/reconciliation.mjs` **checked-by** `build/check-reconcile.mjs`
+- `kernel/composition/algebra.mjs` **checked-by** `build/check-algebra.mjs`
 - `kernel/composition/framing.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/notify.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/profiles.mjs` **checked-by** `build/check-composition.mjs`

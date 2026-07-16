@@ -32,6 +32,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-algebra.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-eggs.mjs",
     "type": "build"
   },
