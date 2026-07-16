@@ -29,7 +29,7 @@ function walk(dir, out = []) {
   }
   return out;
 }
-const EXCLUDE = new Set(["docs/repo-map.md"]);
+const EXCLUDE = new Set(["docs/repo-map.md", "docs/submission-overview.md"]); // outward-facing pages, outside the internal argument graph
 const docs = walk(ROOT).filter((d) => !EXCLUDE.has(d)).sort();
 
 // ---- parse the front-matter header of each document ----
