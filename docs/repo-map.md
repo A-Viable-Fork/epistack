@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 203. Import edges: 405. Runtime flow edges: 35. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -76,11 +76,19 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/contest.js` -> `api/fork.js`  *(api -> api)*
+- `api/contest.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
+- `api/contest.js` -> `kernel/schema/records.mjs`  *(api -> kernel)*
+- `api/contribution.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
+- `api/contribution.js` -> `kernel/schema/records.mjs`  *(api -> kernel)*
+- `api/fork.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
+- `api/fork.js` -> `kernel/schema/type-hash.mjs`  *(api -> kernel)*
 - `api/providers/local-management-provider.mjs` -> `api/fork.js`  *(api -> api)*
 - `api/providers/local-management-provider.mjs` -> `kernel/schema/type-hash.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/reconciliation.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/robustness.mjs`  *(api -> kernel)*
+- `api/providers/local-provider.mjs` -> `kernel/gate/comment-guard.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/gate/gate.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/schema/confidence.mjs`  *(api -> kernel)*
@@ -147,6 +155,16 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `build/check-client.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-client.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-client.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
+- `build/check-comment.mjs` -> `kernel/gate/comment-guard.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/gate/verify.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-comment.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/framing.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/notify.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/composition/profiles.mjs`  *(build -> kernel)*
@@ -158,6 +176,15 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-contribution.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-contribution.mjs` -> `api/contribution.js`  *(build -> api)*
+- `build/check-contribution.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
+- `build/check-contribution.mjs` -> `build/emit-snapshot.mjs`  *(build -> build)*
+- `build/check-contribution.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-contribution.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-contribution.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-contribution.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-contribution.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-covid.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(build -> kernel)*
 - `build/check-covid.mjs` -> `kernel/analysis/reconciliation.mjs`  *(build -> kernel)*
@@ -184,6 +211,16 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `build/check-eggs.mjs` -> `kernel/composition/transfer.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/composition/vocabulary.mjs`  *(build -> kernel)*
 - `build/check-eggs.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `api/contest.js`  *(build -> api)*
+- `build/check-fork-contest.mjs` -> `api/fork.js`  *(build -> api)*
+- `build/check-fork-contest.mjs` -> `build/adoption.mjs`  *(build -> build)*
+- `build/check-fork-contest.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-fork-contest.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-gaps.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/check-gaps.mjs` -> `corpora/_shared/bodies/bodies.js`  *(build -> corpus)*
@@ -300,6 +337,8 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `build/eggs-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/eggs-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/eggs-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/emit-snapshot.mjs` -> `build/vendor-kernel.mjs`  *(build -> build)*
+- `build/emit-snapshot.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/fork-demo.mjs` -> `corpora/_primitives/primitives.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/atlas/atlas.js`  *(build -> corpus)*
 - `build/fork-demo.mjs` -> `corpora/_shared/forks.js`  *(build -> corpus)*
@@ -401,12 +440,14 @@ Nodes: 196. Import edges: 366. Runtime flow edges: 33. All import edges satisfy 
 - `kernel/composition/records.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/transfer.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/vocabulary.mjs` **checked-by** `build/check-composition.mjs`
+- `kernel/gate/comment-guard.mjs` **checked-by** `build/check-comment.mjs`
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`
 - `api/api.js` **gated-write** `kernel/gate/gate.mjs`
 - `api/providers/local-provider.mjs` **gated-write** `kernel/gate/gate.mjs`
 - `build/adoption.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/bottomup-build.mjs` **loads-corpus** `corpora/federation/federation.js`
 - `build/check-agreement.mjs` **loads-corpus** `corpora/_shared/common-types.js`
+- `build/check-comment.mjs` **loads-corpus** `corpora/_shared/common-types.js`
 - `build/check-gaps.mjs` **loads-corpus** `corpora/_shared/atlas/atlas.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/lhc/lhc-cascade.js`
 - `build/check-migrate.mjs` **loads-corpus** `corpora/population/population-pipeline.js`

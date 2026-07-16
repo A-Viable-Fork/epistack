@@ -2,7 +2,7 @@
 Type: reference
 Purpose: Draws the line between the free tier a community configures and the required tier a kernel must hold, as the reference for what is local policy and what is a composition invariant.
 Depends on: docs/composition-spec.md, docs/kernel-taxonomy.md, docs/knowledge-system-how.md, docs/trust-and-view.md
-Depended on by: README.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/community-backend.md, docs/community-invitation.md, docs/coordination-layer-spec.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/kernel-workflow-guide.md, docs/lineage-architecture-findings.md, docs/protocol-spec.md, docs/reading-the-brief.md, docs/substrate-map.md, docs/what-stands-without-trust.md
+Depended on by: README.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/community-backend.md, docs/community-invitation.md, docs/coordination-layer-spec.md, docs/document-style-guide.md, docs/ecosystem-guide.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/kernel-workflow-guide.md, docs/lineage-architecture-findings.md, docs/protocol-spec.md, docs/reading-the-brief.md, docs/substrate-map.md, docs/what-stands-without-trust.md
 ---
 
 # The Parameters Register
@@ -24,6 +24,8 @@ The agent policy. Which producers may perform which steps, and whether agents ar
 The type system. What floors this kernel recognizes and what a claim may be typed as. A physics kernel and a nutrition kernel have different floors, and that difference is correct and local. A community extends its own schema by wholesale fork whenever its use warrants it, and this never threatens composition, because the untyped type is what carries a claim across a boundary between kernels whose type systems differ.
 
 The forum and weighing conventions. How this community handles cross-domain weighings, what it treats as a settled question, and how it prices incommensurable trade-offs. These are governance choices about the community's own deliberation, not properties of what it exports.
+
+The corpus content license. The terms a community declares its claims carry, gift, attribution-required, share-alike, non-commercial, or a named commercial term, enforced legally and normatively rather than mechanically, carried in the parameter record and therefore inside the governance-hash so it travels visibly with every fork. This never touches composition because a crossing depends on a claim's type and grounding, never on what its source community charges or requires downstream, so the license is exactly as free as the standing rules it sits beside.
 
 ## The required tier: what a kernel must hold
 
