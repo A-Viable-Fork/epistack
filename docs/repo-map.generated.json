@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 211,
-  "edgeCount": 473,
+  "nodeCount": 212,
+  "edgeCount": 478,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -1017,6 +1017,13 @@
       "group": null,
       "role": "the boundary linter. Makes the fixed/free line a checkable object: it holds the contract register (the required tier) and the parameters register (the free tier) together, proving their entry sets disjoint, that no marked claim's text asserts the wrong modality (a free parameter phrased as an invariant, or a contract phrased as a choice), that every enumerable source of the contract (the composition spec's composability list, the ecosystem guide's invariants) resolves to a contract entry, and that every marker and cross-kernel reference resolves. The masquerade prior sessions caught by hand becomes a check that runs in CI.",
       "contract": "`node build/check-boundary.mjs` exits non-zero on any failure, naming the offender. Reads the two registers, the two source documents, the tagged front documents, the self-kernel, and the decomposition; imports nothing from the kernel (it is a doc/data linter)."
+    },
+    {
+      "path": "build/check-conformance.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the conformance checker. Runs the contract register against an arbitrary foreign kernel and emits a VIOLATION REPORT, not a pass/fail: per fixed invariant, conforms / violates / unverifiable, with evidence. The adopter's self-test before migrating, and the base for the lineage counterexample exhibit. Report, do not reject: a non-conforming kernel is the input whose violations are the output.",
+      "contract": "conformanceReport(kernel, entries) -> structured report; foreignKernel(spec) -> a kernel in the algebra shape { store_id, state, tables, native, grades }, NOT required to be well-formed. The report is register-DRIVEN: its invariant set is exactly parseContractRegister(docs/contract-register.md), so adding a register entry extends it with no edit here. `node build/check-conformance.mjs` exits non-zero only if the mechanism misdiagnoses the two fixtures. Importable without running the harness."
     },
     {
       "path": "build/check-math.mjs",
@@ -2598,6 +2605,41 @@
     {
       "from": "build/check-composition.mjs",
       "to": "kernel/composition/profiles.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-conformance.mjs",
+      "to": "kernel/composition/algebra.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-conformance.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-conformance.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-conformance.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-conformance.mjs",
+      "to": "kernel/store/state.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

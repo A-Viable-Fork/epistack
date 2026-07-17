@@ -116,6 +116,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-conformance.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-math.mjs",
     "type": "build"
   },

@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 211. Import edges: 436. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 212. Import edges: 441. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -184,6 +184,11 @@ Nodes: 211. Import edges: 436. Runtime flow edges: 37. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-conformance.mjs` -> `kernel/composition/algebra.mjs`  *(build -> kernel)*
+- `build/check-conformance.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
+- `build/check-conformance.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-conformance.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-conformance.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-contribution.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-contribution.mjs` -> `api/contribution.js`  *(build -> api)*
 - `build/check-contribution.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
