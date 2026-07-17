@@ -1,7 +1,7 @@
 ---
 Type: argument
 Purpose: Orients a reader by the submission's own function-and-contract split: what the repository is, the reading paths to choose from by context, and the shared map. The index.
-Depends on: docs/on-transparency.md, docs/parameters-register.md, docs/the-climb-of-synthesis.md
+Depends on: docs/on-transparency.md, docs/parameters-register.md, docs/the-climb-of-synthesis.md, docs/the-minimum-constitution.md
 Depended on by: nothing
 ---
 
@@ -9,9 +9,7 @@ Depended on by: nothing
 
 EpiStack is a knowledge kernel: a typed claim graph whose gate admits a claim only if it grounds, with every claim's standing recomputable by anyone from the public graph. The function of this documentation is to get you to understand that system, and the pointers below are the contracts provided to satisfy it. The system itself is built the same way, functions any community's knowledge infrastructure must fill and contracts chosen by the community that holds the context, and the reading path is the first instance of it you touch: the order and depth are your contract, chosen by what you came for, and the map below is for making that choice.
 
-Some of the system's parameters are required for composition, and breaking them means kernels can no longer compose; the rest are free, a community's to set in its own context. Separating the two is what the transparency in this repository is for. [The Parameters Register](docs/parameters-register.md) draws the line parameter by parameter, and [On Transparency](docs/on-transparency.md) says why the open form is the one the problem forces. A reader deciding what they may change and still compose starts there.
-
-**A competition judge starts here:** [Submission Overview](docs/submission-overview.md), one page on what this submission is and why each piece exists, the fastest orientation before the reading paths below.
+**A competition judge starts here:** [The Minimum Constitution](docs/the-minimum-constitution.md), the submission's first read, what EpiStack is and why the accounting basis for trust needs rebasing: the basis was well-calibrated, the regime shifted, and this is the shared structure the shift calls for, with the fixed/free boundary read off [the parameters register](docs/parameters-register.md) and its contract-register complement. Then [the Submission Overview](docs/submission-overview.md), the detailed why, piece by piece: where the shift the constitution names shows, each place with the structure that rebases it. The constitution is the frame and the overview is the evidence; the three reading paths below inherit that frame by the context you came with, and [On Transparency](docs/on-transparency.md) says why the open form is the one the problem forces.
 
 Three reading paths share these destinations but not their order:
 

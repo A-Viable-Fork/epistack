@@ -2,12 +2,14 @@
 Type: argument
 Purpose: The front door: the critique, its three counterexamples, and the protocol they force, in two easy pages, distilling the judges document for a first read.
 Depends on: docs/what-stands-without-trust.md, docs/contract-register.md
-Depended on by: README.md, docs/workflow-atlas.md
+Depended on by: README.md, docs/workflow-atlas.md, docs/the-minimum-constitution.md
 ---
 
 # The Climb of Synthesis
 
 *The critique, its three counterexamples, and the protocol they force. Two pages. Start here.*
+
+This is the derivation [the minimum constitution](the-minimum-constitution.md) takes as its ground: that document is the frame this argument serves, and this is why the frame holds.
 
 ## The tool everyone will build, and where it stops
 
