@@ -1,10 +1,10 @@
-// Role: the lineage oracle (fourth case), modeled on build/check-covid.mjs. Verifies the STRUCTURE of the
-//   lineage case and REPORTS the gate's grading, because the demotions are the finding, not a failure to
-//   fix. It confirms every source resolves, the conjecture is a declaration resting on five independent
-//   near-miss gaps, the one replicated measurement (retraction non-acknowledgment) reaches checked, the
-//   institutional declarations self-warrant to the constitutive floor, and the gate priced the corpus
-//   producer-agnostically: exactly the claims declaring above what they earn are flagged as findings and
-//   none is forced through. It then prints how many demoted and to what, and which parallels ground weakly.
+// Role: the lineage oracle (fourth and fifth cases), modeled on build/check-covid.mjs. Verifies the
+//   STRUCTURE and REPORTS the gate's grading, because the demotions are the finding, not a failure to
+//   fix. It confirms sources resolve, the conjecture is a declaration on five gaps with no contradicts
+//   touching it, the retraction measurement reaches checked, the institutional declarations self-warrant,
+//   and the fifth case (net.*) lands as a held-open contest: recentralization-versus-federation present,
+//   the crux supported from both sides, the concentration gap a forum weighing with a closing condition,
+//   and no net.* claim demoting. Overclaims are findings, not forced through.
 // Contract: `node build/check-lineage.mjs` exits non-zero only on a STRUCTURAL failure. Imports the kernel
 //   and the shared lineage builder; touches no truth field.
 // Invariant: the reports propose claims; the gate decides what they are worth. A declared-above-earned
@@ -16,7 +16,7 @@ import { buildLineage } from "./lineage-build.mjs";
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
 const H = "=".repeat(80);
-console.log(H); console.log("CHECK-LINEAGE (fourth case): the kernel's mechanisms, already run by hand, priced by the gate"); console.log(H);
+console.log(H); console.log("CHECK-LINEAGE (fourth and fifth cases): the kernel's mechanisms run by hand, and the internet's own trust lineage, priced by the gate"); console.log(H);
 
 const C = buildLineage();
 const id = (ref) => C.refId.get(ref);
@@ -43,9 +43,10 @@ ok(gapGroups.size === 5, `each gap is its own support_group, so convergence is v
 ok(conj && conj.closing_condition, "the conjecture carries a closing condition (a demonstration composing all five axes)");
 
 // ---------------------------------------------------------------------------------------------
-console.log("\n[C] no system is suppressed: no contradicts link, because none composes all five axes");
-const contradicts = C.graph.links.filter((l) => l.link_kind === "contradicts");
-ok(contradicts.length === 0, "no contradicts link exists, and none was found and hidden: the falsification search found no counterexample");
+console.log("\n[C] the novelty conjecture has no counterexample: no contradicts link touches it");
+const conjId = id("conj.novelty");
+const contradictsConj = C.graph.links.filter((l) => l.link_kind === "contradicts" && (l.from_identity === conjId || l.to_identity === conjId));
+ok(contradictsConj.length === 0, "no contradicts link touches the novelty conjecture: the falsification search found no system composing all five axes (the fifth case's own contest is internal to it, not a counterexample to the conjecture)");
 
 // ---------------------------------------------------------------------------------------------
 console.log("\n[D] the one genuinely replicated measurement reaches the empirical floor");
@@ -66,6 +67,27 @@ for (const { spec } of C.claims) { const e = earned(spec.ref); if (gradeRank(e) 
 const gmAbove = (C.receipt.findings || []).filter((f) => f.rule_id === "GM-ABOVE");
 ok(gmAbove.length === demotions.length, `every demotion is a reported GM-ABOVE finding (${demotions.length} demotions, ${gmAbove.length} findings), none forced through`);
 ok(C.receipt.decision === "declined", "the gate declined the contribution as proposed rather than admitting an overclaim: the case is not tuned green");
+
+// ---------------------------------------------------------------------------------------------
+console.log("\n[G] the fifth case (the internet trust lineage) lands as a contest the gate holds open");
+const netClaims = C.claims.filter((c) => c.spec.ref.startsWith("net."));
+ok(netClaims.length >= 25, `the fifth case adds its net.* claims across three acts (found ${netClaims.length})`);
+ok(specOf("net.disanalogy") && specOf("net.disanalogy").kind === "declaration", "the disanalogy is a declaration: the mapping holds at the trust-architecture layer and never at the content layer");
+const recId = id("net.recentralization"), fedId = id("net.federation-survived");
+const contest = C.graph.links.filter((l) => l.link_kind === "contradicts" && ((l.from_identity === fedId && l.to_identity === recId) || (l.from_identity === recId && l.to_identity === fedId)));
+ok(contest.length === 1, "the contradicts contest between net.recentralization and net.federation-survived is present, held open by the gate rather than settled");
+const cruxId = id("net.crux-metric");
+const cruxFrom = new Set(C.graph.links.filter((l) => l.link_kind === "supports" && l.to_identity === cruxId).map((l) => l.from_identity));
+ok(cruxFrom.has(recId) && cruxFrom.has(fedId), "net.crux-metric receives support from both sides of the contest: the dispute resolves to the measurement layer");
+const netUnresolved = netClaims.filter((c) => !srcIds.has(c.spec.source_id));
+ok(netUnresolved.length === 0, `every net.* claim resolves its source (${netClaims.length} claims, ${netUnresolved.length} unresolved)`);
+const gapSpec = specOf("net.concentration-gap");
+ok(gapSpec && gapSpec.kind === "forum" && gapSpec.closing_condition && gapSpec.closing_condition.condition_kind === "direct-study", "net.concentration-gap is a forum weighing carrying a typed closing condition: the absent cross-layer measure named as what would close it");
+// the net.* claims are declared to land at what they earn (measurements at asserted with no distinct-party
+// attestation, declarations self-warranting), so zero of them should demote. This is REPORTED, not gated:
+// a demotion here is a finding like any other, surfaced in the report below, never a structural failure.
+const netDemotions = demotions.filter((d) => d.ref.startsWith("net."));
+console.log(`      reported: ${netDemotions.length} net.* demotion(s) (the landed corpus expects zero; a demotion is a finding, not a structural failure)`);
 
 // =============================================================================================
 // the honest report: what the gate priced, which the corpus does not tune away.

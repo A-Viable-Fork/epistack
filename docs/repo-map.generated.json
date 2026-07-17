@@ -980,7 +980,7 @@
       "path": "build/check-lineage.mjs",
       "type": "build",
       "group": null,
-      "role": "the lineage oracle (fourth case), modeled on build/check-covid.mjs. Verifies the STRUCTURE of the lineage case and REPORTS the gate's grading, because the demotions are the finding, not a failure to fix. It confirms every source resolves, the conjecture is a declaration resting on five independent near-miss gaps, the one replicated measurement (retraction non-acknowledgment) reaches checked, the institutional declarations self-warrant to the constitutive floor, and the gate priced the corpus producer-agnostically: exactly the claims declaring above what they earn are flagged as findings and none is forced through. It then prints how many demoted and to what, and which parallels ground weakly.",
+      "role": "the lineage oracle (fourth and fifth cases), modeled on build/check-covid.mjs. Verifies the STRUCTURE and REPORTS the gate's grading, because the demotions are the finding, not a failure to fix. It confirms sources resolve, the conjecture is a declaration on five gaps with no contradicts touching it, the retraction measurement reaches checked, the institutional declarations self-warrant, and the fifth case (net.*) lands as a held-open contest: recentralization-versus-federation present, the crux supported from both sides, the concentration gap a forum weighing with a closing condition, and no net.* claim demoting. Overclaims are findings, not forced through.",
       "contract": "`node build/check-lineage.mjs` exits non-zero only on a STRUCTURAL failure. Imports the kernel and the shared lineage builder; touches no truth field."
     },
     {

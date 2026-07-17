@@ -1,10 +1,11 @@
-// Role: the lineage case (fourth case), authored from deep-research reports. The claim is that the
-//   kernel's mechanisms already run by hand in mature institutions (common law and software dependency
-//   graphs; science, Wikipedia, journalism, accounting), mechanically in the game-modding ecosystems
-//   (the one branch that built working tools), and under adversarial attack in decentralized finance
-//   (near-misses and measured failures), and that no known system composes all five axes for empirical
-//   and contested knowledge. Architectural readings are forum claims; quantified findings with a
-//   distinct-party replication are measurements; principles and the novelty conjecture are declarations.
+// Role: the lineage case (fourth and fifth cases), authored from deep-research reports. The fourth case
+//   is that the kernel's mechanisms already run by hand in mature institutions (common law, software,
+//   science, Wikipedia, journalism, accounting), mechanically in game-modding, and under adversarial
+//   attack in decentralized finance, and that no known system composes all five axes. The fifth case
+//   (net.*) is the internet's own trust history across three acts, the cooperative regime, the
+//   commercialization shift, and reinforcement's recentralization price, landed as a held-open contest.
+//   Readings are forum claims; replicated findings are measurements; principles and the conjecture are
+//   declarations.
 // Contract: exports LINEAGE = { store_id, claims:[spec], links:[spec] }; refs are resolved by
 //   build/lineage-build.mjs. Pure data; corpora imports nothing.
 // Invariant: the reports are canonical for what the claims and sources are, never for the grade. The
@@ -161,6 +162,85 @@ const claims = [
   { ref: "conj.novelty", kind: "declaration", declared_grade: "supported", source_id: "src:novelty-synthesis", contributor_id: "decl:conjecture",
     statement: P + "no known system composes all five axes, typed floors, mechanical grounding, untyped-type federation, forkable exit, and a community-set fixed-free line, for empirical and contested knowledge claims (the narrowing to empirical-and-contested keeps Lean's composition within formal mathematics from refuting it)",
     closing_condition: { condition_kind: "direct-study", target: "a peer-reviewed demonstration or deployed instance of a protocol natively composing all five axes at once for empirical and contested knowledge claims, which would be wired here as a contradicts link and let the gate carry the contest", system: "any single deployed knowledge-kernel system" } },
+
+  // ================= the internet trust lineage (fifth case): TCP/IP across three acts =================
+  // Act 1 was right for its regime; nobody's fault; the regime shifted. The measurements land at asserted
+  // with no checking records: the draft's cross-reads are same-party (a second model, one operator loop),
+  // and the INDEPENDENCE enum's file invariant reserves distinct-party attestation, so nothing reaches
+  // checked until a genuinely external party attests. The floor behavior is the demonstration.
+  { ref: "net.disanalogy", kind: "declaration", declared_grade: "supported", source_id: "src:rfc-9518", contributor_id: "decl:net-disanalogy",
+    statement: P + "the internet-protocol lineage maps onto this kernel at the trust-architecture layer and never at the content layer, because packets carry no semantics while claims do, so grades and cruxes have no packet analog and the parallel is about how trust was accounted, not about routing" },
+  { ref: "net.regime-frame", kind: "declaration", declared_grade: "supported", source_id: "src:clark-1988", contributor_id: "decl:net-regime",
+    statement: P + "producer trust is regime-conditional, well calibrated where participation is a small accountable club and broken where trusted-looking output is cheap to produce, so a regime shift calls for rebasing the accounting rather than reinforcing the old basis" },
+
+  // Act 1: the cooperative regime, producer trust correctly calibrated.
+  { ref: "net.smtp-noauth", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-821", contributor_id: "read:net-smtp",
+    statement: P + "RFC 821 (August 1982) defined SMTP with the MAIL FROM sender declared on trust and intermediate servers relaying by default, making the open relay the standard configuration (protocol fact read from the primary specification)" },
+  { ref: "net.egp-trust", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-904", contributor_id: "read:net-egp",
+    statement: P + "RFC 904 (April 1984) specified the Exterior Gateway Protocol to exchange reachability with statically configured trusted neighbor gateways listed in the EGPINITFILE, with no cryptographic verification of a neighbor (protocol fact read from the primary specification)" },
+  { ref: "net.bgp1-auth-zero", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-1105", contributor_id: "read:net-bgp",
+    statement: P + "RFC 1105 (June 1989) gave BGP-1 an authentication code field in its OPEN message whose specified default value was zero, so peering sessions established with no authentication by default (protocol fact read from the primary specification)" },
+  { ref: "net.dns-txid", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-1034", contributor_id: "read:net-dns",
+    statement: P + "RFC 1034 and 1035 (November 1987) matched a DNS response to its query by a 16-bit query identifier carried over UDP, with no cryptographic binding of the answer to the question (protocol fact read from the primary specification)" },
+  { ref: "net.clark-priorities", kind: "measurement", declared_grade: "asserted", source_id: "src:clark-1988", contributor_id: "read:net-clark",
+    statement: P + "David Clark's 1988 design-philosophy paper listed the internet's goals in priority order with accountability last and network-layer security absent from the list, a documented record of the regime's deliberate calibration (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.thuerk-1978", kind: "measurement", declared_grade: "asserted", source_id: "src:thuerk-1978", contributor_id: "incident:net-thuerk",
+    statement: P + "on May 3 1978 Gary Thuerk of DEC sent unsolicited commercial mail to 393 ARPANET recipients and a Defense Communications Agency reprimand was the sufficient sanction, the era's social accountability working as designed (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.arpanet-crash-1980", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-789", contributor_id: "incident:net-arpanet",
+    statement: P + "on October 27 1980 the ARPANET collapsed when a single Interface Message Processor dropped bits and propagated garbled status updates, the era's defining failure being physical and accidental rather than malicious (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.well-calibrated", kind: "forum", declared_grade: "asserted", source_id: "src:clark-1988", contributor_id: "read:net-wellcalibrated",
+    statement: P + "the unauthenticated defaults of Act 1 were the rational design for their regime, because in a small club of accountable institutions the cost of verifying every sender, route, and name exceeded the expected loss from abuse" },
+
+  // Act 2: the regime shift, commercialization and the adversary at scale.
+  { ref: "net.morris-1988", kind: "measurement", declared_grade: "asserted", source_id: "src:morris-record", contributor_id: "incident:net-morris",
+    statement: P + "on November 2 1988 the Morris worm combined a finger buffer overflow with rsh and rexec trust relationships to infect an estimated 6,000 of about 60,000 hosts within roughly a day (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.canter-siegel-1994", kind: "measurement", declared_grade: "asserted", source_id: "src:canter-siegel-record", contributor_id: "incident:net-canter",
+    statement: P + "on April 12 1994 a single Perl script posted the Canter and Siegel advertisement to over 5,500 Usenet newsgroups in about 90 minutes, the first automated commercial abuse of the cooperative posting norm (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.dns-poisoning-known", kind: "measurement", declared_grade: "asserted", source_id: "src:bellovin-1995", contributor_id: "incident:net-dnspoison",
+    statement: P + "DNS cache poisoning was documented well before it was patched, Bellovin's analysis written around 1990 and released in 1995 and Schuba's 1993 study describing sequential-transaction-ID prediction and additional-section injection, with bailiwick checking arriving only at CERT advisory CA-1997-22 in 1997 (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.as7007-1997", kind: "measurement", declared_grade: "asserted", source_id: "src:as7007-record", contributor_id: "incident:net-as7007",
+    statement: P + "on April 25 1997 MAI Network Services deaggregated routes to more-specific prefixes rewritten to originate from AS7007, and because more-specific routes are preferred the global routing system funneled traffic into one small network for hours (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.regime-shift-policy", kind: "measurement", declared_grade: "asserted", source_id: "src:nsfnet-history", contributor_id: "read:net-policy",
+    statement: P + "the Scientific and Advanced-Technology Act of 1992 authorized commercial traffic on the backbone and the NSFNET backbone decommission was completed on April 30 1995, opening the network to a commercial, anonymous endpoint population (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.host-growth", kind: "measurement", declared_grade: "asserted", source_id: "src:hobbes-timeline", contributor_id: "read:net-hostgrowth",
+    statement: P + "internet host counts rose from about 617,000 in October 1991 to about 9,472,000 in January 1996, a roughly fifteenfold growth that made the era's social accountability impossible to maintain (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.cost-inversion", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-costinversion",
+    statement: P + "the regime shift was a cost inversion, the cost of producing trusted-looking traffic decoupling from the cost of being sound, so the adversary entered the threat model at scale and the signal of soundness stopped tracking soundness" },
+
+  // Act 3: reinforcement, and its recentralization price.
+  { ref: "net.comodo-2011", kind: "measurement", declared_grade: "asserted", source_id: "src:comodo-record", contributor_id: "incident:net-comodo",
+    statement: P + "in March 2011 a compromise of a Comodo registration authority yielded misissued certificates for high-value domains including mail providers, exposing the fragility of delegating validation to resellers, though Comodo itself survived the incident (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.diginotar-2011", kind: "measurement", declared_grade: "asserted", source_id: "src:diginotar-record", contributor_id: "incident:net-diginotar",
+    statement: P + "the 2011 DigiNotar compromise produced at least 531 misissued certificates including a wildcard used against approximately 300,000 Iranian Gmail users, and coordinated browser revocation was followed by the certificate authority's bankruptcy on September 20 2011 (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.symantec-2017", kind: "measurement", declared_grade: "asserted", source_id: "src:symantec-record", contributor_id: "incident:net-symantec",
+    statement: P + "a single browser vendor's phased distrust of Symantec certificates, announced in September 2017 and completed in Chrome 65 and 66 in early 2018, forced the sale of a top-tier certificate authority's PKI business to DigiCert (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.fastly-2021", kind: "measurement", declared_grade: "asserted", source_id: "src:fastly-record", contributor_id: "incident:net-fastly",
+    statement: P + "on June 8 2021 a latent Fastly software bug triggered by a customer configuration returned errors across about 85% of its network and took major sites offline for roughly an hour (vendor postmortem, self-interested source)" },
+  { ref: "net.akamai-2021", kind: "measurement", declared_grade: "asserted", source_id: "src:akamai-record", contributor_id: "incident:net-akamai",
+    statement: P + "on July 22 2021 an Akamai Edge DNS configuration update caused widespread DNS resolution failures across major sites until the update was rolled back (vendor postmortem, self-interested source)" },
+  { ref: "net.ct-logs", kind: "measurement", declared_grade: "asserted", source_id: "src:rfc-6962", contributor_id: "read:net-ctlogs",
+    statement: P + "RFC 6962 (2013) defined Certificate Transparency as append-only public logs of issued certificates, and major browsers have required CT since 2018, constraining certificate-authority discretion by public audit rather than by trust (protocol fact read from the primary specification)" },
+  { ref: "net.arin-legacy-friction", kind: "measurement", declared_grade: "asserted", source_id: "src:arin-legacy", contributor_id: "read:net-arin",
+    statement: P + "ARIN's legacy-address fee cap expired on December 31 2023, so bringing legacy space under a modern agreement became more costly, an economic disincentive that slows RPKI adoption among legacy holders (same-party cross-read, no distinct-party attestation)" },
+  { ref: "net.rpki-growth", kind: "measurement", declared_grade: "asserted", source_id: "src:apnic-rpki-2025", contributor_id: "read:net-rpki",
+    statement: P + "Route Origin Validation adoption and valid ROA coverage continued to grow through the APNIC 2025 review, a real but still partial rebase of the routing trust layer (same-party cross-read, no distinct-party attestation)" },
+
+  // the contest, landed as structure: reinforcement recentralized, and the counter-weighing that federation survived.
+  { ref: "net.recentralization", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-recentral",
+    statement: P + "reinforcement recentralized the network it was meant to protect, with inbox legitimacy mediated by a few mail providers, certificate-authority trust gated by a few browser vendors, and reachability held by a few content-delivery networks, so the enforcement layer of trust is now privately held" },
+  { ref: "net.federation-survived", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-federation",
+    statement: P + "the patches worked and federation survived, email remaining federated and self-hostable, Certificate Transparency constraining authorities by construction, and RPKI adoption rising, so concentration is a contingent economic outcome rather than a protocol-level capture" },
+  { ref: "net.mail-share-contested", kind: "forum", declared_grade: "asserted", source_id: "src:dmarcguard-2026", contributor_id: "read:net-mailshare",
+    statement: P + "mailbox market-share measurements are methodology-contested, send-volume, install, and open metrics disagreeing and open-rate data inflated by Apple Mail Privacy Protection, so the degree of mail concentration is a measurement dispute rather than a settled figure" },
+  { ref: "net.selfhost-undercut", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-selfhost",
+    statement: P + "self-hosting mail remains technically possible and deliverability failure is soft exclusion rather than a hard block, so the claim that platforms own the trust layer overstates control of defaults as control of capability" },
+  { ref: "net.crux-metric", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-crux",
+    statement: P + "the recentralization dispute resolves to the measurement layer, recentralization being near-undeniable at the enforcement layer and near-deniable at the protocol layer, so fixing which layer is measured reprices most of the disagreement" },
+  { ref: "net.concentration-gap", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-concentration",
+    statement: P + "no agreed cross-layer measure of trust-enforcement concentration exists, so the recentralization dispute currently prices rhetoric rather than measurements",
+    closing_condition: { condition_kind: "direct-study", target: "an agreed cross-layer measure of trust-enforcement concentration spanning the mail, certificate, and routing layers, which would let the recentralization dispute price measurements rather than rhetoric", system: "the internet trust-enforcement layer" } },
+  { ref: "net.variety-cost", kind: "forum", declared_grade: "asserted", source_id: "src:dmarcguard-2026", contributor_id: "read:net-variety",
+    statement: P + "the controls added to absorb adversarial variety reshaped legitimate production, senders now writing mail for the classifier, with templated machine-generated business-to-consumer mail reaching about 90% of major-provider non-spam volume, so the patch's cost shows up as a rewritten sender population and not only as concentrated enforcement" },
 ];
 
 const links = [
@@ -180,6 +260,46 @@ const links = [
   { link_kind: "supports", from: "map.ceramic-gap", to: "conj.novelty", support_group: "grp:ceramic-grounding-gap", source_id: "src:ceramic", contributor_id: "read:ceramic-gap", declared_grade: "asserted" },
   { link_kind: "supports", from: "map.augur-gap", to: "conj.novelty", support_group: "grp:augur-economic-gap", source_id: "src:augur", contributor_id: "read:augur-gap", declared_grade: "asserted" },
   { link_kind: "supports", from: "map.kialo-gap", to: "conj.novelty", support_group: "grp:kialo-heuristic-gap", source_id: "src:kialo", contributor_id: "read:kialo", declared_grade: "asserted" },
+
+  // ===== the fifth case: TCP/IP trust lineage. Each supporting measurement in its own group so convergence is visible. =====
+  // Act 1 measurements support the well-calibrated weighing.
+  { link_kind: "supports", from: "net.smtp-noauth", to: "net.well-calibrated", support_group: "grp:net-smtp", source_id: "src:rfc-821", contributor_id: "read:net-smtp", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.egp-trust", to: "net.well-calibrated", support_group: "grp:net-egp", source_id: "src:rfc-904", contributor_id: "read:net-egp", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.bgp1-auth-zero", to: "net.well-calibrated", support_group: "grp:net-bgp", source_id: "src:rfc-1105", contributor_id: "read:net-bgp", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.dns-txid", to: "net.well-calibrated", support_group: "grp:net-dns-txid", source_id: "src:rfc-1034", contributor_id: "read:net-dns", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.clark-priorities", to: "net.well-calibrated", support_group: "grp:net-clark", source_id: "src:clark-1988", contributor_id: "read:net-clark", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.thuerk-1978", to: "net.well-calibrated", support_group: "grp:net-thuerk", source_id: "src:thuerk-1978", contributor_id: "incident:net-thuerk", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.arpanet-crash-1980", to: "net.well-calibrated", support_group: "grp:net-arpanet", source_id: "src:rfc-789", contributor_id: "incident:net-arpanet", declared_grade: "asserted" },
+
+  // Act 2 measurements support the cost-inversion weighing.
+  { link_kind: "supports", from: "net.morris-1988", to: "net.cost-inversion", support_group: "grp:net-morris", source_id: "src:morris-record", contributor_id: "incident:net-morris", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.canter-siegel-1994", to: "net.cost-inversion", support_group: "grp:net-canter", source_id: "src:canter-siegel-record", contributor_id: "incident:net-canter", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.dns-poisoning-known", to: "net.cost-inversion", support_group: "grp:net-dnspoison", source_id: "src:bellovin-1995", contributor_id: "incident:net-dnspoison", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.as7007-1997", to: "net.cost-inversion", support_group: "grp:net-as7007", source_id: "src:as7007-record", contributor_id: "incident:net-as7007", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.regime-shift-policy", to: "net.cost-inversion", support_group: "grp:net-policy", source_id: "src:nsfnet-history", contributor_id: "read:net-policy", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.host-growth", to: "net.cost-inversion", support_group: "grp:net-hostgrowth", source_id: "src:hobbes-timeline", contributor_id: "read:net-hostgrowth", declared_grade: "asserted" },
+
+  // Act 3 measurements support the recentralization weighing; CT and RPKI support the counter-weighing that federation survived.
+  { link_kind: "supports", from: "net.comodo-2011", to: "net.recentralization", support_group: "grp:net-comodo", source_id: "src:comodo-record", contributor_id: "incident:net-comodo", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.diginotar-2011", to: "net.recentralization", support_group: "grp:net-diginotar", source_id: "src:diginotar-record", contributor_id: "incident:net-diginotar", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.symantec-2017", to: "net.recentralization", support_group: "grp:net-symantec", source_id: "src:symantec-record", contributor_id: "incident:net-symantec", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.fastly-2021", to: "net.recentralization", support_group: "grp:net-fastly", source_id: "src:fastly-record", contributor_id: "incident:net-fastly", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.akamai-2021", to: "net.recentralization", support_group: "grp:net-akamai", source_id: "src:akamai-record", contributor_id: "incident:net-akamai", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.arin-legacy-friction", to: "net.recentralization", support_group: "grp:net-arin", source_id: "src:arin-legacy", contributor_id: "read:net-arin", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.mail-share-contested", to: "net.recentralization", support_group: "grp:net-mailshare", source_id: "src:dmarcguard-2026", contributor_id: "read:net-mailshare", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.variety-cost", to: "net.recentralization", support_group: "grp:net-variety", source_id: "src:dmarcguard-2026", contributor_id: "read:net-variety", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.ct-logs", to: "net.federation-survived", support_group: "grp:net-ctlogs", source_id: "src:rfc-6962", contributor_id: "read:net-ctlogs", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.rpki-growth", to: "net.federation-survived", support_group: "grp:net-rpki", source_id: "src:apnic-rpki-2025", contributor_id: "read:net-rpki", declared_grade: "asserted" },
+
+  // the contest itself: federation-survived contradicts recentralization; CT and self-hosting undercut recentralization's reach.
+  { link_kind: "contradicts", from: "net.federation-survived", to: "net.recentralization", source_id: "src:rfc-9518", contributor_id: "read:net-federation", declared_grade: "asserted" },
+  { link_kind: "undercut", from: "net.ct-logs", to: "net.recentralization", source_id: "src:rfc-6962", contributor_id: "read:net-ctlogs", declared_grade: "asserted" },
+  { link_kind: "undercut", from: "net.selfhost-undercut", to: "net.recentralization", source_id: "src:rfc-9518", contributor_id: "read:net-selfhost", declared_grade: "asserted" },
+
+  // both sides of the contest, and the mail-share dispute, support the crux: the dispute resolves to the measurement layer.
+  { link_kind: "supports", from: "net.recentralization", to: "net.crux-metric", support_group: "grp:net-crux-recentral", source_id: "src:rfc-9518", contributor_id: "read:net-recentral", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.federation-survived", to: "net.crux-metric", support_group: "grp:net-crux-federation", source_id: "src:rfc-9518", contributor_id: "read:net-federation", declared_grade: "asserted" },
+  { link_kind: "supports", from: "net.mail-share-contested", to: "net.crux-metric", support_group: "grp:net-crux-mailshare", source_id: "src:dmarcguard-2026", contributor_id: "read:net-mailshare", declared_grade: "asserted" },
 ];
 
 const LINEAGE = { store_id: "lineage", claims, links };
