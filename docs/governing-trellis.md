@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The repository's governing trellis: the constraint hierarchy any state of the repo must hold, each with its real enforcement status derived from the check suite, as the parent the design axioms are the code-layer instance of.
-Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/sorry-ledger.md, docs/status-ledger.md
-Depended on by: nothing
+Purpose: "The repository's governing trellis: the constraint hierarchy any state of the repo must hold, each with its real enforcement status derived from the check suite, as the parent the design axioms are the code-layer instance of."
+Depends on: [docs/coordination-layer-spec.md, docs/design-axioms.md, docs/sorry-ledger.md, docs/status-ledger.md]
+Depended on by: []
 ---
 
 # The Governing Trellis

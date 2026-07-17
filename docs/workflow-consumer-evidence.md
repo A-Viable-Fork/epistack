@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The consumer workflow for finding what a conclusion rests on and where its weakest link is: an assembly over the built read and decompose reads, applying the grounding rule to name the load-bearing support a synthesis hides.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/clients.md
-Depended on by: nothing
+Purpose: "The consumer workflow for finding what a conclusion rests on and where its weakest link is: an assembly over the built read and decompose reads, applying the grounding rule to name the load-bearing support a synthesis hides."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/clients.md]
+Depended on by: []
 ---
 
 # Consumer Workflow: The Load-Bearing Evidence Finder

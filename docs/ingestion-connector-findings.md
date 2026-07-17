@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records what the ingestion connector built, the metadata-only legal boundary and the by-construction rate limit it holds, the honest source-class mapping it produces, how it meets the authoring surface at a citation, and that full-text parsing and deduplication are the named deferred depth.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Records what the ingestion connector built, the metadata-only legal boundary and the by-construction rate limit it holds, the honest source-class mapping it produces, how it meets the authoring surface at a citation, and that full-text parsing and deduplication are the named deferred depth."
+Depends on: []
+Depended on by: []
 ---
 
 # The Ingestion Connector: Findings

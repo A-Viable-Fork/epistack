@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The producer workflow for a spoken multi-party debate: the pipeline from recorded video to a proposedClaim landing at the built gate, the tools named with their build register, the provenance each stage preserves, and the federation-crossing discipline that keeps machine extraction from contaminating a curated case.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md, docs/composition-spec.md
-Depended on by: nothing
+Purpose: "The producer workflow for a spoken multi-party debate: the pipeline from recorded video to a proposedClaim landing at the built gate, the tools named with their build register, the provenance each stage preserves, and the federation-crossing discipline that keeps machine extraction from contaminating a curated case."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md, docs/composition-spec.md]
+Depended on by: []
 ---
 
 # Producer Workflow: Spoken Multi-Party Debate

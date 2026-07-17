@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The type-level workflow for a small kernel coming to know its own domain in six stages, reusable on any domain, with the math kernel as the worked instance; and the EpiStack community negative space as a separate, invited section.
-Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/parameters-register.md, docs/protocol-spec.md
-Depended on by: docs/community-invitation.md, docs/substrate-map.md, docs/workflow-atlas.md
+Purpose: "The type-level workflow for a small kernel coming to know its own domain in six stages, reusable on any domain, with the math kernel as the worked instance; and the EpiStack community negative space as a separate, invited section."
+Depends on: [docs/coordination-layer-spec.md, docs/design-axioms.md, docs/parameters-register.md, docs/protocol-spec.md]
+Depended on by: [docs/community-invitation.md, docs/substrate-map.md, docs/workflow-atlas.md]
 ---
 
 # The Kernel Workflow Guide

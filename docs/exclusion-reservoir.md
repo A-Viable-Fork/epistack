@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records refuted and excluded claims with the reason each fell, so a killed claim meets its own obituary.
-Depends on: docs/design-axioms.md
-Depended on by: nothing
+Purpose: "Records refuted and excluded claims with the reason each fell, so a killed claim meets its own obituary."
+Depends on: [docs/design-axioms.md]
+Depended on by: []
 ---
 
 # Exclusion Reservoir

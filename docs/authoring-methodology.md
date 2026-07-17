@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: Answers the question of how the three cases were authored, showing that the architecture checks claims and not their authors, so the producer behind a claim does not affect what the claim earns; the reference a reader consults on reaching for "hand built."
-Depends on: docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md, docs/what-stands-without-trust.md
-Depended on by: nothing
+Purpose: "Answers the question of how the three cases were authored, showing that the architecture checks claims and not their authors, so the producer behind a claim does not affect what the claim earns; the reference a reader consults on reaching for \"hand built.\""
+Depends on: [docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md, docs/what-stands-without-trust.md]
+Depended on by: []
 ---
 
 # The Authoring Methodology

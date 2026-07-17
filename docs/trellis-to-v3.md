@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the trellis-to-v3 ingestion translator, the source the ledger cites for the migration path.
-Depends on: docs/knowledge-system-how.md, docs/population-pipeline.md
-Depended on by: docs/status-ledger.md
+Purpose: "Specifies the trellis-to-v3 ingestion translator, the source the ledger cites for the migration path."
+Depends on: [docs/knowledge-system-how.md, docs/population-pipeline.md]
+Depended on by: [docs/status-ledger.md]
 ---
 
 # Trellis to v3: the ingestion path

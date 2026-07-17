@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Tells a reader how to clone, install, and run the gate check, as the entry procedure.
-Depends on: docs/api.md, docs/design-axioms.md
-Depended on by: nothing
+Purpose: "Tells a reader how to clone, install, and run the gate check, as the entry procedure."
+Depends on: [docs/api.md, docs/design-axioms.md]
+Depended on by: []
 ---
 
 # Quickstart

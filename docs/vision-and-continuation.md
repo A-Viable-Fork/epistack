@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it.
-Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md
-Depended on by: docs/kernel-at-training.md, docs/on-transparency.md
+Purpose: "States where this work goes after the competition and why the next phase is worth funding: the destination (an ecosystem of markets for knowledge components), the artifact as its first working step, the roadmap anchored on a concrete present problem, and why the commercial path aligns with the commons rather than capturing it."
+Depends on: [docs/what-stands-without-trust.md, docs/status-ledger.md, docs/kernel-taxonomy.md]
+Depended on by: [docs/kernel-at-training.md, docs/on-transparency.md]
 ---
 
 # Where This Goes

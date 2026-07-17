@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Defines the four document types, the required header, and the two dependency chains, so the documentation set is itself a typed, navigable graph.
-Depends on: docs/parameters-register.md, docs/what-stands-without-trust.md
-Depended on by: docs/register-view.md
+Purpose: "Defines the four document types, the required header, and the two dependency chains, so the documentation set is itself a typed, navigable graph."
+Depends on: [docs/parameters-register.md, docs/what-stands-without-trust.md]
+Depended on by: [docs/register-view.md]
 ---
 
 # Document Style Guide

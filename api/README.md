@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Describes the boundary layer for a reader who has opened api/, deferring the whole-system story upward.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Describes the boundary layer for a reader who has opened api/, deferring the whole-system story upward."
+Depends on: []
+Depended on by: []
 Code depends on: kernel/README.md
 Code depended on by: periphery/README.md
 ---

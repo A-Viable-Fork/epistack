@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Enumerates the composition contract, the required tier a kernel must hold to stay composable, as the checkable complement to the parameters register's free tier, each invariant with the crossing that depends on it and the check that enforces it.
-Depends on: docs/composition-spec.md
-Depended on by: docs/parameters-register.md, docs/ecosystem-guide.md, docs/for-the-institutional-adopter.md, docs/the-climb-of-synthesis.md, docs/the-minimum-constitution.md
+Purpose: "Enumerates the composition contract, the required tier a kernel must hold to stay composable, as the checkable complement to the parameters register's free tier, each invariant with the crossing that depends on it and the check that enforces it."
+Depends on: [docs/composition-spec.md]
+Depended on by: [docs/parameters-register.md, docs/ecosystem-guide.md, docs/for-the-institutional-adopter.md, docs/the-climb-of-synthesis.md, docs/the-minimum-constitution.md]
 ---
 
 # The Contract Register

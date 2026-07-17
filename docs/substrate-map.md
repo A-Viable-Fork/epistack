@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The map of the minimum viable substrate a fork starts from, the annotated tree with its built/genericize/build/frontier marks, the tiered gaps, and what a post-submission extraction strips from this repository to make the forkable substrate.
-Depends on: docs/coordination-layer-spec.md, docs/design-axioms.md, docs/kernel-workflow-guide.md, docs/parameters-register.md
-Depended on by: docs/community-backend.md, docs/community-invitation.md, docs/ecosystem-guide.md
+Purpose: "The map of the minimum viable substrate a fork starts from, the annotated tree with its built/genericize/build/frontier marks, the tiered gaps, and what a post-submission extraction strips from this repository to make the forkable substrate."
+Depends on: [docs/coordination-layer-spec.md, docs/design-axioms.md, docs/kernel-workflow-guide.md, docs/parameters-register.md]
+Depended on by: [docs/community-backend.md, docs/community-invitation.md, docs/ecosystem-guide.md]
 ---
 
 # The Substrate Map

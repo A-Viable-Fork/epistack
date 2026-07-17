@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: The institutional entrance: what this repository offers an organization that must make defensible decisions in contested domains. Accountability routing, adoption as parameters, exit by fork, and the three cases walked as an adopter would walk them.
-Depends on: docs/protocol-spec.md, docs/ecosystem-guide.md, docs/trust-and-view.md, docs/the-asymmetric-weapon.md, docs/knowledge-kernels-and-crypto.md, docs/community-invitation.md, docs/contract-register.md
-Depended on by: nothing
+Purpose: "The institutional entrance: what this repository offers an organization that must make defensible decisions in contested domains. Accountability routing, adoption as parameters, exit by fork, and the three cases walked as an adopter would walk them."
+Depends on: [docs/protocol-spec.md, docs/ecosystem-guide.md, docs/trust-and-view.md, docs/the-asymmetric-weapon.md, docs/knowledge-kernels-and-crypto.md, docs/community-invitation.md, docs/contract-register.md]
+Depended on by: []
 ---
 
 # For the Institutional Adopter

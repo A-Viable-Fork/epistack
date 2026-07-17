@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the mature coordination design, the substrate, the patch history, and standing, as the source the adversarial and status documents derive from.
-Depends on: docs/knowledge-system-how.md
-Depended on by: docs/adversarial-robustness.md, docs/api.md, docs/status-ledger.md
+Purpose: "Specifies the mature coordination design, the substrate, the patch history, and standing, as the source the adversarial and status documents derive from."
+Depends on: [docs/knowledge-system-how.md]
+Depended on by: [docs/adversarial-robustness.md, docs/api.md, docs/status-ledger.md]
 ---
 
 # Architecture: The Unownable Graph

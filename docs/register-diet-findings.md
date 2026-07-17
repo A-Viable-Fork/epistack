@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the works-versus-decorates findings the accessible-register authoring pass surfaced in the precise register, as candidates for a human decision to cut or to ground, not an automated edit.
-Depends on: docs/register-view.md
-Depended on by: nothing
+Purpose: "Records the works-versus-decorates findings the accessible-register authoring pass surfaced in the precise register, as candidates for a human decision to cut or to ground, not an automated edit."
+Depends on: [docs/register-view.md]
+Depended on by: []
 ---
 
 # Register Diet Findings

@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Maps the competition's criteria to the part of the architecture that answers each, so the argument can be checked against the tree.
-Depends on: docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-what.md, docs/status-ledger.md, docs/what-stands-without-trust.md
-Depended on by: nothing
+Purpose: "Maps the competition's criteria to the part of the architecture that answers each, so the argument can be checked against the tree."
+Depends on: [docs/epistemic_uplift.md, docs/kernel-taxonomy.md, docs/knowledge-system-what.md, docs/status-ledger.md, docs/what-stands-without-trust.md]
+Depended on by: []
 ---
 
 # Where Each Criterion Lives

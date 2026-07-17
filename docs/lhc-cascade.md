@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the LHC-cascade case reasoning, the record the black-holes trellis and the schema revisions derive from.
-Depends on: docs/knowledge-system-how.md
-Depended on by: docs/schema-revisions.md, docs/trellises/black-holes-reconstruction-trellis.md
+Purpose: "Records the LHC-cascade case reasoning, the record the black-holes trellis and the schema revisions derive from."
+Depends on: [docs/knowledge-system-how.md]
+Depended on by: [docs/schema-revisions.md, docs/trellises/black-holes-reconstruction-trellis.md]
 ---
 
 # LHC Safety: The Math Cascade

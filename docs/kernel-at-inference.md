@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The depth under the atlas capstone's inference-time grade: retrieval-grounded generation where retrieval returns graded, grounded claims through the read terminus and the model defers to the grade the graph computed. The runnable, buildable-today pattern, with each stage marked by its build register and the domain-scope bound held throughout.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/clients.md
-Depended on by: nothing
+Purpose: "The depth under the atlas capstone's inference-time grade: retrieval-grounded generation where retrieval returns graded, grounded claims through the read terminus and the model defers to the grade the graph computed. The runnable, buildable-today pattern, with each stage marked by its build register and the domain-scope bound held throughout."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/clients.md]
+Depended on by: []
 ---
 
 # Consumer Capstone: The Kernel at Inference

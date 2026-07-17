@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: The authored fidelity read of the accessible register against its precise source, a graded verdict per section, which the drift check cannot compute and which stands as the discharge of the authored-fidelity obligation the register-view design names.
-Depends on: docs/register-view.md
-Depended on by: nothing
+Purpose: "The authored fidelity read of the accessible register against its precise source, a graded verdict per section, which the drift check cannot compute and which stands as the discharge of the authored-fidelity obligation the register-view design names."
+Depends on: [docs/register-view.md]
+Depended on by: []
 ---
 
 # Register Fidelity Read

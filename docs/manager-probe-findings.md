@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records what building the first slice of a kernel manager taught about driving writes from a management surface through the read-and-propose contract, as the finding this probe existed to produce.
-Depends on: docs/api.md
-Depended on by: nothing
+Purpose: "Records what building the first slice of a kernel manager taught about driving writes from a management surface through the read-and-propose contract, as the finding this probe existed to produce."
+Depends on: [docs/api.md]
+Depended on by: []
 ---
 
 # Kernel Manager Probe: Findings

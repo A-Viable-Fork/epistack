@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the single source of build truth, so every other document cites status here rather than re-asserting it.
-Depends on: docs/architecture-the-unownable-graph.md, docs/composition-spec.md, docs/design-axioms.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/sorry-ledger.md, docs/trellis-to-v3.md
-Depended on by: CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/coordination-layer-spec.md, docs/criteria-to-architecture-map.md, docs/governing-trellis.md, docs/on-transparency.md, docs/reading-the-brief.md, docs/speedbumps-of-scaling.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md, docs/workflow-atlas.md
+Purpose: "Records the single source of build truth, so every other document cites status here rather than re-asserting it."
+Depends on: [docs/architecture-the-unownable-graph.md, docs/composition-spec.md, docs/design-axioms.md, docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/sorry-ledger.md, docs/trellis-to-v3.md]
+Depended on by: [CLAUDE.md, docs/adversarial-robustness.md, docs/adversarial_walkthrough.md, docs/authoring-methodology.md, docs/compost-ledger.md, docs/coordination-layer-spec.md, docs/criteria-to-architecture-map.md, docs/governing-trellis.md, docs/on-transparency.md, docs/reading-the-brief.md, docs/speedbumps-of-scaling.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md, docs/workflow-atlas.md]
 ---
 
 # Status Ledger

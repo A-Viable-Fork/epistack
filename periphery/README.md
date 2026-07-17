@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Describes the fallible producer-and-view layer for a reader who has opened periphery/, deferring the whole-system story upward.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Describes the fallible producer-and-view layer for a reader who has opened periphery/, deferring the whole-system story upward."
+Depends on: []
+Depended on by: []
 Code depends on: api/README.md
 Code depended on by: nothing
 ---

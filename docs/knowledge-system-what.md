@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the functional model of the engine, what a claim is and the regions it grounds in, as the contract the grounding computation is defined over.
-Depends on: docs/knowledge-system-why.md
-Depended on by: docs/criteria-to-architecture-map.md, docs/knowledge-system-how.md, docs/status-ledger.md, docs/what-stands-without-trust.md
+Purpose: "Specifies the functional model of the engine, what a claim is and the regions it grounds in, as the contract the grounding computation is defined over."
+Depends on: [docs/knowledge-system-why.md]
+Depended on by: [docs/criteria-to-architecture-map.md, docs/knowledge-system-how.md, docs/status-ledger.md, docs/what-stands-without-trust.md]
 ---
 
 # The Knowledge System: What It Does

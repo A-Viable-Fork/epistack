@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The producer workflow for structured data and datasets: the deterministic pipeline from a tabular source to measurement-typed proposedClaims landing at the built gate, the one producer workflow that need not use a model, and the clean contrast to the messy video.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md
-Depended on by: nothing
+Purpose: "The producer workflow for structured data and datasets: the deterministic pipeline from a tabular source to measurement-typed proposedClaims landing at the built gate, the one producer workflow that need not use a model, and the clean contrast to the messy video."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md]
+Depended on by: []
 ---
 
 # Producer Workflow: Structured Data and Datasets

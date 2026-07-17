@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The consumer workflow for finding where a disagreement actually turns: an assembly over the built reconciliations read, which computes each contradicts-linked pair's crux on read, with the client adding presentation and selection because the crux is a candidate not a verdict.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/clients.md
-Depended on by: nothing
+Purpose: "The consumer workflow for finding where a disagreement actually turns: an assembly over the built reconciliations read, which computes each contradicts-linked pair's crux on read, with the client adding presentation and selection because the crux is a candidate not a verdict."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/clients.md]
+Depended on by: []
 ---
 
 # Consumer Workflow: The Crux Locator

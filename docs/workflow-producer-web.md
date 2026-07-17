@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The producer workflow for live web and news: the pipeline from a current web page to a proposedClaim landing at the built gate, and the point it proves, that low-reliability input enters freely and earns little because the floor does real work.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md
-Depended on by: nothing
+Purpose: "The producer workflow for live web and news: the pipeline from a current web page to a proposedClaim landing at the built gate, and the point it proves, that low-reliability input enters freely and earns little because the floor does real work."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/producer-connector-findings.md]
+Depended on by: []
 ---
 
 # Producer Workflow: Live Web and News

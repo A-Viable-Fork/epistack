@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The spine of the producer-and-consumer workflow atlas: states the two-sided-boundary thesis, guides the six workflow documents grouped producer and consumer, names the two built anchors, and holds the honest bound on register. The consumer capstone (an AI reading from the kernel) closes it.
-Depends on: docs/api.md, docs/clients.md, docs/the-climb-of-synthesis.md, docs/producer-connector-findings.md, docs/composition-spec.md, docs/status-ledger.md, docs/kernel-workflow-guide.md, docs/community-invitation.md
-Depended on by: docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md
+Purpose: "The spine of the producer-and-consumer workflow atlas: states the two-sided-boundary thesis, guides the six workflow documents grouped producer and consumer, names the two built anchors, and holds the honest bound on register. The consumer capstone (an AI reading from the kernel) closes it."
+Depends on: [docs/api.md, docs/clients.md, docs/the-climb-of-synthesis.md, docs/producer-connector-findings.md, docs/composition-spec.md, docs/status-ledger.md, docs/kernel-workflow-guide.md, docs/community-invitation.md]
+Depended on by: [docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md]
 ---
 
 # The Workflow Atlas

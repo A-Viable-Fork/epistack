@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Describes the two client tiers over the API, as the reference the thin-client kit derives from.
-Depends on: docs/api.md, docs/components-and-forking.md
-Depended on by: docs/ecosystem-guide.md, docs/kernel-at-inference.md, docs/thin-clients.md, docs/workflow-atlas.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md
+Purpose: "Describes the two client tiers over the API, as the reference the thin-client kit derives from."
+Depends on: [docs/api.md, docs/components-and-forking.md]
+Depended on by: [docs/ecosystem-guide.md, docs/kernel-at-inference.md, docs/thin-clients.md, docs/workflow-atlas.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md]
 ---
 
 # Writing a client

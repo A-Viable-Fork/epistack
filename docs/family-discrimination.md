@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the family-discrimination pattern, the record the population pipeline derives from.
-Depends on: docs/knowledge-system-how.md, docs/schema-revisions.md
-Depended on by: docs/population-pipeline.md
+Purpose: "Records the family-discrimination pattern, the record the population pipeline derives from."
+Depends on: [docs/knowledge-system-how.md, docs/schema-revisions.md]
+Depended on by: [docs/population-pipeline.md]
 ---
 
 # The Family, Tested: It Is a Pipeline, Not a Transformation

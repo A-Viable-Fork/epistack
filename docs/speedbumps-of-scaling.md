@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The per-operation complexity map of the kernel, deriving how each operation scales from the code or from a math-kernel claim the gate has graded, marking each operation built or a named speedbump with its lever, so the scaling question is answered by derivation rather than reassurance.
-Depends on: docs/protocol-spec.md, docs/design-axioms.md, docs/status-ledger.md
-Depended on by: nothing
+Purpose: "The per-operation complexity map of the kernel, deriving how each operation scales from the code or from a math-kernel claim the gate has graded, marking each operation built or a named speedbump with its lever, so the scaling question is answered by derivation rather than reassurance."
+Depends on: [docs/protocol-spec.md, docs/design-axioms.md, docs/status-ledger.md]
+Depended on by: []
 ---
 
 # The Speedbumps of Scaling

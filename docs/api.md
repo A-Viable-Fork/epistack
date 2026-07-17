@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the read-and-propose contract between clients and the kernel, as the reference the client documents derive from.
-Depends on: docs/architecture-the-unownable-graph.md, docs/knowledge-system-how.md
-Depended on by: CLAUDE.md, docs/clients.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/manager-probe-findings.md, docs/protocol-spec.md, docs/quickstart.md, docs/register-view.md, docs/thin-clients.md, docs/workflow-atlas.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md
+Purpose: "Specifies the read-and-propose contract between clients and the kernel, as the reference the client documents derive from."
+Depends on: [docs/architecture-the-unownable-graph.md, docs/knowledge-system-how.md]
+Depended on by: [CLAUDE.md, docs/clients.md, docs/epistemic_uplift.md, docs/extending-the-kernel.md, docs/kernel-at-inference.md, docs/kernel-at-training.md, docs/manager-probe-findings.md, docs/protocol-spec.md, docs/quickstart.md, docs/register-view.md, docs/thin-clients.md, docs/workflow-atlas.md, docs/workflow-consumer-adversarial.md, docs/workflow-consumer-crux.md, docs/workflow-consumer-evidence.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md]
 ---
 
 # The API

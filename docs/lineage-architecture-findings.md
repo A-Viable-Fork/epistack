@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the two results the modding lineage surfaced that bear on the kernel's own design, each stated as a finding with its source and the open question it poses, for a human decision rather than as case claims.
-Depends on: docs/composition-spec.md, docs/parameters-register.md
-Depended on by: nothing
+Purpose: "Records the two results the modding lineage surfaced that bear on the kernel's own design, each stated as a finding with its source and the open question it poses, for a human decision rather than as case claims."
+Depends on: [docs/composition-spec.md, docs/parameters-register.md]
+Depended on by: []
 ---
 
 # Lineage Architecture Findings
