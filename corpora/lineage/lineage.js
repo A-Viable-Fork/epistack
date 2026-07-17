@@ -241,6 +241,8 @@ const claims = [
     closing_condition: { condition_kind: "direct-study", target: "an agreed cross-layer measure of trust-enforcement concentration spanning the mail, certificate, and routing layers, which would let the recentralization dispute price measurements rather than rhetoric", system: "the internet trust-enforcement layer" } },
   { ref: "net.variety-cost", kind: "forum", declared_grade: "asserted", source_id: "src:dmarcguard-2026", contributor_id: "read:net-variety",
     statement: P + "the controls added to absorb adversarial variety reshaped legitimate production, senders now writing mail for the classifier, with templated machine-generated business-to-consumer mail reaching about 90% of major-provider non-spam volume, so the patch's cost shows up as a rewritten sender population and not only as concentrated enforcement" },
+  { ref: "net.two-class", kind: "forum", declared_grade: "asserted", source_id: "src:rfc-9518", contributor_id: "read:net-twoclass",
+    statement: P + "the internet held the composition invariants (typed protocols, shared meaning by shared specification) and lacked the control invariants (recomputable standing, monotone grounding, the untyped floor), and its history separates the two classes, composition violations prevent scale while control violations are costless in a cooperative regime and catastrophic after the shift (same-party architectural reading, computed by build/check-tcpip-counterexample.mjs)" },
 ];
 
 const links = [
@@ -300,6 +302,8 @@ const links = [
   { link_kind: "supports", from: "net.recentralization", to: "net.crux-metric", support_group: "grp:net-crux-recentral", source_id: "src:rfc-9518", contributor_id: "read:net-recentral", declared_grade: "asserted" },
   { link_kind: "supports", from: "net.federation-survived", to: "net.crux-metric", support_group: "grp:net-crux-federation", source_id: "src:rfc-9518", contributor_id: "read:net-federation", declared_grade: "asserted" },
   { link_kind: "supports", from: "net.mail-share-contested", to: "net.crux-metric", support_group: "grp:net-crux-mailshare", source_id: "src:dmarcguard-2026", contributor_id: "read:net-mailshare", declared_grade: "asserted" },
+  // the two-class reading refines the regime frame (matching how the corpus uses refines), not a support edge.
+  { link_kind: "refines", from: "net.two-class", to: "net.regime-frame", source_id: "src:rfc-9518", contributor_id: "read:net-twoclass", declared_grade: "asserted" },
 ];
 
 const LINEAGE = { store_id: "lineage", claims, links };

@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 212. Import edges: 441. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 214. Import edges: 446. Runtime flow edges: 37. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -325,6 +325,8 @@ Nodes: 212. Import edges: 441. Runtime flow edges: 37. All import edges satisfy 
 - `build/check-self.mjs` -> `corpora/self/tables.js`  *(build -> corpus)*
 - `build/check-self.mjs` -> `corpora/vocabulary/vocabulary.js`  *(build -> corpus)*
 - `build/check-self.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/check-tcpip-counterexample.mjs` -> `build/check-conformance.mjs`  *(build -> build)*
+- `build/check-tcpip-counterexample.mjs` -> `build/tcpip-eras.mjs`  *(build -> build)*
 - `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
 - `build/check-translate.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-translate.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
@@ -415,6 +417,9 @@ Nodes: 212. Import edges: 441. Runtime flow edges: 37. All import edges satisfy 
 - `build/self-build.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
 - `build/self-build.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
 - `build/self-build.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/tcpip-eras.mjs` -> `build/check-conformance.mjs`  *(build -> build)*
+- `build/tcpip-eras.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/tcpip-eras.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/translate-trellis.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/vendor-covid.mjs` -> `build/covid-build.mjs`  *(build -> build)*
