@@ -22,7 +22,15 @@ export function buildKernel() {
   const tables = { sourceTable: makeSourceTable(SOURCES), kindTable: makeKindTable(KINDS) };
   const refId = new Map();
   const claims = STORE.claims.map((spec) => {
-    const rec = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records, closing_condition: spec.closing_condition });
+    const base = claimRecord({ kind: spec.kind, statement: spec.statement, source_id: spec.source_id, contributor_id: spec.contributor_id, declared_grade: spec.declared_grade, checking_records: spec.checking_records, closing_condition: spec.closing_condition });
+    // DEPARTURE (mirrors the Knowledge-Game governance build, which spreads its listing fields the same
+    // way): the entrance-surfaced claims carry non-standard presentation fields the org-root renderer
+    // reads (role, entrance_surfaced, url, references, label). claimRecord forwards only the standard
+    // claim fields, so these ride alongside the built record as inert metadata the gate ignores. They
+    // enter no identity (identity is kind + statement) and no grade computation; carrying them changes
+    // only what the emitted snapshot serves to a renderer, never any claim's standing.
+    const rec = { ...base };
+    for (const f of ["role", "entrance_surfaced", "url", "references", "label"]) if (spec[f] !== undefined) rec[f] = spec[f];
     refId.set(spec.ref, rec.identity);
     return { rec, spec };
   });

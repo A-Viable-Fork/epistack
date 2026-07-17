@@ -90,13 +90,26 @@ const evaluative = [
 ].map((c) => ({ ...c, kind: "forum", register: "evaluative", declared_grade: "asserted", source_id: "src:self-theses", contributor_id: author }));
 
 // ============================ the entrance stipulations (declaration, constitutive) ============================
-// the title and tagline the org-root door renders as adopted stipulations, not definitions, so they are
-// exempt from the cites_vocab rule; they carry a role the renderer reads and are tagged entrance_surfaced.
+// the org-root door renders these as adopted stipulations, not definitions, so they are exempt from the
+// cites_vocab rule; each carries a role the renderer reads, the entrance_surfaced tag it filters on, and
+// the presentation metadata for its role (a status references a grounded invariant so the door renders at
+// that claim's standing; a link carries a url and a label). build/self-build.mjs spreads these
+// non-standard fields into the emitted record so the snapshot actually carries them.
 const entranceClaims = [
   { ref: "self.entrance.title", role: "title", entrance_surfaced: true,
     statement: "EpiStack" },
   { ref: "self.entrance.tagline", role: "tagline", entrance_surfaced: true, revisable: true,
     statement: "a typed claim-graph epistemic protocol: one shared schema on which uncoordinated investigations compose into a single, auditable map" },
+  { ref: "self.entrance.status.untyped-floor", role: "status", entrance_surfaced: true, references: "self.untyped-floor",
+    statement: "front-door status: imported standing never crosses unearned, because the untyped type grounds nothing (rendered at the standing of self.untyped-floor)" },
+  { ref: "self.entrance.status.monotone", role: "status", entrance_surfaced: true, references: "self.monotone",
+    statement: "front-door status: no claim advertises more standing than its necessary supports carry (rendered at the standing of self.monotone)" },
+  { ref: "self.entrance.link.repository", role: "link", entrance_surfaced: true, url: "https://github.com/A-Viable-Fork/epistack", label: "repository",
+    statement: "front-door link: the epistack repository" },
+  { ref: "self.entrance.link.overview", role: "link", entrance_surfaced: true, url: "https://github.com/A-Viable-Fork/epistack/blob/main/docs/submission-overview.md", label: "submission overview",
+    statement: "front-door link: the submission overview" },
+  { ref: "self.entrance.link.app", role: "link", entrance_surfaced: true, url: "https://a-viable-fork.github.io/Knowledge-Game/", label: "the app",
+    statement: "front-door link: the Knowledge Game app" },
 ].map((c) => ({ ...c, kind: "declaration", register: "entrance-stipulation", declared_grade: "constitutive", source_id: "src:self-theses", contributor_id: author }));
 
 const claims = [...invariant, ...constitutive, ...evaluative, ...entranceClaims];
@@ -117,18 +130,11 @@ const links = [
 ];
 
 // ============================ the entrance-surfaced listing ============================
-// the org-root renderer reads these: title and tagline (adopted stipulations, above), one or two status
-// entries each referencing a grounded invariant claim so the door carries that claim's computed standing,
-// and the link entries. A status must reference an invariant that grounds above the floor.
-const entrance = [
-  { role: "title", claim_ref: "self.entrance.title" },
-  { role: "tagline", claim_ref: "self.entrance.tagline" },
-  { role: "status", references: "self.untyped-floor" },
-  { role: "status", references: "self.monotone" },
-  { role: "link", url: "https://github.com/A-Viable-Fork/epistack", label: "repository" },
-  { role: "link", url: "https://github.com/A-Viable-Fork/epistack/blob/main/docs/submission-overview.md", label: "submission overview" },
-  { role: "link", url: "https://a-viable-fork.github.io/Knowledge-Game/", label: "the app" },
-];
+// the ordered manifest the org-root renderer walks: each row names a role and the entrance claim it
+// renders, the single source of the presentation metadata (the claim carries its references / url /
+// label). A status claim references an invariant that grounds above the floor, so the door renders at
+// that claim's standing rather than asserting a capability of its own.
+const entrance = entranceClaims.map((c) => ({ role: c.role, claim_ref: c.ref }));
 
 const STORE = { store_id: "S-self", claims, links, entrance };
 

@@ -99,19 +99,21 @@ for (const c of evaluative) {
   ok(gradeOf(c.ref) === "asserted", `${c.ref}: the gate holds it at the forum floor, contestable (got ${gradeOf(c.ref)})`);
 }
 
-console.log("\n[6] the entrance-surfaced listing does not overclaim");
+console.log("\n[6] the entrance-surfaced listing does not overclaim; every entry is a claim carrying its metadata");
 const ROLES = new Set(["title", "tagline", "status", "link"]);
 for (const e of STORE.entrance) {
   ok(ROLES.has(e.role), `entrance listing role '${e.role}' is valid`);
+  const c = specByRef.get(e.claim_ref); // every entrance row names a real claim (so the snapshot carries it)
+  ok(!!c && c.entrance_surfaced === true && c.role === e.role, `entrance ${e.role} names an entrance-surfaced claim (${e.claim_ref})`);
+  if (!c) continue;
   if (e.role === "title" || e.role === "tagline") {
-    const c = specByRef.get(e.claim_ref);
-    ok(!!c && c.register === "entrance-stipulation" && gradeOf(e.claim_ref) === "constitutive", `entrance ${e.role} references a constitutive stipulation (${e.claim_ref})`);
+    ok(c.register === "entrance-stipulation" && gradeOf(c.ref) === "constitutive", `entrance ${e.role} is a constitutive stipulation (${c.ref})`);
   } else if (e.role === "status") {
-    const c = specByRef.get(e.references);
-    ok(!!c && c.register === "invariant", `entrance status references an invariant claim (${e.references})`);
-    ok(!!c && gradeOf(e.references) !== "asserted" && gradeOf(e.references) !== "ungraded", `entrance status ${e.references} references a claim that grounds above the floor (got ${c ? gradeOf(e.references) : "absent"})`);
+    const ref = specByRef.get(c.references);
+    ok(!!ref && ref.register === "invariant", `entrance status ${c.ref} references an invariant claim (${c.references})`);
+    ok(!!ref && gradeOf(c.references) !== "asserted" && gradeOf(c.references) !== "ungraded", `entrance status ${c.ref} references a claim that grounds above the floor (got ${ref ? gradeOf(c.references) : "absent"})`);
   } else if (e.role === "link") {
-    ok(!!e.url && !!e.label, `entrance link carries a url and a label (${e.label})`);
+    ok(!!c.url && !!c.label, `entrance link ${c.ref} carries a url and a label (${c.label})`);
   }
 }
 
