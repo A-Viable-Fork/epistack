@@ -1,6 +1,6 @@
 # EpiStack and The Knowledge Game: Submission Overview
 
-This submission is a protocol for knowledge that nobody has to take anyone's word for, a community layer that lets groups disagree productively instead of tribally, and a working mobile app where the feed's algorithm answers to the reader. All three exist and run today. The fastest way to evaluate it: the checks rerun in about two minutes, every grade recomputes from the public graph, and the app installs from a URL. What follows is why each piece exists, stated as the critique that forced it and the counterexample this submission built.
+EpiStack is a minimal shared structure on which independent communities build knowledge that composes. The Knowledge Game is its first app: a feed you steer over claims you check. Both exist and run today. The fastest way to evaluate it: the checks rerun in about two minutes, every grade recomputes from the public graph, and the app installs from a URL. What follows is why each piece exists, stated as the critique that forced it and the counterexample this submission built.
 
 ## The critiques, each with its counterexample
 
