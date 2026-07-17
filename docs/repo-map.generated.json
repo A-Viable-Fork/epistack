@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 212,
-  "edgeCount": 478,
+  "nodeCount": 214,
+  "edgeCount": 483,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -1024,6 +1024,20 @@
       "group": null,
       "role": "the conformance checker. Runs the contract register against an arbitrary foreign kernel and emits a VIOLATION REPORT, not a pass/fail: per fixed invariant, conforms / violates / unverifiable, with evidence. The adopter's self-test before migrating, and the base for the lineage counterexample exhibit. Report, do not reject: a non-conforming kernel is the input whose violations are the output.",
       "contract": "conformanceReport(kernel, entries) -> structured report; foreignKernel(spec) -> a kernel in the algebra shape { store_id, state, tables, native, grades }, NOT required to be well-formed. The report is register-DRIVEN: its invariant set is exactly parseContractRegister(docs/contract-register.md), so adding a register entry extends it with no edit here. `node build/check-conformance.mjs` exits non-zero only if the mechanism misdiagnoses the two fixtures. Importable without running the harness."
+    },
+    {
+      "path": "build/tcpip-eras.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the three internet-era kernels for the TCP/IP counterexample exhibit. Each era is a foreign kernel (the conformance checker's shape) that faithfully encodes the era's actual TRUST DECISIONS, never content. A claim here is an acceptance (\"this MAIL FROM is who it declares\", \"this AS legitimately originates this prefix\", \"this response resolves this name\"), a structural trust assertion with no semantic payload: packets carry no semantics, so the kernels model what the network decided to accept from whom, which is the layer the internet-to-kernel mapping holds at.",
+      "contract": "exports act1Kernel(), act2Kernel(), act3Kernel() built with foreignKernel(...), plus TABLES. Each kernel carries a `mapping` (per-claim key, identity, and the net.* refs it encodes) so the exhibit oracle can map a computed violation to a documented failure in tcpip-contracts.js. Imports the conformance checker and the kernel schema only; pure over its encoded data."
+    },
+    {
+      "path": "build/check-tcpip-counterexample.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the TCP/IP counterexample exhibit oracle. Builds the three internet-era kernels (build/ tcpip-eras.mjs), runs the register-driven conformance checker over each against the real contract register, and verifies the derivation: the eras hold the composition invariants (protocols are types, a shared RFC is a shared type-bundle) and violate the control invariants (standing granted, not recomputed); the violation profile is constant across Acts 1 and 2 while the outcome inverts; Act 3's rebase-shaped patches (CT, a signed ROA) recompute and conform while the authority grants do not. The disanalogy governs: the kernels model trust DECISIONS, never content. Packets carry no semantics; a claim is an acceptance, a structural trust assertion.",
+      "contract": "`node build/check-tcpip-counterexample.mjs` exits non-zero only on a structural failure. Imports the era kernels, the conformance checker, and the lineage contracts data; reads the contract register and the exhibit doc; touches no truth field."
     },
     {
       "path": "build/check-math.mjs",
@@ -3597,6 +3611,20 @@
       "toLayer": "build"
     },
     {
+      "from": "build/check-tcpip-counterexample.mjs",
+      "to": "build/check-conformance.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/check-tcpip-counterexample.mjs",
+      "to": "build/tcpip-eras.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
       "from": "build/check-translate.mjs",
       "to": "build/translate-trellis.mjs",
       "type": "imports",
@@ -4222,6 +4250,27 @@
     {
       "from": "build/self-build.mjs",
       "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/tcpip-eras.mjs",
+      "to": "build/check-conformance.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
+    },
+    {
+      "from": "build/tcpip-eras.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/tcpip-eras.mjs",
+      "to": "kernel/schema/tables.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"

@@ -120,6 +120,14 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/tcpip-eras.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-tcpip-counterexample.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-math.mjs",
     "type": "build"
   },
