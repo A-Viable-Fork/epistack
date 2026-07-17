@@ -77,7 +77,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 ### CR-shared-hash
 - Modality: required
 - Statement: Shared meaning is shared hash: two kernels mean the same thing by a type exactly when they pin the same type-bundle hash, and a subtly different meaning is a different hash.
-- A crossing depends on it: this is the primitive federation rests on; a same-hash crossing composes native and lossless while an unpinned one arrives untyped, so it is adoption of the hash, not the store boundary, that decides.
+- A crossing depends on it: this is the primitive federation rests on. Pinning the same hash means pinning the same attenuation apparatus, which makes native acceptance of the carried grade available and well-defined; it does not vouch that the source ran that apparatus honestly, so the receiver may always accept the carried grade or re-ground the claim under its own execution instead. What is contractually fixed is that standing is always recomputable (CR-recomputable) and that provenance always transfers, never that the receiver must accept the carried grade; an unpinned crossing arrives untyped and grounds nothing. Native lossless transfer is the receiver's accept-native stance, a permitted admission policy (the origin verification stance, PR-origin-stance), not a required invariant, so it is adoption of the hash, not the store boundary, that makes native acceptance possible.
 - Enforced by: build/check-type-hash.mjs, build/check-crossing.mjs, build/check-agreement.mjs
 - Grounds in the self-kernel: self.crossing-min
 - Covers: guide:1
