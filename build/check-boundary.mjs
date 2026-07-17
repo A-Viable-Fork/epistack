@@ -42,6 +42,7 @@ for (const block of cr.split(/\n(?=### )/)) {
     grounds: [...groundsField.matchAll(/\bself\.[A-Za-z0-9.\-]+/g)].map((m) => m[0]), // ref tokens only, ignoring any parenthetical note
     covers: list("Covers"),
     claims: list("Claims"),
+    raw: block,
   });
 }
 console.log(`\nparsed ${CR.size} contract entries, ${[...CR.values()].reduce((n, e) => n + e.covers.length, 0)} covers, ${[...CR.values()].reduce((n, e) => n + e.grounds.length, 0)} self-kernel groundings`);
@@ -100,6 +101,26 @@ for (const mk of markers) {
 ok(masqOk === markers.length, `${masqOk}/${markers.length} marked claims carry a modality consistent with their register entry`);
 
 // =====================================================================================
+console.log("\n[2b] the origin-trust masquerade: no contract entry obligates a receiver to accept an incoming grade");
+// whether a receiver accepts an incoming grade or re-grounds it is admission policy, free (the origin
+// verification stance, PR-origin-stance). A contract entry that asserts a same-hash crossing MUST
+// transfer a grade losslessly, that a receiver must accept or inherit it, or that standing is stripped
+// nowhere, is a masquerade: it states a receiver-must-accept obligation as contract. The corrected
+// CR-shared-hash passes (native acceptance is available, not obligated); the old "native and lossless"
+// wording fails.
+// the obligation signals: a same-hash crossing stated as compelling lossless transfer, or a receiver
+// stated as obligated to accept. The lookbehind lets the corrected text negate the obligation ("never
+// that the receiver must accept") without tripping, while a bare "the receiver must accept" trips.
+const OBLIGATES_ACCEPT = [/native and lossless/i, /grade carries across intact/i, /no standing is stripped/i, /losslessly transfers?\b/i, /lossless[- ]by[- ]contract/i, /(?<!never that )the receiver must (?:accept|inherit|absorb)/i];
+let acceptOk = 0;
+for (const [id, e] of CR) {
+  const bad = OBLIGATES_ACCEPT.find((re) => re.test(e.raw));
+  if (bad) ok(false, `contract entry ${id} obligates a receiver to accept an incoming grade ("${bad.source}"), but accepting versus re-grounding is admission policy, free (PR-origin-stance); this is a receiver-must-accept masquerade`);
+  else acceptOk++;
+}
+ok(acceptOk === CR.size, `${acceptOk}/${CR.size} contract entries leave grade acceptance to the receiver's stance rather than obligating it`);
+
+// =====================================================================================
 console.log("\n[3] totality: every enumerable source of the contract resolves to a contract entry");
 // source list 1: the composition spec's composability invariants, enumerated as CR-ids.
 const spec = read("docs/composition-spec.md");
@@ -119,7 +140,7 @@ const covered = new Set([...CR.values()].flatMap((e) => e.covers));
 for (const [id, e] of CR) ok(e.covers.length > 0, `contract entry ${id} names the source item it covers`);
 for (const g of guideItems) ok(covered.has(`guide:${g[1]}`), `guide invariant ${g[1]} is covered by a contract entry's Covers field`);
 // parameters totality: every named free parameter carries a param marker.
-const FREE_PARAMS = ["The time-lock parameters", "The standing and reputation rules", "The identity and admission policy", "The agent policy", "The type system", "The forum and weighing conventions", "The corpus content license"];
+const FREE_PARAMS = ["The time-lock parameters", "The standing and reputation rules", "The identity and admission policy", "The origin verification stance", "The agent policy", "The type system", "The forum and weighing conventions", "The corpus content license"];
 for (const lead of FREE_PARAMS) {
   const idx = pr.indexOf(lead);
   const para = idx >= 0 ? pr.slice(idx, pr.indexOf("\n\n", idx) === -1 ? undefined : pr.indexOf("\n\n", idx)) : "";

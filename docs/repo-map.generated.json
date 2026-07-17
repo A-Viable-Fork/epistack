@@ -1078,7 +1078,7 @@
       "path": "build/check-crossing.mjs",
       "type": "build",
       "group": null,
-      "role": "the crossing oracle (the keystone). Treats the four existing cases as four independent kernels pinning type-hashes, and tests the two behaviors the three-tier design turns on, over the real composition machinery: a claim of a type both kernels pin crosses native and lossless; a claim of a type the target did not pin arrives untyped and grounds nothing, until the target forks it in.",
+      "role": "the crossing oracle (the keystone). Treats the four existing cases as four independent kernels pinning type-hashes, and tests the two behaviors the three-tier design turns on, over the real composition machinery: a claim of a type both kernels pin is native-eligible, so its grade can be accepted losslessly (the accept-native stance, the current default); a claim of a type the target did not pin arrives untyped and grounds nothing, until the target forks it in. Native acceptance is the available default here, not a contractual obligation; whether a receiver accepts or re-grounds an incoming grade is its origin verification stance (docs/parameters-register.md), specified.",
       "contract": "`node build/check-crossing.mjs` exits non-zero on any failure. Imports the adoption layer, the composition transfer/records, the confidence order, and the covid and lhc case builders."
     },
     {

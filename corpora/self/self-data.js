@@ -18,7 +18,7 @@
 // the checking records: the distinct-party oracle evidence the gate reads. The oracle is not the
 // claimant, so each is independence "distinct-party"; each is a replication of the property in code.
 const chk = (oracle, method) => ({ checker_id: `oracle:${oracle}`, method_class: "replication", method, checked_at_state: "self@stage-zero", outcome: "confirms", independence: "distinct-party" });
-const CROSS = chk("check-crossing", "runs the four cases as independent kernels and confirms a same-hash crossing composes native while an unpinned crossing arrives untyped and grounds nothing until a fork restores standing");
+const CROSS = chk("check-crossing", "runs the four cases as independent kernels and confirms a same-hash crossing is native-eligible, its grade acceptable under the accept-native stance, while an unpinned crossing arrives untyped and grounds nothing until a fork restores standing");
 const COMP = chk("check-composition", "confirms the cross-store citation copies the domain grade and the composite grade is the min over necessary carried grades capped by the ceiling");
 const DIFF = chk("check-math-differential", "differential testing: the code versus the extracted recurrence over thousands of random support graphs");
 const CERT = chk("check-certificate", "perturbs each bundled part and confirms the certificate hash moves, and confirms an identical certified assembly reproduces the hash");

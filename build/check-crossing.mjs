@@ -1,7 +1,10 @@
 // Role: the crossing oracle (the keystone). Treats the four existing cases as four independent kernels
 //   pinning type-hashes, and tests the two behaviors the three-tier design turns on, over the real
-//   composition machinery: a claim of a type both kernels pin crosses native and lossless; a claim of a
-//   type the target did not pin arrives untyped and grounds nothing, until the target forks it in.
+//   composition machinery: a claim of a type both kernels pin is native-eligible, so its grade can be
+//   accepted losslessly (the accept-native stance, the current default); a claim of a type the target
+//   did not pin arrives untyped and grounds nothing, until the target forks it in. Native acceptance is
+//   the available default here, not a contractual obligation; whether a receiver accepts or re-grounds
+//   an incoming grade is its origin verification stance (docs/parameters-register.md), specified.
 // Contract: `node build/check-crossing.mjs` exits non-zero on any failure. Imports the adoption layer,
 //   the composition transfer/records, the confidence order, and the covid and lhc case builders.
 // Invariant: the crossing is the existing citeDomainClaim path; the new thing is that native versus
@@ -37,8 +40,8 @@ function cross(originKind, originAd, targetAd, originStore, cited_claim, citing_
   return { status, citation, effective };
 }
 
-// --- 1. same-hash crossing composes native and lossless ---
-console.log("\n[1] same-hash crossing: native and lossless");
+// --- 1. same-hash crossing: native acceptance is available (the accept-native stance, today's default) ---
+console.log("\n[1] same-hash crossing: native acceptance available (accept-native, the default stance)");
 {
   const cited = covid.refId.get("ev.clustering"); // a covid measurement claim, grade checked
   const originGrade = derivedGrade(covid.state, cited, covid.tables);
@@ -47,9 +50,9 @@ console.log("\n[1] same-hash crossing: native and lossless");
 
   ok(covidAd.pins.measurement === B.pins.measurement, "kernel A (covid) and kernel B (lineage) pin the same measurement type-hash");
   ok(status === "native", `the crossing is native (got ${status})`);
-  ok(citation.carried_grade === originGrade, `the crossed claim carries its grade natively, no loss (origin ${originGrade}, carried ${citation.carried_grade})`);
-  ok(effective === originGrade, "the effective crossed grade equals the origin grade");
-  // and it is lossless precisely because the hashes match: a composite in B resting on it is not degraded
+  ok(citation.carried_grade === originGrade, `under accept-native the crossed claim can carry its grade with no loss (origin ${originGrade}, carried ${citation.carried_grade})`);
+  ok(effective === originGrade, "the effective crossed grade equals the origin grade when the receiver accepts native");
+  // accept-native is lossless precisely because the hashes match: a composite in B resting on an accepted claim is not degraded
   const g = compositeGrade({ ceiling: "settled", citations: [{ role: "necessary", carried_grade: effective }] });
   ok(g === "settled", `a B claim resting on the native crossing grounds at the composed top (got ${g})`);
   ok(covidAd.pins.measurement === B.pins.measurement && status === "native", "native holds precisely because both kernels pin the same type-hash");
