@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Guides an outside team through the ways to extend the kernel, from a view over the contract to a new domain region to a whole-kernel fork, as the how-to a builder consults.
-Depends on: docs/api.md, docs/composition-spec.md, docs/kernel-taxonomy.md, docs/parameters-register.md
-Depended on by: nothing
+Purpose: "Guides an outside team through the ways to extend the kernel, from a view over the contract to a new domain region to a whole-kernel fork, as the how-to a builder consults."
+Depends on: [docs/api.md, docs/composition-spec.md, docs/kernel-taxonomy.md, docs/parameters-register.md]
+Depended on by: []
 ---
 
 # Extending the Kernel

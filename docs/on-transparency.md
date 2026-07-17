@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: Governs the submission's open form: argues that a knowledge system for recursive modelers must stay open, and names the transparency mechanisms as the load-bearing shape of that openness rather than as disclosure.
-Depends on: docs/status-ledger.md, docs/compost-ledger.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md
-Depended on by: README.md, docs/the-asymmetric-weapon.md, docs/what-stands-without-trust.md
+Purpose: "Governs the submission's open form: argues that a knowledge system for recursive modelers must stay open, and names the transparency mechanisms as the load-bearing shape of that openness rather than as disclosure."
+Depends on: [docs/status-ledger.md, docs/compost-ledger.md, docs/vision-and-continuation.md, docs/what-stands-without-trust.md]
+Depended on by: [README.md, docs/the-asymmetric-weapon.md, docs/what-stands-without-trust.md]
 ---
 
 # On Transparency

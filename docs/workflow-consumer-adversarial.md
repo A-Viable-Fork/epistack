@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The consumer workflow for auditing a graph against a motivated reader: an assembly over the built robustness, dependents, and gaps reads, surfacing claims doing heavy work on thin support and where standing is fragile to a single re-grade, strongest when run on the submission's own cases.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/clients.md
-Depended on by: nothing
+Purpose: "The consumer workflow for auditing a graph against a motivated reader: an assembly over the built robustness, dependents, and gaps reads, surfacing claims doing heavy work on thin support and where standing is fragile to a single re-grade, strongest when run on the submission's own cases."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/clients.md]
+Depended on by: []
 ---
 
 # Consumer Workflow: The Adversarial Auditor

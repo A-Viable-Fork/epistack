@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the learning-first card layer over the architecture spec.
-Depends on: docs/architecture-spec.md
-Depended on by: nothing
+Purpose: "Specifies the learning-first card layer over the architecture spec."
+Depends on: [docs/architecture-spec.md]
+Depended on by: []
 ---
 
 # Making the Nodes Teach (v2 direction)

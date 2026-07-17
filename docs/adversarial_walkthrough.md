@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: Walks the robustness solution type through five concrete attacks, as the worked companion to the robustness argument.
-Depends on: docs/adversarial-robustness.md, docs/parameters-register.md, docs/status-ledger.md
-Depended on by: nothing
+Purpose: "Walks the robustness solution type through five concrete attacks, as the worked companion to the robustness argument."
+Depends on: [docs/adversarial-robustness.md, docs/parameters-register.md, docs/status-ledger.md]
+Depended on by: []
 ---
 
 # Adversarial Walkthrough

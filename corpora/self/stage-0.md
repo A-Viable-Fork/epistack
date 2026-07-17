@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The self-kernel frame: what the reflexive corpus (S-self) governs, epistack's claims about its own properties, definitions, and theses, and what it does not, grounded through its own gate.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "The self-kernel frame: what the reflexive corpus (S-self) governs, epistack's claims about its own properties, definitions, and theses, and what it does not, grounded through its own gate."
+Depends on: []
+Depended on by: []
 ---
 
 # The self-kernel, stage 0: the frame

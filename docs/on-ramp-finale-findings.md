@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records what building the on-ramp finale taught, the self-contained kernel file plus the detached repository, proven end to end on one generated kernel: the path that was built, what it reused, and the one snag the empty generated kernel surfaced, reported rather than forced.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Records what building the on-ramp finale taught, the self-contained kernel file plus the detached repository, proven end to end on one generated kernel: the path that was built, what it reused, and the one snag the empty generated kernel surfaced, reported rather than forced."
+Depends on: []
+Depended on by: []
 ---
 
 # The On-Ramp Finale: Findings

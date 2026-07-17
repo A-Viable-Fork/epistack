@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The depth under the atlas capstone's train-time grade: a kernel exported as a graded training corpus, and a model fine-tuned on it. The subtler grade, held to a three-tier honesty about what is buildable now versus what is unproven, with the domain-scope bound load-bearing throughout, a bounded licensing pointer, and the producer-consumer loop as the close.
-Depends on: docs/workflow-atlas.md, docs/api.md, docs/vision-and-continuation.md
-Depended on by: nothing
+Purpose: "The depth under the atlas capstone's train-time grade: a kernel exported as a graded training corpus, and a model fine-tuned on it. The subtler grade, held to a three-tier honesty about what is buildable now versus what is unproven, with the domain-scope bound load-bearing throughout, a bounded licensing pointer, and the producer-consumer loop as the close."
+Depends on: [docs/workflow-atlas.md, docs/api.md, docs/vision-and-continuation.md]
+Depended on by: []
 ---
 
 # Consumer Capstone: The Kernel at Training

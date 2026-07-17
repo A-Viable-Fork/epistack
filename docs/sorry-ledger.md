@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the open deferred-verification obligations, one line per marker, as the ledger the linter reproduces.
-Depends on: docs/design-axioms.md
-Depended on by: docs/governing-trellis.md, docs/status-ledger.md
+Purpose: "Records the open deferred-verification obligations, one line per marker, as the ledger the linter reproduces."
+Depends on: [docs/design-axioms.md]
+Depended on by: [docs/governing-trellis.md, docs/status-ledger.md]
 ---
 
 # Sorry Ledger

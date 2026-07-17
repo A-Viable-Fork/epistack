@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Indexes every tracked module and data file with its role, as the manifest the linter checks completeness against.
-Depends on: docs/design-axioms.md
-Depended on by: nothing
+Purpose: "Indexes every tracked module and data file with its role, as the manifest the linter checks completeness against."
+Depends on: [docs/design-axioms.md]
+Depended on by: []
 ---
 
 # Corpus Index

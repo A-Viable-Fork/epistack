@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the retired storage-API-clients design, a stub superseded by the unownable-graph specification.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Records the retired storage-API-clients design, a stub superseded by the unownable-graph specification."
+Depends on: []
+Depended on by: []
 Superseded by: docs/architecture-the-unownable-graph.md
 ---
 

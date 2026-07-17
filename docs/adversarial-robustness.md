@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: Argues the answer to the gamed-gate objection, deriving the cost-and-forkability solution type.
-Depends on: docs/architecture-the-unownable-graph.md, docs/parameters-register.md, docs/status-ledger.md, docs/what-stands-without-trust.md
-Depended on by: docs/adversarial_walkthrough.md
+Purpose: "Argues the answer to the gamed-gate objection, deriving the cost-and-forkability solution type."
+Depends on: [docs/architecture-the-unownable-graph.md, docs/parameters-register.md, docs/status-ledger.md, docs/what-stands-without-trust.md]
+Depended on by: [docs/adversarial_walkthrough.md]
 ---
 
 # Robustness Under Adversaries

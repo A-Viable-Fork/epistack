@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: States the code-level design commitments and the linter rules, as the reference the build discipline is held to.
-Depends on: docs/components-and-forking.md, docs/knowledge-system-how.md
-Depended on by: CLAUDE.md, docs/corpus-index.md, docs/exclusion-reservoir.md, docs/governing-trellis.md, docs/kernel-workflow-guide.md, docs/quickstart.md, docs/sorry-ledger.md, docs/speedbumps-of-scaling.md, docs/status-ledger.md, docs/substrate-map.md
+Purpose: "States the code-level design commitments and the linter rules, as the reference the build discipline is held to."
+Depends on: [docs/components-and-forking.md, docs/knowledge-system-how.md]
+Depended on by: [CLAUDE.md, docs/corpus-index.md, docs/exclusion-reservoir.md, docs/governing-trellis.md, docs/kernel-workflow-guide.md, docs/quickstart.md, docs/sorry-ledger.md, docs/speedbumps-of-scaling.md, docs/status-ledger.md, docs/substrate-map.md]
 ---
 
 # EpiStack Design Axioms

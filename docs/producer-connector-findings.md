@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records what the producer connector built, an MCP server exposing the propose contract as a schema-gated tool so an agent authors a claim through the same gate a human does, the producer-agnostic proof it carries, and that a live agent session and autonomous multi-claim orchestration are the named deferred depth the submission's thesis deliberately does not build.
-Depends on: nothing
-Depended on by: docs/workflow-atlas.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md
+Purpose: "Records what the producer connector built, an MCP server exposing the propose contract as a schema-gated tool so an agent authors a claim through the same gate a human does, the producer-agnostic proof it carries, and that a live agent session and autonomous multi-claim orchestration are the named deferred depth the submission's thesis deliberately does not build."
+Depends on: []
+Depended on by: [docs/workflow-atlas.md, docs/workflow-producer-data.md, docs/workflow-producer-video.md, docs/workflow-producer-web.md]
 ---
 
 # The Producer Connector: Findings

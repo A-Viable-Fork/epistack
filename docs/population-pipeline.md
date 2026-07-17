@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the population-mismatch pipeline demonstration, the record the trellis translator derives from.
-Depends on: docs/architecture-spec.md, docs/family-discrimination.md
-Depended on by: docs/trellis-to-v3.md
+Purpose: "Records the population-mismatch pipeline demonstration, the record the trellis translator derives from."
+Depends on: [docs/architecture-spec.md, docs/family-discrimination.md]
+Depended on by: [docs/trellis-to-v3.md]
 ---
 
 # Population Pipeline, v0: The Family as a DAG

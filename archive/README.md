@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records what the archive directory holds and why it is kept out of the build.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "Records what the archive directory holds and why it is kept out of the build."
+Depends on: []
+Depended on by: []
 ---
 
 # archive/

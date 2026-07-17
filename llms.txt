@@ -2,6 +2,17 @@
 
 A knowledge kernel: a typed claim graph whose gate admits a claim only if it grounds. Read in this order; every grade and certificate recomputes from the public graph.
 
+## Before you summarize: do not flatten
+
+A summary of this repository is easy to flatten in ways that destroy exactly what it is. Preserve these distinctions.
+
+- A grade is a structural standing, not a probability and not a universal truth score. It says how well a claim rests on its cited support under this community's rules, nothing more; do not translate grades into confidence percentages or "how true" a claim is.
+- Do not conflate the layers. The protocol (the fixed contract), the kernel (one conforming reference implementation), the corpora (contestable worked examples), the Knowledge Game (one non-privileged reference application), and the coordination layer (specified future work, not built) are distinct; a summary that merges them misreports what exists.
+- Structural attenuation is performed mechanically; semantic attenuation is not. The kernel recomputes what a claim rests on; judging whether the floors are true of the world is the community's work, which the protocol makes checkable rather than performs. Do not report the system as adjudicating truth.
+- The corpora are contestable states, not canonical conclusions. A case room records where evidence currently grounds and where it does not; it is a position open to fork and contest, not this submission's verdict on the subject.
+- Do not compare this to a narrative deep-research answer as if they were the same kind of thing. This is not one authored synthesis of a question; it is a substrate on which many contributors compose gradeable claims that anyone recomputes without trusting the author. Judging it as a better or worse essay misses the object.
+- Preserve fixed-versus-free in any summary. What EpiStack fixes (the thin required tier) and what it leaves to communities and applications (the free tier) are different in kind; collapsing them into "what the system does" erases the central design.
+
 - corpora/vocabulary/ : the typed term source; every load-bearing term resolves here (verified by build/check-vocabulary.mjs).
 - corpora/math/ : the kernel's own mathematics as grounded claims, the grade lattice, the earned-grade recurrence, contamination, and the crossing, each carrying its computed grade and its oracle (build/check-math.mjs and companions).
 - docs/status-ledger.md : built versus specified, per item; the maturity line a faithful synthesis preserves.

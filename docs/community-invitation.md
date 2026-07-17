@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The community invitation as a standalone artifact: the negative space for an EpiStack community over the three subjects, stated as an invitation to constitute one, with the fixed invariants, the free parameters, the first act, what exists to start from tiered by what is built, and how to take part. Nothing here implies a community exists.
-Depends on: docs/coordination-layer-spec.md, docs/kernel-workflow-guide.md, docs/parameters-register.md, docs/substrate-map.md
-Depended on by: docs/community-backend.md, docs/ecosystem-guide.md, docs/for-the-institutional-adopter.md, docs/workflow-atlas.md
+Purpose: "The community invitation as a standalone artifact: the negative space for an EpiStack community over the three subjects, stated as an invitation to constitute one, with the fixed invariants, the free parameters, the first act, what exists to start from tiered by what is built, and how to take part. Nothing here implies a community exists."
+Depends on: [docs/coordination-layer-spec.md, docs/kernel-workflow-guide.md, docs/parameters-register.md, docs/substrate-map.md]
+Depended on by: [docs/community-backend.md, docs/ecosystem-guide.md, docs/for-the-institutional-adopter.md, docs/workflow-atlas.md]
 ---
 
 # The Community Invitation

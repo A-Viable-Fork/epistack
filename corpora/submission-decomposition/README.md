@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The submission-decomposition contribution set: what is staged, the three registers, and the operator's one merge step on the Knowledge-Game side.
-Depends on: nothing
-Depended on by: nothing
+Purpose: "The submission-decomposition contribution set: what is staged, the three registers, and the operator's one merge step on the Knowledge-Game side."
+Depends on: []
+Depended on by: []
 ---
 
 # The submission decomposition: a contribution set for the competition community

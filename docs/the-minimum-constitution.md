@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: The submission's first read: what EpiStack is, why the accounting basis for trust needs rebasing, and where the fixed/free boundary falls, stated affirmatively as a regime-conditional analysis. The frame the reading paths inherit.
-Depends on: docs/the-climb-of-synthesis.md, docs/contract-register.md, docs/parameters-register.md
-Depended on by: README.md
+Purpose: "The submission's first read: what EpiStack is, why the accounting basis for trust needs rebasing, and where the fixed/free boundary falls, stated affirmatively as a regime-conditional analysis. The frame the reading paths inherit."
+Depends on: [docs/the-climb-of-synthesis.md, docs/contract-register.md, docs/parameters-register.md]
+Depended on by: [README.md]
 ---
 
 # The Minimum Constitution

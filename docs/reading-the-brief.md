@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: Argues the build choices in the competition's own terms, as the design rationale a judge reads for the reasoning behind each choice.
-Depends on: docs/epistemic_uplift.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md, docs/what-stands-without-trust.md
-Depended on by: nothing
+Purpose: "Argues the build choices in the competition's own terms, as the design rationale a judge reads for the reasoning behind each choice."
+Depends on: [docs/epistemic_uplift.md, docs/parameters-register.md, docs/status-ledger.md, docs/trust-and-view.md, docs/what-stands-without-trust.md]
+Depended on by: []
 ---
 
 # Reading the Brief

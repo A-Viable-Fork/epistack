@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the register view, the accessible and precise readings over the argument's shared trust, its fidelity discipline, and its drift check, as the contract the register build derives from.
-Depends on: docs/api.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/trust-and-view.md
-Depended on by: docs/register-diet-findings.md, docs/register-fidelity-read.md
+Purpose: "Specifies the register view, the accessible and precise readings over the argument's shared trust, its fidelity discipline, and its drift check, as the contract the register build derives from."
+Depends on: [docs/api.md, docs/document-style-guide.md, docs/epistemic_uplift.md, docs/trust-and-view.md]
+Depended on by: [docs/register-diet-findings.md, docs/register-fidelity-read.md]
 ---
 
 # The Register View

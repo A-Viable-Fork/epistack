@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the reference-not-inline discipline and the runtime fork mechanism, as the source the component and client documents derive from.
-Depends on: docs/knowledge-system-how.md
-Depended on by: CLAUDE.md, docs/architecture-spec.md, docs/clients.md, docs/composition-spec.md, docs/design-axioms.md, docs/ecosystem-guide.md
+Purpose: "Specifies the reference-not-inline discipline and the runtime fork mechanism, as the source the component and client documents derive from."
+Depends on: [docs/knowledge-system-how.md]
+Depended on by: [CLAUDE.md, docs/architecture-spec.md, docs/clients.md, docs/composition-spec.md, docs/design-axioms.md, docs/ecosystem-guide.md]
 ---
 
 # Components, References, and Forking

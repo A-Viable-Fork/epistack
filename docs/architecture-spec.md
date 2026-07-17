@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the interactive decompose-perturb-compare surface, as the source the teaching layer derives from.
-Depends on: docs/components-and-forking.md, docs/knowledge-system-how.md, docs/schema-revisions.md
-Depended on by: docs/population-pipeline.md, docs/schema-revisions.md, docs/teaching-layer.md
+Purpose: "Specifies the interactive decompose-perturb-compare surface, as the source the teaching layer derives from."
+Depends on: [docs/components-and-forking.md, docs/knowledge-system-how.md, docs/schema-revisions.md]
+Depended on by: [docs/population-pipeline.md, docs/schema-revisions.md, docs/teaching-layer.md]
 ---
 
 # Node Card and Architecture Spec

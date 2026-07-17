@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Describes the thin-client manifest kit, as the reference for building a declarative client over the contract.
-Depends on: docs/api.md, docs/clients.md
-Depended on by: nothing
+Purpose: "Describes the thin-client manifest kit, as the reference for building a declarative client over the contract."
+Depends on: [docs/api.md, docs/clients.md]
+Depended on by: []
 ---
 
 # The thin-client kit

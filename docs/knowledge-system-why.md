@@ -1,8 +1,8 @@
 ---
 Type: argument
-Purpose: States the problem the architecture answers, generation outrunning verification, as the root the functional and grounding documents derive from.
-Depends on: nothing
-Depended on by: docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/what-stands-without-trust.md
+Purpose: "States the problem the architecture answers, generation outrunning verification, as the root the functional and grounding documents derive from."
+Depends on: []
+Depended on by: [docs/knowledge-system-how.md, docs/knowledge-system-what.md, docs/what-stands-without-trust.md]
 ---
 
 # The Knowledge System: Why It Is This Way

@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: The record of approaches killed while building the submission, each with its kill-reason and reactivation condition, so a reader can audit the kills.
-Depends on: docs/what-stands-without-trust.md, docs/status-ledger.md
-Depended on by: docs/on-transparency.md
+Purpose: "The record of approaches killed while building the submission, each with its kill-reason and reactivation condition, so a reader can audit the kills."
+Depends on: [docs/what-stands-without-trust.md, docs/status-ledger.md]
+Depended on by: [docs/on-transparency.md]
 ---
 
 # The Compost Ledger

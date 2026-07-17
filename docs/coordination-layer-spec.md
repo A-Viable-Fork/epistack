@@ -1,8 +1,8 @@
 ---
 Type: reference
-Purpose: Specifies the coordination layer, the frontier where many communities validate and build on each other's claims, as the design that extends the kernel's grade computation from claims to participants. Draws the built-versus-specified line sharply: the grade machinery it extends is built, the coordination layer it specifies is not.
-Depends on: docs/parameters-register.md, docs/composition-spec.md, docs/knowledge-system-how.md, docs/status-ledger.md
-Depended on by: docs/community-backend.md, docs/community-invitation.md, docs/ecosystem-guide.md, docs/governing-trellis.md, docs/kernel-workflow-guide.md, docs/knowledge-kernels-and-crypto.md, docs/substrate-map.md, docs/the-asymmetric-weapon.md
+Purpose: "Specifies the coordination layer, the frontier where many communities validate and build on each other's claims, as the design that extends the kernel's grade computation from claims to participants. Draws the built-versus-specified line sharply: the grade machinery it extends is built, the coordination layer it specifies is not."
+Depends on: [docs/parameters-register.md, docs/composition-spec.md, docs/knowledge-system-how.md, docs/status-ledger.md]
+Depended on by: [docs/community-backend.md, docs/community-invitation.md, docs/ecosystem-guide.md, docs/governing-trellis.md, docs/kernel-workflow-guide.md, docs/knowledge-kernels-and-crypto.md, docs/substrate-map.md, docs/the-asymmetric-weapon.md]
 ---
 
 # The Coordination Layer

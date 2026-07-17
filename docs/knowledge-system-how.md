@@ -1,8 +1,8 @@
 ---
 Type: specification
-Purpose: Specifies the grounding computation, the canonical home of the grounding rule the code and the downstream documents derive from.
-Depends on: docs/knowledge-system-what.md, docs/knowledge-system-why.md
-Depended on by: CLAUDE.md, docs/api.md, docs/architecture-spec.md, docs/architecture-the-unownable-graph.md, docs/components-and-forking.md, docs/composition-spec.md, docs/coordination-layer-spec.md, docs/design-axioms.md, docs/family-discrimination.md, docs/kernel-taxonomy.md, docs/lhc-cascade.md, docs/parameters-register.md, docs/status-ledger.md, docs/trellis-to-v3.md, docs/trellises/black-holes-reconstruction-trellis.md, docs/trellises/covid-origins-crux-trellis.md, docs/trellises/eggs-completeness-trellis.md, docs/what-stands-without-trust.md
+Purpose: "Specifies the grounding computation, the canonical home of the grounding rule the code and the downstream documents derive from."
+Depends on: [docs/knowledge-system-what.md, docs/knowledge-system-why.md]
+Depended on by: [CLAUDE.md, docs/api.md, docs/architecture-spec.md, docs/architecture-the-unownable-graph.md, docs/components-and-forking.md, docs/composition-spec.md, docs/coordination-layer-spec.md, docs/design-axioms.md, docs/family-discrimination.md, docs/kernel-taxonomy.md, docs/lhc-cascade.md, docs/parameters-register.md, docs/status-ledger.md, docs/trellis-to-v3.md, docs/trellises/black-holes-reconstruction-trellis.md, docs/trellises/covid-origins-crux-trellis.md, docs/trellises/eggs-completeness-trellis.md, docs/what-stands-without-trust.md]
 ---
 
 # The Knowledge System: How It Is Built

@@ -1,8 +1,8 @@
 ---
 Type: record
-Purpose: Records the schema revisions the cases forced, the data-model record that overrides the spec where the two disagree.
-Depends on: docs/architecture-spec.md, docs/lhc-cascade.md
-Depended on by: CLAUDE.md, docs/architecture-spec.md, docs/family-discrimination.md
+Purpose: "Records the schema revisions the cases forced, the data-model record that overrides the spec where the two disagree."
+Depends on: [docs/architecture-spec.md, docs/lhc-cascade.md]
+Depended on by: [CLAUDE.md, docs/architecture-spec.md, docs/family-discrimination.md]
 ---
 
 # Schema Stress Test: Branch 2, and the Revisions It Forces

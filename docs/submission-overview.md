@@ -1,5 +1,37 @@
 # EpiStack and The Knowledge Game: Submission Overview
 
+## What you are evaluating
+
+> The submission is EpiStack: a minimum protocol for recomputable structural standing and composition across independently governed epistemic communities. The kernel is a conforming reference implementation. The corpora are contestable worked examples. The Knowledge Game is one non-privileged reference application. The coordination layer is specified future work.
+
+Three claims about that object are architectural, so each is falsifiable by a check you can run, not by an argument you have to weigh:
+
+- **A. A claim's standing is a function of its support, not its producer.** Who proposed a claim never enters the grade computation, so the same graph grades to the same result on anyone's machine and for any producer. Falsified if a producer's identity ever moves a grade. Checked by `build/check-gate.mjs` (the grade recomputes deterministically from support alone) and `build/check-math-differential.mjs` (the recurrence agrees under differential trial).
+- **B. A claim crosses a community boundary without importing the source's authority.** An imported claim arrives untyped at the floor and grounds nothing until an owned local fork re-types it, so no kernel can launder standing into another by exporting it. Falsified if an untyped import ever confers standing. Checked by `build/check-crossing.mjs` and `build/check-composition.mjs`.
+- **C. A view cannot modify trust.** Reading, ranking, filtering, rendering, and contesting move no grade; admitting a contest leaves every pre-existing grade byte-identical. Falsified if any view path changes a stored grade. Checked by `build/check-fork-contest.mjs` (the no-grade-motion theorem); the app's ranking-vector fuzz is the surface instance of the same property.
+
+The broader theses this overview develops, the six critiques and their counterexamples below, follow as implications of those three: they are what the protocol is for, once producer-independence, authority-free crossing, and view-inertness hold.
+
+### Fixed by EpiStack, and left free
+
+The protocol fixes a thin required tier and leaves everything else to the communities and applications that build on it. The two columns below are independent projections, the left off the contract register (`docs/contract-register.md`, the `CR-*` invariants), the right off the parameters register (`docs/parameters-register.md`, the `PR-*` free parameters); read each column down its own list rather than row by row. `build/check-boundary.mjs` holds the two sets disjoint.
+
+| Fixed by EpiStack (the composition contract) | Left to communities and applications |
+|---|---|
+| Every claim carries a type, even the untyped type (CR-typed) | The type system: what floors exist and what a claim may be typed as (PR-typesystem) |
+| Grounding is monotone: no claim advertises more standing than its supports carry (CR-monotone) | The standing and reputation rules: who earns standing and how it is weighted (PR-standing) |
+| The untyped type grounds nothing; an import re-earns locally (CR-untyped-floor) | The origin verification stance: accept-native, re-verify, discount, or reject a crossing (PR-origin-stance) |
+| Claims carry their history: origin, crossings, and forks (CR-history, a mapped gap, sorry-ledger G-F) | The time-lock parameters: standing cost, decay, and the sampling window (PR-timelock) |
+| Standing is forkable and revocable (CR-forkable) | The identity and write-admission policy: what identity a write requires, and at what grade (PR-identity-admission) |
+| Shared meaning is shared hash (CR-shared-hash) | The agent policy: which producers may perform which steps (PR-agent-policy) |
+| Standing recomputes from the public graph by anyone (CR-recomputable) | The forum and weighing conventions: how cross-domain trade-offs are priced (PR-forum) |
+| No participant holds authority the gate lacks (CR-gate-authority) | The corpus content license the community's claims carry (PR-license) |
+| Standing moves only through typing acts; reading, ranking, and contesting move none (CR-typing-acts) | |
+| Structural attenuation is the kernel's; semantic attenuation is the community's (CR-attenuation-line) | |
+| Reading requires nothing, ever (CR-reading-open) | |
+
+The register discipline is that the required tier stays as small as honesty allows, one invariant admitted only when a crossing genuinely depends on it, so diversity lives in the free tier and unity in the required tier.
+
 EpiStack is a minimal shared structure on which independent communities build knowledge that composes. The Knowledge Game is its first app: a feed you steer over claims you check. Both exist and run today. The fastest way to evaluate it: the checks rerun in about two minutes, every grade recomputes from the public graph, and the app installs from a URL. This sits downstream of [the minimum constitution](the-minimum-constitution.md): the accounting basis for trust was well-calibrated, its regime shifted, and rebasing follows. What follows is where that shift shows, each place named with the structure that rebases it, so the six pairs below are six readings of one regime change rather than six separate attacks.
 
 ## The critiques, each with its counterexample
