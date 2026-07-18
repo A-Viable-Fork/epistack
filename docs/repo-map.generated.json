@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 219,
-  "edgeCount": 499,
+  "nodeCount": 220,
+  "edgeCount": 504,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -298,6 +298,13 @@
       "contract": "exports CANONICAL_ENTRIES, an array of transformation entries ready for register(entry) (kernel/compute/transforms.mjs). registerCanonicalPacks(registry) calls registry.register(entry) for each of them."
     },
     {
+      "path": "kernel/compute/registry.mjs",
+      "type": "kernel",
+      "group": null,
+      "role": "the default transformation registry (COMPUTE-2). Factors the register assembly into one module: makeRegister() plus the canonical graph and algebra packs, kernel content legal for a kernel module to include directly. Never imports a statistics pack: a statistics pack is corpus content (COMPUTE-1), and kernel imports only kernel (kernel/README.md). assembleRegistry lets a caller that can legally read a corpus (build/check-compute.mjs, or a live provider) add packs without this module ever naming their source, the \"provider may override the statistics packs\" seam api/client-api.mjs names.",
+      "contract": "assembleRegistry(extraRegistrars?) -> register, extraRegistrars an array of register( registry) functions called after the canonical packs. defaultRegistry() -> assembleRegistry() with none, the canonical-only register. catalog(registry, pack?) -> list(pack) with run omitted."
+    },
+    {
       "path": "api/api.js",
       "type": "api",
       "group": null,
@@ -309,7 +316,7 @@
       "type": "api",
       "group": null,
       "role": "the propose/read contract (Prompt 10). The API is a contract, not a location: it names a provider and delegates. A client calls propose and read and never learns which provider answers, so a local provider (runs the gate in-process over a snapshot) and a remote provider (calls a hosted kernel) are interchangeable behind this one seam. Swapping providers changes one import; the client is untouched.",
-      "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], glossary() -> { GRADES, KINDS, LINKS, CONCEPTS }, providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
+      "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], glossary() -> { GRADES, KINDS, LINKS, CONCEPTS }, transforms(pack?) -> [entry, no run], describeTransform(id) -> entry-or-null, runTransform(id, input) -> result, providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
     },
     {
       "path": "api/management-api.mjs",
@@ -1372,7 +1379,7 @@
       "path": "build/check-compute.mjs",
       "type": "build",
       "group": null,
-      "role": "the oracle for the transformation store (COMPUTE-1). Verifies the entry shape: every entry carries a non-empty assumptions manifest and a reversibility mark, and every statistics entry emits value-or-flag and consumes values, never a kernel. Runs the covid acceptance test: the Rootclaim aggregation multiplied a factor for choosing the suboptimal RRAR insertion site by a factor for adding the proline, factors the debate itself questioned as possibly one furin-cleavage-site strategy rather than two independent weirdnesses (the suboptimal-PRRAR thread in corpora/covid/covid-depth.js). Feeds both stats entries the same two factors and asserts they disagree: naive-multiply compounds them, dependence-aware refuses. Confirms the no-standing rule holds mechanically on real covid-derived data: no statistics output carries a grade, none returns a kernel.",
+      "role": "the oracle for the transformation store (COMPUTE-1) and the read-only compute surface (COMPUTE-2). Verifies the entry shape, runs the covid acceptance test (the Rootclaim RRAR-site and proline factors; naive-multiply compounds them, dependence-aware refuses), and confirms the no-standing rule holds both against the register directly and through createClientApi's transforms/describeTransform/runTransform: no statistics output carries a grade, none returns a kernel, no catalog entry carries a run function.",
       "contract": "`node build/check-compute.mjs` exits non-zero on any failure, naming it."
     },
     {
@@ -1763,6 +1770,20 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/compute/registry.mjs",
+      "to": "kernel/compute/transforms.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/compute/registry.mjs",
+      "to": "kernel/compute/canonical-packs.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/gate/gate.mjs",
       "to": "kernel/grounding/earned-grade.mjs",
       "type": "imports",
@@ -1982,6 +2003,13 @@
     {
       "from": "api/client-api.mjs",
       "to": "kernel/schema/glossary.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/client-api.mjs",
+      "to": "kernel/compute/registry.mjs",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
@@ -2688,17 +2716,24 @@
     },
     {
       "from": "build/check-compute.mjs",
-      "to": "kernel/compute/transforms.mjs",
+      "to": "kernel/compute/registry.mjs",
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
     },
     {
       "from": "build/check-compute.mjs",
-      "to": "kernel/compute/canonical-packs.mjs",
+      "to": "api/client-api.mjs",
       "type": "imports",
       "fromLayer": "build",
-      "toLayer": "kernel"
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-compute.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-compute.mjs",
@@ -4818,6 +4853,11 @@
     },
     {
       "from": "kernel/compute/canonical-packs.mjs",
+      "to": "build/check-compute.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/compute/registry.mjs",
       "to": "build/check-compute.mjs",
       "type": "checked-by"
     },
