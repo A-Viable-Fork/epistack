@@ -197,6 +197,17 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/glossary.mjs",
+    "type": "kernel",
+    "group": "schema",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-glossary.mjs"
+      }
+    ]
+  },
+  {
     "path": "kernel/schema/edges.js",
     "type": "kernel",
     "group": "schema"
