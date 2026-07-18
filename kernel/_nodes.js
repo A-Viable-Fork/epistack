@@ -265,5 +265,25 @@ module.exports = [
     "path": "kernel/store/state.mjs",
     "type": "kernel",
     "group": "store"
+  },
+  {
+    "path": "kernel/compute/transforms.mjs",
+    "type": "kernel",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-compute.mjs"
+      }
+    ]
+  },
+  {
+    "path": "kernel/compute/canonical-packs.mjs",
+    "type": "kernel",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-compute.mjs"
+      }
+    ]
   }
 ];

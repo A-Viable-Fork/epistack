@@ -376,5 +376,9 @@ module.exports = [
   {
     "path": "linter.js",
     "type": "build"
+  },
+  {
+    "path": "build/check-compute.mjs",
+    "type": "build"
   }
 ];
