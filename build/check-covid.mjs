@@ -168,6 +168,23 @@ ok(gaps.every((g) => specByRef.get(nm(g.identity)) && specByRef.get(nm(g.identit
 ok(gaps.every((g) => g.closing_condition && g.closing_condition.target), "every gap names the sealed record that would close it (the closing condition)");
 
 // =====================================================================================
+console.log("\n[D8] no reconstructed number leaks into a measurement or a debate-attributed forum node");
+const marked = C.claims.filter((c) => c.spec.mark);
+// (a) every marked-reconstructed node is a forum reader-weighting attributed to a reader
+const recon = marked.filter((c) => c.spec.mark === "reconstructed");
+ok(recon.every((c) => c.spec.kind === "forum" && c.spec.node_role === "reader-weighting" && /^reader:/.test(c.spec.contributor_id)),
+   `every reconstructed node is a forum reader-weighting attributed to a reader (${recon.length})`);
+// (b) no measurement carries a mark at all (measurements are never reconstructed)
+ok(C.claims.every((c) => !(c.spec.kind === "measurement" && c.spec.mark)), "no measurement node carries a reconstructed/stated mark");
+// (c) no debate-side or reading node is marked reconstructed
+const sideRe = /^(side|read):/;
+ok(C.claims.every((c) => !(sideRe.test(c.spec.contributor_id) && c.spec.mark === "reconstructed")), "no debate-side or reading node is marked reconstructed");
+// (d) the dropped reconstruction and the post-debate literature do not appear in any measurement or debate-side forum node
+const sentinels = ["14,900", "7,578", "BsmBI", "BsaI"];
+const leaked = C.claims.filter((c) => (c.spec.kind === "measurement" || sideRe.test(c.spec.contributor_id)) && sentinels.some((s) => c.spec.statement.includes(s)));
+ok(leaked.length === 0, `no dropped-reconstruction or post-debate-literature sentinel appears in a measurement or debate-side node (${leaked.map((c)=>c.spec.ref).join(", ") || "none"})`);
+
+// =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-covid: ${fails} FAILURE(S)`); process.exit(1); }
 console.log("verified: the origins crux resolves to the four priors at more than one depth, terminating in withheld-record gaps carried as characterized leaps.");
