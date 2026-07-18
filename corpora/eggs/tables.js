@@ -59,6 +59,21 @@ const SOURCES = [
   { source_id: "src:dehghan-2020", source_class: "peer-reviewed", description: "Dehghan et al. (2020), AJCN, PURE (177,000 across 50 countries; null egg-CVD)" },
   { source_id: "src:hu-1999", source_class: "peer-reviewed", description: "Hu et al. (1999), JAMA 281(15):1387-1394 (diabetic subgroup CHD HR 2.02 men)" },
   { source_id: "src:qin-2018", source_class: "peer-reviewed", description: "Qin et al. (2018), Heart 104:1756-1763, China Kadoorie Biobank (Asian protective)" },
+  // ---- cardiovascular, deep-research merge: heart-failure signal and the diabetic RCT rebuttal ----
+  { source_id: "src:djousse-2017", source_class: "peer-reviewed", description: "Djoussé et al. (2017), Clin Nutr 36(5):1215-1220, PMID 28396858 (egg consumption and incident heart failure, pooled RR 1.25)" },
+  { source_id: "src:fuller-2018", source_class: "peer-reviewed", description: "Fuller et al. (2018), Am J Clin Nutr 107(6):921-931 (DIABEGG weight-loss phase, T2D 12-month RCT, cardiometabolic markers null)" },
+
+  // ---- environment, deep-research merge: the LCA methodological contest ----
+  { source_id: "src:poore-2018", source_class: "peer-reviewed", description: "Poore & Nemecek (2018), Science 360(6392):987-992 (attributional LCA per unit protein across food products)" },
+  { source_id: "src:schmidt-2021", source_class: "institutional-report", description: "Schmidt et al. (2021), the Big Climate Database (consequential LCA with system expansion and manure-displacement crediting)" },
+  { source_id: "src:mcauliffe-2023", source_class: "peer-reviewed", description: "McAuliffe et al. (2023), DIAAS-adjusted functional-unit LCA (protein-quality-corrected environmental impact per digestible protein)" },
+  { source_id: "src:ciel-2022", source_class: "institutional-report", description: "CIEL (2022), Poultry and environment: land-use-change soy provenance, LUC-free feed reduces layer-system GHG up to 22 percent" },
+
+  // ---- economics, deep-research merge: supply-system cost structure, welfare mandates, HPAI shocks ----
+  { source_id: "src:usda-ers-poultry", source_class: "institutional-report", description: "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing" },
+  { source_id: "src:matthews-sumner-2015", source_class: "peer-reviewed", description: "Matthews & Sumner (2015), agricultural-economics housing-cost study (enriched +13 percent, cage-free aviary +36 percent total cost vs conventional)" },
+  { source_id: "src:prop12", source_class: "peer-reviewed", description: "California Prop 12 retail-premium analyses (AJAE and Purdue): +$0.25 to $0.73 per dozen, annual consumer-surplus loss $223 to $664 million" },
+  { source_id: "src:caputo-2023", source_class: "institutional-report", description: "Caputo et al. (2023), United Egg Producers econometric report (own-price elasticity conventional -0.321, cage-free -1.065; cross-price substitution)" },
 
   // ---- environment (farming and regenerative documents) ----
   { source_id: "src:leinonen-2012", source_class: "peer-reviewed", description: "Leinonen et al. (2012), Poultry Science 91(1):8-25 (UK egg-system LCA)" },

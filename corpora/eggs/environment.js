@@ -57,6 +57,23 @@ const claims = [
   // ---- a bare advocacy assertion, for contrast with the characterized gaps ----
   { ref: "e.regen-advocacy", kind: "measurement", declared_grade: "asserted", source_id: "src:savory-advocacy", contributor_id: "regen:advocacy",
     statement: "eggs.environment: regenerative grazing sequesters 2.5 to 9 t C/ha/yr, an advocacy figure 7 to 70 times the measured meta-analytic rate, with no supporting measurement or closing condition" },
+
+  // ---- deep-research merge: the LCA methodological contest (the choice of method, not the biology, moves the verdict) ----
+  // the allocation contest, landed as a contradicts pair: which method is used decides whether eggs sit above or below plant proteins.
+  { ref: "e.method-attributional", kind: "forum", declared_grade: "asserted", source_id: "src:poore-2018", contributor_id: "meta:poore-nemecek",
+    statement: "eggs.environment: under attributional LCA with economic or mass allocation and manure treated as a zero-burden residual, eggs sit above plant proteins per unit protein (tofu and peas about 1.5 to 2.0 kg CO2-eq per 100 g protein against a higher egg figure)" },
+  { ref: "e.method-consequential", kind: "forum", declared_grade: "asserted", source_id: "src:schmidt-2021", contributor_id: "lca:schmidt",
+    statement: "eggs.environment: under consequential LCA with system expansion, crediting the egg system for manure-displaced synthetic fertilizer drops the net egg carbon figure below that of plant-based proteins, the same biology reranked by the accounting choice" },
+  // the DIAAS-adjusted functional unit compresses the plant-protein advantage: it contradicts the crude-protein-basis attributional claim.
+  { ref: "e.method-diaas", kind: "forum", declared_grade: "asserted", source_id: "src:mcauliffe-2023", contributor_id: "lca:mcauliffe",
+    statement: "eggs.environment: dividing impacts by a DIAAS-adjusted functional unit rather than crude protein compresses or reverses the plant-protein advantage, because lower-digestibility plant proteins deliver less usable protein per gram, so the functional unit is itself a contested value choice" },
+  // the LUC-free feed swing is a real per-kg measurement: it refines the GHG floor.
+  { ref: "e.feed-luc", kind: "measurement", declared_grade: "asserted", source_id: "src:ciel-2022", contributor_id: "dataset:ciel-poultry",
+    statement: "eggs.environment: deforestation-linked soy provenance is the dominant GHG swing variable in the layer feed supply chain, substituting South American soybean meal with zero-deforestation grain reducing the layer-system GHG by up to 22 percent (same-party research pass, no distinct-party replication)" },
+  // the methodological gap: the harmonized consequential-plus-DIAAS study does not exist, a characterized gap held below the floor.
+  { ref: "e.method-gap", kind: "measurement", declared_grade: "asserted", source_id: "src:mcauliffe-2023", contributor_id: "gap:method-harmonized",
+    statement: "eggs.environment: no single study applies consequential system expansion and a DIAAS-adjusted functional unit together on the same egg system, so the cross-method egg-versus-plant ranking is not settled by one harmonized measurement",
+    closing_condition: { condition_kind: "direct-study", target: "a harmonized LCA applying consequential system expansion and a DIAAS-adjusted functional unit together on one egg system", system: "a layer egg-production system" } },
 ];
 
 const links = [
@@ -64,6 +81,12 @@ const links = [
   // its measurement floor, so the regenerative claim earns only what the cross-system transfer delivers.
   { link_kind: "supports", from: "e.pasture-soc-proxy", to: "e.regen-soc", support_group: "g:soc-transfer", source_id: "src:raposo-2025", contributor_id: "soc:raposo", declared_grade: "supported" },
   { link_kind: "supports", from: "e.litter-corn-proxy", to: "e.regen-litter", support_group: "g:litter-transfer", source_id: "src:yang-2019", contributor_id: "soc:yang", declared_grade: "supported" },
+
+  // deep-research merge: the allocation contest (attributional vs consequential), the DIAAS reweighting, the LUC swing, the harmonized-study gap.
+  { link_kind: "contradicts", from: "e.method-consequential", to: "e.method-attributional", source_id: "src:schmidt-2021", contributor_id: "lca:schmidt", declared_grade: "asserted" },
+  { link_kind: "contradicts", from: "e.method-diaas", to: "e.method-attributional", source_id: "src:mcauliffe-2023", contributor_id: "lca:mcauliffe", declared_grade: "asserted" },
+  { link_kind: "refines", from: "e.feed-luc", to: "e.ghg", source_id: "src:ciel-2022", contributor_id: "dataset:ciel-poultry", declared_grade: "asserted" },
+  { link_kind: "refines", from: "e.method-gap", to: "e.method-consequential", source_id: "src:mcauliffe-2023", contributor_id: "gap:method-harmonized", declared_grade: "asserted" },
 ];
 
 module.exports = { ENVIRONMENT: { store_id: "S-environment", claims, links } };

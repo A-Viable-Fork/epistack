@@ -164,6 +164,34 @@ ok(gradeRef(environment, "e.pasture-soc-proxy") === "checked", "its transfer sou
 ok(collapsedRank(gradeRef(environment, "e.regen-soc")) < collapsedRank(gradeRef(environment, "e.pasture-soc-proxy")), "the leap sits strictly below the measured proxy it transfers from: settledness is not inherited across the boundary");
 
 // =====================================================================================
+console.log("\n[E1] the economics domain store admits, and no stated mode conflicts with the gate");
+ok(economics.receipt.decision !== "declined", `the gate admits the economics store (decision ${economics.receipt.decision})`);
+const ecConflicts = reportConflicts(economics);
+for (const c of ecConflicts) console.log(`      CONFLICT ${c.statement} :: declared=${c.declared} earned=${c.earned}`);
+ok(ecConflicts.length === 0, `no economics claim declares a grade it cannot earn (${economics.claims.length} claims), so the same-party research measurements land at the floor the gate prices`);
+
+// =====================================================================================
+console.log("\n[E2] the deep-research merge lands as contests, refinements, and characterized gaps");
+// the CVD contested block is extended: the DIABEGG RCT contests the diabetic inference; the heart-failure and Asian-benefit claims refine the null.
+const rctContest = nutrition.state.links.some((l) => l.link_kind === "contradicts" && l.from_identity === byRef(nutrition, "n.cv-diabetic-rct") && l.to_identity === byRef(nutrition, "n.cv-diabetic"));
+ok(rctContest, "the DIABEGG 12-month RCT contests the observational diabetic-harm inference (a contradicts link)");
+ok(gradeRef(nutrition, "n.cv-diabetic") === "corroborated", "the contest leaves the diabetic inference's earned grade intact (contradicts is inert in the grade fold)");
+const nullRefiners = new Set(nutrition.state.links.filter((l) => l.link_kind === "refines" && l.to_identity === byRef(nutrition, "n.cv-null")).map((l) => l.from_identity));
+ok(nullRefiners.has(byRef(nutrition, "n.cv-heart-failure")) && nullRefiners.has(byRef(nutrition, "n.cv-asian-benefit")), "the heart-failure signal and the Asian stroke benefit refine the population null");
+// the environment allocation contest is a contradicts pair; the economics reports are same-party, so their measurements floor to asserted.
+const allocContest = environment.state.links.some((l) => l.link_kind === "contradicts" && l.from_identity === byRef(environment, "e.method-consequential") && l.to_identity === byRef(environment, "e.method-attributional"));
+ok(allocContest, "the consequential and attributional LCA methods are joined by a contradicts link (the accounting choice, not the biology, reranks the verdict)");
+// the new floor claims each read as characterized gaps carrying a closing condition.
+const envGaps = characterizedGaps(graphOf(environment));
+const econGaps = characterizedGaps(graphOf(economics));
+const gapRefs = [["environment", "e.method-gap", envGaps], ["economics", "ec.gap-mandate-elasticity", econGaps], ["economics", "ec.gap-snap-substitution", econGaps], ["economics", "ec.gap-hpai-capital", econGaps]];
+for (const [domName, ref, gapList] of gapRefs) {
+  const dom = domName === "environment" ? environment : economics;
+  const g = gapList.find((x) => x.identity === byRef(dom, ref));
+  ok(!!g && !!g.closing_condition, `${ref} reads as a characterized gap carrying a closing condition`);
+}
+
+// =====================================================================================
 console.log("\n[C1] the composite grounds by citation, no more than its weakest necessary citation");
 const weighByRef = Object.fromEntries(weighs.map((w) => [w.spec.ref, w]));
 const wEat = weighByRef["w.eat"], wSys = weighByRef["w.system"];

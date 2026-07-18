@@ -34,8 +34,11 @@ const id = (ref) => nut.refId.get(ref);
 // =====================================================================================
 console.log("\n[A1] the reconciliation register holds the CVD pair as a disagreement record");
 const reg = disagreements(graph);
-ok(reg.length === 1, `exactly one contradicts-linked disagreement in the nutrition store (got ${reg.length})`);
-const cvd = reg[0];
+// the nutrition store now holds two contradicts-linked disagreements: the population null/harm crux, and
+// the DIABEGG 12-month RCT contesting the observational diabetic-harm inference (the deep-research merge).
+ok(reg.length >= 1, `the nutrition store holds contradicts-linked disagreement records (got ${reg.length}: the population crux and the DIABEGG-RCT contest)`);
+const cvd = reg.find((d) => { const s = new Set([d.side_a.identity, d.side_b.identity]); return s.has(id("n.cv-null")) && s.has(id("n.cv-harm")); });
+ok(!!cvd, "the population null/harm pair is held as a disagreement record");
 const sides = new Set([cvd.side_a.identity, cvd.side_b.identity]);
 ok(sides.has(id("n.cv-null")) && sides.has(id("n.cv-harm")), "the record carries both sides: the population null and the population harm claim");
 ok(cvd.side_a.grade === "asserted" && cvd.side_b.grade === "asserted", `the record carries each side's grade (got ${cvd.side_a.grade} / ${cvd.side_b.grade})`);
