@@ -119,6 +119,7 @@
   "common_kinds": [
     "measurement",
     "forum",
-    "declaration"
+    "declaration",
+    "comment"
   ]
 }
