@@ -184,6 +184,14 @@ const sentinels = ["14,900", "7,578", "BsmBI", "BsaI"];
 const leaked = C.claims.filter((c) => (c.spec.kind === "measurement" || sideRe.test(c.spec.contributor_id)) && sentinels.some((s) => c.spec.statement.includes(s)));
 ok(leaked.length === 0, `no dropped-reconstruction or post-debate-literature sentinel appears in a measurement or debate-side node (${leaked.map((c)=>c.spec.ref).join(", ") || "none"})`);
 
+console.log("\n[D8e] each landed reconstruction's signature phrase appears in exactly one claim: its own node");
+// a copy-relabel of a reconstruction's text into a debate node makes the phrase appear twice, tripping this.
+const sigs = [["transcript-switching", "w.weissman.cgg"], ["fat-tailed", "w.weissman.fattail"], ["penalized for the absent", "w.eric.fcs.s2"]];
+for (const [phrase, ref] of sigs) {
+  const hits = C.claims.filter((c) => c.spec.statement.includes(phrase));
+  ok(hits.length === 1 && hits[0].spec.ref === ref, `the "${phrase}" reconstruction signature appears only in ${ref} (${hits.map((h) => h.spec.ref).join(", ") || "none"})`);
+}
+
 // =====================================================================================
 console.log("\n" + H);
 if (fails) { console.log(`check-covid: ${fails} FAILURE(S)`); process.exit(1); }
