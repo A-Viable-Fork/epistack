@@ -114,6 +114,16 @@ const claims = [
     statement: "eggs.nutrition: in diabetics, the pooled CVD HR is 1.69 (1.09 to 2.62) for the highest versus lowest egg intake (Shin 2013 meta-analysis)", checking_records: chk("shin-audit", "data-audit", "subgroup meta-analysis") },
   { ref: "n.cv-diabetic", kind: "forum", declared_grade: "corroborated", source_id: "src:godos-2021", contributor_id: "inference:diabetic-interaction",
     statement: "eggs.nutrition: in diabetic individuals the egg-CVD association is inverted toward harm, the one place the observational lines agree while the population-level estimate stays in tension" },
+  // ---- deep-research merge: the heart-failure signal, the diabetic RCT rebuttal, and the Asian stroke benefit ----
+  // the heart-failure signal is the specific exception to the general population null: it refines it.
+  { ref: "n.cv-heart-failure", kind: "measurement", declared_grade: "asserted", source_id: "src:djousse-2017", contributor_id: "meta:djousse",
+    statement: "eggs.nutrition: frequent egg consumption (>=1 per day) is associated with elevated incident heart failure (pooled RR 1.25, 95% CI 1.12 to 1.39), a distinct mechanistic pathway from coronary disease, with the ONTARGET/TRANSCEND cohort (31,544 patients) carrying the same direction (same-party research pass, no distinct-party replication)" },
+  // the DIABEGG 12-month weight-loss RCT is the randomized rebuttal to the observational diabetic-harm inference: it contests n.cv-diabetic.
+  { ref: "n.cv-diabetic-rct", kind: "measurement", declared_grade: "asserted", source_id: "src:fuller-2018", contributor_id: "rct:diabegg-followup",
+    statement: "eggs.nutrition: in the DIABEGG randomized trial in type-2-diabetic adults, a high-egg diet (>=12 per week) over a 12-month weight-loss protocol did not adversely change HDL, LDL, fasting glucose, or other cardiometabolic markers versus a low-egg diet, the randomized rebuttal to the observational diabetic-harm inference (same-party research pass, no distinct-party replication)" },
+  // the Kadoorie Asian benefit disaggregates the null by geography and stroke subtype: it refines n.cv-null.
+  { ref: "n.cv-asian-benefit", kind: "measurement", declared_grade: "asserted", source_id: "src:qin-2018", contributor_id: "cohort:qin",
+    statement: "eggs.nutrition: in the China Kadoorie Biobank daily egg consumption is associated with about 26 percent lower overall stroke risk, driven by reduced hemorrhagic stroke (about 0.90 to 0.95 per one-egg-per-week increment), so geography and stroke subtype refine the Western population null (same-party research pass, no distinct-party replication; the Western ischemic-stroke direction, from the Million Veteran Program, is not landed here for lack of a corpus source)" },
 
   // ---- Topic 4: guidelines history (forum) ----
   { ref: "n.guidelines", kind: "forum", declared_grade: "asserted", source_id: "src:dga-2015", contributor_id: "policy:dga",
@@ -139,6 +149,10 @@ const links = [
   { link_kind: "supports", from: "n.cv-diab-godos", to: "n.cv-diabetic", support_group: "g:godos", source_id: "src:godos-2021", contributor_id: "meta:godos", declared_grade: "supported" },
   { link_kind: "supports", from: "n.cv-diab-shin", to: "n.cv-diabetic", support_group: "g:shin", source_id: "src:shin-2013", contributor_id: "meta:shin", declared_grade: "supported" },
   { link_kind: "supports", from: "n.cv-diab-hu", to: "n.cv-diabetic", support_group: "g:hu", source_id: "src:hu-1999", contributor_id: "cohort:hu", declared_grade: "supported" },
+  // deep-research merge: the heart-failure signal and the Asian benefit refine the population null; the DIABEGG RCT contests the diabetic-harm inference.
+  { link_kind: "refines", from: "n.cv-heart-failure", to: "n.cv-null", source_id: "src:djousse-2017", contributor_id: "meta:djousse", declared_grade: "asserted" },
+  { link_kind: "refines", from: "n.cv-asian-benefit", to: "n.cv-null", source_id: "src:qin-2018", contributor_id: "cohort:qin", declared_grade: "asserted" },
+  { link_kind: "contradicts", from: "n.cv-diabetic-rct", to: "n.cv-diabetic", source_id: "src:fuller-2018", contributor_id: "rct:diabegg-followup", declared_grade: "asserted" },
 
   // ---- fork 1: the choline split ----
   // the TMAO causal claim rests only on the association, so it earns the association grade, no floor.
