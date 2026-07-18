@@ -47,6 +47,8 @@ jobs:
           node build/check-characterized-gaps.mjs
           node build/check-composition.mjs
           node build/check-algebra.mjs
+          node build/check-glossary.mjs
+          node build/check-compute.mjs
           node build/check-self.mjs
           node build/check-boundary.mjs
           node build/check-conformance.mjs
