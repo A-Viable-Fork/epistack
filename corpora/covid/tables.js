@@ -35,7 +35,7 @@ const SOURCES = [
   { source_id: "src:who-sago-2025", source_class: "institutional-report", description: "WHO SAGO report (2025); ODNI declassified assessment; Gelman (2025) (unresolved)" },
   // ---- the deep extraction: the debate walked several nodes deep per line, and the
   // weightings of three careful readers over the same evidence ----
-  { source_id: "src:deep-extraction", source_class: "institutional-report", description: "Extraction and Evaluation of the SARS-CoV-2 Origins Debate: A Comprehensive Synthesis (2024), the deep argument sets, nested cruxes, and reader weightings of Scott Alexander, Will Van Treuren, and Eric Stansifer over the Rootclaim debate" },
+  { source_id: "src:deep-extraction", source_class: "institutional-report", description: "Extraction and Evaluation of the SARS-CoV-2 Origins Debate: A Comprehensive Synthesis (2024), the deep argument sets, nested cruxes, and reader weightings of Scott Alexander, Will Van Treuren, and Eric Stansifer over the Rootclaim debate; the deep pass now also incorporates the debate's primary written record (Rootclaim's blog, Miller's Medium, the judges' written decisions, and named post-debate reconstructions)" },
 ];
 
 module.exports = { KINDS, SOURCES };

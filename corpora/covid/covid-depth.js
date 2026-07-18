@@ -19,6 +19,9 @@ const chk = (checker) => ([{ checker_id: checker, method_class: "data-audit", me
 const M = (ref, statement, src, contrib, checker) => ({ ref, kind: "measurement", declared_grade: "checked", source_id: src, contributor_id: contrib, statement: D + statement, checking_records: chk(checker) });
 // a forum node: an argument-set reading or a counter, held at the grade its support delivers.
 const F = (ref, statement, contrib, g) => ({ ref, kind: "forum", declared_grade: g || "asserted", source_id: X, contributor_id: contrib, statement: D + statement });
+// a debater's own written observation: a measurement kind carrying the quantitative content, declared
+// honestly at the grade the gate prices (no fabricated distinct-party check; the number is the debater's).
+const Mp = (ref, statement, contrib) => ({ ref, kind: "measurement", declared_grade: "asserted", source_id: X, contributor_id: contrib, statement: D + statement });
 // a reader's weighting of a piece of evidence: forum, attributed to the reader, carrying the strength
 // or likelihood ratio the document records and marked stated or reconstructed as the document marks it.
 const W = (ref, reader, statement, ratio, stance, mark) => ({ ref, kind: "forum", declared_grade: "asserted", source_id: X, contributor_id: "reader:" + reader, statement: D + statement, reader, ratio, stance, mark, node_role: "reader-weighting" });
@@ -74,7 +77,7 @@ const claims = [
   W("w.eric.lin", "stansifer", "Eric Stansifer weights the two-lineage argument as a wash, with a weak-ZO lean from the unexplained Lineage A clustering", "wash / weak ZO", "wash", "stated"),
   W("w.will.lin", "vantreuren", "Will Van Treuren weights the transmission dynamics as moderate LL, from the absence of transit-route spillovers", "moderate LL", "moderate-LL", "stated"),
   F("lin.subcrux", "the two-lineage sub-crux: multiple zoonotic spillovers against a single spillover with subsequent human mutation, turning directly on whether the intermediate genomes are genuine", "crux:lin", "asserted"),
-  F("lin.term", "the two-lineage sub-crux bottoms out in contested bioinformatics: whether the intermediate genomic reads in early databases are genuine biological samples or artifacts of software-autofill logic, a dispute over data interpretation the record has not settled", "terminal:contested", "asserted"),
+  F("lin.term", "the two-lineage sub-crux bottoms out in contested bioinformatics: whether the intermediate genomic reads in early databases are genuine biological samples or artifacts of software-autofill logic, a dispute over data interpretation the record has not settled; a later paper (Lv et al 2024) reported intermediate genomes bridging the A-to-B gap, a post-debate entrant into the same contested bioinformatics that does not resolve the debate as it was argued", "terminal:contested", "asserted"),
 
   // =====================================================================================
   // LINE 4 (NEW): early case data and progenitor reversions. Sub-crux bottoms out in FORMAL clinical
@@ -136,6 +139,56 @@ const claims = [
   W("w.scott.bayes", "alexander", "Scott Alexander's adjusted Bayesian calculation (10,000x market factor divided by 4 and 5) yields a 95% probability of zoonosis, aligning with his intuition", "95% ZO", "strong-ZO", "stated"),
   F("meta.space-lizard", "Eric Stansifer's fragility warning: collecting 100 observations and computing a Bayes factor for each lets a slightly biased observer reach extreme certainty for an absurd hypothesis (the space-lizard analogy), by selecting anomalous observations while ignoring baseline data", "reader:stansifer", "asserted"),
   F("meta.reader-divergence", "the three careful readers reach final estimates spanning orders of magnitude (Stansifer ~1/1300, Van Treuren ~1/300, Alexander ~1/20 for a lab leak) though all favor zoonosis: the prior structure appearing between the assessors, not only between the debaters", "meta:reader-divergence", "asserted"),
+
+  // =====================================================================================
+  // CV-DEPTH-2: the debate's PRIMARY written record merged in. Stated numbers route to F/Mp; a genuine
+  // peer-reviewed study routes to M with chk; a later analyst's reconstruction routes to W(mark).
+  // =====================================================================================
+  // ---- LINE 1: market (Rootclaim's own written market case, plus Stansifer's no-intermediates point) ----
+  F("mkt.ll.baserate", "Rootclaim: cold, wet, dense seafood markets are early amplification points, with Singapore and Thailand fishery-port precedents, so the market conditional is a base rate, not a one-in-ten-thousand coincidence", "side:rootclaim", "asserted"),
+  F("mkt.ll.cond", "Rootclaim states the probability of a market cluster given zoonosis exceeds 1 percent and given natural spillover is 3 to 5 percent, rejecting the extreme-coincidence framing", "side:rootclaim", "asserted"),
+  F("mkt.rootclaim.bayes", "Rootclaim's own market weighting: dividing its conditionals yields a Bayes factor under 5, reduced to about 2x favoring zoonosis after discounting for absent infected-wildlife evidence", "side:rootclaim", "asserted"),
+  F("mkt.ll.amplifiers", "Rootclaim: the market's 1,000-plus permanent tenants and pervasive cold, wet surfaces make it an ideal superspreader site regardless of origin, a factor dropped from top-level summaries", "side:rootclaim", "asserted"),
+  F("mkt.zo.nointermediates", "Stansifer: the lab-leak model cannot account for the complete absence of intermediate human infections between the WIV and the distant market cluster", "reader:stansifer", "asserted"),
+
+  // ---- LINE 2: FCS (two peer-reviewed observations, Miller's and Rootclaim's written arguments, Deigin's mimic, Stansifer's S2 self-revision) ----
+  M("fcs.zo.natural15nt", "a 2004 coronavirus naturally acquired a 15-nucleotide insertion adjacent to its cleavage site, and natural 12 to 15 nt insertions are documented", X, "study:insertions", "insertion-audit"),
+  M("fcs.zo.cgg3pct", "SARS-CoV-2 uses CGG for arginine about 3 percent of the time elsewhere in its own genome, and in a documented gain-of-function experiment 0 of 5 inserted arginines used CGG", X, "study:codon2", "codon-audit"),
+  F("fcs.zo.frameshift", "Miller: the furin site is a messy frameshift-style insertion typical of natural mechanisms, unlike the clean insertions genetic engineers make", "side:zo", "asserted"),
+  F("fcs.zo.prrarunopt", "Miller: PRRAR is suboptimal and functions only via a secondary adjacent genomic twist unpredictable in 2019, and the virus later mutated away from PRRAR, indicating an unoptimized natural acquisition", "side:zo", "asserted"),
+  F("fcs.ll.optimized", "Rootclaim: the virus outperformed about 50 tested species for human-cell infection and showed a constant early mutation rate without a host-adaptation burst, read as engineering", "side:rootclaim", "asserted"),
+  F("fcs.ll.mimic", "Deigin: engineers studying natural pandemic origins might deliberately insert a suboptimal, natural-looking sequence like PRRAR to avoid engineering hallmarks", "side:rootclaim", "asserted"),
+  W("w.eric.fcs.s2", "stansifer", "Stansifer's post-debate reconstruction: the biological Bayes factor for lab leak becomes modest once penalized for the absent expected subsequent S2-subunit amino-acid changes", "modest LL (penalized)", "weak-LL", "reconstructed"),
+
+  // ---- LINE 3: two lineages (Weissman's polytomy critique, distinct from Stansifer's Poisson critique) ----
+  F("lin.weissman.polytomy", "Weissman: ascertainment-biased cluster sampling from hospital alerts and contact tracing generates phylogenetic polytomies that Pekar's model misreads as multiple independent spillovers", "reader:weissman", "asserted"),
+
+  // ---- LINE 4: temporal (Chang serology study, Miller's own written doubling model, Rootclaim's timeline, Miller's map omission) ----
+  M("tmp.zo.serology32k", "Miller cited Chang et al 2022: a neutralization assay on 32,484 Wuhan blood donors from September to December 2019 found 0 seropositive, a ceiling on pre-December spread", X, "study:chang", "serology-audit"),
+  Mp("tmp.zo.doubling394", "Miller's written model: adjusting for time-varying severe-case ascertainment yields a 3.94-day doubling, and back-calculating from about 156,500 January-23 infections places the earliest start at November 15", "side:zo"),
+  F("tmp.ll.october", "Rootclaim's written timeline: at a 3.5-day doubling, reaching outbreak levels needs 11.5 doublings, about 5.7 weeks, placing patient zero in late October", "side:rootclaim", "asserted"),
+  F("tmp.ll.reedcat", "Rootclaim's defense of Connor Reed: the cat-timeline inconsistency is explained by Reed not noticing how long the cat, not his own, had been ill", "side:rootclaim", "asserted"),
+  F("tmp.ll.incidental", "Rootclaim's insulation move: even granting the Mr Chen and 92-pneumonia debunkings were not completed, these anecdotes are incidental to the core Bayesian analysis", "side:rootclaim", "asserted"),
+  F("tmp.zo.mapomission", "Miller: the maps used for ascertainment modeling dropped known non-market cases, Wei Guixian (onset Dec 10) and Accountant Chen (onset Dec 16), complicating the ascertainment-bias argument", "side:zo", "asserted"),
+
+  // ---- LINE 5: environmental (two peer-reviewed surveillance studies, Miller's dead-storage counter, Stansifer's deposition mechanism) ----
+  M("env.zo.samples", "515 environmental samples were collected immediately after the January 1 2020 closure, and of 60 drains sampled 4 were positive including the drain directly in front of stall 6:29", X, "study:env2", "env2-audit"),
+  M("env.ll.animals", "of 457 animal samples across 18 species from the market, 0 tested positive for the virus", X, "study:animals", "animal-audit"),
+  F("env.zo.deadstorage", "the negative animal samples are largely irrelevant: most were taken months after closure, primarily from dead animals in cold storage, and a single infected animal suffices to seed the outbreak", "side:zo", "asserted"),
+  F("env.eric.deposition", "Stansifer: near-zero human-DNA to viral-RNA correlation is expected because human DNA deposits constantly while viral shedding varies by orders of magnitude over an infection", "reader:stansifer", "asserted"),
+
+  // ---- LINE 6: DEFUSE (Rootclaim's post-debate grievance about the judge's underestimates) ----
+  F("def.rootclaim.underest", "Rootclaim's post-debate grievance: the judge underestimated by about 0.02 both the chance a WIV researcher would independently pursue a project of institutional interest and the chance of an unremarked BSL-2 infection", "side:rootclaim", "asserted"),
+
+  // ---- META / method (the LessWrong aggregation critique, procedural admissions, HN reading, Weissman's two reconstructions) ----
+  F("meta.fct", "a LessWrong critique of the aggregation method: multiplying unconstrained subjective likelihood ratios across a composite hypothesis, assuming independence, manufactures artificial certainty, the false-confidence and space-lizard failure", "analyst:lesswrong", "asserted"),
+  F("meta.selfref", "two procedural admissions: Rootclaim did not investigate Miller's material pre-debate, treating empirical prep as secondary to strategy, and after the unanimous loss revised its own lab-leak posterior upward", "meta:procedural", "asserted"),
+  F("meta.eric-conditioning", "a contested reading (Hacker News) notes a possible inconsistency in Stansifer's conditioning: dismissing some market evidence under a first-superspreader presumption while elsewhere avoiding conditioning on the market", "analyst:hn", "asserted"),
+  W("w.weissman.cgg", "weissman", "Weissman reconstructs a data-driven Bayes factor of about 7x favoring lab leak for the CGG-CGG sequence, from analogous transcript-switching inserts, replacing arbitrary codon probabilities", "7x LL", "moderate-LL", "reconstructed"),
+  W("w.weissman.fattail", "weissman", "Weissman bounds all likelihood ratios with a fat-tailed 3-degree-of-freedom t-distribution prior to prevent extreme values from dominating the posterior, a safeguard against the false-confidence failure", "fat-tailed bound", "method", "reconstructed"),
+
+  // ---- the single coverage-gap note, a standalone forum node mirroring tmp.asymmetry (unwired) ----
+  F("meta.live-gap", "certain live-debate exchanges are attested only in secondary summaries with no written primary and no timestamped transcript in the accessible corpus, so they are recorded as a known coverage gap rather than grounded; examples include the live cage-air-gap and multiple-spillover exchange and the step-by-step space-lizard per-observation derivation; and the endonuclease restriction-map fingerprint circulating around the debate is post-debate literature, not argued in the debate, noted here as out of scope", "meta:live-gap", "asserted"),
 ];
 
 // ---- links: the argument sets attach under the existing spine; the readings contradict per line;
@@ -216,6 +269,37 @@ const links = [
   // the reader divergence is a second face of the same 23-order divergence the first pass recorded
   supp("meta.reader-divergence", "meta.no-settlement", "g:top:rd:ns"),
   supp("meta.space-lizard", "meta.method-critique", "g:top:sl"),
+
+  // ---------- CV-DEPTH-2: the primary written record ----------
+  // LINE 1: market
+  supp("mkt.ll.baserate", "mkt.ll", "g:mkt:l:baserate"), supp("mkt.ll.cond", "mkt.ll", "g:mkt:l:cond"),
+  supp("mkt.rootclaim.bayes", "mkt.ll", "g:mkt:l:bayes"), supp("mkt.ll.amplifiers", "mkt.ll", "g:mkt:l:ampl"),
+  supp("mkt.zo.nointermediates", "mkt.zo", "g:mkt:z:noint"),
+  contra("mkt.rootclaim.bayes", "w.scott.mkt"), // the debaters' own 2x ZO against Alexander's 500x ZO: same direction, orders apart
+  // LINE 2: FCS
+  supp("fcs.zo.natural15nt", "fcs.zo", "g:fcs:z:nat15"), supp("fcs.zo.cgg3pct", "fcs.zo", "g:fcs:z:cgg3"),
+  supp("fcs.zo.frameshift", "fcs.zo", "g:fcs:z:frame"), supp("fcs.zo.prrarunopt", "fcs.zo", "g:fcs:z:prrar"),
+  supp("fcs.ll.optimized", "fcs.ll", "g:fcs:l:opt"), supp("fcs.ll.mimic", "fcs.ll", "g:fcs:l:mimic"),
+  supp("w.eric.fcs.s2", "fcs.zo", "g:fcs:z:s2"), // Stansifer revising himself, not a reader divergence
+  contra("fcs.ll.mimic", "fcs.will.suboptimal"), contra("fcs.ll.mimic", "fcs.zo.prrarunopt"),
+  // LINE 3: two lineages
+  supp("lin.weissman.polytomy", "lin.ll", "g:lin:l:poly"),
+  // LINE 4: temporal
+  supp("tmp.zo.serology32k", "tmp.zo", "g:tmp:z:sero"), supp("tmp.zo.serology32k", "tmp.subcrux", "g:tmp:sc:sero"),
+  supp("tmp.zo.doubling394", "tmp.zo", "g:tmp:z:d394"),
+  supp("tmp.ll.october", "tmp.ll", "g:tmp:l:oct"), supp("tmp.ll.reedcat", "tmp.ll", "g:tmp:l:reed"), supp("tmp.ll.incidental", "tmp.ll", "g:tmp:l:incid"),
+  supp("tmp.zo.mapomission", "tmp.zo", "g:tmp:z:map"), contra("tmp.zo.mapomission", "mkt.ll.ascertain"),
+  // LINE 5: environmental
+  supp("env.zo.samples", "env.zo", "g:env:z:samp2"), supp("env.ll.animals", "env.ll", "g:env:l:anim"),
+  supp("env.zo.deadstorage", "env.zo", "g:env:z:dead"), contra("env.zo.deadstorage", "env.ll.animals"),
+  supp("env.eric.deposition", "env.zo", "g:env:z:depos"),
+  // LINE 6: DEFUSE
+  supp("def.rootclaim.underest", "def.ll", "g:def:l:underest"), contra("def.rootclaim.underest", "def.eric.secret"),
+  // META / method
+  supp("meta.fct", "meta.method-critique", "g:meta:fct"), supp("meta.selfref", "meta.method-critique", "g:meta:selfref"),
+  supp("meta.eric-conditioning", "meta.method-critique", "g:meta:econd"),
+  supp("w.weissman.cgg", "fcs.ll", "g:fcs:l:wcgg"), contra("w.weissman.cgg", "w.eric.codon"), // Weissman 7x LL against Stansifer 1x neutral, a reader divergence
+  supp("w.weissman.fattail", "meta.method-critique", "g:meta:fattail"),
 ];
 
 module.exports = { COVID_DEPTH: { claims, links } };
