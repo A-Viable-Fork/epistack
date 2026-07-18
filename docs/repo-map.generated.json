@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 214,
-  "edgeCount": 483,
+  "nodeCount": 217,
+  "edgeCount": 490,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -275,6 +275,20 @@
       "group": "store",
       "role": "the store-state record and the history chain (intake data model v3, Section 13). A store state is the full contents at a point plus a hash that chains to its predecessor: because the predecessor's hash is inside the preimage, a rewritten past announces itself in the first mismatched link of the chain.",
       "contract": "genesis(); makeState(fields) -> a state with its computed state_hash; verifyChain(states) -> { ok, firstBreak }. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/compute/transforms.mjs",
+      "type": "kernel",
+      "group": null,
+      "role": "the transformation store (COMPUTE-1). A transformation is a named operation over a graph or over values; this module fixes the entry shape every transformation carries and the register that validates and runs them. The load-bearing field is not the formula, it is the assumptions manifest: \"multiply these factors\" and \"multiply these factors assuming independence\" are different entries even when the arithmetic is identical, because one declares the assumption and one hides it. Both the manifest and the reversibility mark are required from the first entry, so the second entry into this register is never a migration.",
+      "contract": "validateTransform(entry) -> entry, throws on violation. makeRegister() -> { register( entry), get(id), list(pack?), run(id, input) }. An entry is { id, pack, consumes, emits, assumptions, reversibility, run }, per the shape below."
+    },
+    {
+      "path": "kernel/compute/canonical-packs.mjs",
+      "type": "kernel",
+      "group": null,
+      "role": "the canonical graph and algebra packs (COMPUTE-1). Graph and algebra transformations are canonical: they already exist as kernel operations in kernel/composition/algebra.mjs under the governing law (every operation returns a kernel, and none assigns a grade above what recomputation confirms). This module wraps compose, project, diff, and recomputeGrade as transformation entries, by reference, so the register has one shared description of what each operation does and what it assumes; it never reimplements the algebra.",
+      "contract": "exports CANONICAL_ENTRIES, an array of transformation entries ready for register(entry) (kernel/compute/transforms.mjs). registerCanonicalPacks(registry) calls registry.register(entry) for each of them."
     },
     {
       "path": "api/api.js",
@@ -1348,6 +1362,13 @@
       "contract": "`node linter.js`. Exits 0 if clean, 1 with a report of violations otherwise."
     },
     {
+      "path": "build/check-compute.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the oracle for the transformation store (COMPUTE-1). Verifies the entry shape: every entry carries a non-empty assumptions manifest and a reversibility mark, and every statistics entry emits value-or-flag and consumes values, never a kernel. Runs the covid acceptance test: the Rootclaim aggregation multiplied a factor for choosing the suboptimal RRAR insertion site by a factor for adding the proline, factors the debate itself questioned as possibly one furin-cleavage-site strategy rather than two independent weirdnesses (the suboptimal-PRRAR thread in corpora/covid/covid-depth.js). Feeds both stats entries the same two factors and asserts they disagree: naive-multiply compounds them, dependence-aware refuses. Confirms the no-standing rule holds mechanically on real covid-derived data: no statistics output carries a grade, none returns a kernel.",
+      "contract": "`node build/check-compute.mjs` exits non-zero on any failure, naming it."
+    },
+    {
       "path": "docs/document-style-guide.md",
       "type": "doc",
       "group": null,
@@ -1716,6 +1737,13 @@
     {
       "from": "kernel/composition/vocabulary.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/compute/canonical-packs.mjs",
+      "to": "kernel/composition/algebra.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -2622,6 +2650,34 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-compute.mjs",
+      "to": "corpora/compute/stats-pack.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-compute.mjs",
+      "to": "kernel/compute/transforms.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-compute.mjs",
+      "to": "kernel/compute/canonical-packs.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-compute.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/check-conformance.mjs",
@@ -4678,6 +4734,16 @@
     {
       "from": "kernel/motions/perturb.js",
       "to": "build/check-perturb.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/compute/transforms.mjs",
+      "to": "build/check-compute.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/compute/canonical-packs.mjs",
+      "to": "build/check-compute.mjs",
       "type": "checked-by"
     },
     {
