@@ -11,7 +11,7 @@
     {
       "store_id": "S-nutrition",
       "floor_count": 24,
-      "forum_count": 15,
+      "forum_count": 18,
       "claims": [
         {
           "statement": "each 100 mg/day of dietary cholesterol raises serum total cholesterol by about 2.2 mg/dL (",
@@ -199,6 +199,21 @@
           "source": "Godos et al. (2021), Eur J Nutr 60(4):1833-1848 (dose-response; diabetic subgroup)"
         },
         {
+          "statement": "frequent egg consumption (>=1 per day) is associated with elevated incident heart failure ",
+          "grade": "asserted",
+          "source": "Djoussé et al. (2017), Clin Nutr 36(5):1215-1220, PMID 28396858 (egg consumption and incident heart failure, pooled RR 1.25)"
+        },
+        {
+          "statement": "in the DIABEGG randomized trial in type-2-diabetic adults, a high-egg diet (>=12 per week)",
+          "grade": "asserted",
+          "source": "Fuller et al. (2018), Am J Clin Nutr 107(6):921-931 (DIABEGG weight-loss phase, T2D 12-month RCT, cardiometabolic markers null)"
+        },
+        {
+          "statement": "in the China Kadoorie Biobank daily egg consumption is associated with about 26 percent lo",
+          "grade": "asserted",
+          "source": "Qin et al. (2018), Heart 104:1756-1763, China Kadoorie Biobank (Asian protective)"
+        },
+        {
           "statement": "the 2015-2020 US Dietary Guidelines removed the 300 mg/day dietary-cholesterol limit, whil",
           "grade": "asserted",
           "source": "2015-2020 Dietary Guidelines for Americans; 2015 DGAC Scientific Report"
@@ -213,7 +228,7 @@
     {
       "store_id": "S-environment",
       "floor_count": 10,
-      "forum_count": 6,
+      "forum_count": 11,
       "claims": [
         {
           "statement": "conventional caged eggs emit less GHG per kg than free-range or organic (cage 2.92 vs free",
@@ -294,13 +309,38 @@
           "statement": "regenerative grazing sequesters 2.5 to 9 t C/ha/yr, an advocacy figure 7 to 70 times the m",
           "grade": "asserted",
           "source": "Savory Institute / Teague advocacy claims (2.5-9 t C/ha/yr), per McGuire (2018) WSU critique"
+        },
+        {
+          "statement": "under attributional LCA with economic or mass allocation and manure treated as a zero-burd",
+          "grade": "asserted",
+          "source": "Poore & Nemecek (2018), Science 360(6392):987-992 (attributional LCA per unit protein across food products)"
+        },
+        {
+          "statement": "under consequential LCA with system expansion, crediting the egg system for manure-displac",
+          "grade": "asserted",
+          "source": "Schmidt et al. (2021), the Big Climate Database (consequential LCA with system expansion and manure-displacement crediting)"
+        },
+        {
+          "statement": "dividing impacts by a DIAAS-adjusted functional unit rather than crude protein compresses ",
+          "grade": "asserted",
+          "source": "McAuliffe et al. (2023), DIAAS-adjusted functional-unit LCA (protein-quality-corrected environmental impact per digestible protein)"
+        },
+        {
+          "statement": "deforestation-linked soy provenance is the dominant GHG swing variable in the layer feed s",
+          "grade": "asserted",
+          "source": "CIEL (2022), Poultry and environment: land-use-change soy provenance, LUC-free feed reduces layer-system GHG up to 22 percent"
+        },
+        {
+          "statement": "no single study applies consequential system expansion and a DIAAS-adjusted functional uni",
+          "grade": "asserted",
+          "source": "McAuliffe et al. (2023), DIAAS-adjusted functional-unit LCA (protein-quality-corrected environmental impact per digestible protein)"
         }
       ]
     },
     {
       "store_id": "S-economics",
       "floor_count": 4,
-      "forum_count": 2,
+      "forum_count": 12,
       "claims": [
         {
           "statement": "feed conversion is about 1.95 to 2.20 kg feed/kg egg for caged systems against 2.5 to 5.3 ",
@@ -331,6 +371,56 @@
           "statement": "which objective to maximize, energy return, economic welfare, biodiversity, or resilience,",
           "grade": "asserted",
           "source": "Franzese et al. (2009), Ecological Modelling (GER vs Emergy incommensurability)"
+        },
+        {
+          "statement": "feed is more than 60 percent of egg production cost, so a $10 per ton rise in corn shifts ",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
+        },
+        {
+          "statement": "relative to conventional cages, enriched cages carry about 13 percent higher total cost an",
+          "grade": "asserted",
+          "source": "Matthews & Sumner (2015), agricultural-economics housing-cost study (enriched +13 percent, cage-free aviary +36 percent total cost vs conventional)"
+        },
+        {
+          "statement": "after California Proposition 12, the retail premium rose by about $0.25 to $0.73 per dozen",
+          "grade": "asserted",
+          "source": "California Prop 12 retail-premium analyses (AJAE and Purdue): +$0.25 to $0.73 per dozen, annual consumer-surplus loss $223 to $664 million"
+        },
+        {
+          "statement": "highly pathogenic avian influenza forces immediate flock depopulation, and with a roughly ",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
+        },
+        {
+          "statement": "the own-price elasticity of demand is about -0.321 for conventional eggs and -1.065 for ca",
+          "grade": "asserted",
+          "source": "Caputo et al. (2023), United Egg Producers econometric report (own-price elasticity conventional -0.321, cage-free -1.065; cross-price substitution)"
+        },
+        {
+          "statement": "under the HPAI shock eggs lost their status as the cheapest complete protein, rising from ",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
+        },
+        {
+          "statement": "because a price shock on an inelastic staple falls hardest on low-income households, a wel",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
+        },
+        {
+          "statement": "the long-run supply elasticity under a permanent nationwide cage-free mandate is unmeasure",
+          "grade": "asserted",
+          "source": "Matthews & Sumner (2015), agricultural-economics housing-cost study (enriched +13 percent, cage-free aviary +36 percent total cost vs conventional)"
+        },
+        {
+          "statement": "how SNAP and low-income households substitute away from eggs toward other complete protein",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
+        },
+        {
+          "statement": "whether repeated HPAI depopulation drives long-run capital flight from the layer sector, r",
+          "grade": "asserted",
+          "source": "USDA ERS Livestock, Dairy, and Poultry Outlook (LDP-M-364, 2024): feed cost share, HPAI depopulation and price series, per-gram-protein retail pricing"
         }
       ]
     }
@@ -442,6 +532,17 @@
     ]
   },
   "characterized_gaps": [
+    {
+      "statement": "no single study applies consequential system expansion and a DIAAS-adjusted functional uni",
+      "ceiling": "checked",
+      "earned_grade": "asserted",
+      "closing_condition": {
+        "condition_kind": "direct-study",
+        "target": "a harmonized LCA applying consequential system expansion and a DIAAS-adjusted functional unit together on one egg system",
+        "system": "a layer egg-production system"
+      },
+      "transfer_source": []
+    },
     {
       "statement": "integrating laying hens on pasture builds stable soil carbon at the litter-retention rate,",
       "ceiling": "checked",

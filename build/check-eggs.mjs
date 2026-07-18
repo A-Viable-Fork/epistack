@@ -240,7 +240,7 @@ ok(existsSync(readingPath), "vendor/eggs/reading.json exists (regenerate with no
 if (existsSync(readingPath)) {
   const R = JSON.parse(readFileSync(readingPath, "utf8"));
   ok((R.domains || []).length === 3, "the reading carries all three domains, the composite over them");
-  ok((R.characterized_gaps || []).length === 2 && R.characterized_gaps.every((g) => g.closing_condition), "the characterized-gap reading lists the regenerative claims and their closing conditions");
+  ok((R.characterized_gaps || []).length === 3 && R.characterized_gaps.every((g) => g.closing_condition), "the characterized-gap reading lists the two regenerative claims and the cross-domain harmonization gap, each with its closing condition");
   ok((R.weighings || []).length === 2 && R.weighings.every((w) => w.ceiling === "corroborated"), "the weighings read at the structured-forum ceiling");
   ok(R.denominator && R.denominator.throughput && R.denominator.netcapital && JSON.stringify(R.denominator.throughput.measurements) === JSON.stringify(R.denominator.netcapital.measurements), "the denominator swap is present, and the measurement grades are identical across the swap");
   ok(R.cardiovascular_crux && R.cardiovascular_crux.status === "computed-resolved", "the cardiovascular crux is COMPUTED on read and now RESOLVES (Prompt 26): the confounding-adjustment reified, the tension explained not pooled");
