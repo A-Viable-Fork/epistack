@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 217,
-  "edgeCount": 490,
+  "nodeCount": 219,
+  "edgeCount": 499,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -179,6 +179,13 @@
       "contract": "POSITIONS, modeOf, tierOf, collapse, collapsedRank, meet, join, leqWithinMode, comparableWithinMode. Pure, ESM; kernel imports only kernel."
     },
     {
+      "path": "kernel/schema/glossary.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the self-describing vocabulary (DESCRIBE-1). Every grade in the confidence order, every claim kind the shared root pins in common, every link kind the schema carries, and the declared-versus-earned concept, each with a plain-language description, authored once here and rendered by every client instead of hand-written per surface. The load-bearing entry is declared-vs-earned: a grade selector reads as a confidence knob the composer controls, and it is not one. The composer declares what they claim; the gate prices what it earns; the divergence is a finding, not a failure.",
+      "contract": "exports GRADES, KINDS, LINKS, CONCEPTS, glossary() -> the four as one frozen object, and completenessAgainst(realKinds, realLinks) -> { grades, kinds, links }, each a { missing, extra } pair, for a caller (build/check-glossary.mjs) to verify against the real schema. Pure data plus one accessor and one checker; imports only POSITIONS. ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/edges.js",
       "type": "kernel",
       "group": "schema",
@@ -302,7 +309,7 @@
       "type": "api",
       "group": null,
       "role": "the propose/read contract (Prompt 10). The API is a contract, not a location: it names a provider and delegates. A client calls propose and read and never learns which provider answers, so a local provider (runs the gate in-process over a snapshot) and a remote provider (calls a hosted kernel) are interchangeable behind this one seam. Swapping providers changes one import; the client is untouched.",
-      "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
+      "contract": "createClientApi(provider) -> { propose(proposedClaim) -> receipt, read(query) -> [claim], glossary() -> { GRADES, KINDS, LINKS, CONCEPTS }, providerKind() -> string }. provider must implement propose and read. ESM; the contract touches no kernel and no provider directly, so it is provider-agnostic by construction."
     },
     {
       "path": "api/management-api.mjs",
@@ -1369,6 +1376,13 @@
       "contract": "`node build/check-compute.mjs` exits non-zero on any failure, naming it."
     },
     {
+      "path": "build/check-glossary.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the self-describing-vocabulary oracle (DESCRIBE-1). Verifies the glossary is complete against the real schema (every grade, claim kind, and link kind explained, no entry naming one the schema does not carry), that the declared-vs-earned concept names both sides of the distinction and frames the divergence as a finding, that the client contract's glossary() serves the kernel's export unchanged, and that the worked example (a real covid mode-split pair) is printed from data, not invented.",
+      "contract": "`node build/check-glossary.mjs` exits non-zero on any failure, naming it."
+    },
+    {
       "path": "docs/document-style-guide.md",
       "type": "doc",
       "group": null,
@@ -1826,6 +1840,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/schema/glossary.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/schema/records.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -1954,6 +1975,13 @@
     {
       "from": "api/api.js",
       "to": "kernel/schema/schema.js",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/client-api.mjs",
+      "to": "kernel/schema/glossary.mjs",
       "type": "imports",
       "fromLayer": "api",
       "toLayer": "kernel"
@@ -3140,6 +3168,48 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "corpora/_shared/common-types.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "corpus"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "kernel/schema/glossary.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "api/client-api.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "api/providers/local-provider.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-glossary.mjs",
+      "to": "build/covid-build.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "build"
     },
     {
       "from": "build/check-ingest.mjs",
@@ -4734,6 +4804,11 @@
     {
       "from": "kernel/motions/perturb.js",
       "to": "build/check-perturb.mjs",
+      "type": "checked-by"
+    },
+    {
+      "from": "kernel/schema/glossary.mjs",
+      "to": "build/check-glossary.mjs",
       "type": "checked-by"
     },
     {

@@ -380,5 +380,9 @@ module.exports = [
   {
     "path": "build/check-compute.mjs",
     "type": "build"
+  },
+  {
+    "path": "build/check-glossary.mjs",
+    "type": "build"
   }
 ];
