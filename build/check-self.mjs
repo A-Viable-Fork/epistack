@@ -123,6 +123,17 @@ for (const c of invariants.filter((c) => !(c.checking_records || []).length)) {
   ok(ledger.includes(c.ref), `${c.ref}: the floored invariant is recorded in docs/sorry-ledger.md`);
 }
 
+console.log("\n[8] the emitted record serves the entrance fields where the org-root renderer reads them (canonical.extensions)");
+// the renderer's own filter, run against the built records: this is what populates epistack's door on
+// the org landing page. It fails if the entrance metadata ever drifts off canonical.extensions back to
+// the record top level, which is the empty-door regression this check exists to catch.
+const recs = built.claims.map((c) => c.rec);
+const surfaced = recs.filter((e) => e.canonical && e.canonical.extensions && e.canonical.extensions.entrance_surfaced === true);
+ok(surfaced.length === 7, `the renderer filter finds the seven surfaced entries under canonical.extensions (found ${surfaced.length})`);
+const roleCount = (r) => surfaced.filter((e) => e.canonical.extensions.role === r).length;
+ok(roleCount("title") === 1 && roleCount("tagline") === 1 && roleCount("status") === 2 && roleCount("link") === 3, `the surfaced roles are a title, a tagline, two statuses, three links (got title ${roleCount("title")}, tagline ${roleCount("tagline")}, status ${roleCount("status")}, link ${roleCount("link")})`);
+ok(recs.every((e) => e.role === undefined && e.entrance_surfaced === undefined), "no entrance field sits at the record top level, where the renderer does not look");
+
 console.log("\n" + H);
 if (fails === 0) {
   console.log("verified: the self-kernel grounds epistack's claims about itself through its own gate. Eleven structural");
