@@ -31,6 +31,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/composition/algebra.mjs` | the kernel algebra: compose, project, diff as operations over kernels as objects, each returning a kernel, under the governing law that no operation raises a grade above what recomputation confirms |
 | `kernel/compute/transforms.mjs` | the transformation store (COMPUTE-1): the entry shape { id, pack, consumes, emits, assumptions, reversibility, run }, validateTransform, and makeRegister; a statistics entry is refused mechanically if it emits a kernel or its output carries a grade |
 | `kernel/compute/canonical-packs.mjs` | the canonical graph and algebra transformation packs (COMPUTE-1): wraps compose, project, diff, and recomputeGrade from kernel/composition/algebra.mjs by reference, never reimplementing them |
+| `kernel/compute/registry.mjs` | the default transformation registry (COMPUTE-2): assembleRegistry/defaultRegistry assemble the register from the canonical packs, kernel-only since kernel imports only kernel; catalog() is the read-only shape (run omitted) api/client-api.mjs hands out |
 | `kernel/gate/clean-json.js` | strip code fences and surrounding prose from a model's JSON reply |
 | `kernel/gate/comment-guard.mjs` | the comment-support guard: no record of kind comment may occupy a support role in any link, gate-adjacent because the schema carries no rules field yet to bar it as bundle data |
 | `kernel/gate/gate.mjs` | the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by |

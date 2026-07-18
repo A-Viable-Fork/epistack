@@ -1,34 +1,37 @@
-// Role: the oracle for the transformation store (COMPUTE-1). Verifies the entry shape: every entry
-//   carries a non-empty assumptions manifest and a reversibility mark, and every statistics entry
-//   emits value-or-flag and consumes values, never a kernel. Runs the covid acceptance test: the
-//   Rootclaim aggregation multiplied a factor for choosing the suboptimal RRAR insertion site by a
-//   factor for adding the proline, factors the debate itself questioned as possibly one
-//   furin-cleavage-site strategy rather than two independent weirdnesses (the suboptimal-PRRAR thread
-//   in corpora/covid/covid-depth.js). Feeds both stats entries the same two factors and asserts they
-//   disagree: naive-multiply compounds them, dependence-aware refuses. Confirms the no-standing rule
-//   holds mechanically on real covid-derived data: no statistics output carries a grade, none returns
-//   a kernel.
+// Role: the oracle for the transformation store (COMPUTE-1) and the read-only compute surface
+//   (COMPUTE-2). Verifies the entry shape, runs the covid acceptance test (the Rootclaim RRAR-site
+//   and proline factors; naive-multiply compounds them, dependence-aware refuses), and confirms the
+//   no-standing rule holds both against the register directly and through createClientApi's
+//   transforms/describeTransform/runTransform: no statistics output carries a grade, none returns a
+//   kernel, no catalog entry carries a run function.
 // Contract: `node build/check-compute.mjs` exits non-zero on any failure, naming it.
-// Invariant: additive. Touches no existing kernel operation and no existing corpus; imports
-//   kernel/composition/algebra.mjs and corpora/covid/* read-only, through buildCovid(), the same
-//   shared builder build/check-covid.mjs uses.
+// Invariant: additive; touches no existing kernel operation or corpus. Assembles the shipping
+//   registry (canonical packs plus the demo statistics pack) via kernel/compute/registry.mjs's
+//   assembleRegistry (which wraps kernel/compute/transforms.mjs and canonical-packs.mjs), the one
+//   module this oracle and api/client-api.mjs both source from.
 "use strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 import { createRequire } from "node:module";
-import { makeRegister } from "../kernel/compute/transforms.mjs";
-import { registerCanonicalPacks } from "../kernel/compute/canonical-packs.mjs";
+import { assembleRegistry, defaultRegistry, catalog } from "../kernel/compute/registry.mjs";
+import { createClientApi } from "../api/client-api.mjs";
+import { createLocalProvider } from "../api/providers/local-provider.mjs";
 import { buildCovid } from "./covid-build.mjs";
 
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const require = createRequire(import.meta.url);
 const { registerStatsPack } = require("../corpora/compute/stats-pack.js");
 
 let fails = 0;
 const ok = (c, m) => { console.log(`${c ? "  ok  " : " FAIL "} ${m}`); if (!c) fails++; };
 const H = "=".repeat(80);
-console.log(H); console.log("CHECK-COMPUTE (COMPUTE-1): the transformation store and the covid acceptance test"); console.log(H);
+console.log(H); console.log("CHECK-COMPUTE (COMPUTE-1/COMPUTE-2): the transformation store, the covid acceptance test, and the read-only compute surface"); console.log(H);
 
-const registry = makeRegister();
-registerCanonicalPacks(registry);
-registerStatsPack(registry);
+// the shipping registry (COMPUTE-2): kernel/compute/registry.mjs assembles the canonical packs
+// legally as a kernel module; this build-layer caller supplies the demo statistics pack, the one
+// corpus this oracle is allowed to read directly, since build may import any layer.
+const registry = assembleRegistry([registerStatsPack]);
 
 // =====================================================================================
 console.log("\n[1] the shape: every entry carries a manifest and a reversibility mark; every statistics entry is value-or-flag over values");
@@ -101,6 +104,53 @@ for (const e of statsEntries) {
 }
 
 // =====================================================================================
+console.log("\n[4] the compute surface through the client contract (COMPUTE-2)");
+// a provider that overrides transforms/describeTransform/runTransform with the shipping registry
+// (canonical packs plus the demo statistics pack), on top of the real gate for propose/read. This is
+// exactly the "provider may override the statistics packs" seam api/client-api.mjs names: the bare
+// kernel default (kernel/compute/registry.mjs's defaultRegistry()) is canonical-only, since kernel
+// cannot import a corpus; a caller that can (this build-layer oracle) supplies the full registry.
+const snapshot = JSON.parse(readFileSync(join(ROOT, "vendor", "gate", "snapshot.json"), "utf8"));
+const computeProvider = Object.assign({}, createLocalProvider(snapshot), {
+  transforms: (pack) => catalog(registry, pack),
+  describeTransform: (id) => {
+    const entry = registry.get(id);
+    if (!entry) return null;
+    const { run, ...rest } = entry;
+    return rest;
+  },
+  runTransform: (id, input) => registry.run(id, input),
+});
+const api = createClientApi(computeProvider);
+
+const apiAll = api.transforms();
+ok(apiAll.length === all.length, `api.transforms() returns every registered entry (${apiAll.length})`);
+ok(apiAll.every((e) => Array.isArray(e.assumptions) && e.assumptions.length > 0 && (e.reversibility === "invertible" || e.reversibility === "lossy")), "every catalog entry carries a non-empty assumptions manifest and a reversibility mark");
+const apiStats = api.transforms("statistics");
+ok(apiStats.length === 2, `api.transforms("statistics") filters to the statistics pack (${apiStats.length})`);
+const describedNaive = api.describeTransform("statistics.naive-multiply");
+ok(!!describedNaive && Array.isArray(describedNaive.assumptions) && describedNaive.assumptions.some((a) => a.id === "independence"), "api.describeTransform returns the entry's manifest");
+ok(api.describeTransform("no.such.transform") === null, "api.describeTransform of an unknown id is a clear miss (null), not a throw");
+ok([...apiAll, ...apiStats, describedNaive].every((e) => !Object.prototype.hasOwnProperty.call(e, "run")), "no entry from transforms() or describeTransform() carries a run function: the catalog is data");
+
+const apiNaive = api.runTransform("statistics.naive-multiply", [RRAR_SITE_FACTOR, PROLINE_FACTOR]);
+const apiDependent = api.runTransform("statistics.dependence-aware", [
+  { factor: RRAR_SITE_FACTOR, mechanism: "fcs-strategy" },
+  { factor: PROLINE_FACTOR, mechanism: "fcs-strategy" },
+]);
+ok(apiNaive.value === RRAR_SITE_FACTOR * PROLINE_FACTOR, `runTransform("statistics.naive-multiply", ...) compounds the factors through the contract (${apiNaive.value})`);
+ok(apiDependent.refused === true && typeof apiDependent.value === "undefined", "runTransform(\"statistics.dependence-aware\", ...) refuses through the contract, sharing the mechanism");
+ok(apiNaive.value !== undefined && apiDependent.value === undefined, "the disagreement survives the contract boundary");
+ok(Array.isArray(apiNaive.manifest) && Array.isArray(apiDependent.manifest), "both contract results carry their manifest");
+ok(gradeFields.every((f) => !Object.prototype.hasOwnProperty.call(apiNaive, f)) && gradeFields.every((f) => !Object.prototype.hasOwnProperty.call(apiDependent, f)), "neither contract result carries a grade field");
+
+// read-only: the object createClientApi returns exposes no landing method for a compute result, and
+// running the same transformation twice has no observable effect beyond the returned value.
+ok(typeof api.propose === "function" && typeof api.read === "function" && Object.keys(api).every((k) => !/land|claim|write/i.test(k) || k === "propose"), "the contract's only landing method is propose, unrelated to runTransform");
+const apiNaiveAgain = api.runTransform("statistics.naive-multiply", [RRAR_SITE_FACTOR, PROLINE_FACTOR]);
+ok(JSON.stringify(apiNaiveAgain) === JSON.stringify(apiNaive) && api.transforms().length === apiAll.length, "running the same transformation twice returns the same result with no accumulation in the registry");
+
+// =====================================================================================
 console.log("\n[optional] the codon-factor divergence: three readers, three values, on one sub-question (printed, not gated)");
 // the real corpus-cited Bayes factors for the CGG-CGG codon anomaly: Stansifer's own number (w.eric.
 // codon, "1x neutral"), Weissman's reconstruction (w.weissman.cgg, "7x LL"), and Rootclaim's own
@@ -118,5 +168,5 @@ for (const { reader, ref, factor } of codonFactors) {
 
 console.log("\n" + H);
 if (fails) { console.log(`check-compute: ${fails} FAILURE(S)`); process.exit(1); }
-console.log("verified: the transformation shape holds (manifest and reversibility required, statistics never returns a kernel or a grade), and the covid acceptance test shows naive-multiply and dependence-aware disagreeing on the debate's own RRAR-site-and-proline factors.");
+console.log("verified: the transformation shape holds (manifest and reversibility required, statistics never returns a kernel or a grade), the covid acceptance test shows naive-multiply and dependence-aware disagreeing on the debate's own RRAR-site-and-proline factors, and the same disagreement survives through the client contract's read-only compute surface (transforms, describeTransform, runTransform).");
 console.log("check-compute: OK"); console.log(H);

@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 219. Import edges: 459. Runtime flow edges: 40. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 220. Import edges: 463. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -47,6 +47,8 @@ Nodes: 219. Import edges: 459. Runtime flow edges: 40. All import edges satisfy 
 - `kernel/composition/transfer.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
 - `kernel/composition/vocabulary.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/compute/canonical-packs.mjs` -> `kernel/composition/algebra.mjs`  *(kernel -> kernel)*
+- `kernel/compute/registry.mjs` -> `kernel/compute/canonical-packs.mjs`  *(kernel -> kernel)*
+- `kernel/compute/registry.mjs` -> `kernel/compute/transforms.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -81,6 +83,7 @@ Nodes: 219. Import edges: 459. Runtime flow edges: 40. All import edges satisfy 
 - `api/api.js` -> `kernel/motions/perturb.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/registry.js`  *(api -> kernel)*
 - `api/api.js` -> `kernel/schema/schema.js`  *(api -> kernel)*
+- `api/client-api.mjs` -> `kernel/compute/registry.mjs`  *(api -> kernel)*
 - `api/client-api.mjs` -> `kernel/schema/glossary.mjs`  *(api -> kernel)*
 - `api/contest.js` -> `api/fork.js`  *(api -> api)*
 - `api/contest.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
@@ -187,10 +190,11 @@ Nodes: 219. Import edges: 459. Runtime flow edges: 40. All import edges satisfy 
 - `build/check-composition.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-composition.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
+- `build/check-compute.mjs` -> `api/client-api.mjs`  *(build -> api)*
+- `build/check-compute.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-compute.mjs` -> `build/covid-build.mjs`  *(build -> build)*
 - `build/check-compute.mjs` -> `corpora/compute/stats-pack.js`  *(build -> corpus)*
-- `build/check-compute.mjs` -> `kernel/compute/canonical-packs.mjs`  *(build -> kernel)*
-- `build/check-compute.mjs` -> `kernel/compute/transforms.mjs`  *(build -> kernel)*
+- `build/check-compute.mjs` -> `kernel/compute/registry.mjs`  *(build -> kernel)*
 - `build/check-conformance.mjs` -> `kernel/composition/algebra.mjs`  *(build -> kernel)*
 - `build/check-conformance.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-conformance.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
@@ -496,6 +500,7 @@ Nodes: 219. Import edges: 459. Runtime flow edges: 40. All import edges satisfy 
 - `kernel/composition/transfer.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/composition/vocabulary.mjs` **checked-by** `build/check-composition.mjs`
 - `kernel/compute/canonical-packs.mjs` **checked-by** `build/check-compute.mjs`
+- `kernel/compute/registry.mjs` **checked-by** `build/check-compute.mjs`
 - `kernel/compute/transforms.mjs` **checked-by** `build/check-compute.mjs`
 - `kernel/gate/comment-guard.mjs` **checked-by** `build/check-comment.mjs`
 - `kernel/motions/perturb.js` **checked-by** `build/check-perturb.mjs`

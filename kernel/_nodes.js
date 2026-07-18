@@ -296,5 +296,15 @@ module.exports = [
         "to": "build/check-compute.mjs"
       }
     ]
+  },
+  {
+    "path": "kernel/compute/registry.mjs",
+    "type": "kernel",
+    "flows": [
+      {
+        "type": "checked-by",
+        "to": "build/check-compute.mjs"
+      }
+    ]
   }
 ];
