@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 229,
+  "nodeCount": 232,
   "edgeCount": 546,
   "nodes": [
     {
@@ -1344,7 +1344,7 @@
       "path": "build/check-upstreamed.mjs",
       "type": "build",
       "group": null,
-      "role": "the oracle for what the consumers built and this repository took back: Physics's source classes and computation pack, its staleness reading (computeCurrency) and lineage lint (lintSourceTable); Knowledge- Game's governance hash, contribution ladder and scaffolder options. It also holds this repository's own corpora to the currency, decay and lineage readings.",
+      "role": "the oracle for what the consumers built and this repository took back: Physics's source classes and computation pack, its staleness reading (computeCurrency) and lineage lint (lintSourceTable); Knowledge- Game's governance hash, contribution ladder and scaffolder options; EpiTrellis's reader tolerance and instrument stamp. It also holds this repository's own corpora to the currency, decay and lineage readings.",
       "contract": "`node build/check-upstreamed.mjs` exits non-zero on any failure. The scaffolder case runs in a temporary copy of the tree, so nothing here writes to this one."
     },
     {
@@ -1353,6 +1353,27 @@
       "group": null,
       "role": "holds the licensing layout to LICENSING.md: every license text present and the license it says, every layer directory's LICENSE pointer naming its license and a text that exists, and the vendored third-party code carrying its own notice.",
       "contract": "`node build/check-licensing.mjs` exits non-zero on any failure, naming it."
+    },
+    {
+      "path": "build/check-privacy.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the privacy gate, run first: no tracked file carries a link that is itself the access (a share link, a document id, a token in a query string). Such a link is a capability, not an address, and git history is not deletable in practice, so one landing is permanent. Adopted from A-Viable-Fork/EpiTrellis scripts/verify-privacy.py, whose patterns these are, with the ChatGPT and Gemini share forms added.",
+      "contract": "`node build/check-privacy.mjs` exits non-zero naming each file and line; it first proves each pattern fires on an invented sample assembled at run time, so its own source carries none."
+    },
+    {
+      "path": "build/check-vendored.mjs",
+      "type": "build",
+      "group": null,
+      "role": "pins the vendored third-party bytes: every file under vendor/katex/ hashes to what PIN.json records, and no file is there that the pin does not name. After A-Viable-Fork/EpiTrellis scripts/verify-vendor.py. The generated vendor files (gate bundle, snapshot, case readings) are held fresh by regenerating them in CI; third-party bytes cannot be regenerated here, so they are pinned instead.",
+      "contract": "`node build/check-vendored.mjs` exits non-zero naming each mismatch."
+    },
+    {
+      "path": "build/check-self-description.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the self-description check: every repository path a tracked document names in backticks exists, or is listed in build/self-description-absent.json with the reason it is absent; and every listed path is still absent. After A-Viable-Fork/EpiTrellis scripts/verify-selfdescription.py, whose compost entry 10 recorded documents going stale against the tree they describe.",
+      "contract": "`node build/check-self-description.mjs` exits non-zero naming each document and path."
     },
     {
       "path": "build/check-translate.mjs",

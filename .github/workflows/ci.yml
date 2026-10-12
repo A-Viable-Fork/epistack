@@ -25,6 +25,10 @@ jobs:
       - name: Install dependencies (if any)
         run: npm ci || npm install || echo "no package manifest yet"
 
+      - name: The privacy gate, first
+        # no tracked file carries a link that is itself the access; nothing else matters if one landed
+        run: node build/check-privacy.mjs
+
       - name: Lint the graph
         # fields per node kind, atlas_ref and child-id resolution,
         # sorry-marker-to-ledger consistency, no DOM in engine/, acyclic
@@ -48,6 +52,8 @@ jobs:
           node build/check-standing.mjs
           node build/check-upstreamed.mjs
           node build/check-licensing.mjs
+          node build/check-vendored.mjs
+          node build/check-self-description.mjs
           node build/check-characterized-gaps.mjs
           node build/check-composition.mjs
           node build/check-algebra.mjs

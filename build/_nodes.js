@@ -314,6 +314,18 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-privacy.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-vendored.mjs",
+    "type": "build"
+  },
+  {
+    "path": "build/check-self-description.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-translate.mjs",
     "type": "build"
   },

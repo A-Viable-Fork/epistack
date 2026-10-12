@@ -1,0 +1,29 @@
+{
+  "_comment": "Paths a document names that are absent from the tree on purpose, each with its reason. build/check-self-description.mjs fails on a named path that is absent and unlisted, and on a listed path that exists again (an exception without its occasion is a hole).",
+  "absent": {
+    "docs/contract-register.md": {
+      "docs/departure-from-epistack.md": "a path in A-Viable-Fork/EpiTrellis, named as such"
+    },
+    "docs/design-axioms.md": {
+      "build/extract.mjs": "history: the extraction script of the original single-file build, named as what happened"
+    },
+    "docs/status-ledger.md": {
+      "kernel/schema/lattice.js": "retired in Prompt 16, named as retired",
+      "kernel/schema/terminals.js": "retired in Prompt 16, named as retired",
+      "kernel/schema/modes.js": "retired in Prompt 16, named as retired",
+      "kernel/grounding/check.js": "retired in Prompt 16, named as retired",
+      "kernel/grounding/contamination.js": "the retired Stage 1 contamination fold, named as retired",
+      "kernel/seat/parties.json": "a path in A-Viable-Fork/PDE, named as such",
+      "kernel/analysis/assessment.js": "specified, not built, named as such",
+      "kernel/governance/local-source-classes.md": "a path in a consumer kernel, named as such"
+    },
+    "docs/substrate-map.md": {
+      "docs/deliberation.md": "a planned file of the fork map, named as planned",
+      "docs/workflow-guide.md": "a planned rename in the fork map, named as planned"
+    },
+    "docs/manager-probe-findings.md": {
+      "build/vendor-federation.mjs": "a stale name, corrected in place on 2026-10-12",
+      "vendor/federation/federation-view.json": "a stale name, corrected in place on 2026-10-12"
+    }
+  }
+}

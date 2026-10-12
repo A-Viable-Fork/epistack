@@ -1,0 +1,11 @@
+{
+  "_comment": "The vendored KaTeX bytes, pinned. katex.min.js and LICENSE were compared byte for byte with the published katex@0.16.9 package (unpkg.com/katex@0.16.9) on 2026-10-12 and are identical; katex.inline.css is derived from the package's stylesheet by build/vendor-katex.mjs (fonts inlined), so its hash pins this repository's derivation, not the publisher's bytes. Checked by build/check-vendored.mjs.",
+  "package": "katex",
+  "version": "0.16.9",
+  "source": "https://unpkg.com/katex@0.16.9/",
+  "files": {
+    "katex.min.js": { "sha256": "dc84b296ec3e884de093158f760fd9d45b6c7abe58b5381557f4e138f46a58ae", "basis": "identical to the published dist/katex.min.js" },
+    "LICENSE": { "sha256": "766ccc1f306c885aa45542a9846bbd0a505b27a0374f146778171c2254ce18e3", "basis": "identical to the published LICENSE" },
+    "katex.inline.css": { "sha256": "31e330278e37b4c985236eaadcb541b14c5a6763c01dc9f5f4dff84d36a50d24", "basis": "derived here by build/vendor-katex.mjs" }
+  }
+}

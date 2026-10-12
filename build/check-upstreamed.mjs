@@ -1,6 +1,7 @@
 // Role: the oracle for what the consumers built and this repository took back: Physics's source classes and
 //   computation pack, its staleness reading (computeCurrency) and lineage lint (lintSourceTable); Knowledge-
-//   Game's governance hash, contribution ladder and scaffolder options. It also holds this repository's own
+//   Game's governance hash, contribution ladder and scaffolder options; EpiTrellis's reader tolerance and
+//   instrument stamp. It also holds this repository's own
 //   corpora to the currency, decay and lineage readings.
 // Contract: `node build/check-upstreamed.mjs` exits non-zero on any failure. The scaffolder case runs in a
 //   temporary copy of the tree, so nothing here writes to this one.
@@ -21,7 +22,7 @@ import { computeCurrency } from "../kernel/store/currency.mjs";
 import { computeDecay } from "../kernel/store/decay.mjs";
 import { hashOf } from "../kernel/schema/canonical.mjs";
 import { governanceHash, canonicalParameterRecord } from "../api/governance-hash.js";
-import { LADDER } from "../api/contribution.js";
+import { LADDER, exportContribution, importContribution } from "../api/contribution.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 let fails = 0;
@@ -104,6 +105,17 @@ const lint = lintSourceTable(snap.sources);
 ok(lint.length === 0, `the source table passes the lineage lint (${lint.map((v) => v.rule + " " + v.source_id).join("; ") || "clean"})`);
 ok(computeCurrency(snap.state).length === 0, "no in-force claim depends on an input no longer standing");
 ok(computeDecay(snap.state, { sourceTable: makeSourceTable(snap.sources), kindTable: makeKindTable(snap.kinds) }).length === 0, "no claim is declared above its re-derived grade");
+
+console.log("\n[8] from EpiTrellis: readers tolerate what they do not know; bundles name their instrument");
+const tc = claimRecord({ kind: "claim", statement: "an invented claim from a newer writer", source_id: "s", contributor_id: "p", declared_grade: "asserted", future_field: "v" });
+const bundle = JSON.parse(JSON.stringify(exportContribution({ entries: [tc], links: [] }, null, { kernel_id: "k", instrument: "sha256:" + "e".repeat(64) })));
+ok(bundle.origin.instrument === "sha256:" + "e".repeat(64), "an exported bundle names the instrument that decided it");
+ok(bundle.contribution_id === exportContribution({ entries: [tc], links: [] }).contribution_id, "the instrument stays outside the contribution id");
+const newer = { ...bundle, future_top_level: { anything: "x" }, proposal: { ...bundle.proposal, entries: [{ ...bundle.proposal.entries[0], future_record_field: "z" }] } };
+let read = null; try { read = importContribution(newer); } catch (e) { console.log("      " + e.message); }
+ok(!!read && read.entries[0].canonical.extensions.future_field === "v", "a bundle with fields this reader does not know imports, its unknown extension kept and hashed");
+const tampered = JSON.parse(JSON.stringify(bundle)); tampered.proposal.entries[0].canonical.extensions.future_field = "changed";
+ok(throws(() => importContribution(tampered)), "while a change inside the hashed form is still refused: tolerant on read, strict on content");
 
 console.log("\n" + H + "\n" + (fails ? `check-upstreamed: ${fails} FAILURE(S)` : "check-upstreamed: OK") + "\n" + H);
 process.exit(fails ? 1 : 0);

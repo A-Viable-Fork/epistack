@@ -41,13 +41,28 @@ export function foreignKernel({ store_id, entries = [], links = [], native = [],
 // ---- Step 2: the register-driven checker ---------------------------------------------------------
 // parse the contract register the same way the boundary linter does: each `### CR-x` block with its
 // hyphenated fields. The report is built over exactly these entries, in file order.
+// conformance as a vector (contract register, "Invariants as preconditions"): each capability is unlocked
+// when every invariant it rests on conforms, blocked when any is violated (naming them), and undetermined
+// when none is violated but some cannot be checked mechanically. No capability verdict implies another.
+export function capabilityVector(entries, invariants) {
+  const verdict = new Map(invariants.map((v) => [v.invariant, v.verdict]));
+  const caps = new Map();
+  for (const e of entries) if (e.unlocks) { if (!caps.has(e.unlocks)) caps.set(e.unlocks, []); caps.get(e.unlocks).push(e.id); }
+  return [...caps].map(([capability, requires]) => {
+    const violated = requires.filter((id) => verdict.get(id) === "violates");
+    const unverifiable = requires.filter((id) => verdict.get(id) === "unverifiable");
+    const state = violated.length ? "blocked" : unverifiable.length ? "undetermined" : "unlocked";
+    return { capability, requires, state, violated, unverifiable };
+  });
+}
+
 export function parseContractRegister(md) {
   const entries = [];
   for (const block of md.split(/\n(?=### )/)) {
     const m = block.match(/^### (CR-\S+)/);
     if (!m) continue;
     const field = (name) => { const r = block.match(new RegExp(`^- ${name}: (.+)$`, "m")); return r ? r[1].trim() : null; };
-    entries.push({ id: m[1], modality: (field("Modality") || "").toLowerCase(), statement: field("Statement") || "", enforced: field("Enforced by") || "" });
+    entries.push({ id: m[1], modality: (field("Modality") || "").toLowerCase(), statement: field("Statement") || "", enforced: field("Enforced by") || "", unlocks: field("Unlocks") || null });
   }
   return entries;
 }
@@ -141,7 +156,7 @@ export function conformanceReport(kernel, entries) {
     if (r.note) out.note = r.note;
     return out;
   });
-  return { record_type: "conformance-report", kernel_id: kernel.store_id, against: "docs/contract-register.md", invariants };
+  return { record_type: "conformance-report", kernel_id: kernel.store_id, against: "docs/contract-register.md", invariants, capabilities: capabilityVector(entries, invariants) };
 }
 
 // ---- Step 3: the two fixtures --------------------------------------------------------------------
@@ -230,6 +245,12 @@ function runHarness() {
   ok(verdict("CR-typed") === "conforms", "CR-typed: conforms (both planted claims carry a type), so the checker discriminates per invariant rather than failing in bulk");
   const violated = nc.invariants.filter((i) => i.verdict === "violates").map((i) => i.invariant);
   ok(violated.length >= 2, `the non-conforming fixture violates at least two invariants: ${violated.join(", ")}`);
+  // conformance as a vector: a capability is blocked by its own violated invariants and no other's
+  const cap = (r, c) => r.capabilities.find((x) => x.capability === c);
+  ok(nc.capabilities.length > 0 && conformanceReport(conformingKernel(), entries).capabilities.every((c) => c.state !== "blocked"), "every capability is named, and the conforming fixture has none blocked");
+  ok(cap(nc, "recomputable-on-import").state === "blocked" && cap(nc, "recomputable-on-import").violated.includes("CR-monotone"), "recomputable-on-import is blocked, naming CR-monotone");
+  ok(cap(nc, "cross-out").state === "blocked" && cap(nc, "cross-out").violated.join() === "CR-untyped-floor", "cross-out is blocked by CR-untyped-floor alone, though CR-typed conforms");
+  ok(cap(nc, "forkable-by-composers").state !== "blocked", "a capability whose invariants are not violated stays open: the kernel holds some capabilities, not none");
 
   console.log("\n[3] deliberate-break control: fix one violated invariant on the fixture, its verdict flips");
   // make the crossed claim U actually conform on CR-untyped-floor: type it locally (add it to native)

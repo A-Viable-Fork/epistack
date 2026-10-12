@@ -13,7 +13,7 @@ The architecture's thesis is that untyped claims are the problem and typing them
 
 Three fields, at the top of every document, in a front-matter block. They are the questions a reader asks on opening a file, answered before the file is read.
 
-**Type.** Which of the four kinds below. This sets the reading mode: an argument is read start to finish, a reference is indexed into, a record is scanned for status, a specification is consulted for a contract.
+**Type.** Which of the kinds below (four at the competition, five since the finding was added on 2026-10-12). This sets the reading mode: an argument is read start to finish, a reference is indexed into, a record is scanned for status, a specification is consulted for a contract.
 
 **Purpose.** The document's role, in a sentence: why it exists, not what it says. This field states the job and stops. It is not a summary of the contents, since the type already sets the reading mode and the dependencies already place the document in the graph, so a purpose that recites what the document argues is the content leaking into the header. "States X canonically," "maps the criteria to the architecture," "tracks build status" are roles; a sentence that lists the document's claims is a summary and does not belong here.
 
@@ -30,6 +30,8 @@ Below the header, a document follows its type's conventions and is otherwise fre
 **Record.** Tracks state and history. Scanned for status. The status ledger, the case trellises, the exclusion reservoir. Conventions: entries with dates and states, honest about what is open, structured so a reader finds current status fast.
 
 **Specification.** Defines how a part works. Consulted for a contract. The composition and API specs. Conventions: records and field tables, precise about inputs and outputs, the shapes rather than the prose.
+
+**Finding.** States what an artifact showed when it was run, measured or read: the result, the instrument, and what it overturned. Read for the result. A finding outranks a design document: when the two disagree, the design is wrong, and it is corrected with a dated note that keeps its old text visible; a design may never suppress a finding. Adopted from A-Viable-Fork/EpiTrellis, whose rule it is. Conventions: the outcome categories fixed before the run where possible, the instrument named, the commit it ran at, and what the result kills or leaves standing.
 
 ## The two dependency chains, and why they are separate
 

@@ -27,6 +27,8 @@ Depended on by: [CLAUDE.md, docs/corpus-index.md, docs/exclusion-reservoir.md, d
 
 ---
 
+**T0-7. Nothing is removed without saying so.** Added 2026-10-12, before the patch ledger ([4.5]) exists, so the code is written to it rather than it to the code. The store's history is append-only: a record is superseded, withdrawn, killed or flagged, and stays visible beside what replaced it, because the record of having been wrong is part of the evidence (compost ledger). One exception may exist, and only one, named and narrow: a purge of a record whose content is itself a disclosure (a link that carries access, a person's data), which removes the rows, appends a record saying that a removal happened and how many rows went without saying what they were, requires a typed confirmation, and refuses to run unattended. Adopted from A-Viable-Fork/EpiTrellis, whose `probe.py purge` is that exception (its compost entry 8a). A second exception is a Tier 0 violation: extend the one, or leave the rows alone.
+
 ## Tier 1: strong defaults
 
 **T1-1. The three motions are three modules over one node interface.** Decompose, perturb, and compare live in `decompose.js`, `perturb.js`, `compare.js`, each operating on the node interface from the schema, never entangled with each other. They correspond to the three structures in the architecture, and keeping them separate in the code keeps them separable in the head. Revisable if two motions turn out to share so much logic that the split costs more than it saves, which the stress test suggests will not happen.
