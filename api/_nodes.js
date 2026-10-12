@@ -48,6 +48,10 @@ module.exports = [
     "type": "api"
   },
   {
+    "path": "api/governance-hash.js",
+    "type": "api"
+  },
+  {
     "path": "api/propose.js",
     "type": "api"
   },

@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 225,
-  "edgeCount": 530,
+  "nodeCount": 228,
+  "edgeCount": 546,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -260,7 +260,7 @@
       "type": "kernel",
       "group": "schema",
       "role": "the two reference tables (intake data model v3, Section 10) and the source-footprint closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS that enter every check; this module holds their shape and the reflexive-transitive closure that corroboration and checker-independence read over source dependencies.",
-      "contract": "makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor, footprintClosure, partyOf, kindRow. Pure, ESM; kernel imports only kernel."
+      "contract": "makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor, footprintClosure, partyOf, kindRow, lintSourceTable. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/store/apply.mjs",
@@ -275,6 +275,13 @@
       "group": "store",
       "role": "derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never stored: it is recomputed against the current state. When the recomputed earned grade falls below the declared grade, because a support was withdrawn, superseded, or lowered, the gap is surfaced as a decay finding, never silently corrected. Three moments, none rewrites another: the grade at intake is a fact about a past state fixed in the receipt; the grade at read is a derivation against the current state; the decay finding is their surfaced difference.",
       "contract": "derivedGrade(state, identity, tables) -> position; computeDecay(state, tables) -> [decayFinding]. Pure, ESM; kernel imports only kernel."
+    },
+    {
+      "path": "kernel/store/currency.mjs",
+      "type": "kernel",
+      "group": "store",
+      "role": "the currency reading over a store (intake data model v3, Section 14): every in-force claim that depends on an input no longer standing, a currency finding per edge. A depends-on edge enters no grade fold, so a dead input fails no grade; this is the separate guarantee that such an edge is never silent. Upstreamed from A-Viable-Fork/Physics build/check-dg-staleness.mjs, which read it over its own corpus.",
+      "contract": "computeCurrency(state) -> [currencyFinding]. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/store/exclusion.js",
@@ -386,7 +393,14 @@
       "type": "api",
       "group": null,
       "role": "the contribution export. Packages a proposed contribution (claims plus links), once the gate has decided it, as a portable bundle: the canonical patch, a content-derived contribution id, the gate receipt, and admission instructions. This is the durable contribution path's middle steps (immutable patch identity, export, external admission) without the patch ledger, because identity is not history: the id is the one named hash over the canonical form, and the append-only ledger ([4.5]) stays Stage 4, specified not built.",
-      "contract": "exportContribution(proposal, receipt, origin) -> bundle; contributionId(proposal) -> hex; importContribution(bundle) -> proposal. Pure, node-builtin-free (browser-importable); api imports kernel and api, never the periphery. Reuses the existing canonical form and the one named hash; no second canonicalization and no second hash."
+      "contract": "exportContribution(proposal, receipt, origin) -> bundle; contributionId(proposal) -> hex; LADDER; importContribution(bundle) -> proposal. Pure, node-builtin-free (browser-importable); api imports kernel and api, never the periphery. Reuses the existing canonical form and the one named hash; no second canonicalization and no second hash."
+    },
+    {
+      "path": "api/governance-hash.js",
+      "type": "api",
+      "group": null,
+      "role": "the governance-hash (docs/coordination-layer-spec.md, Federation): the one named hash over a community's canonical parameter record, its durable content-addressed identity. A kernel_id is a human label over this hash, as a kind name is a label over a type-hash. Upstreamed from A-Viable-Fork/Knowledge-Game api/governance-hash.js, which computed it app-side as a DEPARTURE until the specified upstream implementation existed.",
+      "contract": "canonicalParameterRecord(config, pinnedTypeHashes) -> the record hashed; governanceHash(config, pinnedTypeHashes) -> hex sha256 through the kernel's canonical hash. Pure; imports only the kernel's canonical form. Browser-safe ESM."
     },
     {
       "path": "api/propose.js",
@@ -1327,6 +1341,13 @@
       "contract": "`node build/check-standing.mjs` exits non-zero on any failure. Imports the record builders, the tables, the gate, and the store; every fixture is invented here."
     },
     {
+      "path": "build/check-upstreamed.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the oracle for what the consumers built and this repository took back: Physics's source classes and computation pack, its staleness reading (computeCurrency) and lineage lint (lintSourceTable); Knowledge- Game's governance hash, contribution ladder and scaffolder options. It also holds this repository's own corpora to the currency, decay and lineage readings.",
+      "contract": "`node build/check-upstreamed.mjs` exits non-zero on any failure. The scaffolder case runs in a temporary copy of the tree, so nothing here writes to this one."
+    },
+    {
       "path": "build/check-translate.mjs",
       "type": "build",
       "group": null,
@@ -1987,6 +2008,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/schema/tables.mjs",
+      "to": "kernel/schema/provenance.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/schema/type-hash.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -2003,6 +2031,27 @@
     {
       "from": "kernel/store/apply.mjs",
       "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/currency.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/currency.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/currency.mjs",
+      "to": "kernel/store/exclusion.js",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -2170,6 +2219,13 @@
     },
     {
       "from": "api/fork.js",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "api",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "api/governance-hash.js",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
       "fromLayer": "api",
@@ -4064,6 +4120,83 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/compute/transforms.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/schema/standing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/store/currency.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "api/governance-hash.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
+    },
+    {
+      "from": "build/check-upstreamed.mjs",
+      "to": "api/contribution.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/covid-build.mjs",

@@ -306,6 +306,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-upstreamed.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-translate.mjs",
     "type": "build"
   },

@@ -4,7 +4,7 @@
 //   (immutable patch identity, export, external admission) without the patch ledger, because identity
 //   is not history: the id is the one named hash over the canonical form, and the append-only ledger
 //   ([4.5]) stays Stage 4, specified not built.
-// Contract: exportContribution(proposal, receipt, origin) -> bundle; contributionId(proposal) -> hex;
+// Contract: exportContribution(proposal, receipt, origin) -> bundle; contributionId(proposal) -> hex; LADDER;
 //   importContribution(bundle) -> proposal. Pure, node-builtin-free (browser-importable); api imports
 //   kernel and api, never the periphery. Reuses the existing canonical form and the one named hash; no
 //   second canonicalization and no second hash.
@@ -18,6 +18,16 @@ import { claimRecord, linkRecord } from "../kernel/schema/records.mjs";
 
 const PROTOCOL = "v3"; // the schema identity a target re-runs the gate under; not a second hash
 const STATUS = "gate-passed, not admitted";
+// the contribution ladder: three distinct states, no one implying the next. A bundle is exported at the
+// first; admission is the target community's act and semantic acceptance its members' judgment, so neither
+// is ever a client's or the gate's to claim. Upstreamed from A-Viable-Fork/Knowledge-Game periphery/ladder.js
+// (its claim-13), so every client renders one ladder. The first two captions never say true, validated,
+// verified or accepted.
+export const LADDER = Object.freeze([
+  Object.freeze({ id: "gate-passed", label: "Gate-passed", caption: "The proposal grounds structurally against the target's graph. This is mechanical, not a judgment." }),
+  Object.freeze({ id: "admitted", label: "Admitted", caption: "The target kernel's own suite re-ran the gate and merged the patch. This is the community's act, not a client's." }),
+  Object.freeze({ id: "semantically-accepted", label: "Semantically accepted", caption: "Members of the community judged the claim's floors true enough to build on. This is never mechanical, and never a client's to grant." }),
+]);
 // the fixed admission instructions. They name re-check by the target as the admission step, and draw
 // the line the bundle must never blur: structural gate passage here is not semantic acceptance there.
 const INSTRUCTIONS =

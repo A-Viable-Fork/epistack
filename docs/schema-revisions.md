@@ -123,6 +123,7 @@ The schema to author v0 against is the revised one above. The next real test is 
 These win over the spec on the data model, as the revisions above do. Each adds a field or record; none changes an existing one, and none moves an existing hash.
 
 - **Checking record:** `footprint` and `cited_artifacts` are read (they were hashed and unread); the resolved footprint drops canonical literature roots. A check is located when its cited artifacts resolve in the source table; with a party table its independence is computed and its declared mark ignored.
+- **Source row:** optional `sha256`, `files` (path, sha256, method), `original`, `read_depth`; two new source classes, `ai-audit` and `formal-artifact`.
 - **Party table:** `party_id`, `authority_root`, `source_footprint`, `rules`. A trusted input, as the source and kind tables are.
 - **Kind row:** optional `admission_requirements`, `checking_record_must_contain`, `liftable_by_convergence`.
 - **Claim extensions read beside the grade:** one key, `claim_standing`, holding `claim_class`, `status`, `memory`, `holder`, `receipts`. Other extension keys stay the contributor's own and are never read.

@@ -3,22 +3,37 @@
 //   that enter every check; this module holds their shape and the reflexive-transitive closure that
 //   corroboration and checker-independence read over source dependencies.
 // Contract: makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor,
-//   footprintClosure, partyOf, kindRow.
+//   footprintClosure, partyOf, kindRow, lintSourceTable.
 //   Pure, ESM; kernel imports only kernel.
 // Invariant: the dependency relation is required acyclic by governance; a cycle nevertheless present
 //   is read as one source per strongly connected component (the conservative reading), so the
 //   closure never undercounts a footprint. Governing these tables is the model's named trust boundary.
 "use strict";
 import { isPosition, modeOf } from "./confidence.mjs";
+import { READ_DEPTHS } from "./provenance.mjs";
+const HEX64 = /^[0-9a-f]{64}$/;
 
-const SOURCE_CLASSES = ["primary-measurement", "peer-reviewed", "preprint", "dataset", "institutional-report", "testimony"];
+// "ai-audit": an adversarial report by a model, distinct in kind from human testimony; "formal-artifact": a
+// compiled proof module or similar, an artifact rather than testimony about one. Both upstreamed from
+// A-Viable-Fork/Physics, where they were the hash-tracked divergences D0 and D2 (its upstream/lock.json).
+const SOURCE_CLASSES = ["primary-measurement", "peer-reviewed", "preprint", "dataset", "institutional-report", "testimony", "ai-audit", "formal-artifact"];
 
 export function makeSourceTable(rows) {
   const byId = new Map();
   for (const r of rows || []) {
     if (!r.source_id) throw new Error("source row missing source_id");
     if (!SOURCE_CLASSES.includes(r.source_class)) throw new Error(`source ${r.source_id}: bad source_class ${r.source_class}`);
-    byId.set(r.source_id, { source_id: r.source_id, source_class: r.source_class, description: r.description || "", rests_on: (r.rests_on || []).slice() });
+    const row = { source_id: r.source_id, source_class: r.source_class, description: r.description || "", rests_on: (r.rests_on || []).slice() };
+    // the landing fields (after Metacomplexity map/sources/*/meta.json): the bytes' hash, the landed files,
+    // the original's address and hash, and how deeply the source was read. Kept only when given.
+    if (r.sha256 !== undefined) { if (!HEX64.test(r.sha256)) throw new Error(`source ${r.source_id}: sha256 must be 64 lowercase hex`); row.sha256 = r.sha256; }
+    if (r.files !== undefined) {
+      if (!Array.isArray(r.files) || r.files.some((f) => !f || !f.path || !HEX64.test(f.sha256 || ""))) throw new Error(`source ${r.source_id}: files must be [{ path, sha256, method? }]`);
+      row.files = r.files.map((f) => ({ path: f.path, sha256: f.sha256, ...(f.method ? { method: f.method } : {}) }));
+    }
+    if (r.original !== undefined) row.original = { ...r.original };
+    if (r.read_depth !== undefined) { if (!READ_DEPTHS.includes(r.read_depth)) throw new Error(`source ${r.source_id}: bad read_depth ${r.read_depth}`); row.read_depth = r.read_depth; }
+    byId.set(r.source_id, row);
   }
   return { byId, classes: SOURCE_CLASSES.slice() };
 }
@@ -73,6 +88,40 @@ export function makePartyTable(rows) {
 }
 export function partyOf(table, id) {
   return (table && table.byId.get(id)) || null;
+}
+
+// the lineage lint over raw source rows (after A-Viable-Fork/Physics build/check-dg-ancestry.mjs): the shapes
+// that would let a shared ancestry pass as independence. A dangling rests_on target, a self-loop, a cycle, an
+// id registered twice, and one artifact (one sha256, on the row or a landed file) under two ids neither of
+// which rests on the other. Returns violations; never throws, so a caller can report them all.
+export function lintSourceTable(rows) {
+  const out = [];
+  const ids = new Map();
+  for (const r of rows || []) ids.set(r.source_id, (ids.get(r.source_id) || 0) + 1);
+  for (const [id, n] of ids) if (n > 1) out.push({ rule: "duplicate-id", source_id: id, detail: `${n} rows` });
+  const restsOn = new Map((rows || []).map((r) => [r.source_id, r.rests_on || []]));
+  for (const [id, deps] of restsOn) for (const d of deps) {
+    if (d === id) out.push({ rule: "self-loop", source_id: id, detail: id });
+    else if (!restsOn.has(d)) out.push({ rule: "dangling", source_id: id, detail: d });
+  }
+  const state = new Map();
+  const visit = (id, path) => {
+    if (state.get(id) === "done" || !restsOn.has(id)) return;
+    if (state.get(id) === "open") { const cyc = path.slice(path.indexOf(id)); if (cyc.length > 1) out.push({ rule: "cycle", source_id: id, detail: cyc.join(" -> ") }); return; }
+    state.set(id, "open");
+    for (const d of restsOn.get(id)) if (d !== id) visit(d, [...path, d]);
+    state.set(id, "done");
+  };
+  for (const id of restsOn.keys()) visit(id, [id]);
+  const table = { byId: new Map((rows || []).map((r) => [r.source_id, { rests_on: r.rests_on || [] }])) };
+  const byHash = new Map();
+  for (const r of rows || []) for (const h of new Set([r.sha256, ...((r.files || []).map((f) => f.sha256))].filter(Boolean))) {
+    if (!byHash.has(h)) byHash.set(h, []);
+    byHash.get(h).push(r.source_id);
+  }
+  for (const [h, rs] of byHash) for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++)
+    if (!footprintClosure(table, [rs[i]]).has(rs[j]) && !footprintClosure(table, [rs[j]]).has(rs[i])) out.push({ rule: "artifact-twice", source_id: rs[i], detail: `${rs[j]} carries the same sha256 ${h.slice(0, 12)}` });
+  return out;
 }
 
 // the reflexive-transitive closure of a set of source ids over `rests_on`. A cycle is naturally
