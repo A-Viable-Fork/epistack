@@ -39,7 +39,8 @@ const kinds = makeKindTable([
   { kind: "estimate", ceiling: "corroborated" },
 ]);
 const tables = { sourceTable: sources, kindTable: kinds };
-const chk = (id, cls) => ({ checker_id: id, method_class: cls, method: "audited", checked_at_state: "s0", outcome: "confirms", independence: "distinct-party" });
+// each check declares its own footprint: two distinct-party checks lift only when their footprints are known and disjoint
+const chk = (id, cls) => ({ checker_id: id, method_class: cls, method: "audited", checked_at_state: "s0", outcome: "confirms", independence: "distinct-party", footprint: ["src:" + id] });
 
 // D1: a health measurement rechecked by two distinct parties -> independently-rechecked (settled, empirical)
 const D1 = claimRecord({

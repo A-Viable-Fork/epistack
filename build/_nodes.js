@@ -298,6 +298,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-independence.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-translate.mjs",
     "type": "build"
   },

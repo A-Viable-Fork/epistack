@@ -430,6 +430,12 @@ function finalize(canonDeclared, extRaw) {
 }
 
 // ---- the checking record (Design Decision A) ----
+// a footprint is the set of source ids a check rests on: sorted, unique strings, or undefined when not declared.
+function footprintOf(f) {
+  if (f === undefined || f === null) return undefined;
+  if (!Array.isArray(f) || f.some((x) => typeof x !== "string" || !x)) throw new Error("checking record: footprint must be an array of source ids");
+  return [...new Set(f)].sort();
+}
 const CHECKING_FIELDS = ["checker_id", "method_class", "method", "checked_at_state", "outcome", "independence"];
 function checkingRecord(raw) {
   req(raw.checker_id, "checking record: checker_id required");
@@ -445,8 +451,12 @@ function checkingRecord(raw) {
     outcome: canonicalize(outcome),
     independence: canonicalize(raw.independence),
   };
-  const { canonical, hash } = finalize(declared, extensionsOf(raw, CHECKING_FIELDS));
-  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, canonical, hash };
+  const ext = extensionsOf(raw, CHECKING_FIELDS);
+  const { canonical, hash } = finalize(declared, ext);
+  // the footprint stays in the hashed extensions (so no record's hash moves) and is also surfaced, because
+  // ownBasis reads it: before 2026-10-12 it was hashed but never read, and every pair of distinct-party
+  // records counted as disjoint (docs/compost-ledger.md, entry 23).
+  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, footprint: footprintOf(ext.footprint), canonical, hash };
 }
 
 // ---- the closing-condition record (Prompt 18) ----
@@ -714,15 +724,15 @@ function footprintOfGroup(members) {
 }
 
 // own basis B: a settled position (checked / independently-rechecked / constitutive) or "none".
+// Two distinct-party checks lift to independently-rechecked only when both declare a footprint and the two
+// are disjoint: an undeclared footprint is unknown, and unknown counts as overlapping, never as disjoint.
 function ownBasis({ constitutive, checkingRecords }) {
   if (constitutive) return "constitutive";
   const distinct = (checkingRecords || []).filter((c) => c.independence === "distinct-party");
-  if (distinct.length >= 2) {
-    for (let i = 0; i < distinct.length; i++)
-      for (let j = i + 1; j < distinct.length; j++)
-        if (disjoint(new Set(distinct[i].footprint || []), new Set(distinct[j].footprint || [])))
-          return "independently-rechecked";
-  }
+  const known = distinct.filter((c) => Array.isArray(c.footprint) && c.footprint.length > 0);
+  for (let i = 0; i < known.length; i++)
+    for (let j = i + 1; j < known.length; j++)
+      if (disjoint(new Set(known[i].footprint), new Set(known[j].footprint))) return "independently-rechecked";
   if (distinct.length >= 1) return "checked";
   return "none";
 }

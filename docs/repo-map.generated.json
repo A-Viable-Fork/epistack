@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 220,
-  "edgeCount": 504,
+  "nodeCount": 221,
+  "edgeCount": 507,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -1290,6 +1290,13 @@
       "group": null,
       "role": "the robustness analysis oracle (Prompt 13). Phase A runs the four synthetic fixtures, the redundant target, the single-path bottleneck, the correlated-evidence case, and the shared presupposition, and asserts the readings; it also checks the two-closure separation and determinism. Phase B (build/check-robustness runs it too) reads the migrated cases.",
       "contract": "`node build/check-robustness.mjs` exits non-zero on any failure. Imports the kernel analysis and table builders, and the snapshot for the case readings."
+    },
+    {
+      "path": "build/check-independence.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the checker-independence oracle. Two distinct-party checking records lift a claim's own basis to independently-rechecked only when both declare a footprint and the two are disjoint; the footprint survives the record builder and a contribution's export and import.",
+      "contract": "`node build/check-independence.mjs` exits non-zero on any failure. Imports the record builders, the earned-grade rule, and the contribution export and import."
     },
     {
       "path": "build/check-translate.mjs",
@@ -3245,6 +3252,27 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "kernel/grounding/earned-grade.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "api/contribution.js",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "api"
     },
     {
       "from": "build/check-ingest.mjs",
