@@ -50,6 +50,8 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/glossary.mjs` | the self-describing vocabulary (DESCRIBE-1): a description and whenToUse for every grade in the confidence order, a description and ceiling for every shared-root claim kind, a description for every link kind, and the declared-vs-earned concept, keyed to the real schema by identity |
 | `kernel/schema/edges.js` | the edge taxonomy: edges as claims, typed by the lattice (support, undercut, rebut, presupposition, restatement, specialization, discourse) |
 | `kernel/schema/records.mjs` | the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking |
+| `kernel/schema/provenance.mjs` | the receipt record (a quote at UTF-16 offsets in a file of recorded sha256) and its verification, and the source read-depth vocabulary, converged across six sibling repositories |
+| `kernel/schema/standing.mjs` | standing kept beside the grade: claim class, lifecycle status, memory cap, holder; the ruling, kill, flag and outbound records; shared-cause supports for kinds not liftable by convergence |
 | `kernel/schema/sha256.mjs` | the one named hash (sha256), a vendored pure-JS implementation so the kernel hashes identically |
 | `kernel/schema/registers.js` | vocabulary registers. Each concept's label per register, plus the coinage |
 | `kernel/schema/registry.js` | assemble the one registry. Merge every addressable component (primitives, case |
@@ -278,6 +280,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-ingest.mjs` | the ingestion connector's oracle: from saved arXiv and OpenAlex fixtures it proves valid source rows makeSourceTable accepts, the metadata-only legal boundary (link back in every row, no full text), the rate limiter's three-second interval on a virtual clock, and one ingested source grounding a real claim through the propose contract |
 | `build/check-produce.mjs` | the producer connector's oracle: it drives simulated agent tool calls through the MCP server into the real gate and proves an agent's well-formed claim is graded identically to a human's, an over-declared claim is demoted by the gate, and a structurally invalid input is rejected by the schema before the gate is reached, so the producer is checked by structure and grounding, not trusted |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
+| `build/check-standing.mjs` | the oracle for the converged records: receipts at offsets, standing beside the grade, rulings, kills, flags, outbound holds, corrections, and kind rows (admission, required check fields, liftability) |
 | `build/check-independence.mjs` | the checker-independence oracle: a distinct-party recheck lifts only on known, disjoint footprints, and the footprint survives export and import (compost entry 23) |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |

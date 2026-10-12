@@ -10,7 +10,7 @@
 //   the superseded side of any supersession record.
 "use strict";
 import { canonicalize, encode } from "../schema/canonical.mjs";
-import { makeState } from "./state.mjs";
+import { makeState, OPTIONAL_SETS } from "./state.mjs";
 
 function unionById(existing, incoming) {
   const map = new Map((existing || []).map((e) => [e.identity, e])); // existing wins: never overwritten
@@ -34,11 +34,13 @@ export function apply(state, accepted) {
     corroboration_findings: appendDedup(state.corroboration_findings, accepted.corroboration_findings),
     supersession_records: appendDedup(state.supersession_records, accepted.supersession_records),
   };
+  for (const s of OPTIONAL_SETS) next[s] = appendDedup(state[s], accepted[s]);
   // idempotence (Section 15): union and append that add nothing produce no new state. The store's
   // growth is a function of content, so a resubmission returns the same state, same hash.
   const unchanged = next.entries.length === (state.entries || []).length && next.links.length === (state.links || []).length
     && next.withdrawn_records.length === (state.withdrawn_records || []).length && next.contradiction_records.length === (state.contradiction_records || []).length
-    && next.corroboration_findings.length === (state.corroboration_findings || []).length && next.supersession_records.length === (state.supersession_records || []).length;
+    && next.corroboration_findings.length === (state.corroboration_findings || []).length && next.supersession_records.length === (state.supersession_records || []).length
+    && OPTIONAL_SETS.every((s) => next[s].length === (state[s] || []).length);
   if (unchanged) return state;
   return makeState({ prior_state_hash: state.state_hash, applied_contribution_hash: accepted.applied_contribution_hash, receipt_reference: accepted.receipt_reference, ...next });
 }

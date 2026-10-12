@@ -223,6 +223,16 @@ module.exports = [
     "group": "schema"
   },
   {
+    "path": "kernel/schema/provenance.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
+    "path": "kernel/schema/standing.mjs",
+    "type": "kernel",
+    "group": "schema"
+  },
+  {
     "path": "kernel/schema/sha256.mjs",
     "type": "kernel",
     "group": "schema"

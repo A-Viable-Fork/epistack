@@ -12,6 +12,7 @@
 "use strict";
 import { canonicalize, normalizeString, hashOf, computeClaimIdentity, computeLinkIdentity } from "./canonical.mjs";
 import { isPosition } from "./confidence.mjs";
+import { validateStanding } from "./standing.mjs";
 
 // undercut (edge taxonomy [1.5]): attacks a support edge's grounding rather than adding support. It
 // enters no grade fold in the gate (inert here, like contradicts routes to the register); a dedicated
@@ -112,7 +113,9 @@ export function claimRecord(raw) {
   };
   if (raw.checking_records !== undefined) declared.checking_records = canonicalize(checks.map((c) => c.canonical), "child");
   if (closing !== undefined) declared.closing_condition = canonicalize(closing);
-  const { canonical, hash } = finalize(declared, extensionsOf(raw, CLAIM_FIELDS));
+  const claimExt = extensionsOf(raw, CLAIM_FIELDS);
+  validateStanding(claimExt); // claim class, status, memory, holder, receipts: extensions, read beside the grade
+  const { canonical, hash } = finalize(declared, claimExt);
   return {
     record_type: "claim", identity, kind, statement, source_id: raw.source_id, contributor_id: raw.contributor_id,
     declared_grade, checking_records: checks, closing_condition: closing, canonical, hash,
@@ -230,14 +233,27 @@ export function coverageNote(version) {
   return `${COVERAGE_PREFIX} ${version}; dependencies absent from the table are invisible to this check`;
 }
 // ---- the supersession record, decay finding, currency finding (Section 14) ----
+// a supersession is also the correction record (after Math_Map mapfill/corrections.js and Phone
+// corrections/corrections.js): when it corrects, it names the finding that prompted it and the receipts it
+// rests on. Identity hashes kind and statement only, so a successor restating the same statement would be
+// the superseded claim itself; that is refused rather than recorded as a change.
 export function supersessionRecord(raw) {
-  return {
+  const superseded = req(raw.superseded_identity, "supersession: superseded_identity required");
+  const successor = req(raw.successor_identity, "supersession: successor_identity required");
+  if (superseded === successor) throw new Error("supersession: the successor has the superseded claim's identity (same kind and statement); change the statement or record a refinement");
+  const rec = {
     record_type: "supersession",
-    superseded_identity: req(raw.superseded_identity, "supersession: superseded_identity required"),
-    successor_identity: req(raw.successor_identity, "supersession: successor_identity required"),
+    superseded_identity: superseded,
+    successor_identity: successor,
     at_state: req(raw.at_state, "supersession: at_state required"),
     reason: normalizeString(raw.reason || ""),
   };
+  if (raw.prior_finding !== undefined) rec.prior_finding = req(raw.prior_finding, "supersession: prior_finding, when given, names the finding");
+  if (raw.receipts !== undefined) {
+    if (!Array.isArray(raw.receipts) || !raw.receipts.length) throw new Error("supersession: receipts, when given, is a non-empty array of receipt ids");
+    rec.receipts = [...new Set(raw.receipts)].sort();
+  }
+  return rec;
 }
 export function decayFinding(raw) {
   return {

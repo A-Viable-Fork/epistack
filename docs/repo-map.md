@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 225. Import edges: 489. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -54,6 +54,7 @@ Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/gate/gate.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/schema/standing.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/gate/gate.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
@@ -63,8 +64,14 @@ Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/canonical.mjs` -> `kernel/schema/sha256.mjs`  *(kernel -> kernel)*
 - `kernel/schema/glossary.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/provenance.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/schema/records.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/records.mjs` -> `kernel/schema/standing.mjs`  *(kernel -> kernel)*
+- `kernel/schema/standing.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
+- `kernel/schema/standing.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/standing.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/schema/standing.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
@@ -73,6 +80,7 @@ Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/store/decay.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/schema/standing.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
 - `kernel/store/state.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
@@ -351,6 +359,15 @@ Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy 
 - `build/check-self.mjs` -> `corpora/self/tables.js`  *(build -> corpus)*
 - `build/check-self.mjs` -> `corpora/vocabulary/vocabulary.js`  *(build -> corpus)*
 - `build/check-self.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/schema/provenance.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/schema/standing.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-standing.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/check-tcpip-counterexample.mjs` -> `build/check-conformance.mjs`  *(build -> build)*
 - `build/check-tcpip-counterexample.mjs` -> `build/tcpip-eras.mjs`  *(build -> build)*
 - `build/check-translate.mjs` -> `build/translate-trellis.mjs`  *(build -> build)*
