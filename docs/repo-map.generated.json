@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 222,
-  "edgeCount": 513,
+  "nodeCount": 225,
+  "edgeCount": 530,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -134,7 +134,7 @@
       "type": "kernel",
       "group": "grounding",
       "role": "resolves a claim's checking records against the trusted tables before the earned-grade rule reads them: whether each check's cited artifacts are located (the fabrication rule, after A-Viable-Fork/PDE check 05), its footprint closed over source dependencies and the checker's own exposure, and its independence from the claim's author computed from the party table (after PDE check 06).",
-      "contract": "resolveChecks(checks, { contributorId, sourceTable, partyTable }) -> resolved checks, each the original record plus { located, footprint, independence, independence_basis, authority_root }. Pure, ESM; kernel imports only kernel."
+      "contract": "resolveChecks(checks, { contributorId, sourceTable, partyTable }) -> resolved checks, each the original record plus { located, footprint, independence, independence_basis, authority_root }; canonicalRoot(table, id). Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/grounding/profile.js",
@@ -207,6 +207,20 @@
       "contract": "claimRecord, linkRecord, checkingRecord, wellFormednessFinding, referenceBindingRow, contradictionRecord, withdrawnClaimRecord, reinstatementCondition, corroborationFinding. Pure, ESM; kernel imports only kernel."
     },
     {
+      "path": "kernel/schema/provenance.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the receipt record and the source row's landing fields, the provenance shape six sibling repositories converged on (A-Viable-Fork Metacomplexity map/receipts.js, Formalization trusted-base/receipts.js, Math_Map excerpts, Phone corrections, Philosophy readings, PDE document-claim): a quote held at exact UTF-16 offsets in a file whose sha256 is recorded.",
+      "contract": "receiptRecord(raw) -> { receipt_id, source_id, file, sha256, start, end, quote, commit?, canonical, hash }; verifyReceipt(receipt, text) -> { ok, reason, occurrences }; READ_DEPTHS. Pure, ESM; kernel imports only kernel. The kernel never reads a file: the caller hands it the text."
+    },
+    {
+      "path": "kernel/schema/standing.mjs",
+      "type": "kernel",
+      "group": "schema",
+      "role": "the standing fields and records the sibling repositories converged on, each kept apart from the grade: who may settle a claim (claim class, after Repo-Infrastructure CLAIMS.md), where it stands in its life (status, after Metacomplexity map/nodes.js and Formalization CONTRACT.md), whether it is held from memory, and the records that act on standing without rewriting a claim: the ruling (after PDE parties.json and Phone's person-held forks), the kill (Metacomplexity kills, PDE foreclosure), the flag (Math_Map mapfill/flags.js) and the outbound hold (Metacomplexity packets, Formalization OUTBOUND.md).",
+      "contract": "STANDING_KEY; standingOf(entry), validateStanding(ext), effectiveCeiling(kindTable, entry), sharedCauseSupports(supports); rulingRecord, killRecord, flagRecord, outboundRecord; CLAIM_CLASSES, STATUSES, OUTBOUND_STATUSES. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/schema/sha256.mjs",
       "type": "kernel",
       "group": "schema",
@@ -246,7 +260,7 @@
       "type": "kernel",
       "group": "schema",
       "role": "the two reference tables (intake data model v3, Section 10) and the source-footprint closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS that enter every check; this module holds their shape and the reflexive-transitive closure that corroboration and checker-independence read over source dependencies.",
-      "contract": "makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor, footprintClosure, partyOf. Pure, ESM; kernel imports only kernel."
+      "contract": "makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor, footprintClosure, partyOf, kindRow. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/store/apply.mjs",
@@ -267,7 +281,7 @@
       "type": "kernel",
       "group": "store",
       "role": "the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived.",
-      "contract": "STUB [0.5] the kill record as code (today prose in docs/exclusion-reservoir.md)."
+      "contract": "killsOf(state, identity) -> the kill records on that claim, scoped and global; isKilled(state, identity) -> true when a global kill holds. The record itself is killRecord (kernel/schema/standing.mjs)."
     },
     {
       "path": "kernel/store/graph.js",
@@ -1306,6 +1320,13 @@
       "contract": "`node build/check-independence.mjs` exits non-zero on any failure. Imports the record builders, the earned-grade rule, and the contribution export and import."
     },
     {
+      "path": "build/check-standing.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the oracle for the records the sibling repositories converged on: receipts verified at offsets in hashed text, standing kept beside the grade (claim class, status, memory, holder), rulings, kills, flags, outbound holds, corrections, and the kind rows that say what a kind admits and whether it lifts.",
+      "contract": "`node build/check-standing.mjs` exits non-zero on any failure. Imports the record builders, the tables, the gate, and the store; every fixture is invented here."
+    },
+    {
       "path": "build/check-translate.mjs",
       "type": "build",
       "group": null,
@@ -1813,6 +1834,13 @@
     },
     {
       "from": "kernel/gate/gate.mjs",
+      "to": "kernel/schema/standing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "kernel",
@@ -1896,6 +1924,13 @@
       "toLayer": "kernel"
     },
     {
+      "from": "kernel/schema/provenance.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
       "from": "kernel/schema/records.mjs",
       "to": "kernel/schema/canonical.mjs",
       "type": "imports",
@@ -1905,6 +1940,41 @@
     {
       "from": "kernel/schema/records.mjs",
       "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/records.mjs",
+      "to": "kernel/schema/standing.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/standing.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/standing.mjs",
+      "to": "kernel/schema/confidence.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/standing.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/schema/standing.mjs",
+      "to": "kernel/schema/records.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1968,6 +2038,13 @@
     {
       "from": "kernel/store/decay.mjs",
       "to": "kernel/grounding/checks.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/schema/standing.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -3847,6 +3924,69 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "build"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/schema/provenance.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/schema/standing.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/schema/records.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/store/state.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-standing.mjs",
+      "to": "kernel/store/decay.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-tcpip-counterexample.mjs",

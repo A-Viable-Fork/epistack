@@ -3,12 +3,24 @@
 //   check 05), its footprint closed over source dependencies and the checker's own exposure, and its
 //   independence from the claim's author computed from the party table (after PDE check 06).
 // Contract: resolveChecks(checks, { contributorId, sourceTable, partyTable }) -> resolved checks, each the
-//   original record plus { located, footprint, independence, independence_basis, authority_root }.
+//   original record plus { located, footprint, independence, independence_basis, authority_root };
+//   canonicalRoot(table, id).
 //   Pure, ESM; kernel imports only kernel.
-// Invariant: unknown is never read as favourable. An unlocated check carries no footprint; an unknown
+// Invariant: unknown is never read as favourable. An unlocated check carries no footprint, and a footprint of
+//   canonical roots alone is empty, so it is unknown and cannot lift; an unknown
 //   party is not distinct; without a party table the declared independence stands, marked as declared.
 "use strict";
-import { footprintClosure, partyOf } from "../schema/tables.mjs";
+import { footprintClosure, partyOf, sourceClass } from "../schema/tables.mjs";
+
+// a canonical literature root: a peer-reviewed source whose whole ancestry is peer-reviewed. Two checks that
+// both consult one are not dependent through it; their own artifacts are what must be disjoint. Upstreamed
+// from A-Viable-Fork/Physics (build/independence-core.mjs; governing-conventions Section 5, amended at its
+// Stage 3b), which applied it to the corpus before the kernel did.
+export function canonicalRoot(table, id) {
+  if (!table || sourceClass(table, id) !== "peer-reviewed") return false;
+  for (const ancestor of footprintClosure(table, [id])) if (sourceClass(table, ancestor) !== "peer-reviewed") return false;
+  return true;
+}
 
 export function resolveCheck(c, { contributorId, sourceTable, partyTable }) {
   // a declared footprint names source ids too, so it is read as cited: what a check rests on is what it cites.
@@ -27,7 +39,7 @@ export function resolveCheck(c, { contributorId, sourceTable, partyTable }) {
   let footprint;
   if (located) {
     const ids = [...cited, ...(checker ? checker.source_footprint : [])];
-    footprint = [...footprintClosure(sourceTable, ids)].sort();
+    footprint = [...footprintClosure(sourceTable, ids)].filter((id) => !canonicalRoot(sourceTable, id)).sort();
   }
   return { ...c, located, footprint, independence, independence_basis: basis, declared_independence: c.independence, authority_root: checker ? checker.authority_root : null };
 }

@@ -323,7 +323,7 @@ __M["tables"] = (function () {
 //   that enter every check; this module holds their shape and the reflexive-transitive closure that
 //   corroboration and checker-independence read over source dependencies.
 // Contract: makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor,
-//   footprintClosure, partyOf.
+//   footprintClosure, partyOf, kindRow.
 //   Pure, ESM; kernel imports only kernel.
 // Invariant: the dependency relation is required acyclic by governance; a cycle nevertheless present
 //   is read as one source per strongly connected component (the conservative reading), so the
@@ -351,9 +351,25 @@ function makeKindTable(rows) {
   for (const r of rows || []) {
     if (!r.kind) throw new Error("kind row missing kind");
     if (!isPosition(r.ceiling)) throw new Error(`kind ${r.kind}: bad ceiling ${r.ceiling}`);
-    byKind.set(r.kind, { kind: r.kind, ceiling: r.ceiling, compatibility_rule_id: r.compatibility_rule_id || null });
+    const row = { kind: r.kind, ceiling: r.ceiling, compatibility_rule_id: r.compatibility_rule_id || null };
+    // after A-Viable-Fork/PDE kernel/kinds.json and config.json: fields an entry of the kind must carry, fields
+    // each of its checking records must carry, and whether agreement across supports may lift it (false for
+    // a kind whose sources share a cause, such as surveys of absence by models trained on one corpus).
+    for (const f of ["admission_requirements", "checking_record_must_contain"]) {
+      if (r[f] === undefined) continue;
+      if (!Array.isArray(r[f]) || r[f].some((x) => typeof x !== "string" || !x)) throw new Error(`kind ${r.kind}: ${f} must be an array of field names`);
+      row[f] = r[f].slice();
+    }
+    if (r.liftable_by_convergence !== undefined) {
+      if (typeof r.liftable_by_convergence !== "boolean") throw new Error(`kind ${r.kind}: liftable_by_convergence must be true or false`);
+      row.liftable_by_convergence = r.liftable_by_convergence;
+    }
+    byKind.set(r.kind, row);
   }
   return { byKind };
+}
+function kindRow(kindTable, kind) {
+  return (kindTable && kindTable.byKind.get(kind)) || null;
 }
 function ceilingFor(kindTable, kind) {
   const r = kindTable.byKind.get(kind);
@@ -395,11 +411,12 @@ function footprintClosure(table, sourceIds) {
   return out;
 }
 
-  return { makeSourceTable, sourceClass, makeKindTable, ceilingFor, makePartyTable, partyOf, footprintClosure };
+  return { makeSourceTable, sourceClass, makeKindTable, kindRow, ceilingFor, makePartyTable, partyOf, footprintClosure };
 })();
 __M["records"] = (function () {
   var { canonicalize, normalizeString, hashOf, computeClaimIdentity, computeLinkIdentity } = __M["canonical"];
   var { isPosition } = __M["confidence"];
+  var { validateStanding } = __M["standing"];
 // Role: the v3 record types (intake data model v3, Sections 2, 4, 5, 6, 7, 8) plus the checking
 //   record (Design Decision A). Each builder validates the spec's exact fields and allowed values,
 //   routes undeclared fields into the tamper-evident extension area, and produces the canonical form
@@ -512,7 +529,9 @@ function claimRecord(raw) {
   };
   if (raw.checking_records !== undefined) declared.checking_records = canonicalize(checks.map((c) => c.canonical), "child");
   if (closing !== undefined) declared.closing_condition = canonicalize(closing);
-  const { canonical, hash } = finalize(declared, extensionsOf(raw, CLAIM_FIELDS));
+  const claimExt = extensionsOf(raw, CLAIM_FIELDS);
+  validateStanding(claimExt); // claim class, status, memory, holder, receipts: extensions, read beside the grade
+  const { canonical, hash } = finalize(declared, claimExt);
   return {
     record_type: "claim", identity, kind, statement, source_id: raw.source_id, contributor_id: raw.contributor_id,
     declared_grade, checking_records: checks, closing_condition: closing, canonical, hash,
@@ -630,14 +649,27 @@ function coverageNote(version) {
   return `${COVERAGE_PREFIX} ${version}; dependencies absent from the table are invisible to this check`;
 }
 // ---- the supersession record, decay finding, currency finding (Section 14) ----
+// a supersession is also the correction record (after Math_Map mapfill/corrections.js and Phone
+// corrections/corrections.js): when it corrects, it names the finding that prompted it and the receipts it
+// rests on. Identity hashes kind and statement only, so a successor restating the same statement would be
+// the superseded claim itself; that is refused rather than recorded as a change.
 function supersessionRecord(raw) {
-  return {
+  const superseded = req(raw.superseded_identity, "supersession: superseded_identity required");
+  const successor = req(raw.successor_identity, "supersession: successor_identity required");
+  if (superseded === successor) throw new Error("supersession: the successor has the superseded claim's identity (same kind and statement); change the statement or record a refinement");
+  const rec = {
     record_type: "supersession",
-    superseded_identity: req(raw.superseded_identity, "supersession: superseded_identity required"),
-    successor_identity: req(raw.successor_identity, "supersession: successor_identity required"),
+    superseded_identity: superseded,
+    successor_identity: successor,
     at_state: req(raw.at_state, "supersession: at_state required"),
     reason: normalizeString(raw.reason || ""),
   };
+  if (raw.prior_finding !== undefined) rec.prior_finding = req(raw.prior_finding, "supersession: prior_finding, when given, names the finding");
+  if (raw.receipts !== undefined) {
+    if (!Array.isArray(raw.receipts) || !raw.receipts.length) throw new Error("supersession: receipts, when given, is a non-empty array of receipt ids");
+    rec.receipts = [...new Set(raw.receipts)].sort();
+  }
+  return rec;
 }
 function decayFinding(raw) {
   return {
@@ -798,6 +830,9 @@ __M["state"] = (function () {
 
 const GENESIS_MARKER = "GENESIS";
 const SETS = ["entries", "links", "withdrawn_records", "contradiction_records", "corroboration_findings", "supersession_records"];
+// the standing records (kernel/schema/standing.mjs): carried and hashed only when a store has any, so a store
+// without them hashes exactly as it did before they existed.
+const OPTIONAL_SETS = ["ruling_records", "kill_records", "flag_records", "outbound_records"];
 
 // a canonical node for one stored element: entries/links carry their own canonical form; standing
 // records are canonicalized here (they contain no decimals, so generic canonicalization is exact).
@@ -821,6 +856,7 @@ function stateHash(fields) {
   if (fields.applied_contribution_hash !== undefined) pre.applied_contribution_hash = fields.applied_contribution_hash;
   if (fields.receipt_reference !== undefined) pre.receipt_reference = fields.receipt_reference;
   for (const s of SETS) pre[s] = canonSet(fields[s]);
+  for (const s of OPTIONAL_SETS) if ((fields[s] || []).length) pre[s] = canonSet(fields[s]);
   return hashBytes(encode(pre));
 }
 
@@ -831,6 +867,7 @@ function makeState(fields) {
     receipt_reference: fields.receipt_reference,
   };
   for (const s of SETS) f[s] = (fields[s] || []).slice();
+  for (const s of OPTIONAL_SETS) if ((fields[s] || []).length) f[s] = fields[s].slice();
   return Object.assign(f, { state_hash: stateHash(f) });
 }
 
@@ -853,11 +890,11 @@ function verifyChain(states) {
   return { ok: true, firstBreak: null };
 }
 
-  return { GENESIS_MARKER, makeState, genesis, recompute, verifyChain };
+  return { GENESIS_MARKER, OPTIONAL_SETS, makeState, genesis, recompute, verifyChain };
 })();
 __M["apply"] = (function () {
   var { canonicalize, encode } = __M["canonical"];
-  var { makeState } = __M["state"];
+  var { makeState, OPTIONAL_SETS } = __M["state"];
 // Role: the apply contract (intake data model v3, Section 14). Apply changes structure only: the
 //   only verbs are union (of entries and links, byte-identical duplicates merging by identity so
 //   resubmission adds nothing) and append (of standing records). Everything that looks like change,
@@ -892,11 +929,13 @@ function apply(state, accepted) {
     corroboration_findings: appendDedup(state.corroboration_findings, accepted.corroboration_findings),
     supersession_records: appendDedup(state.supersession_records, accepted.supersession_records),
   };
+  for (const s of OPTIONAL_SETS) next[s] = appendDedup(state[s], accepted[s]);
   // idempotence (Section 15): union and append that add nothing produce no new state. The store's
   // growth is a function of content, so a resubmission returns the same state, same hash.
   const unchanged = next.entries.length === (state.entries || []).length && next.links.length === (state.links || []).length
     && next.withdrawn_records.length === (state.withdrawn_records || []).length && next.contradiction_records.length === (state.contradiction_records || []).length
-    && next.corroboration_findings.length === (state.corroboration_findings || []).length && next.supersession_records.length === (state.supersession_records || []).length;
+    && next.corroboration_findings.length === (state.corroboration_findings || []).length && next.supersession_records.length === (state.supersession_records || []).length
+    && OPTIONAL_SETS.every((s) => next[s].length === (state[s] || []).length);
   if (unchanged) return state;
   return makeState({ prior_state_hash: state.state_hash, applied_contribution_hash: accepted.applied_contribution_hash, receipt_reference: accepted.receipt_reference, ...next });
 }
@@ -913,9 +952,11 @@ function inForce(state, identity) {
 __M["decay"] = (function () {
   var { earnedGrade } = __M["earned-grade"];
   var { leqWithinMode } = __M["confidence"];
-  var { ceilingFor, footprintClosure } = __M["tables"];
+  var { footprintClosure } = __M["tables"];
   var { inForce } = __M["apply"];
   var { resolveChecks } = __M["checks"];
+  var { effectiveCeiling, sharedCauseSupports, withheldIdentities } = __M["standing"];
+  var { kindRow } = __M["tables"];
   var { decayFinding } = __M["records"];
 // Role: derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never
 //   stored: it is recomputed against the current state. When the recomputed earned grade falls below
@@ -946,12 +987,13 @@ function derivedGrade(state, identity, tables, cache = new Map()) {
     .filter((l) => l.link_kind === "supports" && l.to_identity === identity)
     .map((l) => ({
       group: l.support_group, linkGrade: l.declared_grade,
-      supportEarned: inForce(state, l.from_identity) ? derivedGrade(state, l.from_identity, tables, cache) : "ungraded",
+      supportEarned: inForce(state, l.from_identity) && !withheldIdentities(state).has(l.from_identity) ? derivedGrade(state, l.from_identity, tables, cache) : "ungraded",
       footprint: footprintClosure(tables.sourceTable, [l.source_id]),
       linkIdentity: l.identity,
     }));
-  const ceil = ceilingFor(tables.kindTable, entry.kind);
-  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksFor(entry, tables), supports });
+  const ceil = effectiveCeiling(tables.kindTable, entry);
+  const row = kindRow(tables.kindTable, entry.kind);
+  const eg = earnedGrade({ ceiling: ceil.position, constitutive: ceil.constitutive, checkingRecords: checksFor(entry, tables), supports: row && row.liftable_by_convergence === false ? sharedCauseSupports(supports) : supports });
   cache.set(identity, eg.earned);
   return eg.earned;
 }
@@ -970,6 +1012,7 @@ function storeViewOf(state, tables) {
     restatementLinks: (state.links || []).filter((l) => l.link_kind === "restatement").map((l) => ({ from_identity: l.from_identity, to_identity: l.to_identity })),
     withdrawnRecords: state.withdrawn_records || [],
     kindOf: new Map((state.entries || []).map((e) => [e.identity, e.kind])),
+    withheld: withheldIdentities(state), rulingRecords: state.ruling_records || [],
     sourceTable: tables.sourceTable, kindTable: tables.kindTable,
     partyTable: tables.partyTable || null, strictFabrication: !!tables.strictFabrication,
   };
@@ -1000,8 +1043,9 @@ function computeDecay(state, tables) {
 __M["gate"] = (function () {
   var { earnedGrade } = __M["earned-grade"];
   var { resolveChecks } = __M["checks"];
+  var { effectiveCeiling, sharedCauseSupports, standingOf, RECEIPTED_STATUSES } = __M["standing"];
   var { leqWithinMode, POSITIONS } = __M["confidence"];
-  var { footprintClosure, ceilingFor, sourceClass } = __M["tables"];
+  var { footprintClosure, ceilingFor, sourceClass, kindRow, partyOf } = __M["tables"];
   var { referenceBindingRow, wellFormednessFinding, contradictionRecord, corroborationFinding, coverageNote } = __M["records"];
   var { hashOf } = __M["canonical"];
 // Role: the intake gate (intake data model v3, Sections 3, 5, 6, 7, 8, 9, 11). Runs the checks by
@@ -1116,6 +1160,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
   const cache = new Map();
   function earnedOf(id) {
     if (cache.has(id)) return cache.get(id);
+    if (storeView.withheld && storeView.withheld.has(id)) { cache.set(id, "ungraded"); return "ungraded"; } // flagged or killed: no support
     if (storeView.earnedByIdentity.has(id)) { const g = storeView.earnedByIdentity.get(id).earned; cache.set(id, g); return g; }
     const e = cEntry.get(id);
     if (!e) { cache.set(id, "ungraded"); return "ungraded"; }
@@ -1125,8 +1170,9 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
       group: l.support_group, linkGrade: l.declared_grade, supportEarned: earnedOf(l.from_identity),
       footprint: footprintClosure(storeView.sourceTable, [l.source_id]), linkIdentity: l.identity,
     }));
-    const ceil = ceilingFor(storeView.kindTable, e.kind);
-    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksOf(e), supports });
+    const ceil = effectiveCeiling(storeView.kindTable, e);
+    const row = kindRow(storeView.kindTable, e.kind);
+    const eg = earnedGrade({ ceiling: ceil.position, constitutive: ceil.constitutive, checkingRecords: checksOf(e), supports: row && row.liftable_by_convergence === false ? sharedCauseSupports(supports) : supports });
     cache.set(id, eg.earned); egFull.set(id, eg);
     return eg.earned;
   }
@@ -1177,6 +1223,25 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
     } else if (!cmp.leq) {
       findings.push(wellFormednessFinding({ contribution_hash: contribution.hash, entry_locator: e.identity, field_path: "declared_grade", rule_id: "GM-ABOVE", expected: `at or below the earned grade ${eg.earned}`, found: e.declared_grade }));
       decline("GM-ABOVE");
+    }
+  }
+
+  // ---- standing checks: what a kind admits, what its checks carry, statuses on receipts, rulings ----
+  const has = (r, f) => (r[f] !== undefined && r[f] !== null && r[f] !== "") || !!(r.canonical && r.canonical.extensions && r.canonical.extensions[f] !== undefined);
+  const rulings = [...(storeView.rulingRecords || []), ...(contribution.ruling_records || [])];
+  const wf = (e, field_path, rule_id, expected, found) => { findings.push(wellFormednessFinding({ contribution_hash: contribution.hash, entry_locator: e.identity, field_path, rule_id, expected, found })); decline(rule_id); };
+  for (const e of entries) {
+    const row = kindRow(storeView.kindTable, e.kind);
+    for (const f of (row && row.admission_requirements) || []) if (!has(e, f)) wf(e, f, "WF-ADMISSION", `the field ${f}, which kind ${e.kind} requires`, undefined);
+    for (const [i, c] of (e.checking_records || []).entries())
+      for (const f of (row && row.checking_record_must_contain) || []) if (!has(c, f)) wf(e, `checking_records.${i}.${f}`, "WF-CHECK-FIELDS", `the field ${f} on every check of kind ${e.kind}`, undefined);
+    const st = standingOf(e);
+    if (st.status && RECEIPTED_STATUSES.includes(st.status) && !st.receipts.length) wf(e, "status", "WF-STATUS-RECEIPT", `receipts behind the status ${st.status}`, st.status);
+    // a rightness claim is settled by a person: above asserted it needs a ruling, by a party that may rule,
+    // and by its holder when it names one. The gate checks that the ruling exists; it never infers one.
+    if (st.claim_class === "rightness" && !["ungraded", "asserted"].includes(e.declared_grade)) {
+      const ok = rulings.some((r) => r.claim_identity === e.identity && (partyOf(storeView.partyTable, r.by_party) || {}).rules === true && (!st.holder || r.by_party === st.holder));
+      if (!ok) wf(e, "declared_grade", "RL-UNRULED", "a ruling on this claim by a party that may rule" + (st.holder ? ` (its holder, ${st.holder})` : ""), e.declared_grade);
     }
   }
 

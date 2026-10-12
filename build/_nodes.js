@@ -302,6 +302,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-standing.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-translate.mjs",
     "type": "build"
   },

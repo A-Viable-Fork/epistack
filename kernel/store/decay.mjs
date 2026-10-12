@@ -11,9 +11,11 @@
 "use strict";
 import { earnedGrade } from "../grounding/earned-grade.mjs";
 import { leqWithinMode } from "../schema/confidence.mjs";
-import { ceilingFor, footprintClosure } from "../schema/tables.mjs";
+import { footprintClosure } from "../schema/tables.mjs";
 import { inForce } from "./apply.mjs";
 import { resolveChecks } from "../grounding/checks.mjs";
+import { effectiveCeiling, sharedCauseSupports, withheldIdentities } from "../schema/standing.mjs";
+import { kindRow } from "../schema/tables.mjs";
 import { decayFinding } from "../schema/records.mjs";
 
 // the checking records as the gate reads them (kernel/grounding/checks.mjs), under the same policy.
@@ -33,12 +35,13 @@ export function derivedGrade(state, identity, tables, cache = new Map()) {
     .filter((l) => l.link_kind === "supports" && l.to_identity === identity)
     .map((l) => ({
       group: l.support_group, linkGrade: l.declared_grade,
-      supportEarned: inForce(state, l.from_identity) ? derivedGrade(state, l.from_identity, tables, cache) : "ungraded",
+      supportEarned: inForce(state, l.from_identity) && !withheldIdentities(state).has(l.from_identity) ? derivedGrade(state, l.from_identity, tables, cache) : "ungraded",
       footprint: footprintClosure(tables.sourceTable, [l.source_id]),
       linkIdentity: l.identity,
     }));
-  const ceil = ceilingFor(tables.kindTable, entry.kind);
-  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksFor(entry, tables), supports });
+  const ceil = effectiveCeiling(tables.kindTable, entry);
+  const row = kindRow(tables.kindTable, entry.kind);
+  const eg = earnedGrade({ ceiling: ceil.position, constitutive: ceil.constitutive, checkingRecords: checksFor(entry, tables), supports: row && row.liftable_by_convergence === false ? sharedCauseSupports(supports) : supports });
   cache.set(identity, eg.earned);
   return eg.earned;
 }
@@ -57,6 +60,7 @@ export function storeViewOf(state, tables) {
     restatementLinks: (state.links || []).filter((l) => l.link_kind === "restatement").map((l) => ({ from_identity: l.from_identity, to_identity: l.to_identity })),
     withdrawnRecords: state.withdrawn_records || [],
     kindOf: new Map((state.entries || []).map((e) => [e.identity, e.kind])),
+    withheld: withheldIdentities(state), rulingRecords: state.ruling_records || [],
     sourceTable: tables.sourceTable, kindTable: tables.kindTable,
     partyTable: tables.partyTable || null, strictFabrication: !!tables.strictFabrication,
   };

@@ -12,6 +12,9 @@ import { canonicalize, encode, hashBytes, byteCompare } from "../schema/canonica
 
 export const GENESIS_MARKER = "GENESIS";
 const SETS = ["entries", "links", "withdrawn_records", "contradiction_records", "corroboration_findings", "supersession_records"];
+// the standing records (kernel/schema/standing.mjs): carried and hashed only when a store has any, so a store
+// without them hashes exactly as it did before they existed.
+export const OPTIONAL_SETS = ["ruling_records", "kill_records", "flag_records", "outbound_records"];
 
 // a canonical node for one stored element: entries/links carry their own canonical form; standing
 // records are canonicalized here (they contain no decimals, so generic canonicalization is exact).
@@ -35,6 +38,7 @@ function stateHash(fields) {
   if (fields.applied_contribution_hash !== undefined) pre.applied_contribution_hash = fields.applied_contribution_hash;
   if (fields.receipt_reference !== undefined) pre.receipt_reference = fields.receipt_reference;
   for (const s of SETS) pre[s] = canonSet(fields[s]);
+  for (const s of OPTIONAL_SETS) if ((fields[s] || []).length) pre[s] = canonSet(fields[s]);
   return hashBytes(encode(pre));
 }
 
@@ -45,6 +49,7 @@ export function makeState(fields) {
     receipt_reference: fields.receipt_reference,
   };
   for (const s of SETS) f[s] = (fields[s] || []).slice();
+  for (const s of OPTIONAL_SETS) if ((fields[s] || []).length) f[s] = fields[s].slice();
   return Object.assign(f, { state_hash: stateHash(f) });
 }
 

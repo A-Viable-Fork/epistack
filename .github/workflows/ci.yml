@@ -45,6 +45,7 @@ jobs:
           node build/check-client.mjs
           node build/check-robustness.mjs
           node build/check-independence.mjs
+          node build/check-standing.mjs
           node build/check-characterized-gaps.mjs
           node build/check-composition.mjs
           node build/check-algebra.mjs

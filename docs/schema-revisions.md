@@ -115,3 +115,16 @@ The design survives the test. None of the six is a kill; all six are refinements
 The one that matters most is S1, because it corrects the spec's framing: decompose and perturb are not motions over two independent graphs, they are zoom and flow over one nested inference graph, and the atlas is the only orthogonal axis. That simplifies the data model, it removes a class of consistency bug, and it is truer to what the LHC argument actually is.
 
 The schema to author v0 against is the revised one above. The next real test is the same exercise on the COVID and eggs branches, because S4's claim, that the within-case scenario departure and the cross-case clone departure are the same machinery, is exactly what the population-mismatch family will confirm or break. That is the test that decides whether the family is one mechanism or two, which is the asserted-to-earned move the whole atlas turns on.
+
+---
+
+## Revisions after the freeze, 2026-10-12
+
+These win over the spec on the data model, as the revisions above do. Each adds a field or record; none changes an existing one, and none moves an existing hash.
+
+- **Checking record:** `footprint` and `cited_artifacts` are read (they were hashed and unread); the resolved footprint drops canonical literature roots. A check is located when its cited artifacts resolve in the source table; with a party table its independence is computed and its declared mark ignored.
+- **Party table:** `party_id`, `authority_root`, `source_footprint`, `rules`. A trusted input, as the source and kind tables are.
+- **Kind row:** optional `admission_requirements`, `checking_record_must_contain`, `liftable_by_convergence`.
+- **Claim extensions read beside the grade:** one key, `claim_standing`, holding `claim_class`, `status`, `memory`, `holder`, `receipts`. Other extension keys stay the contributor's own and are never read.
+- **Supersession:** optional `prior_finding` and `receipts`; the successor's identity differs from the superseded one.
+- **New records:** receipt, ruling, kill, flag, outbound. The store carries `ruling_records`, `kill_records`, `flag_records` and `outbound_records`, hashed only when present.

@@ -11,8 +11,9 @@
 "use strict";
 import { earnedGrade } from "../grounding/earned-grade.mjs";
 import { resolveChecks } from "../grounding/checks.mjs";
+import { effectiveCeiling, sharedCauseSupports, standingOf, RECEIPTED_STATUSES } from "../schema/standing.mjs";
 import { leqWithinMode, POSITIONS } from "../schema/confidence.mjs";
-import { footprintClosure, ceilingFor, sourceClass } from "../schema/tables.mjs";
+import { footprintClosure, ceilingFor, sourceClass, kindRow, partyOf } from "../schema/tables.mjs";
 import { referenceBindingRow, wellFormednessFinding, contradictionRecord, corroborationFinding, coverageNote } from "../schema/records.mjs";
 import { hashOf } from "../schema/canonical.mjs";
 
@@ -116,6 +117,7 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
   const cache = new Map();
   function earnedOf(id) {
     if (cache.has(id)) return cache.get(id);
+    if (storeView.withheld && storeView.withheld.has(id)) { cache.set(id, "ungraded"); return "ungraded"; } // flagged or killed: no support
     if (storeView.earnedByIdentity.has(id)) { const g = storeView.earnedByIdentity.get(id).earned; cache.set(id, g); return g; }
     const e = cEntry.get(id);
     if (!e) { cache.set(id, "ungraded"); return "ungraded"; }
@@ -125,8 +127,9 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
       group: l.support_group, linkGrade: l.declared_grade, supportEarned: earnedOf(l.from_identity),
       footprint: footprintClosure(storeView.sourceTable, [l.source_id]), linkIdentity: l.identity,
     }));
-    const ceil = ceilingFor(storeView.kindTable, e.kind);
-    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksOf(e), supports });
+    const ceil = effectiveCeiling(storeView.kindTable, e);
+    const row = kindRow(storeView.kindTable, e.kind);
+    const eg = earnedGrade({ ceiling: ceil.position, constitutive: ceil.constitutive, checkingRecords: checksOf(e), supports: row && row.liftable_by_convergence === false ? sharedCauseSupports(supports) : supports });
     cache.set(id, eg.earned); egFull.set(id, eg);
     return eg.earned;
   }
@@ -177,6 +180,25 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
     } else if (!cmp.leq) {
       findings.push(wellFormednessFinding({ contribution_hash: contribution.hash, entry_locator: e.identity, field_path: "declared_grade", rule_id: "GM-ABOVE", expected: `at or below the earned grade ${eg.earned}`, found: e.declared_grade }));
       decline("GM-ABOVE");
+    }
+  }
+
+  // ---- standing checks: what a kind admits, what its checks carry, statuses on receipts, rulings ----
+  const has = (r, f) => (r[f] !== undefined && r[f] !== null && r[f] !== "") || !!(r.canonical && r.canonical.extensions && r.canonical.extensions[f] !== undefined);
+  const rulings = [...(storeView.rulingRecords || []), ...(contribution.ruling_records || [])];
+  const wf = (e, field_path, rule_id, expected, found) => { findings.push(wellFormednessFinding({ contribution_hash: contribution.hash, entry_locator: e.identity, field_path, rule_id, expected, found })); decline(rule_id); };
+  for (const e of entries) {
+    const row = kindRow(storeView.kindTable, e.kind);
+    for (const f of (row && row.admission_requirements) || []) if (!has(e, f)) wf(e, f, "WF-ADMISSION", `the field ${f}, which kind ${e.kind} requires`, undefined);
+    for (const [i, c] of (e.checking_records || []).entries())
+      for (const f of (row && row.checking_record_must_contain) || []) if (!has(c, f)) wf(e, `checking_records.${i}.${f}`, "WF-CHECK-FIELDS", `the field ${f} on every check of kind ${e.kind}`, undefined);
+    const st = standingOf(e);
+    if (st.status && RECEIPTED_STATUSES.includes(st.status) && !st.receipts.length) wf(e, "status", "WF-STATUS-RECEIPT", `receipts behind the status ${st.status}`, st.status);
+    // a rightness claim is settled by a person: above asserted it needs a ruling, by a party that may rule,
+    // and by its holder when it names one. The gate checks that the ruling exists; it never infers one.
+    if (st.claim_class === "rightness" && !["ungraded", "asserted"].includes(e.declared_grade)) {
+      const ok = rulings.some((r) => r.claim_identity === e.identity && (partyOf(storeView.partyTable, r.by_party) || {}).rules === true && (!st.holder || r.by_party === st.holder));
+      if (!ok) wf(e, "declared_grade", "RL-UNRULED", "a ruling on this claim by a party that may rule" + (st.holder ? ` (its holder, ${st.holder})` : ""), e.declared_grade);
     }
   }
 

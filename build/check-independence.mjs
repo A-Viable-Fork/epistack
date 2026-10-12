@@ -75,6 +75,17 @@ ok(basis([cite("party-a", ["src:one"], "self"), cite("party-b", ["src:two"], "se
 ok(basis([cite("party-a", ["src:one"], "self"), cite("party-b", ["src:two"], "self")], null) === "none", "without a party table the declared independence stands");
 const r = resolveChecks([cite("party-a", ["src:missing"])], { contributorId: "lab", sourceTable: sources, partyTable: parties })[0];
 ok(r.located === false && r.footprint === undefined && r.independence_basis === "computed", "an unlocated check carries no footprint and says how its independence was set");
+const lit = makeSourceTable([
+  { source_id: "lit:classic", source_class: "peer-reviewed", rests_on: [] },
+  { source_id: "audit:one", source_class: "institutional-report", rests_on: ["lit:classic"] },
+  { source_id: "audit:two", source_class: "institutional-report", rests_on: ["lit:classic"] },
+  { source_id: "lit:on-data", source_class: "peer-reviewed", rests_on: ["data:shared"] },
+  { source_id: "data:shared", source_class: "dataset", rests_on: [] },
+]);
+const onLit = (checks) => ownBasis({ checkingRecords: resolveChecks(checks, { contributorId: "lab", sourceTable: lit, partyTable: parties }) });
+ok(onLit([cite("party-a", ["audit:one", "lit:classic"]), cite("party-b", ["audit:two", "lit:classic"])]) === "independently-rechecked", "two audits that both consult one canonical peer-reviewed root stay independent (after Physics)");
+ok(onLit([cite("party-a", ["audit:one", "lit:on-data"]), cite("party-b", ["audit:two", "lit:on-data"])]) === "checked", "a peer-reviewed source resting on a shared dataset is not a canonical root: the overlap stands");
+ok(onLit([cite("party-a", ["lit:classic"]), cite("party-b", ["lit:classic"])]) === "checked", "checks citing only canonical literature carry no artifact of their own: unknown, so no lift");
 const strict = (checks) => ownBasis({ checkingRecords: resolveChecks(checks, { contributorId: "lab", sourceTable: sources, partyTable: parties }).filter((c) => c.located) });
 ok(strict([cite("party-a", [])]) === "none" && basis([cite("party-a", [])]) === "checked", "strict policy: an unlocated check grants nothing; default: it still grants checked");
 

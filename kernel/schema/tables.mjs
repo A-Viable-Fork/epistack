@@ -3,7 +3,7 @@
 //   that enter every check; this module holds their shape and the reflexive-transitive closure that
 //   corroboration and checker-independence read over source dependencies.
 // Contract: makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor,
-//   footprintClosure, partyOf.
+//   footprintClosure, partyOf, kindRow.
 //   Pure, ESM; kernel imports only kernel.
 // Invariant: the dependency relation is required acyclic by governance; a cycle nevertheless present
 //   is read as one source per strongly connected component (the conservative reading), so the
@@ -32,9 +32,25 @@ export function makeKindTable(rows) {
   for (const r of rows || []) {
     if (!r.kind) throw new Error("kind row missing kind");
     if (!isPosition(r.ceiling)) throw new Error(`kind ${r.kind}: bad ceiling ${r.ceiling}`);
-    byKind.set(r.kind, { kind: r.kind, ceiling: r.ceiling, compatibility_rule_id: r.compatibility_rule_id || null });
+    const row = { kind: r.kind, ceiling: r.ceiling, compatibility_rule_id: r.compatibility_rule_id || null };
+    // after A-Viable-Fork/PDE kernel/kinds.json and config.json: fields an entry of the kind must carry, fields
+    // each of its checking records must carry, and whether agreement across supports may lift it (false for
+    // a kind whose sources share a cause, such as surveys of absence by models trained on one corpus).
+    for (const f of ["admission_requirements", "checking_record_must_contain"]) {
+      if (r[f] === undefined) continue;
+      if (!Array.isArray(r[f]) || r[f].some((x) => typeof x !== "string" || !x)) throw new Error(`kind ${r.kind}: ${f} must be an array of field names`);
+      row[f] = r[f].slice();
+    }
+    if (r.liftable_by_convergence !== undefined) {
+      if (typeof r.liftable_by_convergence !== "boolean") throw new Error(`kind ${r.kind}: liftable_by_convergence must be true or false`);
+      row.liftable_by_convergence = r.liftable_by_convergence;
+    }
+    byKind.set(r.kind, row);
   }
   return { byKind };
+}
+export function kindRow(kindTable, kind) {
+  return (kindTable && kindTable.byKind.get(kind)) || null;
 }
 export function ceilingFor(kindTable, kind) {
   const r = kindTable.byKind.get(kind);
