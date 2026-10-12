@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 225. Import edges: 489. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 228. Import edges: 505. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -73,9 +73,13 @@ Nodes: 225. Import edges: 489. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/schema/standing.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
 - `kernel/schema/standing.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/schema/tables.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
+- `kernel/schema/tables.mjs` -> `kernel/schema/provenance.mjs`  *(kernel -> kernel)*
 - `kernel/schema/type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/store/state.mjs`  *(kernel -> kernel)*
+- `kernel/store/currency.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
+- `kernel/store/currency.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
+- `kernel/store/currency.mjs` -> `kernel/store/exclusion.js`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/grounding/checks.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -103,6 +107,7 @@ Nodes: 225. Import edges: 489. Runtime flow edges: 41. All import edges satisfy 
 - `api/contribution.js` -> `kernel/schema/records.mjs`  *(api -> kernel)*
 - `api/fork.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
 - `api/fork.js` -> `kernel/schema/type-hash.mjs`  *(api -> kernel)*
+- `api/governance-hash.js` -> `kernel/schema/canonical.mjs`  *(api -> kernel)*
 - `api/providers/local-management-provider.mjs` -> `api/fork.js`  *(api -> api)*
 - `api/providers/local-management-provider.mjs` -> `kernel/schema/type-hash.mjs`  *(api -> kernel)*
 - `api/providers/local-provider.mjs` -> `kernel/analysis/characterized-gaps.mjs`  *(api -> kernel)*
@@ -379,6 +384,17 @@ Nodes: 225. Import edges: 489. Runtime flow edges: 41. All import edges satisfy 
 - `build/check-type-hash.mjs` -> `corpora/_shared/common-types.js`  *(build -> corpus)*
 - `build/check-type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
 - `build/check-type-hash.mjs` -> `kernel/schema/type-hash.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `api/contribution.js`  *(build -> api)*
+- `build/check-upstreamed.mjs` -> `api/governance-hash.js`  *(build -> api)*
+- `build/check-upstreamed.mjs` -> `kernel/compute/transforms.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/schema/canonical.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/schema/standing.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/store/apply.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/store/currency.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/store/decay.mjs`  *(build -> kernel)*
+- `build/check-upstreamed.mjs` -> `kernel/store/state.mjs`  *(build -> kernel)*
 - `build/covid-build.mjs` -> `corpora/covid/covid-depth.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/covid-origins.js`  *(build -> corpus)*
 - `build/covid-build.mjs` -> `corpora/covid/tables.js`  *(build -> corpus)*

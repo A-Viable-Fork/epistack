@@ -273,6 +273,11 @@ module.exports = [
     "group": "store"
   },
   {
+    "path": "kernel/store/currency.mjs",
+    "type": "kernel",
+    "group": "store"
+  },
+  {
     "path": "kernel/store/exclusion.js",
     "type": "kernel",
     "group": "store"

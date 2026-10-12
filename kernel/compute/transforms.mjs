@@ -18,7 +18,12 @@
 //   stat that assigns standing is refused rather than merely discouraged.
 "use strict";
 
-const PACKS = ["graph", "algebra", "statistics"];
+// "computation": numeric transforms that are not honestly statistics (heat-kernel traces, exhaust races,
+// order-of-magnitude deficits). A computation entry obeys the statistics-pack constraints verbatim: it
+// consumes "values", never emits "kernel", never carries a grade field on output. Upstreamed from
+// A-Viable-Fork/Physics, where it was the hash-tracked divergence D1 (its upstream/lock.json).
+const PACKS = ["graph", "algebra", "statistics", "computation"];
+const NO_STANDING_PACKS = ["statistics", "computation"];
 const CONSUMES = ["kernel", "kernel-pair", "values"];
 const EMITS = ["kernel", "value", "flag"];
 const REVERSIBILITY = ["invertible", "lossy"];
@@ -45,22 +50,24 @@ export function validateTransform(entry) {
     if (!a || !isNonEmptyString(a.id) || !isNonEmptyString(a.statement))
       throw new Error(`validateTransform: ${entry.id}: every assumption needs a non-empty id and statement, got ${JSON.stringify(a)}`);
   }
-  // the no-standing rule at the shape level: a statistics transformation cannot return a kernel, and
-  // it only ever consumes values (never a kernel or kernel-pair, which are graph-shaped inputs).
-  if (entry.pack === "statistics") {
-    if (entry.emits === "kernel") throw new Error(`validateTransform: ${entry.id}: a statistics transformation never emits "kernel" (a stat produces a value, never standing)`);
-    if (entry.consumes !== "values") throw new Error(`validateTransform: ${entry.id}: a statistics transformation consumes "values" (got ${JSON.stringify(entry.consumes)})`);
+  // the no-standing rule at the shape level: a statistics or computation transformation cannot
+  // return a kernel, and it only ever consumes values (never a kernel or kernel-pair, which are
+  // graph-shaped inputs).
+  if (NO_STANDING_PACKS.includes(entry.pack)) {
+    if (entry.emits === "kernel") throw new Error(`validateTransform: ${entry.id}: a ${entry.pack} transformation never emits "kernel" (produces a value, never standing)`);
+    if (entry.consumes !== "values") throw new Error(`validateTransform: ${entry.id}: a ${entry.pack} transformation consumes "values" (got ${JSON.stringify(entry.consumes)})`);
   }
   return entry;
 }
 
-// the no-grade-assignment rule, checked at run time against a statistics entry's actual output: a
-// stat's result carries no grade field under any of the names the kernel's grade concept goes by.
+// the no-grade-assignment rule, checked at run time against a statistics or computation entry's
+// actual output: its result carries no grade field under any of the names the kernel's grade
+// concept goes by.
 function assertNoGradeFields(id, output) {
   if (!output || typeof output !== "object") return;
   for (const field of GRADE_FIELDS) {
     if (Object.prototype.hasOwnProperty.call(output, field))
-      throw new Error(`makeRegister: ${id}: a statistics transformation's output carries a "${field}" field; a stat produces a value, never standing, and this is the false-confidence move the corpus refuses mechanically`);
+      throw new Error(`makeRegister: ${id}: a transformation's output carries a "${field}" field; it produces a value, never standing, and this is the false-confidence move the corpus refuses mechanically`);
   }
 }
 
@@ -83,7 +90,7 @@ export function makeRegister() {
       const entry = byId.get(id);
       if (!entry) throw new Error(`makeRegister.run: no transformation registered at id ${JSON.stringify(id)}`);
       const output = entry.run(input);
-      if (entry.pack === "statistics") assertNoGradeFields(id, output);
+      if (NO_STANDING_PACKS.includes(entry.pack)) assertNoGradeFields(id, output);
       return output;
     },
   };

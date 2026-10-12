@@ -60,6 +60,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/schema/tables.mjs` | the two reference tables (intake data model v3, Section 10) and the source-footprint |
 | `kernel/store/apply.mjs` | the apply contract (intake data model v3, Section 14). Apply changes structure only: the |
 | `kernel/store/decay.mjs` | derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never |
+| `kernel/store/currency.mjs` | the currency reading over a store: in-force claims depending on an input withdrawn, superseded, killed or absent (upstreamed from Physics's staleness check) |
 | `kernel/store/exclusion.js` | the exclusion store: refuted claims kept with reason and grounds so a kill cannot be silently revived |
 | `kernel/store/graph.js` | pure graph utilities over the node schema. Index, traversal, acyclicity |
 | `kernel/store/patch-ledger.js` | storage as a tamper-evident, append-only sequence of sealed canonical patches |
@@ -81,6 +82,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `api/fork.js` | the provenance and fork interface: fork a kernel, and fork a type bundle (forkType, the crossing's fork at type granularity, a new type-hash whose receipt names its parent and departure, snapshot only) |
 | `api/contest.js` | the type-contest interface: contestType constructs a gate-admissible forum claim whose subject is a type-hash, recording a semantic disagreement the kernel never adjudicates; changes no grade |
 | `api/contribution.js` | the contribution export: packages a gate-decided proposal (claims plus links) as a portable bundle with a content-derived contribution id, the receipt, and admission instructions; import rebuilds and re-verifies the id, rejecting a tampered bundle loudly (gate-passed, not admitted) |
+| `api/governance-hash.js` | the governance-hash over a community's canonical parameter record (upstreamed from Knowledge-Game) |
 | `api/propose.js` | the propose interface: accept a claim, edge, join, or refutation and hand it to the gate, which decides; never writes directly |
 | `api/providers/local-provider.mjs` | the local provider behind the propose/read contract: runs the real v3 gate over the migrated snapshot in-process; the one API-layer module that imports the kernel |
 | `api/providers/remote-provider.mjs` | a stub remote provider behind the same contract: imports no kernel, returns a fixed receipt standing in for a hosted kernel, so the provider swap is one import |
@@ -281,6 +283,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-produce.mjs` | the producer connector's oracle: it drives simulated agent tool calls through the MCP server into the real gate and proves an agent's well-formed claim is graded identically to a human's, an over-declared claim is demoted by the gate, and a structurally invalid input is rejected by the schema before the gate is reached, so the producer is checked by structure and grounding, not trusted |
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-standing.mjs` | the oracle for the converged records: receipts at offsets, standing beside the grade, rulings, kills, flags, outbound holds, corrections, and kind rows (admission, required check fields, liftability) |
+| `build/check-upstreamed.mjs` | the oracle for what the consumers built and this repository took back, and the corpora held to the currency, decay and lineage readings |
 | `build/check-independence.mjs` | the checker-independence oracle: a distinct-party recheck lifts only on known, disjoint footprints, and the footprint survives export and import (compost entry 23) |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |
