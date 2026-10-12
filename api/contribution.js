@@ -63,8 +63,10 @@ export function exportContribution(proposal, receipt, origin) {
 // hash, so editing any semantic field (a statement, a grade, a source) changes the recomputed record and
 // therefore the recomputed contribution id, which no longer matches the bundle's. The stored id is the
 // sole integrity anchor, recomputed from semantics rather than trusted.
+// a checking record's extensions (its footprint among them) ride along, so a rebuilt record hashes as the
+// original did; dropping them silently changed the hash and lost the footprint the grade reads.
 function rawCheck(c) {
-  return { checker_id: c.checker_id, method_class: c.method_class, method: c.method, checked_at_state: c.checked_at_state, outcome: c.outcome, independence: c.independence };
+  return { checker_id: c.checker_id, method_class: c.method_class, method: c.method, checked_at_state: c.checked_at_state, outcome: c.outcome, independence: c.independence, ...extensionsOf(c) };
 }
 // reverse canonicalize for the JSON-safe subset, so an extension map round-trips through the builder.
 // A decimal node returns its exact-decimal string; strings, booleans, arrays, and objects are identity.

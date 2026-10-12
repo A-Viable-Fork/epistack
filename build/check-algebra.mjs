@@ -40,7 +40,8 @@ const kinds = makeKindTable([
   { kind: "principle", ceiling: "constitutive" },
 ]);
 const tables = { sourceTable: sources, kindTable: kinds };
-const chk = (id, cls) => ({ checker_id: id, method_class: cls, method: "audited", checked_at_state: "s0", outcome: "confirms", independence: "distinct-party" });
+// each check declares its own footprint: two distinct-party checks lift only when their footprints are known and disjoint
+const chk = (id, cls) => ({ checker_id: id, method_class: cls, method: "audited", checked_at_state: "s0", outcome: "confirms", independence: "distinct-party", footprint: ["src:" + id] });
 
 // A: a rechecked measurement (settled) plus a bare estimate (asserted), the measurement contradicted.
 const A1 = claimRecord({ kind: "measurement", statement: "the process yields 0.8 units per input", source_id: "s-a", contributor_id: "lab-a", declared_grade: "independently-rechecked", checking_records: [chk("a1", "replication"), chk("a2", "replication")] });

@@ -9,7 +9,7 @@ Depended on by: [docs/on-transparency.md]
 
 This is the record of what the finished submission survived: the framings, mechanisms, and self-gradings we took seriously while building EpiStack and then killed for a characterized reason. It is an exhibit, not a narrative. A reader can audit the kills here rather than take the polished structure on trust, which is the same discipline the kernel applies to claims, applied to the process that produced it. Every entry names the approach at its strongest, the specific thing that killed it, and what would bring it back. The entries are ordered by how much the kill shaped the final design. It applies to the reader the same subtraction the kernel applies to a claim: do not take the result on trust, audit the kills.
 
-The first fifteen entries are the build's early compost. The last seven are from the final design and assembly stretch.
+The first fifteen entries are the build's early compost. Entries 16 to 22 are from the final design and assembly stretch. Entries from 23 on were found after the competition freeze (tag `competition-2026-07`, commit `b778f35`); each names the published claim it overturned, and the claim's text stays where it was, with a dated correction under it.
 
 ---
 
@@ -100,3 +100,11 @@ Reactivation: none. The free tier is genuinely structured, and collapsing it bac
 **22. "Keeps the center out" as the framing.**
 The anti-capture invariants were first framed as keeping the center out, which is negation-first and adversarial, defined by the enemy it prevents. It was replaced by an affirmative statement of the same property, keeping authority distributed by keeping standing computed rather than granted.
 Reactivation: none. Affirmative framing is the standard the submission holds throughout.
+
+## After the freeze
+
+**23. A checking record's footprint, hashed but never read.**
+The submission claimed that two distinct-party checks lift a claim's own basis to independently-rechecked only when their footprints are disjoint (`kernel/grounding/earned-grade.mjs`, `ownBasis`; status ledger [1.4]). The builder `checkingRecord` kept six named fields and put `footprint` into the hashed extensions, so `ownBasis` read an undefined footprint on every built record, and two empty sets count as disjoint. Any two distinct-party records lifted, whatever they rested on: two parties checking one dataset earned independently-rechecked. A second path had the same root: `api/contribution.js` rebuilt checking records from the six fields, so a contribution whose checks carried a footprint failed its own id on import. Found by A-Viable-Fork/Physics, which enforced around it in its own `build/check-independence.mjs` from 2026-07; reproduced here on 2026-10-12. No published case grade moved under the fix: the corpora's checks either declare footprints or carry one check. Two oracle fixtures (`check-composition`, `check-algebra`) had encoded the lift for undeclared footprints and now declare disjoint ones.
+Killed: the reading that an undeclared footprint is disjoint from everything. An undeclared footprint is unknown, and unknown overlaps.
+Fix: the builder surfaces the footprint (still hashed in the extensions, so no record's hash moves); `ownBasis` lifts only on two known, disjoint footprints; the contribution rebuild carries a check's extensions. `build/check-independence.mjs` fails on each case at `b778f35`.
+Reactivation: none. The remaining gap is that a footprint is declared by the submitter; computing it from a party table is the next step (status ledger [1.4], correction of 2026-10-12).
