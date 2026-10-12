@@ -18,7 +18,8 @@ const H = "=".repeat(80);
 console.log(H + "\nCHECK-SELF-DESCRIPTION: the paths documents name exist, or say why not\n" + H);
 const { absent } = JSON.parse(readFileSync(join(ROOT, "build/self-description-absent.json"), "utf8"));
 const tops = new Set(readdirSync(ROOT));
-const docs = execFileSync("git", ["ls-files", "*.md"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter(Boolean);
+// .infra/ is the vendored kit: its documents describe the kit and every repository it serves, not this tree.
+const docs = execFileSync("git", ["ls-files", "*.md"], { cwd: ROOT, encoding: "utf8" }).split("\n").filter((d) => d && !d.startsWith(".infra/"));
 const seen = new Set();
 let named = 0;
 for (const d of docs) {
