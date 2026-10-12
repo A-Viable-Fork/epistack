@@ -287,6 +287,10 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-standing.mjs` | the oracle for the converged records: receipts at offsets, standing beside the grade, rulings, kills, flags, outbound holds, corrections, and kind rows (admission, required check fields, liftability) |
 | `build/check-upstreamed.mjs` | the oracle for what the consumers built and this repository took back, and the corpora held to the currency, decay and lineage readings |
 | `build/check-licensing.mjs` | holds the per-layer licensing to LICENSING.md: the five texts, each layer's LICENSE pointer, KaTeX's own notice, CITATION.cff |
+| `build/check-privacy.mjs` | the privacy gate, run first: no tracked file carries a capability link (share links, document ids, query tokens), after EpiTrellis |
+| `build/check-vendored.mjs` | pins the vendored third-party bytes (KaTeX 0.16.9) to vendor/katex/PIN.json |
+| `build/check-self-description.mjs` | every path a document names exists, or is listed absent with its reason, both ways (after EpiTrellis) |
+| `build/self-description-absent.json` | the paths documents name that are absent on purpose, each with its reason |
 | `build/check-independence.mjs` | the checker-independence oracle: a distinct-party recheck lifts only on known, disjoint footprints, and the footprint survives export and import (compost entry 23) |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |

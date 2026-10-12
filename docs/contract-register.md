@@ -31,10 +31,15 @@ self-kernel grounds it, the two linked rather than duplicated). The `Covers` fie
 the two enumerable source lists the entry answers: `spec:*` for the composition specification's
 composability invariants, `guide:N` for the ecosystem guide's numbered invariants.
 
+## Invariants as preconditions, 2026-10-12
+
+*Correction, 2026-10-12.* This register was written as the required tier a kernel must hold to stay composable, a condition of membership with one verdict. A-Viable-Fork/EpiTrellis (`docs/departure-from-epistack.md`, Section 1) argued that each invariant is instead the precondition of a particular capability, so a kernel that fills some invariants holds some capabilities rather than failing membership, and conformance is a vector rather than a verdict. The operator ruled that reading in [ruling: operator, 2026-10-12]. Each entry now names, under `Unlocks`, the capability it is a precondition of, and the conformance report states per capability whether it is unlocked, blocked (naming the violated invariants), or undetermined (nothing violated, something unverifiable). The text above is kept as written. Which entry unlocks which capability is a proposal by the session that made the change, open to the operator's revision: `cross-out` (others can import this kernel's claims at all), `recomputable-on-import` (an importer can recompute a carried grade rather than trust it), `walkable-provenance`, `forkable-by-composers`, `native-acceptance` (a carried grade accepted natively under a shared type hash).
+
 ## The entries
 
 ### CR-typed
 - Modality: required
+- Unlocks: cross-out
 - Statement: Every claim carries a type, even when that type is the untyped type.
 - A crossing depends on it: a claim must land somewhere in the receiving kernel's space, if only as untyped, so a kernel that emitted genuinely untypeable claims could not be crossed into.
 - Enforced by: build/check-gate.mjs, build/check-crossing.mjs
@@ -43,6 +48,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-monotone
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: Grounding is monotone in the contamination sense, so a claim never advertises more standing than its necessary supports carry.
 - A crossing depends on it: a composing kernel must be able to trust that an imported claim's grade is not a lie about its supports, or importing it would poison the composite.
 - Enforced by: build/check-math-differential.mjs
@@ -51,6 +57,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-untyped-floor
 - Modality: required
+- Unlocks: cross-out
 - Statement: The untyped type grounds nothing, so an imported claim confers no standing until an owned fork types it locally.
 - A crossing depends on it: this is the laundering guard, holding by construction; a kernel that let untyped claims ground would be the channel the border exists to close, and no kernel could safely import from it.
 - Enforced by: build/check-crossing.mjs, build/check-composition.mjs
@@ -60,6 +67,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-history
 - Modality: required
+- Unlocks: walkable-provenance
 - Statement: Claims carry their history, the record of their origin, their crossings, and the forks that retyped them.
 - A crossing depends on it: a receiving kernel must be able to walk back what an imported claim actually rests on, or the crossing is not auditable and provenance is lost.
 - Enforced by: prose-specified. The v3 record carries no first-class history field and no oracle yet verifies a complete traceable chain; this is the honest gap the self-kernel maps (docs/sorry-ledger.md, G-F).
@@ -68,6 +76,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-forkable
 - Modality: required
+- Unlocks: forkable-by-composers
 - Statement: Standing is forkable and revocable, so captured or poisoned state can be forked away from and misassigned standing can be withdrawn or superseded.
 - A crossing depends on it: a kernel whose captured state could not be forked would trap anyone who composed it, so forkability is a promise a kernel makes to those who build on it.
 - Enforced by: build/check-fork-contest.mjs, build/check-gate.mjs
@@ -76,6 +85,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-shared-hash
 - Modality: required
+- Unlocks: native-acceptance
 - Statement: Shared meaning is shared hash: two kernels mean the same thing by a type exactly when they pin the same type-bundle hash, and a subtly different meaning is a different hash.
 - A crossing depends on it: this is the primitive federation rests on. Pinning the same hash means pinning the same attenuation apparatus, which makes native acceptance of the carried grade available and well-defined; it does not vouch that the source ran that apparatus honestly, so the receiver may always accept the carried grade or re-ground the claim under its own execution instead. What is contractually fixed is that standing is always recomputable (CR-recomputable) and that provenance always transfers, never that the receiver must accept the carried grade; an unpinned crossing arrives untyped and grounds nothing. Native lossless transfer is the receiver's accept-native stance, a permitted admission policy (the origin verification stance, PR-origin-stance), not a required invariant, so it is adoption of the hash, not the store boundary, that makes native acceptance possible.
 - Enforced by: build/check-type-hash.mjs, build/check-crossing.mjs, build/check-agreement.mjs
@@ -85,6 +95,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-recomputable
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: Trust is unownable: a claim's standing recomputes from the public graph by anyone, so no host, platform, or client owns what holds.
 - A crossing depends on it: a composing kernel verifies an imported claim's grade by recomputing it against the graph rather than taking the exporter's word, so standing must be a function of public structure, not a grant held by an authority.
 - Enforced by: build/check-gate.mjs
@@ -94,6 +105,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-gate-authority
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: No participant holds authority the gate lacks: a client, a host, a directory, or a backend is untrusted infrastructure, and anything any of them asserts about the graph is recomputable against the graph.
 - A crossing depends on it: an imported claim's grade must be gate-produced and re-derivable, never a figure infrastructure asserted, or a composing kernel would be trusting the exporter's plumbing rather than the graph.
 - Enforced by: build/check-gate.mjs, build/check-map.mjs
@@ -103,6 +115,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-typing-acts
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: Standing moves only through typing acts, admission through the gate, a fork adopted, or a pin changed; reading, ranking, viewing, and contesting move no grade.
 - A crossing depends on it: a crossing transfers only what a typing act grounded, so a kernel that let a view or a contest move a grade would export standing no typing act earned.
 - Enforced by: build/check-fork-contest.mjs, build/check-gate.mjs
@@ -111,6 +124,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-attenuation-line
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: Every function is owned by one side of the attenuation line: structural attenuation, recomputing what a claim rests on, belongs to the kernel and is mechanical; semantic attenuation, judging whether the floors are true of the world, belongs to a community and is attributable.
 - A crossing depends on it: the structural half must be mechanical for an importer to recompute an imported claim's standing without adopting the exporter community's semantic judgment; a function that cannot say which side it lives on is misdesigned.
 - Enforced by: prose-specified (docs/the-asymmetric-weapon.md; the structural-versus-semantic boundary made mechanical at each site, e.g. build/check-fork-contest.mjs's contest-changes-no-grade).
@@ -119,6 +133,7 @@ composability invariants, `guide:N` for the ecosystem guide's numbered invariant
 
 ### CR-reading-open
 - Modality: required
+- Unlocks: recomputable-on-import
 - Statement: Reading requires nothing, ever: no account, no credential, no permission; every graph, every grade, every receipt is open to any reader, and identity begins where writing begins and nowhere earlier.
 - A crossing depends on it: recomputation of an imported claim's standing (CR-recomputable) is only universal if the graph it runs over is readable by any party, so the open read is what makes an imported grade checkable rather than trusted.
 - Enforced by: prose-specified. The read contract (api/client-api.mjs) requires no credential; identity requirements attach only to the write path, which is the free tier's admission policy (PR-identity-admission).

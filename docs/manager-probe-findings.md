@@ -12,7 +12,7 @@ probe, and its point is not the surface but what the surface taught: whether the
 from a management surface (which writes: fork, adopt, cross) as well as it drives from the reading shell
 (which only reads). Built: `periphery/navigate/shell/modules/manager.js`, the vendored view
 `build/vendor-federation.mjs`, and the standalone page `build/build-manager-probe.mjs`. What follows is
-written from what actually happened in the build, not from expectation.
+written from what actually happened in the build, not from expectation. *Correction, 2026-10-12.* The vendored view is `build/vendor-management.mjs`, writing `vendor/management/management-snapshot.json`; the names above (`build/vendor-federation.mjs`, `vendor/federation/federation-view.json`) name no file in the tree, found by `build/check-self-description.mjs` (inferred to be a rename; this clone's history is shallow).
 
 ## What drove through the contract cleanly
 

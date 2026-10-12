@@ -61,7 +61,10 @@ export function exportContribution(proposal, receipt, origin) {
     contribution_id: contributionId({ entries, links }),
     proposal: { entries, links },
     receipt: receipt || null,
-    origin: { kernel_id: o.kernel_id || null, state_id: o.state_id || null },
+    // the instrument: the hash of the gate code that decided this bundle, when the caller knows it (after
+    // A-Viable-Fork/EpiTrellis, whose every row carries the hash of the code that wrote it). Outside the
+    // contribution id, as all of origin is: it says who measured, not what was measured.
+    origin: { kernel_id: o.kernel_id || null, state_id: o.state_id || null, instrument: o.instrument || null },
     protocol: PROTOCOL,
     status: STATUS,
     instructions: INSTRUCTIONS,
