@@ -13,7 +13,13 @@ authors:
     # orcid: "https://orcid.org/0000-0000-0000-0000"   # add if you have one
 version: "0.1.0"
 date-released: "2026-07-01"   # set to your release date
-license: "AGPL-3.0-or-later"  # or "AGPL-3.0-only"
+# per layer since 2026-10-12 (LICENSING.md); AGPL-3.0-or-later for every commit before that
+license:
+  - "Apache-2.0"
+  - "AGPL-3.0-or-later"
+  - "CC0-1.0"
+  - "CC-BY-4.0"
+  - "CC-BY-SA-4.0"
 url: "<repository URL>"
 keywords:
   - epistemics

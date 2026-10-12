@@ -94,6 +94,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | file | role |
 |---|---|
 | `corpora/_nodes.js` | the corpora node manifest for the typed repository map (build/repo-map.schema.js) |
+| `corpora/LICENSE` | the corpora's license, CC-BY-4.0 (LICENSING.md) |
 | `corpora/_primitives/primitives.js` | the floor. Named standard transformations, the coordinate basis. Each is a leaf |
 | `corpora/_shared/atlas/atlas.js` | the atlas, the meta-index (Prompt 27): the pre-existing discrimination map (ATLAS) plus two seeded registers, the transformation BASIS (admitted solo on type-correctness) and the DISCRIMINATION patterns (admitted in pairs on a real departure node-id), each entry referencing exemplar/clone nodes in the case stores |
 | `corpora/_shared/bodies/bodies.js` | the body corpus, the empirical floor, sibling to data/primitives (the mathematical floor) |
@@ -147,6 +148,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | file | role |
 |---|---|
 | `periphery/README.md` | the layer README (Prompt 36): what the fallible layer is, its responsibilities, its interface up and down, its invariant (fallible-producers-not-fallible-AI at its source, never touch the store), and a map of the directory |
+| `periphery/LICENSE` | the application layer's license, AGPL-3.0-or-later (LICENSING.md) |
 | `periphery/_nodes.js` | the periphery node manifest for the typed repository map (build/repo-map.schema.js) |
 | `periphery/assess/assess.js` | the assessment agent: an AI consumer that produces interpretive assessments the kernel cannot compute, submitted back through the gate as claims |
 | `periphery/author/author.js` | the authoring and curation tools: add claims, propose groundings, discharge open questions, record refutations, AI-assisted |
@@ -284,6 +286,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `build/check-map.mjs` | the typed-repository-map oracle. Assembles the node manifests, validates them, checks |
 | `build/check-standing.mjs` | the oracle for the converged records: receipts at offsets, standing beside the grade, rulings, kills, flags, outbound holds, corrections, and kind rows (admission, required check fields, liftability) |
 | `build/check-upstreamed.mjs` | the oracle for what the consumers built and this repository took back, and the corpora held to the currency, decay and lineage readings |
+| `build/check-licensing.mjs` | holds the per-layer licensing to LICENSING.md: the five texts, each layer's LICENSE pointer, KaTeX's own notice, CITATION.cff |
 | `build/check-independence.mjs` | the checker-independence oracle: a distinct-party recheck lifts only on known, disjoint footprints, and the footprint survives export and import (compost entry 23) |
 | `build/check-robustness.mjs` | the robustness analysis oracle (Prompt 13): the four fixtures, the two-closure separation, determinism, and the per-case top-conclusion fragility readings |
 | `build/check-migrate.mjs` | the migration oracle (Phase B). Translates the three real cases and verifies the v3 grounding |

@@ -113,7 +113,7 @@ substrate/
 │   ├── constitution.md            * the community-founding doc: the fixed invariants (not votable), the free parameters (yours to set), and that the first act is setting them together
 │   └── deliberation.md            * how and where the human deliberation happens (the platform pointer, how parameters get decided)
 ├── linter.js                        import-boundary and rule enforcement
-├── LICENSE                          AGPL (forkable by design)
+├── LICENSE                          Apache-2.0; per layer in LICENSING.md (AGPL throughout until 2026-10-12)
 ├── README.md                      ~ reframe from competition submission to substrate
 └── coordination/                  ** the specified frontier (exists as spec in coordination-layer-spec.md, not as working multi-producer code)
     ├── standing/                  ** the standing economy: concave, decaying, Sybil-resistant weighting from verified labor (the decay primitive exists in kernel/store/decay.mjs; the full economy does not)

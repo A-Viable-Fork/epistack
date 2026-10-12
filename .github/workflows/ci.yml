@@ -47,6 +47,7 @@ jobs:
           node build/check-independence.mjs
           node build/check-standing.mjs
           node build/check-upstreamed.mjs
+          node build/check-licensing.mjs
           node build/check-characterized-gaps.mjs
           node build/check-composition.mjs
           node build/check-algebra.mjs

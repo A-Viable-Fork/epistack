@@ -56,7 +56,7 @@ The operating design for the backend that hosts these functions is carved in `do
 
 Three concrete steps, each pointing at something real:
 
-- **Fork the substrate.** `docs/substrate-map.md` describes what a fork gets you, tier by tier. The substrate is AGPL and forkable by design.
+- **Fork the substrate.** `docs/substrate-map.md` describes what a fork gets you, tier by tier. The substrate is forkable by design, under per-layer licenses: Apache-2.0 for the kernel, CC0 for the protocol, AGPL for the application layer (`LICENSING.md`; AGPL throughout until 2026-10-12).
 - **Run the workflow.** `docs/kernel-workflow-guide.md` is the six-stage workflow a kernel comes to know its own domain through, reusable on any domain, with the math kernel as its worked instance. The prompt set that instantiates it is the on-ramp: run it as written and it rebuilds the math kernel, change its settings block and it builds a kernel of another domain.
 - **Join the deliberation on the free parameters.** This is the first act above, the community constituting itself.
 
