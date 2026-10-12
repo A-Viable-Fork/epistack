@@ -116,7 +116,7 @@
 
       lines.push('final store: ' + state.state_hash.slice(0, 16) + '…  (' + (state.entries || []).length + ' entries, ' + (state.links || []).length + ' links)');
       out.textContent = lines.join('\n'); out.classList.add('show');
-      status.textContent = 'ran the v3 gate over: incumbent + ' + (ran.join(' + ') || '(no contributions)') + '  —  no network, no model in the loop';
+      status.textContent = 'ran the v3 gate over: incumbent + ' + (ran.join(' + ') || '(no contributions)') + '; no network, no model in the loop';
     } catch (err) {
       status.textContent = 'compose error: ' + (err && err.message ? err.message : err);
       out.classList.remove('show');

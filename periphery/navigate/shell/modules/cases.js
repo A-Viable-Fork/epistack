@@ -38,7 +38,7 @@
         html += '<div class="shell-reading" id="reading-' + spec.id + '">';
         html += '<div class="shell-node-name">' + esc(keyOf(focus.statement)) + "</div>";
         html += '<div class="shell-grades"><span>grade <b>' + esc(focus.earned_grade) + "</b></span>";
-        html += "<span>robustness <b>" + esc(rob.robustness || "—") + "</b></span>";
+        html += "<span>robustness <b>" + esc(rob.robustness || "n/a") + "</b></span>";
         html += "<span>" + (rob.fragile ? "fragile" : "redundant") + "</span>";
         html += "<span>" + ((rob.single_points_of_failure || []).length) + " single point(s) of failure</span>";
         // the gap count, read through the API (the corpus is closed, so this reads zero).

@@ -22,7 +22,7 @@ const H = "=".repeat(80);
 // ---- collect every tracked .md document (the generated repo map is excluded) ----
 function walk(dir, out = []) {
   for (const e of readdirSync(dir, { withFileTypes: true })) {
-    if (e.name === "node_modules" || e.name === ".git" || e.name === "vendor") continue; // vendor/ is build output, not authored docs
+    if (e.name === "node_modules" || e.name === ".git" || e.name === "vendor" || e.name === ".infra") continue; // vendor/ is build output; .infra/ is the vendored kit, whose documents are Repo-Infrastructure's
     const p = join(dir, e.name);
     if (e.isDirectory()) walk(p, out);
     else if (e.name.endsWith(".md")) out.push(relative(ROOT, p).replace(/\\/g, "/"));

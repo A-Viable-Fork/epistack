@@ -318,6 +318,10 @@ module.exports = [
     "type": "build"
   },
   {
+    "path": "build/check-all.mjs",
+    "type": "build"
+  },
+  {
     "path": "build/check-vendored.mjs",
     "type": "build"
   },

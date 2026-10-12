@@ -74,7 +74,7 @@
       html += '<div class="pw-verdict pw-graded">Graded: <strong>' + esc(row.earned_grade || "ungraded") + "</strong></div>";
     }
     html += '<table class="pw-grades"><tr><th>declared</th><th>earned</th><th>S (support)</th><th>B (own basis)</th></tr><tr><td>' +
-      esc(row.declared_grade || "—") + "</td><td><strong>" + esc(row.earned_grade || "—") + "</strong></td><td>" + esc(row.S || "—") + "</td><td>" + esc(row.B || "—") + "</td></tr></table>";
+      esc(row.declared_grade || "n/a") + "</td><td><strong>" + esc(row.earned_grade || "n/a") + "</strong></td><td>" + esc(row.S || "n/a") + "</td><td>" + esc(row.B || "n/a") + "</td></tr></table>";
     if (r.provider_note) html += '<div class="pw-note">' + esc(r.provider_note) + "</div>";
     html += '<div class="pw-prov">answered by the <strong>' + esc(api.providerKind()) + "</strong> provider</div>";
     elOut.innerHTML = html; elOut.classList.add("show");

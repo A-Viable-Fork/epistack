@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 232. Import edges: 505. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 233. Import edges: 505. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 

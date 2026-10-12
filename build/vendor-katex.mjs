@@ -16,7 +16,7 @@ const DIST = resolve(ROOT, "node_modules", "katex", "dist");
 const OUT = resolve(ROOT, "vendor", "katex");
 
 if (!existsSync(DIST)) {
-  console.error("KaTeX not found at " + DIST + " — run: npm install katex@0.16.9");
+  console.error("KaTeX not found at " + DIST + ": run npm install katex@0.16.9");
   process.exit(1);
 }
 mkdirSync(OUT, { recursive: true });

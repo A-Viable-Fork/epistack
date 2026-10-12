@@ -40,7 +40,7 @@ for (const e of terms) {
   if (e.tier !== "core" && e.tier !== "reference") fail(`${e.ref}: tier must be core or reference, got ${e.tier}`);
   if (!GRADES.has(e.declared_grade)) fail(`${e.ref}: declared_grade must be c or s, got ${e.declared_grade}`);
   if (!e.statement || !e.term) fail(`${e.ref}: missing term or statement`);
-  if (/—/.test(e.statement || "")) fail(`${e.ref}: em dash in statement`);
+  if (/\u2014/.test(e.statement || "")) fail(`${e.ref}: em dash in statement`);
 }
 if (!fails.length) console.log(`      ${terms.length} entries, all declarations, tiers and grades valid, declaration ceiling ${CEILING}`);
 

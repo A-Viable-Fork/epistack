@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 232,
+  "nodeCount": 233,
   "edgeCount": 546,
   "nodes": [
     {
@@ -1360,6 +1360,13 @@
       "group": null,
       "role": "the privacy gate, run first: no tracked file carries a link that is itself the access (a share link, a document id, a token in a query string). Such a link is a capability, not an address, and git history is not deletable in practice, so one landing is permanent. Adopted from A-Viable-Fork/EpiTrellis scripts/verify-privacy.py, whose patterns these are, with the ChatGPT and Gemini share forms added.",
       "contract": "`node build/check-privacy.mjs` exits non-zero naming each file and line; it first proves each pattern fires on an invented sample assembled at run time, so its own source carries none."
+    },
+    {
+      "path": "build/check-all.mjs",
+      "type": "build",
+      "group": null,
+      "role": "the one gate: the privacy check first, the linter, every build/check-*.mjs (found by name, so a new check cannot be left out of a hand-kept list), the vendored artifacts and the repo map regenerated and compared with the copies on disk before the run, and the bundle rebuilt and compared.",
+      "contract": "`node build/check-all.mjs` exits non-zero if any step fails, printing PASS or FAIL per step and the tail of each failure. Regeneration writes the generated files in place; when everything was current nothing changes, and when something was stale the run fails and leaves the regenerated file to commit."
     },
     {
       "path": "build/check-vendored.mjs",
