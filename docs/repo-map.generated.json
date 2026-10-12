@@ -1,6 +1,6 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 228,
+  "nodeCount": 229,
   "edgeCount": 546,
   "nodes": [
     {
@@ -1346,6 +1346,13 @@
       "group": null,
       "role": "the oracle for what the consumers built and this repository took back: Physics's source classes and computation pack, its staleness reading (computeCurrency) and lineage lint (lintSourceTable); Knowledge- Game's governance hash, contribution ladder and scaffolder options. It also holds this repository's own corpora to the currency, decay and lineage readings.",
       "contract": "`node build/check-upstreamed.mjs` exits non-zero on any failure. The scaffolder case runs in a temporary copy of the tree, so nothing here writes to this one."
+    },
+    {
+      "path": "build/check-licensing.mjs",
+      "type": "build",
+      "group": null,
+      "role": "holds the licensing layout to LICENSING.md: every license text present and the license it says, every layer directory's LICENSE pointer naming its license and a text that exists, and the vendored third-party code carrying its own notice.",
+      "contract": "`node build/check-licensing.mjs` exits non-zero on any failure, naming it."
     },
     {
       "path": "build/check-translate.mjs",
