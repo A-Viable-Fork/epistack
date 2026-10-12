@@ -48,10 +48,11 @@ function finalize(canonDeclared, extRaw) {
 }
 
 // ---- the checking record (Design Decision A) ----
-// a footprint is the set of source ids a check rests on: sorted, unique strings, or undefined when not declared.
+// a footprint, and a check's cited artifacts, are sets of source ids: sorted, unique strings, or undefined
+// when not declared. Both stay in the hashed extensions and are surfaced for the rule that reads them.
 function footprintOf(f) {
   if (f === undefined || f === null) return undefined;
-  if (!Array.isArray(f) || f.some((x) => typeof x !== "string" || !x)) throw new Error("checking record: footprint must be an array of source ids");
+  if (!Array.isArray(f) || f.some((x) => typeof x !== "string" || !x)) throw new Error("checking record: a footprint or cited_artifacts must be an array of source ids");
   return [...new Set(f)].sort();
 }
 const CHECKING_FIELDS = ["checker_id", "method_class", "method", "checked_at_state", "outcome", "independence"];
@@ -74,7 +75,7 @@ export function checkingRecord(raw) {
   // the footprint stays in the hashed extensions (so no record's hash moves) and is also surfaced, because
   // ownBasis reads it: before 2026-10-12 it was hashed but never read, and every pair of distinct-party
   // records counted as disjoint (docs/compost-ledger.md, entry 23).
-  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, footprint: footprintOf(ext.footprint), canonical, hash };
+  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, footprint: footprintOf(ext.footprint), cited_artifacts: footprintOf(ext.cited_artifacts), canonical, hash };
 }
 
 // ---- the closing-condition record (Prompt 18) ----

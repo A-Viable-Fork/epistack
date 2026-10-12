@@ -156,6 +156,11 @@ module.exports = [
     "group": "grounding"
   },
   {
+    "path": "kernel/grounding/checks.mjs",
+    "type": "kernel",
+    "group": "grounding"
+  },
+  {
     "path": "kernel/grounding/profile.js",
     "type": "kernel",
     "group": "grounding"

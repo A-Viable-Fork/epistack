@@ -39,6 +39,7 @@ The layers and their dependency direction (design axiom T0-2): `periphery -> api
 | `kernel/gate/lifecycle.js` | the Knowledge Game gated-write lifecycle: sponsorship under stake, fermentation in a cross-domain mesh, stratified random verification |
 | `kernel/gate/verify.mjs` | the external verifier (intake data model v3, Sections 11 and 15). Re-runs a decision from |
 | `kernel/grounding/earned-grade.mjs` | the earned-grade rule (intake data model v3, Section 9). Support delivery S over supports |
+| `kernel/grounding/checks.mjs` | resolves checking records before the earned-grade rule: cited artifacts located (fabrication rule), footprints closed, independence computed from the party table |
 | `kernel/grounding/profile.js` | the grounding profile: a read-only summary of how much of a kernel sits at each lattice position and where |
 | `kernel/grounding/resolve.js` | the one resolver. Every data and presentation lookup goes through resolve(id), |
 | `kernel/motions/compare.js` | the SIDEWAYS motion. Walk instantiation: resolve an atlas entry and its clones |

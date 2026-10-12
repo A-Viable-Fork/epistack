@@ -8,7 +8,7 @@ periphery  ->  api  ->  kernel        corpora = pure data (no code imports out)
    (fallible)   (membrane)  (trusted)     build -> any layer
 ```
 
-Nodes: 221. Import edges: 466. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
+Nodes: 222. Import edges: 472. Runtime flow edges: 41. All import edges satisfy the invariants (kernel<-kernel, api<-{kernel,api}, periphery never imports kernel directly).
 
 ## Import edges (what feeds what), by source layer
 
@@ -49,6 +49,7 @@ Nodes: 221. Import edges: 466. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/compute/canonical-packs.mjs` -> `kernel/composition/algebra.mjs`  *(kernel -> kernel)*
 - `kernel/compute/registry.mjs` -> `kernel/compute/canonical-packs.mjs`  *(kernel -> kernel)*
 - `kernel/compute/registry.mjs` -> `kernel/compute/transforms.mjs`  *(kernel -> kernel)*
+- `kernel/gate/gate.mjs` -> `kernel/grounding/checks.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/gate/gate.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -58,6 +59,7 @@ Nodes: 221. Import edges: 466. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/gate/verify.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/store/apply.mjs`  *(kernel -> kernel)*
 - `kernel/gate/verify.mjs` -> `kernel/store/decay.mjs`  *(kernel -> kernel)*
+- `kernel/grounding/checks.mjs` -> `kernel/schema/tables.mjs`  *(kernel -> kernel)*
 - `kernel/grounding/earned-grade.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/schema/canonical.mjs` -> `kernel/schema/sha256.mjs`  *(kernel -> kernel)*
 - `kernel/schema/glossary.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
@@ -67,6 +69,7 @@ Nodes: 221. Import edges: 466. Runtime flow edges: 41. All import edges satisfy 
 - `kernel/schema/type-hash.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/schema/canonical.mjs`  *(kernel -> kernel)*
 - `kernel/store/apply.mjs` -> `kernel/store/state.mjs`  *(kernel -> kernel)*
+- `kernel/store/decay.mjs` -> `kernel/grounding/checks.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/grounding/earned-grade.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/confidence.mjs`  *(kernel -> kernel)*
 - `kernel/store/decay.mjs` -> `kernel/schema/records.mjs`  *(kernel -> kernel)*
@@ -268,8 +271,11 @@ Nodes: 221. Import edges: 466. Runtime flow edges: 41. All import edges satisfy 
 - `build/check-glossary.mjs` -> `kernel/schema/confidence.mjs`  *(build -> kernel)*
 - `build/check-glossary.mjs` -> `kernel/schema/glossary.mjs`  *(build -> kernel)*
 - `build/check-independence.mjs` -> `api/contribution.js`  *(build -> api)*
+- `build/check-independence.mjs` -> `kernel/gate/gate.mjs`  *(build -> kernel)*
+- `build/check-independence.mjs` -> `kernel/grounding/checks.mjs`  *(build -> kernel)*
 - `build/check-independence.mjs` -> `kernel/grounding/earned-grade.mjs`  *(build -> kernel)*
 - `build/check-independence.mjs` -> `kernel/schema/records.mjs`  *(build -> kernel)*
+- `build/check-independence.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*
 - `build/check-ingest.mjs` -> `api/client-api.mjs`  *(build -> api)*
 - `build/check-ingest.mjs` -> `api/providers/local-provider.mjs`  *(build -> api)*
 - `build/check-ingest.mjs` -> `kernel/schema/tables.mjs`  *(build -> kernel)*

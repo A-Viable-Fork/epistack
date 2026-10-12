@@ -322,7 +322,8 @@ __M["tables"] = (function () {
 //   closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS
 //   that enter every check; this module holds their shape and the reflexive-transitive closure that
 //   corroboration and checker-independence read over source dependencies.
-// Contract: makeSourceTable(rows), makeKindTable(rows); sourceClass, ceilingFor, footprintClosure.
+// Contract: makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor,
+//   footprintClosure, partyOf.
 //   Pure, ESM; kernel imports only kernel.
 // Invariant: the dependency relation is required acyclic by governance; a cycle nevertheless present
 //   is read as one source per strongly connected component (the conservative reading), so the
@@ -360,6 +361,23 @@ function ceilingFor(kindTable, kind) {
   return { position: r.ceiling, mode: modeOf(r.ceiling) };
 }
 
+// the party table (after A-Viable-Fork/PDE kernel/seat/parties.json): who checks and who authors, each with
+// the authority they answer to and the sources they are already exposed to. Checker independence is
+// computed from it, never taken from a record's own say-so. `rules` marks a party that may issue rulings.
+function makePartyTable(rows) {
+  const byId = new Map();
+  for (const r of rows || []) {
+    if (!r.party_id) throw new Error("party row missing party_id");
+    if (!r.authority_root) throw new Error(`party ${r.party_id}: authority_root required`);
+    if (byId.has(r.party_id)) throw new Error(`party ${r.party_id}: duplicate`);
+    byId.set(r.party_id, { party_id: r.party_id, authority_root: r.authority_root, source_footprint: (r.source_footprint || []).slice().sort(), rules: r.rules === true });
+  }
+  return { byId };
+}
+function partyOf(table, id) {
+  return (table && table.byId.get(id)) || null;
+}
+
 // the reflexive-transitive closure of a set of source ids over `rests_on`. A cycle is naturally
 // absorbed (every member is reachable from every other), which is the one-source-per-SCC reading:
 // the footprint is never smaller than the truth, so an intersection can only over-count shared-ness,
@@ -377,7 +395,7 @@ function footprintClosure(table, sourceIds) {
   return out;
 }
 
-  return { makeSourceTable, sourceClass, makeKindTable, ceilingFor, footprintClosure };
+  return { makeSourceTable, sourceClass, makeKindTable, ceilingFor, makePartyTable, partyOf, footprintClosure };
 })();
 __M["records"] = (function () {
   var { canonicalize, normalizeString, hashOf, computeClaimIdentity, computeLinkIdentity } = __M["canonical"];
@@ -430,10 +448,11 @@ function finalize(canonDeclared, extRaw) {
 }
 
 // ---- the checking record (Design Decision A) ----
-// a footprint is the set of source ids a check rests on: sorted, unique strings, or undefined when not declared.
+// a footprint, and a check's cited artifacts, are sets of source ids: sorted, unique strings, or undefined
+// when not declared. Both stay in the hashed extensions and are surfaced for the rule that reads them.
 function footprintOf(f) {
   if (f === undefined || f === null) return undefined;
-  if (!Array.isArray(f) || f.some((x) => typeof x !== "string" || !x)) throw new Error("checking record: footprint must be an array of source ids");
+  if (!Array.isArray(f) || f.some((x) => typeof x !== "string" || !x)) throw new Error("checking record: a footprint or cited_artifacts must be an array of source ids");
   return [...new Set(f)].sort();
 }
 const CHECKING_FIELDS = ["checker_id", "method_class", "method", "checked_at_state", "outcome", "independence"];
@@ -456,7 +475,7 @@ function checkingRecord(raw) {
   // the footprint stays in the hashed extensions (so no record's hash moves) and is also surfaced, because
   // ownBasis reads it: before 2026-10-12 it was hashed but never read, and every pair of distinct-party
   // records counted as disjoint (docs/compost-ledger.md, entry 23).
-  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, footprint: footprintOf(ext.footprint), canonical, hash };
+  return { checker_id: raw.checker_id, method_class: raw.method_class, method: raw.method || "", checked_at_state: raw.checked_at_state, outcome, independence: raw.independence, footprint: footprintOf(ext.footprint), cited_artifacts: footprintOf(ext.cited_artifacts), canonical, hash };
 }
 
 // ---- the closing-condition record (Prompt 18) ----
@@ -726,13 +745,18 @@ function footprintOfGroup(members) {
 // own basis B: a settled position (checked / independently-rechecked / constitutive) or "none".
 // Two distinct-party checks lift to independently-rechecked only when both declare a footprint and the two
 // are disjoint: an undeclared footprint is unknown, and unknown counts as overlapping, never as disjoint.
+// A check resolved by kernel/grounding/checks.mjs also needs its artifacts located, and two checks under
+// one authority root are one party for the lift.
 function ownBasis({ constitutive, checkingRecords }) {
   if (constitutive) return "constitutive";
   const distinct = (checkingRecords || []).filter((c) => c.independence === "distinct-party");
-  const known = distinct.filter((c) => Array.isArray(c.footprint) && c.footprint.length > 0);
+  const known = distinct.filter((c) => Array.isArray(c.footprint) && c.footprint.length > 0 && c.located !== false);
   for (let i = 0; i < known.length; i++)
-    for (let j = i + 1; j < known.length; j++)
+    for (let j = i + 1; j < known.length; j++) {
+      const ri = known[i].authority_root, rj = known[j].authority_root;
+      if (ri && rj && ri === rj) continue;
       if (disjoint(new Set(known[i].footprint), new Set(known[j].footprint))) return "independently-rechecked";
+    }
   if (distinct.length >= 1) return "checked";
   return "none";
 }
@@ -891,6 +915,7 @@ __M["decay"] = (function () {
   var { leqWithinMode } = __M["confidence"];
   var { ceilingFor, footprintClosure } = __M["tables"];
   var { inForce } = __M["apply"];
+  var { resolveChecks } = __M["checks"];
   var { decayFinding } = __M["records"];
 // Role: derived grade and decay (intake data model v3, Section 14). Earned grade is derived, never
 //   stored: it is recomputed against the current state. When the recomputed earned grade falls below
@@ -903,6 +928,12 @@ __M["decay"] = (function () {
 // Invariant: a support that is not in force delivers nothing (ungraded), so removing or superseding
 //   a support lowers the derivation without touching any stored declared grade.
 "use strict";
+
+// the checking records as the gate reads them (kernel/grounding/checks.mjs), under the same policy.
+function checksFor(entry, tables) {
+  const rs = resolveChecks(entry.checking_records, { contributorId: entry.contributor_id, sourceTable: tables.sourceTable, partyTable: tables.partyTable });
+  return tables.strictFabrication ? rs.filter((r) => r.located) : rs;
+}
 
 // the derived earned grade of an entry against the current state (Section 14). A support not in force
 // delivers ungraded; otherwise its own derived grade flows up through the link, capped by link grade.
@@ -920,7 +951,7 @@ function derivedGrade(state, identity, tables, cache = new Map()) {
       linkIdentity: l.identity,
     }));
   const ceil = ceilingFor(tables.kindTable, entry.kind);
-  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: entry.checking_records, supports });
+  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksFor(entry, tables), supports });
   cache.set(identity, eg.earned);
   return eg.earned;
 }
@@ -940,6 +971,7 @@ function storeViewOf(state, tables) {
     withdrawnRecords: state.withdrawn_records || [],
     kindOf: new Map((state.entries || []).map((e) => [e.identity, e.kind])),
     sourceTable: tables.sourceTable, kindTable: tables.kindTable,
+    partyTable: tables.partyTable || null, strictFabrication: !!tables.strictFabrication,
   };
 }
 
@@ -967,6 +999,7 @@ function computeDecay(state, tables) {
 })();
 __M["gate"] = (function () {
   var { earnedGrade } = __M["earned-grade"];
+  var { resolveChecks } = __M["checks"];
   var { leqWithinMode, POSITIONS } = __M["confidence"];
   var { footprintClosure, ceilingFor, sourceClass } = __M["tables"];
   var { referenceBindingRow, wellFormednessFinding, contradictionRecord, corroborationFinding, coverageNote } = __M["records"];
@@ -1064,6 +1097,20 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
   ];
   const closureOf = restatementClosure(restPairs);
 
+  // ---- checking records, resolved: located artifacts, closed footprints, computed independence ----
+  // Under the strict fabrication policy an unlocated check grants nothing; otherwise it still grants
+  // checked, and the check table names it unlocated.
+  const checkTable = [];
+  const resolvedChecks = new Map();
+  function checksOf(e) {
+    if (resolvedChecks.has(e.identity)) return resolvedChecks.get(e.identity);
+    const rs = resolveChecks(e.checking_records, { contributorId: e.contributor_id, sourceTable: storeView.sourceTable, partyTable: storeView.partyTable });
+    for (const r of rs) checkTable.push({ identity: e.identity, checker_id: r.checker_id, located: r.located, independence: r.independence, independence_basis: r.independence_basis });
+    const used = storeView.strictFabrication ? rs.filter((r) => r.located) : rs;
+    resolvedChecks.set(e.identity, used);
+    return used;
+  }
+
   // ---- earned grades (Section 9). Supports into any closure member support the merged claim ----
   const egFull = new Map();
   const cache = new Map();
@@ -1079,7 +1126,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
       footprint: footprintClosure(storeView.sourceTable, [l.source_id]), linkIdentity: l.identity,
     }));
     const ceil = ceilingFor(storeView.kindTable, e.kind);
-    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: e.checking_records, supports });
+    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksOf(e), supports });
     cache.set(id, eg.earned); egFull.set(id, eg);
     return eg.earned;
   }
@@ -1200,7 +1247,7 @@ function decide(contribution, storeView, { rulesetVersion = "v3", schemaVersion 
   return {
     ruleset_version: rulesetVersion, schema_version: schemaVersion,
     store_state: storeView.stateHash, contribution_hash: contribution.hash,
-    findings, binding_table: bindingTable, grade_table: gradeTable,
+    findings, binding_table: bindingTable, grade_table: gradeTable, check_table: checkTable,
     restatement_closures: [...new Set(entries.map((e) => [...closureOf(e.identity)].sort().join(",")))].map((s) => s.split(",")),
     withdrawn_matches: withdrawnMatches, corroboration_findings: corroborationFindings,
     contradiction_records: contradictionRecords, decision, decision_basis: decisionBasis,

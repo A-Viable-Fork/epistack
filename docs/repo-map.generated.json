@@ -1,7 +1,7 @@
 {
   "generated": "build/check-map.mjs -- do not edit; regenerate with `node build/check-map.mjs`",
-  "nodeCount": 221,
-  "edgeCount": 507,
+  "nodeCount": 222,
+  "edgeCount": 513,
   "nodes": [
     {
       "path": "kernel/analysis/gaps.js",
@@ -130,6 +130,13 @@
       "contract": "earnedGrade({ kind, ceiling, constitutive, checkingRecords, supports, independenceLift }) -> { earned, mode, S, B }. Pure, ESM; kernel imports only kernel."
     },
     {
+      "path": "kernel/grounding/checks.mjs",
+      "type": "kernel",
+      "group": "grounding",
+      "role": "resolves a claim's checking records against the trusted tables before the earned-grade rule reads them: whether each check's cited artifacts are located (the fabrication rule, after A-Viable-Fork/PDE check 05), its footprint closed over source dependencies and the checker's own exposure, and its independence from the claim's author computed from the party table (after PDE check 06).",
+      "contract": "resolveChecks(checks, { contributorId, sourceTable, partyTable }) -> resolved checks, each the original record plus { located, footprint, independence, independence_basis, authority_root }. Pure, ESM; kernel imports only kernel."
+    },
+    {
       "path": "kernel/grounding/profile.js",
       "type": "kernel",
       "group": "grounding",
@@ -239,7 +246,7 @@
       "type": "kernel",
       "group": "schema",
       "role": "the two reference tables (intake data model v3, Section 10) and the source-footprint closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS that enter every check; this module holds their shape and the reflexive-transitive closure that corroboration and checker-independence read over source dependencies.",
-      "contract": "makeSourceTable(rows), makeKindTable(rows); sourceClass, ceilingFor, footprintClosure. Pure, ESM; kernel imports only kernel."
+      "contract": "makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor, footprintClosure, partyOf. Pure, ESM; kernel imports only kernel."
     },
     {
       "path": "kernel/store/apply.mjs",
@@ -1295,7 +1302,7 @@
       "path": "build/check-independence.mjs",
       "type": "build",
       "group": null,
-      "role": "the checker-independence oracle. Two distinct-party checking records lift a claim's own basis to independently-rechecked only when both declare a footprint and the two are disjoint; the footprint survives the record builder and a contribution's export and import.",
+      "role": "the checker-independence oracle. Two distinct-party checking records lift a claim's own basis to independently-rechecked only when both declare a footprint and the two are disjoint; the footprint survives the record builder and a contribution's export and import. Resolved against the tables, a check counts as located only when its cited artifacts resolve, independence is computed from the party table, one authority root is one party, and the strict policy drops unlocated checks.",
       "contract": "`node build/check-independence.mjs` exits non-zero on any failure. Imports the record builders, the earned-grade rule, and the contribution export and import."
     },
     {
@@ -1799,6 +1806,13 @@
     },
     {
       "from": "kernel/gate/gate.mjs",
+      "to": "kernel/grounding/checks.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/gate/gate.mjs",
       "to": "kernel/schema/confidence.mjs",
       "type": "imports",
       "fromLayer": "kernel",
@@ -1849,6 +1863,13 @@
     {
       "from": "kernel/gate/verify.mjs",
       "to": "kernel/schema/canonical.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/grounding/checks.mjs",
+      "to": "kernel/schema/tables.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -1940,6 +1961,13 @@
     {
       "from": "kernel/store/decay.mjs",
       "to": "kernel/store/apply.mjs",
+      "type": "imports",
+      "fromLayer": "kernel",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "kernel/store/decay.mjs",
+      "to": "kernel/grounding/checks.mjs",
       "type": "imports",
       "fromLayer": "kernel",
       "toLayer": "kernel"
@@ -3273,6 +3301,27 @@
       "type": "imports",
       "fromLayer": "build",
       "toLayer": "api"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "kernel/grounding/checks.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "kernel/gate/gate.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
+    },
+    {
+      "from": "build/check-independence.mjs",
+      "to": "kernel/schema/tables.mjs",
+      "type": "imports",
+      "fromLayer": "build",
+      "toLayer": "kernel"
     },
     {
       "from": "build/check-ingest.mjs",
