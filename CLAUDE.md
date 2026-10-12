@@ -9,6 +9,12 @@ Depended on by: [AGENTS.md, LICENSING.md]
 
 Guidance for working in this repo. Keep it short; a long file here is a smell.
 
+The conventions every A-Viable-Fork repository shares come from the kit (vendored in `.infra/`, pinned in `infra.lock.json`):
+
+@.infra/CONVENTIONS.md
+
+What follows is local to this repository. The gate before every commit is `node .infra/run.mjs`, which runs the kit's checks (`infra.json`, each disabled one with its reason) and `node build/check-all.mjs`, the local gate.
+
 ## What this is
 
 A typed claim-graph epistemic engine, a top-down meta kernel: one domain-agnostic grounding
@@ -85,6 +91,8 @@ direct store mutation. Periphery surfaces consume the API and touch no truth fie
 
 ## Build and check
 
+    node .infra/run.mjs        # the gate before every commit: the kit's checks, then build/check-all.mjs
+    node build/check-all.mjs   # the local gate: privacy, linter, every build/check-*.mjs, generated files, bundle
     node build/bundle.js       # inline kernel + api + corpora + periphery into submission.html
     node linter.js             # fields, references, sorry-ledger, trust boundary, corpus index
     node build/check-gaps.mjs  # the gap detector reproduces the sorry ledger

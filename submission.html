@@ -5181,7 +5181,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
 
       lines.push('final store: ' + state.state_hash.slice(0, 16) + '…  (' + (state.entries || []).length + ' entries, ' + (state.links || []).length + ' links)');
       out.textContent = lines.join('\n'); out.classList.add('show');
-      status.textContent = 'ran the v3 gate over: incumbent + ' + (ran.join(' + ') || '(no contributions)') + '  —  no network, no model in the loop';
+      status.textContent = 'ran the v3 gate over: incumbent + ' + (ran.join(' + ') || '(no contributions)') + '; no network, no model in the loop';
     } catch (err) {
       status.textContent = 'compose error: ' + (err && err.message ? err.message : err);
       out.classList.remove('show');
@@ -5268,7 +5268,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
       html += '<div class="pw-verdict pw-graded">Graded: <strong>' + esc(row.earned_grade || "ungraded") + "</strong></div>";
     }
     html += '<table class="pw-grades"><tr><th>declared</th><th>earned</th><th>S (support)</th><th>B (own basis)</th></tr><tr><td>' +
-      esc(row.declared_grade || "—") + "</td><td><strong>" + esc(row.earned_grade || "—") + "</strong></td><td>" + esc(row.S || "—") + "</td><td>" + esc(row.B || "—") + "</td></tr></table>";
+      esc(row.declared_grade || "n/a") + "</td><td><strong>" + esc(row.earned_grade || "n/a") + "</strong></td><td>" + esc(row.S || "n/a") + "</td><td>" + esc(row.B || "n/a") + "</td></tr></table>";
     if (r.provider_note) html += '<div class="pw-note">' + esc(r.provider_note) + "</div>";
     html += '<div class="pw-prov">answered by the <strong>' + esc(api.providerKind()) + "</strong> provider</div>";
     elOut.innerHTML = html; elOut.classList.add("show");
@@ -5779,7 +5779,7 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
         html += '<div class="shell-reading" id="reading-' + spec.id + '">';
         html += '<div class="shell-node-name">' + esc(keyOf(focus.statement)) + "</div>";
         html += '<div class="shell-grades"><span>grade <b>' + esc(focus.earned_grade) + "</b></span>";
-        html += "<span>robustness <b>" + esc(rob.robustness || "—") + "</b></span>";
+        html += "<span>robustness <b>" + esc(rob.robustness || "n/a") + "</b></span>";
         html += "<span>" + (rob.fragile ? "fragile" : "redundant") + "</span>";
         html += "<span>" + ((rob.single_points_of_failure || []).length) + " single point(s) of failure</span>";
         // the gap count, read through the API (the corpus is closed, so this reads zero).
@@ -6136,8 +6136,8 @@ if (typeof module !== "undefined" && module.exports) module.exports = { cleanJSO
         var e = claims.filter(function (c) { return c.statement.indexOf(t[1]) === 0; })[0];
         if (!e) return "";
         var r = (ctx.api.robustness({ identity: e.identity }) || [])[0] || {};
-        var spof = r.worst_removal ? esc((claims.filter(function (c) { return c.identity === r.worst_removal.identity; })[0] || {}).statement || "").split(":")[0] : "—";
-        return "<tr><td>" + esc(t[0]) + "</td><td>" + esc(r.grade || "—") + "</td><td>" + esc(r.robustness || "—") +
+        var spof = r.worst_removal ? esc((claims.filter(function (c) { return c.identity === r.worst_removal.identity; })[0] || {}).statement || "").split(":")[0] : "n/a";
+        return "<tr><td>" + esc(t[0]) + "</td><td>" + esc(r.grade || "n/a") + "</td><td>" + esc(r.robustness || "n/a") +
           "</td><td>" + (r.fragile ? "fragile" : "redundant") + "</td><td>" + spof + "</td></tr>";
       }).join("");
       ctx.mount.innerHTML =

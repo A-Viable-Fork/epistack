@@ -45,8 +45,8 @@
         var e = claims.filter(function (c) { return c.statement.indexOf(t[1]) === 0; })[0];
         if (!e) return "";
         var r = (ctx.api.robustness({ identity: e.identity }) || [])[0] || {};
-        var spof = r.worst_removal ? esc((claims.filter(function (c) { return c.identity === r.worst_removal.identity; })[0] || {}).statement || "").split(":")[0] : "—";
-        return "<tr><td>" + esc(t[0]) + "</td><td>" + esc(r.grade || "—") + "</td><td>" + esc(r.robustness || "—") +
+        var spof = r.worst_removal ? esc((claims.filter(function (c) { return c.identity === r.worst_removal.identity; })[0] || {}).statement || "").split(":")[0] : "n/a";
+        return "<tr><td>" + esc(t[0]) + "</td><td>" + esc(r.grade || "n/a") + "</td><td>" + esc(r.robustness || "n/a") +
           "</td><td>" + (r.fragile ? "fragile" : "redundant") + "</td><td>" + spof + "</td></tr>";
       }).join("");
       ctx.mount.innerHTML =

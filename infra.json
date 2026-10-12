@@ -1,0 +1,29 @@
+{
+  "checks": {
+    "instructions": {},
+    "dashes": {
+      "exclude": ["vendor/katex/**", "LICENSE", "LICENSE-*.txt"],
+      "verbatim": []
+    },
+    "leak": {
+      "exclude": ["vendor/katex/**"],
+      "emailAllow": ["^noreply@anthropic\\.com$", "^noreply@github\\.com$", "^[\\w.-]+@users\\.noreply\\.github\\.com$", "^ingest@epistack\\.local$"]
+    },
+    "headers": {}
+  },
+  "local": [
+    { "name": "epistack", "run": "build/check-all.mjs" }
+  ],
+  "exceptions": {
+    "dashes.exclude": "vendor/katex/** is third-party minified code, pinned by build/check-vendored.mjs; LICENSE and LICENSE-*.txt are the license texts, verbatim.",
+    "leak.exclude": "vendor/katex/** is third-party minified code, pinned by build/check-vendored.mjs.",
+    "leak.emailAllow": "ingest@epistack.local is the invented contact address periphery/ingest/openalex.mjs sends to OpenAlex's polite pool; .local is not a deliverable domain and the address belongs to no one.",
+    "provenance": "not enabled: no source is landed with bytes yet (status ledger [5.2]); receipts are a kernel record here, verified by build/check-standing.mjs.",
+    "receipts": "not enabled: requires provenance, and this repository's receipts are claim-graph records (kernel/schema/provenance.mjs), not landed-excerpt receipts.",
+    "repomap": "not enabled: build/check-map.mjs keeps a typed map that enforces the trust boundary; describing every file in repo-map-manifest.json as well is a migration of its own (Repo-Infrastructure FUNCTIONS F9 names absorbing typed edges).",
+    "docgraph": "not enabled: build/check-docs.mjs checks the same typed front matter and the code chain besides, and deliberately excludes the two outward pages the kit's docgraph would fail.",
+    "tokens": "not enabled: 16 stylesheets predate the Ledger tokens, the competition submission page among them; moving them is interface work to be checked by eye in a browser, not a gate change.",
+    "corrections": "not enabled: corrections here are dated notes in place and the compost ledger, which build/check-self-description.mjs and the status ledger hold; there is no corrections.js.",
+    "freshness": "not enabled: build/check-all.mjs regenerates every generated file and compares it with the committed copy."
+  }
+}

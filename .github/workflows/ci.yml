@@ -1,6 +1,7 @@
 name: ci
 
-# Runs the linter and the build on every push to main and every pull request.
+# Runs the privacy gate, then the kit gate with the local gate inside it, on every push to main and
+# every pull request.
 # This is the design discipline made mechanical: the schema checks, the sorry-ledger
 # consistency, the layer boundaries, and the standalone build all have to pass before
 # a change lands. See docs/design-axioms.md (linter rules) for what is enforced.
@@ -29,69 +30,12 @@ jobs:
         # no tracked file carries a link that is itself the access; nothing else matters if one landed
         run: node build/check-privacy.mjs
 
-      - name: Lint the graph
-        # fields per node kind, atlas_ref and child-id resolution,
-        # sorry-marker-to-ledger consistency, no DOM in engine/, acyclic
-        # decomposition with primitive leaves, corpus-index completeness
-        run: node linter.js
-
-      - name: Check the oracles
-        # the gap detector reproduces the sorry ledger; the perturbation overlay
-        # is pure and deterministic; the lattice demonstrator reproduces the
-        # structural detector and the contamination check bites; the repo map
-        # derives the import graph and enforces the trust boundary (one way).
-        run: |
-          node build/check-gaps.mjs
-          node build/check-perturb.mjs
-          node build/check-gate.mjs
-          node build/check-translate.mjs
-          node build/check-migrate.mjs
-          node build/check-client.mjs
-          node build/check-robustness.mjs
-          node build/check-independence.mjs
-          node build/check-standing.mjs
-          node build/check-upstreamed.mjs
-          node build/check-licensing.mjs
-          node build/check-vendored.mjs
-          node build/check-self-description.mjs
-          node build/check-characterized-gaps.mjs
-          node build/check-composition.mjs
-          node build/check-algebra.mjs
-          node build/check-glossary.mjs
-          node build/check-compute.mjs
-          node build/check-self.mjs
-          node build/check-boundary.mjs
-          node build/check-conformance.mjs
-          node build/check-tcpip-counterexample.mjs
-          node build/check-eggs.mjs
-          node build/check-reconcile.mjs
-          node build/check-covid.mjs
-          node build/check-lhc.mjs
-          node build/check-atlas.mjs
-          node build/check-demo.mjs
-          node build/check-docs.mjs
-          node build/check-map.mjs
-
-      - name: Verify the vendored browser gate bundle and snapshot are committed and current
-        # the compose-gate panel and the propose widget run this bundle over this snapshot; a diff
-        # means the kernel or corpus moved but the committed artifacts were not regenerated
-        # (build/bundle.js regenerates both too).
-        run: |
-          node build/vendor-snapshot.mjs
-          node build/vendor-gate-browser.mjs
-          node build/vendor-eggs.mjs
-          node build/vendor-covid.mjs
-          node build/vendor-lhc.mjs
-          node build/vendor-demo.mjs
-          git diff --exit-code -- vendor/gate/gate.bundle.js vendor/gate/snapshot.json vendor/eggs/reading.json vendor/covid/reading.json vendor/lhc/reading.json vendor/demo/reading.json
-
-      - name: Verify the generated repo map is committed and current
-        # check-map rewrites docs/repo-map.{md,generated.json}; a diff here means a
-        # source change moved the map but the committed copy was not regenerated.
-        run: git diff --exit-code -- docs/repo-map.md docs/repo-map.generated.json
-
-      - name: Build the standalone artifact
-        run: node build/bundle.js
+      - name: The gate
+        # the kit's checks (infra.json, each disabled one with its reason) and the local gate,
+        # build/check-all.mjs: the linter, every build/check-*.mjs found by name (so a new check cannot
+        # be left out of a hand-kept list), every generated file regenerated and compared with the
+        # committed copy, and the bundle rebuilt.
+        run: node .infra/run.mjs
 
       - name: Verify the deliverable is a single self-contained file
         run: test -f submission.html
