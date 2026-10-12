@@ -10,6 +10,7 @@
 //   STORE holds for the target, never a grade the contribution asserts for someone else's entry.
 "use strict";
 import { earnedGrade } from "../grounding/earned-grade.mjs";
+import { resolveChecks } from "../grounding/checks.mjs";
 import { leqWithinMode, POSITIONS } from "../schema/confidence.mjs";
 import { footprintClosure, ceilingFor, sourceClass } from "../schema/tables.mjs";
 import { referenceBindingRow, wellFormednessFinding, contradictionRecord, corroborationFinding, coverageNote } from "../schema/records.mjs";
@@ -96,6 +97,20 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
   ];
   const closureOf = restatementClosure(restPairs);
 
+  // ---- checking records, resolved: located artifacts, closed footprints, computed independence ----
+  // Under the strict fabrication policy an unlocated check grants nothing; otherwise it still grants
+  // checked, and the check table names it unlocated.
+  const checkTable = [];
+  const resolvedChecks = new Map();
+  function checksOf(e) {
+    if (resolvedChecks.has(e.identity)) return resolvedChecks.get(e.identity);
+    const rs = resolveChecks(e.checking_records, { contributorId: e.contributor_id, sourceTable: storeView.sourceTable, partyTable: storeView.partyTable });
+    for (const r of rs) checkTable.push({ identity: e.identity, checker_id: r.checker_id, located: r.located, independence: r.independence, independence_basis: r.independence_basis });
+    const used = storeView.strictFabrication ? rs.filter((r) => r.located) : rs;
+    resolvedChecks.set(e.identity, used);
+    return used;
+  }
+
   // ---- earned grades (Section 9). Supports into any closure member support the merged claim ----
   const egFull = new Map();
   const cache = new Map();
@@ -111,7 +126,7 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
       footprint: footprintClosure(storeView.sourceTable, [l.source_id]), linkIdentity: l.identity,
     }));
     const ceil = ceilingFor(storeView.kindTable, e.kind);
-    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: e.checking_records, supports });
+    const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksOf(e), supports });
     cache.set(id, eg.earned); egFull.set(id, eg);
     return eg.earned;
   }
@@ -232,7 +247,7 @@ export function decide(contribution, storeView, { rulesetVersion = "v3", schemaV
   return {
     ruleset_version: rulesetVersion, schema_version: schemaVersion,
     store_state: storeView.stateHash, contribution_hash: contribution.hash,
-    findings, binding_table: bindingTable, grade_table: gradeTable,
+    findings, binding_table: bindingTable, grade_table: gradeTable, check_table: checkTable,
     restatement_closures: [...new Set(entries.map((e) => [...closureOf(e.identity)].sort().join(",")))].map((s) => s.split(",")),
     withdrawn_matches: withdrawnMatches, corroboration_findings: corroborationFindings,
     contradiction_records: contradictionRecords, decision, decision_basis: decisionBasis,

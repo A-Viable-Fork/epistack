@@ -2,7 +2,8 @@
 //   closure (Design Decision B). The source table and the kind-ceiling table are TRUSTED INPUTS
 //   that enter every check; this module holds their shape and the reflexive-transitive closure that
 //   corroboration and checker-independence read over source dependencies.
-// Contract: makeSourceTable(rows), makeKindTable(rows); sourceClass, ceilingFor, footprintClosure.
+// Contract: makeSourceTable(rows), makeKindTable(rows), makePartyTable(rows); sourceClass, ceilingFor,
+//   footprintClosure, partyOf.
 //   Pure, ESM; kernel imports only kernel.
 // Invariant: the dependency relation is required acyclic by governance; a cycle nevertheless present
 //   is read as one source per strongly connected component (the conservative reading), so the
@@ -39,6 +40,23 @@ export function ceilingFor(kindTable, kind) {
   const r = kindTable.byKind.get(kind);
   if (!r) return null;
   return { position: r.ceiling, mode: modeOf(r.ceiling) };
+}
+
+// the party table (after A-Viable-Fork/PDE kernel/seat/parties.json): who checks and who authors, each with
+// the authority they answer to and the sources they are already exposed to. Checker independence is
+// computed from it, never taken from a record's own say-so. `rules` marks a party that may issue rulings.
+export function makePartyTable(rows) {
+  const byId = new Map();
+  for (const r of rows || []) {
+    if (!r.party_id) throw new Error("party row missing party_id");
+    if (!r.authority_root) throw new Error(`party ${r.party_id}: authority_root required`);
+    if (byId.has(r.party_id)) throw new Error(`party ${r.party_id}: duplicate`);
+    byId.set(r.party_id, { party_id: r.party_id, authority_root: r.authority_root, source_footprint: (r.source_footprint || []).slice().sort(), rules: r.rules === true });
+  }
+  return { byId };
+}
+export function partyOf(table, id) {
+  return (table && table.byId.get(id)) || null;
 }
 
 // the reflexive-transitive closure of a set of source ids over `rests_on`. A cycle is naturally

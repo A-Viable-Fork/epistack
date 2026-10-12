@@ -64,13 +64,18 @@ function footprintOfGroup(members) {
 // own basis B: a settled position (checked / independently-rechecked / constitutive) or "none".
 // Two distinct-party checks lift to independently-rechecked only when both declare a footprint and the two
 // are disjoint: an undeclared footprint is unknown, and unknown counts as overlapping, never as disjoint.
+// A check resolved by kernel/grounding/checks.mjs also needs its artifacts located, and two checks under
+// one authority root are one party for the lift.
 export function ownBasis({ constitutive, checkingRecords }) {
   if (constitutive) return "constitutive";
   const distinct = (checkingRecords || []).filter((c) => c.independence === "distinct-party");
-  const known = distinct.filter((c) => Array.isArray(c.footprint) && c.footprint.length > 0);
+  const known = distinct.filter((c) => Array.isArray(c.footprint) && c.footprint.length > 0 && c.located !== false);
   for (let i = 0; i < known.length; i++)
-    for (let j = i + 1; j < known.length; j++)
+    for (let j = i + 1; j < known.length; j++) {
+      const ri = known[i].authority_root, rj = known[j].authority_root;
+      if (ri && rj && ri === rj) continue;
       if (disjoint(new Set(known[i].footprint), new Set(known[j].footprint))) return "independently-rechecked";
+    }
   if (distinct.length >= 1) return "checked";
   return "none";
 }

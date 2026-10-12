@@ -33,6 +33,9 @@ const sources = makeSourceTable([
   { source_id: "s-a", source_class: "primary-measurement", rests_on: [] },
   { source_id: "s-b", source_class: "dataset", rests_on: [] },
   { source_id: "s-d", source_class: "institutional-report", rests_on: [] },
+  { source_id: "src:a1", source_class: "dataset", rests_on: [] }, // the artifact check a1 cites
+  { source_id: "src:a2", source_class: "dataset", rests_on: [] }, // the artifact check a2 cites
+  { source_id: "src:s1", source_class: "dataset", rests_on: [] }, // the artifact check s1 cites
 ]);
 const kinds = makeKindTable([
   { kind: "measurement", ceiling: "independently-rechecked" },

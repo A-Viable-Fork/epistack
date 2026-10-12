@@ -13,7 +13,14 @@ import { earnedGrade } from "../grounding/earned-grade.mjs";
 import { leqWithinMode } from "../schema/confidence.mjs";
 import { ceilingFor, footprintClosure } from "../schema/tables.mjs";
 import { inForce } from "./apply.mjs";
+import { resolveChecks } from "../grounding/checks.mjs";
 import { decayFinding } from "../schema/records.mjs";
+
+// the checking records as the gate reads them (kernel/grounding/checks.mjs), under the same policy.
+function checksFor(entry, tables) {
+  const rs = resolveChecks(entry.checking_records, { contributorId: entry.contributor_id, sourceTable: tables.sourceTable, partyTable: tables.partyTable });
+  return tables.strictFabrication ? rs.filter((r) => r.located) : rs;
+}
 
 // the derived earned grade of an entry against the current state (Section 14). A support not in force
 // delivers ungraded; otherwise its own derived grade flows up through the link, capped by link grade.
@@ -31,7 +38,7 @@ export function derivedGrade(state, identity, tables, cache = new Map()) {
       linkIdentity: l.identity,
     }));
   const ceil = ceilingFor(tables.kindTable, entry.kind);
-  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: entry.checking_records, supports });
+  const eg = earnedGrade({ ceiling: ceil ? ceil.position : "asserted", constitutive: !!(ceil && ceil.mode === "constitutive"), checkingRecords: checksFor(entry, tables), supports });
   cache.set(identity, eg.earned);
   return eg.earned;
 }
@@ -51,6 +58,7 @@ export function storeViewOf(state, tables) {
     withdrawnRecords: state.withdrawn_records || [],
     kindOf: new Map((state.entries || []).map((e) => [e.identity, e.kind])),
     sourceTable: tables.sourceTable, kindTable: tables.kindTable,
+    partyTable: tables.partyTable || null, strictFabrication: !!tables.strictFabrication,
   };
 }
 

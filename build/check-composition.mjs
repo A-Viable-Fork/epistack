@@ -31,6 +31,11 @@ const sources = makeSourceTable([
   { source_id: "s-hlth-b", source_class: "primary-measurement", rests_on: [] },
   { source_id: "s-econ", source_class: "dataset", rests_on: [] },
   { source_id: "s-decl", source_class: "institutional-report", rests_on: [] },
+  { source_id: "src:c1", source_class: "dataset", rests_on: [] }, // the artifact check c1 cites
+  { source_id: "src:c2", source_class: "dataset", rests_on: [] }, // the artifact check c2 cites
+  { source_id: "src:e1", source_class: "dataset", rests_on: [] }, // the artifact check e1 cites
+  { source_id: "src:e2", source_class: "dataset", rests_on: [] }, // the artifact check e2 cites
+  { source_id: "src:lca1", source_class: "dataset", rests_on: [] }, // the artifact check lca1 cites
 ]);
 const kinds = makeKindTable([
   { kind: "health-measurement", ceiling: "independently-rechecked" },
