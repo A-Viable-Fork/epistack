@@ -6,9 +6,9 @@
 //   bundles and anchor maps. It mints no constitutive claim (definitions are referenced, never
 //   re-authored) and asserts nothing durable; the bundles are gate-passed proposals, not admissions.
 // Contract: buildDecomposition() -> { docs, mechanical, evaluative, constitutive, links, receipt,
-//   gradeByIdentity, vocabByRef, bundles, anchors }. `node build/decomposition-build.mjs` also writes
-//   the bundles and anchor maps under corpora/submission-decomposition/. Build layer; reuses the
-//   kernel records, gate, and tables and the api contribution export. Pure over the corpus.
+//   gradeByIdentity, vocabByRef, bundles, anchors }; emittedFiles(b) -> { path: bytes }, every bundle
+//   and anchor map, which `node build/decomposition-build.mjs` writes. Build layer; reuses the kernel
+//   records, gate, and tables and the api contribution export. Pure over the corpus.
 // Invariant: the competition community's kind table (measurement, forum, comment) carries no
 //   constitutive kind, so a constitutive span anchors to its vocabulary claim and never becomes a new
 //   claim here; a dependence link resolves to that vocabulary claim's identity. Mechanical claims enter
@@ -151,15 +151,23 @@ export function buildDecomposition() {
   return { docs, text, mechanical, evaluative, constitutive, links, receipt, gradeByIdentity, vocabIdentity, bundles, anchors, CLAIMS, DOCS };
 }
 
+// the emitted artifacts as bytes, keyed by path under the repository root: the one serialization the
+// writer below and the drift check in build/check-decomposition.mjs both use, so they cannot disagree.
+export function emittedFiles(b) {
+  const files = {};
+  for (const id of Object.keys(b.DOCS)) {
+    files[`corpora/submission-decomposition/bundles/${id}.bundle.json`] = JSON.stringify(b.bundles[id], null, 2) + "\n";
+    files[`corpora/submission-decomposition/anchors/${id}.anchors.json`] = JSON.stringify(b.anchors[id], null, 2) + "\n";
+  }
+  return files;
+}
+
 if (process.argv[1] && process.argv[1].endsWith("decomposition-build.mjs")) {
   const b = buildDecomposition();
   const dir = join(ROOT, "corpora/submission-decomposition");
   mkdirSync(join(dir, "bundles"), { recursive: true });
   mkdirSync(join(dir, "anchors"), { recursive: true });
-  for (const id of Object.keys(b.DOCS)) {
-    writeFileSync(join(dir, "bundles", `${id}.bundle.json`), JSON.stringify(b.bundles[id], null, 2) + "\n");
-    writeFileSync(join(dir, "anchors", `${id}.anchors.json`), JSON.stringify(b.anchors[id], null, 2) + "\n");
-  }
+  for (const [rel, bytes] of Object.entries(emittedFiles(b))) writeFileSync(join(ROOT, rel), bytes);
   const mech = b.mechanical.length, evalN = b.evaluative.length, con = b.constitutive.length;
   console.log(`decomposition: ${mech} mechanical, ${evalN} evaluative, ${con} constitutive across ${Object.keys(b.DOCS).length} documents; decision ${b.receipt.decision}`);
   console.log(`wrote ${Object.keys(b.DOCS).length} bundles and ${Object.keys(b.DOCS).length} anchor maps under corpora/submission-decomposition/`);
