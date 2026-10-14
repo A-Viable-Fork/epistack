@@ -1,5 +1,18 @@
 # EpiStack and The Knowledge Game: Submission Overview
 
+## The judging path
+
+A judge follows one path, in order. Six stops, each an artifact already in this repository, from the frame to a check you run yourself:
+
+1. **The frame.** [The Minimum Constitution](the-minimum-constitution.md): what EpiStack is and why the accounting basis for trust needs rebasing, the basis well-calibrated, the regime shifted, and this the shared structure the shift calls for.
+2. **What you are evaluating.** The "What you are evaluating" box below: the evaluation object stated once, then the three architectural claims (producer-independence, authority-free crossing, view-inertness), each naming the check that would falsify it, and the fixed/free boundary read off [the contract register](contract-register.md) and [the parameters register](parameters-register.md).
+3. **One worked case slice.** [The Climb of Synthesis](the-climb-of-synthesis.md)'s three counterexamples, or one corpus room in full ([`corpora/`](../corpora/), eggs is the most visceral): a real claim graph graded through the gate.
+4. **One crossing.** [The Composition Specification](composition-spec.md) and its runnable demo, `node build/gate-demo.mjs`: two contributors compose through the gate, an imported claim arriving untyped at the floor until a local fork re-types it.
+5. **Run the checks.** [Quickstart](quickstart.md): clone to green in about two minutes, each oracle stating the invariant it verified, so the three claims in stop 2 are ones you confirm rather than trust.
+6. **Optional: hold the app.** [The Knowledge Game](https://a-viable-fork.github.io/Knowledge-Game), one non-privileged reference client over the same graph.
+
+The constitution is the frame and this overview is the evidence; [On Transparency](on-transparency.md) says why the open form is the one the problem forces. The repository's [README](../README.md) gives the reading paths for a person, a machine and an institution.
+
 ## What you are evaluating
 
 > The submission is EpiStack: a minimum protocol for recomputable structural standing and composition across independently governed epistemic communities. The kernel is a conforming reference implementation. The corpora are contestable worked examples. The Knowledge Game is one non-privileged reference application. The coordination layer is specified future work.
