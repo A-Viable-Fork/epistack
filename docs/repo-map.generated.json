@@ -1191,14 +1191,14 @@
       "type": "build",
       "group": null,
       "role": "build the submission-decomposition contribution set from corpora/submission-decomposition/ decomposition.js and the scoped documents. Computes each document's content hash, resolves every span to an offset and quote key, resolves constitutive spans and dependence links to existing vocabulary-kernel claims, builds gate-valid claim and dependence-link records, gate-checks the whole against the competition community's own parameters, and emits per-document contribution bundles and anchor maps. It mints no constitutive claim (definitions are referenced, never re-authored) and asserts nothing durable; the bundles are gate-passed proposals, not admissions.",
-      "contract": "buildDecomposition() -> { docs, mechanical, evaluative, constitutive, links, receipt, gradeByIdentity, vocabByRef, bundles, anchors }. `node build/decomposition-build.mjs` also writes the bundles and anchor maps under corpora/submission-decomposition/. Build layer; reuses the kernel records, gate, and tables and the api contribution export. Pure over the corpus."
+      "contract": "buildDecomposition() -> { docs, mechanical, evaluative, constitutive, links, receipt, gradeByIdentity, vocabByRef, bundles, anchors }; emittedFiles(b) -> { path: bytes }, every bundle and anchor map, which `node build/decomposition-build.mjs` writes. Build layer; reuses the kernel records, gate, and tables and the api contribution export. Pure over the corpus."
     },
     {
       "path": "build/check-decomposition.mjs",
       "type": "build",
       "group": null,
       "role": "the submission-decomposition oracle. Verifies the bidirectional anchoring and the honest typing of the judge-facing spine's claims: every anchor resolves in its document at the recorded content hash, every claimed span exists in the emitted records or the vocabulary kernel, every mechanical claim's evidence names an epistack check that exists and runs green, every constitutive span and every dependence link resolves to a vocabulary claim, no two claims share a span, and evidence attached implies the mechanical register. Register counts are reported.",
-      "contract": "`node build/check-decomposition.mjs` exits non-zero on any failure, naming the document and claim. Reuses build/decomposition-build.mjs and reads the emitted bundles and anchor maps on disk."
+      "contract": "`node build/check-decomposition.mjs` exits non-zero on any failure, naming the document and claim. Reuses build/decomposition-build.mjs and reads the emitted bundles and anchor maps on disk; it rebuilds in memory and compares each committed file byte for byte, and never writes the tree."
     },
     {
       "path": "build/check-agreement.mjs",
